@@ -53,12 +53,12 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: scaffoldBackgroundColor(),
-        appBar: buildAppbar(),
+        appBar: buildAppbar(_viewModel as VM),
         extendBodyBehindAppBar: extendBodyBehindAppBar(),
         body: buildScaffoldBody(context, _viewModel as VM),
         drawer: buildDrawer(),
         drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
-        bottomNavigationBar: buildBottomNavigationBar(),
+        bottomNavigationBar: buildBottomNavigationBar(_viewModel as VM),
         bottomSheet: buildBottomSheet(),
         resizeToAvoidBottomInset: true,
       ),
@@ -66,7 +66,7 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   }
 
   /// Building a appbar of screen
-  PreferredSizeWidget? buildAppbar() {
+  PreferredSizeWidget? buildAppbar(VM model) {
     return null;
   }
 
@@ -86,7 +86,7 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   }
 
   /// Building a bottomNaviagtion Bar
-  Widget? buildBottomNavigationBar() {
+  Widget? buildBottomNavigationBar(VM model) {
     return null;
   }
 
