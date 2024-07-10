@@ -1,3 +1,4 @@
+import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../feature/splash/splash_page.dart';
@@ -10,6 +11,10 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const SplashPage(),
             settings: const RouteSettings(name: RoutePaths.splash));
+      case RoutePaths.tabbar:
+        return CupertinoPageRoute(
+            builder: (context) => const TabbarPage(),
+            settings: const RouteSettings(name: RoutePaths.tabbar));
 
       default:
         // Replace by Empty Page

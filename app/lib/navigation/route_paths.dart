@@ -2,4 +2,5 @@
 class RoutePaths {
   static const String splash = '/splash';
   static const String registration = '/registration';
+  static const String tabbar = '/tabbar';
 }
