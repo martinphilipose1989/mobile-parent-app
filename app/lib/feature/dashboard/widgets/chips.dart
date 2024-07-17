@@ -60,8 +60,11 @@ class HighlightListState extends State<HighlightList> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: isSelected
-                                ? AppColors.primary
-                                : AppColors.primary.withOpacity(0.2)),
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.2)),
                         child: SvgPicture.asset(
                           widget.chipValues[index].image ?? "",
                           color: isSelected ? Colors.white : null,
@@ -71,7 +74,9 @@ class HighlightListState extends State<HighlightList> {
                     Text(
                       widget.chipValues[index].name ?? "",
                       style: TextStyle(
-                        color: isSelected ? AppColors.primary : Colors.black,
+                        color: isSelected
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.black,
                       ),
                     ),
                   ],

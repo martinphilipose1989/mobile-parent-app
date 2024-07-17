@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
-import 'package:app/utils/app_colors.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
@@ -21,7 +20,8 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
       padding: const EdgeInsets.all(20),
       child: ListView(
         children: [
-          introductionTile(model.dropdownValues),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          introductionTile(model.dropdownValues, context),
           CommonSizedBox.sizedBox(height: 15, width: 10),
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -77,44 +77,10 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         chipValues: chipValues,
         onCallBack: (routeName) {
           var receivedRoutePath = model.returnRouteValue(routeName);
+          Navigator.pushNamed(context, receivedRoutePath);
         },
       ),
     );
-
-    // SizedBox(
-    //   width: MediaQuery.of(context).size.width,
-    //   child: Wrap(
-    //       children: List.generate(
-    //     chipValues.length,
-    //     (index) {
-    //       return InkWell(
-    //         onTap: () {},
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Container(
-    //               margin: const EdgeInsets.only(right: 10),
-    //               height: 56.h,
-    //               width: 56.w,
-    //               alignment: Alignment.center,
-    //               decoration: BoxDecoration(
-    //                   color: chipValues[index].isSelected
-    //                       ? AppColors.primary
-    //                       : AppColors.primary.withOpacity(0.2),
-    //                   borderRadius: BorderRadius.circular(12)),
-    //               child: SvgPicture.asset(chipValues[index].image ?? ""),
-    //             ),
-    //             CommonSizedBox.sizedBox(height: 10, width: 10),
-    //             CommonText(
-    //               text: chipValues[index].name ?? "",
-    //               textAlign: TextAlign.center,
-    //             )
-    //           ],
-    //         ),
-    //       );
-    //     },
-    //   )),
-    // );
   }
 
   Widget title(String titleValue) {
@@ -129,7 +95,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         height: 220.h, width: 379.06.w, child: CommonPageView(images: images));
   }
 
-  Widget introductionTile(List<String> dropdownValues) {
+  Widget introductionTile(List<String> dropdownValues, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,11 +107,12 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.primary.withOpacity(0.2)),
-              child: const Icon(
+                  color:
+                      Theme.of(context).colorScheme.primary.withOpacity(0.2)),
+              child: Icon(
                 Icons.person,
                 size: 16,
-                color: AppColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               )),
           const SizedBox(
             width: 10,
@@ -159,8 +126,15 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           height: 48.h,
           width: 128.w,
           child: CustomDropdownButton(
+            onMultiSelect: (selectedValues) {},
+            showAstreik: true,
+            dropdownName: 'Select Student',
+            showBorderColor: true,
             items: dropdownValues,
             isMutiSelect: false,
+            onSingleSelect: (selectedValue) {
+              log(selectedValue);
+            },
           ),
         )
       ],

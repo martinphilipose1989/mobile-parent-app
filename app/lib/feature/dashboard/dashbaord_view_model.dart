@@ -1,7 +1,7 @@
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
@@ -9,8 +9,6 @@ class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
 
   DashboardPageModel(this.exceptionHandlerBinder);
-
-  BehaviorSubject<List<Chips>> toggleSubject = BehaviorSubject<List<Chips>>();
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -61,7 +59,7 @@ class DashboardPageModel extends BasePageViewModel {
       case 'application':
         return '';
       case 'payments':
-        return 'mihir';
+        return RoutePaths.payments;
       case 'new enrollments':
         return '';
       default:
