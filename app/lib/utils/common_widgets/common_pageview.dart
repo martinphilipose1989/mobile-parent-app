@@ -1,4 +1,4 @@
-import 'package:app/utils/app_colors.dart';
+import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +55,9 @@ class CommonPageViewState extends State<CommonPageView> {
               height: 8.0,
               width: _currentPage == index ? 20.0 : 12.0,
               decoration: BoxDecoration(
-                color: _currentPage == index ? AppColors.primary : Colors.grey,
+                color: _currentPage == index
+                    ? Theme.of(context).primaryColor
+                    : AppColors.textNeutral35,
                 borderRadius: BorderRadius.circular(4.0),
               ),
             ),
