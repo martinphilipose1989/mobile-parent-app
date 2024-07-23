@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'package:injectable/injectable.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+
 import 'services/platform_service.dart';
 import 'services/sharedpreference_service.dart';
 import 'services/statusbar_service.dart';

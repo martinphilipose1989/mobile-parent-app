@@ -1,4 +1,33 @@
 class AppImages {
   static const String splashImage = 'assets/images/Splash Screen.png';
   static const String logoImage = 'assets/images/logo.svg';
+  static const String instagramLogo = 'assets/images/001-instagram.svg';
+  static const String linkdienLogo = 'assets/images/002-linkedin.svg';
+  static const String youtubeLogo = 'assets/images/003-youtube.svg';
+  static const String globalLogo = 'assets/images/global.svg';
+  static const String notificationLogo = 'assets/images/Icon button-1.svg';
+  static const String menuHamburgerLogo = 'assets/images/Icon button.svg';
+  static const String addPerson = 'assets/images/icon-1.svg';
+  static const String bookmarkLogo = 'assets/images/icon-2.svg';
+  static const String bookLogo = 'assets/images/icon-3.svg';
+  static const String chartLogo = 'assets/images/icon-4.svg';
+  static const String icon5 = 'assets/images/icon-5.svg';
+  static const String icon6 = 'assets/images/icon-6.svg';
+  static const String icon7 = 'assets/images/icon-7.svg';
+  static const String icon8 = 'assets/images/icon-8.svg';
+  static const String icon9 = 'assets/images/icon-9.svg';
+  static const String icon10 = 'assets/images/icon-10.svg';
+  static const String icon = 'assets/images/icon.svg';
+  static const String pageViewImages = 'assets/images/image 1.png';
+  static const String userSearch = 'assets/images/user-search (3) 1.svg';
+  static const String activity = 'assets/images/activity.svg';
+  static const String bus = 'assets/images/bus.svg';
+  static const String gift = 'assets/images/gift.svg';
+  static const String receiptSearch = 'assets/images/receipt-search.svg';
+  static const String walletAdd = 'assets/images/wallet-add.svg';
+  static const String cube = 'assets/images/3dcube.svg';
+  static const String studentIcon = 'assets/images/Vector 2.svg';
+  static const String eyeIcon = 'assets/images/eye.svg';
+  static const String downloadIcon = 'assets/images/download.svg';
+  static const String sbiBankIcon = 'assets/images/image 2.png';
 }
