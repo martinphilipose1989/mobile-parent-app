@@ -28,14 +28,16 @@ class SplashPageView extends BasePageViewWidget<SplashViewModel> {
           const SizedBox(
             height: 300,
           ),
-          SvgPicture.asset(AppImages.logoImage),
+          SvgPicture.asset(AppImages.appLogoWhite),
           const SizedBox(
             height: 300,
           ),
           CommonElevatedButton(
             width: 159.w,
             onPressed: () {
-              Navigator.pushReplacementNamed(context, RoutePaths.tabbar);
+              Navigator.of(context).pushReplacementNamed(
+                RoutePaths.otpPage,
+              );
             },
             text: 'Lets Get Started',
             textStyle: AppTypography.subtitle2,

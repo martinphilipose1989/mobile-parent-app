@@ -80,8 +80,11 @@ class PaymentsPageState
                   child: CommonElevatedButton(
                     onPressed: () {
                       if (data == 'Payment Gateway') {
-                        CommonPopups()
-                            .showSuccess(context, 'Payment\nSuccessfull!');
+                        CommonPopups().showSuccess(
+                          context,
+                          'Payment\nSuccessfull!',
+                          (shouldRoute) {},
+                        );
                       } else {
                         Navigator.pushNamed(context, RoutePaths.chequePayment,
                             arguments: model);

@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
-class PaymentsModel extends BasePageViewModel {
+class PaymentsModel extends BasePageViewModel with CommonTabMixin {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
 
   PaymentsModel(this.exceptionHandlerBinder);
@@ -39,6 +39,11 @@ class PaymentsModel extends BasePageViewModel {
     {'name': 'Fees Type', 'isSelected': false},
     {'name': 'Student Ledger', 'isSelected': false},
   ];
+
+  @override
+  Stream<int> getSelectedIndex() {
+    return selectedValue;
+  }
 }
 
 class Chips {
@@ -47,4 +52,8 @@ class Chips {
   bool isSelected;
 
   Chips({this.name, this.isSelected = false});
+}
+
+mixin CommonTabMixin {
+  Stream<int> getSelectedIndex();
 }

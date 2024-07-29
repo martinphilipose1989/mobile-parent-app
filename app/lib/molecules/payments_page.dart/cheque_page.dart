@@ -26,7 +26,11 @@ class Chequepage extends StatelessWidget {
         child: CommonElevatedButton(
           width: MediaQuery.of(context).size.width,
           onPressed: () {
-            CommonPopups().showSuccess(context, 'Payment\nSuccessfull!');
+            CommonPopups().showSuccess(
+              context,
+              'Payment\nSuccessfull!',
+              (shouldRoute) {},
+            );
           },
           text: 'Continue',
           backgroundColor: Theme.of(context).colorScheme.secondary,
