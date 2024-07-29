@@ -1,3 +1,4 @@
+import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
@@ -43,6 +44,10 @@ class AppRouter {
                   pageModel: settings.arguments as PaymentsPageModel,
                 ),
             settings: const RouteSettings(name: RoutePaths.chequePayment));
+      case RoutePaths.otpPage:
+        return CupertinoPageRoute(
+            builder: (context) => const OtpPage(),
+            settings: const RouteSettings(name: RoutePaths.otpPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

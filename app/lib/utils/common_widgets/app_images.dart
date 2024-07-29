@@ -1,6 +1,7 @@
 class AppImages {
   static const String splashImage = 'assets/images/Splash Screen.png';
-  static const String logoImage = 'assets/images/logo.svg';
+  static const String appLogoWhite = 'assets/images/logo.svg';
+  static const String appLogoBlue = 'assets/images/Frame 1410265599.svg';
   static const String instagramLogo = 'assets/images/001-instagram.svg';
   static const String linkdienLogo = 'assets/images/002-linkedin.svg';
   static const String youtubeLogo = 'assets/images/003-youtube.svg';
@@ -30,4 +31,6 @@ class AppImages {
   static const String eyeIcon = 'assets/images/eye.svg';
   static const String downloadIcon = 'assets/images/download.svg';
   static const String sbiBankIcon = 'assets/images/image 2.png';
+  static const String otpCenterImage =
+      'assets/images/Two factor authentication-pana 1.svg';
 }

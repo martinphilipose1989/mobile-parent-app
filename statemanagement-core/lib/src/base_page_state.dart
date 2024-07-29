@@ -59,7 +59,7 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
         drawer: buildDrawer(),
         drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
         bottomNavigationBar: buildBottomNavigationBar(_viewModel as VM),
-        bottomSheet: buildBottomSheet(),
+        bottomSheet: buildBottomSheet(_viewModel as VM),
         resizeToAvoidBottomInset: true,
       ),
     );
@@ -81,7 +81,7 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   }
 
   /// Building a bottom-sheet
-  Widget? buildBottomSheet() {
+  Widget? buildBottomSheet(VM model) {
     return null;
   }
 

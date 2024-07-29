@@ -8,6 +8,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
+import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,79 +30,12 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
   }
 
   Widget tabs(BuildContext cxt, PaymentsModel model) {
-    return StreamBuilder<int>(
-      stream: model.selectedValue,
-      builder: (context, snapshot) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    model.selectedValue.add(0);
-                  },
-                  child: Container(
-                    height: 48.h,
-                    width: 175.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: snapshot.data == 0
-                            ? AppColors.primaryLight.withOpacity(0.2)
-                            : Colors.white,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            bottomLeft: Radius.circular(30)),
-                        border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 1)),
-                    child: CommonText(
-                      text: 'Pending Amount',
-                      style: AppTypography.subtitle2.copyWith(
-                          color: snapshot.data == 0
-                              ? AppColors.primaryLight
-                              : AppColors.inactiveNeutral60),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    model.selectedValue.add(1);
-                  },
-                  child: Container(
-                    height: 48.h,
-                    width: 175.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: snapshot.data == 1
-                            ? AppColors.primaryLight.withOpacity(0.2)
-                            : Colors.white,
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30)),
-                        border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 1)),
-                    child: CommonText(
-                      text: 'Payment History',
-                      style: AppTypography.subtitle2.copyWith(
-                          color: snapshot.data == 1
-                              ? AppColors.primaryLight
-                              : AppColors.inactiveNeutral60),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            CommonSizedBox.sizedBox(height: 20, width: 10),
-            snapshot.data == 0
-                ? pendingAmount(cxt, model)
-                : paymentHistory(cxt, model)
-          ],
-        );
-      },
-    );
+    return SizedBox();
+    // return CommonTabPage<PaymentsModel>(
+    //   commonModel: model,
+    //   firstTabName: 'Pending Amount',
+    //   secondTabName: 'Payment History',
+    // );
   }
 
   Widget pendingAmount(BuildContext cxt, PaymentsModel model) {

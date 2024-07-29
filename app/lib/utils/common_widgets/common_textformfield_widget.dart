@@ -77,7 +77,7 @@ class CommonTextFormField extends StatelessWidget {
                     ],
                   ),
                 )
-              : const SizedBox.shrink(),
+              : Container(),
         )
       ],
     );

@@ -65,6 +65,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   dropdown_button2: ^2.3.9
   rxdart: ^0.27.7
+  pin_code_fields: ^8.0.1
 
 dev_dependencies:
   flutter_test:
@@ -100,44 +101,44 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Graphik
-      fonts:
-        - asset: assets/fonts/GraphikThinItalic.ttf
-          style: italic
-        - asset: assets/fonts/GraphikThin.ttf
-          weight: 100
-        - asset: assets/fonts/GraphikSuperItalic.ttf
-          style: italic
-        - asset: assets/fonts/GraphikSuper.ttf
-          weight: 900
-        - asset: assets/fonts/GraphikSemibold.ttf
-          weight: 600
-        - asset: assets/fonts/GraphikSemiboldItalic.ttf
-          weight: 600
-          style: italic
-        - asset: assets/fonts/GraphikRegularItalic.ttf
-          style: italic
-        - asset: assets/fonts/GraphikExtralightItalic.ttf
-          weight: 200
-          style: italic
-        - asset: assets/fonts/GraphikMediumItalic.ttf
-          weight: 500
-          style: italic
-        - asset: assets/fonts/GraphikRegular.ttf
-          weight: 400
-        - asset: assets/fonts/GraphikBlack.ttf
-          weight: 800
-        - asset: assets/fonts/GraphikBlackItalic.ttf
-          weight: 800
-          style: italic
-        - asset: assets/fonts/GraphikBold.ttf
-          weight: 700
-        - asset: assets/fonts/GraphikBoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/GraphikExtralight.ttf
-          weight: 200
+  # fonts:
+  #   - family: Graphik
+  #     fonts:
+  #       - asset: assets/fonts/GraphikThinItalic.ttf
+  #         style: italic
+  #       - asset: assets/fonts/GraphikThin.ttf
+  #         weight: 100
+  #       - asset: assets/fonts/GraphikSuperItalic.ttf
+  #         style: italic
+  #       - asset: assets/fonts/GraphikSuper.ttf
+  #         weight: 900
+  #       - asset: assets/fonts/GraphikSemibold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/GraphikSemiboldItalic.ttf
+  #         weight: 600
+  #         style: italic
+  #       - asset: assets/fonts/GraphikRegularItalic.ttf
+  #         style: italic
+  #       - asset: assets/fonts/GraphikExtralightItalic.ttf
+  #         weight: 200
+  #         style: italic
+  #       - asset: assets/fonts/GraphikMediumItalic.ttf
+  #         weight: 500
+  #         style: italic
+  #       - asset: assets/fonts/GraphikRegular.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/GraphikBlack.ttf
+  #         weight: 800
+  #       - asset: assets/fonts/GraphikBlackItalic.ttf
+  #         weight: 800
+  #         style: italic
+  #       - asset: assets/fonts/GraphikBold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/GraphikBoldItalic.ttf
+  #         weight: 700
+  #         style: italic
+  #       - asset: assets/fonts/GraphikExtralight.ttf
+  #         weight: 200
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

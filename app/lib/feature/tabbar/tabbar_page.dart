@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +31,20 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     // bind exception handler here.
     model.tabController = TabController(length: 4, vsync: this);
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  }
+
+  @override
+  Future<bool> onBackPressed({param}) {
+    // TODO: implement onBackPressed
+    log("onback being called");
+    return super.onBackPressed(param: true);
+  }
+
+  Future<bool> _onWillPop(bool showPopUp) {
+    if (showPopUp) {
+      CommonPopups().showAppClose(context, 'Are you sure you eant to exit?');
+    }
+    return Future.value();
   }
 
   @override

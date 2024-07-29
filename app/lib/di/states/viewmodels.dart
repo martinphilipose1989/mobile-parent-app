@@ -1,4 +1,5 @@
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
+import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/feature/payments/payments_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
@@ -31,4 +32,8 @@ final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
   (ref) => PaymentsPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
+final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
+  (ref) => OtpPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
