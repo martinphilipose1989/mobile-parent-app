@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -82,7 +80,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
             const Align(
               alignment: Alignment.center,
               child: CommonText(
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   style: AppTypography.caption,
                   text:
                       'By Authenticating You Agree To Terms & Conditions Of This Platform'),

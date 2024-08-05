@@ -3,7 +3,6 @@ import 'package:app/molecules/otp/countdown_widget.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_pininput_fields.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
@@ -89,9 +88,6 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                       context,
                       'Otp Verified Successfully!',
                       (shouldRoute) {
-                        print(' ----------- > $shouldRoute');
-
-                        print('inside if');
                         widget.otpPageModel.controller.stop();
                         widget.otpPageModel.openBottomSheet.add(false);
                         Navigator.pushReplacementNamed(

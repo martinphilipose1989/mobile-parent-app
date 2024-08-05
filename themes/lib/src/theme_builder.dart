@@ -100,6 +100,9 @@ class _ThemeBuilderState extends State<ThemeBuilder>
         break;
       case AppLifecycleState.detached:
         break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
+        break;
     }
   }
 

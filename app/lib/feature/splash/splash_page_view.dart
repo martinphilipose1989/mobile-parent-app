@@ -33,7 +33,6 @@ class SplashPageView extends BasePageViewWidget<SplashViewModel> {
             height: 300,
           ),
           CommonElevatedButton(
-            width: 159.w,
             onPressed: () {
               Navigator.of(context).pushReplacementNamed(
                 RoutePaths.otpPage,

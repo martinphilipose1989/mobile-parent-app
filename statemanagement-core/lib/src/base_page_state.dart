@@ -52,6 +52,7 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
       onWillPop: onBackPressed,
       child: Scaffold(
         key: _scaffoldKey,
+        floatingActionButton: buildFloatingButton(_viewModel as VM),
         backgroundColor: scaffoldBackgroundColor(),
         appBar: buildAppbar(_viewModel as VM),
         extendBodyBehindAppBar: extendBodyBehindAppBar(),
@@ -82,6 +83,11 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
 
   /// Building a bottom-sheet
   Widget? buildBottomSheet(VM model) {
+    return null;
+  }
+
+  /// Building a floating button
+  Widget? buildFloatingButton(VM model) {
     return null;
   }
 

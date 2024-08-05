@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/otp/otp_page_view.dart';
 import 'package:app/feature/otp/otp_view_model.dart';

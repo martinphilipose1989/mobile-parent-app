@@ -44,7 +44,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     if (showPopUp) {
       CommonPopups().showAppClose(context, 'Are you sure you eant to exit?');
     }
-    return Future.value();
+    return Future.value(true);
   }
 
   @override

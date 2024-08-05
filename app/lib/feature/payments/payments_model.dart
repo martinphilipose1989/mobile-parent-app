@@ -10,7 +10,7 @@ class PaymentsModel extends BasePageViewModel with CommonTabMixin {
 
   PaymentsModel(this.exceptionHandlerBinder);
 
-  TabController? tabController;
+  late TabController tabController;
 
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
 

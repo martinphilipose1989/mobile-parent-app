@@ -1,5 +1,4 @@
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
-import 'package:app/utils/app_colors.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

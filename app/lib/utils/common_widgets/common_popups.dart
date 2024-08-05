@@ -1,3 +1,4 @@
+import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -57,6 +58,25 @@ class CommonPopups {
 
   void showAppClose(BuildContext context, String message) {}
 
+  showConfirm(
+      BuildContext context,
+      String message,
+      String message1,
+      String message2,
+      String message3,
+      String message4,
+      Function(bool shouldRoute) onChanged) {
+    _showConfirmDialog(
+      context,
+      message: message,
+      message1: message1,
+      message2: message2,
+      message3: message3,
+      message4: message4,
+      onChanged: onChanged,
+    );
+  }
+
   // Private method to show a dialog
   void _showDialog(BuildContext context,
       {required IconData icon,
@@ -89,7 +109,7 @@ class CommonPopups {
               const SizedBox(height: 20),
               SizedBox(
                   height: 40.h,
-                  width: 67.w,
+                  width: 80.w,
                   child: CommonElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -165,6 +185,99 @@ class CommonPopups {
                           Navigator.pop(context);
                         },
                         text: '',
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      )),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showConfirmDialog(BuildContext context,
+      {required String message,
+      required String message1,
+      required String message2,
+      required String message3,
+      required String message4,
+      required Function(bool shouldRoute) onChanged}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CommonText(
+                text: message,
+                style:
+                    AppTypography.subtitle1.copyWith(color: AppColors.textDark),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CommonText(
+                text: message1,
+                style:
+                    AppTypography.caption.copyWith(color: AppColors.textGray),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CommonText(
+                text: message2,
+                style:
+                    AppTypography.caption.copyWith(color: AppColors.textGray),
+              ),
+              CommonText(
+                text: message3,
+                style:
+                    AppTypography.caption.copyWith(color: AppColors.textGray),
+              ),
+              CommonText(
+                text: message4,
+                style:
+                    AppTypography.caption.copyWith(color: AppColors.textGray),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          onChanged(true);
+                        },
+                        text: 'Cancel',
+                        backgroundColor: Colors.white,
+                        borderColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
+                      )),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          onChanged(true);
+                        },
+                        text: 'Confirm',
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         textStyle: AppTypography.subtitle2.copyWith(
                             color: Theme.of(context).colorScheme.onPrimary),

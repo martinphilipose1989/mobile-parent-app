@@ -39,6 +39,8 @@ class AppColors {
   static const Color textLighterGray = Color(0xFFBDBDBD);
   static const Color textPaleGray = Color.fromRGBO(224, 224, 224, 1.0);
   static const Color textPalerGray = Color(0xFFEBEBEB);
+
+  static const Color listItem = Color(0xFFF7F7FF);
 }
 
 List<ThemeData> getThemes(BuildContext context) {
