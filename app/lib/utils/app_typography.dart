@@ -86,6 +86,13 @@ class AppTypography {
     textBaseline: TextBaseline.alphabetic,
   );
 
+  static const TextStyle smallCaption = TextStyle(
+    fontFamily: 'Graphik',
+    fontWeight: FontWeight.w400, // Regular
+    fontSize: 10,
+    textBaseline: TextBaseline.alphabetic,
+  );
+
   static const TextStyle overline = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular

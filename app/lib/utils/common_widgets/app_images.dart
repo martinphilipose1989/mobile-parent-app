@@ -33,4 +33,22 @@ class AppImages {
   static const String sbiBankIcon = 'assets/images/image 2.png';
   static const String otpCenterImage =
       'assets/images/Two factor authentication-pana 1.svg';
+  static const String personIcon = "assets/images/person.svg";
+
+  //admissions menu images
+  static const String schoolTour = "assets/images/container.svg";
+  static const String payments = "assets/images/container (2).svg";
+  static const String call = "assets/images/Icon button 2.svg";
+  static const String email = "assets/images/Icon button (1).svg";
+  static const String bookTest = "assets/images/container (1).svg";
+  static const String timeline = "assets/images/Icon button (2).svg";
+  static const String editDetails = "assets/images/container (3).svg";
+
+  static const String delete = 'assets/images/delete.svg';
+  static const String import = 'assets/images/Import.svg';
+  static const String uploadIcon = 'assets/images/uploadIcon.svg';
+  static const String instagramIcon = 'assets/images/instagram.svg';
+  static const String admissionIcon = 'assets/images/admission.svg';
+  static const String enquiryIcon = 'assets/images/enquiry.svg';
+  static const String registrationIcon = 'assets/images/registrationIcon.svg';
 }
