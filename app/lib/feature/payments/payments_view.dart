@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,12 +31,25 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
   }
 
   Widget tabs(BuildContext cxt, PaymentsModel model) {
-    return SizedBox();
-    // return CommonTabPage<PaymentsModel>(
-    //   commonModel: model,
-    //   firstTabName: 'Pending Amount',
-    //   secondTabName: 'Payment History',
-    // );
+    return Column(
+      children: [
+        CommonTabPage(
+          tabController: model.tabController,
+          selectedValue: model.selectedValue,
+          firstTabTitle: 'Pending Amount',
+          secondTabTitle: 'Payment History',
+        ),
+        AppStreamBuilder<int>(
+          stream: model.selectedValue,
+          initialData: model.selectedValue.value,
+          dataBuilder: (context, data) {
+            return data == 0
+                ? pendingAmount(cxt, model)
+                : paymentHistory(cxt, model);
+          },
+        )
+      ],
+    );
   }
 
   Widget pendingAmount(BuildContext cxt, PaymentsModel model) {

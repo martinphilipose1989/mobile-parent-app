@@ -6,7 +6,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CouponList extends StatelessWidget {
   const CouponList({super.key});
