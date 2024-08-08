@@ -16,6 +16,9 @@ dependencies:
     path: ../domain
   shared:
     path: ../shared
+  network_retrofit:
+    path: ../../infrastructure/network-retrofit
+
 
 
 dev_dependencies:

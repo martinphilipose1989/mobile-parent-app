@@ -9,4 +9,10 @@ abstract class DataModule {
       DatabasePort databasePort, NetworkPort networkPort) {
     return EnquiryRepositoryImpl(networkPort);
   }
+
+  @lazySingleton
+  SchoolVisitRepositoryImpl schoolVisitRepository(
+      DatabasePort databasePort, NetworkPort networkPort) {
+    return SchoolVisitRepositoryImpl(networkPort);
+  }
 }

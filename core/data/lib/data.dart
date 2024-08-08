@@ -13,4 +13,5 @@ export 'src/di/data_dependency_configurator.dart';
 // repository
 
 export 'src/repository/enquiry_repository_impl.dart';
+export 'src/repository/school_visit_repository_impl.dart';
 
