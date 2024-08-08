@@ -28,7 +28,7 @@ final configurators = [
   DataDependencyConfigurator(),
 
   //configure domain layer
-  DomainDependencyConfigurator(),
+  // DomainDependencyConfigurator(),
 
 
 ];

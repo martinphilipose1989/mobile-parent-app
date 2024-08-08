@@ -15,7 +15,7 @@ class AdmissionsPage extends BasePage<AdmissionsViewModel> {
 }
 
 class _AdmissionsPageState
-    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage> {
+    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage>  {
   @override
   void onModelReady(AdmissionsViewModel model) {}
 
@@ -29,6 +29,8 @@ class _AdmissionsPageState
     );
   }
 
+  
+
   @override
   Color scaffoldBackgroundColor() {
     // TODO: implement scaffoldBackgroundColor
@@ -40,6 +42,8 @@ class _AdmissionsPageState
     // TODO: implement buildView
     return AdmissionsPageView(provideBase());
   }
+
+  
 
   @override
   ProviderBase<AdmissionsViewModel> provideBase() {

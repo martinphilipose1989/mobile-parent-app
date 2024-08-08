@@ -6,4 +6,9 @@ library network_retrofit;
 export 'src/di/network_dependency_configurator.dart';
 export 'src/network_retrofit_base.dart';
 
-// TODO: Export any libraries intended for clients of this package.
+// response:
+
+export 'src/model/error/error_info_entity.dart';
+export 'src/model/response/get_enquiry_list/enquiry_list_detail_response_entity.dart';
+export 'src/model/response/get_enquiry_list/enquirylist_base_response_entity.dart';
+export 'src/model/response/get_enquiry_list/enquiry_list_response_entity.dart';

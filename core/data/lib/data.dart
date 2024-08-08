@@ -8,4 +8,9 @@ export 'src/out/database_port.dart';
 export 'src/out/network_port.dart';
 export 'src/di/data_dependency_configurator.dart';
 
-// TODO: Export any libraries intended for clients of this package.
+// models
+
+// repository
+
+export 'src/repository/enquiry_repository_impl.dart';
+

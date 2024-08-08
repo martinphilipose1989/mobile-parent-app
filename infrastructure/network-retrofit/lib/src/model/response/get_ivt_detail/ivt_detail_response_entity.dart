@@ -1,0 +1,67 @@
+import 'package:data/data.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/academic_year_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/common_data_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/existing_school_detail_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/parent_details_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/student_detail_entity.dart';
+
+part 'ivt_detail_response_entity.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponseEntity,IVTDetail>{
+    @JsonKey(name: 'enquiryDate')
+    String? enquiryDate;
+    @JsonKey(name: 'academicYear')
+    AcademicYearEntity? academicYear;
+    @JsonKey(name: 'schoolLocation')
+    CommonDataEntity? schoolLocation;
+    @JsonKey(name: 'parentDetails')
+    ParentDetailsEntity? parentDetails;
+    @JsonKey(name: 'existingSchoolDetails')
+    ExistingSchoolDetailsEntity? existingSchoolDetails;
+    @JsonKey(name: 'studentDetails')
+    StudentDetailsEntity? studentDetails;
+    @JsonKey(name: 'board')
+    CommonDataEntity? board;
+    @JsonKey(name: 'course')
+    CommonDataEntity? course;
+    @JsonKey(name: 'stream')
+    CommonDataEntity? stream;
+    @JsonKey(name: 'shift')
+    CommonDataEntity? shift;
+
+    IvtDetailResponseEntity({
+      this.enquiryDate,
+      this.academicYear,
+      this.schoolLocation,
+      this.parentDetails,
+      this.existingSchoolDetails,
+      this.studentDetails,
+      this.board,
+      this.course,
+      this.shift,
+      this.stream,
+    });
+
+  factory IvtDetailResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$IvtDetailResponseEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IvtDetailResponseEntityToJson(this);
+
+  @override
+  IVTDetail transform() {
+    IVTDetail ivtDetail = IVTDetail();
+    ivtDetail.enquiryDate = enquiryDate;
+    ivtDetail.academicYear = academicYear?.transform();
+    ivtDetail.schoolLocation = schoolLocation?.transform();
+    ivtDetail.parentDetails = parentDetails?.transform();
+    ivtDetail.existingSchoolDetails = existingSchoolDetails?.transform();
+    ivtDetail.studentDetails = studentDetails?.transform();
+    ivtDetail.board = board?.transform();
+    ivtDetail.course = course?.transform();
+    ivtDetail.shift = shift?.transform();
+    ivtDetail.stream = stream?.transform();
+    return ivtDetail;
+  }
+}
