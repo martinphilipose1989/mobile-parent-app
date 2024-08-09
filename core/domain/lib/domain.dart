@@ -10,6 +10,8 @@ export 'package:dartz/dartz.dart';
 export 'src/repository/user_repository.dart';
 export 'src/repository/marketing/enquiry_repository.dart';
 export 'src/repository/marketing/school_visit_repository.dart';
+export 'src/repository/marketing/competency_test_repository.dart';
+export 'src/repository/marketing/admission_repository.dart';
 
 //use-cases
 export 'src/usecase/base/params.dart';

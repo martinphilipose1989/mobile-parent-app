@@ -1,5 +1,7 @@
-import 'package:shared/src/model/response/school_visit/school_visit_data_model.dart';
+import 'package:shared/shared.dart';
 
-class SchoolVisitCreation{
-  SchoolVisitData? data;
+class SchoolVisitDetailBase{
+  int? status;
+  SchoolVisitDetail? data;
+  String? message;
 }

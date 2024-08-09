@@ -1,10 +1,9 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/marketing/competency_test_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class RescheduleCompetencyTestUseCase extends BaseUseCase<BaseError,
-    RescheduleCompetencyTestUseCaseParams, CompetencyTestCreation> {
+    RescheduleCompetencyTestUseCaseParams, CompetencyTestDetailBase> {
   final CompetencyTestRepository _competencyTestRepository;
 
   RescheduleCompetencyTestUseCase(
@@ -12,7 +11,7 @@ class RescheduleCompetencyTestUseCase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, CompetencyTestCreation>> execute({
+  Future<Either<BaseError, CompetencyTestDetailBase>> execute({
     required RescheduleCompetencyTestUseCaseParams params,
   }) {
     return _competencyTestRepository.rescheduleCompetencyTest(

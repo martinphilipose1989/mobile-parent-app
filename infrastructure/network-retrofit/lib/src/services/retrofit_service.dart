@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
-import 'package:network_retrofit/src/model/response/competency_test_book/competency_test_creation_entity.dart';
+import 'package:network_retrofit/src/model/response/competency_test_detail/competency_test_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/enquiry_timeline.dart/enquiry_timeline_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_admission_journey/admission_journey_base_entity.dart';
+import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
-import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_creation_entity.dart';
+import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -24,6 +26,16 @@ abstract class RetrofitService {
     {@Query('phone')  String phone,
     @Query('pageNumber')  int pageNumber,
     @Query('pageSize')  int pageSize}
+  );
+
+  @GET('marketing/app/enquiry/')
+  Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail(
+    {@Path('enquiryID')  String enquiryID,}
+  );
+
+  @GET('marketing/enquiry/{enquiryID}/timeline')
+  Future<HttpResponse<EnquiryTimeLineResponseEntity>> getEnquiryTimeline(
+    {@Path('enquiryID')  String enquiryID,}
   );
 
   @GET('marketing/app/enquiry/{enquiryID}/admission-journey') 
@@ -45,21 +57,25 @@ abstract class RetrofitService {
   Future<HttpResponse<IvtBaseResponseEntity>> getItvDetail(
     {@Path('enquiryID') String enquiryID}
   );
+  @GET('marketing/school-visit/{enquiryId}')
+  Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
+    {@Path('enquiryID') String enquiryID}
+  );
 
   @POST('marketing/school-visit/{enquiryId}/create')
-  Future<HttpResponse<SchoolVisitCreationEntity>> createSchoolVisit(
+  Future<HttpResponse<SchoolVisitEntity>> createSchoolVisit(
     {@Path('enquiryID') String enquiryID,
     @Body() SchoolCreationRequest schoolCreationRequest}
   );
 
   @POST('marketing/school-visit/{enquiryId}/reschedule')
-  Future<HttpResponse<SchoolVisitCreationEntity>> rescheduleSchoolVisit(
+  Future<HttpResponse<SchoolVisitEntity>> rescheduleSchoolVisit(
     {@Path('schoolVisitID') String schoolVisitID,
     @Body() SchoolCreationRequest schoolCreationRequest}
   );
 
   @POST('marketing/school-visit/{enquiryId}/cancel')
-  Future<HttpResponse<SchoolVisitCreationEntity>> cancelSchoolVisit(
+  Future<HttpResponse<SchoolVisitEntity>> cancelSchoolVisit(
     {@Path('schoolVisitID') String schoolVisitID,
     @Body() SchoolVisitCancelRequest schoolVisitCancelRequest}
   );
@@ -71,20 +87,25 @@ abstract class RetrofitService {
     @Query('pageSize')  int pageSize}
   );
 
-   @POST('marketing/competency-test/{enquiryId}/create')
-  Future<HttpResponse<CompetencyTestCreationEntity>> createCompetencyTest(
+  @GET('marketing/competency-test/')
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>> getCompetencyTestDetail(
+    {@Path('enquiryID') String enquiryID,}
+  );
+
+  @POST('marketing/competency-test/{enquiryId}/create')
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>> createCompetencyTest(
     {@Path('enquiryID') String enquiryID,
     @Body() CompetencyTestCreationRequest competencyTestCreationRequest}
   );
 
   @POST('marketing/competency-test/{enquiryId}/reschedule')
-  Future<HttpResponse<CompetencyTestCreationEntity>> rescheduleCompetencyTest(
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>> rescheduleCompetencyTest(
     {@Path('competencyTest') String competencyTest,
     @Body() CompetencyTestCreationRequest competencyTestCreationRequest}
   );
 
   @POST('marketing/competency-test/{enquiryId}/cancel')
-  Future<HttpResponse<CompetencyTestCreationEntity>> cancelCompetencyTest(
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>> cancelCompetencyTest(
     {@Path('competencyTest') String competencyTest,
     @Body() CancelCompetencyTestRequest cancelCompetencyTestRequest}
   );

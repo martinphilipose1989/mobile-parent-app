@@ -41,4 +41,15 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
      enquiryID: enquiryID,
     );
   }
+
+  @override
+  Future<Either<NetworkError, CompetencyTestBase>> getEnquiryDetail({required String enquiryID}) {
+    return _networkPort.getEnquiryDetail(enquiryID: enquiryID);
+  }
+
+  @override
+  Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline({required String enquiryID}) {
+    return _networkPort.getEnquiryTimeline(enquiryID: enquiryID);   
+  }
+
 }

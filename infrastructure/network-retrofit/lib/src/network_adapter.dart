@@ -52,7 +52,15 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SchoolVisitCreation>> createSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest}) async {
+  Future<Either<NetworkError, SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID}) async{
+    var response = await safeApiCall(apiService.getSchoolVisitDetail(enquiryID: enquiryID));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, SchoolVisitDetailBase>> createSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest}) async {
     var response = await safeApiCall(apiService.createSchoolVisit(enquiryID: enquiryID, schoolCreationRequest: schoolCreationRequest));
     return response.fold((l) {
       return Left(l);
@@ -60,7 +68,7 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SchoolVisitCreation>> rescheduleSchoolVisit({required String schoolVisitID,required SchoolCreationRequest schoolCreationRequest}) async {
+  Future<Either<NetworkError, SchoolVisitDetailBase>> rescheduleSchoolVisit({required String schoolVisitID,required SchoolCreationRequest schoolCreationRequest}) async {
     var response = await safeApiCall(apiService.rescheduleSchoolVisit(schoolVisitID: schoolVisitID, schoolCreationRequest: schoolCreationRequest));
     return response.fold((l) {
       return Left(l);
@@ -68,7 +76,7 @@ class NetworkAdapter implements NetworkPort {
   }
 
     @override
-  Future<Either<NetworkError, SchoolVisitCreation>> cancelSchoolVisit({required String schoolVisitID, required SchoolVisitCancelRequest cancelSchoolRequest}) async {
+  Future<Either<NetworkError, SchoolVisitDetailBase>> cancelSchoolVisit({required String schoolVisitID, required SchoolVisitCancelRequest cancelSchoolRequest}) async {
     var response = await safeApiCall(apiService.cancelSchoolVisit(schoolVisitID: schoolVisitID, schoolVisitCancelRequest: cancelSchoolRequest));
     return response.fold((l) {
       return Left(l);
@@ -84,7 +92,15 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError,CompetencyTestCreation>> createCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest}) async {
+  Future<Either<NetworkError, CompetencyTestDetailBase>> getCompetencyTestDetail({required String enquiryID}) async{
+    var response = await safeApiCall(apiService.getCompetencyTestDetail(enquiryID: enquiryID));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError,CompetencyTestDetailBase>> createCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest}) async {
     var response = await safeApiCall(apiService.createCompetencyTest(enquiryID: enquiryID, competencyTestCreationRequest: competencyTestCreationRequest));
     return response.fold((l) {
       return Left(l);
@@ -92,7 +108,7 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError,CompetencyTestCreation>> rescheduleCompetencyTest({required String competencyTest,required CompetencyTestCreationRequest competencyTestCreationRequest}) async {
+  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String competencyTest,required CompetencyTestCreationRequest competencyTestCreationRequest}) async {
     var response = await safeApiCall(apiService.rescheduleCompetencyTest(competencyTest: competencyTest, competencyTestCreationRequest: competencyTestCreationRequest));
     return response.fold((l) {
       return Left(l);
@@ -100,11 +116,27 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, CompetencyTestCreation>> cancelCompetencyTest({required String competencyTest, required CancelCompetencyTestRequest cancelCompetencyTestRequest}) async {
+  Future<Either<NetworkError, CompetencyTestDetailBase>> cancelCompetencyTest({required String competencyTest, required CancelCompetencyTestRequest cancelCompetencyTestRequest}) async {
     var response = await safeApiCall(apiService.cancelCompetencyTest(competencyTest: competencyTest, cancelCompetencyTestRequest: cancelCompetencyTestRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, CompetencyTestBase>> getEnquiryDetail({required String enquiryID}) async{
+    var response = await safeApiCall(apiService.getEnquiryDetail(enquiryID: enquiryID));
+    return response.fold((l){
+      return Left(l);
+    }, (r)=> Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline({required String enquiryID}) async{
+    var response = await safeApiCall(apiService.getEnquiryTimeline(enquiryID: enquiryID));
+    return response.fold((l){
+      return Left(l);
+    }, (r)=> Right(r.data.transform()));
   }
   // @override
   // Future<Either<NetworkError, IVTBase>> getRegistrationDetail({required String enquiryID, required String infoType}) async {

@@ -1,10 +1,9 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/marketing/competency_test_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class CreateCompetencyTestUsecase extends BaseUseCase<BaseError,
-    CreateCompetencyTestUsecaseParams, CompetencyTestCreation> {
+    CreateCompetencyTestUsecaseParams, CompetencyTestDetailBase> {
   final CompetencyTestRepository _competencyTestRepository;
 
   CreateCompetencyTestUsecase(
@@ -12,7 +11,7 @@ class CreateCompetencyTestUsecase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, CompetencyTestCreation>> execute({
+  Future<Either<BaseError, CompetencyTestDetailBase>> execute({
     required CreateCompetencyTestUsecaseParams params,
   }) {
     return _competencyTestRepository.createCompetencyTest(

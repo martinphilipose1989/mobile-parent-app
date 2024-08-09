@@ -17,3 +17,10 @@ export 'src/model/request/school_visit_creation_request.dart';
 export 'src/model/request/cancel_school_visit_request.dart';
 export 'src/model/request/competency_test_creation_request.dart';
 export 'src/model/request/cancel_competency_test_request.dart';
+
+//models
+export 'src/model/response/get_registreation_info/parent_info_entity.dart';
+export 'src/model/response/get_registreation_info/contact_details_entity.dart';
+export 'src/model/response/get_registreation_info/medical_details_entity.dart';
+export 'src/model/response/get_registreation_info/bank_details_entity.dart';
+

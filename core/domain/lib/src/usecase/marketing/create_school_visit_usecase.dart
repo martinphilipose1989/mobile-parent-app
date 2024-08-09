@@ -3,7 +3,7 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class CreateSchoolVisitUseCase extends BaseUseCase<BaseError,
-    CreateSchoolVisitUseCaseParams, SchoolVisitCreation> {
+    CreateSchoolVisitUseCaseParams, SchoolVisitDetailBase> {
   final SchoolVisitRepository _schoolVisitRepository;
 
   CreateSchoolVisitUseCase(
@@ -11,7 +11,7 @@ class CreateSchoolVisitUseCase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, SchoolVisitCreation>> execute({
+  Future<Either<BaseError, SchoolVisitDetailBase>> execute({
     required CreateSchoolVisitUseCaseParams params,
   }) {
     return _schoolVisitRepository.createSchoolVisit(

@@ -1,24 +1,20 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_detail_entity.dart';
 
 part 'school_visit_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SchoolVisitEntity extends BaseLayerDataTransformer<SchoolVisitEntity, SchoolVisitDetail> {
-  @JsonKey(name: 'school_visit_date')
-  String? schoolVisitDate;
-  @JsonKey(name: 'school_visit_time')
-  String? schoolVisitTime;
-  @JsonKey(name: 'comment')
-  String? comment;
-  @JsonKey(name: 'added_by')
-  int? addedBy;
+class SchoolVisitEntity extends BaseLayerDataTransformer<SchoolVisitEntity, SchoolVisitDetailBase> {
+  @JsonKey(name: 'status')
+  int? status;
+  @JsonKey(name: 'data')
+  SchoolVisitDetailEntity? data;
+  @JsonKey(name: 'message')
+  String? message;
 
   SchoolVisitEntity({
-    this.schoolVisitDate,
-    this.schoolVisitTime,
-    this.comment,
-    this.addedBy,
+    this.data,
   });
 
   factory SchoolVisitEntity.fromJson(Map<String, dynamic> json) =>
@@ -27,12 +23,11 @@ class SchoolVisitEntity extends BaseLayerDataTransformer<SchoolVisitEntity, Scho
   Map<String, dynamic> toJson() => _$SchoolVisitEntityToJson(this);
 
   @override
-  SchoolVisitDetail transform() {
-    SchoolVisitDetail schoolVisit = SchoolVisitDetail();
-    schoolVisit.schoolVisitDate = schoolVisitDate;
-    schoolVisit.schoolVisitTime = schoolVisitTime;
-    schoolVisit.comment = comment;
-    schoolVisit.addedBy = addedBy;
-    return schoolVisit;
+  SchoolVisitDetailBase transform() {
+    SchoolVisitDetailBase schoolVisitDetailBase = SchoolVisitDetailBase();
+    schoolVisitDetailBase.status =status;
+    schoolVisitDetailBase.data = data?.transform();
+    schoolVisitDetailBase.message = message;
+    return schoolVisitDetailBase;
   }
 }

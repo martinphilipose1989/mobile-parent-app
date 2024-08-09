@@ -49,11 +49,20 @@ export 'src/model/response/competency_book/competency_test_creation_model.dart';
 export 'src/model/response/competency_book/competency_test_data_model.dart';
 export 'src/model/response/competency_book/competency_test_model.dart';
 export 'src/model/response/school_visit/school_visit_creation_model.dart';
-export 'src/model/response/school_visit/school_visit_data_model.dart';
 export 'src/model/response/school_visit/school_visit_model.dart';
 export 'src/model/response/admission_list/admission_list.dart';
 export 'src/model/response/admission_list/admission_list_base.dart';
 export 'src/model/response/admission_list/admission_list_model.dart';
+export 'src/model/response/enquiry_detail/enquiry_base_model.dart';
+export 'src/model/response/enquiry_detail/enquiry_detail_model.dart';
+export 'src/model/response/enquiry_detail/enquiry_document_model.dart';
+export 'src/model/response/competency_test_detail/competency_test_detail.dart';
+export 'src/model/response/competency_test_detail/competency_test_detail_base.dart';
+export 'src/model/response/enquiry_timeline/enquiry_timeline_base.dart';
+export 'src/model/response/enquiry_timeline/enquiry_timeline_data.dart';
+export 'src/model/response/enquiry_timeline/enquiry_timeline_detail.dart';
+export 'src/model/response/enquiry_timeline/enquiry_timeline_filter.dart';
+
 
 //utils
 export 'src/utils/validator.dart';
