@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
 import 'package:network_retrofit/src/model/response/competency_test_detail/competency_test_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/enquiry_file_upload/delete_enquiry_file_response_entity.dart';
+import 'package:network_retrofit/src/model/response/enquiry_file_upload/download_enquiry_file_response_entity.dart';
+import 'package:network_retrofit/src/model/response/enquiry_file_upload/enquiry_file_upload_response_entity.dart';
 import 'package:network_retrofit/src/model/response/enquiry_timeline.dart/enquiry_timeline_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_admission_journey/admission_journey_base_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_response_entity.dart';
@@ -110,7 +115,28 @@ abstract class RetrofitService {
     @Body() CancelCompetencyTestRequest cancelCompetencyTestRequest}
   );
   
+  @GET('marketing/enquiry/{enquiryID}/document/{documentID}')
+  Future<HttpResponse<DownloadEnquiryFileResponseEntity>> downloadEnquiryDocument(
+    {@Path('enquiryID') String enquiryID,
+    @Path('documentID') String documentID
+    }
+  );
 
+  @PATCH('marketing/enquiry/{enquiryID}/document/{documentID}/delete')
+  Future<HttpResponse<DeleteEnquiryFileResponseEntity>> deleteEnquiryDocument(
+    {@Path('enquiryID') String enquiryID,
+    @Path('documentID') String documentID
+    }
+  );
+
+  @POST('marketing/enquiry/{enquiryID}/upload-document/{documentID}')
+  @MultiPart()
+  Future<HttpResponse<EnquiryFileUploadResponseEntity>> uploadEnquiryDocument(
+    {@Path('enquiryID') String enquiryID,
+      @Path('documentID') String documentID,
+      @Part(name: 'file') required File file,
+    }
+  );
   // @GET('marketing/app/registration/{enquiryId}') 
   // Future<HttpResponse<IvtBaseResponseEntity>> getRegistrationDetail(
   //   {@Path("enquiryId") String enquiryId,

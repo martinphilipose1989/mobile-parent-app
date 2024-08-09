@@ -62,7 +62,8 @@ export 'src/model/response/enquiry_timeline/enquiry_timeline_base.dart';
 export 'src/model/response/enquiry_timeline/enquiry_timeline_data.dart';
 export 'src/model/response/enquiry_timeline/enquiry_timeline_detail.dart';
 export 'src/model/response/enquiry_timeline/enquiry_timeline_filter.dart';
-
-
+export 'src/model/response/enquiry_file_upload/delete_enquiry_file_model.dart';
+export 'src/model/response/enquiry_file_upload/download_enquiry_file_model.dart';
+export 'src/model/response/enquiry_file_upload/enquiry_file_upload_model.dart';
 //utils
 export 'src/utils/validator.dart';

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
@@ -23,7 +25,9 @@ abstract class NetworkPort {
   Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String competencyTest,required CompetencyTestCreationRequest competencyTestCreationRequest});
   Future<Either<NetworkError,CompetencyTestDetailBase>> cancelCompetencyTest({required String competencyTest,required CancelCompetencyTestRequest cancelCompetencyTestRequest});
 
-
+  Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});
+  Future<Either<NetworkError,DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID,required String documentID});
+  Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID});
   
 }
   

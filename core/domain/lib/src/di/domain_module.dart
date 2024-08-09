@@ -24,7 +24,7 @@ abstract class DomainModule {
   }
 
   @lazySingleton
-  GetAdmissionJourneyUsecase getIvtDetailUsecase(EnquiryRepository enquiryRepository) {
-    return GetAdmissionJourneyUsecase(enquiryRepository);
+  GetIvtDetailUsecase getIvtDetailUsecase(EnquiryRepository enquiryRepository) {
+    return GetIvtDetailUsecase(enquiryRepository);
   }
 }

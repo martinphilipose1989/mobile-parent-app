@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:data/data.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -134,6 +136,30 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline({required String enquiryID}) async{
     var response = await safeApiCall(apiService.getEnquiryTimeline(enquiryID: enquiryID));
+    return response.fold((l){
+      return Left(l);
+    }, (r)=> Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID, required String documentID}) async{
+    var response = await safeApiCall(apiService.downloadEnquiryDocument(enquiryID: enquiryID,documentID: documentID));
+    return response.fold((l){
+      return Left(l);
+    }, (r)=> Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID, required String documentID}) async{
+    var response = await safeApiCall(apiService.deleteEnquiryDocument(enquiryID: enquiryID,documentID: documentID));
+    return response.fold((l){
+      return Left(l);
+    }, (r)=> Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID, required String documentID,required File file}) async{
+    var response = await safeApiCall(apiService.uploadEnquiryDocument(file: file,documentID: documentID,enquiryID: enquiryID));
     return response.fold((l){
       return Left(l);
     }, (r)=> Right(r.data.transform()));

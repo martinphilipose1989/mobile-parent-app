@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:domain/domain.dart';
 
 abstract class EnquiryRepository{
@@ -8,4 +10,7 @@ abstract class EnquiryRepository{
   Future<Either<NetworkError, NewAdmissionBase>> getNewAdmissionDetail({required String enquiryID});
   Future<Either<NetworkError, PsaResponse>> getPsaDetail({required String enquiryID});
   Future<Either<NetworkError,  IVTBase>> getIvtDetail({required String enquiryID});
+  Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});
+  Future<Either<NetworkError,DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID,required String documentID});
+  Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID});
 }
