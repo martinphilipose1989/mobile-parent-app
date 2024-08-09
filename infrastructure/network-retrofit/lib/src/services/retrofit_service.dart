@@ -13,9 +13,14 @@ import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_r
 import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/contact_details_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/medical_details_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
 
 import 'package:retrofit/retrofit.dart';
+
+import '../model/response/get_registreation_info/bank_details_entity.dart';
+import '../model/response/get_registreation_info/parent_registration_entity.dart';
 
 part 'retrofit_service.g.dart';
 
@@ -114,8 +119,7 @@ abstract class RetrofitService {
     {@Path('competencyTest') String competencyTest,
     @Body() CancelCompetencyTestRequest cancelCompetencyTestRequest}
   );
-  
-  @GET('marketing/enquiry/{enquiryID}/document/{documentID}')
+@GET('marketing/enquiry/{enquiryID}/document/{documentID}')
   Future<HttpResponse<DownloadEnquiryFileResponseEntity>> downloadEnquiryDocument(
     {@Path('enquiryID') String enquiryID,
     @Path('documentID') String documentID
@@ -137,6 +141,37 @@ abstract class RetrofitService {
       @Part(name: 'file') required File file,
     }
   );
+
+  //registration
+  /*
+  @GET('/marketing/app/registration/{enquiryId}')
+  Future<HttpResponse<CompetencyTestCreationEntity>> registration(
+      {@Path('competencyTest') String competencyTest,
+        @Body() CancelCompetencyTestRequest cancelCompetencyTestRequest}
+      );
+
+   */
+
+  @POST('/marketing/app/registration/{enquiryId}/parent-details')
+  Future<HttpResponse<ParentRegistrationDetailEntity>> parentDetails(
+      {@Path('enquiryId') String enquiryId}
+      );
+
+  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  Future<HttpResponse<ContactDetailsEntity>> contactDetails(
+      {@Path('enquiryId') String enquiryId}
+      );
+
+  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  Future<HttpResponse<MedicalDetailsEntity>> medicalDetails(
+      {@Path('enquiryId') String enquiryId}
+      );
+
+  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  Future<HttpResponse<BankDetailsEntity>> bankDetails(
+      {@Path('enquiryId') String enquiryId}
+      );
+
   // @GET('marketing/app/registration/{enquiryId}') 
   // Future<HttpResponse<IvtBaseResponseEntity>> getRegistrationDetail(
   //   {@Path("enquiryId") String enquiryId,
