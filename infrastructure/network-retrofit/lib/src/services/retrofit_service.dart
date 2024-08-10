@@ -152,22 +152,22 @@ abstract class RetrofitService {
 
    */
 
-  @POST('/marketing/app/registration/{enquiryId}/parent-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/parent-details')
   Future<HttpResponse<ParentRegistrationDetailEntity>> parentDetails(
       {@Path('enquiryId') String enquiryId}
       );
 
-  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
   Future<HttpResponse<ContactDetailsEntity>> contactDetails(
       {@Path('enquiryId') String enquiryId}
       );
 
-  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
   Future<HttpResponse<MedicalDetailsEntity>> medicalDetails(
       {@Path('enquiryId') String enquiryId}
       );
 
-  @POST('/marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
   Future<HttpResponse<BankDetailsEntity>> bankDetails(
       {@Path('enquiryId') String enquiryId}
       );
