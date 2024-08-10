@@ -1,7 +1,6 @@
-import 'package:shared/src/model/response/registration_info/guardian_detail.dart';
-import 'package:shared/src/model/response/registration_info/parent_registration_detail.dart';
+import 'package:shared/shared.dart';
 
-class ParentInfo {
+class ParentInfo extends BaseDetails{
     ParentRegistrationDetail? fatherDetails;
     ParentRegistrationDetail? motherDetails;
     GuardianDetails? guardianDetails;

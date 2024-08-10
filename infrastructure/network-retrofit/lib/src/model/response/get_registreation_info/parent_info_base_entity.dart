@@ -1,11 +1,12 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/parent_info_entity.dart';
 
 part 'parent_info_base_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class ParentInfoBaseEntity extends BaseLayerDataTransformer<ParentInfoBaseEntity,ParentInfoBase>{
+class ParentInfoBaseEntity extends BaseInfoEntity<ParentInfoEntity,ParentInfoBase>{
     @JsonKey(name: 'status')
     int? status;
     @JsonKey(name: 'data')
@@ -22,7 +23,10 @@ class ParentInfoBaseEntity extends BaseLayerDataTransformer<ParentInfoBaseEntity
   factory ParentInfoBaseEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentInfoBaseEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParentInfoBaseEntityToJson(this);
+  @override
+  Map<String, dynamic> toJson([Object? Function(ParentInfoEntity)? toJsonContactDetailEntity, Object? Function(ParentInfoBase)? toJsonContactInfo]) {
+    return _$ParentInfoBaseEntityToJson(this);
+  }
 
   @override
   ParentInfoBase transform() {

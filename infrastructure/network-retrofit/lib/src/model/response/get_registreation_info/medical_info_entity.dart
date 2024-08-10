@@ -1,11 +1,12 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/medical_details_entity.dart';
 
 part 'medical_info_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class MedicalInfoEntity  extends BaseLayerDataTransformer<MedicalInfoEntity,MedicalInfo>{
+class MedicalInfoEntity  extends BaseInfoEntity<MedicalDetailsEntity,MedicalInfo>{
     @JsonKey(name: 'status')
     int? status;
     @JsonKey(name: 'data')
@@ -22,8 +23,11 @@ class MedicalInfoEntity  extends BaseLayerDataTransformer<MedicalInfoEntity,Medi
     factory MedicalInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$MedicalInfoEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$MedicalInfoEntityToJson(this);
-
+    @override
+  Map<String, dynamic> toJson([Object? Function(MedicalDetailsEntity)? toJsonContactDetailEntity, Object? Function(MedicalInfo)? toJsonContactInfo]) {
+    return _$MedicalInfoEntityToJson(this);
+  }
+  
   @override
   MedicalInfo transform() {
     MedicalInfo medicalInfo =MedicalInfo();

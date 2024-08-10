@@ -45,6 +45,7 @@ export 'src/model/response/registration_info/medical_details.dart';
 export 'src/model/response/registration_info/medical_info.dart';
 export 'src/model/response/registration_info/contact_details.dart';
 export 'src/model/response/registration_info/contact_info.dart';
+export 'src/model/response/registration_info/base_info_detail.dart';
 export 'src/model/response/competency_book/competency_test_creation_model.dart';
 export 'src/model/response/competency_book/competency_test_data_model.dart';
 export 'src/model/response/competency_book/competency_test_model.dart';

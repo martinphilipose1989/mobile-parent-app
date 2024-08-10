@@ -14,4 +14,7 @@ export 'src/di/data_dependency_configurator.dart';
 
 export 'src/repository/enquiry_repository_impl.dart';
 export 'src/repository/school_visit_repository_impl.dart';
+export 'src/repository/admission_repository_impl.dart';
+export 'src/repository/competency_test_repository_impl.dart';
+export 'src/repository/registration_repository_impl.dart';
 

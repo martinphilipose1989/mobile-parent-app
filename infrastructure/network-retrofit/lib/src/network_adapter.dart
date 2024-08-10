@@ -164,11 +164,12 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r)=> Right(r.data.transform()));
   }
-  // @override
-  // Future<Either<NetworkError, IVTBase>> getRegistrationDetail({required String enquiryID, required String infoType}) async {
-  //   var response = await safeApiCall(apiService.getRegistrationDetail(enquiryID: enquiryID));
-  //   return response.fold((l) {
-  //     return Left(l);
-  //   }, (r) => Right(r.data.transform()));
-  // }
+
+  @override
+  Future<Either<NetworkError, BaseInfo<T>>> getRegistrationDetail<T>({required String enquiryID, required String infoType}) async {
+    var response = await safeApiCall(apiService.getRegistrationDetail(enquiryId: enquiryID, infoType: infoType));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
 }

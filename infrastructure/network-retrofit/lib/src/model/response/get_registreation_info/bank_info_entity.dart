@@ -1,11 +1,12 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/bank_details_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
 
 part 'bank_info_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class BankInfoEntity extends BaseLayerDataTransformer<BankInfoEntity,BankInfo>{
+class BankInfoEntity extends BaseInfoEntity<BankDetailsEntity, BankInfo>{
     @JsonKey(name: 'status')
     int? status;
     @JsonKey(name: 'data')
@@ -22,7 +23,10 @@ class BankInfoEntity extends BaseLayerDataTransformer<BankInfoEntity,BankInfo>{
     factory BankInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$BankInfoEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$BankInfoEntityToJson(this);
+    @override
+    Map<String, dynamic> toJson([Object? Function(BankDetailsEntity)? toJsonBankDetailsEntity, Object? Function(BankInfo)? toJsonBankInfo]) {
+      return _$BankInfoEntityToJson(this);
+    }
 
   @override
   BankInfo transform() {

@@ -1,4 +1,6 @@
-class MedicalDetails {
+import 'package:shared/shared.dart';
+
+class MedicalDetails extends BaseDetails{
     bool? isChildHospitalised;
     String? yearOfHospitalization;
     String? reasonOfHopitalization;
