@@ -12,7 +12,13 @@ abstract class NetworkPort {
   Future<Either<NetworkError, NewAdmissionBase>> getNewAdmissionDetail({required String enquiryID});
   Future<Either<NetworkError, PsaResponse>> getPsaDetail({required String enquiryID});
   Future<Either<NetworkError,  IVTBase>> getIvtDetail({required String enquiryID});
+
   Future<Either<NetworkError, BaseInfo<T>>> getRegistrationDetail<T>({required String enquiryID, required String infoType});
+  Future<Either<NetworkError, BaseInfo<T>>> updateParentDetails<T>({required String enquiryID, required ParentInfoEntity parentInfo});
+  Future<Either<NetworkError, BaseInfo<T>>> updateContactDetails<T>({required String enquiryID, required ContactDetailsEntity contactDetails});
+  Future<Either<NetworkError, BaseInfo<T>>> updateMedicalDetails<T>({required String enquiryID, required MedicalDetailsEntity medicalDetails});
+  Future<Either<NetworkError, BaseInfo<T>>> updateBankDetails<T>({required String enquiryID, required  BankDetailsEntity bankDetails});  
+
   Future<Either<NetworkError,SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID});
   Future<Either<NetworkError,SchoolVisitDetailBase>> createSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest});
   Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String schoolVisitID,required SchoolCreationRequest schoolCreationRequest});

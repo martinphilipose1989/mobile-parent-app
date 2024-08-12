@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/marketing/registration_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class GetRegistrationDetailUsecase<T> extends BaseUseCase<BaseError,

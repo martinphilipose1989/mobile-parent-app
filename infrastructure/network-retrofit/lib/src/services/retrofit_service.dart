@@ -13,7 +13,10 @@ import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_r
 import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/bank_details_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/contact_details_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/medical_details_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
 
 import 'package:retrofit/retrofit.dart';
@@ -141,23 +144,30 @@ abstract class RetrofitService {
   );
 
   @PATCH('/marketing/app/registration/{enquiryId}/parent-details')
-  Future<HttpResponse<ParentRegistrationDetailEntity>> parentDetails(
-      {@Path('enquiryId') required String enquiryId}
+  Future<HttpResponse<BaseInfoEntity>> updateParentDetails(
+      {@Path('enquiryId') required String enquiryId,
+        @Body() required ParentInfoEntity parentInfo}
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<ContactDetailsEntity>> contactDetails(
-      {@Path('enquiryId') required String enquiryId}
+  Future<HttpResponse<BaseInfoEntity>> updateContactDetails(
+      {@Path('enquiryId') required String enquiryId,
+        @Body() required ContactDetailsEntity contactDetails
+      }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<MedicalDetailsEntity>> medicalDetails(
-      {@Path('enquiryId') required String enquiryId}
+  Future<HttpResponse<BaseInfoEntity>> updateMedicalDetails(
+      {@Path('enquiryId') required String enquiryId,
+        @Body() required MedicalDetailsEntity medicalDetails
+      }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<BankDetailsEntity>> bankDetails(
-      {@Path('enquiryId') required String enquiryId}
+  Future<HttpResponse<BaseInfoEntity>> updateBankDetails(
+      {@Path('enquiryId') required String enquiryId,
+        @Body() required BankDetailsEntity bankDetails
+      }
       );
 
   @GET('marketing/app/registration/{enquiryId}') 

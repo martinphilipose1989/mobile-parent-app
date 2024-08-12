@@ -12,7 +12,7 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   @override
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList({required String phone, required int pageNumber, int pageSize = 10}){
     return _networkPort.getEnquiryList(
-     pageNumber: pageNumber,phone: phone,pageSize: pageNumber
+     pageNumber: pageNumber,phone: phone,pageSize: pageSize
     );
   }
 

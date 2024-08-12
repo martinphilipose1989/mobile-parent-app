@@ -52,7 +52,7 @@ class ListItem extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: year,
+                            text: " $year",
                             style: AppTypography.overline.copyWith(
                                 color: AppColors.textGray
                             ),

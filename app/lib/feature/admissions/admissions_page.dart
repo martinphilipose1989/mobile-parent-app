@@ -17,11 +17,13 @@ class AdmissionsPage extends BasePage<AdmissionsViewModel> {
 class _AdmissionsPageState
     extends AppBasePageState<AdmissionsViewModel, AdmissionsPage>  {
   @override
-  void onModelReady(AdmissionsViewModel model) {}
+  void onModelReady(AdmissionsViewModel model) {
+    model.setupScrollListener();
+    model.fetchAdmissionList();
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AdmissionsViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Admissions',
       notShowNotificationAndUserBatch: false,
@@ -29,21 +31,15 @@ class _AdmissionsPageState
     );
   }
 
-  
-
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, AdmissionsViewModel model) {
-    // TODO: implement buildView
     return AdmissionsPageView(provideBase());
   }
-
-  
 
   @override
   ProviderBase<AdmissionsViewModel> provideBase() {

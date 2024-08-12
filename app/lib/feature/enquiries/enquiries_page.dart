@@ -22,11 +22,13 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
   }
 
   @override
-  void onModelReady(EnquiriesPageModel model) {}
+  void onModelReady(EnquiriesPageModel model) {
+    model.setupScrollListener();
+    model.fetchEnquiries();
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesPageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
       appbarTitle: 'Enquiries',
