@@ -9,6 +9,13 @@ PODS:
     - Flutter
     - FlutterMacOS
   - sqflite (0.0.3):
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
   - Toast (4.1.1)

@@ -1,14 +1,15 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
-import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,20 @@ class PaymentsPageState
   }
 
   @override
-  void onModelReady(PaymentsPageModel model) {}
+  void onModelReady(PaymentsPageModel model) {
+    model.paymentModes.addAll(ProviderScope.containerOf(context)
+        .read(paymentsModelProvider)
+        .finalPaymentModelList);
+    model.selectedFees.addAll(ProviderScope.containerOf(context)
+        .read(paymentsModelProvider)
+        .selectedPendingFessList);
+
+    model.amount.text = ProviderScope.containerOf(context)
+        .read(paymentsModelProvider)
+        .totalAmount
+        .value
+        .toString();
+  }
 
   @override
   Widget buildView(BuildContext context, PaymentsPageModel model) {
@@ -61,38 +75,78 @@ class PaymentsPageState
                 text: 'Total Amount',
                 style: AppTypography.body1.copyWith(color: Colors.grey),
               ),
-              CommonText(
-                text: '₹ 80,000',
-                style: AppTypography.h6
-                    .copyWith(color: Theme.of(context).colorScheme.onTertiary),
+              AppStreamBuilder<int>(
+                stream: ProviderScope.containerOf(context)
+                    .read(paymentsModelProvider)
+                    .totalAmount,
+                initialData: ProviderScope.containerOf(context)
+                    .read(paymentsModelProvider)
+                    .totalAmount
+                    .value,
+                dataBuilder: (context, data) {
+                  return CommonText(
+                    text: '₹ $data',
+                    style: AppTypography.h6.copyWith(
+                        color: Theme.of(context).colorScheme.onTertiary),
+                  );
+                },
               ),
             ],
           ),
           AppStreamBuilder<String>(
             stream: model.selectedPaymentType,
             initialData: model.selectedPaymentType.value,
-            dataBuilder: (context, data) {
-              return SizedBox(
-                  height: 40.h,
-                  width: 110.w,
-                  child: CommonElevatedButton(
-                    onPressed: () {
-                      if (data == 'Payment Gateway') {
-                        CommonPopups().showSuccess(
-                          context,
-                          'Payment\nSuccessfull!',
-                          (shouldRoute) {},
-                        );
-                      } else {
-                        Navigator.pushNamed(context, RoutePaths.chequePayment,
-                            arguments: model);
-                      }
-                    },
-                    text: 'Continue',
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    textStyle: AppTypography.subtitle2.copyWith(
-                        color: Theme.of(context).colorScheme.onTertiary),
-                  ));
+            dataBuilder: (context, stringValue) {
+              return AppStreamBuilder<Resource<GetValidateOnPayModel>>(
+                stream: model.getValidateOnPayModel,
+                initialData: Resource.none(),
+                onData: (value) {
+                  if (value.status == Status.success) {
+                    if (stringValue ==
+                        'Current Date Cheque / Post Dated Cheque / ...') {
+                      Navigator.pushNamed(context, RoutePaths.chequePayment,
+                          arguments: model);
+                    } else {
+                      Navigator.pushNamed(
+                        context,
+                        RoutePaths.webview,
+                      );
+                    }
+                  }
+                },
+                dataBuilder: (context, data) {
+                  return data!.status == Status.loading
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(),
+                        )
+                      : SizedBox(
+                          height: 40.h,
+                          width: 110.w,
+                          child: CommonElevatedButton(
+                            onPressed: () {
+                              switch (stringValue) {
+                                case 'Current Date Cheque / Post Dated Cheque / ...':
+                                  model.selectedPaymentMode = 8;
+                                  break;
+                                case 'Paytm':
+                                  model.selectedPaymentMode = 1;
+                                  break;
+                                case 'Easebuzz':
+                                  model.selectedPaymentMode = 1;
+                                  break;
+                                default:
+                              }
+                              model.getValidateOnPay(model.selectedPaymentMode);
+                            },
+                            text: 'Pay Now',
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            textStyle: AppTypography.subtitle2.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onTertiary),
+                          ));
+                },
+              );
             },
           )
         ],

@@ -1,6 +1,8 @@
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_inputformatters.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
@@ -66,6 +68,11 @@ class BottomPhoneEmailSheet extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                         hintText: 'Enter Email ID',
                         labelText: '',
+                        validator: (value) =>
+                            AppValidators.validateEmail(value),
+                        inputFormatters: [
+                          AppInputformatters.emailFormatter(),
+                        ],
                       )
                     : CommonTextFormField(
                         controller: otpPageModel.mobileOrEmailController,
@@ -73,6 +80,11 @@ class BottomPhoneEmailSheet extends StatelessWidget {
                         keyboardType: TextInputType.phone,
                         hintText: 'Enter Phone Number',
                         labelText: '',
+                        validator: (value) =>
+                            AppValidators.validateMobile(value),
+                        inputFormatters: [
+                          AppInputformatters.mobileFormatter(),
+                        ],
                       );
               },
             ),

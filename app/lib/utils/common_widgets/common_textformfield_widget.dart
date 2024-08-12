@@ -2,6 +2,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommonTextFormField extends StatelessWidget {
@@ -16,6 +17,8 @@ class CommonTextFormField extends StatelessWidget {
   final bool showSearchIcon;
   final Widget? prefix;
   final bool showAstreik;
+  final bool readOnly;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CommonTextFormField(
       {super.key,
@@ -25,30 +28,38 @@ class CommonTextFormField extends StatelessWidget {
       this.hintText,
       this.validator,
       this.obscureText = false,
+      this.readOnly = false,
       this.decoration,
       this.maxLines,
       required this.showAstreik,
       this.showSearchIcon = false,
-      this.prefix});
+      this.prefix,
+      this.inputFormatters});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        TextFormField(
-          controller: controller,
-          cursorHeight: 20,
-          style: AppTypography.body1,
-          keyboardType: keyboardType,
-          validator: validator,
-          obscureText: obscureText,
-          maxLines: maxLines ?? 1,
-          decoration: decoration ??
-              InputDecoration(
-                prefixIcon: prefix,
-                hintText: hintText ?? '',
-              ),
+        SizedBox(
+          height: 48.h,
+          child: TextFormField(
+            inputFormatters: inputFormatters,
+            controller: controller,
+            cursorHeight: 20,
+            readOnly: readOnly,
+            style:
+                AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
+            keyboardType: keyboardType,
+            validator: validator,
+            obscureText: obscureText,
+            maxLines: maxLines ?? 1,
+            decoration: decoration ??
+                InputDecoration(
+                  prefixIcon: prefix,
+                  hintText: hintText ?? '',
+                ),
+          ),
         ),
         Positioned(
           left: 6,

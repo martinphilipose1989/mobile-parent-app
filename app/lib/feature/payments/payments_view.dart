@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'package:app/feature/payments/payments_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/payments/pending_amount_expansion_tile.dart';
 import 'package:app/molecules/payments/payments_chips_list.dart';
 import 'package:app/molecules/payments/switch_views_payment_history.dart';
@@ -11,6 +11,7 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -78,35 +79,54 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                     text: 'Calculated Amount',
                     style: AppTypography.body2
                         .copyWith(color: AppColors.inactiveNeutral60)),
-                CommonText(
-                  text: '₹ 10,000',
-                  style: AppTypography.h6
-                      .copyWith(color: Theme.of(cxt).colorScheme.primary),
-                ),
+                AppStreamBuilder(
+                  stream: model.exactPendingAmountToBePaid,
+                  initialData: model.exactPendingAmountToBePaid.value,
+                  dataBuilder: (context, data) {
+                    return CommonText(
+                      text: '₹ $data',
+                      style: AppTypography.h6
+                          .copyWith(color: Theme.of(cxt).colorScheme.primary),
+                    );
+                  },
+                )
               ],
             ),
           ),
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
-        Padding(
-          padding: const EdgeInsets.only(left: 1),
-          child: SizedBox(
-            height: 38.h,
-            child: PaymentsChipsList(
-              chipValues: List.generate(
-                model.schoolList.length,
-                (index) {
-                  return Chips(
-                      name: model.schoolList[index]['name'],
-                      isSelected: model.schoolList[index]['isSelected']);
-                },
-              ),
-              onCallBack: (routeName) {},
-            ),
-          ),
+        AppStreamBuilder<Resource<SchoolNamesModel>>(
+          stream: model.getSchoolNamesModel,
+          initialData: Resource.none(),
+          dataBuilder: (context, data) {
+            return data!.status == Status.loading
+                ? const SizedBox(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(left: 1),
+                    child: SizedBox(
+                      height: 38.h,
+                      child: PaymentsChipsList(
+                        chipValues: List.generate(
+                          data.data?.data?.brandCodes!.length ?? 0,
+                          (index) {
+                            return Chips(
+                                name: data
+                                    .data?.data?.brandCodes![index].displayName,
+                                isSelected: false);
+                          },
+                        ),
+                        onCallBack: (routeName) {},
+                      ),
+                    ),
+                  );
+          },
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
-        PendingAmountExpansionTile()
+        PendingAmountExpansionTile(
+          model: model,
+        )
       ],
     );
   }
@@ -125,32 +145,72 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                 height: 20.h,
               ),
               SizedBox(
-                height: 48.h,
-                width: 128.w,
-                child: CustomDropdownButton(
-                  dropdownName: '',
-                  showAstreik: false,
-                  showBorderColor: false,
-                  items: model.studentDropdownValues,
-                  isMutiSelect: true,
-                  onMultiSelect: (selectedValues) {
-                    log(selectedValues.toString());
+                child:
+                    AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
+                  stream: model.getGuardianStudentDetailsModel,
+                  initialData: Resource.none(),
+                  dataBuilder: (context, data) {
+                    return data!.status == Status.loading
+                        ? const SizedBox(
+                            child: CircularProgressIndicator(),
+                          )
+                        : data.data?.data?.students == null
+                            ? const SizedBox.shrink()
+                            : SizedBox(
+                                height: 48.h,
+                                width: 128.w,
+                                child: CustomDropdownButton(
+                                  dropdownName: '',
+                                  width: 300,
+                                  showAstreik: false,
+                                  showBorderColor: false,
+                                  displayZerothIndex: true,
+                                  items: data.data?.data?.students!
+                                          .map((e) => e.studentDisplayName)
+                                          .toList() ??
+                                      [],
+                                  isMutiSelect: true,
+                                  onMultiSelect: (selectedValues) {
+                                    print(selectedValues);
+                                    model.getSelectedStudentIds(
+                                        students:
+                                            data.data?.data!.students ?? [],
+                                        selectedValues: selectedValues);
+                                  },
+                                ),
+                              );
                   },
                 ),
-              ),
+              )
             ],
           ),
-          SizedBox(
-            height: 48.h,
-            width: 175.w,
-            child: CustomDropdownButton(
-              onMultiSelect: (selectedValues) {},
-              dropdownName: 'Select Academic year',
-              showAstreik: true,
-              showBorderColor: true,
-              items: model.academicYearDropdownValues,
-              isMutiSelect: true,
-            ),
+          AppStreamBuilder<Resource<GetAcademicYearModel>>(
+            stream: model.getAcademicYearModel,
+            initialData: Resource.none(),
+            dataBuilder: (context, data) {
+              return data!.status == Status.loading
+                  ? const SizedBox(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SizedBox(
+                      height: 48.h,
+                      width: 175.w,
+                      child: CustomDropdownButton(
+                        displayZerothIndex: false,
+                        onMultiSelect: (selectedValues) {
+                          model.getSelectedAcademicYear(
+                              data: data.data?.data! ?? [],
+                              selectedValues: selectedValues);
+                        },
+                        dropdownName: 'Select Academic year',
+                        showAstreik: true,
+                        showBorderColor: true,
+                        items:
+                            data.data?.data?.map((e) => e.name).toList() ?? [],
+                        isMutiSelect: true,
+                      ),
+                    );
+            },
           )
         ],
       ),

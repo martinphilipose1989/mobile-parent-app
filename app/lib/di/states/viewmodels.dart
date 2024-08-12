@@ -42,12 +42,20 @@ final dashboardViewModelProvider =
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
-  (ref) => PaymentsModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => PaymentsModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetGuardianStudentDetailsUsecase>(),
+      getIt.get<GetAcademicYearUsecase>(),
+      getIt.get<GetPendingFeesUsecase>(),
+      getIt.get<GetSchoolNamesUsecase>()),
 );
 
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
-  (ref) => PaymentsPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => PaymentsPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetValidatePayNowUseCase>(),
+      getIt.get<GetStorePaymentUsecase>()),
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(

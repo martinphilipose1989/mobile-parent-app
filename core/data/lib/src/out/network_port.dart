@@ -1,3 +1,5 @@
+import 'package:domain/domain.dart';
+
 import 'dart:io';
 
 import 'package:domain/domain.dart';
@@ -5,6 +7,32 @@ import 'package:network_retrofit/network_retrofit.dart';
 
 
 abstract class NetworkPort {
+  Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
+      {required int studentId, required List<int> lobIDs});
+
+  Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
+      {required String type, required List<int> students});
+
+  Future<Either<NetworkError, GetTokenGeneratorModel>> getTokenGenerator(
+      {required int segmentLobId});
+
+  Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
+      {required int paymentMode, required List<int> studentFeeIds});
+
+  Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
+      {required StorePaymentModelRequest storePaymentModelRequest});
+
+  Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
+      getGuardianStudentDetails({required int mobileNo});
+
+  Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
+      {required String type,
+      required List<int> students,
+      required List<int> academicYear,
+      required int applicableTo});
+
+  Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
+      {required List<int> studentIds, required List<int> academicYearIds});
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList({required String phone, required int pageNumber, int pageSize = 10});
   Future<Either<NetworkError, CompetencyTestBase>> getEnquiryDetail({required String enquiryID});
   Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline({required String enquiryID});

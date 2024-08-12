@@ -24,3 +24,4 @@ export 'src/model/response/get_registreation_info/contact_details_entity.dart';
 export 'src/model/response/get_registreation_info/medical_details_entity.dart';
 export 'src/model/response/get_registreation_info/bank_details_entity.dart';
 
+export 'package:json_annotation/json_annotation.dart';
