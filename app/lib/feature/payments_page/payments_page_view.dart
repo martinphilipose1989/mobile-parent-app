@@ -6,6 +6,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
@@ -38,62 +39,54 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
               ],
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
-            Card(
-              elevation: 2,
+            Container(
+              margin: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 1,
+                        color: Colors.grey.shade300,
+                        spreadRadius: 1)
+                  ]),
               child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: List.generate(
+                      model.selectedFees.length,
+                      (index) {
+                        return Column(
                           children: [
-                            CommonText(
-                              text: 'Consplidated',
-                              style: AppTypography.subtitle2,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CommonText(
+                                      text: model.selectedFees[index]
+                                              .feeDisplayName ??
+                                          "",
+                                      style: AppTypography.subtitle2,
+                                    ),
+                                  ],
+                                ),
+                                CommonText(
+                                  text:
+                                      '₹ ${model.selectedFees[index].pending ?? ""}',
+                                  style: AppTypography.subtitle2
+                                      .copyWith(color: AppColors.success),
+                                ),
+                              ],
                             ),
-                            CommonText(
-                              text: 'Installment 1',
-                              style: AppTypography.caption,
-                            ),
+                            if (model.selectedFees.length > 1)
+                              CommonSizedBox.sizedBox(height: 20, width: 10),
                           ],
-                        ),
-                        CommonText(
-                          text: '₹ 70,000',
-                          style: AppTypography.subtitle2
-                              .copyWith(color: AppColors.success),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                    CommonSizedBox.sizedBox(height: 20, width: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CommonText(
-                              text: 'Consplidated',
-                              style: AppTypography.subtitle2,
-                            ),
-                            CommonText(
-                              text: 'Installment 1',
-                              style: AppTypography.caption,
-                            ),
-                          ],
-                        ),
-                        CommonText(
-                          text: '₹ 10,000',
-                          style: AppTypography.subtitle2
-                              .copyWith(color: AppColors.success),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  )),
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
             const CommonText(
@@ -105,11 +98,24 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
               title: 'Current Date Cheque / Post Dated Cheque / ...',
               value: 'Current Date Cheque / Post Dated Cheque / ...',
             ),
-            PaymentsPageRadioButton(
-              model: model,
-              title: 'Payment Gateway',
-              value: 'Payment Gateway',
-            )
+            SizedBox(
+              height: 1.sh,
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return model.paymentModes[index].paymentModeId == 8 ||
+                            model.paymentModes[index].paymentModeId == 9 ||
+                            model.paymentModes[index].paymentModeId == 10
+                        ? const SizedBox.shrink()
+                        : PaymentsPageRadioButton(
+                            model: model,
+                            title:
+                                model.paymentModes[index].serviceProvider ?? '',
+                            value:
+                                model.paymentModes[index].serviceProvider ?? "",
+                          );
+                  },
+                  itemCount: model.paymentModes.length),
+            ),
           ],
         ));
   }

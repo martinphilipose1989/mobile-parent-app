@@ -3,6 +3,8 @@
 /// More dartdocs go here.
 library data;
 
+export 'package:domain/domain.dart';
+
 export 'package:shared/shared.dart';
 export 'src/out/database_port.dart';
 export 'src/out/network_port.dart';

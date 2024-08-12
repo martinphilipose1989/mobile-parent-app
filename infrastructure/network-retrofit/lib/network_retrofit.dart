@@ -7,3 +7,4 @@ export 'src/di/network_dependency_configurator.dart';
 export 'src/network_retrofit_base.dart';
 
 // TODO: Export any libraries intended for clients of this package.
+export 'package:json_annotation/json_annotation.dart';

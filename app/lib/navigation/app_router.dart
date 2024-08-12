@@ -17,6 +17,7 @@ import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/molecules/payments/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/cheque_page.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
+import 'package:app/utils/common_widgets/common_webview.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../feature/splash/splash_page.dart';
@@ -70,7 +71,9 @@ class AppRouter {
       case RoutePaths.registrationDetails:
         return CupertinoPageRoute(
             builder: (context) => RegistrationsDetailsPage(
-                  routeFrom: settings.arguments as String,
+                  routeFrom: settings.arguments == null
+                      ? ''
+                      : settings.arguments as String,
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.registrationDetails));
@@ -124,6 +127,10 @@ class AppRouter {
             settings: const RouteSettings(
                 name: RoutePaths.enquiriesAdmissionsJourneyPage));
 
+      case RoutePaths.webview:
+        return CupertinoPageRoute(
+            builder: (context) => const WebView(),
+            settings: const RouteSettings(name: RoutePaths.webview));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

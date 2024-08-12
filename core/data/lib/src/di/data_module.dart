@@ -1,6 +1,6 @@
 import 'package:data/data.dart';
+import 'package:data/src/repository/finance_repository.dart';
 import 'package:data/src/repository/user_repository.dart';
-import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -9,5 +9,10 @@ abstract class DataModule {
   UserRepository userRepositoryProvider(
       DatabasePort databasePort, NetworkPort networkPort) {
     return UserRepositoryImpl(databasePort, networkPort);
+  }
+
+  @lazySingleton
+  FinanceRepository financeRepositoryProvider(NetworkPort networkPort) {
+    return FinanceRepositoryImpl(networkPort);
   }
 }

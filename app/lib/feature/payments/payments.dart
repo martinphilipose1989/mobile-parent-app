@@ -6,7 +6,9 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,9 +31,13 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
 
   @override
   void onModelReady(PaymentsModel model) {
-    // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.tabController = TabController(length: 2, vsync: this);
+    model.getStudentList();
+    model.getAcademicYear();
+    model.getSchoolNames();
+    model.studentIDs.add(2);
+    model.filterPendingFeeList(studentIDs: model.studentIDs, academicYear: []);
   }
 
   @override
@@ -69,11 +75,18 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                             style: AppTypography.body1
                                 .copyWith(color: Colors.grey),
                           ),
-                          CommonText(
-                            text: '₹ 80,000',
-                            style: AppTypography.h6.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onTertiary),
+                          AppStreamBuilder<int>(
+                            stream: model.totalAmount,
+                            initialData: model.totalAmount.value,
+                            dataBuilder: (context, data) {
+                              return CommonText(
+                                text: '₹ $data',
+                                style: AppTypography.h6.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiary),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -82,10 +95,16 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                           width: 110.w,
                           child: CommonElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, RoutePaths.paymentsPage);
+                              model.checkWhetherfeesIdExistInPayments();
+                              if (model.finalPaymentModelList.isEmpty) {
+                                CommonPopups().showWarning(context,
+                                    'Sorry the selected fee do not satisfy payment mode');
+                              } else {
+                                Navigator.pushNamed(
+                                    context, RoutePaths.paymentsPage);
+                              }
                             },
-                            text: 'Continue',
+                            text: 'Pay Now',
                             backgroundColor:
                                 Theme.of(context).colorScheme.secondary,
                             textStyle: AppTypography.subtitle2.copyWith(

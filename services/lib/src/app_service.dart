@@ -8,8 +8,9 @@ class AppService {
   static GlobalKey<NavigatorState>? get navigatorKey =>
       GlobalKey(debugLabel: 'my-app-key');
 
+  // static GlobalKey<NavigatorState> navigatorKey =
+  //      GlobalKey<NavigatorState>();
   /// Returns the [Get.key] value to be set in the applications material app
   static GlobalKey<State>? get appKey =>
       GlobalKey(debugLabel: 'appKey-app-key');
-
 }

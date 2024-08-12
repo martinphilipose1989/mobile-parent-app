@@ -19,6 +19,7 @@ import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_model.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,12 +42,20 @@ final dashboardViewModelProvider =
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
-  (ref) => PaymentsModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => PaymentsModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetGuardianStudentDetailsUsecase>(),
+      getIt.get<GetAcademicYearUsecase>(),
+      getIt.get<GetPendingFeesUsecase>(),
+      getIt.get<GetSchoolNamesUsecase>()),
 );
 
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
-  (ref) => PaymentsPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => PaymentsPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetValidatePayNowUseCase>(),
+      getIt.get<GetStorePaymentUsecase>()),
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
