@@ -23,8 +23,10 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
 
   @override
   void onModelReady(EnquiriesPageModel model) {
-    model.setupScrollListener();
-    model.fetchEnquiries();
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
   }
 
   @override

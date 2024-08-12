@@ -19,6 +19,7 @@ import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_model.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -72,7 +73,7 @@ final registrationsDetailsProvider =
 
 final enquiriesPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesPageModel>(
-  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetEnquiryListUsecase>()),
 );
 
 final enquiriesDetailsPageModelProvider =

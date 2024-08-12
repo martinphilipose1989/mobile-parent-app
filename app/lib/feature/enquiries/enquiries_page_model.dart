@@ -1,4 +1,5 @@
-import 'package:app/dependencies.dart';
+import 'package:app/model/resource.dart';
+import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -9,7 +10,11 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 @injectable
 class EnquiriesPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  EnquiriesPageModel(this.exceptionHandlerBinder);
+  final GetEnquiryListUsecase getEnquiryListUsecase;
+  EnquiriesPageModel(this.exceptionHandlerBinder, this.getEnquiryListUsecase){
+    setupScrollListener();
+    fetchEnquiries();
+  }
 
   final BehaviorSubject<String> selectedPaymentType =
   BehaviorSubject<String>.seeded('');
@@ -27,7 +32,7 @@ class EnquiriesPageModel extends BasePageViewModel {
         }
         if (isNextPage) {
           pageNumber++;
-          isLoading.add(true);
+          isLoading.value = true;
           fetchEnquiries();
         }
       }
@@ -40,38 +45,42 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
-  final BehaviorSubject<List<EnquiryListDetailModel>> enquiryList = BehaviorSubject<List<EnquiryListDetailModel>>.seeded([]);
+  final PublishSubject<Resource<List<EnquiryListDetailModel>>> enquiryList = PublishSubject();
 
-  final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
   Future<void> fetchEnquiries({bool isRefresh = false}) async {
-    try {
-      if (isRefresh){
+    exceptionHandlerBinder.handle(block: () {
+      if(isRefresh){
         pageNumber = 1;
       }
-      final result = await getIt.get<GetEnquiryListUsecase>().execute(params: GetEnquiryListUsecaseParams(phone: '+919002838487', pageNumber: pageNumber, pageSize: pageSize));
-      isLoading.add(false);
-      if(isRefresh){
-        enquiryList.add(result.fold((l)=> [], (r)=> r.data?.data??[]));
-      } else{
-        result.fold(
-          (l) => enquiryList.add([]),
-          (r) {
-            final newValue = r.data?.data ?? [];
-            final currentValue = enquiryList.value;
-            enquiryList.add(currentValue + newValue);
-          },
-        );
+      GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
+        phone: '+919002838487',
+        pageNumber: pageNumber,
+        pageSize: pageSize
+      );
+      if(pageNumber == 1 && !isRefresh){
+        enquiryList.add(Resource.loading());
       }
-      EnquiryListBaseModel? response = result.fold((l){ exceptionHandlerBinder.showError(l);  return null;}, (r){
-        return r.data;
+      RequestManager<EnquiryListModel>(
+        params,
+        createCall: () => getEnquiryListUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        // if (isRefresh) {
+        //   enquiryList.add(Resource.success(result.data?.data ?? []));
+        // } else {
+        //   enquiryList.add(Resource.success([...(enquiryList.value.data ?? []), ...(result.data?.data ?? [])]));
+        // }
+        enquiryList.add(Resource.success(data: result.data?.data?.data));
+        isNextPage = result.data?.data?.isNextPage ?? false;
+        isLoading.value = false;
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+        isLoading.value = false;
       });
-      isNextPage = response?.isNextPage ?? false;
-      
-    } catch (stackTrace) {
-      // exceptionHandlerBinder.showError(stackTrace);
-      isLoading.add(false);
-    }
+    }).execute();
   }
 
   final List<String> chequeTypes = [

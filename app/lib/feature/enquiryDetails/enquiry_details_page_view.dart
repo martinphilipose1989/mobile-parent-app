@@ -1,4 +1,3 @@
-import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/molecules/enquiries/edit_enquiry_details.dart';
 import 'package:app/molecules/enquiries/enquiries_details_view.dart';
