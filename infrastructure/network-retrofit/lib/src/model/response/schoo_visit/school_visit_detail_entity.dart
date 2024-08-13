@@ -11,7 +11,7 @@ class SchoolVisitDetailEntity extends BaseLayerDataTransformer<SchoolVisitDetail
   @JsonKey(name: 'enquiry_id')
   String? enquiryId;
   @JsonKey(name: 'school_visit_date')
-  DateTime? schoolVisitDate;
+  String? schoolVisitDate;
   @JsonKey(name: 'school_visit_time')
   String? schoolVisitTime;
   @JsonKey(name: 'comment')

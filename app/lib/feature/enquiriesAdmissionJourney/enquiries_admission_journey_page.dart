@@ -14,7 +14,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesAdmissionsJourneyPage
     extends BasePage<EnquiriesAdmissionsJourneyViewModel> {
-  const EnquiriesAdmissionsJourneyPage({super.key});
+    final EnquiryDetailArgs? enquiryDetail;
+  const EnquiriesAdmissionsJourneyPage({super.key,this.enquiryDetail});
 
   @override
   State<EnquiriesAdmissionsJourneyPage> createState() => _AdmissionsPageState();
@@ -23,7 +24,14 @@ class EnquiriesAdmissionsJourneyPage
 class _AdmissionsPageState extends AppBasePageState<
     EnquiriesAdmissionsJourneyViewModel, EnquiriesAdmissionsJourneyPage> {
   @override
-  void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {}
+  void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {
+    model.getAdmissionJourney(enquiryID: widget.enquiryDetail?.enquiryId??'', type: 'enquiry');
+    model.getEnquiryDetail(enquiryID: widget.enquiryDetail?.enquiryId??'');
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
@@ -45,7 +53,7 @@ class _AdmissionsPageState extends AppBasePageState<
   Widget buildView(
       BuildContext context, EnquiriesAdmissionsJourneyViewModel model) {
     // TODO: implement buildView
-    return EnquiriesAdmissionsJourneyPageView(provideBase());
+    return EnquiriesAdmissionsJourneyPageView(provideBase(),enquiryDetail: widget.enquiryDetail??EnquiryDetailArgs(),);
   }
 
   @override
@@ -84,4 +92,30 @@ class _AdmissionsPageState extends AppBasePageState<
       },
     );
   }
+}
+
+
+class EnquiryDetailArgs{
+  String? enquiryType;
+  String? enquiryId;
+  String? enquiryNumber;
+  String? studentName;
+  String? academicYear;
+  String? school;
+  String? board;
+  String? grade;
+  String? enquiryStage;
+  String? nextAction;
+  EnquiryDetailArgs({
+    this.enquiryId,
+    this.enquiryNumber,
+    this.enquiryType,
+    this.enquiryStage,
+    this.studentName,
+    this.academicYear,
+    this.school,
+    this.board,
+    this.grade,
+    this.nextAction
+  });
 }

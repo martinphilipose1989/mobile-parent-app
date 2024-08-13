@@ -14,15 +14,18 @@ class GetAdmissionJourneyUsecase extends BaseUseCase<BaseError,
     required GetAdmissionJourneyUsecaseParams params,
   }) {
     return _enquiryRepository.getAdmissionJourney(
-      enquiryID: params.enquiryID
+      enquiryID: params.enquiryID,
+      type: params.type
     );
   }
 }
 
 class GetAdmissionJourneyUsecaseParams extends Params {
   final String enquiryID;
+  final String type;
   GetAdmissionJourneyUsecaseParams({
     required this.enquiryID,
+    required this.type
   });
 
   @override

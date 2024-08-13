@@ -1,7 +1,7 @@
 class SchoolVisitDetail {
     String? id;
     String? enquiryId;
-    DateTime? schoolVisitDate;
+    String? schoolVisitDate;
     String? schoolVisitTime;
     String? comment;
     String? status;

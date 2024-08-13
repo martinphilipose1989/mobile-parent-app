@@ -5,7 +5,7 @@ import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_d
 part 'enquiry_response_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class EnquiryResponseEntity extends BaseLayerDataTransformer <EnquiryResponseEntity,CompetencyTestBase> {
+class EnquiryResponseEntity extends BaseLayerDataTransformer <EnquiryResponseEntity,EnquiryDetailBase> {
     @JsonKey(name: 'status')
     int? status;
     @JsonKey(name: 'data')
@@ -25,8 +25,8 @@ class EnquiryResponseEntity extends BaseLayerDataTransformer <EnquiryResponseEnt
   Map<String, dynamic> toJson() => _$EnquiryResponseEntityToJson(this);
 
   @override
-  CompetencyTestBase transform() {
-    CompetencyTestBase enquiry = CompetencyTestBase();
+  EnquiryDetailBase transform() {
+    EnquiryDetailBase enquiry = EnquiryDetailBase();
     enquiry.status = status;
     enquiry.data = data?.transform();
     enquiry.message = message;

@@ -1,14 +1,18 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_view.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
 class CancelSchoolTourPage extends BasePage<CancelSchoolTourPageModel> {
-  const CancelSchoolTourPage({super.key});
+  final EnquiryDetailArgs enquiryDetailArgs;
+  final SchoolVisitDetail schoolVisitDetail;
+  const CancelSchoolTourPage({super.key,required this.enquiryDetailArgs,required this.schoolVisitDetail});
 
   @override
   CancelSchoolTourPageState createState() => CancelSchoolTourPageState();
@@ -36,7 +40,7 @@ class CancelSchoolTourPageState
 
   @override
   Widget buildView(BuildContext context, CancelSchoolTourPageModel model) {
-    return CancelSchoolTourPageView(provideBase());
+    return CancelSchoolTourPageView(provideBase(),widget.schoolVisitDetail,widget.enquiryDetailArgs);
   }
 
   @override

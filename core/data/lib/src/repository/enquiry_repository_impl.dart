@@ -17,9 +17,10 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   }
 
   @override
-  Future<Either<NetworkError, AdmissionJourneyBase>> getAdmissionJourney({required String enquiryID}){
+  Future<Either<NetworkError, AdmissionJourneyBase>> getAdmissionJourney({required String enquiryID,required String type}){
     return _networkPort.getAdmissionJourney(
      enquiryID: enquiryID,
+     type: type
     );
   }
 
@@ -45,7 +46,7 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   }
 
   @override
-  Future<Either<NetworkError, CompetencyTestBase>> getEnquiryDetail({required String enquiryID}) {
+  Future<Either<NetworkError, EnquiryDetailBase>> getEnquiryDetail({required String enquiryID}) {
     return _networkPort.getEnquiryDetail(enquiryID: enquiryID);
   }
 

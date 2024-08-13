@@ -16,6 +16,7 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
+import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
@@ -29,17 +30,12 @@ import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_r
 import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
-import 'package:network_retrofit/src/model/response/get_registreation_info/bank_details_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
-import 'package:network_retrofit/src/model/response/get_registreation_info/contact_details_entity.dart';
-import 'package:network_retrofit/src/model/response/get_registreation_info/medical_details_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
 
 import 'package:retrofit/retrofit.dart';
 
 import '../model/response/finance/get_sibling_list/get_sibling_list_response_entity.dart';
-
-import '../model/response/get_registreation_info/parent_registration_entity.dart';
 
 part 'retrofit_service.g.dart';
 
@@ -109,7 +105,9 @@ abstract class RetrofitService {
 
   @GET('marketing/app/enquiry/{enquiryID}/admission-journey') 
   Future<HttpResponse<AdmissionJourneyBaseEntity>> getAdmissionJourney(
-    {@Path('enquiryID') required String enquiryID}
+    {@Path('enquiryID') required String enquiryID,
+      @Query('type') required String type
+    }
   );
 
   @GET('marketing/app/enquiry/{enquiryID}/new-admission') 
@@ -149,7 +147,7 @@ abstract class RetrofitService {
     @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest}
   );
 
-  @GET('marketing/app/enquiry/')
+  @GET('marketing/app/enquiry/admission-list')
   Future<HttpResponse<AdmissionListResponseEntity>> getAdmissionList(
     {@Query('phone') required String phone,
     @Query('pageNumber') required int pageNumber,
@@ -232,5 +230,17 @@ abstract class RetrofitService {
   Future<HttpResponse<BaseInfoEntity>> getRegistrationDetail(
     {@Path("enquiryId") required String enquiryId,
     @Query("infoType") required String infoType,}
+  );
+
+  @GET('marketing/school-visit/slots') 
+  Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots(
+    {@Query("enquiryId") required String enquiryId,
+    @Query("date") required String date,}
+  );
+
+  @GET('marketing/competency-test/slots') 
+  Future<HttpResponse<SlotsEntity>> getCompetencyTestSlots(
+    {@Query("enquiryId") required String enquiryId,
+    @Query("date") required String date,}
   );
 }

@@ -1,18 +1,24 @@
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/school_tour_scheduled_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CancelSchoolTourPageView
     extends BasePageViewWidget<CancelSchoolTourPageModel> {
-  CancelSchoolTourPageView(super.providerBase);
+  final SchoolVisitDetail schoolVisitDetail;
+  final EnquiryDetailArgs enquiryDetailArgs;
+  
+  CancelSchoolTourPageView(super.providerBase,this.schoolVisitDetail,this.enquiryDetailArgs);
   @override
   Widget build(BuildContext context, CancelSchoolTourPageModel model) {
     return Stack(
@@ -26,18 +32,18 @@ class CancelSchoolTourPageView
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ListItem(
+                  ListItem(
                       image: AppImages.personIcon,
-                      name: "Rajeev",
-                      year: "AY 2024-2025",
-                      id: "ENADMS#4402",
-                      title: "Vibgyor Kids & High - Malad West",
-                      subtitle: "Grade V | CBSE",
-                      buttontext: "School Visit"),
+                      name: enquiryDetailArgs.studentName??'',
+                      year: enquiryDetailArgs.academicYear??'',
+                      id: enquiryDetailArgs.enquiryId??'',
+                      title: enquiryDetailArgs.school??'',
+                      subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                      buttontext: enquiryDetailArgs.enquiryStage??''),
                   const SizedBox(
                     height: 10,
                   ),
-                  const SchoolTourScheduledDetailsWidget(),
+                  SchoolTourScheduledDetailsWidget(schoolVisitDetail: schoolVisitDetail,),
                   const SizedBox(
                     height: 10,
                   ),
@@ -46,7 +52,7 @@ class CancelSchoolTourPageView
                     child: CustomDropdownButton(
                       width: MediaQuery.of(context).size.width,
                       onMultiSelect: (selectedValues) {},
-                      dropdownName: 'Select Academic year',
+                      dropdownName: 'Reason For Cancellation',
                       showAstreik: true,
                       showBorderColor: true,
                       items: model.reasonTypes,
@@ -63,8 +69,9 @@ class CancelSchoolTourPageView
                   ),
                   SizedBox(
                     height: 48,
-                    child: const CommonTextFormField(
+                    child: CommonTextFormField(
                       showAstreik: true,
+                      controller: model.controller,
                       labelText: "Comment",
                       hintText: "",
                     ),
@@ -84,7 +91,21 @@ class CancelSchoolTourPageView
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
               child: CommonElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if(model.validateForm()){
+                    CommonPopups().showConfirm(
+                          context,
+                          'Confirm Cancellation Details',
+                          'Please Confirm the below details',
+                          'Date: ${model.dateFormat.format(DateTime.parse((schoolVisitDetail.schoolVisitTime??DateTime.now().toString())))}',
+                          'Selected Time: ${model.schoolVisitDetailData?.schoolVisitTime??''}',
+                          'Comments: ${model.controller.text}',
+                          (shouldRoute) {
+                            model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'');
+                          },
+                        );
+                  }
+                },
                 text: 'Cancel Tour',
                 backgroundColor: AppColors.accent,
                 width: MediaQuery.of(context).size.width,

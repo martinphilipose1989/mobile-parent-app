@@ -26,12 +26,23 @@ export 'src/usecase/finance/get_pending_fees_usecase.dart';
 export 'src/usecase//finance/get_school_names_usecase.dart';
 export 'src/usecase/finance/get_store_payment_usecase.dart';
 export 'src/usecase/marketing/get_enquiry_list_usecase.dart';
+export 'src/usecase/marketing/get_enquiry_detail_usecase.dart';
 export 'src/usecase/marketing/get_admission_journey_usecase.dart';
 export 'src/usecase/marketing/get_ivt_detail_usecase.dart';
 export 'src/usecase/marketing/get_new_admission_detail_usecase.dart';
 export 'src/usecase/marketing/get_psa_detail_usecase.dart';
 export 'src/usecase/marketing/get_admission_list_usecase.dart';
-
+export 'src/usecase/marketing/create_school_visit_usecase.dart';
+export 'src/usecase/marketing/reschedule_school_visit_usecase.dart';
+export 'src/usecase/marketing/cancel_school_visit_usecase.dart';
+export 'src/usecase/marketing/get_school_visit_detail_usecase.dart';
+export 'src/usecase/marketing/create_competency_test_usecase.dart';
+export 'src/usecase/marketing/reschedule_competency_test_usecase.dart';
+export 'src/usecase/marketing/cancel_competency_test_usecase.dart';
+export 'src/usecase/marketing/get_competency_test_detail_usecase.dart';
+export 'src/usecase/marketing/get_enquiry_timeline_usecase.dart';
+export 'src/usecase/marketing/get_school_visit_slots_usecase.dart';
+export 'src/usecase/marketing/get_competency_test_slots_usecase.dart';
 
 export 'package:shared/shared.dart';
 

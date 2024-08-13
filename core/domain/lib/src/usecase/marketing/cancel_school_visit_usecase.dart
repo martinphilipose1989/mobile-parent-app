@@ -25,7 +25,7 @@ class CancelSchoolVisitUsecaseParams extends Params {
   final SchoolVisitCancelRequest schoolVisitCancelRequest;
   CancelSchoolVisitUsecaseParams({
     required this.schoolVisitID,
-    required this.schoolVisitCancelRequest
+    required this.schoolVisitCancelRequest, required String enquiryID
   });
 
   @override

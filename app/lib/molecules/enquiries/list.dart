@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -41,8 +42,20 @@ class ListV extends StatelessWidget {
                     ]),
                 child: GestureDetector(
                   onTap: () {
+                    EnquiryDetailArgs enquiryDetail = EnquiryDetailArgs(
+                      enquiryId: enquiries?[index].enquiryId,
+                      enquiryNumber: enquiries?[index].enquiryNumber,
+                      enquiryStage: enquiries?[index].enquiryStage,
+                      enquiryType: enquiries?[index].enquiryType,
+                      studentName: enquiries?[index].studentName,
+                      academicYear: enquiries?[index].academicYear,
+                      school: enquiries?[index].school,
+                      board: enquiries?[index].board,
+                      grade: enquiries?[index].grade,
+                      nextAction: enquiries?[index].nextAction, 
+                    );
                     Navigator.pushNamed(
-                        context, RoutePaths.enquiriesAdmissionsJourneyPage);
+                        context, RoutePaths.enquiriesAdmissionsJourneyPage,arguments: enquiryDetail);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),

@@ -32,7 +32,7 @@ class ListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -48,9 +48,10 @@ class ListItem extends StatelessWidget {
                 child: SvgPicture.asset(image),
               ),
             ),
+            SizedBox(width: 8.w,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text.rich(
                   TextSpan(
@@ -89,6 +90,7 @@ class ListItem extends StatelessWidget {
                     )),
               ],
             ),
+            const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

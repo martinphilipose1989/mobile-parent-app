@@ -1,7 +1,7 @@
 class CompetencyTestDetails {
     String? id;
     String? enquiryId;
-    DateTime? competencyTestDate;
+    String? competencyTestDate;
     String? competencyTestTime;
     String? mode;
     String? status;

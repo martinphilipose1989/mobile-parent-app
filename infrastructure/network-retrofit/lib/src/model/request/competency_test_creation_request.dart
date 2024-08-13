@@ -5,28 +5,28 @@ CompetencyTestCreationRequest competencyTestCreationRequestFromJson(String str) 
 String competencyTestCreationRequestToJson(CompetencyTestCreationRequest data) => json.encode(data.toJson());
 
 class CompetencyTestCreationRequest {
-    DateTime? competencyTestDate;
-    String? competencyTestTime;
+    String? competencyTestDate;
+    String? slotId;
     String? mode;
     int? createdBy;
 
     CompetencyTestCreationRequest({
         this.competencyTestDate,
-        this.competencyTestTime,
+        this.slotId,
         this.mode,
         this.createdBy,
     });
 
     factory CompetencyTestCreationRequest.fromJson(Map<String, dynamic> json) => CompetencyTestCreationRequest(
-        competencyTestDate: json["competency_test_date"] == null ? null : DateTime.parse(json["competency_test_date"]),
-        competencyTestTime: json["competency_test_time"],
+        competencyTestDate: json["competency_test_date"],
+        slotId: json["slot_id"],
         mode: json["mode"],
         createdBy: json["created_by"],
     );
 
     Map<String, dynamic> toJson() => {
-        "competency_test_date": "${competencyTestDate!.year.toString().padLeft(4, '0')}-${competencyTestDate!.month.toString().padLeft(2, '0')}-${competencyTestDate!.day.toString().padLeft(2, '0')}",
-        "competency_test_time": competencyTestTime,
+        "competency_test_date": competencyTestDate,
+        "slot_id": slotId,
         "mode": mode,
         "created_by": createdBy,
     };

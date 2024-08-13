@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -6,6 +7,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdmissionsList extends StatelessWidget {
   final List<AdmissionListDetailModel>? admissionList;
@@ -22,6 +24,7 @@ class AdmissionsList extends StatelessWidget {
         child: ListView.builder(
           itemCount: admissionList?.length,
           shrinkWrap: false,
+          padding: EdgeInsets.symmetric(vertical: 15.h),
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
@@ -38,7 +41,19 @@ class AdmissionsList extends StatelessWidget {
                     ]),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutePaths.admissionsDetails);
+                    EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
+                      enquiryId: admissionList?[index].enquiryId,
+                      enquiryNumber: admissionList?[index].enquiryNumber,
+                      enquiryStage: admissionList?[index].enquiryStage,
+                      enquiryType: admissionList?[index].enquiryType,
+                      school: admissionList?[index].school,
+                      studentName: admissionList?[index].studentName,
+                      academicYear: admissionList?[index].academicYear,
+                      board: admissionList?[index].board,
+                      grade: admissionList?[index].grade,
+                      nextAction: admissionList?[index].nextAction,
+                    );
+                    Navigator.pushNamed(context, RoutePaths.admissionsDetails,arguments: admissionDetail);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),

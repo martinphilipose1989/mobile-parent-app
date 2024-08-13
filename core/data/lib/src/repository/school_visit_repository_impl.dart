@@ -9,6 +9,11 @@ class SchoolVisitRepositoryImpl extends SchoolVisitRepository{
   SchoolVisitRepositoryImpl(this._networkPort);
 
   @override
+  Future<Either<NetworkError, Slots>> getSchoolVisitSlots({required String enquiryID, required String date}) {
+    return _networkPort.getSchoolVisitSlots(enquiryID: enquiryID, date: date);
+  }
+
+  @override
   Future<Either<NetworkError, SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID}) {
     return _networkPort.getSchoolVisitDetail(enquiryID: enquiryID);
   }

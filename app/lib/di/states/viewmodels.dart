@@ -1,6 +1,8 @@
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
+import 'package:app/feature/cancel_competency_test/cancel_competency_test_page_model.dart';
+import 'package:app/feature/competency_test_detail/details_view_competency_test_page_model.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -13,6 +15,7 @@ import 'package:app/feature/payments/payments_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
+import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
@@ -70,7 +73,7 @@ final admissionsProvider =
 final admissionsDetailsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsDetailsViewModel>(
   (ref) =>
-      AdmissionsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      AdmissionsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
 );
 
 final registrationsDetailsProvider =
@@ -93,7 +96,7 @@ final enquiriesDetailsPageModelProvider =
 final enquiriesTimelinePageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesTimelinePageModel>(
   (ref) =>
-      EnquiriesTimelinePageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      EnquiriesTimelinePageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetEnquiryTimeLineUseCase>()),
 );
 
 final editEnquiriesDetailsPageModelProvider =
@@ -105,7 +108,25 @@ final editEnquiriesDetailsPageModelProvider =
 final scheduleSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<ScheduleSchoolTourPageModel>(
   (ref) =>
-      ScheduleSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      ScheduleSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateSchoolVisitUseCase>(),getIt.get<GetSchoolVisitSlotsUsecase>()),
+);
+
+final scheduleCompetencyTestPageModelProvider =
+    ChangeNotifierProvider.autoDispose<CompetencyTestModel>(
+  (ref) =>
+      CompetencyTestModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateCompetencyTestUsecase>(),getIt.get<GetCompetencyTestSlotsUsecase>()),
+);
+
+final detailsViewCompetencyTestPageModelProvider = 
+  ChangeNotifierProvider.autoDispose<DetailsViewCompetencyTestPageModel>(
+    (ref) =>
+        DetailsViewCompetencyTestPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetCompetencyTestDetailUseCase>()),
+  );
+
+final cancelCompetencyTestPageModelProvider =
+    ChangeNotifierProvider.autoDispose<CancelCompetencyPageModel>(
+  (ref) =>
+      CancelCompetencyPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelCompetencyTestUsecase>()),
 );
 
 final commonCalendarModelProvider =
@@ -121,13 +142,13 @@ final commonTimeModelProvider =
 final detailsViewSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<DetailsViewSchoolTourPageModel>(
   (ref) => DetailsViewSchoolTourPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>()),
+      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetSchoolVisitDetailUseCase>()),
 );
 
 final cancelSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<CancelSchoolTourPageModel>(
   (ref) =>
-      CancelSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      CancelSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelSchoolVisitUsecase>()),
 );
 
 // Common widgets providers
@@ -145,5 +166,5 @@ final commonChipListProvider =
 final enquiriesAdmissionsJourneyProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesAdmissionsJourneyViewModel>(
   (ref) => EnquiriesAdmissionsJourneyViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>()),
+      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
 );

@@ -2,7 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class GetEnquiryDetailUseCase extends BaseUseCase<BaseError,
-    GetEnquiryDetailUseCaseParams, CompetencyTestBase> {
+    GetEnquiryDetailUseCaseParams, EnquiryDetailBase> {
   final EnquiryRepository _enquiryRepository;
 
   GetEnquiryDetailUseCase(
@@ -10,7 +10,7 @@ class GetEnquiryDetailUseCase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, CompetencyTestBase>> execute({
+  Future<Either<BaseError, EnquiryDetailBase>> execute({
     required GetEnquiryDetailUseCaseParams params,
   }) {
     return _enquiryRepository.getEnquiryDetail(

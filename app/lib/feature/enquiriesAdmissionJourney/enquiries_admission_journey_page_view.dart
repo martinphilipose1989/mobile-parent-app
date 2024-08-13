@@ -1,4 +1,6 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
+import 'package:app/model/resource.dart';
 
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -9,6 +11,7 @@ import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +21,8 @@ import '../../molecules/registration_details/registrations_widgets_read_only/men
 
 class EnquiriesAdmissionsJourneyPageView
     extends BasePageViewWidget<EnquiriesAdmissionsJourneyViewModel> {
-  EnquiriesAdmissionsJourneyPageView(super.providerBase);
+  EnquiryDetailArgs enquiryDetail;
+  EnquiriesAdmissionsJourneyPageView(super.providerBase,{required this.enquiryDetail});
 
   actionOnMenu(int index, BuildContext context,
       EnquiriesAdmissionsJourneyViewModel model) {
@@ -31,11 +35,13 @@ class EnquiriesAdmissionsJourneyPageView
       case 2:
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetail
+        ) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,});
       case 4:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.enquiriesTimelinePage);
+            .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetail);
       default:
         return null;
     }
@@ -51,14 +57,14 @@ class EnquiriesAdmissionsJourneyPageView
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ListItem(
+              ListItem(
                 image: AppImages.personIcon,
-                name: "Khevna Shah ",
-                year: "(AY 2024-2025)",
-                id: "ENADMS#4402",
-                title: "Vibgyor Kids & High - Malad West",
-                subtitle: "Grade V | CBSE",
-                buttontext: "School Visit",
+                name: "${enquiryDetail.studentName} ",
+                year: enquiryDetail.academicYear??'',
+                id: enquiryDetail.enquiryId??'',
+                title: enquiryDetail.school??'',
+                subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
+                buttontext: enquiryDetail.enquiryStage??'',
                 compeletion: '',
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),
@@ -90,26 +96,42 @@ class EnquiriesAdmissionsJourneyPageView
                 ],
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),
-              CommonStepperPage(
-                  stepperList: List.generate(
-                    model.stepperData.length,
-                    (index) {
-                      return Step(
-                          subtitle: model.stepperData[index]['subtitle'] == ''
-                              ? null
-                              : CommonText(
-                                  text: model.stepperData[index]['subtitle']),
-                          title: CommonText(
-                            text: model.stepperData[index]['name'],
-                          ),
-                          state: model.activeStep.value > index
-                              ? StepState.complete
-                              : StepState.indexed,
-                          isActive: model.activeStep.value >= index,
-                          content: const SizedBox.shrink());
-                    },
-                  ),
-                  activeStep: model.activeStep.value)
+              AppStreamBuilder<Resource<List<AdmissionJourneyDetail>>>(
+                stream: model.admissionJourney,
+                initialData: Resource.none(),
+                dataBuilder: (context, result) {
+                  switch(result?.status){
+                    case Status.loading:
+                      return const Center(child: CircularProgressIndicator(),);
+                    case Status.success:
+                      return CommonStepperPage(
+                              stepperList: List.generate(
+                                (result?.data??[]).isEmpty? 1: (result?.data??[]).length,
+                                (index) {
+                                  return Step(
+                                      // subtitle: result?.data?[index].stage == ''
+                                      //     ? null
+                                      //     : CommonText(
+                                      //         text: model.stepperData[index]['subtitle']),
+                                      title: CommonText(
+                                        text: result?.data?[index].stage??'',
+                                      ),
+                                      state: result?.data?[index].status == "Completed"
+                                          ? StepState.complete
+                                          : StepState.indexed,
+                                      isActive: result?.data?[index].status == "Open",
+                                      content: const SizedBox.shrink());
+                                },
+                              ) ,
+                              activeStep: result?.data?.indexWhere((element) => element.status == "Open",)??0);
+                    case Status.error:
+                      return const Center(child: Text('Enquiries not found'),);
+                    default:
+                      return const Center(child: CircularProgressIndicator(),);
+                  }
+                }
+              ),
+              
             ],
           ),
         ),

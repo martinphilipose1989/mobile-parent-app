@@ -22,6 +22,9 @@ class RoutePaths {
   static const String scheduleSchoolTourPage = '/scheduleSchoolTourPage';
   static const String detailsViewSchoolTourPage = '/detailsViewSchoolTourPage';
   static const String cancelSchoolTourPage = '/cancelSchoolTourPage';
+  static const String scheduleCompetencyTest = '/scheduleCompetencyTest';
+  static const String competencyTestDetailPage = '/competencyTestDetailPage';
+  static const String cancelCompetencyTestPage = '/cancelCompetencyTestPage';
   static const String enquiriesAdmissionsJourneyPage =
       '/enquiriesAdmissionsJourneyPage';
 

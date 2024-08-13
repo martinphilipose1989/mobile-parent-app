@@ -1,4 +1,6 @@
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -9,6 +11,7 @@ import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +19,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsDetailsPageView
     extends BasePageViewWidget<AdmissionsDetailsViewModel> {
-  AdmissionsDetailsPageView(super.providerBase);
+  final EnquiryDetailArgs admissionDetail;
+  AdmissionsDetailsPageView(super.providerBase,{required this.admissionDetail});
 
   actionOnMenu(int index, BuildContext context) {
     switch (index) {
@@ -35,7 +39,7 @@ class AdmissionsDetailsPageView
             .pushNamed(RoutePaths.scheduleSchoolTourPage);
       case 5:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.enquiriesTimelinePage);
+            .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
       default:
         return null;
     }
@@ -53,14 +57,14 @@ class AdmissionsDetailsPageView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ListItem(
+                ListItem(
                   image: AppImages.personIcon,
-                  name: "Khevna Shah ",
-                  year: "(AY 2024-2025)",
-                  id: "ENADMS#4402",
-                  title: "Vibgyor Kids & High - Malad West",
-                  subtitle: "Grade V | CBSE",
-                  buttontext: "School Visit",
+                  name: "${admissionDetail.studentName} ",
+                  year: admissionDetail.academicYear??'',
+                  id: admissionDetail.enquiryId??'',
+                  title: admissionDetail.school??'',
+                  subtitle: "${admissionDetail.grade} | ${admissionDetail.board}",
+                  buttontext: admissionDetail.enquiryStage??'',
                   compeletion: '25% Completed',
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
@@ -92,26 +96,41 @@ class AdmissionsDetailsPageView
                   ],
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
-                CommonStepperPage(
-                    stepperList: List.generate(
-                      model.stepperData.length,
-                      (index) {
-                        return Step(
-                            subtitle: model.stepperData[index]['subtitle'] == ''
-                                ? null
-                                : CommonText(
-                                    text: model.stepperData[index]['subtitle']),
-                            title: CommonText(
-                              text: model.stepperData[index]['name'],
-                            ),
-                            state: model.activeStep.value > index
-                                ? StepState.complete
-                                : StepState.indexed,
-                            isActive: model.activeStep.value >= index,
-                            content: const SizedBox.shrink());
-                      },
-                    ),
-                    activeStep: model.activeStep.value)
+                AppStreamBuilder<Resource<List<AdmissionJourneyDetail>>>(
+                stream: model.admissionJourney,
+                initialData: Resource.none(),
+                dataBuilder: (context, result) {
+                  switch(result?.status){
+                    case Status.loading:
+                      return const Center(child: CircularProgressIndicator(),);
+                    case Status.success:
+                      return CommonStepperPage(
+                              stepperList: List.generate(
+                                (result?.data??[]).isEmpty? 1: (result?.data??[]).length,
+                                (index) {
+                                  return Step(
+                                      // subtitle: result?.data?[index].stage == ''
+                                      //     ? null
+                                      //     : CommonText(
+                                      //         text: model.stepperData[index]['subtitle']),
+                                      title: CommonText(
+                                        text: result?.data?[index].stage??'',
+                                      ),
+                                      state: result?.data?[index].status == "Completed"
+                                          ? StepState.complete
+                                          : StepState.indexed,
+                                      isActive: result?.data?[index].status == "Completed",
+                                      content: const SizedBox.shrink());
+                                },
+                              ) ,
+                              activeStep: result?.data?.indexWhere((element) => element.status == "Open",)??0);
+                    case Status.error:
+                      return const Center(child: Text('Enquiries not found'),);
+                    default:
+                      return const Center(child: CircularProgressIndicator(),);
+                  }
+                }
+              ),
               ],
             ),
           ),

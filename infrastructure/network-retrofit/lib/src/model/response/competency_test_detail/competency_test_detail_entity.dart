@@ -10,7 +10,7 @@ class CompetencyTestDetailEntity extends BaseLayerDataTransformer<CompetencyTest
     @JsonKey(name: 'enquiryId')
     String? enquiryId;
     @JsonKey(name: 'competencyTestDate')
-    DateTime? competencyTestDate;
+    String? competencyTestDate;
     @JsonKey(name: 'competencyTestTime')
     String? competencyTestTime;
     @JsonKey(name: 'mode')

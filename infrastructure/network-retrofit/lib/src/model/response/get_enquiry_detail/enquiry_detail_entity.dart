@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_document_entity.dart';
+import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_detail_entity.dart';
 
 part 'enquiry_detail_entity.g.dart';
 
@@ -44,6 +47,8 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     String? parentMobile;
     @JsonKey(name: 'enquiryDocuments')
     List<EnquiryDocumentEntity>? enquiryDocuments;
+    @JsonKey(name: 'enquiry_stages')
+    List<EnquiryStageDetailEntity>? enquiryStages;
     @JsonKey(name: 'eligibleGrade')
     String? eligibleGrade;
     @JsonKey(name: 'studentAadhaarNumber')
@@ -81,6 +86,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
         this.parentEmail,
         this.parentMobile,
         this.enquiryDocuments,
+        this.enquiryStages,
         this.eligibleGrade,
         this.studentAadhaarNumber,
         this.placeOfBirth,
@@ -117,6 +123,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     enquiryDetail.parentEmail = parentEmail;
     enquiryDetail.parentMobile = parentMobile;
     enquiryDetail.enquiryDocuments = enquiryDocuments?.map((element)=> element.transform()).toList();
+    enquiryDetail.enquiryStage = enquiryStages?.map((element)=> element.transform()).toList();
     enquiryDetail.eligibleGrade = eligibleGrade;
     enquiryDetail.studentAadhaarNumber = studentAadhaarNumber;
     enquiryDetail.placeOfBirth = placeOfBirth;

@@ -1,4 +1,4 @@
-import 'package:shared/src/model/response/enquiry_detail/enquiry_document_model.dart';
+import 'package:shared/shared.dart';
 
 class EnquiryDetail{
     String? enquiryNumber;
@@ -20,6 +20,7 @@ class EnquiryDetail{
     String? parentEmail;
     String? parentMobile;
     List<EnquiryDocument>? enquiryDocuments;
+    List<EnquiryStage>? enquiryStage;
     String? eligibleGrade;
     String? studentAadhaarNumber;
     String? placeOfBirth;

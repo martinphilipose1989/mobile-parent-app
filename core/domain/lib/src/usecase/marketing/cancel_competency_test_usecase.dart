@@ -25,7 +25,7 @@ class CancelCompetencyTestUsecaseParams extends Params {
   final CancelCompetencyTestRequest cancelCompetencyTestRequest;
   CancelCompetencyTestUsecaseParams({
     required this.competencyTest,
-    required this.cancelCompetencyTestRequest
+    required this.cancelCompetencyTestRequest, required String enquiryID
   });
 
   @override

@@ -1,21 +1,11 @@
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
-import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/marketing/cancel_competency_test_usecase.dart';
-import 'package:domain/src/usecase/marketing/cancel_school_visit_usecase.dart';
-import 'package:domain/src/usecase/marketing/create_competency_test_usecase.dart';
-import 'package:domain/src/usecase/marketing/create_school_visit_usecase.dart';
 import 'package:domain/src/usecase/marketing/delete_enquiry_document_usecase.dart';
 import 'package:domain/src/usecase/marketing/download_enquiry_document.dart';
 import 'package:domain/src/usecase/marketing/ger_registration_detail_usecase.dart';
-import 'package:domain/src/usecase/marketing/get_competency_test_detail_usecase.dart';
 import 'package:domain/src/usecase/marketing/get_enquiry_detail_usecase.dart';
 import 'package:domain/src/usecase/marketing/get_enquiry_timeline_usecase.dart';
-import 'package:domain/src/usecase/marketing/get_school_visit_detail_usecase.dart';
-import 'package:domain/src/usecase/marketing/reschedule_competency_test_usecase.dart';
-import 'package:domain/src/usecase/marketing/reschedule_school_visit_usecase.dart';
 import 'package:domain/src/usecase/marketing/upload_enquiry_document_usecase.dart';
-import 'package:injectable/injectable.dart';
 
 @module
 abstract class DomainModule {
@@ -153,5 +143,15 @@ abstract class DomainModule {
   @lazySingleton
   GetRegistrationDetailUsecase getRegistrationDetailUsecase (RegistrationRepository registrationRepository) {
     return GetRegistrationDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  GetSchoolVisitSlotsUsecase getSchoolVisitSlotsUsecase (SchoolVisitRepository schoolVisitRepository) {
+    return GetSchoolVisitSlotsUsecase(schoolVisitRepository);
+  }
+
+  @lazySingleton
+  GetCompetencyTestSlotsUsecase get (CompetencyTestRepository competencyTestRepository) {
+    return GetCompetencyTestSlotsUsecase(competencyTestRepository);
   }
 }

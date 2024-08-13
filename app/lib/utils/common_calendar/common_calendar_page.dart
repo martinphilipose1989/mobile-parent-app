@@ -9,7 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CommonCalendarPage extends StatelessWidget {
-  const CommonCalendarPage({super.key});
+  final Function(String) onDateSelected;
+  const CommonCalendarPage({super.key, required this.onDateSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class CommonCalendarPage extends StatelessWidget {
                     dataBuilder: (context, data) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: model!.nextSevenDays.map((date) {
+                        children: model.nextSevenDays.map((date) {
                           bool isSelected = date.day ==
                                   model.selectedDate.value.day &&
                               date.month == model.selectedDate.value.month &&
@@ -40,6 +41,7 @@ class CommonCalendarPage extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 model.selectedDate.add(date);
+                                onDateSelected(model.dateFormatter.format(date));
                               },
                               child: Container(
                                 height: 68.h,
