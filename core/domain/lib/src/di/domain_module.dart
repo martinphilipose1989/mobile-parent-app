@@ -7,7 +7,6 @@ import 'package:domain/src/usecase/marketing/create_competency_test_usecase.dart
 import 'package:domain/src/usecase/marketing/create_school_visit_usecase.dart';
 import 'package:domain/src/usecase/marketing/delete_enquiry_document_usecase.dart';
 import 'package:domain/src/usecase/marketing/download_enquiry_document.dart';
-import 'package:domain/src/usecase/marketing/ger_registration_detail_usecase.dart';
 import 'package:domain/src/usecase/marketing/get_competency_test_detail_usecase.dart';
 import 'package:domain/src/usecase/marketing/get_enquiry_detail_usecase.dart';
 import 'package:domain/src/usecase/marketing/get_enquiry_timeline_usecase.dart';

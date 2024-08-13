@@ -4,6 +4,7 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class EditEnquiriesDetailsWidget extends StatelessWidget {
   EnquiriesDetailsPageModel model;
   EditEnquiriesDetailsWidget({super.key, required this.model});

@@ -234,3 +234,4 @@ abstract class RetrofitService {
     @Query("infoType") required String infoType,}
   );
 }
+

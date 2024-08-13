@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
@@ -13,16 +12,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
+import 'package:flutter/material.dart' as flutter;
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
+
   const RegistrationsDetailsPage({super.key, required this.routeFrom});
 
-  @override
-  State<RegistrationsDetailsPage> createState() => _AdmissionsPageState();
-}
 
-class _AdmissionsPageState extends AppBasePageState<
+  @override
+  flutter.State<RegistrationsDetailsPage> createState() =>
+      _RegistrationsDetailsPageState();
+}
+class _RegistrationsDetailsPageState extends AppBasePageState<
     RegistrationsDetailsViewModel, RegistrationsDetailsPage> {
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
@@ -65,87 +66,121 @@ class _AdmissionsPageState extends AppBasePageState<
       dataBuilder: (context, data) {
         return data!
             ? SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    CommonElevatedButton(
-                      onPressed: () {
-                        if (model.showWidget.value == 0) {
-                          model.editRegistrationDetails.add(false);
-                        } else {
-                          ProviderScope.containerOf(context)
-                              .read(commonChipListProvider)
-                              .highlightIndex
-                              .add(ProviderScope.containerOf(context)
-                                      .read(commonChipListProvider)
-                                      .highlightIndex
-                                      .value -
-                                  1);
-                          model.showWidget.add(model.showWidget.value - 1);
-                        }
-                      },
-                      text: model.showWidget.value == 0 ? 'Cancel' : 'Go Back',
-                      borderColor: Theme.of(context).primaryColor,
-                      borderWidth: 1,
-                      width: 171.w,
-                      height: 40.h,
-                      textColor: Theme.of(context).primaryColor,
-                    ),
-                    CommonElevatedButton(
-                      onPressed: () {
-                        if (model.showWidget.value <= 6) {
-                          ProviderScope.containerOf(context)
-                              .read(commonChipListProvider)
-                              .highlightIndex
-                              .add(ProviderScope.containerOf(context)
-                                      .read(commonChipListProvider)
-                                      .highlightIndex
-                                      .value +
-                                  1);
-                          model.showWidget.add(model.showWidget.value + 1);
-                        }
-                      },
-                      text: 'Next',
-                      backgroundColor: AppColors.accent,
-                      width: 171.w,
-                      height: 40.h,
-                      textColor: AppColors.accentOn,
-                    ),
-                  ],
-                ))
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  width: 20,
+                ),
+                CommonElevatedButton(
+                  onPressed: () {
+                    if (model.showWidget.value == 0) {
+                      model.editRegistrationDetails.add(false);
+                    } else {
+                      ProviderScope
+                          .containerOf(context)
+                          .read(commonChipListProvider)
+                          .highlightIndex
+                          .add(ProviderScope
+                          .containerOf(context)
+                          .read(commonChipListProvider)
+                          .highlightIndex
+                          .value -
+                          1);
+                      model.showWidget.add(model.showWidget.value - 1);
+                    }
+                  },
+                  text: model.showWidget.value == 0 ? 'Cancel' : 'Go Back',
+                  borderColor: Theme
+                      .of(context)
+                      .primaryColor,
+                  borderWidth: 1,
+                  width: 171.w,
+                  height: 40.h,
+                  textColor: Theme
+                      .of(context)
+                      .primaryColor,
+                ),
+                CommonElevatedButton(
+                  onPressed: () {
+                    if (model.showWidget.value <= 6) {
+                      ProviderScope
+                          .containerOf(context)
+                          .read(commonChipListProvider)
+                          .highlightIndex
+                          .add(ProviderScope
+                          .containerOf(context)
+                          .read(commonChipListProvider)
+                          .highlightIndex
+                          .value +
+                          1);
+                      model.showWidget.add(model.showWidget.value + 1);
+                    }
+                    /*
+                    if (model.showWidget.value == 1) {
+                      model.updateParentDetail(
+                          '', model.parentDetail as ParentInfoEntity);
+                    } else if (model.showWidget.value == 2) {
+                      model.updateContactDetail(
+                          '', model.contactDetail as ContactDetailsEntity);
+                    } else if (model.showWidget.value == 3) {
+                      model.updateMedicalDetail(
+                          '', model.medicalDetail as MedicalDetailsEntity);
+                    } else if (model.showWidget.value == 4) {
+                      model.updateBankDetail(
+                          '', model.medicalDetail as BankDetailsEntity);
+                    }
+
+                     */
+                  },
+                  text: 'Next',
+                  backgroundColor: AppColors.accent,
+                  width: 171.w,
+                  height: 40.h,
+                  textColor: AppColors.accentOn,
+                ),
+              ],
+            ))
             : AppStreamBuilder<bool>(
-                stream: model.showMenuOnFloatingButton,
-                initialData: model.showMenuOnFloatingButton.value,
-                dataBuilder: (context, data) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: SizedBox(
-                        height: 56.h,
-                        width: 130.w,
-                        child: CommonElevatedButton(
-                          onPressed: () {
-                            if (model.showMenuOnFloatingButton.value) {
-                              model.showMenuOnFloatingButton.add(false);
-                            } else {
-                              model.showMenuOnFloatingButton.add(true);
-                            }
-                          },
-                          text: data! ? 'Close' : 'Action',
-                          icon: data ? Icons.close : Icons.add,
-                          borderRadius: BorderRadius.circular(10),
-                          textColor: Theme.of(context).colorScheme.onTertiary,
-                          backgroundColor: AppColors.accent,
-                          textStyle: AppTypography.subtitle2.copyWith(
-                              color: Theme.of(context).colorScheme.onTertiary),
-                        )),
-                  );
-                },
-              );
+          stream: model.showMenuOnFloatingButton,
+          initialData: model.showMenuOnFloatingButton.value,
+          dataBuilder: (context, data) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: SizedBox(
+                  height: 56.h,
+                  width: 130.w,
+                  child: CommonElevatedButton(
+                    onPressed: () {
+                      if (model.showMenuOnFloatingButton.value) {
+                        model.showMenuOnFloatingButton.add(false);
+                      } else {
+                        model.showMenuOnFloatingButton.add(true);
+                      }
+                    },
+                    text: data! ? 'Close' : 'Action',
+                    icon: data ? Icons.close : Icons.add,
+                    borderRadius: BorderRadius.circular(10),
+                    textColor: Theme
+                        .of(context)
+                        .colorScheme
+                        .onTertiary,
+                    backgroundColor: AppColors.accent,
+                    textStyle: AppTypography.subtitle2.copyWith(
+                        color: Theme
+                            .of(context)
+                            .colorScheme
+                            .onTertiary),
+                  )),
+            );
+          },
+        );
       },
     );
   }
 }
+

@@ -1,14 +1,9 @@
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
-import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/school_tour_scheduled_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_calendar/common_calendar_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';

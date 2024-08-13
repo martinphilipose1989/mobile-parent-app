@@ -30,7 +30,7 @@ class CommonCalendarPage extends StatelessWidget {
                     dataBuilder: (context, data) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: model!.nextSevenDays.map((date) {
+                        children: model.nextSevenDays.map((date) {
                           bool isSelected = date.day ==
                                   model.selectedDate.value.day &&
                               date.month == model.selectedDate.value.month &&

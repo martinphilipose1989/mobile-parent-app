@@ -3,7 +3,6 @@ import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:intl/intl.dart';
 @injectable
 class CommonTimeModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
