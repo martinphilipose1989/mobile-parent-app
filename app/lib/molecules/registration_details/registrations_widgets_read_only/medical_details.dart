@@ -5,8 +5,9 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 
-class MedicalDetails extends StatelessWidget {
-  const MedicalDetails({super.key});
+class MedicalDetail extends StatelessWidget {
+
+  MedicalDetail({super.key, });
 
   @override
   Widget build(BuildContext context) {

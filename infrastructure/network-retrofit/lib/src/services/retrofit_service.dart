@@ -244,3 +244,4 @@ abstract class RetrofitService {
     @Query("date") required String date,}
   );
 }
+

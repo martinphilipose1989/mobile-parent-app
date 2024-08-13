@@ -19,9 +19,12 @@ import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import '../../model/resource.dart';
 
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {
@@ -90,6 +93,7 @@ class RegistrationsDetailsPageView
                     } else {
                       model.showWidget.add(index);
                     }
+                    model.fetchAllDetails(model.registrationDetails[index]['infoType']);
                   },
                 ),
               ),
@@ -110,7 +114,7 @@ class RegistrationsDetailsPageView
                                   ? registrationsEditingWidgetAsPerIndex(
                                       model.showWidget.value, model)
                                   : registrationsWidgetAsPerIndex(
-                                      model.showWidget.value)),
+                                      model.showWidget.value,model)),
                         );
                       },
                     );
@@ -152,7 +156,7 @@ class RegistrationsDetailsPageView
   }
 
   Widget registrationsEditingWidgetAsPerIndex(
-      int index, RegistrationsDetailsViewModel model) {
+      int index,  model) {
     switch (index) {
       case 0:
         return const EnquiryAndStudentEditing();
@@ -177,18 +181,34 @@ class RegistrationsDetailsPageView
     }
   }
 
-  Widget registrationsWidgetAsPerIndex(int index) {
+  Widget registrationsWidgetAsPerIndex(int index, RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
         return const EnquiryAndStudentDetails();
       case 1:
-        return const ParentInfo();
+        return ParentDetail();
       case 2:
-        return const ContactInfo();
+        return ContactDetail();
       case 3:
-        return const MedicalDetails();
+        return MedicalDetail();
       case 4:
-        return const BankDetails();
+        return AppStreamBuilder<Resource<BankDetails>>(
+    stream: model.bankDetail,
+    initialData: Resource.none(),
+    dataBuilder: (context, result) {
+
+    switch (result?.status){
+    case Status.loading:
+    return const Center(child: CircularProgressIndicator(),);
+    case Status.success:
+    return BankDetail(bankDetails: result?.data);
+      case Status.error:
+        return const Center(child: Text('Enquiries not found'),);
+      default:
+        return const Center(child: CircularProgressIndicator(),);
+    }
+
+    });
       case 5:
         return const UploadDocs();
       default:

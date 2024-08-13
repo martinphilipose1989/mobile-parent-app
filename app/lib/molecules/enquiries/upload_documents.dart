@@ -1,9 +1,6 @@
-import 'package:app/feature/enquiries/enquiries_page_model.dart';
-import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
-import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

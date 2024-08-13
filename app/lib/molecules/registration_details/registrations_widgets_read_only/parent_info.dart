@@ -5,8 +5,9 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ParentInfo extends StatelessWidget {
-  const ParentInfo({super.key});
+class ParentDetail extends StatelessWidget {
+
+  ParentDetail({super.key,});
   @override
   Widget build(BuildContext context) {
     return Column(children: [

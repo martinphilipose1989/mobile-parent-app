@@ -2,11 +2,13 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BankDetails extends StatelessWidget {
-  const BankDetails({super.key});
+class BankDetail extends StatelessWidget {
+final BankDetails? bankDetails;
+  BankDetail({super.key,required this.bankDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class BankDetails extends StatelessWidget {
               border: Border.all(
                 width: 1,
               )),
-          child: const ExpansionTile(
+          child: ExpansionTile(
               title: CommonText(
                 text: "Bank Details",
                 style: AppTypography.subtitle2,
@@ -35,7 +37,7 @@ class BankDetails extends StatelessWidget {
                         height: 1,
                         thickness: 1,
                       ),
-                      DetailsItem(title: "IFSC COde", subtitle: '000UTIN123'),
+                      DetailsItem(title: "IFSC COde", subtitle:bankDetails?.ifscCode??""),
                       DetailsItem(
                           title: "Bank Name", subtitle: 'United Bank of india'),
                       DetailsItem(title: "Branch Name", subtitle: 'Parel'),

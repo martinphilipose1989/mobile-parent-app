@@ -5,8 +5,9 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ContactInfo extends StatelessWidget {
-  const ContactInfo({super.key});
+
+class ContactDetail extends StatelessWidget {
+  ContactDetail({super.key , });
   @override
   Widget build(BuildContext context) {
     return Column(children: [

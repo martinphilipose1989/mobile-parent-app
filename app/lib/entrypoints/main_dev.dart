@@ -8,7 +8,7 @@ import 'package:network_retrofit/util/network_properties.dart';
 void main() {
   FlavorConfig.initialize(
     flavor: Flavor.dev,
-    values: const FlavorValues(
+    values: FlavorValues(
       apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsDev,
       logSqlStatements: true,

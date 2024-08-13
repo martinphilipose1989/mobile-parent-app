@@ -70,6 +70,7 @@ dependencies:
   collection: ^1.18.0
   flutter_inappwebview: ^5.8.0
 
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
