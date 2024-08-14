@@ -6,9 +6,9 @@ part 'parent_details_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ParentDetailsEntity extends BaseLayerDataTransformer<ParentDetailsEntity,ParentDetails>{
-    @JsonKey(name: 'fatherDetails')
+    @JsonKey(name: 'father_details')
     ParentContactDetailEntity? fatherDetails;
-    @JsonKey(name: 'motherDetails')
+    @JsonKey(name: 'mother_details')
     ParentContactDetailEntity? motherDetails;
 
     ParentDetailsEntity({

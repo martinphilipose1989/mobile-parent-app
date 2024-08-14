@@ -186,6 +186,14 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
+  Future<Either<NetworkError, NewAdmissionBase>> updateNewAdmissionDetail({required String enquiryID, required NewAdmissionDetailEntity newAdmissionDetail}) async{
+    var response = await safeApiCall(apiService.updateNewAdmissionDetail(enquiryID: enquiryID, newAdmissionDetail: newAdmissionDetail));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
   Future<Either<NetworkError, PsaResponse>> getPsaDetail({required String enquiryID}) async {
     var response = await safeApiCall(apiService.getPsaDetail(enquiryID: enquiryID));
     return response.fold((l) {
@@ -194,8 +202,24 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
+  Future<Either<NetworkError, PsaResponse>> updatePsaDetail({required String enquiryID, required PsaDetailResponseEntity psaDetail}) async{
+    var response = await safeApiCall(apiService.updatePsaDetail(enquiryID: enquiryID,psaDetail: psaDetail));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
   Future<Either<NetworkError, IVTBase>> getIvtDetail({required String enquiryID}) async {
-    var response = await safeApiCall(apiService.getItvDetail(enquiryID: enquiryID));
+    var response = await safeApiCall(apiService.getIvtDetail(enquiryID: enquiryID));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, IVTBase>> updateIvtDetail({required String enquiryID, required IvtDetailResponseEntity ivtDetails}) async{
+    var response = await safeApiCall(apiService.updateIvtDetail(enquiryID: enquiryID,ivtDetail: ivtDetails));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

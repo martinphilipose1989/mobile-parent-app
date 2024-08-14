@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
+import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_detail_entity.dart';
+import 'package:network_retrofit/src/model/response/get_psa_detail/psa_detail_response_entity.dart';
 
 class EnquiryRepositoryImpl implements EnquiryRepository{
   final NetworkPort _networkPort;
@@ -43,6 +46,22 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
     return _networkPort.getIvtDetail(
      enquiryID: enquiryID,
     );
+  }
+
+  @override
+  Future<Either<NetworkError, NewAdmissionBase>> updateNewAdmissionDetail({required String enquiryID, required NewAdmissionDetailEntity newAdmissionDetail}) {
+    return _networkPort.updateNewAdmissionDetail(enquiryID: enquiryID, newAdmissionDetail: newAdmissionDetail);
+    
+  }
+
+  @override
+  Future<Either<NetworkError, IVTBase>> updateIvtDetail({required String enquiryID, required IvtDetailResponseEntity ivtDetails}) {
+    return _networkPort.updateIvtDetail(enquiryID: enquiryID, ivtDetails: ivtDetails);
+  }
+
+  @override
+  Future<Either<NetworkError, PsaResponse>> updatePsaDetail({required String enquiryID, required PsaDetailResponseEntity psaDetail}) {
+    return _networkPort.updatePsaDetail(enquiryID: enquiryID, psaDetail: psaDetail);
   }
 
   @override

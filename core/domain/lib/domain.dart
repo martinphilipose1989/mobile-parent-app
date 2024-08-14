@@ -36,7 +36,8 @@ export 'src/usecase/marketing/update_parent_details_usecase.dart';
 export 'src/usecase/marketing/update_medical_details_usecase.dart';
 export 'src/usecase/marketing/update_contact_details_usecase.dart';
 export 'src/usecase/marketing/update_bank_details_usecase.dart';
-export 'src/usecase/marketing/get_registration_detail_usecase.dart';export 'src/usecase/marketing/create_school_visit_usecase.dart';
+export 'src/usecase/marketing/get_registration_detail_usecase.dart';
+export 'src/usecase/marketing/create_school_visit_usecase.dart';
 export 'src/usecase/marketing/reschedule_school_visit_usecase.dart';
 export 'src/usecase/marketing/cancel_school_visit_usecase.dart';
 export 'src/usecase/marketing/get_school_visit_detail_usecase.dart';
@@ -47,6 +48,9 @@ export 'src/usecase/marketing/get_competency_test_detail_usecase.dart';
 export 'src/usecase/marketing/get_enquiry_timeline_usecase.dart';
 export 'src/usecase/marketing/get_school_visit_slots_usecase.dart';
 export 'src/usecase/marketing/get_competency_test_slots_usecase.dart';
+export 'src/usecase/marketing/update_ivt_detail_usecase.dart';
+export 'src/usecase/marketing/update_psa_detail_usecase.dart';
+export 'src/usecase/marketing/update_new_admission_usecase.dart';
 
 export 'package:shared/shared.dart';
 

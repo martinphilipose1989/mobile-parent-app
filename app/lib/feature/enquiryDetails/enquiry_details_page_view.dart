@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/molecules/enquiries/edit_enquiry_details.dart';
 import 'package:app/molecules/enquiries/enquiries_details_view.dart';
@@ -12,13 +13,15 @@ import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesDetailsPageView
     extends BasePageViewWidget<EnquiriesDetailsPageModel> {
-  EnquiriesDetailsPageView(super.providerBase);
+    final  EnquiryDetailArgs enquiryDetailArgs;
+  EnquiriesDetailsPageView(super.providerBase,this.enquiryDetailArgs);
 
   actionOnMenu(
       int index, BuildContext context, EnquiriesDetailsPageModel model) {
@@ -60,20 +63,20 @@ class EnquiriesDetailsPageView
                   const SizedBox(
                     height: 10,
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const ListItem(
+                      ListItem(
                         image: AppImages.personIcon,
-                        name: "Khevna Shah ",
-                        year: "(AY 2024-2025)",
-                        id: "ENADMS#4402",
-                        title: "Vibgyor Kids & High - Malad West",
-                        subtitle: "Grade V | CBSE",
-                        buttontext: "School Visit",
+                        name: "${enquiryDetailArgs.studentName} ",
+                        year: enquiryDetailArgs.academicYear??'',
+                        id: enquiryDetailArgs.enquiryId??'',
+                        title: enquiryDetailArgs.school??'',
+                        subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                        buttontext: enquiryDetailArgs.enquiryStage??'',
                         compeletion: '',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],
@@ -118,28 +121,58 @@ class EnquiriesDetailsPageView
                           selectedValue: model.selectedValue,
                         ),
                         AppStreamBuilder<bool>(
-                          stream: model.editRegistrationDetails,
-                          initialData: model.editRegistrationDetails.value,
-                          dataBuilder: (context, editRegistrationDetailsData) {
-                            return AppStreamBuilder<int>(
-                              stream: model.selectedValue,
-                              initialData: model.selectedValue.value,
-                              dataBuilder: (context, data) {
-                                return data == 1
-                                    ? const UploadDocuments()
-                                    : model.editRegistrationDetails.value
-                                        ? SingleChildScrollView(
-                                            child: SizedBox(
-                                              child: EditEnquiriesDetailsWidget(
-                                                model: model,
-                                              ),
-                                            ),
-                                          )
-                                        : const EnquiriesDetailsViewWidget();
+                              stream: model.editRegistrationDetails,
+                              initialData: model.editRegistrationDetails.value,
+                              dataBuilder: (context, editRegistrationDetailsData) {
+                                return AppStreamBuilder<int>(
+                                  stream: model.selectedValue,
+                                  initialData: model.selectedValue.value,
+                                  dataBuilder: (context, data) {
+                                    return data == 1
+                                        ? const UploadDocuments()
+                                        : model.editRegistrationDetails.value
+                                            ? SingleChildScrollView(
+                                                child: SizedBox(
+                                                  child: EditEnquiriesDetailsWidget(
+                                                    model: model,
+                                                    enquiryDetailArgs: enquiryDetailArgs,
+                                                    psaDetail: model.psaDetails?.value,
+                                                    ivtDetail: model.ivtDetails?.value,
+                                                    newAdmissionDetail: model.newAdmissionDetails?.value,
+                                                  ),
+                                                ),
+                                              )
+                                            : (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(
+                                              stream: model.newAdmissionDetails,
+                                              builder: (context, snapshot) {
+                                                if(!snapshot.hasData){
+                                                  return const CircularProgressIndicator();
+                                                }
+                                                return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,);
+                                              }
+                                            ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
+                                                StreamBuilder<PSADetail>(
+                                                  stream: model.psaDetails,
+                                                  builder: (context, snapshot) {
+                                                    if(!snapshot.hasData){
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                    return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value,);
+                                                  }
+                                                ) : StreamBuilder<IVTDetail>(
+                                                  stream: model.ivtDetails,
+                                                  builder: (context, snapshot) {
+                                                    if(!snapshot.hasData){
+                                                     return const CircularProgressIndicator();
+                                                    }
+                                                    return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,);
+                                                  }
+                                                );
+                                  },
+                                );
                               },
-                            );
-                          },
                         ),
+                          
                         const SizedBox(
                           height: 10,
                         ),

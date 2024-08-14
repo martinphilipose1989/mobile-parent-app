@@ -3,7 +3,6 @@ import 'package:app/feature/schedule_competency_test/schedule_competency_test_pa
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/commonTime/common_time_page.dart';
 import 'package:app/utils/common_calendar/common_calendar_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -60,8 +59,8 @@ class ScheduleCompetencyTestPageView
                       ),
                       CommonCalendarPage(onDateSelected: (date) {
                         model.setSelectedDate(date);
+                        model.fetchTimeSlots(date, "669a46527986d066b783f479");
                       }),
-                      // isReschedule? SchoolTourScheduledDetailsWidget(schoolVisitDetail: schoolVisitDetail??SchoolVisitDetail()) : const SizedBox.shrink(),
                       const SizedBox(
                         height: 16,
                       ),                      
@@ -96,9 +95,52 @@ class ScheduleCompetencyTestPageView
                       const SizedBox(
                         height: 16,
                       ),
-                      CommonTimePage(onTimeSelected: (time) {
-                        model.setSelectedTime(time);
-                      }, isSchoolVisit: false,),
+                      StreamBuilder<List<SlotsDetail>>(
+                        stream: model.competenctTestSlots,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const Center(child: CircularProgressIndicator(),);
+                          }
+                          return StreamBuilder<int>(
+                            stream: model.selectedTimeIndex,
+                            builder: (context, snapshot) {
+                              return SizedBox(
+                                height: 90,
+                                child: GridView.builder(
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        childAspectRatio: 0.45
+                                    ),
+                                    itemCount: model.competenctTestSlots.value.length,
+                                    scrollDirection: Axis.horizontal, // Number of items
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: (){
+                                          model.selectedTimeIndex.add(index);
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(8),
+                                              color: index==model.selectedTimeIndex.value?AppColors.primaryLighter:Colors.white, //Color(0xffA3A3A3)
+                                              border: Border.all(width: 1,color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textLightGray)
+                                          ),
+                                          child: CommonText(
+                                            text: model.competenctTestSlots.value[index].slot??'',
+                                            style: AppTypography.subtitle2.copyWith(
+                                                color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textGray
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              );
+                            }
+                          );
+                        }
+                      ),
                       const SizedBox(
                         height: 10,
                       ),

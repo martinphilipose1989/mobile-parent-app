@@ -5,7 +5,9 @@ part 'common_data_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CommonDataEntity extends BaseLayerDataTransformer<CommonDataEntity,CommonDataClass>{
+  @JsonKey(name: 'id')
   int? id;
+  @JsonKey(name: 'value')
   String? value;
 
   CommonDataEntity({this.id,this.value});

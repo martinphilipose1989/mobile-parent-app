@@ -22,11 +22,13 @@ class AdmissionsDetailsPageView
   final EnquiryDetailArgs admissionDetail;
   AdmissionsDetailsPageView(super.providerBase,{required this.admissionDetail});
 
-  actionOnMenu(int index, BuildContext context) {
+  actionOnMenu(int index, BuildContext context, AdmissionsDetailsViewModel model) {
     switch (index) {
       case 0:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.detailsViewSchoolTourPage,arguments: admissionDetail
+        ) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': admissionDetail,});
       case 1:
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
@@ -36,7 +38,7 @@ class AdmissionsDetailsPageView
 
       case 4:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+            .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
       case 5:
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
@@ -156,7 +158,7 @@ class AdmissionsDetailsPageView
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
-                            actionOnMenu(index, context);
+                            actionOnMenu(index, context, model);
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,

@@ -2,6 +2,7 @@ import 'package:shared/shared.dart';
 
 class PSADetail {
     String? enquiryDate;
+    String? enquiryNumber;
     AcademicYear? academicYear;
     CommonDataClass? schoolLocation;
     ParentDetails? parentDetails;

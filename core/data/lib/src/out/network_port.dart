@@ -39,6 +39,9 @@ abstract class NetworkPort {
   Future<Either<NetworkError, NewAdmissionBase>> getNewAdmissionDetail({required String enquiryID});
   Future<Either<NetworkError, PsaResponse>> getPsaDetail({required String enquiryID});
   Future<Either<NetworkError,  IVTBase>> getIvtDetail({required String enquiryID});
+  Future<Either<NetworkError,  NewAdmissionBase>> updateNewAdmissionDetail({required String enquiryID, required NewAdmissionDetailEntity newAdmissionDetail});
+  Future<Either<NetworkError,  IVTBase>> updateIvtDetail({required String enquiryID,required IvtDetailResponseEntity ivtDetails});
+  Future<Either<NetworkError,  PsaResponse>> updatePsaDetail({required String enquiryID, required PsaDetailResponseEntity psaDetail});
 
   Future<Either<NetworkError, BaseInfo<T>>> getRegistrationDetail<T>({required String enquiryID, required String infoType});
   Future<Either<NetworkError, BaseInfo<T>>> updateParentDetails<T>({required String enquiryID, required ParentInfoEntity parentInfo});

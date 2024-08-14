@@ -6,11 +6,17 @@ part 'student_detail_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity,StudentDetails>{
+    @JsonKey(name: 'first_name')
     String? firstName;
+    @JsonKey(name: 'last_name')
     String? lastName;
+    @JsonKey(name: 'grade')
     CommonDataEntity? grade;
+    @JsonKey(name: 'gender')
     CommonDataEntity? gender;
+    @JsonKey(name: 'dob')
     String? dob;
+    @JsonKey(name: 'eligible_grade')
     String? eligibleGrade;
 
     StudentDetailsEntity({

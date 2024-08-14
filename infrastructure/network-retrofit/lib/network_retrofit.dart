@@ -23,5 +23,8 @@ export 'src/model/response/get_registreation_info/parent_info_entity.dart';
 export 'src/model/response/get_registreation_info/contact_details_entity.dart';
 export 'src/model/response/get_registreation_info/medical_details_entity.dart';
 export 'src/model/response/get_registreation_info/bank_details_entity.dart';
+export 'src/model/response/get_new_admission/new_admission_detail_entity.dart';
+export 'src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
+export 'src/model/response/get_psa_detail/psa_detail_response_entity.dart';
 
 export 'package:json_annotation/json_annotation.dart';

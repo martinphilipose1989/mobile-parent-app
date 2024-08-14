@@ -13,6 +13,7 @@ import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
+import 'package:app/feature/schedule_competency_test/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/molecules/payments/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/cheque_page.dart';
@@ -88,7 +89,7 @@ class AppRouter {
 
       case RoutePaths.enquiriesDetailsPage:
         return CupertinoPageRoute(
-            builder: (context) => const EnquiriesDetailsPage(),
+            builder: (context) => EnquiriesDetailsPage(enquiryDetailArgs: settings.arguments == null ? EnquiryDetailArgs(): settings.arguments as EnquiryDetailArgs,),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesDetailsPage));
 
@@ -145,6 +146,17 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const WebView(),
             settings: const RouteSettings(name: RoutePaths.webview));
+
+      case RoutePaths.scheduleCompetencyTest:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+          builder: (context) => ScheduleCompetencyTestPage(
+            enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+            competencyTestDetails: args['competencyTestDetail'],
+            isReschedule: args['isReschedule'] ?? false,      
+          ),
+          settings: const RouteSettings(name: RoutePaths.scheduleCompetencyTest));
+
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

@@ -12,27 +12,27 @@ part 'psa_detail_response_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PsaDetailResponseEntity extends BaseLayerDataTransformer<PsaDetailResponseEntity,PSADetail>{
-    @JsonKey(name: 'enquiryDate')
+    @JsonKey(name: 'enquiry_date')
     String? enquiryDate;
-    @JsonKey(name: 'academicYear')
+    @JsonKey(name: 'academic_year')
     AcademicYearEntity? academicYear;
-    @JsonKey(name: 'schoolLocation')
+    @JsonKey(name: 'school_location')
     CommonDataEntity? schoolLocation;
-    @JsonKey(name: 'parentDetails')
+    @JsonKey(name: 'parent_details')
     ParentDetailsEntity? parentDetails;
-    @JsonKey(name: 'existingSchoolDetails')
+    @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
-    @JsonKey(name: 'studentDetails')
+    @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
-    @JsonKey(name: 'psaSubType')
+    @JsonKey(name: 'psa_sub_type')
     CommonDataEntity? psaSubType;
-    @JsonKey(name: 'psaCategory')
+    @JsonKey(name: 'psa_category')
     CommonDataEntity? psaCategory;
-    @JsonKey(name: 'psaSubCategory')
+    @JsonKey(name: 'psa_sub_category')
     CommonDataEntity? psaSubCategory;
-    @JsonKey(name: 'psaPeriodOfService')
+    @JsonKey(name: 'psa_period_of_service')
     CommonDataEntity? psaPeriodOfService;
-    @JsonKey(name: 'psaBatch')
+    @JsonKey(name: 'psa_batch')
     CommonDataEntity? psaBatch;
 
     PsaDetailResponseEntity({

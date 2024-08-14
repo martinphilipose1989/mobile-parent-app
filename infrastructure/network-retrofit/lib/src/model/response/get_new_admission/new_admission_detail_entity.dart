@@ -12,21 +12,21 @@ part 'new_admission_detail_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDetailEntity,NewAdmissionDetail>{
-    @JsonKey(name: 'enquiryDate')
+    @JsonKey(name: 'enquiry_date')
     String? enquiryDate;
-    @JsonKey(name: 'academicYear')
+    @JsonKey(name: 'academic_year')
     AcademicYearEntity? academicYear;
-    @JsonKey(name: 'schoolLocation')
+    @JsonKey(name: 'school_location')
     CommonDataEntity? schoolLocation;
-    @JsonKey(name: 'isGuestStudent')
+    @JsonKey(name: 'is_guest_student')
     bool? isGuestStudent;
-    @JsonKey(name: 'guestStudentDetails')
+    @JsonKey(name: 'guest_student_details')
     GuestStudentDetailsEntity? guestStudentDetails;
-    @JsonKey(name: 'parentDetails')
+    @JsonKey(name: 'parent_details')
     ParentDetailsEntity? parentDetails;
-    @JsonKey(name: 'existingSchoolDetails')
+    @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
-    @JsonKey(name: 'studentDetails')
+    @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
     @JsonKey(name: 'board')
     CommonDataEntity? board;
@@ -36,7 +36,7 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDeta
     CommonDataEntity? stream;
     @JsonKey(name: 'shift')
     CommonDataEntity? shift;
-    @JsonKey(name: 'residentialAddress')
+    @JsonKey(name: 'residential_address')
     ResidentialAddressEntity? residentialAddress;
 
     NewAdmissionDetailEntity({

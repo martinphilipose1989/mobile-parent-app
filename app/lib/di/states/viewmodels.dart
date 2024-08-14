@@ -90,7 +90,7 @@ final enquiriesPageModelProvider =
 final enquiriesDetailsPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesDetailsPageModel>(
   (ref) =>
-      EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>()),
 );
 
 final enquiriesTimelinePageModelProvider =

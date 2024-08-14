@@ -5,7 +5,9 @@ part 'academic_year_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AcademicYearEntity extends BaseLayerDataTransformer<AcademicYearEntity,AcademicYear> {
+    @JsonKey(name: 'id')
     int? id;
+    @JsonKey(name: 'value')
     String? value;
 
     AcademicYearEntity({this.id,this.value});

@@ -1,4 +1,5 @@
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_view.dart';
 import 'package:app/themes_setup.dart';
@@ -13,7 +14,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
 class EnquiriesDetailsPage extends BasePage<EnquiriesDetailsPageModel> {
-  const EnquiriesDetailsPage({super.key});
+  final EnquiryDetailArgs enquiryDetailArgs;
+  const EnquiriesDetailsPage({super.key,required this.enquiryDetailArgs});
 
   @override
   EnquiriesDetailsPageState createState() => EnquiriesDetailsPageState();
@@ -30,6 +32,15 @@ class EnquiriesDetailsPageState
   @override
   void onModelReady(EnquiriesDetailsPageModel model) {
     model.tabController = TabController(length: 2, vsync: this);
+    if(widget.enquiryDetailArgs.enquiryType == "New admission"){
+      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+    }
+    else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
+      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+    }
+    else{
+      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+    }
   }
 
   @override
@@ -44,7 +55,7 @@ class EnquiriesDetailsPageState
 
   @override
   Widget buildView(BuildContext context, EnquiriesDetailsPageModel model) {
-    return EnquiriesDetailsPageView(provideBase());
+    return EnquiriesDetailsPageView(provideBase(),widget.enquiryDetailArgs);
   }
 
   @override

@@ -16,6 +16,8 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
+import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_detail_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -32,6 +34,7 @@ import 'package:network_retrofit/src/model/response/get_new_admission/new_admiss
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
+import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -93,7 +96,7 @@ abstract class RetrofitService {
     @Query('pageSize') required int pageSize}
   );
 
-  @GET('marketing/app/enquiry/')
+  @GET('marketing/app/enquiry/{enquiryID}')
   Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail(
     {@Path('enquiryID') required String enquiryID,}
   );
@@ -115,15 +118,37 @@ abstract class RetrofitService {
     {@Path('enquiryID') required String enquiryID}
   );
 
+  @PATCH('marketing/app/enquiry/{enquiryID}/new-admission')
+  Future<HttpResponse<NewAdmissionEntity>> updateNewAdmissionDetail(
+    {@Path('equiryID') required String enquiryID,
+      @Body() required NewAdmissionDetailEntity newAdmissionDetail
+    }
+  );
+
   @GET('marketing/app/enquiry/{enquiryID}/psa') 
   Future<HttpResponse<PsaBaseResponseEntity>> getPsaDetail(
     {@Path('enquiryID') required String enquiryID}
   );
 
+  @PATCH('marketing/app/enquiry/{enquiryID}/psa')
+  Future<HttpResponse<PsaBaseResponseEntity>> updatePsaDetail(
+    {@Path('equiryID') required String enquiryID,
+      @Body() required PsaDetailResponseEntity psaDetail
+    }
+  );
+
   @GET('marketing/app/enquiry/{enquiryID}/ivt')
-  Future<HttpResponse<IvtBaseResponseEntity>> getItvDetail(
+  Future<HttpResponse<IvtBaseResponseEntity>> getIvtDetail(
     {@Path('enquiryID') required String enquiryID}
   );
+
+  @PATCH('marketing/app/enquiry/{enquiryID}/ivt')
+  Future<HttpResponse<IvtBaseResponseEntity>> updateIvtDetail(
+    {@Path('equiryID') required String enquiryID,
+      @Body() required IvtDetailResponseEntity ivtDetail
+    }
+  );
+
   @GET('marketing/school-visit/{enquiryId}')
   Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
     {@Path('enquiryID') required String enquiryID}

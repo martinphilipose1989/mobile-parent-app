@@ -14,7 +14,9 @@ class CompetencyTestModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
-  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase);
+  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase){
+    fetchTimeSlots(DateFormat('dd-MM-yyyy').format(DateTime.now()),'669a46527986d066b783f479');
+  }
 
   String selectedTime = "";
 
@@ -22,22 +24,20 @@ class CompetencyTestModel extends BasePageViewModel {
 
   String selectedMode = "";
 
-  String slot_id = "";
+  String slotID = "";
 
   DateFormat dateFormat = DateFormat('d MMMM yyyy');
 
   List<String> testMode = ["Online","Offline"];
 
-  final BehaviorSubject<String> selectedModeSubject = BehaviorSubject<String>.seeded('online');
+  final BehaviorSubject<String> selectedModeSubject = BehaviorSubject<String>.seeded('Online');
 
   final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetails= PublishSubject();
 
-  final _dateSubject = BehaviorSubject<String>();
-  final _timeSlotsSubject = BehaviorSubject<List<SlotsDetail>>();
+  final BehaviorSubject<int> selectedTimeIndex = BehaviorSubject<int>.seeded(0);
+
+  final competenctTestSlots = BehaviorSubject<List<SlotsDetail>>();
   String enquiryID = "";
-
-  Stream<List<SlotsDetail>> get timeSlots => _timeSlotsSubject.stream;
-
   
 
   Future<void> fetchTimeSlots(String date,String enquiryID) async {
@@ -52,7 +52,7 @@ class CompetencyTestModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        _timeSlotsSubject.add(result.data?.data??[]);
+        competenctTestSlots.add(result.data?.data??[]);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -63,7 +63,7 @@ class CompetencyTestModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       CompetencyTestCreationRequest request = CompetencyTestCreationRequest(
         competencyTestDate: selectedDate,
-        slotId: slot_id,
+        slotId: slotID,
         mode: selectedMode,
         createdBy: 0
       );
@@ -93,7 +93,6 @@ class CompetencyTestModel extends BasePageViewModel {
 
   void setSelectedDate(String date) {
     selectedDate = date;
-    _dateSubject.add(date);
     notifyListeners();
   }
 

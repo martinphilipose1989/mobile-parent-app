@@ -20,7 +20,7 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     CommonDataEntity? state;
     @JsonKey(name: 'city')
     CommonDataEntity? city;
-    @JsonKey(name: 'isPermanentAddress')
+    @JsonKey(name: 'is_permanent_address')
     bool? isPermanentAddress;
 
     ResidentialAddressEntity({

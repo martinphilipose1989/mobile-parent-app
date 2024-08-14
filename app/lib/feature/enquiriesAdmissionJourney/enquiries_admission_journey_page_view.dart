@@ -77,7 +77,7 @@ class EnquiriesAdmissionsJourneyPageView
                   ),
                   InkWell(
                     onTap: () => Navigator.pushNamed(
-                        context, RoutePaths.enquiriesDetailsPage),
+                        context, RoutePaths.enquiriesDetailsPage,arguments: enquiryDetail),
                     child: Row(
                       children: [
                         SvgPicture.asset(

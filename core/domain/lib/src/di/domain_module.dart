@@ -2,8 +2,6 @@ import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 import 'package:domain/src/usecase/marketing/delete_enquiry_document_usecase.dart';
 import 'package:domain/src/usecase/marketing/download_enquiry_document.dart';
-import 'package:domain/src/usecase/marketing/get_enquiry_detail_usecase.dart';
-import 'package:domain/src/usecase/marketing/get_enquiry_timeline_usecase.dart';
 import 'package:domain/src/usecase/marketing/upload_enquiry_document_usecase.dart';
 
 @module
@@ -150,7 +148,22 @@ abstract class DomainModule {
   }
 
   @lazySingleton
-  GetCompetencyTestSlotsUsecase get (CompetencyTestRepository competencyTestRepository) {
+  GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase (CompetencyTestRepository competencyTestRepository) {
     return GetCompetencyTestSlotsUsecase(competencyTestRepository);
+  }
+
+  @lazySingleton
+  UpdatePsaDetailUsecase updatePsaDetailUsecase (EnquiryRepository enquiryRepository) {
+    return UpdatePsaDetailUsecase(enquiryRepository);
+  }
+
+  @lazySingleton
+  UpdateIvtDetailUsecase updateIvtDetailUsecase (EnquiryRepository enquiryRepository) {
+    return UpdateIvtDetailUsecase(enquiryRepository);
+  }
+
+  @lazySingleton
+  UpdateNewAdmissionUsecase updateNewAdmissionUsecase (EnquiryRepository enquiryRepository) {
+    return UpdateNewAdmissionUsecase(enquiryRepository);
   }
 }

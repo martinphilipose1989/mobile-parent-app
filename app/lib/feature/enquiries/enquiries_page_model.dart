@@ -23,6 +23,7 @@ class EnquiriesPageModel extends BasePageViewModel {
   BehaviorSubject<bool>.seeded(false);
 
   final ScrollController scrollController = ScrollController();
+  List<EnquiryListDetailModel> _currentEnquiries = [];
 
   void setupScrollListener() {
     scrollController.addListener(() {
@@ -68,12 +69,13 @@ class EnquiriesPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        // if (isRefresh) {
-        //   enquiryList.add(Resource.success(result.data?.data ?? []));
-        // } else {
-        //   enquiryList.add(Resource.success([...(enquiryList.value.data ?? []), ...(result.data?.data ?? [])]));
-        // }
-        enquiryList.add(Resource.success(data: result.data?.data?.data));
+        if (isRefresh) {
+          enquiryList.add(Resource.success(data: result.data?.data?.data??[]));
+        } else {
+          var newContent = result.data?.data?.data??[];
+          _currentEnquiries = [..._currentEnquiries, ...newContent];
+          enquiryList.add(Resource.success(data: _currentEnquiries));
+        }
         isNextPage = result.data?.data?.isNextPage ?? false;
         isLoading.value = false;
       }).onError((error) {

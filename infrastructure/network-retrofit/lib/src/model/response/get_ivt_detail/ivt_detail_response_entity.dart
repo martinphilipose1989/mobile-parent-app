@@ -10,17 +10,17 @@ part 'ivt_detail_response_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponseEntity,IVTDetail>{
-    @JsonKey(name: 'enquiryDate')
+    @JsonKey(name: 'enquiry_date')
     String? enquiryDate;
-    @JsonKey(name: 'academicYear')
+    @JsonKey(name: 'academic_year')
     AcademicYearEntity? academicYear;
-    @JsonKey(name: 'schoolLocation')
+    @JsonKey(name: 'school_location')
     CommonDataEntity? schoolLocation;
-    @JsonKey(name: 'parentDetails')
+    @JsonKey(name: 'parent_details')
     ParentDetailsEntity? parentDetails;
-    @JsonKey(name: 'existingSchoolDetails')
+    @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
-    @JsonKey(name: 'studentDetails')
+    @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
     @JsonKey(name: 'board')
     CommonDataEntity? board;
