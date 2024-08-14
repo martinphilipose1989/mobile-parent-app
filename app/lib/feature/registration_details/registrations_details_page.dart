@@ -11,6 +11,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
@@ -120,7 +121,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           1);
                       model.showWidget.add(model.showWidget.value + 1);
                     }
-                    /*
+
                     if (model.showWidget.value == 1) {
                       model.updateParentDetail(
                           '', model.parentDetail as ParentInfoEntity);
@@ -135,7 +136,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           '', model.medicalDetail as BankDetailsEntity);
                     }
 
-                     */
+
                   },
                   text: 'Next',
                   backgroundColor: AppColors.accent,

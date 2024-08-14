@@ -17,9 +17,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final GetRegistrationDetailUsecase getRegistrationDetailUsecase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
-      this.getRegistrationDetailUsecase, ) {
-    fetchAllDetails('');
-
+      this.getRegistrationDetailUsecase,) {
   }
 
   final List registrationDetails = [
@@ -49,7 +47,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   PublishSubject();
   final PublishSubject<Resource<MedicalDetails>> medicalDetail =
   PublishSubject();
-  final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
+  final PublishSubject<Resource<BaseInfo<BankDetails>>> bankDetail = PublishSubject();
 
   Future<void> fetchAllDetails(String infoType) async {
     exceptionHandlerBinder.handle(block: () {
@@ -73,7 +71,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         else if (infoType == 'MedicalInfo') {
           medicalDetail.add(Resource.success(data: result.data?.data?.data));
         } else {
-          bankDetail.add(Resource.success(data: result.data?.data?.data));
+          bankDetail.add(Resource.success(data: result.data?.data));
+          print(result.data?.message);
         }
         isLoading.value = false;
       }).onError((error) {
@@ -90,7 +89,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
       RequestManager<BaseInfo>(
           params,
-          createCall: () => getIt.get<UpdateParentDetailsUsecase>().execute(params: params)
+          createCall: () =>
+              getIt.get<UpdateParentDetailsUsecase>().execute(params: params)
       ).asFlow().listen((result) {
 
       }).onError((error) {
@@ -101,83 +101,88 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
 
 
-
-  Future<void> updateMedicalDetail(String enquiryID, MedicalDetailsEntity medicalEntity) async {
+  Future<void> updateMedicalDetail(String enquiryID,
+      MedicalDetailsEntity medicalEntity) async {
     exceptionHandlerBinder.handle(block: () {
-    final params = UpdateMedicalDetailsUsecaseParams(enquiryID: enquiryID, medicalDetails: medicalEntity);
-    RequestManager<BaseInfo>(
-        params,
-        createCall: () =>
-            getIt.get<UpdateMedicalDetailsUsecase>().execute( params: params)
-    ).asFlow().listen((result) {
+      final params = UpdateMedicalDetailsUsecaseParams(
+          enquiryID: enquiryID, medicalDetails: medicalEntity);
+      RequestManager<BaseInfo>(
+          params,
+          createCall: () =>
+              getIt.get<UpdateMedicalDetailsUsecase>().execute(params: params)
+      ).asFlow().listen((result) {
 
-    }).onError((error) {
-      exceptionHandlerBinder.showError(error!);
-      isLoading.value = false;
-    });
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+        isLoading.value = false;
+      });
     }).execute();
   }
 
 
-  Future<void> updateContactDetail(String enquiryID, ContactDetailsEntity contactInfoEntity)  async {
+  Future<void> updateContactDetail(String enquiryID,
+      ContactDetailsEntity contactInfoEntity) async {
     exceptionHandlerBinder.handle(block: () {
-    final params = UpdateContactDetailsUsecaseParams(enquiryID:enquiryID, contactDetails: contactInfoEntity);
-    RequestManager<BaseInfo>(
-        params,
-        createCall: () => getIt.get<UpdateContactDetailsUsecase>().execute( params: params)
-    ).asFlow().listen((result) {
+      final params = UpdateContactDetailsUsecaseParams(
+          enquiryID: enquiryID, contactDetails: contactInfoEntity);
+      RequestManager<BaseInfo>(
+          params,
+          createCall: () =>
+              getIt.get<UpdateContactDetailsUsecase>().execute(params: params)
+      ).asFlow().listen((result) {
 
-    }).onError((error) {
-      exceptionHandlerBinder.showError(error!);
-      isLoading.value = false;
-    });
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+        isLoading.value = false;
+      });
     }).execute();
   }
 
-  Future<void> updateBankDetail(String enquiryID, BankDetailsEntity bankDetailEntity) async {
+  Future<void> updateBankDetail(String enquiryID,
+      BankDetailsEntity bankDetailEntity) async {
     exceptionHandlerBinder.handle(block: () {
-    final params = UpdateBankDetailsUsecaseParams(enquiryID: enquiryID, bankDetails: bankDetailEntity);
-    RequestManager<BaseInfo>(
-        params,
-        createCall: () => getIt.get<UpdateBankDetailsUsecase>().execute( params: params)
-    ).asFlow().listen((result) {
+      final params = UpdateBankDetailsUsecaseParams(
+          enquiryID: enquiryID, bankDetails: bankDetailEntity);
+      RequestManager<BaseInfo>(
+          params,
+          createCall: () =>
+              getIt.get<UpdateBankDetailsUsecase>().execute(params: params)
+      ).asFlow().listen((result) {
 
-    }).onError((error) {
-      exceptionHandlerBinder.showError(error!);
-      isLoading.value = false;
-    });
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+        isLoading.value = false;
+      });
     }).execute();
   }
-
-
 
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
-      BehaviorSubject<bool>.seeded(false);
+  BehaviorSubject<bool>.seeded(false);
 
   BehaviorSubject<bool> editRegistrationDetails =
-      BehaviorSubject<bool>.seeded(false);
+  BehaviorSubject<bool>.seeded(false);
 
   final CommonRadioButton<String> radioButtonController =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController1 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController2 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController3 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController4 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController5 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController6 =
-      CommonRadioButton<String>(null);
+  CommonRadioButton<String>(null);
 
 
 }

@@ -192,16 +192,16 @@ class RegistrationsDetailsPageView
       case 3:
         return MedicalDetail();
       case 4:
-        return AppStreamBuilder<Resource<BankDetails>>(
+        return AppStreamBuilder<Resource<BaseInfo<BankDetails>>>(
     stream: model.bankDetail,
     initialData: Resource.none(),
     dataBuilder: (context, result) {
-
+     print(result?.data);
     switch (result?.status){
     case Status.loading:
     return const Center(child: CircularProgressIndicator(),);
     case Status.success:
-    return BankDetail(bankDetails: result?.data);
+    return BankDetail(bankDetails: result?.data?.data);
       case Status.error:
         return const Center(child: Text('Enquiries not found'),);
       default:
