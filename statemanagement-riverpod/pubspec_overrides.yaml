@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: statemanagement_core
+dependency_overrides:
+  statemanagement_core:
+    path: ../statemanagement-core

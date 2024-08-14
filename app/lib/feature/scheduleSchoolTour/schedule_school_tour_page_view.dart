@@ -24,6 +24,7 @@ class ScheduleSchoolTourPageView
   ScheduleSchoolTourPageView(super.providerBase,{required this.enquiryDetailArgs,this.schoolVisitDetail,this.isReschedule = false});
   @override
   Widget build(BuildContext context, ScheduleSchoolTourPageModel model) {
+    String id="";
     return Stack(
       children: [
         SizedBox(
@@ -61,6 +62,9 @@ class ScheduleSchoolTourPageView
                       ),
                       CommonCalendarPage(onDateSelected: (date) {
                         model.setSelectedDate(date);
+
+
+                        model.selectedDate=date;
                         model.fetchTimeSlotsSchoolVisit(date, "669a46527986d066b783f479");
                       }),
                       isReschedule? SchoolTourScheduledDetailsWidget(schoolVisitDetail: schoolVisitDetail??SchoolVisitDetail()) : const SizedBox.shrink(),
@@ -100,6 +104,7 @@ class ScheduleSchoolTourPageView
                                       return GestureDetector(
                                         onTap: (){
                                           model.selectedTimeIndex.add(index);
+                                          id=model.schoolVisitTimeSlots.value[index].id!;
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
@@ -178,10 +183,14 @@ class ScheduleSchoolTourPageView
                           'Selected Time: ${model.selectedTime}',
                           'Comments: ${model.commentController.text}',
                           (shouldRoute) {
-                            model.scheduleSchoolTour(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            model.scheduleSchoolTour(enquiryID: enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate );
+
+
+
                           },
                         );
                       }
+
                     },
                     text:isReschedule? 'Reschedule Tour': 'Book Tour',
                     backgroundColor: AppColors.accent,

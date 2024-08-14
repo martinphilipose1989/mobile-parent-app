@@ -33,19 +33,20 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   String selectedDate = "";
 
   DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  DateFormat dateFormat1 = DateFormat('yyyy-MM-dd');
 
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
 
-  Future<void> scheduleSchoolTour({required String enquiryID}) async {
+  Future<void> scheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
     exceptionHandlerBinder.handle(block: () {
       SchoolCreationRequest request = SchoolCreationRequest(
-        schoolVisitDate: selectedDate,
-        slotId: slotId,
-        comment: commentController.text,
+        schoolVisitDate: '2024-08-15',
+        slotId:"66b724cc62999ed044b31dec",
+        comment: "66b724cc62999ed044b31dec",
       );
       CreateSchoolVisitUseCaseParams params = CreateSchoolVisitUseCaseParams(
         schoolCreationRequest: request,
-        enquiryID: enquiryID
+        enquiryID: "6685346f0386eb1f0298cd51"
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(
@@ -55,9 +56,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         schoolVisitDetail.add(Resource.success(data: result.data?.data));
-        // activeStep.add()
+
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
+
       });
     }).execute();
   }

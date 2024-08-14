@@ -154,9 +154,9 @@ abstract class RetrofitService {
     {@Path('enquiryID') required String enquiryID}
   );
 
-  @POST('marketing/school-visit/{enquiryId}/create')
+  @POST('marketing/school-visit/{enquiryId}/schedule')
   Future<HttpResponse<SchoolVisitEntity>> createSchoolVisit(
-    {@Path('enquiryID') required String enquiryID,
+    {@Path('enquiryId') required String enquiryID,
     @Body() required SchoolCreationRequest schoolCreationRequest}
   );
 
@@ -268,5 +268,7 @@ abstract class RetrofitService {
     {@Query("enquiryId") required String enquiryId,
     @Query("date") required String date,}
   );
+
+
 }
 
