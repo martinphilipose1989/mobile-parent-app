@@ -80,7 +80,7 @@ class EnquiriesDetailsPageState
                     ),
                     CommonElevatedButton(
                       onPressed: () {
-                        if (model.showWidget.value == 0) {
+                        if (model.showWidget.value == 5) {
                           model.editRegistrationDetails.add(false);
                         } else {
                           ProviderScope.containerOf(context)
@@ -103,7 +103,7 @@ class EnquiriesDetailsPageState
                     ),
                     CommonElevatedButton(
                       onPressed: () {
-                        if (model.showWidget.value <= 6) {
+                        if (model.showWidget.value <= 0) {
                           ProviderScope.containerOf(context)
                               .read(commonChipListProvider)
                               .highlightIndex
