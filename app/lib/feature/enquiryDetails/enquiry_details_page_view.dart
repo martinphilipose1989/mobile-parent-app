@@ -28,7 +28,7 @@ class EnquiriesDetailsPageView
     switch (index) {
       case 0:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.registrationDetails, arguments: "enquiry");
+            .pushNamed(RoutePaths.registrationDetails, arguments: {"routeFrom": "enquiry", "enquiryDetailArgs": enquiryDetailArgs});
       case 1:
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 2:
@@ -136,9 +136,9 @@ class EnquiriesDetailsPageView
                                                   child: EditEnquiriesDetailsWidget(
                                                     model: model,
                                                     enquiryDetailArgs: enquiryDetailArgs,
-                                                    psaDetail: model.psaDetails?.value,
-                                                    ivtDetail: model.ivtDetails?.value,
-                                                    newAdmissionDetail: model.newAdmissionDetails?.value,
+                                                    psaDetail: model.psaDetails?.valueOrNull,
+                                                    ivtDetail: model.ivtDetails?.valueOrNull,
+                                                    newAdmissionDetail: model.newAdmissionDetails?.valueOrNull,
                                                   ),
                                                 ),
                                               )

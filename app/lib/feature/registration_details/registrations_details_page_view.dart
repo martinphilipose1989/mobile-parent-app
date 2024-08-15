@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/contact_info_editing.dart';
@@ -28,7 +29,8 @@ import '../../model/resource.dart';
 
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {
-  RegistrationsDetailsPageView(super.providerBase);
+      EnquiryDetailArgs? enquiryDetailArgs;
+  RegistrationsDetailsPageView(super.providerBase,{this.enquiryDetailArgs});
 
   actionOnMenu(
       int index, BuildContext context, RegistrationsDetailsViewModel model) {
@@ -66,14 +68,14 @@ class RegistrationsDetailsPageView
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ListItem(
+              ListItem(
                 image: AppImages.personIcon,
-                name: "Khevna Shah ",
-                year: "(AY 2024-2025)",
-                id: "ENADMS#4402",
-                title: "Vibgyor Kids & High - Malad West",
-                subtitle: "Grade V | CBSE",
-                buttontext: "School Visit",
+                name: "${enquiryDetailArgs?.studentName} ",
+                year: enquiryDetailArgs?.academicYear??'',
+                id: enquiryDetailArgs?.enquiryId??'',
+                title: enquiryDetailArgs?.school??'',
+                subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
+                buttontext: "${enquiryDetailArgs?.enquiryStage}",
                 compeletion: '25% Completed',
               ),
               CommonSizedBox.sizedBox(height: 20, width: 10),
@@ -93,7 +95,17 @@ class RegistrationsDetailsPageView
                     } else {
                       model.showWidget.add(index);
                     }
-                    model.fetchAllDetails(model.registrationDetails[index]['infoType']);
+                    if(index == 0 || index == 5){
+                      if(enquiryDetailArgs?.enquiryType == "IVT"){
+                        model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                      } else if(enquiryDetailArgs?.enquiryType == "PSA"){
+                        model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                      } else{
+                        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                      }
+                    } else{
+                      model.fetchAllDetails(model.registrationDetails[index]['infoType']);
+                    }
                   },
                 ),
               ),
@@ -184,35 +196,135 @@ class RegistrationsDetailsPageView
   Widget registrationsWidgetAsPerIndex(int index, RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
-        return const EnquiryAndStudentDetails();
+        return getEnquiryDetails(enquiryDetailArgs!,model);
       case 1:
-        return ParentDetail();
+        return AppStreamBuilder<Resource<ParentInfo>>(
+          stream: model.parentDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, data) {
+            switch (data?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return ParentDetail(parentInfo: model.parentInfo,);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+          },
+          
+        );
       case 2:
-        return ContactDetail();
+        return AppStreamBuilder<Resource<ContactDetails>>(
+          stream: model.contactDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, data) {
+            switch (data?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return ContactDetail(contactDetail: model.contactDetails,);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+          },
+          
+        );
       case 3:
-        return MedicalDetail();
+        return AppStreamBuilder<Resource<MedicalDetails>>(
+          stream: model.medicalDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, data) {
+            switch (data?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return MedicalDetail(medicalDetails: data?.data);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+          },
+          
+        );
       case 4:
-        return AppStreamBuilder<Resource<BaseInfo<BankDetails>>>(
-    stream: model.bankDetail,
-    initialData: Resource.none(),
-    dataBuilder: (context, result) {
-     print(result?.data);
-    switch (result?.status){
-    case Status.loading:
-    return const Center(child: CircularProgressIndicator(),);
-    case Status.success:
-    return BankDetail(bankDetails: result?.data?.data);
-      case Status.error:
-        return const Center(child: Text('Enquiries not found'),);
-      default:
-        return const Center(child: CircularProgressIndicator(),);
-    }
-
-    });
+        return AppStreamBuilder<Resource<BankDetails>>(
+        stream: model.bankDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+           print(result?.data);
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return BankDetail(bankDetails: result?.data);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+        });
       case 5:
         return const UploadDocs();
       default:
         return const SizedBox.shrink();
+    }
+  }
+
+  Widget getEnquiryDetails(EnquiryDetailArgs enquiryDetailArgs, RegistrationsDetailsViewModel model){
+    switch (enquiryDetailArgs.enquiryType) {
+      case "IVT":
+        return AppStreamBuilder<Resource<IVTDetail>>(
+        stream: model.ivtDetails,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: result?.data);
+          case Status.error:
+            return const Center(child: Text('Enquiries not found'),);
+          default:
+            return const Center(child: CircularProgressIndicator(),);
+          }
+        });
+      case "PSA":
+      return AppStreamBuilder<Resource<PSADetail>>(
+        stream: model.psaDetails,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,psaDetail: result?.data);
+          case Status.error:
+            return const Center(child: Text('Enquiries not found'),);
+          default:
+            return const Center(child: CircularProgressIndicator(),);
+          }
+        });
+      default:
+      return AppStreamBuilder<Resource<NewAdmissionDetail>>(
+        stream: model.newAdmissionDetails,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,newAdmissionDetail: result?.data);
+          case Status.error:
+            return const Center(child: Text('Enquiries not found'),);
+          default:
+            return const Center(child: CircularProgressIndicator(),);
+          }
+        });
     }
   }
 }

@@ -1,11 +1,17 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/details_item.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EnquiryAndStudentDetails extends StatelessWidget {
-  const EnquiryAndStudentDetails({super.key});
+  PSADetail? psaDetail;
+  IVTDetail? ivtDetail;
+  NewAdmissionDetail? newAdmissionDetail;
+  EnquiryDetailArgs? enquiryDetailArgs;
+  EnquiryAndStudentDetails({super.key,this.enquiryDetailArgs,this.ivtDetail,this.newAdmissionDetail,this.psaDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +24,28 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             border: Border.all(
               width: 1,
             )),
-        child: const ExpansionTile(
-            title: CommonText(
+        child: ExpansionTile(
+            title: const CommonText(
               text: 'Enquiry Details',
               style: AppTypography.subtitle2,
             ),
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Divider(
+                    const Divider(
                       height: 1,
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: 'Enquiry Number', subtitle: 'ENAMDMS#4402'),
-                    DetailsItem(title: 'Enquiry Date', subtitle: '01/04/2024'),
+                        title: 'Enquiry Number', subtitle: enquiryDetailArgs?.enquiryNumber?? 'ENAMDMS#4402'),
+                    DetailsItem(title: 'Enquiry Date', subtitle: enquiryDetailArgs?.studentName??''),
                     DetailsItem(
-                        title: 'Enquiry Type', subtitle: 'New Admission'),
+                        title: 'Enquiry Type', subtitle: enquiryDetailArgs?.enquiryType??''),
                     DetailsItem(
                         title: 'School location',
-                        subtitle: 'Vibgyor kids & high - goregaon west'),
+                        subtitle: enquiryDetailArgs?.school??''),
                   ],
                 ),
               )
@@ -54,56 +60,95 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             border: Border.all(
               width: 1,
             )),
-        child: const ExpansionTile(
-            title: CommonText(
+        child: ExpansionTile(
+            title: const CommonText(
               text: 'Student Details',
               style: AppTypography.subtitle2,
             ),
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Divider(
+                    const Divider(
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(
-                        title: 'Student First Name', subtitle: 'Khevna'),
-                    DetailsItem(title: 'Student Last Name', subtitle: 'Shah'),
-                    DetailsItem(title: 'Grade', subtitle: 'Playschool'),
-                    DetailsItem(title: 'Gender', subtitle: 'Female'),
-                    DetailsItem(title: 'DOB', subtitle: '04/04/2020'),
-                    DetailsItem(
-                        title: 'Eligible Grade', subtitle: 'Pre-Primay'),
-                    DetailsItem(
-                        title: 'Student Aadhar no.', subtitle: '987654321879'),
-                    DetailsItem(title: 'Parent Type', subtitle: 'Father'),
-                    DetailsItem(
-                        title: 'Parent Global ID', subtitle: 'GID12345'),
-                    DetailsItem(title: 'Parent First Name', subtitle: 'Ashok'),
-                    DetailsItem(title: 'Parent Last Name', subtitle: 'Shah'),
-                    DetailsItem(
-                        title: 'Parent Email Id',
-                        subtitle: 'Ashok12@Gmail.com'),
-                    DetailsItem(
-                        title: 'Parent Mobile No', subtitle: '9876543212'),
-                    DetailsItem(title: 'Exisiting School Name', subtitle: 'NA'),
-                    DetailsItem(
-                        title: 'Exisiting School Board', subtitle: 'NA'),
-                    DetailsItem(
-                        title: 'Exisiting School Grade', subtitle: 'NA'),
-                    DetailsItem(title: 'Place Of Birth', subtitle: 'NA'),
-                    DetailsItem(title: 'Religion', subtitle: 'NA'),
-                    DetailsItem(title: 'Caste', subtitle: 'NA'),
-                    DetailsItem(title: 'Sub Caste', subtitle: 'NA'),
-                    DetailsItem(title: 'Nationality', subtitle: 'NA'),
-                    DetailsItem(title: 'Mother Tounge', subtitle: 'NA'),
+                    enquiryDetailArgs?.enquiryType == "New Admission"? getAdmissionDetails(newAdmissionDetail: newAdmissionDetail): enquiryDetailArgs?.enquiryType == "PSA"? getPsaDetails(psaDetail: psaDetail): getIvtDetails(ivtDetail: ivtDetail)
                   ],
                 ),
               )
             ]),
       ),
     ]);
+  }
+
+    Widget getPsaDetails({PSADetail? psaDetail}){
+    return Column(
+          children: [
+            DetailsItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
+            DetailsItem(title: "Enquiry Type", subtitle: enquiryDetailArgs?.enquiryType??''),
+            DetailsItem(title: "School Location", subtitle: psaDetail?.schoolLocation?.value??''),
+            DetailsItem(title: "Student First Name", subtitle: psaDetail?.studentDetails?.firstName??''),
+            DetailsItem(title: "Student Last name", subtitle: psaDetail?.studentDetails?.lastName??''),
+            DetailsItem(title: "Grade", subtitle: psaDetail?.studentDetails?.grade?.value??''),
+            DetailsItem(title: "DOB", subtitle: psaDetail?.studentDetails?.dob??''),
+            DetailsItem(title: "Gender", subtitle: psaDetail?.studentDetails?.gender?.value??''),
+            DetailsItem(title: "Existing School Name", subtitle: psaDetail?.existingSchoolDetails?.name??''),
+            DetailsItem(title: "Existing school board", subtitle: psaDetail?.existingSchoolDetails?.board?.value??''),
+            DetailsItem(title: "Existing school Grade", subtitle: psaDetail?.existingSchoolDetails?.grade?.value??''),
+            DetailsItem(title: "PSA sub type", subtitle: psaDetail?.psaSubType?.value??''),
+            DetailsItem(title: "PSA category", subtitle: psaDetail?.psaCategory?.value??''),
+            DetailsItem(title: "PSA sub category", subtitle: psaDetail?.psaSubCategory?.value??''),
+            DetailsItem(title: "Period of service", subtitle: psaDetail?.psaPeriodOfService?.value??''),
+            DetailsItem(title: "PSA batch", subtitle: psaDetail?.psaBatch?.value??''),
+            DetailsItem(title: "Parent Type", subtitle: "NA"),
+            DetailsItem(title: "Global Id", subtitle: "NA"),
+          ],
+        );
+  }
+
+  Widget getAdmissionDetails({NewAdmissionDetail? newAdmissionDetail}){
+    return Column(
+          children: [
+           DetailsItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
+            DetailsItem(title: "Enquiry Type", subtitle: enquiryDetailArgs?.enquiryType??''),
+            DetailsItem(title: "School Location", subtitle: newAdmissionDetail?.schoolLocation?.value??''),
+            DetailsItem(title: "Student First Name", subtitle: newAdmissionDetail?.studentDetails?.firstName??''),
+            DetailsItem(title: "Student Last name", subtitle: newAdmissionDetail?.studentDetails?.lastName??''),
+            DetailsItem(title: "Grade", subtitle: newAdmissionDetail?.studentDetails?.grade?.value??''),
+            DetailsItem(title: "DOB", subtitle: newAdmissionDetail?.studentDetails?.dob??''),
+            DetailsItem(title: "Gender", subtitle: newAdmissionDetail?.studentDetails?.gender?.value??''),
+            DetailsItem(title: "Existing School Name", subtitle: newAdmissionDetail?.existingSchoolDetails?.name??''),
+            DetailsItem(title: "Existing school board", subtitle: newAdmissionDetail?.existingSchoolDetails?.board?.value??''),
+            DetailsItem(title: "Existing school Grade", subtitle: newAdmissionDetail?.existingSchoolDetails?.grade?.value??''), 
+            DetailsItem(title: "Parent Type", subtitle: "NA"),
+            DetailsItem(title: "Global Id", subtitle: "NA"),
+          ],
+        );
+  }
+
+  Widget getIvtDetails({IVTDetail? ivtDetail}){
+    return Column(
+          children: [
+            DetailsItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
+            DetailsItem(title: "Enquiry Type", subtitle: enquiryDetailArgs?.enquiryType??''),
+            DetailsItem(title: "School Location", subtitle: ivtDetail?.schoolLocation?.value??''),
+            DetailsItem(title: "Student First Name", subtitle: ivtDetail?.studentDetails?.firstName??''),
+            DetailsItem(title: "Student Last name", subtitle: ivtDetail?.studentDetails?.lastName??''),
+            DetailsItem(title: "Grade", subtitle: ivtDetail?.studentDetails?.grade?.value??''),
+            DetailsItem(title: "DOB", subtitle: ivtDetail?.studentDetails?.dob??''),
+            DetailsItem(title: "Gender", subtitle: ivtDetail?.studentDetails?.gender?.value??''),
+            DetailsItem(title: "Existing School Name", subtitle: ivtDetail?.existingSchoolDetails?.name??''),
+            DetailsItem(title: "Existing school board", subtitle: ivtDetail?.existingSchoolDetails?.board?.value??''),
+            DetailsItem(title: "Existing school Grade", subtitle: ivtDetail?.existingSchoolDetails?.grade?.value??''), 
+            DetailsItem(title: "Board", subtitle: ivtDetail?.board?.value??''),
+            DetailsItem(title: "Course", subtitle: ivtDetail?.course?.value??''),
+            DetailsItem(title: "Stream", subtitle: ivtDetail?.stream?.value??''),
+            DetailsItem(title: "Shift", subtitle: ivtDetail?.shift?.value??''),
+            DetailsItem(title: "Parent Type", subtitle: "ENAMDMS#4402"),
+            DetailsItem(title: "Global Id", subtitle: "ENAMDMS#4402"),
+          ],
+        );
   }
 }

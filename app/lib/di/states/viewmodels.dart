@@ -79,7 +79,7 @@ final admissionsDetailsProvider =
 final registrationsDetailsProvider =
     ChangeNotifierProvider.autoDispose<RegistrationsDetailsViewModel>(
   (ref) =>
-      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),),
+      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>()),
 );
 
 final enquiriesPageModelProvider =

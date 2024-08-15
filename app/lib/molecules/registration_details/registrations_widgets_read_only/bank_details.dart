@@ -24,28 +24,28 @@ final BankDetails? bankDetails;
                 width: 1,
               )),
           child: ExpansionTile(
-              title: CommonText(
+              title: const CommonText(
                 text: "Bank Details",
                 style: AppTypography.subtitle2,
               ),
               children: [
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Divider(
+                      const Divider(
                         height: 1,
                         thickness: 1,
                       ),
                       DetailsItem(title: "IFSC COde", subtitle:bankDetails?.ifscCode??""),
                       DetailsItem(
-                          title: "Bank Name", subtitle: 'United Bank of india'),
-                      DetailsItem(title: "Branch Name", subtitle: 'Parel'),
+                          title: "Bank Name", subtitle: bankDetails?.bankName??''),
+                      DetailsItem(title: "Branch Name", subtitle: bankDetails?.branchName??''),
                       DetailsItem(
-                          title: "Account Holder name", subtitle: 'Ashok Shah'),
-                      DetailsItem(title: "Account Type", subtitle: 'Saving'),
+                          title: "Account Holder name", subtitle: bankDetails?.accountHolderName??''),
+                      DetailsItem(title: "Account Type", subtitle: bankDetails?.accountType??''),
                       DetailsItem(
-                          title: "Account Number", subtitle: '09876543211232'),
+                          title: "Account Number", subtitle: bankDetails?.accountNumber??''),
                     ],
                   ),
                 )

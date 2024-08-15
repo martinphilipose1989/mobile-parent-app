@@ -354,42 +354,61 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, BaseInfo<T>>> getRegistrationDetail<T>({required String enquiryID, required String infoType}) async {
-    var response = await safeApiCall(apiService.getRegistrationDetail(enquiryId: enquiryID, infoType: infoType));
+  Future<Either<NetworkError, SingleResponse>> getRegistrationDetail({required String enquiryID, required String infoType}) async {
+    var response = await safeApiCall(apiService.
+    getRegistrationDetail(enquiryId: enquiryID, infoType: infoType));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+    }, (r) {
+      Map<String, dynamic> jsonData = r.data.data;
+      if(infoType == "ParentInfo"){
+        ParentInfoEntity parentInfo = ParentInfoEntity.fromJson(jsonData);
+        return Right(SingleResponse<ParentInfo>(status: r.data.status ?? 0,message: r.data.message ?? "",data: parentInfo.transform()));
+      }
+      else if(infoType == "ContactInfo"){
+        ContactDetailsEntity contactDetails = ContactDetailsEntity.fromJson(jsonData);
+        return Right(SingleResponse<ContactDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: contactDetails.transform()));
+      }
+      else if(infoType == "MedicalInfo"){
+        MedicalDetailsEntity medicalDetails = MedicalDetailsEntity.fromJson(jsonData);
+        return Right(SingleResponse<MedicalDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: medicalDetails.transform()));
+      }
+      else{
+        BankDetailsEntity bankDetails = BankDetailsEntity.fromJson(jsonData);
+        return Right(SingleResponse<BankDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: bankDetails.transform()));
+      }
+    });
   }
 
   @override
-  Future<Either<NetworkError, BaseInfo<T>>> updateParentDetails<T>({required String enquiryID, required ParentInfoEntity parentInfo}) async{
+  Future<Either<NetworkError, ParentInfo>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo}) async{
     var response = await safeApiCall(apiService.updateParentDetails(enquiryId: enquiryID,parentInfo: parentInfo));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+  }, (r) =>  Right(r.data.data!.transform()));
   }
 
   @override
-  Future<Either<NetworkError, BaseInfo<T>>> updateBankDetails<T>({required String enquiryID, required BankDetailsEntity bankDetails}) async{
+  Future<Either<NetworkError, BankDetails>> updateBankDetails({required String enquiryID, required BankDetailsEntity bankDetails}) async{
     var response = await safeApiCall(apiService.updateBankDetails(enquiryId: enquiryID,bankDetails: bankDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+    }, (r) => Right(r.data.data!.transform()));
   }
 
   @override
-  Future<Either<NetworkError, BaseInfo<T>>> updateContactDetails<T>({required String enquiryID, required ContactDetailsEntity contactDetails}) async{
+  Future<Either<NetworkError, ContactDetails>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails}) async{
     var response = await safeApiCall(apiService.updateContactDetails(enquiryId: enquiryID,contactDetails: contactDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+    }, (r) => Right(r.data.data!.transform()));
   }
 
   @override
-  Future<Either<NetworkError, BaseInfo<T>>> updateMedicalDetails<T>({required String enquiryID, required MedicalDetailsEntity medicalDetails}) async{
+  Future<Either<NetworkError, MedicalDetails>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails}) async{
     var response = await safeApiCall(apiService.updateMedicalDetails(enquiryId: enquiryID,medicalDetails: medicalDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+    }, (r) => Right(r.data.data!.transform()));
   }
 }

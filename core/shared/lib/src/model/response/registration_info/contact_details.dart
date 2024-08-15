@@ -1,6 +1,6 @@
 import 'package:shared/shared.dart';
 
-class ContactDetails extends BaseDetails{
+class ContactDetails{
 String? emergencyContact;
     List<dynamic>? pointOfContact;
     ResidentialAddress? residentialAddress;

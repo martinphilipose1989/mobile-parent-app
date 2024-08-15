@@ -29,7 +29,7 @@ class EnquiriesAdmissionsJourneyPageView
     switch (index) {
       case 0:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.registrationDetails, arguments: "enquiry");
+            .pushNamed(RoutePaths.registrationDetails, arguments: {"routeFrom": "enquiry", "enquiryDetailArgs": enquiryDetail});
       case 1:
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 2:

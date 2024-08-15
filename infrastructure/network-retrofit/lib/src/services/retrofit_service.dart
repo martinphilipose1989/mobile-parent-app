@@ -16,8 +16,6 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
-import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
-import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_detail_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -32,9 +30,7 @@ import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_r
 import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
-import 'package:network_retrofit/src/model/response/get_registreation_info/base_info_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
-import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -225,36 +221,37 @@ abstract class RetrofitService {
   );
 
   @PATCH('/marketing/app/registration/{enquiryId}/parent-details')
-  Future<HttpResponse<BaseInfoEntity>> updateParentDetails(
+  Future<HttpResponse<SingleResponse<ParentInfoEntity>>> updateParentDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required ParentInfoEntity parentInfo}
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<BaseInfoEntity>> updateContactDetails(
+  Future<HttpResponse<SingleResponse<ContactDetailsEntity>>> updateContactDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required ContactDetailsEntity contactDetails
       }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<BaseInfoEntity>> updateMedicalDetails(
+  Future<HttpResponse<SingleResponse<MedicalDetailsEntity>>> updateMedicalDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required MedicalDetailsEntity medicalDetails
       }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<BaseInfoEntity>> updateBankDetails(
+  Future<HttpResponse<SingleResponse<BankDetailsEntity>>> updateBankDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required BankDetailsEntity bankDetails
       }
       );
 
   @GET('marketing/app/registration/{enquiryId}') 
-  Future<HttpResponse<BaseInfoEntity>> getRegistrationDetail(
+  Future<HttpResponse<SingleResponse>> getRegistrationDetail(
     {@Path("enquiryId") required String enquiryId,
-    @Query("infoType") required String infoType,}
+      @Query("infoType") required String infoType,
+    }
   );
 
   @GET('marketing/school-visit/slots') 

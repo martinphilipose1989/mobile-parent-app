@@ -43,11 +43,11 @@ abstract class NetworkPort {
   Future<Either<NetworkError,  IVTBase>> updateIvtDetail({required String enquiryID,required IvtDetailResponseEntity ivtDetails});
   Future<Either<NetworkError,  PsaResponse>> updatePsaDetail({required String enquiryID, required PsaDetailResponseEntity psaDetail});
 
-  Future<Either<NetworkError, BaseInfo<T>>> getRegistrationDetail<T>({required String enquiryID, required String infoType});
-  Future<Either<NetworkError, BaseInfo<T>>> updateParentDetails<T>({required String enquiryID, required ParentInfoEntity parentInfo});
-  Future<Either<NetworkError, BaseInfo<T>>> updateContactDetails<T>({required String enquiryID, required ContactDetailsEntity contactDetails});
-  Future<Either<NetworkError, BaseInfo<T>>> updateMedicalDetails<T>({required String enquiryID, required MedicalDetailsEntity medicalDetails});
-  Future<Either<NetworkError, BaseInfo<T>>> updateBankDetails<T>({required String enquiryID, required  BankDetailsEntity bankDetails});  
+  Future<Either<NetworkError, SingleResponse>> getRegistrationDetail({required String enquiryID, required String infoType});
+  Future<Either<NetworkError, ParentInfo>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo});
+  Future<Either<NetworkError, ContactDetails>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails});
+  Future<Either<NetworkError, MedicalDetails>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails});
+  Future<Either<NetworkError, BankDetails>> updateBankDetails({required String enquiryID, required  BankDetailsEntity bankDetails});  
 
   Future<Either<NetworkError,Slots>> getSchoolVisitSlots({required String enquiryID,required String date});
   Future<Either<NetworkError,SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID});

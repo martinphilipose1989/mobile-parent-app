@@ -166,11 +166,11 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             isMutiSelect: false,
           ),
         ),
-        if(psaDetail!=null)...[
+        if((enquiryDetailArgs?.enquiryType??"") == "PSA")...[
           const SizedBox(height: 20,),
           psaDetails()
         ],
-        if(ivtDetail!= null)...[
+        if((enquiryDetailArgs?.enquiryType??"") == "IVT")...[
           const SizedBox(height: 20,),
           ivtDetails()
         ],
@@ -198,8 +198,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           labelText: 'Gloabal ID',
           readOnly: true,
         ),
-        const SizedBox(height: 20,),
-        
+        const SizedBox(height: 100,),        
       ],
     );
   }

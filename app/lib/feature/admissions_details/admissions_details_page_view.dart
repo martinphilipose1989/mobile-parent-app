@@ -79,7 +79,7 @@ class AdmissionsDetailsPageView
                     ),
                     InkWell(
                       onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails),
+                          context, RoutePaths.registrationDetails,arguments: { "routeFrom": "admission", "enquiryDetailArgs": admissionDetail}),
                       child: Row(
                         children: [
                           SvgPicture.asset(

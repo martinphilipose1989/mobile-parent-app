@@ -2,12 +2,14 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class ContactDetail extends StatelessWidget {
-  ContactDetail({super.key , });
+  ContactDetails? contactDetail;
+  ContactDetail({super.key , this.contactDetail});
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -33,7 +35,7 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "Contact No. Of", subtitle: 'Mother'),
+                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.emergencyContact??''),
                   ],
                 ),
               )
@@ -113,18 +115,18 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "House No./Building", subtitle: '35'),
+                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.house??''),
                     DetailsItem(
-                        title: "Street Name", subtitle: 'JhunJhun Gali'),
+                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.street??''),
                     DetailsItem(
-                        title: "Landmark", subtitle: 'Near Post Office'),
-                    DetailsItem(title: "Country", subtitle: 'India'),
-                    DetailsItem(title: "State", subtitle: 'Maharashtra'),
-                    DetailsItem(title: "City", subtitle: 'Mumbai'),
-                    DetailsItem(title: "Pin Code", subtitle: '12321'),
+                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.landmark??''),
+                    DetailsItem(title: "Country", subtitle: contactDetail?.residentialAddress?.country??''),
+                    DetailsItem(title: "State", subtitle: contactDetail?.residentialAddress?.state??''),
+                    DetailsItem(title: "City", subtitle: contactDetail?.residentialAddress?.city??''),
+                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.pinCode??''),
                     DetailsItem(
                         title: "Is Permanent Address Same As Present?",
-                        subtitle: 'Yes'),
+                        subtitle: contactDetail?.residentialAddress?.isPermanentAddress??false ? "Yes":"No"),
                   ],
                 ),
               )

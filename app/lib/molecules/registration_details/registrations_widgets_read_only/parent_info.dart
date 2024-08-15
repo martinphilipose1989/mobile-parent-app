@@ -2,12 +2,13 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ParentDetail extends StatelessWidget {
-
-  ParentDetail({super.key,});
+  ParentInfo? parentInfo;
+  ParentDetail({super.key, this.parentInfo});
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -34,32 +35,32 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Father's First Name", subtitle: 'Ashok'),
-                    DetailsItem(title: "Father's Last Name", subtitle: 'Shah'),
+                        title: "Father's First Name", subtitle: parentInfo?.fatherDetails?.firstName??''),
+                    DetailsItem(title: "Father's Last Name", subtitle: parentInfo?.fatherDetails?.lastName??''),
                     DetailsItem(
                         title: "Father's Adhar Card No",
-                        subtitle: '897867564534'),
+                        subtitle: parentInfo?.fatherDetails?.aadharNumber??''),
                     DetailsItem(
-                        title: "Father's Pan Card No", subtitle: 'PPOUS9887N'),
-                    DetailsItem(title: "Qualification", subtitle: 'Bsc'),
-                    DetailsItem(title: "occupation", subtitle: 'Business'),
+                        title: "Father's Pan Card No", subtitle: parentInfo?.fatherDetails?.panNumber??''),
+                    DetailsItem(title: "Qualification", subtitle: parentInfo?.fatherDetails?.qualification??''),
+                    DetailsItem(title: "occupation", subtitle: parentInfo?.fatherDetails?.occupation??''),
                     DetailsItem(
                         title: "Organisation Name",
-                        subtitle: 'ABCD Technologies'),
-                    DetailsItem(title: "Designation", subtitle: 'CEO'),
+                        subtitle: parentInfo?.fatherDetails?.organisationName??''),
+                    DetailsItem(title: "Designation", subtitle: parentInfo?.fatherDetails?.designationName??''),
                     DetailsItem(
                         title: "Office Address",
-                        subtitle: '12th, savarkar street'),
-                    DetailsItem(title: "Area", subtitle: 'Bandra'),
-                    DetailsItem(title: "Country", subtitle: 'India'),
-                    DetailsItem(title: "Pin Code", subtitle: '12321'),
-                    DetailsItem(title: "State", subtitle: 'Maharashtra'),
-                    DetailsItem(title: "City", subtitle: 'Mumbai'),
+                        subtitle: parentInfo?.fatherDetails?.officeAddress??''),
+                    DetailsItem(title: "Area", subtitle: parentInfo?.fatherDetails?.area??''),
+                    DetailsItem(title: "Country", subtitle: parentInfo?.fatherDetails?.country??''),
+                    // DetailsItem(title: "Pin Code", subtitle: parentInfo?.fatherDetails?.),
+                    DetailsItem(title: "State", subtitle: parentInfo?.fatherDetails?.state??''),
+                    DetailsItem(title: "City", subtitle: parentInfo?.fatherDetails?.city??''),
                     DetailsItem(
                         title: "Father's Email Id",
-                        subtitle: 'Ashok12@Gmail.Com'),
+                        subtitle: parentInfo?.fatherDetails?.emailId??''),
                     DetailsItem(
-                        title: "Father's Mobile No", subtitle: '7865432178'),
+                        title: "Father's Mobile No", subtitle: parentInfo?.fatherDetails?.mobileNumber??''),
                   ],
                 ),
               )
@@ -88,32 +89,32 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Mother's First Name", subtitle: 'Jyotika'),
-                    DetailsItem(title: "Mother's Last Name", subtitle: 'Shah'),
+                        title: "Mother's First Name", subtitle: parentInfo?.motherDetails?.firstName??''),
+                    DetailsItem(title: "Mother's Last Name", subtitle: parentInfo?.motherDetails?.lastName??''),
                     DetailsItem(
                         title: "Mother's Adhar Card No",
-                        subtitle: '897867564534'),
+                        subtitle: parentInfo?.motherDetails?.aadharNumber??''),
                     DetailsItem(
-                        title: "Mother's Pan Card No", subtitle: 'PPOUS9887N'),
-                    DetailsItem(title: "Qualification", subtitle: 'Bsc'),
-                    DetailsItem(title: "occupation", subtitle: 'Engineer'),
+                        title: "Mother's Pan Card No", subtitle: parentInfo?.motherDetails?.panNumber??''),
+                    DetailsItem(title: "Qualification", subtitle: parentInfo?.motherDetails?.qualification??''),
+                    DetailsItem(title: "occupation", subtitle: parentInfo?.motherDetails?.occupation??''),
                     DetailsItem(
                         title: "Organisation Name",
-                        subtitle: 'ABCD Technologies'),
-                    DetailsItem(title: "Designation", subtitle: 'CEO'),
+                        subtitle: parentInfo?.motherDetails?.organisationName??''),
+                    DetailsItem(title: "Designation", subtitle: parentInfo?.motherDetails?.designationName??''),
                     DetailsItem(
                         title: "Office Address",
-                        subtitle: '12th, savarkar street'),
-                    DetailsItem(title: "Area", subtitle: 'Bandra'),
-                    DetailsItem(title: "Country", subtitle: 'India'),
-                    DetailsItem(title: "Pin Code", subtitle: '12321'),
-                    DetailsItem(title: "State", subtitle: 'Maharashtra'),
-                    DetailsItem(title: "City", subtitle: 'Mumbai'),
+                        subtitle: parentInfo?.motherDetails?.officeAddress??''),
+                    DetailsItem(title: "Area", subtitle: parentInfo?.motherDetails?.area??''),
+                    DetailsItem(title: "Country", subtitle: parentInfo?.motherDetails?.country??''),
+                    // DetailsItem(title: "Pin Code", subtitle: parentInfo?.motherDetails?.),
+                    DetailsItem(title: "State", subtitle: parentInfo?.motherDetails?.state??''),
+                    DetailsItem(title: "City", subtitle: parentInfo?.motherDetails?.city??''),
                     DetailsItem(
                         title: "Mother's Email Id",
-                        subtitle: 'Ashok12@Gmail  .Com'),
+                        subtitle: parentInfo?.motherDetails?.emailId??''),
                     DetailsItem(
-                        title: "Mother's Mobile No", subtitle: '7865432178'),
+                        title: "Mother's Mobile No", subtitle: parentInfo?.motherDetails?.mobileNumber??''),
                   ],
                 ),
               )
@@ -142,31 +143,31 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Gurdian's First Name", subtitle: 'Maulika'),
-                    DetailsItem(title: "Gurdian's Last Name", subtitle: 'Shah'),
+                        title: "Gurdian's First Name", subtitle: parentInfo?.guardianDetails?.firstName??''),
+                    DetailsItem(title: "Gurdian's Last Name", subtitle: parentInfo?.guardianDetails?.lastName??''),
                     DetailsItem(
                         title: "Gurdian's Adhar Card No",
-                        subtitle: '897867564534'),
+                        subtitle: parentInfo?.guardianDetails?.aadharNumber??''),
                     DetailsItem(
-                        title: "Gurdian's Pan Card No", subtitle: 'PPOUS9887N'),
+                        title: "Gurdian's Pan Card No", subtitle: parentInfo?.guardianDetails?.panNumber??''),
                     DetailsItem(
-                        title: "Relationship with child", subtitle: 'Aunty'),
-                    DetailsItem(title: "House No./Building", subtitle: '334'),
-                    DetailsItem(title: "Street Name", subtitle: 'HSBC Road'),
+                        title: "Relationship with child", subtitle: parentInfo?.guardianDetails?.relationWithChild??''),
+                    DetailsItem(title: "House No./Building", subtitle: parentInfo?.guardianDetails?.houseNumber??''),
+                    DetailsItem(title: "Street Name", subtitle: parentInfo?.guardianDetails?.street??''),
                     DetailsItem(
-                        title: "Landmark", subtitle: 'opposite Antelia'),
-                    DetailsItem(title: "Country", subtitle: 'India'),
-                    DetailsItem(title: "Pin Code", subtitle: '12321'),
-                    DetailsItem(title: "State", subtitle: 'Maharashtra'),
-                    DetailsItem(title: "City", subtitle: 'Mumbai'),
+                        title: "Landmark", subtitle: parentInfo?.guardianDetails?.landmark??''),
+                    DetailsItem(title: "Country", subtitle: parentInfo?.guardianDetails?.country??''),
+                    DetailsItem(title: "Pin Code", subtitle: parentInfo?.guardianDetails?.pincode??''),
+                    DetailsItem(title: "State", subtitle: parentInfo?.guardianDetails?.state??''),
+                    DetailsItem(title: "City", subtitle: parentInfo?.guardianDetails?.city??''),
                     DetailsItem(
                         title: "Gurdian's Email Id",
-                        subtitle: 'Milu12@Gmail  .Com'),
+                        subtitle: parentInfo?.guardianDetails?.emailId??''),
                     DetailsItem(
-                        title: "Gurdian's Mobile No", subtitle: '7865432178'),
+                        title: "Gurdian's Mobile No", subtitle: parentInfo?.guardianDetails?.mobileNumber??''),
                     DetailsItem(
                         title: "This Guardian is also a",
-                        subtitle: 'Custodian Guardian'),
+                        subtitle: parentInfo?.guardianDetails?.guardianType??''),
                   ],
                 ),
               )
@@ -202,7 +203,7 @@ class ParentDetail extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     const DetailsItem(
-                        title: "Is Sibling", subtitle: 'Vibgyor Student'),
+                        title: "Is Sibling", subtitle: ''),
                     DetailsItem(
                         title: "Enrolment Number", subtitle: 'EMBA1234'),
                     DetailsItem(

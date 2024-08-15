@@ -1,6 +1,4 @@
-import 'package:shared/shared.dart';
-
-class BankDetails extends BaseDetails{
+class BankDetails{
     String? ifscCode;
     String? bankName;
     String? branchName;

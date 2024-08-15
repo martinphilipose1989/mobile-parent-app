@@ -3,11 +3,12 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class MedicalDetail extends StatelessWidget {
-
-  MedicalDetail({super.key, });
+  MedicalDetails? medicalDetails;
+  MedicalDetail({super.key, this.medicalDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +27,10 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(
-            title: 'Has the child ever been hospitalized?', subtitle: 'Yes'),
-        DetailsItem(title: 'Year of last hospitalisation', subtitle: '2023'),
+            title: 'Has the child ever been hospitalized?', subtitle: medicalDetails?.isChildHospitalised??false ? "No":"Yes"),
+        DetailsItem(title: 'Year of last hospitalisation', subtitle: medicalDetails?.yearOfHospitalization??''),
         DetailsItem(
-            title: 'The reason for hospitalisation', subtitle: 'Viral Fever'),
+            title: 'The reason for hospitalisation', subtitle: medicalDetails?.reasonOfHopitalization??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
           height: 1,
@@ -37,8 +38,8 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Physical Disabilities', subtitle: 'Yes'),
-        DetailsItem(title: 'Special Disability', subtitle: 'NA'),
+        DetailsItem(title: 'Physical Disabilities', subtitle: medicalDetails?.hasPhysicalDisability??false ? "No":"Yes"),
+        DetailsItem(title: 'Special Disability', subtitle: medicalDetails?.physicalDisabilityDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
           height: 1,
@@ -46,8 +47,8 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Medical History', subtitle: 'Yes'),
-        DetailsItem(title: 'Special Medical History', subtitle: 'NA'),
+        DetailsItem(title: 'Medical History', subtitle: medicalDetails?.hasMedicalHistory??false ? "No":"Yes"),
+        DetailsItem(title: 'Special Medical History', subtitle: medicalDetails?.medicalHistoryDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
           height: 1,
@@ -55,8 +56,8 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Allergies', subtitle: 'Yes'),
-        DetailsItem(title: 'Special Allergies', subtitle: 'NA'),
+        DetailsItem(title: 'Allergies', subtitle: medicalDetails?.hasAllergy??false ? "No":"Yes"),
+        DetailsItem(title: 'Special Allergies', subtitle: medicalDetails?.allergyDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
           height: 1,
@@ -64,7 +65,7 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Blood Group', subtitle: 'O-'),
+        DetailsItem(title: 'Blood Group', subtitle: medicalDetails?.bloodGroup??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
           height: 1,
@@ -72,8 +73,8 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Personalized Learning Needs', subtitle: 'Yes'),
-        DetailsItem(title: 'Personalized Learning Needs', subtitle: 'Autism'),
+        DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.hasPersonalisedLearningNeeds??false ? "No": "Yes"),
+        DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.personalisedLearningNeedsDescription??''),
       ],
     );
   }

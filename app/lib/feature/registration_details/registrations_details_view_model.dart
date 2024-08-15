@@ -15,9 +15,12 @@ import '../../utils/request_manager.dart';
 class RegistrationsDetailsViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetRegistrationDetailUsecase getRegistrationDetailUsecase;
+  final GetNewAdmissionDetailUseCase getNewAdmissionDetailUseCase;
+  final GetIvtDetailUsecase getIvtDetailUsecase;
+  final GetPsaDetailUsecase getPsaDetailUsecase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
-      this.getRegistrationDetailUsecase,) {
+      this.getRegistrationDetailUsecase,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase) {
   }
 
   final List registrationDetails = [
@@ -41,13 +44,22 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
-  final PublishSubject<Resource<ParentRegistrationDetail>> parentDetail =
+  final PublishSubject<Resource<ParentInfo>> parentDetail =
   PublishSubject();
   final PublishSubject<Resource<ContactDetails>> contactDetail =
   PublishSubject();
   final PublishSubject<Resource<MedicalDetails>> medicalDetail =
   PublishSubject();
-  final PublishSubject<Resource<BaseInfo<BankDetails>>> bankDetail = PublishSubject();
+  final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
+
+  PublishSubject<Resource<NewAdmissionDetail>> newAdmissionDetails = PublishSubject();
+  PublishSubject<Resource<IVTDetail>> ivtDetails = PublishSubject(); 
+  PublishSubject<Resource<PSADetail>> psaDetails = PublishSubject();
+
+  ParentInfo? parentInfo;
+  ContactDetails? contactDetails;
+  MedicalDetails? medicalDetails;
+  BankDetails? bankDetails;
 
   Future<void> fetchAllDetails(String infoType) async {
     exceptionHandlerBinder.handle(block: () {
@@ -60,18 +72,22 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       medicalDetail.add(Resource.loading());
       bankDetail.add(Resource.loading());
 
-      RequestManager<BaseInfo>(
+      RequestManager<SingleResponse>(
         params,
         createCall: () => getRegistrationDetailUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (infoType == 'ParentInfo') {
-          parentDetail.add(Resource.success(data: result.data?.data?.data));
-        } else if (infoType == 'ContactInfo')
-          contactDetail.add(Resource.success(data: result.data?.data?.data));
-        else if (infoType == 'MedicalInfo') {
-          medicalDetail.add(Resource.success(data: result.data?.data?.data));
+          parentDetail.add(Resource.success(data: result.data?.data));
+          parentInfo = result.data?.data;
+        } else if (infoType == 'ContactInfo'){
+          contactDetail.add(Resource.success(data: result.data?.data));
+          contactDetails = result.data?.data;
+        } else if (infoType == 'MedicalInfo') {
+          medicalDetail.add(Resource.success(data: result.data?.data));
+          medicalDetails = result.data?.data;
         } else {
           bankDetail.add(Resource.success(data: result.data?.data));
+          bankDetails = result.data?.data;
           print(result.data?.message);
         }
         isLoading.value = false;
@@ -87,7 +103,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateParentDetailsUsecaseParams(
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
-      RequestManager<BaseInfo>(
+      RequestManager<ParentInfo>(
           params,
           createCall: () =>
               getIt.get<UpdateParentDetailsUsecase>().execute(params: params)
@@ -106,7 +122,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateMedicalDetailsUsecaseParams(
           enquiryID: enquiryID, medicalDetails: medicalEntity);
-      RequestManager<BaseInfo>(
+      RequestManager<MedicalDetails>(
           params,
           createCall: () =>
               getIt.get<UpdateMedicalDetailsUsecase>().execute(params: params)
@@ -125,7 +141,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateContactDetailsUsecaseParams(
           enquiryID: enquiryID, contactDetails: contactInfoEntity);
-      RequestManager<BaseInfo>(
+      RequestManager<ContactDetails>(
           params,
           createCall: () =>
               getIt.get<UpdateContactDetailsUsecase>().execute(params: params)
@@ -143,7 +159,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateBankDetailsUsecaseParams(
           enquiryID: enquiryID, bankDetails: bankDetailEntity);
-      RequestManager<BaseInfo>(
+      RequestManager<BankDetails>(
           params,
           createCall: () =>
               getIt.get<UpdateBankDetailsUsecase>().execute(params: params)
@@ -152,6 +168,69 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
+      });
+    }).execute();
+  }
+
+  Future<void> getNewAdmissionDetails({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+     
+      GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
+        enquiryID: enquiryID,
+      );
+      
+      RequestManager<NewAdmissionBase>(
+        params,
+        createCall: () => getNewAdmissionDetailUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        newAdmissionDetails.add(Resource.success(data: result.data?.data??NewAdmissionDetail()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getIvtDetails({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+     
+      GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
+        enquiryID: enquiryID,
+      );
+      
+      RequestManager<IVTBase>(
+        params,
+        createCall: () => getIvtDetailUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        ivtDetails.add(Resource.success(data: result.data?.data?? IVTDetail()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getPsaDetails({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+     
+      GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
+        enquiryID: enquiryID,
+      );
+      
+      RequestManager<PsaResponse>(
+        params,
+        createCall: () => getPsaDetailUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        psaDetails.add(Resource.success(data: result.data?.data?? PSADetail()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

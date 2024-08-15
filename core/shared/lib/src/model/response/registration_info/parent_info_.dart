@@ -1,6 +1,6 @@
 import 'package:shared/shared.dart';
 
-class ParentInfo extends BaseDetails{
+class ParentInfo{
     ParentRegistrationDetail? fatherDetails;
     ParentRegistrationDetail? motherDetails;
     GuardianDetails? guardianDetails;

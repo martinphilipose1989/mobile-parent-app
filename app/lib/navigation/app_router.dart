@@ -71,11 +71,11 @@ class AppRouter {
             builder: (context) =>  AdmissionsDetailsPage(admissionDetail: settings.arguments == null? EnquiryDetailArgs(): settings.arguments as EnquiryDetailArgs,),
             settings: const RouteSettings(name: RoutePaths.admissionsDetails));
       case RoutePaths.registrationDetails:
+        final args = settings.arguments as Map<String, dynamic>;    
         return CupertinoPageRoute(
             builder: (context) => RegistrationsDetailsPage(
-                  routeFrom: settings.arguments == null
-                      ? ''
-                      : settings.arguments as String,
+                  routeFrom: args['routeFrom'] ?? '',
+                  enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.registrationDetails));

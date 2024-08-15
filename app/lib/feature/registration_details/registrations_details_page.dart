@@ -1,6 +1,7 @@
 
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_page_view.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
@@ -14,10 +15,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
+
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
-
-  const RegistrationsDetailsPage({super.key, required this.routeFrom});
+  EnquiryDetailArgs? enquiryDetailArgs;
+  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs});
 
 
   @override
@@ -30,6 +32,15 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
   void onModelReady(RegistrationsDetailsViewModel model) {
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
+    }
+    if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
+      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+    }
+    else if(widget.enquiryDetailArgs?.enquiryType == "PSA"){
+      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+    }
+    else{
+      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
     }
   }
 
@@ -51,7 +62,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Widget buildView(BuildContext context, RegistrationsDetailsViewModel model) {
-    return RegistrationsDetailsPageView(provideBase());
+    return RegistrationsDetailsPageView(provideBase(),enquiryDetailArgs: widget.enquiryDetailArgs,);
   }
 
   @override

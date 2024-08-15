@@ -7,19 +7,19 @@ part 'residential_address_entity.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddressEntity,ResidentialAddress>{
     @JsonKey(name: 'house')
-    dynamic house;
+    String? house;
     @JsonKey(name: 'street')
-    dynamic street;
+    String? street;
     @JsonKey(name: 'landmark')
-    dynamic landmark;
+    String? landmark;
     @JsonKey(name: 'country')
-    CommonDataEntity? country;
+    String? country;
     @JsonKey(name: 'pinCode')
-    dynamic pinCode;
+    String? pinCode;
     @JsonKey(name: 'state')
-    CommonDataEntity? state;
+    String? state;
     @JsonKey(name: 'city')
-    CommonDataEntity? city;
+    String? city;
     @JsonKey(name: 'is_permanent_address')
     bool? isPermanentAddress;
 
@@ -42,13 +42,13 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
   @override
   ResidentialAddress transform() {
     ResidentialAddress residentialAddress = ResidentialAddress();
-    residentialAddress.city = city?.transform();
-    residentialAddress.country = country?.transform();
+    residentialAddress.city = city;
+    residentialAddress.country = country;
     residentialAddress.house = house;
     residentialAddress.isPermanentAddress = isPermanentAddress;
     residentialAddress.landmark = landmark;
     residentialAddress.pinCode = pinCode;
-    residentialAddress.state = state?.transform();
+    residentialAddress.state = state;
     residentialAddress.street = street;
     return residentialAddress;
   }
