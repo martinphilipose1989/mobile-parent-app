@@ -1,5 +1,6 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/enquiries/edit_enquiry_details.dart';
 import 'package:app/molecules/enquiries/enquiries_details_view.dart';
 import 'package:app/molecules/enquiries/upload_documents.dart';
@@ -129,7 +130,21 @@ class EnquiriesDetailsPageView
                                   initialData: model.selectedValue.value,
                                   dataBuilder: (context, data) {
                                     return data == 1
-                                        ? const UploadDocuments()
+                                        ? AppStreamBuilder<Resource<EnquiryDetail>>(
+                                            stream: model.enquiryDetail,
+                                            initialData: Resource.none(),
+                                            dataBuilder: (context, data) {
+                                              if(data?.status == Status.loading){
+                                                return const CircularProgressIndicator();
+                                              }
+                                              if(data?.status == Status.success){
+                                                return UploadDocuments(enquiryDetail: data?.data,);
+                                              }
+                                              else{
+                                                return const CommonText(text: "Documents not found");
+                                              }
+                                            },
+                                          )
                                         : model.editRegistrationDetails.value
                                             ? SingleChildScrollView(
                                                 child: SizedBox(

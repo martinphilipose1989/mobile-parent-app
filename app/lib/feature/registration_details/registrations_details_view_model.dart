@@ -18,9 +18,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final GetNewAdmissionDetailUseCase getNewAdmissionDetailUseCase;
   final GetIvtDetailUsecase getIvtDetailUsecase;
   final GetPsaDetailUsecase getPsaDetailUsecase;
+  final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
-      this.getRegistrationDetailUsecase,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase) {
+      this.getRegistrationDetailUsecase,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase,this.getEnquiryDetailUseCase) {
   }
 
   final List registrationDetails = [
@@ -55,6 +56,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   PublishSubject<Resource<NewAdmissionDetail>> newAdmissionDetails = PublishSubject();
   PublishSubject<Resource<IVTDetail>> ivtDetails = PublishSubject(); 
   PublishSubject<Resource<PSADetail>> psaDetails = PublishSubject();
+  PublishSubject<Resource<EnquiryDetail>> enquiryDetail= PublishSubject();
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -65,7 +67,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       GetRegistrationDetailUsecaseParams params =
       GetRegistrationDetailUsecaseParams(
-          enquiryID: '6685346f0386eb1f0298cd51', infoType: infoType);
+          enquiryID: '66ba1b522c07e8497dde3061', infoType: infoType);
 
       parentDetail.add(Resource.loading());
       contactDetail.add(Resource.loading());
@@ -176,7 +178,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<NewAdmissionBase>(
@@ -197,7 +199,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<IVTBase>(
@@ -218,7 +220,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<PsaResponse>(
@@ -228,6 +230,27 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         psaDetails.add(Resource.success(data: result.data?.data?? PSADetail()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+    Future<void> getEnquiryDetail({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+      
+      GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
+        enquiryID: "66ba1b522c07e8497dde3061",
+      );
+      enquiryDetail.add(Resource.loading());
+      RequestManager<EnquiryDetailBase>(
+        params,
+        createCall: () => getEnquiryDetailUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

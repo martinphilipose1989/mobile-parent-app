@@ -120,9 +120,9 @@ class ContactDetail extends StatelessWidget {
                         title: "Street Name", subtitle: contactDetail?.residentialAddress?.street??''),
                     DetailsItem(
                         title: "Landmark", subtitle: contactDetail?.residentialAddress?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: contactDetail?.residentialAddress?.country??''),
-                    DetailsItem(title: "State", subtitle: contactDetail?.residentialAddress?.state??''),
-                    DetailsItem(title: "City", subtitle: contactDetail?.residentialAddress?.city??''),
+                    DetailsItem(title: "Country", subtitle: contactDetail?.residentialAddress?.country?.value??''),
+                    DetailsItem(title: "State", subtitle: contactDetail?.residentialAddress?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: contactDetail?.residentialAddress?.city?.value??''),
                     DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.pinCode??''),
                     DetailsItem(
                         title: "Is Permanent Address Same As Present?",

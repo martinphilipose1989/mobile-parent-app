@@ -5,6 +5,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +16,7 @@ class ListV extends StatelessWidget {
   ScrollController scrollController;
   Future<void> Function() onRefresh;
 
-  ListV({super.key, required this.enquiries, required this.scrollController, required this.onRefresh});
+  ListV({super.key, required this.enquiries, required this.scrollController, required this.onRefresh,});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class ListV extends StatelessWidget {
                       nextAction: enquiries?[index].nextAction, 
                     );
                     Navigator.pushNamed(
-                        context, RoutePaths.enquiriesAdmissionsJourneyPage,arguments: enquiryDetail);
+                        context, RoutePaths.enquiriesAdmissionsJourneyPage,arguments: {"enquiryDetailArgs":enquiryDetail,});
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),

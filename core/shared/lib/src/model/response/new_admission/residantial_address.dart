@@ -1,11 +1,14 @@
+import 'package:shared/shared.dart';
+import 'package:shared/src/model/response/new_admission/common_data_class.dart';
+
 class ResidentialAddress {
     String? house;
     String? street;
     String? landmark;
-    String? country;
+    CommonDataClass? country;
     String? pinCode;
-    String? state;
-    String? city;
+    CommonDataClass? state;
+    CommonDataClass? city;
     bool? isPermanentAddress;
 
 }

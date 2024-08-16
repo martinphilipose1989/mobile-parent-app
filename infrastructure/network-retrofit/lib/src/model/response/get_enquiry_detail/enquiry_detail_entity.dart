@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_document_entity.dart';
@@ -103,7 +101,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
 
   @override
   EnquiryDetail transform() {
-    EnquiryDetail enquiryDetail = transform();
+    EnquiryDetail enquiryDetail = EnquiryDetail();
     enquiryDetail.enquiryNumber = enquiryNumber;
     enquiryDetail.enquiryDate = enquiryDate;
     enquiryDetail.enquiryType = enquiryType;

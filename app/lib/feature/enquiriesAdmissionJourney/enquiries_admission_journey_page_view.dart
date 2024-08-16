@@ -22,7 +22,7 @@ import '../../molecules/registration_details/registrations_widgets_read_only/men
 class EnquiriesAdmissionsJourneyPageView
     extends BasePageViewWidget<EnquiriesAdmissionsJourneyViewModel> {
   EnquiryDetailArgs enquiryDetail;
-  EnquiriesAdmissionsJourneyPageView(super.providerBase,{required this.enquiryDetail});
+  EnquiriesAdmissionsJourneyPageView(super.providerBase,{required this.enquiryDetail,});
 
   actionOnMenu(int index, BuildContext context,
       EnquiriesAdmissionsJourneyViewModel model) {
@@ -99,6 +99,9 @@ class EnquiriesAdmissionsJourneyPageView
               AppStreamBuilder<Resource<List<AdmissionJourneyDetail>>>(
                 stream: model.admissionJourney,
                 initialData: Resource.none(),
+                onData: (value) {
+                  print('Status is ${value.status}');
+                },
                 dataBuilder: (context, result) {
                   switch(result?.status){
                     case Status.loading:

@@ -37,12 +37,12 @@ class AdmissionsDetailsPageView
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
       case 4:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
-      case 5:
-       return (model.isDetailView())? Navigator.of(context).pushNamed(
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
           RoutePaths.competencyTestDetailPage,arguments: admissionDetail
         ) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
+      case 5:
+       return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
       default:
         return null;
@@ -81,7 +81,7 @@ class AdmissionsDetailsPageView
                     ),
                     InkWell(
                       onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails,arguments: { "routeFrom": "admission", "enquiryDetailArgs": admissionDetail}),
+                          context, RoutePaths.registrationDetails,arguments: { "routeFrom": "admission", "enquiryDetailArgs": admissionDetail,"enquiryDetail": model.enquiryDetails.value}),
                       child: Row(
                         children: [
                           SvgPicture.asset(

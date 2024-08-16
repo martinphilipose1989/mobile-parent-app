@@ -2,12 +2,13 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UploadDocuments extends StatelessWidget {
-  const UploadDocuments({super.key});
-
+  EnquiryDetail? enquiryDetail;
+  UploadDocuments({super.key,this.enquiryDetail});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,19 +49,14 @@ class UploadDocuments extends StatelessWidget {
             ),
           ),
         ),
-        _uploadItem(title: "*Aadhaar Card of Student"),
-        _uploadItem(title: "*Birth Certificate of Student"),
-        _uploadItem(title: "Report Card (Previous Year)"),
-        _uploadItem(title: "Report Card [Previous Year (-) 1]"),
-        _uploadItem(title: "Report Card [Previous Year (-) 2]"),
-        _uploadItem(title: "*Aadhar Card of Father"),
-        _uploadItem(title: "PAN Card of Father"),
-        _uploadItem(title: "*Gazetted copy of Name Change"),
+        Column(
+          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(title: enquiryDetail?.enquiryDocuments?[index].documentName??'')),
+        )
       ],
     );
   }
 
-  _uploadItem({title}){
+  _uploadItem({required String title}){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(

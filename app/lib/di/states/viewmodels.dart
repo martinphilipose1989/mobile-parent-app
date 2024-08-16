@@ -79,7 +79,7 @@ final admissionsDetailsProvider =
 final registrationsDetailsProvider =
     ChangeNotifierProvider.autoDispose<RegistrationsDetailsViewModel>(
   (ref) =>
-      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>()),
+      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
 );
 
 final enquiriesPageModelProvider =
@@ -90,7 +90,7 @@ final enquiriesPageModelProvider =
 final enquiriesDetailsPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesDetailsPageModel>(
   (ref) =>
-      EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>()),
+      EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
 );
 
 final enquiriesTimelinePageModelProvider =

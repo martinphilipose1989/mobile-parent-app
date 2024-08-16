@@ -13,7 +13,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase);
   
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
-  EnquiryDetail? enquiryDetail;
+  final BehaviorSubject<EnquiryDetail> enquiryDetails = BehaviorSubject.seeded(EnquiryDetail());
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
     exceptionHandlerBinder.handle(block: () {
@@ -50,7 +50,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryDetail = result.data?.data;
+        enquiryDetails.value = result.data?.data?? EnquiryDetail();
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -59,12 +59,12 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   bool isDetailView(){
-    return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+    return enquiryDetails.value.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
   }
 
 
   bool isDetailViewCompetency(){
-    return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+    return enquiryDetails.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
   }
 
   final List registrationDetails = [

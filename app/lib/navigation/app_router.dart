@@ -78,6 +78,7 @@ class AppRouter {
             builder: (context) => RegistrationsDetailsPage(
                   routeFrom: args['routeFrom'] ?? '',
                   enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                  enquiryDetail: args["enquiryDetail"],
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.registrationDetails));
@@ -138,9 +139,11 @@ class AppRouter {
 
 
       case RoutePaths.enquiriesAdmissionsJourneyPage:
+      final args = settings.arguments as Map<String, dynamic>;
         return CupertinoPageRoute(
-            builder: (context) =>  EnquiriesAdmissionsJourneyPage(enquiryDetail: settings.arguments == null
-                      ? EnquiryDetailArgs() : settings.arguments as EnquiryDetailArgs,),
+            builder: (context) =>  EnquiriesAdmissionsJourneyPage(
+              enquiryDetail: args["enquiryDetailArgs"],
+            ),
             settings: const RouteSettings(
                 name: RoutePaths.enquiriesAdmissionsJourneyPage));
 
@@ -163,7 +166,7 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => DetailsViewCompetencyTestPage(enquiryDetail: settings.arguments == null? EnquiryDetailArgs() : settings.arguments as EnquiryDetailArgs,),
             settings: const RouteSettings(
-                name: RoutePaths.detailsViewSchoolTourPage));
+                name: RoutePaths.competencyTestDetailPage));
 
       case RoutePaths.cancelCompetencyTestPage:
         final args = settings.arguments as List<dynamic>;
@@ -172,7 +175,7 @@ class AppRouter {
             enquiryDetailArgs: args[0] as EnquiryDetailArgs,
             competencyTestDetail: args[1] as CompetencyTestDetails,
           ),
-          settings: const RouteSettings(name: RoutePaths.cancelSchoolTourPage)
+          settings: const RouteSettings(name: RoutePaths.cancelCompetencyTestPage)
         );
 
       default:

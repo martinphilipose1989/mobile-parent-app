@@ -13,13 +13,13 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     @JsonKey(name: 'landmark')
     String? landmark;
     @JsonKey(name: 'country')
-    String? country;
+    CommonDataEntity? country;
     @JsonKey(name: 'pinCode')
     String? pinCode;
     @JsonKey(name: 'state')
-    String? state;
+    CommonDataEntity? state;
     @JsonKey(name: 'city')
-    String? city;
+    CommonDataEntity? city;
     @JsonKey(name: 'is_permanent_address')
     bool? isPermanentAddress;
 
@@ -42,13 +42,13 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
   @override
   ResidentialAddress transform() {
     ResidentialAddress residentialAddress = ResidentialAddress();
-    residentialAddress.city = city;
-    residentialAddress.country = country;
+    residentialAddress.city = city?.transform();
+    residentialAddress.country = country?.transform();
     residentialAddress.house = house;
     residentialAddress.isPermanentAddress = isPermanentAddress;
     residentialAddress.landmark = landmark;
     residentialAddress.pinCode = pinCode;
-    residentialAddress.state = state;
+    residentialAddress.state = state?.transform();
     residentialAddress.street = street;
     return residentialAddress;
   }

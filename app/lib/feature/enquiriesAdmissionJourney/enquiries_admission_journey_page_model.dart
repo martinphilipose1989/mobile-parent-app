@@ -50,6 +50,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         enquiryDetail = result.data?.data;
+        print(result.status);
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

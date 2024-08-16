@@ -1,10 +1,12 @@
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class UploadDocs extends StatelessWidget {
-  const UploadDocs({super.key});
+  EnquiryDetail? enquiryDetail;
+  UploadDocs({super.key, this.enquiryDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,9 @@ class UploadDocs extends StatelessWidget {
             ],
           ),
         ),
-        documentsNameAndIcons('*Aadhaar Card of Student'),
-        documentsNameAndIcons('*Birth Certificate of Student'),
-        documentsNameAndIcons('Report Card (Previous Year)'),
-        documentsNameAndIcons('Report Card [Previous Year (-) 1]'),
+        Column(
+          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (intdex)=> documentsNameAndIcons(enquiryDetail?.enquiryDocuments?[intdex].documentName??'')),
+        ),
       ],
     );
   }
@@ -43,18 +44,27 @@ class UploadDocs extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CommonText(
-              text: title,
-              style: AppTypography.subtitle2,
+            Expanded(
+              flex: 2,
+              child: CommonText(
+                text: title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.subtitle2,
+              ),
             ),
-            Row(
-              children: [
-                const Icon(Icons.cloud_upload_outlined),
-                CommonSizedBox.sizedBox(height: 5, width: 8),
-                const Icon(Icons.cloud_download_outlined),
-                CommonSizedBox.sizedBox(height: 5, width: 8),
-                const Icon(Icons.delete_outlined),
-              ],
+            const Spacer(),
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  const Icon(Icons.cloud_upload_outlined),
+                  CommonSizedBox.sizedBox(height: 5, width: 8),
+                  const Icon(Icons.cloud_download_outlined),
+                  CommonSizedBox.sizedBox(height: 5, width: 8),
+                  const Icon(Icons.delete_outlined),
+                ],
+              ),
             )
           ],
         ),

@@ -9,6 +9,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,8 @@ import 'package:flutter/material.dart' as flutter;
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
   EnquiryDetailArgs? enquiryDetailArgs;
-  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs});
+  EnquiryDetail? enquiryDetail;
+  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs,this.enquiryDetail});
 
 
   @override
@@ -62,7 +64,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Widget buildView(BuildContext context, RegistrationsDetailsViewModel model) {
-    return RegistrationsDetailsPageView(provideBase(),enquiryDetailArgs: widget.enquiryDetailArgs,);
+    return RegistrationsDetailsPageView(provideBase(),enquiryDetailArgs: widget.enquiryDetailArgs,enquiryDetail: widget.enquiryDetail,);
   }
 
   @override

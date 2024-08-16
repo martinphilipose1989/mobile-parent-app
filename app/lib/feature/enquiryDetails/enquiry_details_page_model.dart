@@ -1,3 +1,4 @@
+import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -13,15 +14,18 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   GetNewAdmissionDetailUseCase getNewAdmissionDetailUseCase;
   GetIvtDetailUsecase getIvtDetailUsecase;
   GetPsaDetailUsecase getPsaDetailUsecase;
+  GetEnquiryDetailUseCase getEnquiryDetailUseCase;
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  EnquiriesDetailsPageModel(this.exceptionHandlerBinder,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase);
+  EnquiriesDetailsPageModel(this.exceptionHandlerBinder,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase,this.getEnquiryDetailUseCase);
   late TabController tabController;
   bool visivilty = false;
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
   BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
   BehaviorSubject<PSADetail>? psaDetails = BehaviorSubject<PSADetail>.seeded(PSADetail());
+  PublishSubject<Resource<EnquiryDetail>> enquiryDetail= PublishSubject();
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
+  
   //New Admission Details
    TextEditingController enquiryNumberController = TextEditingController();
    TextEditingController enquiryTypeController = TextEditingController();
@@ -150,13 +154,34 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
+  Future<void> getEnquiryDetail({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+      
+      GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
+        enquiryID: enquiryID,
+      );
+      enquiryDetail.add(Resource.loading());
+      RequestManager<EnquiryDetailBase>(
+        params,
+        createCall: () => getEnquiryDetailUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
   addNewAdmissionDetails(NewAdmissionDetail detail){
     enquiryNumberController.text = detail.enquiryNumber ?? '';
     // enquiryTypeController.text = detail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? '';
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
     // globalIdController.text = detail.studentDetails?.globalId ?? '';
   }
 }

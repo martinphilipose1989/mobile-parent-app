@@ -40,7 +40,7 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
 
   @override
   Widget buildView(BuildContext context, EnquiriesPageModel model) {
-    return EnquiriesPageView(provideBase());
+    return EnquiriesPageView(provideBase(),);
   }
 
   @override

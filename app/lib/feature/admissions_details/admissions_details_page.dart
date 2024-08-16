@@ -26,6 +26,7 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
   @override
   void onModelReady(AdmissionsDetailsViewModel model) {
     model.getAdmissionJourney(enquiryID: widget.admissionDetail.enquiryId??'', type: 'admission');
+    model.getEnquiryDetail(enquiryID: widget.admissionDetail.enquiryId??'');
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

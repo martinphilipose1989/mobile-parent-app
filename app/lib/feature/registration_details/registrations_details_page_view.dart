@@ -30,7 +30,8 @@ import '../../model/resource.dart';
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {
       EnquiryDetailArgs? enquiryDetailArgs;
-  RegistrationsDetailsPageView(super.providerBase,{this.enquiryDetailArgs});
+      EnquiryDetail? enquiryDetail;
+  RegistrationsDetailsPageView(super.providerBase,{this.enquiryDetailArgs, required this.enquiryDetail});
 
   actionOnMenu(
       int index, BuildContext context, RegistrationsDetailsViewModel model) {
@@ -95,7 +96,7 @@ class RegistrationsDetailsPageView
                     } else {
                       model.showWidget.add(index);
                     }
-                    if(index == 0 || index == 5){
+                    if(index == 0){
                       if(enquiryDetailArgs?.enquiryType == "IVT"){
                         model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
                       } else if(enquiryDetailArgs?.enquiryType == "PSA"){
@@ -103,6 +104,8 @@ class RegistrationsDetailsPageView
                       } else{
                         model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
                       }
+                    }else if(index == 5){
+                      model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
                     } else{
                       model.fetchAllDetails(model.registrationDetails[index]['infoType']);
                     }
@@ -187,7 +190,21 @@ class RegistrationsDetailsPageView
           model: model,
         );
       case 5:
-        return const UploadDocs();
+        return AppStreamBuilder<Resource<EnquiryDetail>>(
+        stream: model.enquiryDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return UploadDocs(enquiryDetail: result?.data,);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+        });
       default:
         return const SizedBox.shrink();
     }
@@ -269,7 +286,22 @@ class RegistrationsDetailsPageView
           }
         });
       case 5:
-        return const UploadDocs();
+        return AppStreamBuilder<Resource<EnquiryDetail>>(
+        stream: model.enquiryDetail,
+          initialData: Resource.none(),
+          dataBuilder: (context, result) {
+          switch (result?.status){
+          case Status.loading:
+          return const Center(child: CircularProgressIndicator(),);
+          case Status.success:
+          return UploadDocs(enquiryDetail: result?.data,);
+            case Status.error:
+              return const Center(child: Text('Enquiries not found'),);
+            default:
+              return const Center(child: CircularProgressIndicator(),);
+          }
+        });
+        // return UploadDocs();
       default:
         return const SizedBox.shrink();
     }
