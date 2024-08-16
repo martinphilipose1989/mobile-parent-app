@@ -65,19 +65,28 @@ class UploadDocuments extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CommonText(text: title,
-                style: AppTypography.button.copyWith(
-                  color: AppColors.textDark
+              Expanded(
+                flex: 2,
+                child: CommonText(text: title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: AppTypography.button.copyWith(
+                    color: AppColors.textDark
+                  ),
                 ),
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(AppImages.uploadIcon),
-                  const SizedBox(width: 5,),
-                  SvgPicture.asset(AppImages.import),
-                  const SizedBox(width: 5,),
-                  SvgPicture.asset(AppImages.delete),
-                ],
+              const Spacer(),
+              Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
+                    SvgPicture.asset(AppImages.uploadIcon),
+                    const SizedBox(width: 5,),
+                    SvgPicture.asset(AppImages.import),
+                    const SizedBox(width: 5,),
+                    SvgPicture.asset(AppImages.delete),
+                  ],
+                ),
               )
             ],
           ),

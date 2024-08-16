@@ -8,6 +8,8 @@ import 'package:rxdart/subjects.dart';
 
 class CommonTabPage<T> extends StatelessWidget {
   final BehaviorSubject<int> selectedValue;
+  final VoidCallback? onFirstTabTap;
+  final VoidCallback? onSecondTabTap;
   final TabController tabController;
   final String? firstTabTitle;
   final String? secondTabTitle;
@@ -17,7 +19,9 @@ class CommonTabPage<T> extends StatelessWidget {
       required this.tabController,
       required this.selectedValue,
       this.firstTabTitle,
-      this.secondTabTitle});
+      this.secondTabTitle,
+      this.onFirstTabTap,
+      this.onSecondTabTap});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,9 @@ class CommonTabPage<T> extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   selectedValue.add(0);
+                  if(onFirstTabTap !=null){
+                    onFirstTabTap?.call();
+                  }
                 },
                 child: Container(
                   height: 48.h,
@@ -61,6 +68,9 @@ class CommonTabPage<T> extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   selectedValue.add(1);
+                  if(onSecondTabTap !=null){
+                    onSecondTabTap?.call();
+                  }
                 },
                 child: Container(
                   height: 48.h,

@@ -120,6 +120,9 @@ class EnquiriesDetailsPageView
                           secondTabTitle: "Upload Documents",
                           tabController: model.tabController,
                           selectedValue: model.selectedValue,
+                          onSecondTabTap: (){
+                            model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+                          },
                         ),
                         AppStreamBuilder<bool>(
                               stream: model.editRegistrationDetails,
@@ -137,12 +140,10 @@ class EnquiriesDetailsPageView
                                               if(data?.status == Status.loading){
                                                 return const CircularProgressIndicator();
                                               }
-                                              if(data?.status == Status.success){
-                                                return UploadDocuments(enquiryDetail: data?.data,);
-                                              }
-                                              else{
+                                              if(data?.status == Status.error){ 
                                                 return const CommonText(text: "Documents not found");
                                               }
+                                              return UploadDocuments(enquiryDetail: data?.data,);
                                             },
                                           )
                                         : model.editRegistrationDetails.value

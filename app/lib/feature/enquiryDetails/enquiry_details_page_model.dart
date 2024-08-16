@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
@@ -60,6 +61,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
+  
+  EnquiryDetailArgs? enquiryDetailArgs;
 
   final BehaviorSubject<bool> selectedGradeType =
       BehaviorSubject<bool>.seeded(false);
@@ -83,9 +86,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   final List<String> parentType = ["Mother","Father"];
 
-  final List<String> existingSchoolGrade = ['Grade 1', 'Grade 2', 'Grade 3'];
+  final List<String> existingSchoolGrade = ['Grade I', 'Grade II', 'Grade III'];
   final List<String> existingSchoolBoard = ['CBSC', 'International'];
-  final List<String> gradeTypes = ['Grade 1', 'Grade 2', 'Grade 3'];
+  final List<String> gradeTypes = ['Grade I', 'Grade II', 'Grade III'];
 
   final List<String> gender = ["Male","Female","Other"];
 
@@ -93,7 +96,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<NewAdmissionBase>(
@@ -104,7 +107,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
         if(isEdit){
-          addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail());
+          addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -116,7 +119,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<IVTBase>(
@@ -137,7 +140,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       
       RequestManager<PsaResponse>(
@@ -158,7 +161,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "66ba1b522c07e8497dde3061",
       );
       enquiryDetail.add(Resource.loading());
       RequestManager<EnquiryDetailBase>(
@@ -175,12 +178,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  addNewAdmissionDetails(NewAdmissionDetail detail){
-    enquiryNumberController.text = detail.enquiryNumber ?? '';
-    // enquiryTypeController.text = detail.enquiryType ?? '';
+  addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? '';
+    
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
     // globalIdController.text = detail.studentDetails?.globalId ?? '';
   }
