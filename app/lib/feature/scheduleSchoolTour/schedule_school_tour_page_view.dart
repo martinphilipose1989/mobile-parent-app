@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../navigation/route_paths.dart';
+
 
 class ScheduleSchoolTourPageView
     extends BasePageViewWidget<ScheduleSchoolTourPageModel> {
@@ -181,11 +183,16 @@ class ScheduleSchoolTourPageView
                           'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
                           'Selected Time: ${model.selectedTime}',
                           'Comments: ${model.commentController.text}',
-                          (shouldRoute) {
+                              (shouldRoute) {
                             if(isReschedule){
-                              model.rescheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate );
+                              model.rescheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
+                                Navigator.pop(context);
+                                });
+
                             } else{
-                            model.scheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate );
+                            model.scheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
+                              Navigator.pop(context);
+                            });;
                             }
                           },
                         );

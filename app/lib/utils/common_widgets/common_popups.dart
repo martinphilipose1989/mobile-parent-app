@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io' show Platform, exit;
 
 class CommonPopups {
+
   // Private constructor
   CommonPopups._();
 
@@ -198,7 +199,7 @@ class CommonPopups {
     );
   }
 
-  void _showConfirmDialog(BuildContext context,
+  _showConfirmDialog(BuildContext context,
       {required String message,
       required String message1,
       required String message2,
