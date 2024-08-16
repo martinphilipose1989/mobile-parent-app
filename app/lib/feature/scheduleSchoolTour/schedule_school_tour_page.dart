@@ -28,6 +28,8 @@ class ScheduleSchoolTourPageState extends AppBasePageState<ScheduleSchoolTourPag
 
   @override
   void onModelReady(ScheduleSchoolTourPageModel model) {
+    model.enquiryID = widget.enquiryDetailArgs.enquiryId??'';
+    model.getDefaultDate();
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

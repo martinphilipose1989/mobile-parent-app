@@ -101,7 +101,7 @@ class CancelCompetencyTestPageView
                           'Confirm Cancellation Details',
                           'Please Confirm the below details',
                           'Date: ${model.dateFormat.format(DateTime.parse(competencyTestDetail.competencyTestDate??DateTime.now().toString()))}',
-                          'Selected Time: ${competencyTestDetail.competencyTestTime}',
+                          'Selected Time: ${competencyTestDetail.slot}',
                           'Comments: ${model.controller.text}',
                           (shouldRoute) {
                             model.cancelCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'',competencyTestID: competencyTestDetail.id??'');

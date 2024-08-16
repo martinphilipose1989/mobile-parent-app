@@ -22,6 +22,25 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
   BehaviorSubject<PSADetail>? psaDetails = BehaviorSubject<PSADetail>.seeded(PSADetail());
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
+  //New Admission Details
+   TextEditingController enquiryNumberController = TextEditingController();
+   TextEditingController enquiryTypeController = TextEditingController();
+   TextEditingController studentFirstNameController = TextEditingController();
+   TextEditingController studentLastNameController = TextEditingController();
+   TextEditingController dobController = TextEditingController()  ;
+   TextEditingController existingSchoolNameController = TextEditingController();
+   TextEditingController globalIdController = TextEditingController();
+ //PSA-specific controllers
+   TextEditingController psaSubTypeController = TextEditingController();
+   TextEditingController psaCategoryController = TextEditingController();
+   TextEditingController psaSubCategoryController = TextEditingController();
+    TextEditingController periodOfServiceController = TextEditingController();
+   TextEditingController psaBatchController = TextEditingController();
+ //IVT-specific controllers
+   TextEditingController ivtBoardController = TextEditingController();
+  TextEditingController ivtCourseController = TextEditingController();
+   TextEditingController ivtStreamController = TextEditingController();
+   TextEditingController ivtShiftController = TextEditingController();
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
       BehaviorSubject<bool>.seeded(false);
@@ -66,7 +85,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   final List<String> gender = ["Male","Female","Other"];
 
-  Future<void> getNewAdmissionDetails({required String enquiryID}) async {
+  Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
      
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
@@ -80,7 +99,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
-        // activeStep.add()
+        if(isEdit){
+          addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail());
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -127,5 +148,15 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  addNewAdmissionDetails(NewAdmissionDetail detail){
+    enquiryNumberController.text = detail.enquiryNumber ?? '';
+    // enquiryTypeController.text = detail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? '';
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
+    // globalIdController.text = detail.studentDetails?.globalId ?? '';
   }
 }

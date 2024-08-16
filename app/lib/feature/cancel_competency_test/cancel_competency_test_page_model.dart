@@ -30,7 +30,7 @@ class CancelCompetencyPageModel extends BasePageViewModel {
 
       CancelCompetencyTestUsecaseParams params = CancelCompetencyTestUsecaseParams(
         enquiryID: enquiryID,
-        cancelCompetencyTestRequest: request, competencyTest: competencyTestID,
+        cancelCompetencyTestRequest: request,
         
       );
       competencyTestDetail.add(Resource.loading());

@@ -62,6 +62,11 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
     return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
   }
 
+
+  bool isDetailViewCompetency(){
+    return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+  }
+
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false},
     {'name': 'Parent Info', 'isSelected': false},

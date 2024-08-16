@@ -1,5 +1,6 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
+import 'package:app/molecules/DetailsViewSchoolTour/competency_test_schedule_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -54,11 +55,13 @@ class ScheduleCompetencyTestPageView
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      isReschedule? CompetencyTestScheduledDetailsWidget(competencyTestDetails: competencyTestDetails??CompetencyTestDetails()) : const SizedBox.shrink(),
                       const SizedBox(
                         height: 10,
                       ),
                       CommonCalendarPage(onDateSelected: (date) {
                         model.setSelectedDate(date);
+                        model.selectedDate=date;
                         model.fetchTimeSlots(date, "669a46527986d066b783f479");
                       }),
                       const SizedBox(
@@ -119,6 +122,8 @@ class ScheduleCompetencyTestPageView
                                       return GestureDetector(
                                         onTap: (){
                                           model.selectedTimeIndex.add(index);
+                                          model.slotID = model.competenctTestSlots.value[index].id??'';
+                                          model.selectedTime = model.competenctTestSlots.value[index].slot??'';
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
@@ -184,11 +189,15 @@ class ScheduleCompetencyTestPageView
                           context,
                           isReschedule? 'Confirm Reschedule Details':'Confirm Test Details',
                           'Please Confirm the below details',
-                          'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate))}',
+                          'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
                           'Selected Time: ${model.selectedTime}',
                           'Mode: ${model.selectedMode}',
                           (shouldRoute) {
-                            model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            if(isReschedule){
+                              model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            } else {
+                              model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            }
                           },
                         );
                       }

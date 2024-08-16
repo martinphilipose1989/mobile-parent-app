@@ -13,8 +13,9 @@ import 'package:intl/intl.dart';
 class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateSchoolVisitUseCase createSchoolVisitUseCase;
+  final RescheduleSchoolVisitUseCase rescheduleSchoolVisitUseCase;
   final GetSchoolVisitSlotsUsecase getSchoolVisitSlotsUseCase;
-  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase){
+  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase){
     fetchTimeSlotsSchoolVisit(DateFormat('dd-MM-yyyy').format(DateTime.now()), "669a46527986d066b783f479");
   }
   
@@ -28,7 +29,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
 
   final BehaviorSubject<int> selectedTimeIndex = BehaviorSubject<int>.seeded(0);
 
-  String selectedTime = "";
+  String selectedTime = '';
 
   String selectedDate = "";
 
@@ -37,21 +38,52 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
 
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
 
+  void getDefaultDate(){
+    selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  }
+
   Future<void> scheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
     exceptionHandlerBinder.handle(block: () {
       SchoolCreationRequest request = SchoolCreationRequest(
-        schoolVisitDate: '2024-08-15',
-        slotId:"66b724cc62999ed044b31dec",
-        comment: "66b724cc62999ed044b31dec",
+        schoolVisitDate: selectedDate,
+        slotId: slotId,
+        comment: commentController.text,
       );
       CreateSchoolVisitUseCaseParams params = CreateSchoolVisitUseCaseParams(
         schoolCreationRequest: request,
-        enquiryID: "6685346f0386eb1f0298cd51"
+        enquiryID: "6685346f0386eb1f0298cd51",
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(
         params,
         createCall: () => createSchoolVisitUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        schoolVisitDetail.add(Resource.success(data: result.data?.data));
+
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+
+      });
+    }).execute();
+  }
+
+  Future<void> rescheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
+    exceptionHandlerBinder.handle(block: () {
+      SchoolCreationRequest request = SchoolCreationRequest(
+        schoolVisitDate: selectedDate,
+        slotId: slotId,
+        comment: commentController.text,
+      );
+      RescheduleSchoolVisitUseCaseParams params = RescheduleSchoolVisitUseCaseParams(
+        schoolCreationRequest: request,
+        enquiryID: "6685346f0386eb1f0298cd51",
+      );
+      schoolVisitDetail.add(Resource.loading());
+      RequestManager<SchoolVisitDetailBase>(
+        params,
+        createCall: () => rescheduleSchoolVisitUseCase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
@@ -77,6 +109,8 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         schoolVisitTimeSlots.add(result.data?.data??[]);
+        slotId = result.data?.data?[0].id??'';
+        selectedTime = result.data?.data?[0].slot??'';
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -99,7 +133,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
       exceptionHandlerBinder.showError(Exception("Please select date."));
       return false;
     }
-    else if (selectedTime.isEmpty) {
+    else if (slotId.isEmpty) {
       exceptionHandlerBinder.showError(Exception("Please select time."));
       return false;
     }

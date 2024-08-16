@@ -59,6 +59,7 @@ class CancelSchoolTourPageView
                       onSingleSelect: (selectedValue) {
                         if (model.reasonTypes.contains(selectedValue)) {
                           model.selectedReasonType.add(true);
+                          model.selectedReason = selectedValue;
                         }
                       },
                       isMutiSelect: false,
@@ -97,8 +98,8 @@ class CancelSchoolTourPageView
                           context,
                           'Confirm Cancellation Details',
                           'Please Confirm the below details',
-                          'Date: ${model.dateFormat.format(DateTime.parse((schoolVisitDetail.schoolVisitTime??DateTime.now().toString())))}',
-                          'Selected Time: ${model.schoolVisitDetailData?.schoolVisitTime??''}',
+                          'Date: ${model.dateFormat.format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString())))}',
+                          'Selected Time: ${model.schoolVisitDetailData?.slot??''}',
                           'Comments: ${model.controller.text}',
                           (shouldRoute) {
                             model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'');

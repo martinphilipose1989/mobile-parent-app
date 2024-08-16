@@ -2,7 +2,8 @@ class SchoolVisitDetail {
     String? id;
     String? enquiryId;
     String? schoolVisitDate;
-    String? schoolVisitTime;
+    String? slot;
+    String? slotId;
     String? comment;
     String? status;
     String? createdBy;
@@ -17,7 +18,8 @@ class SchoolVisitDetail {
         this.id,
         this.enquiryId,
         this.schoolVisitDate,
-        this.schoolVisitTime,
+        this.slot,
+        this.slotId,
         this.comment,
         this.status,
         this.createdBy,

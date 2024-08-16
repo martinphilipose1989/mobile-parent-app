@@ -40,7 +40,9 @@ class AdmissionsDetailsPageView
         return Navigator.of(context)
             .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
       case 5:
-        return Navigator.of(context)
+       return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.competencyTestDetailPage,arguments: admissionDetail
+        ) : Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
       default:
         return null;

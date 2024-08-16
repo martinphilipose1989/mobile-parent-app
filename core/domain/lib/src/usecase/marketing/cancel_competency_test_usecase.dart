@@ -15,17 +15,17 @@ class CancelCompetencyTestUsecase extends BaseUseCase<BaseError,
     required CancelCompetencyTestUsecaseParams params,
   }) {
     return _competencyTestRepository.cancelCompetencyTest(
-      competencyTest: params.competencyTest, cancelCompetencyTestRequest: params.cancelCompetencyTestRequest,
+      enquiryID: params.enquiryID, cancelCompetencyTestRequest: params.cancelCompetencyTestRequest,
     );
   }
 }
 
 class CancelCompetencyTestUsecaseParams extends Params {
-  final String competencyTest;
+  final String enquiryID;
   final CancelCompetencyTestRequest cancelCompetencyTestRequest;
   CancelCompetencyTestUsecaseParams({
-    required this.competencyTest,
-    required this.cancelCompetencyTestRequest, required String enquiryID
+    required this.enquiryID,
+    required this.cancelCompetencyTestRequest,
   });
 
   @override

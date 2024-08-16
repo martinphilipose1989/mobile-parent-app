@@ -145,7 +145,7 @@ abstract class RetrofitService {
     }
   );
 
-  @GET('marketing/school-visit/{enquiryId}')
+  @GET('marketing/school-visit/{enquiryID}')
   Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
     {@Path('enquiryID') required String enquiryID}
   );
@@ -156,15 +156,15 @@ abstract class RetrofitService {
     @Body() required SchoolCreationRequest schoolCreationRequest}
   );
 
-  @POST('marketing/school-visit/{enquiryId}/reschedule')
+  @POST('marketing/school-visit/{enquiryID}/reschedule')
   Future<HttpResponse<SchoolVisitEntity>> rescheduleSchoolVisit(
-    {@Path('schoolVisitID') required String schoolVisitID,
+    {@Path('enquiryID') required String schoolVisitID,
     @Body() required SchoolCreationRequest schoolCreationRequest}
   );
 
-  @POST('marketing/school-visit/{enquiryId}/cancel')
+  @POST('marketing/school-visit/{enquiryID}/cancel')
   Future<HttpResponse<SchoolVisitEntity>> cancelSchoolVisit(
-    {@Path('schoolVisitID') required String schoolVisitID,
+    {@Path('enquiryID') required String enquiryID,
     @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest}
   );
 
@@ -180,21 +180,21 @@ abstract class RetrofitService {
     {@Path('enquiryID') required String enquiryID,}
   );
 
-  @POST('marketing/competency-test/{enquiryId}/create')
+  @POST('marketing/competency-test/{enquiryID}/create')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> createCompetencyTest(
     {@Path('enquiryID') required String enquiryID,
     @Body() required CompetencyTestCreationRequest competencyTestCreationRequest}
   );
 
-  @POST('marketing/competency-test/{enquiryId}/reschedule')
+  @POST('marketing/competency-test/{enquiryID}/reschedule')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> rescheduleCompetencyTest(
-    {@Path('competencyTest') required String competencyTest,
+    {@Path('enquiryID') required String enquiryID,
     @Body() required CompetencyTestCreationRequest competencyTestCreationRequest}
   );
 
-  @POST('marketing/competency-test/{enquiryId}/cancel')
+  @POST('marketing/competency-test/{enquiryID}/cancel')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> cancelCompetencyTest(
-    {@Path('competencyTest') required String competencyTest,
+    {@Path('enquiryID') required String enquiryID,
     @Body() required CancelCompetencyTestRequest cancelCompetencyTestRequest}
   );
 @GET('marketing/enquiry/{enquiryID}/document/{documentID}')

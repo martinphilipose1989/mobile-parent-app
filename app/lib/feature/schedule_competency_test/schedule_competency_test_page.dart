@@ -28,6 +28,7 @@ class ScheduleCompetencyTestPageState extends AppBasePageState<CompetencyTestMod
 
   @override
   void onModelReady(CompetencyTestModel model) {
+    model.getDefaultDate();
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

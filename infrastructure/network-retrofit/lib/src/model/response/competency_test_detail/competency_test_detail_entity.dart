@@ -11,8 +11,10 @@ class CompetencyTestDetailEntity extends BaseLayerDataTransformer<CompetencyTest
     String? enquiryId;
     @JsonKey(name: 'competencyTestDate')
     String? competencyTestDate;
-    @JsonKey(name: 'competencyTestTime')
-    String? competencyTestTime;
+    @JsonKey(name: 'slot')
+    String? slot;
+    @JsonKey(name: 'slot_id')
+    String? slotId;
     @JsonKey(name: 'mode')
     String? mode;
     @JsonKey(name: 'status')
@@ -34,7 +36,8 @@ class CompetencyTestDetailEntity extends BaseLayerDataTransformer<CompetencyTest
         this.id,
         this.enquiryId,
         this.competencyTestDate,
-        this.competencyTestTime,
+        this.slot,
+        this.slotId,
         this.mode,
         this.status,
         this.createdBy,
@@ -56,7 +59,8 @@ class CompetencyTestDetailEntity extends BaseLayerDataTransformer<CompetencyTest
     competencyTestDetails.id = id;
     competencyTestDetails.enquiryId = enquiryId;
     competencyTestDetails.competencyTestDate = competencyTestDate;
-    competencyTestDetails.competencyTestTime = competencyTestTime;
+    competencyTestDetails.slot = slot;
+    competencyTestDetails.slotID = slotId;
     competencyTestDetails.mode = mode;
     competencyTestDetails.status = status;
     competencyTestDetails.createdBy = createdBy;

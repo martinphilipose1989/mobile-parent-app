@@ -15,16 +15,16 @@ class RescheduleCompetencyTestUseCase extends BaseUseCase<BaseError,
     required RescheduleCompetencyTestUseCaseParams params,
   }) {
     return _competencyTestRepository.rescheduleCompetencyTest(
-      competencyTest: params.competencyTest, competencyTestCreationRequest: params.competencyTestCreationRequest,
+      enquiryID: params.enquiryID, competencyTestCreationRequest: params.competencyTestCreationRequest,
     );
   }
 }
 
 class RescheduleCompetencyTestUseCaseParams extends Params {
-  final String competencyTest;
+  final String enquiryID;
   final CompetencyTestCreationRequest competencyTestCreationRequest;
   RescheduleCompetencyTestUseCaseParams({
-    required this.competencyTest,
+    required this.enquiryID,
     required this.competencyTestCreationRequest
   });
 

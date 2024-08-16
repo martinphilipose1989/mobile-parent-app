@@ -28,9 +28,8 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
       );
 
       CancelSchoolVisitUsecaseParams params = CancelSchoolVisitUsecaseParams(
-        enquiryID: enquiryID,
+        enquiryID: "6685346f0386eb1f0298cd51",
         schoolVisitCancelRequest: request,
-        schoolVisitID: schoolVisitID,
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(

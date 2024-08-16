@@ -2,7 +2,8 @@ class CompetencyTestDetails {
     String? id;
     String? enquiryId;
     String? competencyTestDate;
-    String? competencyTestTime;
+    String? slot;
+    String? slotID;
     String? mode;
     String? status;
     String? createdBy;

@@ -15,16 +15,16 @@ class RescheduleSchoolVisitUseCase extends BaseUseCase<BaseError,
     required RescheduleSchoolVisitUseCaseParams params,
   }) {
     return _schoolVisitRepository.rescheduleSchoolVisit(
-      schoolVisitID: params.schoolVisitID, schoolCreationRequest: params.schoolCreationRequest,
+      enquiryID: params.enquiryID, schoolCreationRequest: params.schoolCreationRequest,
     );
   }
 }
 
 class RescheduleSchoolVisitUseCaseParams extends Params {
-  final String schoolVisitID;
+  final String enquiryID;
   final SchoolCreationRequest schoolCreationRequest;
   RescheduleSchoolVisitUseCaseParams({
-    required this.schoolVisitID,
+    required this.enquiryID,
     required this.schoolCreationRequest
   });
 

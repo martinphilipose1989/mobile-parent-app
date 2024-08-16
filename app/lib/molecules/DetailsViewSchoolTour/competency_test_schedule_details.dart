@@ -21,7 +21,7 @@ class CompetencyTestScheduledDetailsWidget extends StatelessWidget {
           color: const Color(0xffE0E0E0),
         ),
         const SizedBox(height: 10,),
-        _detailItem(title: "Test Time",subtitle: competencyTestDetails.competencyTestTime??''),
+        _detailItem(title: "Test Time",subtitle: competencyTestDetails.slot??''),
         const SizedBox(height: 10,),
         _detailItem(title: "Mode",subtitle: competencyTestDetails.mode??''),
         const SizedBox(height: 10,),

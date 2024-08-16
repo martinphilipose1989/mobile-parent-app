@@ -12,8 +12,10 @@ class SchoolVisitDetailEntity extends BaseLayerDataTransformer<SchoolVisitDetail
   String? enquiryId;
   @JsonKey(name: 'school_visit_date')
   String? schoolVisitDate;
-  @JsonKey(name: 'school_visit_time')
-  String? schoolVisitTime;
+  @JsonKey(name: 'slot')
+  String? slot;
+  @JsonKey(name: 'slot_id')
+  String? slotId;
   @JsonKey(name: 'comment')
   String? comment;
   @JsonKey(name: 'status')
@@ -37,7 +39,8 @@ class SchoolVisitDetailEntity extends BaseLayerDataTransformer<SchoolVisitDetail
       this.id,
       this.enquiryId,
       this.schoolVisitDate,
-      this.schoolVisitTime,
+      this.slot,
+      this.slotId,
       this.comment,
       this.status,
       this.createdBy,
@@ -60,7 +63,8 @@ class SchoolVisitDetailEntity extends BaseLayerDataTransformer<SchoolVisitDetail
     schoolVisit.id = id;
     schoolVisit.enquiryId = enquiryId;
     schoolVisit.schoolVisitDate = schoolVisitDate;
-    schoolVisit.schoolVisitTime = schoolVisitTime;
+    schoolVisit.slot = slot;
+    schoolVisit.slotId = slotId;
     schoolVisit.comment = comment;
     schoolVisit.status = status;
     schoolVisit.createdBy = createdBy;

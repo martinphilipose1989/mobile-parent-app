@@ -13,8 +13,9 @@ import 'package:intl/intl.dart';
 class CompetencyTestModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
+  final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
-  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase){
+  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase){
     fetchTimeSlots(DateFormat('dd-MM-yyyy').format(DateTime.now()),'669a46527986d066b783f479');
   }
 
@@ -39,6 +40,9 @@ class CompetencyTestModel extends BasePageViewModel {
   final competenctTestSlots = BehaviorSubject<List<SlotsDetail>>();
   String enquiryID = "";
   
+    void getDefaultDate(){
+    selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  }
 
   Future<void> fetchTimeSlots(String date,String enquiryID) async {
     exceptionHandlerBinder.handle(block: () {
@@ -53,6 +57,8 @@ class CompetencyTestModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         competenctTestSlots.add(result.data?.data??[]);
+        slotID = result.data?.data?[0].id??'';
+        selectedTime = result.data?.data?[0].slot??'';
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -86,6 +92,33 @@ class CompetencyTestModel extends BasePageViewModel {
     }).execute();
   }
 
+  Future<void> rescheduleCompetencyTest({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+      CompetencyTestCreationRequest request = CompetencyTestCreationRequest(
+        competencyTestDate: selectedDate,
+        slotId: slotID,
+        mode: selectedMode,
+        createdBy: 0
+      );
+      RescheduleCompetencyTestUseCaseParams params = RescheduleCompetencyTestUseCaseParams(
+        competencyTestCreationRequest: request,
+        enquiryID: enquiryID
+      );
+      competencyTestDetails.add(Resource.loading());
+      RequestManager<CompetencyTestDetailBase>(
+        params,
+        createCall: () => rescheduleCompetencyTestUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        competencyTestDetails.add(Resource.success(data: result.data?.data));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
   void setSelectedTime(String time) {
     selectedTime = time;
     notifyListeners();
@@ -106,7 +139,7 @@ class CompetencyTestModel extends BasePageViewModel {
       exceptionHandlerBinder.showError(Exception("Please select date."));
       return false;
     }
-    else if (selectedTime.isEmpty) {
+    else if (slotID.isEmpty) {
       exceptionHandlerBinder.showError(Exception("Please select time."));
       return false;
     }

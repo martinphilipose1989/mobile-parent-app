@@ -3,6 +3,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/competency_test_schedule_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -80,7 +81,7 @@ class DetailsViewCompetencyTestPageView
                 children: [
                   CommonElevatedButton(
                     onPressed: () {
-                      // Navigator.of(context).pushNamed(RoutePaths.cancelSchoolTourPage,arguments: [enquiryDetail,model.schoolVisitDetailData]);
+                      Navigator.of(context).pushNamed(RoutePaths.cancelCompetencyTestPage,arguments: [enquiryDetail,model.competencyTestDetails]);
                     },
                     text: 'Cancel Test',
                     borderColor: Theme.of(context).primaryColor,
@@ -93,7 +94,9 @@ class DetailsViewCompetencyTestPageView
                     width: 20,
                   ),
                   CommonElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail,'competencyTestDetail': model.competencyTestDetail,'isReschedule': true});
+                    },
                     text: 'Reschedule Test',
                     backgroundColor: AppColors.accent,
                     width: 171.w,

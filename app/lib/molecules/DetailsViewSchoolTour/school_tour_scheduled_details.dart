@@ -24,7 +24,7 @@ class SchoolTourScheduledDetailsWidget extends StatelessWidget {
         const SizedBox(height: 10,),
         _detailItem(title: "Date",subtitle: DateFormat('dd/MM/yyyy').format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now()).toString())),),
         const SizedBox(height: 10,),
-        _detailItem(title: "Selected Time",subtitle: schoolVisitDetail.schoolVisitTime??''),
+        _detailItem(title: "Selected Time",subtitle: schoolVisitDetail.slot??''),
         const SizedBox(height: 10,),
         _detailItem(title: "Comments",subtitle: schoolVisitDetail.comment??''),
         const SizedBox(height: 10,),

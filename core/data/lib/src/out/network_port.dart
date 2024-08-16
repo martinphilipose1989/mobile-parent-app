@@ -52,16 +52,16 @@ abstract class NetworkPort {
   Future<Either<NetworkError,Slots>> getSchoolVisitSlots({required String enquiryID,required String date});
   Future<Either<NetworkError,SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID});
   Future<Either<NetworkError,SchoolVisitDetailBase>> createSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest});
-  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String schoolVisitID,required SchoolCreationRequest schoolCreationRequest});
-  Future<Either<NetworkError,SchoolVisitDetailBase>> cancelSchoolVisit({required String schoolVisitID,required SchoolVisitCancelRequest cancelSchoolRequest});
+  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest});
+  Future<Either<NetworkError,SchoolVisitDetailBase>> cancelSchoolVisit({required String enquiryID,required SchoolVisitCancelRequest cancelSchoolRequest});
   
   Future<Either<NetworkError,AdmissionListBaseModel>> getAdmissionList({required String phone,required int pageNumber,int pageSize = 10});
   
   Future<Either<NetworkError,Slots>> getCompetencyTestSlots({required String enquiryID,required date});
   Future<Either<NetworkError,CompetencyTestDetailBase>> getCompetencyTestDetail({required String enquiryID,});
   Future<Either<NetworkError,CompetencyTestDetailBase>> createCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest});
-  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String competencyTest,required CompetencyTestCreationRequest competencyTestCreationRequest});
-  Future<Either<NetworkError,CompetencyTestDetailBase>> cancelCompetencyTest({required String competencyTest,required CancelCompetencyTestRequest cancelCompetencyTestRequest});
+  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest});
+  Future<Either<NetworkError,CompetencyTestDetailBase>> cancelCompetencyTest({required String enquiryID,required CancelCompetencyTestRequest cancelCompetencyTestRequest});
 
   Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});
   Future<Either<NetworkError,DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID,required String documentID});

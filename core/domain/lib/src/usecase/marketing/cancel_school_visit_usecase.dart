@@ -15,17 +15,17 @@ class CancelSchoolVisitUsecase extends BaseUseCase<BaseError,
     required CancelSchoolVisitUsecaseParams params,
   }) {
     return _schoolVisitRepository.cancelSchoolVisit(
-      schoolVisitID: params.schoolVisitID, cancelSchoolRequest: params.schoolVisitCancelRequest,
+      enquiryID: params.enquiryID, cancelSchoolRequest: params.schoolVisitCancelRequest,
     );
   }
 }
 
 class CancelSchoolVisitUsecaseParams extends Params {
-  final String schoolVisitID;
+  final String enquiryID;
   final SchoolVisitCancelRequest schoolVisitCancelRequest;
   CancelSchoolVisitUsecaseParams({
-    required this.schoolVisitID,
-    required this.schoolVisitCancelRequest, required String enquiryID
+    required this.enquiryID,
+    required this.schoolVisitCancelRequest,
   });
 
   @override

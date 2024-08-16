@@ -18,7 +18,7 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
       exceptionHandlerBinder.handle(block: () {
       
       GetSchoolVisitDetailUseCaseParams params = GetSchoolVisitDetailUseCaseParams(
-        enquiryID: enquiryID
+        enquiryID: "6685346f0386eb1f0298cd51"
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(

@@ -1,6 +1,8 @@
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
+import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
+import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiries/enquiries_page.dart';
@@ -13,7 +15,7 @@ import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
-import 'package:app/feature/schedule_competency_test/schedule_school_tour_page.dart';
+import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/molecules/payments/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/cheque_page.dart';
@@ -156,6 +158,22 @@ class AppRouter {
             isReschedule: args['isReschedule'] ?? false,      
           ),
           settings: const RouteSettings(name: RoutePaths.scheduleCompetencyTest));
+
+      case RoutePaths.competencyTestDetailPage:
+        return CupertinoPageRoute(
+            builder: (context) => DetailsViewCompetencyTestPage(enquiryDetail: settings.arguments == null? EnquiryDetailArgs() : settings.arguments as EnquiryDetailArgs,),
+            settings: const RouteSettings(
+                name: RoutePaths.detailsViewSchoolTourPage));
+
+      case RoutePaths.cancelCompetencyTestPage:
+        final args = settings.arguments as List<dynamic>;
+        return CupertinoPageRoute(
+          builder: (context) => CancelCompetencyTestPage(
+            enquiryDetailArgs: args[0] as EnquiryDetailArgs,
+            competencyTestDetail: args[1] as CompetencyTestDetails,
+          ),
+          settings: const RouteSettings(name: RoutePaths.cancelSchoolTourPage)
+        );
 
       default:
         // Replace by Empty Page

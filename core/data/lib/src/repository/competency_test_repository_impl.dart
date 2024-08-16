@@ -23,12 +23,12 @@ class CompetencyTestRepositoryImpl extends CompetencyTestRepository{
   }
 
   @override
-  Future<Either<NetworkError, CompetencyTestDetailBase>> rescheduleCompetencyTest({required String competencyTest, required CompetencyTestCreationRequest competencyTestCreationRequest}) {
-    return _networkPort.rescheduleCompetencyTest(competencyTest: competencyTest, competencyTestCreationRequest: competencyTestCreationRequest);
+  Future<Either<NetworkError, CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID, required CompetencyTestCreationRequest competencyTestCreationRequest}) {
+    return _networkPort.rescheduleCompetencyTest(enquiryID: enquiryID, competencyTestCreationRequest: competencyTestCreationRequest);
   }
 
   @override
-  Future<Either<NetworkError, CompetencyTestDetailBase>> cancelCompetencyTest({required String competencyTest, required CancelCompetencyTestRequest cancelCompetencyTestRequest}) {
-    return _networkPort.cancelCompetencyTest(competencyTest: competencyTest, cancelCompetencyTestRequest: cancelCompetencyTestRequest);    
+  Future<Either<NetworkError, CompetencyTestDetailBase>> cancelCompetencyTest({required String enquiryID, required CancelCompetencyTestRequest cancelCompetencyTestRequest}) {
+    return _networkPort.cancelCompetencyTest(enquiryID: enquiryID, cancelCompetencyTestRequest: cancelCompetencyTestRequest);    
   }
 }

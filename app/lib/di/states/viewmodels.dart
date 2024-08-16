@@ -108,13 +108,13 @@ final editEnquiriesDetailsPageModelProvider =
 final scheduleSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<ScheduleSchoolTourPageModel>(
   (ref) =>
-      ScheduleSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateSchoolVisitUseCase>(),getIt.get<GetSchoolVisitSlotsUsecase>()),
+      ScheduleSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateSchoolVisitUseCase>(),getIt.get<GetSchoolVisitSlotsUsecase>(),getIt.get<RescheduleSchoolVisitUseCase>()),
 );
 
 final scheduleCompetencyTestPageModelProvider =
     ChangeNotifierProvider.autoDispose<CompetencyTestModel>(
   (ref) =>
-      CompetencyTestModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateCompetencyTestUsecase>(),getIt.get<GetCompetencyTestSlotsUsecase>()),
+      CompetencyTestModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateCompetencyTestUsecase>(),getIt.get<GetCompetencyTestSlotsUsecase>(),getIt.get<RescheduleCompetencyTestUseCase>()),
 );
 
 final detailsViewCompetencyTestPageModelProvider = 

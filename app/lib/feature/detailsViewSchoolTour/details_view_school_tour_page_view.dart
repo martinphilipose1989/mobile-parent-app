@@ -94,7 +94,9 @@ class DetailsViewSchoolTourPageView
                     width: 20,
                   ),
                   CommonElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                       Navigator.of(context).pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,'schoolVisitDetail': model.schoolVisitDetailData,'isReschedule': true});
+                    },
                     text: 'Reschedule Tour',
                     backgroundColor: AppColors.accent,
                     width: 171.w,

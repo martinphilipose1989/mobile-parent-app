@@ -1,5 +1,4 @@
 import 'package:data/data.dart';
-import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class SchoolVisitRepositoryImpl extends SchoolVisitRepository{
@@ -23,12 +22,12 @@ class SchoolVisitRepositoryImpl extends SchoolVisitRepository{
     return _networkPort.createSchoolVisit(enquiryID: enquiryID, schoolCreationRequest: schoolCreationRequest);
   }
   @override
-  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String schoolVisitID,required SchoolCreationRequest schoolCreationRequest}){
-    return _networkPort.rescheduleSchoolVisit(schoolVisitID: schoolVisitID, schoolCreationRequest: schoolCreationRequest);
+  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest}){
+    return _networkPort.rescheduleSchoolVisit(enquiryID: enquiryID, schoolCreationRequest: schoolCreationRequest);
   }
 
   @override
-  Future<Either<NetworkError, SchoolVisitDetailBase>> cancelSchoolVisit({required String schoolVisitID, required SchoolVisitCancelRequest cancelSchoolRequest}) {
-    return _networkPort.cancelSchoolVisit(schoolVisitID: schoolVisitID, cancelSchoolRequest: cancelSchoolRequest);
+  Future<Either<NetworkError, SchoolVisitDetailBase>> cancelSchoolVisit({required String enquiryID, required SchoolVisitCancelRequest cancelSchoolRequest}) {
+    return _networkPort.cancelSchoolVisit(enquiryID: enquiryID, cancelSchoolRequest: cancelSchoolRequest);
   }
 }
