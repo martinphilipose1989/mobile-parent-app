@@ -175,9 +175,9 @@ abstract class RetrofitService {
     @Query('pageSize') required int pageSize}
   );
 
-  @GET('marketing/competency-test/')
+  @GET('marketing/competency-test/{enquiryId}')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> getCompetencyTestDetail(
-    {@Path('enquiryID') required String enquiryID,}
+    {@Path('enquiryId') required String enquiryID,}
   );
 
   @POST('marketing/competency-test/{enquiryID}/create')
@@ -233,14 +233,14 @@ abstract class RetrofitService {
       }
       );
 
-  @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/medical-details')
   Future<HttpResponse<SingleResponse<MedicalDetailsEntity>>> updateMedicalDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required MedicalDetailsEntity medicalDetails
       }
       );
 
-  @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH('/marketing/app/registration/{enquiryId}/bank-details')
   Future<HttpResponse<SingleResponse<BankDetailsEntity>>> updateBankDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required BankDetailsEntity bankDetails
