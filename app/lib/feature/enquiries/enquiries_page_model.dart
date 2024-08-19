@@ -79,6 +79,7 @@ class EnquiriesPageModel extends BasePageViewModel {
         isNextPage = result.data?.data?.isNextPage ?? false;
         isLoading.value = false;
       }).onError((error) {
+        print("Error ${error.toString()}");
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
       });

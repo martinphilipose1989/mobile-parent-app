@@ -76,6 +76,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> selectedParentType =
       BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>();
   
   final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
   final List<String> schoolLocationTypes = [
@@ -183,9 +190,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? '';
-    
+    dobController.text = detail.studentDetails?.dob ?? ''; 
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedParentTypeSubject.add("Father");
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     // globalIdController.text = detail.studentDetails?.globalId ?? '';
+  }
+
+  addPsaDetails(PSADetail detail){
+    psaSubTypeController.text = detail.psaSubType?.value?? '';
+    psaCategoryController.text = detail.psaCategory?.value?? '';
+    psaSubCategoryController.text = detail.psaSubCategory?.value?? '';
+    periodOfServiceController.text = detail.psaPeriodOfService?.value?? '';
+    psaBatchController.text = detail.psaBatch?.value?? '';
+  }
+
+  addIvtDetails(IVTDetail detail){
+    ivtBoardController.text = detail.board?.value?? '';
+    ivtCourseController.text = detail.course?.value?? '';
+    ivtStreamController.text = detail.stream?.value?? '';
+    ivtShiftController.text = detail.shift?.value?? '';
   }
 }

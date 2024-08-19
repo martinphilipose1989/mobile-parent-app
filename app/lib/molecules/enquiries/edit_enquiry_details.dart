@@ -34,6 +34,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           showAstreik: false,
           labelText: "Enquiry Number",
           readOnly: true,
+          controller: model.enquiryNumberController,
         ),
         const SizedBox(
           height: 20,
@@ -42,6 +43,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           showAstreik: true,
           labelText: "Enquiry Type",
           readOnly: true,
+          controller: model.enquiryTypeController,
         ),
         const SizedBox(
           height: 20,
@@ -54,6 +56,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             dropdownName: 'School Location',
             showAstreik: true,
             showBorderColor: true,
+            singleSelectItemSubject: model.selectedSchoolLocationSubject,
             items: model.schoolLocationTypes,
             onSingleSelect: (selectedValue) {
               if (model.schoolLocationTypes.contains(selectedValue)) {
@@ -70,6 +73,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         CommonTextFormField(
           showAstreik: true,
           labelText: "Student First Name",
+          controller: model.studentFirstNameController,
         ),
         const SizedBox(
           height: 20,
@@ -77,6 +81,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         CommonTextFormField(
           showAstreik: true,
           labelText: "Student Last Name",
+          controller: model.studentLastNameController,
         ),
         const SizedBox(
           height: 20,
@@ -95,6 +100,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                 model.selectedGradeType.add(true);
               }
             },
+            singleSelectItemSubject: model.selectedGradeSubject,
             isMutiSelect: false,
           ),
         ),
@@ -104,6 +110,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         CommonTextFormField(
           showAstreik: true,
           labelText: "DOB",
+          controller: model.dobController,
         ),
         const SizedBox(
           height: 20,
@@ -117,6 +124,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             showAstreik: true,
             showBorderColor: true,
             items: model.gender,
+            singleSelectItemSubject: model.selectedGenderSubject,
             onSingleSelect: (selectedValue) {
               if (model.gender.contains(selectedValue)) {
                 model.selectedGenerType.add(true);
@@ -129,6 +137,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Existing School Name',
+          controller: model.existingSchoolNameController,
         ),
         const SizedBox(height: 20,),
         SizedBox(
@@ -140,6 +149,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             showAstreik: true,
             showBorderColor: true,
             items: model.existingSchoolBoard,
+            singleSelectItemSubject: model.selectedExistingSchoolBoardSubject,
             onSingleSelect: (selectedValue) {
               if (model.existingSchoolBoard.contains(selectedValue)) {
                 model.selectedExistingSchoolBoard.add(true);
@@ -158,6 +168,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             showAstreik: true,
             showBorderColor: true,
             items: model.existingSchoolGrade,
+            singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
             onSingleSelect: (selectedValue) {
               if (model.existingSchoolGrade.contains(selectedValue)) {
                 model.selectedExistingSchoolGrade.add(true);
@@ -184,6 +195,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             showAstreik: true,
             showBorderColor: true,
             items: model.parentType,
+            singleSelectItemSubject: model.selectedParentTypeSubject,
             onSingleSelect: (selectedValue) {
               if (model.parentType.contains(selectedValue)) {
                 model.selectedParentType.add(true);
@@ -197,6 +209,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           showAstreik: false,
           labelText: 'Gloabal ID',
           readOnly: true,
+          controller: model.globalIdController,
         ),
         const SizedBox(height: 100,),        
       ],
@@ -204,57 +217,66 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
   }
 
   Widget psaDetails(){
-    return const Column(
+    return Column(
       children: [
         CommonTextFormField(
           showAstreik: true,
           labelText: 'PSA Sub Type',
+          controller: model.psaSubTypeController,
         ),
         SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'PSA Category',
+          controller: model.psaCategoryController,
         ),
          SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'PSA Sub Category',
+          controller: model.psaSubCategoryController,
         ),
         SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Period of service',
+          controller: model.periodOfServiceController,
         ),
         SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'PSA batch',
+          controller: model.psaBatchController,
         ),
       ],
     );
   }
 
   Widget ivtDetails(){
-    return const Column(
+    return Column(
       children: [
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Board',
+          controller: model.ivtBoardController,
         ),
         SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Course',
+          controller: model.ivtCourseController,
         ),
          SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Stream',
+          controller: model.ivtStreamController,
         ),
         SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Shift',
+          controller: model.ivtShiftController,
         ),
       ],
     );

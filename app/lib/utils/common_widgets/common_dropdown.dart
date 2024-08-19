@@ -16,6 +16,7 @@ class CustomDropdownButton extends StatefulWidget {
   final bool displayZerothIndex;
   final Function(List<String> selectedValues) onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
+  final BehaviorSubject<String>? singleSelectItemSubject;
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -26,7 +27,8 @@ class CustomDropdownButton extends StatefulWidget {
       this.displayZerothIndex = false,
       this.width,
       required this.onMultiSelect,
-      this.onSingleSelect});
+      this.onSingleSelect,
+      this.singleSelectItemSubject});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -36,8 +38,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   BehaviorSubject<List<String>> selectedItemsSubject =
       BehaviorSubject<List<String>>.seeded([]);
 
-  BehaviorSubject<String> singleSelectItemSubject =
-      BehaviorSubject<String>.seeded('');
+  late BehaviorSubject<String> singleSelectItemSubject;
 
   String? selectedValue;
 
@@ -49,6 +50,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       List<String> addedZerothIndex = [];
       addedZerothIndex.add(widget.items[0] ?? '');
       selectedItemsSubject.add(addedZerothIndex);
+    }
+    if (!widget.isMutiSelect) {
+      singleSelectItemSubject = widget.singleSelectItemSubject ??
+          BehaviorSubject<String>.seeded('');
     }
   }
 
