@@ -41,14 +41,16 @@ class MedicalDetailsEditing extends StatelessWidget {
           value: 'No',
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
+         CommonTextFormField(
           showAstreik: false,
           labelText: 'Year Of Hospitalization',
+           controller: model.yearOfHospitalizationController,
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
+         CommonTextFormField(
           showAstreik: false,
           labelText: 'Reason Of Hospitalization',
+           controller:model.reasonOfHospitalizationController,
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
         const CommonText(
@@ -66,9 +68,10 @@ class MedicalDetailsEditing extends StatelessWidget {
           value: 'No',
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
+         CommonTextFormField(
           showAstreik: false,
           labelText: 'Specify Disability',
+           controller: model.specificDisabilityController,
         ),
       ],
     );

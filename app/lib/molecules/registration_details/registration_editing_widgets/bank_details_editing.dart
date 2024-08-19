@@ -39,34 +39,40 @@ class BankDetailsEditing extends StatelessWidget {
                         thickness: 1,
                       ),
                       CommonSizedBox.sizedBox(height: 20, width: 10),
-                      const CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: 'IFSC Code',
+                        controller: model.ifscCodeController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: 'Bank Name',
+                        controller:model.bankNameController
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
+                       CommonTextFormField(
                         showAstreik: false,
                         labelText: 'Branch Name',
+                         controller:model.branchNameController
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: 'Account Holder Name',
+                        controller:model.accountHolderNameController
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: 'Account Type',
+                        controller: model.accountTypeController
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: 'Account Number',
+                        controller:model.accountNumberController
                       ),
                     ],
                   ),

@@ -20,8 +20,9 @@ import 'package:flutter/material.dart' as flutter;
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
   EnquiryDetailArgs? enquiryDetailArgs;
+  ParentInfoEntity? parentInfoEntity;
   EnquiryDetail? enquiryDetail;
-  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs,this.enquiryDetail});
+  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs,this.enquiryDetail, this.parentInfoEntity});
 
 
   @override
@@ -74,6 +75,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Widget? buildFloatingButton(RegistrationsDetailsViewModel model) {
+
     return AppStreamBuilder<bool>(
       stream: model.editRegistrationDetails,
       initialData: model.editRegistrationDetails.value,
@@ -134,10 +136,10 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           1);
                       model.showWidget.add(model.showWidget.value + 1);
                     }
-
+/*
                     if (model.showWidget.value == 1) {
                       model.updateParentDetail(
-                          '', model.parentDetail as ParentInfoEntity);
+                          '',  );
                     } else if (model.showWidget.value == 2) {
                       model.updateContactDetail(
                           '', model.contactDetail as ContactDetailsEntity);
@@ -148,6 +150,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       model.updateBankDetail(
                           '', model.medicalDetail as BankDetailsEntity);
                     }
+
+ */
 
 
                   },

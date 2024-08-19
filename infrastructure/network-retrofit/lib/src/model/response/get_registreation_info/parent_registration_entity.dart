@@ -35,6 +35,8 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     String? emailId;
     @JsonKey(name: 'mobileNumber')
     String? mobileNumber;
+    @JsonKey(name:'pin_code')
+    String? pinCode;
 
     ParentRegistrationDetailEntity({
         this.firstName,
@@ -52,6 +54,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
         this.city,
         this.emailId,
         this.mobileNumber,
+      this.pinCode
     });
   factory ParentRegistrationDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentRegistrationDetailEntityFromJson(json);
@@ -76,6 +79,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     parentRegistrationDetail.city=city;
     parentRegistrationDetail.emailId=emailId;
     parentRegistrationDetail.mobileNumber=mobileNumber;
+    parentRegistrationDetail.pinCode=pinCode;
     return parentRegistrationDetail;
 
   }

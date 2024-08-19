@@ -147,6 +147,7 @@ class RegistrationsDetailsPageView
                     )
                   : SizedBox.fromSize();
             }),
+
         AppStreamBuilder<bool>(
             stream: model.showMenuOnFloatingButton,
             initialData: model.showMenuOnFloatingButton.value,
@@ -166,6 +167,8 @@ class RegistrationsDetailsPageView
                         )
                       : SizedBox.fromSize());
             })
+
+
       ],
     );
   }
