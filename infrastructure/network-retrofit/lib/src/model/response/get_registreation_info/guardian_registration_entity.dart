@@ -33,6 +33,16 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     String? emailId;
     @JsonKey(name:'mobileNumber')
     String? mobileNumber;
+    @JsonKey(name:'qualification')
+    String? qualification;
+    @JsonKey(name:'occupation')
+    String? occupation;
+    @JsonKey(name:'organization_name')
+    String? organizationName;
+    @JsonKey(name:'designation')
+    String? designation;
+    @JsonKey(name:'office_address')
+    String? officeAddress;
     @JsonKey(name:'guardianType')
     String? guardianType;
 
@@ -52,6 +62,11 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
         this.emailId,
         this.mobileNumber,
         this.guardianType,
+      this.qualification,
+      this.officeAddress,
+      this.occupation,
+      this.designation,
+      this.organizationName
     });
   factory GuardianDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$GuardianDetailsEntityFromJson(json);
@@ -76,6 +91,12 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     guardianDetails.emailId = emailId;
     guardianDetails.mobileNumber = mobileNumber;
     guardianDetails.guardianType = guardianType;
+    guardianDetails.occupation = occupation;
+    guardianDetails.qualification=qualification;
+    guardianDetails.officeAddress=officeAddress;
+    guardianDetails.designationName=designation;
+    guardianDetails.organisationName=organizationName;
     return guardianDetails;
   }
 }
+
