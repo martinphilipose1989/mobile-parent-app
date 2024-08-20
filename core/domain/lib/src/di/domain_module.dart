@@ -1,8 +1,5 @@
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
-import 'package:domain/src/usecase/marketing/delete_enquiry_document_usecase.dart';
-import 'package:domain/src/usecase/marketing/download_enquiry_document.dart';
-import 'package:domain/src/usecase/marketing/upload_enquiry_document_usecase.dart';
 
 @module
 abstract class DomainModule {

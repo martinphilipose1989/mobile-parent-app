@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:network_retrofit/src/util/network_properties.dart';
 
 class ApiInterceptor extends InterceptorsWrapper {
   final String apiKey;

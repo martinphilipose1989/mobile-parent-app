@@ -19,6 +19,7 @@ class CommonTextFormField extends StatelessWidget {
   final bool showAstreik;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+  final void Function()? onTap;
 
   const CommonTextFormField(
       {super.key,
@@ -34,7 +35,8 @@ class CommonTextFormField extends StatelessWidget {
       required this.showAstreik,
       this.showSearchIcon = false,
       this.prefix,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class CommonTextFormField extends StatelessWidget {
                   prefixIcon: prefix,
                   hintText: hintText ?? '',
                 ),
+            onTap: onTap,
           ),
         ),
         Positioned(

@@ -17,7 +17,6 @@ import 'package:network_retrofit/src/model/response/finance/get_store_payment/ge
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
-import 'package:network_retrofit/src/model/response/mdm_response/mdm_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -33,6 +32,7 @@ import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_resp
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
+import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -370,6 +370,31 @@ abstract class RetrofitService {
     @Query("fields") String field1 = "reason",
     @Query("short") String short = "id",
     }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaSubType}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaSubType(
+    {@Header("Authorization") required String token}
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaCategory}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaCategory(
+    {@Header("Authorization") required String token}
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaSubCategory}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaSubCategory(
+    {@Header("Authorization") required String token}
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.periodOfService}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getPeriodOfService(
+    {@Header("Authorization") required String token}
+  );
+  
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.academicYear}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getAcademicYearAttribute(
+    {@Header("Authorization") required String token}
   );
 }
 

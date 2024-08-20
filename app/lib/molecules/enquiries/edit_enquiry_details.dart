@@ -4,8 +4,8 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
 class EditEnquiriesDetailsWidget extends StatelessWidget {
   EnquiriesDetailsPageModel model;
   PSADetail? psaDetail;
@@ -128,6 +128,18 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           showAstreik: true,
           labelText: "DOB",
           controller: model.dobController,
+          readOnly: true,
+          onTap: ()async{
+            DateTime? dob = await showDatePicker(
+              context: context,
+              firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
+              lastDate: DateTime.now(),
+              barrierDismissible: true
+            );
+            if(dob!=null){
+              model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
+            }
+          },
         ),
         const SizedBox(
           height: 20,
@@ -263,34 +275,144 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
   Widget psaDetails(){
     return Column(
       children: [
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'PSA Sub Type',
-          controller: model.psaSubTypeController,
+        StreamBuilder<List<String>>(
+          stream: model.psaSubType,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'PSA Sub Type',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.psaSubTypeSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.psaSubType.value.contains(selectedValue)) {
+                      model.selectedPsaSubType.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
-        SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'PSA Category',
-          controller: model.psaCategoryController,
+        const SizedBox(height: 20,),
+        StreamBuilder<List<String>>(
+          stream: model.psaCategory,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'PSA Category',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.psaCategorySubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.psaCategory.value.contains(selectedValue)) {
+                      model.selectedPsaCategory.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
-         SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'PSA Sub Category',
-          controller: model.psaSubCategoryController,
+        const SizedBox(height: 20,),
+        StreamBuilder<List<String>>(
+          stream: model.psaSubCategory,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'PSA Sub Category',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.psaSubCategorySubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.psaSubCategory.value.contains(selectedValue)) {
+                      model.selectedPsaSubCategory.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
-        SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Period of service',
-          controller: model.periodOfServiceController,
+        const SizedBox(height: 20,),
+        StreamBuilder<List<String>>(
+          stream: model.periodOfService,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Period of service',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.periodOfServiceSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.periodOfService.value.contains(selectedValue)) {
+                      model.selectedPeriodOfService.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
-        SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'PSA batch',
-          controller: model.psaBatchController,
+        const SizedBox(height: 20,),
+        StreamBuilder<List<String>>(
+          stream: model.psaBatch,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'PSA batch',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.psaBatchSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.psaBatch.value.contains(selectedValue)) {
+                      model.selectedPsaBatch.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
       ],
     );
@@ -304,19 +426,19 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           labelText: 'Board',
           controller: model.ivtBoardController,
         ),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Course',
           controller: model.ivtCourseController,
         ),
-         SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Stream',
           controller: model.ivtStreamController,
         ),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         CommonTextFormField(
           showAstreik: true,
           labelText: 'Shift',

@@ -10,6 +10,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -81,21 +82,23 @@ class EnquiriesDetailsPageState
                     ),
                     CommonElevatedButton(
                       onPressed: () {
-                        if (model.showWidget.value == 5) {
-                          model.editRegistrationDetails.add(false);
-                        } else {
-                          ProviderScope.containerOf(context)
-                              .read(commonChipListProvider)
-                              .highlightIndex
-                              .add(ProviderScope.containerOf(context)
-                                      .read(commonChipListProvider)
-                                      .highlightIndex
-                                      .value -
-                                  1);
-                          model.showWidget.add(model.showWidget.value - 1);
+                        if (model.selectedValue.value == 1) {
+                          model.selectedValue.add(model.selectedValue.value-1);
+                          if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                              model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',);
+                            }
+                            else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
+                              model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                            } 
+                            else{
+                              model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                            }
+                        }
+                        else{
+                          Navigator.pop(context);
                         }
                       },
-                      text: model.showWidget.value == 0 ? 'Cancel' : 'Go Back',
+                      text: model.selectedValue.value == 0 ? 'Cancel' : 'Go Back',
                       borderColor: Theme.of(context).primaryColor,
                       borderWidth: 1,
                       width: 171.w,
@@ -104,16 +107,22 @@ class EnquiriesDetailsPageState
                     ),
                     CommonElevatedButton(
                       onPressed: () {
-                        if (model.showWidget.value <= 0) {
-                          ProviderScope.containerOf(context)
-                              .read(commonChipListProvider)
-                              .highlightIndex
-                              .add(ProviderScope.containerOf(context)
-                                      .read(commonChipListProvider)
-                                      .highlightIndex
-                                      .value +
-                                  1);
-                          model.showWidget.add(model.showWidget.value + 1);
+                        if(model.selectedValue.value==0){
+                          model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                          if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                          }
+                          else if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                          }
+                          else{
+                            // NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity(
+                              
+                            // );
+                            // model.updateNewAdmissionDetails(enquiryID: "", newAdmissionDetail: )
+                          }
+                          model.selectedValue.add(model.selectedValue.value+1);
+                        }
+                        else{
+                          Navigator.pop(context);
                         }
                       },
                       text: 'Next',

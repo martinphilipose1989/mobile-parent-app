@@ -136,6 +136,17 @@ class EnquiriesDetailsPageView
                           onSecondTabTap: (){
                             model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
                           },
+                          onFirstTabTap: () {
+                            if(enquiryDetailArgs.enquiryType == "IVT"){
+                              model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',);
+                            }
+                            else if(enquiryDetailArgs.enquiryType == "PSA"){
+                              model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            } 
+                            else{
+                              model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+                            }
+                          },
                         ),
                         AppStreamBuilder<bool>(
                               stream: model.editRegistrationDetails,

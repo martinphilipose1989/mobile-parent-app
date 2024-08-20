@@ -53,7 +53,8 @@ class UploadDocuments extends StatelessWidget {
         ),
         Column(
           children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(title: enquiryDetail?.enquiryDocuments?[index].documentName??'')),
-        )
+        ),
+        const SizedBox(height: 100,),
       ],
     );
   }

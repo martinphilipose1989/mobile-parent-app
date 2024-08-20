@@ -12,8 +12,6 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
-import 'package:network_retrofit/src/model/response/mdm_response/mdm_response_entity.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 
 import 'services/retrofit_service.dart';
@@ -472,6 +470,31 @@ class NetworkAdapter implements NetworkPort {
     }, (r) => Right(r.data.transform()));
       case "course":
         var response = await safeApiCall(apiService.getCourses(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
+        return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+      case "psaSubType":
+      var response = await safeApiCall(apiService.getPsaSubType(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
+        return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+      case "psaCategory":
+      var response = await safeApiCall(apiService.getPsaCategory(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
+        return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+    case "psaSubCategory":
+    var response = await safeApiCall(apiService.getPsaSubCategory(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
+        return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+    case "periodOfService":
+    var response = await safeApiCall(apiService.getPeriodOfService(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
+        return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+    case "academicYear":
+    var response = await safeApiCall(apiService.getAcademicYearAttribute(token: "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));        
         return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
