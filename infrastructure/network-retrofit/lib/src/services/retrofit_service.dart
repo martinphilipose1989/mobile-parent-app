@@ -142,7 +142,7 @@ abstract class RetrofitService {
 
   @PATCH('marketing/app/enquiry/{enquiryID}/ivt')
   Future<HttpResponse<IvtBaseResponseEntity>> updateIvtDetail(
-    {@Path('equiryID') required String enquiryID,
+    {@Path('enquiryID') required String enquiryID,
       @Body() required IvtDetailResponseEntity ivtDetail
     }
   );

@@ -14,5 +14,10 @@ class GuardianDetails {
     String? emailId;
     String? mobileNumber;
     String? guardianType;
+    String? qualification;
+    String? occupation;
+    String? organisationName;
+    String? designationName;
+    String? officeAddress;
 
 }

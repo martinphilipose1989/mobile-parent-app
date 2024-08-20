@@ -14,5 +14,6 @@ class ParentRegistrationDetail {
     String? city;
     String? emailId;
     String? mobileNumber;
+    String? pinCode;
 
 }

@@ -102,19 +102,22 @@ class ContactInfoEditing extends StatelessWidget {
                       thickness: 1,
                     ),
                     CommonSizedBox.sizedBox(height: 20, width: 10),
-                    const CommonTextFormField(
+                    CommonTextFormField(
                       showAstreik: true,
                       labelText: 'House No./ Building',
+                      controller: model.houseOrBuildingController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    const CommonTextFormField(
+                    CommonTextFormField(
                       showAstreik: true,
                       labelText: 'Street Name',
+                      controller:model.streetNameController
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    const CommonTextFormField(
+                    CommonTextFormField(
                       showAstreik: true,
                       labelText: 'Landmark',
+                      controller:model.landMarkController
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
