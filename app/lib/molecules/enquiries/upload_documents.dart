@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -7,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UploadDocuments extends StatelessWidget {
+  EnquiriesDetailsPageModel model;
   EnquiryDetail? enquiryDetail;
-  UploadDocuments({super.key,this.enquiryDetail});
+  UploadDocuments({super.key,this.enquiryDetail,required this.model});
   @override
   Widget build(BuildContext context) {
     return Column(

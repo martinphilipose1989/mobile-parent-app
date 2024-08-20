@@ -89,4 +89,9 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
     return _networkPort.deleteEnquiryDocument(enquiryID: enquiryID, documentID: documentID);
   }
 
+  @override
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute({required String infoType}) {
+    return _networkPort.getMdmAttribute(infoType: infoType);
+  }
+
 }

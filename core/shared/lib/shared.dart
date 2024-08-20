@@ -80,5 +80,10 @@ export 'src/model/request/marketing/cancel_school_visit_model_request.dart';
 export 'src/model/request/marketing/competency_test_creation_model_request.dart';
 export 'src/model/response/slots/slots_model.dart';
 export 'src/model/response/slots/slots_detail_model.dart';
+export 'src/model/response/mdm_attribute/mdm_detail_model.dart';
+export 'src/model/response/mdm_attribute/attribute_model.dart';
+export 'src/model/response/mdm_attribute/mdm_attribute_base_model.dart';
+
+
 //utils
 export 'src/utils/validator.dart';

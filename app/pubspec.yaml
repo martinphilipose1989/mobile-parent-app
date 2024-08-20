@@ -69,6 +69,8 @@ dependencies:
   url_launcher: ^6.3.0
   collection: ^1.18.0
   flutter_inappwebview: ^5.8.0
+  dropdown_search: ^5.0.6
+  flutter_typeahead: ^5.2.0
 
   intl: any
 dev_dependencies:

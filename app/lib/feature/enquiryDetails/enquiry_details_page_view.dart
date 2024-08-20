@@ -35,6 +35,19 @@ class EnquiriesDetailsPageView
       case 2:
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
+      if(enquiryDetailArgs.enquiryType == "IVT"){
+        model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',);
+      }
+      else if(enquiryDetailArgs.enquiryType == "PSA"){
+        model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+      }
+      else{
+        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+      }
+        model.getMdmAttribute(infoType: 'grade');
+        model.getMdmAttribute(infoType: 'schoolLocation');
+        model.getMdmAttribute(infoType: 'gender');
+        model.getMdmAttribute(infoType: 'board');
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
         return null;
@@ -143,20 +156,37 @@ class EnquiriesDetailsPageView
                                               if(data?.status == Status.error){ 
                                                 return const CommonText(text: "Documents not found");
                                               }
-                                              return UploadDocuments(enquiryDetail: data?.data,);
+                                              return UploadDocuments(enquiryDetail: data?.data,model: model,);
                                             },
                                           )
                                         : model.editRegistrationDetails.value
                                             ? SingleChildScrollView(
-                                                child: SizedBox(
-                                                  child: EditEnquiriesDetailsWidget(
-                                                    model: model,
-                                                    enquiryDetailArgs: enquiryDetailArgs,
-                                                    psaDetail: model.psaDetails?.valueOrNull,
-                                                    ivtDetail: model.ivtDetails?.valueOrNull,
-                                                    newAdmissionDetail: model.newAdmissionDetails?.valueOrNull,
-                                                  ),
-                                                ),
+                                                child: (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(
+                                              stream: model.newAdmissionDetails,
+                                              builder: (context, snapshot) {
+                                                if(!snapshot.hasData){
+                                                  return const CircularProgressIndicator();
+                                                }
+                                                return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
+                                              }
+                                            ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
+                                                StreamBuilder<PSADetail>(
+                                                  stream: model.psaDetails,
+                                                  builder: (context, snapshot) {
+                                                    if(!snapshot.hasData){
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                    return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
+                                                  }
+                                                ) : StreamBuilder<IVTDetail>(
+                                                  stream: model.ivtDetails,
+                                                  builder: (context, snapshot) {
+                                                    if(!snapshot.hasData){
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                    return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
+                                                  }
+                                                )
                                               )
                                             : (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(
                                               stream: model.newAdmissionDetails,

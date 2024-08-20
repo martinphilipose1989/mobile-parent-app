@@ -16,6 +16,8 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
+import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
+import 'package:network_retrofit/src/model/response/mdm_response/mdm_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -85,7 +87,7 @@ abstract class RetrofitService {
       @Body() SchoolNamesRequest schoolNamesRequest);
 
  
-  @GET('marketing/app/enquiry/enquiry-list')
+  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/enquiry-list')
   Future<HttpResponse<EnquiryListResponseEntity>> getEnquiryList(
     {@Query('phone') required String phone,
     @Query('pageNumber') required int pageNumber,
@@ -266,6 +268,108 @@ abstract class RetrofitService {
     @Query("date") required String date,}
   );
 
+  
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.schoolLocation}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolLocation(
+    {@Header("Authorization") required String token,
+    @Query("fields") List<String> field1 = const ["name","short_name"],
+    }
+  );
 
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.schoolBoard}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolBoard(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "id",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.grade}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGrades(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "order",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.gender}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGender(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "order",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.cources}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCourses(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "id",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.countries}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCountries(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "number_code",
+    @Query("short") String short = "id",
+    @Query("sort") String sort = "id:asc",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.states}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStates(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "Shortform",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.city}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCities(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "Shortform",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.batch}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getBatch(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.shifts}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getShifts(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "id",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.stream}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStreams(
+    {@Header("Authorization") required String token,
+    @Query("fields[1]") String field1 = "name",
+    @Query("fields[2]") String field2 = "short_name",
+    @Query("short") String short = "id",
+    }
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.cancelationReason}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCancellationReason(
+    {@Header("Authorization") required String token,
+    @Query("fields") String field1 = "reason",
+    @Query("short") String short = "id",
+    }
+  );
 }
 

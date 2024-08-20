@@ -155,4 +155,10 @@ class EnquiriesDetailsPageState
       },
     );
   }
+
+  @override
+  Widget? buildBottomNavigationBar(EnquiriesDetailsPageModel model) {
+    
+    return super.buildBottomNavigationBar(model);
+  }
 }

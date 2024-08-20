@@ -3,7 +3,6 @@ import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -48,23 +47,32 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'School Location',
-            showAstreik: true,
-            showBorderColor: true,
-            singleSelectItemSubject: model.selectedSchoolLocationSubject,
-            items: model.schoolLocationTypes,
-            onSingleSelect: (selectedValue) {
-              if (model.schoolLocationTypes.contains(selectedValue)) {
-                model.selectedSchoolLocationType.add(true);
-              }
-            },
-            isMutiSelect: false,
-          ),
+        StreamBuilder<List<String>>(
+          stream: model.schoolLocationTypes,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            }else {
+              return SizedBox(
+              height: 48,
+              child: CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'School Location',
+                showAstreik: true,
+                showBorderColor: true,
+                singleSelectItemSubject: model.selectedSchoolLocationSubject,
+                items: snapshot.data??[],
+                onSingleSelect: (selectedValue) {
+                  if (model.schoolLocationTypes.value.contains(selectedValue)) {
+                    model.selectedSchoolLocationType.add(true);
+                  }
+                },
+                isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(
           height: 20,
@@ -86,23 +94,32 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'Grade',
-            showAstreik: true,
-            showBorderColor: true,
-            items: model.gradeTypes,
-            onSingleSelect: (selectedValue) {
-              if (model.gradeTypes.contains(selectedValue)) {
-                model.selectedGradeType.add(true);
-              }
-            },
-            singleSelectItemSubject: model.selectedGradeSubject,
-            isMutiSelect: false,
-          ),
+        StreamBuilder<List<String>>(
+          stream: model.gradeTypes,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            }else{
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Grade',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  onSingleSelect: (selectedValue) {
+                    if (model.gradeTypes.value.contains(selectedValue)) {
+                      model.selectedGradeType.add(true);
+                    }
+                  },
+                  singleSelectItemSubject: model.selectedGradeSubject,
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(
           height: 20,
@@ -115,23 +132,32 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'Gender',
-            showAstreik: true,
-            showBorderColor: true,
-            items: model.gender,
-            singleSelectItemSubject: model.selectedGenderSubject,
-            onSingleSelect: (selectedValue) {
-              if (model.gender.contains(selectedValue)) {
-                model.selectedGenerType.add(true);
-              }
-            },
-            isMutiSelect: false,
-          ),
+        StreamBuilder<List<String>>(
+          stream: model.gender,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Gender',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.selectedGenderSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.gender.value.contains(selectedValue)) {
+                      model.selectedGenerType.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(height: 20,),
         CommonTextFormField(
@@ -140,42 +166,60 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           controller: model.existingSchoolNameController,
         ),
         const SizedBox(height: 20,),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'Existing School Board',
-            showAstreik: true,
-            showBorderColor: true,
-            items: model.existingSchoolBoard,
-            singleSelectItemSubject: model.selectedExistingSchoolBoardSubject,
-            onSingleSelect: (selectedValue) {
-              if (model.existingSchoolBoard.contains(selectedValue)) {
-                model.selectedExistingSchoolBoard.add(true);
-              }
-            },
-            isMutiSelect: false,
-          ),
+        StreamBuilder<List<String>>(
+          stream: model.existingSchoolBoard,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Existing School Board',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.selectedExistingSchoolBoardSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.existingSchoolBoard.value.contains(selectedValue)) {
+                      model.selectedExistingSchoolBoard.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(height: 20,),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'Existing School Grade',
-            showAstreik: true,
-            showBorderColor: true,
-            items: model.existingSchoolGrade,
-            singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
-            onSingleSelect: (selectedValue) {
-              if (model.existingSchoolGrade.contains(selectedValue)) {
-                model.selectedExistingSchoolGrade.add(true);
-              }
-            },
-            isMutiSelect: false,
-          ),
+        StreamBuilder<List<String>>(
+          stream: model.gradeTypes,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Existing School Grade',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.existingSchoolGrade.value.contains(selectedValue)) {
+                      model.selectedExistingSchoolGrade.add(true);
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         if((enquiryDetailArgs?.enquiryType??"") == "PSA")...[
           const SizedBox(height: 20,),

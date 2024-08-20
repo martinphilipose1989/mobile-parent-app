@@ -51,6 +51,7 @@ export 'src/usecase/marketing/get_competency_test_slots_usecase.dart';
 export 'src/usecase/marketing/update_ivt_detail_usecase.dart';
 export 'src/usecase/marketing/update_psa_detail_usecase.dart';
 export 'src/usecase/marketing/update_new_admission_usecase.dart';
+export 'src/usecase/marketing/get_mdm_attribute_usecase.dart';
 
 export 'package:shared/shared.dart';
 

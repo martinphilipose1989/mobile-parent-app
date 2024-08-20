@@ -37,7 +37,7 @@ class AdmissionsDetailsPageView
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
       case 4:
-        return (model.isDetailView())? Navigator.of(context).pushNamed(
+        return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
           RoutePaths.competencyTestDetailPage,arguments: admissionDetail
         ) : Navigator.of(context)
            .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});

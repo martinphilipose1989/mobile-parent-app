@@ -166,4 +166,9 @@ abstract class DomainModule {
   UpdateNewAdmissionUsecase updateNewAdmissionUsecase (EnquiryRepository enquiryRepository) {
     return UpdateNewAdmissionUsecase(enquiryRepository);
   }
+
+  @lazySingleton
+  GetMdmAttributeUsecase getMdmAttributeUsecase (EnquiryRepository enquiryRepository) {
+    return GetMdmAttributeUsecase(enquiryRepository);
+  }
 }

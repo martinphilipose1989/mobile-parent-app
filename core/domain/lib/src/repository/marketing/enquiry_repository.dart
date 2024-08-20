@@ -17,4 +17,5 @@ abstract class EnquiryRepository{
   Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});
   Future<Either<NetworkError,DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID,required String documentID});
   Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID});
+  Future<Either<NetworkError,MdmAttributeBaseModel>> getMdmAttribute({required String infoType});
 }

@@ -16,8 +16,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   GetIvtDetailUsecase getIvtDetailUsecase;
   GetPsaDetailUsecase getPsaDetailUsecase;
   GetEnquiryDetailUseCase getEnquiryDetailUseCase;
+  GetMdmAttributeUsecase getMdmAttributeUsecase;
+  
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  EnquiriesDetailsPageModel(this.exceptionHandlerBinder,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase,this.getEnquiryDetailUseCase);
+  EnquiriesDetailsPageModel(this.exceptionHandlerBinder,this.getNewAdmissionDetailUseCase,this.getIvtDetailUsecase,this.getPsaDetailUsecase,this.getEnquiryDetailUseCase,this.getMdmAttributeUsecase);
   late TabController tabController;
   bool visivilty = false;
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
@@ -77,27 +79,23 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedParentType =
       BehaviorSubject<bool>.seeded(false);
 
-  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>();
-  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>();
-  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>();
-  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>();
-  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>();
-  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>();
+  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>.seeded('');
   
   final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
-  final List<String> schoolLocationTypes = [
-    'Location 1',
-    'Location 2',
-    'Location 3'
-  ];
+  final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
 
   final List<String> parentType = ["Mother","Father"];
 
-  final List<String> existingSchoolGrade = ['Grade I', 'Grade II', 'Grade III'];
-  final List<String> existingSchoolBoard = ['CBSC', 'International'];
-  final List<String> gradeTypes = ['Grade I', 'Grade II', 'Grade III'];
+  final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gradeTypes = BehaviorSubject<List<String>>.seeded([]);
 
-  final List<String> gender = ["Male","Female","Other"];
+  final BehaviorSubject<List<String>> gender = BehaviorSubject<List<String>>.seeded([]);
 
   Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
@@ -122,7 +120,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getIvtDetails({required String enquiryID}) async {
+  Future<void> getIvtDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
      
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
@@ -143,7 +141,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getPsaDetails({required String enquiryID}) async {
+  Future<void> getPsaDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
      
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
@@ -179,6 +177,35 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
         // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getMdmAttribute({required String infoType}) async {
+    exceptionHandlerBinder.handle(block: () {
+      GetMdmAttributeUsecaseParams params = GetMdmAttributeUsecaseParams(
+        infoType: infoType,
+      );
+      RequestManager<MdmAttributeBaseModel>(
+        params,
+        createCall: () => getMdmAttributeUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        if(infoType == "grade"){
+          gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "schoolLocation"){
+          schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "gender"){
+          gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "board"){
+          existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
