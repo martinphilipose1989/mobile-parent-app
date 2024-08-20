@@ -164,8 +164,27 @@ abstract class DomainModule {
     return UpdateNewAdmissionUsecase(enquiryRepository);
   }
 
+
   @lazySingleton
   GetMdmAttributeUsecase getMdmAttributeUsecase (EnquiryRepository enquiryRepository) {
     return GetMdmAttributeUsecase(enquiryRepository);
+  }
+  
+  @lazySingleton
+  UpdateParentDetailsUsecase updateParentDetailsUsecase (RegistrationRepository registrationRepository) {
+    return UpdateParentDetailsUsecase(registrationRepository);
+  }
+  @lazySingleton
+  UpdateContactDetailsUsecase updateContactDetailsUsecase (RegistrationRepository registrationRepository) {
+    return UpdateContactDetailsUsecase(registrationRepository);
+  }
+  @lazySingleton
+  UpdateBankDetailsUsecase updateBankDetailsUsecase (RegistrationRepository registrationRepository) {
+    return UpdateBankDetailsUsecase(registrationRepository);
+  }
+  @lazySingleton
+  UpdateMedicalDetailsUsecase updateMedicalDetailsUsecase (RegistrationRepository registrationRepository) {
+    return UpdateMedicalDetailsUsecase(registrationRepository);
+
   }
 }

@@ -65,7 +65,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Widget buildView(BuildContext context, RegistrationsDetailsViewModel model) {
-    return RegistrationsDetailsPageView(provideBase(),enquiryDetailArgs: widget.enquiryDetailArgs,enquiryDetail: widget.enquiryDetail,);
+    return SingleChildScrollView(child:RegistrationsDetailsPageView(provideBase(),enquiryDetailArgs: widget.enquiryDetailArgs,enquiryDetail: widget.enquiryDetail,));
   }
 
   @override
@@ -94,6 +94,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 ),
                 CommonElevatedButton(
                   onPressed: () {
+                    /*
                     if (model.showWidget.value == 0) {
                       model.editRegistrationDetails.add(false);
                     } else {
@@ -109,8 +110,24 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           1);
                       model.showWidget.add(model.showWidget.value - 1);
                     }
+
+                     */
+                    if (model.showWidget.value == 0) {
+                      model.editRegistrationDetails.add(false);
+                    } else {
+                      if (model.showWidget.value == 1) {
+                        model.saveParentDetails("669a46527986d066b783f479");
+                      } else if (model.showWidget.value == 2) {
+                        model.saveContactDetails("669a46527986d066b783f479");
+                      } else if (model.showWidget.value == 3) {
+                        model.saveMedicalDetails("669a46527986d066b783f479");
+                      } else if (model.showWidget.value == 4) {
+                        model.saveBankDetails("669a46527986d066b783f479");
+                      }
+                    }
+
                   },
-                  text: model.showWidget.value == 0 ? 'Cancel' : 'Go Back',
+                  text: model.showWidget.value == 0 ? 'Save' : 'Go Back',
                   borderColor: Theme
                       .of(context)
                       .primaryColor,

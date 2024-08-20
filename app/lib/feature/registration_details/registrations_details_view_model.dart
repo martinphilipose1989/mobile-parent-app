@@ -17,6 +17,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetRegistrationDetailUsecase getRegistrationDetailUsecase;
   final GetNewAdmissionDetailUseCase getNewAdmissionDetailUseCase;
+  final UpdateParentDetailsUsecase updateParentDetailsUsecase;
+  final UpdateMedicalDetailsUsecase updateMedicalDetailsUsecase;
+  final UpdateContactDetailsUsecase updateContactDetailsUsecase;
+  final UpdateBankDetailsUsecase updateBankDetailsUsecase;
   final GetIvtDetailUsecase getIvtDetailUsecase;
   final GetPsaDetailUsecase getPsaDetailUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
@@ -24,7 +28,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
       this.getRegistrationDetailUsecase, this.getNewAdmissionDetailUseCase,
       this.getIvtDetailUsecase, this.getPsaDetailUsecase,
-      this.getEnquiryDetailUseCase) ;
+      this.getEnquiryDetailUseCase, this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase, this.updateContactDetailsUsecase) ;
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -147,6 +151,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         params,
         createCall: () => getRegistrationDetailUsecase.execute(params: params),
       ).asFlow().listen((result) {
+
         if (infoType == 'ParentInfo') {
           parentDetail.add(Resource.success(data: result.data?.data));
           parentInfo = result.data?.data;
@@ -183,14 +188,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       parentDetail.add(Resource.loading());
       RequestManager<ParentInfo>(
           params,
-          createCall: () =>
-              getIt.get<UpdateParentDetailsUsecase>().execute(params: params)
+          createCall: () => updateParentDetailsUsecase.execute(params: params)
 
       ).asFlow().listen((result) {
         parentDetail.add(Resource.success(data: result.data));
-        parentInfo = result.data;
-        fatherFirstNameController = TextEditingController(
-            text: parentInfo?.fatherDetails?.firstName ?? "Kushal");
+       parentInfo = result.data;
+
+        addParentDetails( result.data??ParentInfo());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -207,9 +211,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       RequestManager<MedicalDetails>(
           params,
           createCall: () =>
-              getIt.get<UpdateMedicalDetailsUsecase>().execute(params: params)
+              updateMedicalDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-
+        medicalDetail.add(Resource.success(data: result.data));
+        medicalDetails = result.data;
+        addMedicalDetails( result.data??MedicalDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -226,9 +232,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       RequestManager<ContactDetails>(
           params,
           createCall: () =>
-              getIt.get<UpdateContactDetailsUsecase>().execute(params: params)
+              updateContactDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-
+        contactDetail.add(Resource.success(data: result.data));
+        contactDetails = result.data;
+        addContactDetails( result.data??ContactDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -244,9 +252,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       RequestManager<BankDetails>(
           params,
           createCall: () =>
-              getIt.get<UpdateBankDetailsUsecase>().execute(params: params)
+              updateBankDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-
+        bankDetail.add(Resource.success(data: result.data));
+        bankDetails = result.data;
+        addBankDetails( result.data??BankDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -432,5 +442,70 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
      accountTypeController.text=bankDetails.accountType??"";
      accountNumberController.text = bankDetails.accountNumber??"";
 
+  }
+  Future<void> saveParentDetails(String enquiryId)async {
+    ParentInfoEntity parentInfoEntity=ParentInfoEntity();
+    fatherFirstNameController.text = parentInfoEntity.fatherDetails?.firstName??"";
+    fatherLastNameController.text=parentInfoEntity.fatherDetails?.lastName??"";
+    fatherAdharCardController.text=parentInfoEntity.fatherDetails?.aadharNumber??"";
+    fatherPanCardController.text=parentInfoEntity.fatherDetails?.panNumber??"";
+    qualificationController.text=parentInfoEntity.fatherDetails?.qualification??"";
+    occupationController.text = parentInfoEntity.fatherDetails?.occupation??"";
+    organizationNameController.text = parentInfoEntity.fatherDetails?.organisationName??"";
+    designationController.text=parentInfoEntity.fatherDetails?.designationName??"";
+    pinCodeController.text=parentInfoEntity.fatherDetails?.pinCode??"";
+    fatherEmailController.text=parentInfoEntity.fatherDetails?.emailId??"";
+    fatherMobileController.text=parentInfoEntity.fatherDetails?.mobileNumber??"";
+
+    motherFirstNameController.text =parentInfoEntity.motherDetails?.firstName??"";
+    motherLastNameController.text = parentInfoEntity.motherDetails?.lastName??"";
+    motherAdharCardController.text = parentInfoEntity.motherDetails?.aadharNumber??"";
+    motherPanCardController.text=parentInfoEntity.motherDetails?.panNumber??"";
+    motherQualificationController.text=parentInfoEntity.motherDetails?.qualification??"";
+    motherOccupationController.text=parentInfoEntity.motherDetails?.occupation??"";
+    motherOrganizationNameController.text=parentInfoEntity.motherDetails?.organisationName??"";
+    motherDesignationController.text =parentInfoEntity.motherDetails?.designationName??"";
+    motherOfficeAddressController.text=parentInfoEntity.motherDetails?.officeAddress??"";
+    motherPinCodeController.text=parentInfoEntity.motherDetails?.pinCode??"";
+    motherEmailController.text=parentInfoEntity.motherDetails?.emailId??"";
+    motherMobileController.text=parentInfoEntity.motherDetails?.mobileNumber??"";
+
+    guardianFirstNameController.text =parentInfoEntity.guardianDetails?.firstName??"";
+    guardianLastNameController.text = parentInfoEntity.guardianDetails?.lastName??"";
+    guardianAdharCardController.text = parentInfoEntity.guardianDetails?.aadharNumber??"";
+    guardianPanCardController.text=parentInfoEntity.guardianDetails?.panNumber??"";
+    guardianQualificationController.text=parentInfoEntity.guardianDetails?.qualification??"";
+    guardianOccupationController.text=parentInfoEntity.guardianDetails?.occupation??"";
+    guardianOrganizationNameController.text=parentInfoEntity.guardianDetails?.organizationName??"";
+    guardianDesignationController.text =parentInfoEntity.guardianDetails?.designation??"";
+    guardianOfficeAddressController.text=parentInfoEntity.guardianDetails?.officeAddress??"";
+    guardianPinCodeController.text=parentInfoEntity.guardianDetails?.pincode??"";
+    guardianEmailController.text=parentInfoEntity.guardianDetails?.emailId??"";
+    guardianMobileController.text=parentInfoEntity.guardianDetails?.mobileNumber??"";
+     await updateParentDetail(enquiryId, parentInfoEntity);
+  }
+  Future<void>saveMedicalDetails(String enquiryId) async{
+    MedicalDetailsEntity medicalDetails = MedicalDetailsEntity();
+    yearOfHospitalizationController.text=medicalDetails.yearOfHospitalization??"";
+    reasonOfHospitalizationController.text=medicalDetails.reasonOfHopitalization??"";
+    specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
+  await updateMedicalDetail(enquiryId,medicalDetails);
+  }
+  Future<void>saveBankDetails(String enquiryId)async{
+    BankDetailsEntity bankDetails = BankDetailsEntity();
+    ifscCodeController.text = bankDetails.ifscCode??"";
+    bankNameController.text = bankDetails.bankName??"";
+    branchNameController.text=bankDetails.branchName??"";
+    accountHolderNameController.text =bankDetails.accountHolderName??"";
+    accountTypeController.text=bankDetails.accountType??"";
+    accountNumberController.text = bankDetails.accountNumber??"";
+    await updateBankDetail(enquiryId,bankDetails);
+  }
+  Future<void>saveContactDetails(String enquiryId)async{
+    ContactDetailsEntity contactDetails =ContactDetailsEntity();
+    houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
+    streetNameController.text= contactDetails.residentialAddress?.street??"";
+    landMarkController.text= contactDetails.residentialAddress?.landmark??"";
+  await updateContactDetail(enquiryId,contactDetails);
   }
 }
