@@ -18,4 +18,6 @@ enum ErrorType {
   databaseNotSupported,
   databaseError1,
   databaseUserNotFound,
+
+  filePickerFailed,
 }

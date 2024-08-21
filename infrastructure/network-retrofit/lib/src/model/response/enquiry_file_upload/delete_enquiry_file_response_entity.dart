@@ -8,7 +8,7 @@ class DeleteEnquiryFileResponseEntity extends BaseLayerDataTransformer<DeleteEnq
   @JsonKey(name: 'status')
   int? status;
   @JsonKey(name: 'data')
-  dynamic data;
+  Map<String,dynamic>? data;
   @JsonKey(name: 'message')
   String? message;
 

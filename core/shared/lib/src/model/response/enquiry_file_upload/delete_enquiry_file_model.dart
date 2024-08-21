@@ -1,5 +1,5 @@
 class DeleteEnquiryFileBase{
   int? status;
-  dynamic data;
+  Map<String,dynamic>? data;
   String? message;
 }

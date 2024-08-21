@@ -1,4 +1,3 @@
-import 'package:app/dependencies.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:domain/domain.dart';

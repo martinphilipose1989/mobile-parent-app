@@ -167,7 +167,7 @@ class EnquiriesDetailsPageView
                                               if(data?.status == Status.error){ 
                                                 return const CommonText(text: "Documents not found");
                                               }
-                                              return UploadDocuments(enquiryDetail: data?.data,model: model,);
+                                              return UploadDocuments(enquiryDetail: data?.data,model: model,enquiryID: enquiryDetailArgs.enquiryId??'',);
                                             },
                                           )
                                         : model.editRegistrationDetails.value

@@ -47,7 +47,6 @@ class EnquiriesDetailsPageState
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesDetailsPageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
       appbarTitle: 'Enquiries Details',
@@ -108,16 +107,55 @@ class EnquiriesDetailsPageState
                     CommonElevatedButton(
                       onPressed: () {
                         if(model.selectedValue.value==0){
+                          
                           model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
                           if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                            IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
+                            ivtDetail.schoolLocation = CommonDataEntity(id: 1, value: "School Location");
+                            ivtDetail.studentDetails?.firstName = model.studentFirstNameController.text; 
+                            ivtDetail.studentDetails?.lastName = model.studentLastNameController.text; 
+                            ivtDetail.studentDetails?.dob = model.dobController.text; 
+                            ivtDetail.studentDetails?.gender = CommonDataEntity(id: 1, value: "Male");
+                            ivtDetail.studentDetails?.grade = CommonDataEntity(id: 1, value: "Grade");
+                            ivtDetail.existingSchoolDetails?.name = CommonDataEntity(id: 1, value: model.existingSchoolNameController.text);
+                            ivtDetail.existingSchoolDetails?.grade = CommonDataEntity(id: 1, value: model.selectedExistingSchoolGradeSubject.value);
+                            ivtDetail.existingSchoolDetails?.board = CommonDataEntity(id: 1, value: model.selectedExistingSchoolBoardSubject.value);
+                            ivtDetail.board = CommonDataEntity(id: 1, value: model.selectedExistingSchoolBoardSubject.value);
+                            ivtDetail.course = CommonDataEntity(id: 1, value: "Course");
+                            ivtDetail.stream = CommonDataEntity(id: 1, value: "Stream");
+                            ivtDetail.shift = CommonDataEntity(id: 1, value: "Shift");
+                            model.updateIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', ivtDetail: ivtDetail);
                           }
-                          else if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                          else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
+                            PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
+                            psaDetail.schoolLocation = CommonDataEntity(id: 1, value: "School Location");
+                            psaDetail.studentDetails?.firstName = model.studentFirstNameController.text; 
+                            psaDetail.studentDetails?.lastName = model.studentLastNameController.text; 
+                            psaDetail.studentDetails?.dob = model.dobController.text; 
+                            psaDetail.studentDetails?.gender = CommonDataEntity(id: 1, value: "Male");
+                            psaDetail.studentDetails?.grade = CommonDataEntity(id: 1, value: "Grade");
+                            psaDetail.existingSchoolDetails?.name = CommonDataEntity(id: 1, value: model.existingSchoolNameController.text);
+                            psaDetail.existingSchoolDetails?.grade = CommonDataEntity(id: 1, value: model.selectedExistingSchoolGradeSubject.value);
+                            psaDetail.existingSchoolDetails?.board = CommonDataEntity(id: 1, value: model.selectedExistingSchoolBoardSubject.value);
+                            psaDetail.psaBatch = CommonDataEntity(id: 1, value: "PSA Batch");
+                            psaDetail.psaCategory = CommonDataEntity(id: 1, value: "PSA Category");
+                            psaDetail.psaSubCategory = CommonDataEntity(id: 1, value: "PSA Sub Category");
+                            psaDetail.psaSubType = CommonDataEntity(id: 1, value: "PSA Sub Type");
+                            psaDetail.psaPeriodOfService = CommonDataEntity(id: 1, value: "PSA Period Of Service");
+                            model.updatePsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', psaDetail: psaDetail);
                           }
                           else{
-                            // NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity(
-                              
-                            // );
-                            // model.updateNewAdmissionDetails(enquiryID: "", newAdmissionDetail: )
+                            NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
+                            newAdmissionDetail.schoolLocation = CommonDataEntity(id: 1, value: "School Location");
+                            newAdmissionDetail.studentDetails?.firstName = model.studentFirstNameController.text; 
+                            newAdmissionDetail.studentDetails?.lastName = model.studentLastNameController.text; 
+                            newAdmissionDetail.studentDetails?.dob = model.dobController.text; 
+                            newAdmissionDetail.studentDetails?.gender = CommonDataEntity(id: 1, value: "Male");
+                            newAdmissionDetail.studentDetails?.grade = CommonDataEntity(id: 1, value: "Grade");
+                            newAdmissionDetail.existingSchoolDetails?.name = CommonDataEntity(id: 1, value: model.existingSchoolNameController.text);
+                            newAdmissionDetail.existingSchoolDetails?.grade = CommonDataEntity(id: 1, value: model.selectedExistingSchoolGradeSubject.value);
+                            newAdmissionDetail.existingSchoolDetails?.board = CommonDataEntity(id: 1, value: model.selectedExistingSchoolBoardSubject.value);
+                            model.updateNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
                           }
                           model.selectedValue.add(model.selectedValue.value+1);
                         }

@@ -27,4 +27,5 @@ export 'src/model/response/get_new_admission/new_admission_detail_entity.dart';
 export 'src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
 export 'src/model/response/get_psa_detail/psa_detail_response_entity.dart';
 export 'src/model/response/get_registreation_info/base_response_entity.dart';
+export 'src/model/response/get_new_admission/common_data_entity.dart';
 export 'package:json_annotation/json_annotation.dart';

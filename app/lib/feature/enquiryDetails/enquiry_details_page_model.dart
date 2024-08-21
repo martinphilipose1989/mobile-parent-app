@@ -351,7 +351,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        uploadEnquiryFile.add(Resource.success(data: result.data?.data?? EnquiryFileUploadBase()));
+        uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -366,14 +366,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
-      uploadEnquiryFile.add(Resource.loading());
+      deleteEnquiryFile.add(Resource.loading());
       RequestManager<DeleteEnquiryFileBase>(
         params,
         createCall: () => deleteEnquiryDocumentUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        uploadEnquiryFile.add(Resource.success(data: result.data?.data?? EnquiryFileUploadBase()));
+        deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -388,14 +388,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
-      uploadEnquiryFile.add(Resource.loading());
+      getEnquiryFile.add(Resource.loading());
       RequestManager<DownloadEnquiryFileBase>(
         params,
         createCall: () => downloadEnquiryDocumentUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        uploadEnquiryFile.add(Resource.success(data: result.data?.data?? EnquiryFileUploadBase()));
+        getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

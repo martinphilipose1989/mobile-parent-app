@@ -8,7 +8,7 @@ class DownloadEnquiryFileResponseEntity extends BaseLayerDataTransformer<Downloa
   @JsonKey(name: 'status')
   int? status;
   @JsonKey(name: 'data')
-  dynamic data;
+  Map<String,dynamic>? data;
   @JsonKey(name: 'message')
   String? message;
 

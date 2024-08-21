@@ -1,16 +1,18 @@
+import 'package:app/dependencies.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:domain/domain.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UploadDocuments extends StatelessWidget {
   EnquiriesDetailsPageModel model;
   EnquiryDetail? enquiryDetail;
-  UploadDocuments({super.key,this.enquiryDetail,required this.model});
+  String? enquiryID;
+  UploadDocuments({super.key,this.enquiryDetail,required this.model,this.enquiryID});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,14 +54,14 @@ class UploadDocuments extends StatelessWidget {
           ),
         ),
         Column(
-          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(title: enquiryDetail?.enquiryDocuments?[index].documentName??'')),
+          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index])),
         ),
         const SizedBox(height: 100,),
       ],
     );
   }
 
-  _uploadItem({required String title}){
+  _uploadItem(BuildContext context,{required String title,EnquiryDocument? enquiryDocument}){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(
@@ -83,11 +85,38 @@ class UploadDocuments extends StatelessWidget {
                 flex: 1,
                 child: Row(
                   children: [
-                    SvgPicture.asset(AppImages.uploadIcon),
+                    GestureDetector(
+                      onTap: () async{
+                        var file = await getIt.get<FileUtilityPort>().pickFile();
+                        file.fold(
+                          (l) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: CommonText(text: l.error.message))
+                            );
+                          },
+                          (r) {
+                            model.uploadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(), file: r);
+                          }
+                        );
+                      },
+                      child: SvgPicture.asset(AppImages.uploadIcon)
+                    ),
                     const SizedBox(width: 5,),
-                    SvgPicture.asset(AppImages.import),
+                    GestureDetector(
+                      onTap: (){
+                        model.downloadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString());
+                      },
+                      behavior: HitTestBehavior.opaque,
+                      child: SvgPicture.asset(AppImages.import)
+                    ),
                     const SizedBox(width: 5,),
-                    SvgPicture.asset(AppImages.delete),
+                    GestureDetector(
+                      onTap: (){
+                        model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString());
+                      },
+                      behavior: HitTestBehavior.opaque,
+                      child: SvgPicture.asset(AppImages.delete)
+                    ),
                   ],
                 ),
               )

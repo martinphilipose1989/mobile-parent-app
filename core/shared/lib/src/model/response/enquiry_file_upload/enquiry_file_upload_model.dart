@@ -1,5 +1,5 @@
 class EnquiryFileUploadBase{
   int? status;
-  dynamic data;
+  Map<String,dynamic>? data;
   String? message;
 }
