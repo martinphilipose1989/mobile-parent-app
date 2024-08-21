@@ -39,12 +39,15 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.contactRelationshipOptions,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Contact Number',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
+                      onSingleSelect: (val){
+                        val!=model.emergencyContact;
+                      },
                       showBorderColor: true,
                     ),
                   ],
@@ -121,43 +124,57 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.country,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
+                      onSingleSelect: (val){
+                        val!=model.residentialCountry;
+                      },
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.state,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.residentialState;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.city,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.residentialCity;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.pinCodeOptions,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Pin Code',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.residentialPinCode;
+
+                      },
                     ),
                     const CommonText(
                       text: "Is Permanent Address Same As Present?",

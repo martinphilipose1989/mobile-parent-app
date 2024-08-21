@@ -90,9 +90,10 @@ class BankDetailsEditing extends StatelessWidget {
           style: AppTypography.subtitle1,
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
+         CommonTextFormField(
           showAstreik: false,
           labelText: 'UPI ID',
+           controller: model.upiController,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const CommonText(

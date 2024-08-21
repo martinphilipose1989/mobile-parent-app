@@ -17,6 +17,8 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
     String? accountType;
     @JsonKey(name: 'accountNumber')
     String? accountNumber;
+    @JsonKey(name: 'upiInfo')
+    String? upiInfo;
 
     BankDetailsEntity({
         this.ifscCode,
@@ -25,6 +27,7 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
         this.accountHolderName,
         this.accountType,
         this.accountNumber,
+      this.upiInfo
     });
 
     factory BankDetailsEntity.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +44,7 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
     bankDetails.accountHolderName = accountHolderName;
     bankDetails.accountType = accountType;
     bankDetails.accountNumber = accountNumber;
+    bankDetails.upiInfo=upiInfo;
     return bankDetails;
   }
 

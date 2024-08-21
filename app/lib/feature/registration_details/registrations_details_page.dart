@@ -17,6 +17,8 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
 
+import '../../model/resource.dart';
+
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
   EnquiryDetailArgs? enquiryDetailArgs;
@@ -92,7 +94,12 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 const SizedBox(
                   width: 20,
                 ),
-                CommonElevatedButton(
+            AppStreamBuilder(
+              stream: model.showWidget,
+              initialData: Resource.none(),
+              dataBuilder: (context, data) {
+
+               return CommonElevatedButton(
                   onPressed: () {
                     /*
                     if (model.showWidget.value == 0) {
@@ -116,18 +123,18 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       model.editRegistrationDetails.add(false);
                     } else {
                       if (model.showWidget.value == 1) {
-                        model.saveParentDetails("669a46527986d066b783f479");
+                        model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 2) {
-                        model.saveContactDetails("669a46527986d066b783f479");
+                        model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 3) {
-                        model.saveMedicalDetails("669a46527986d066b783f479");
+                        model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 4) {
-                        model.saveBankDetails("669a46527986d066b783f479");
+                        model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       }
                     }
-
+                   print(model.showWidget.value);
                   },
-                  text: model.showWidget.value == 0 ? 'Save' : 'Go Back',
+                  text: model.showWidget.valueOrNull == 0 ? 'Go Back' : 'Save',
                   borderColor: Theme
                       .of(context)
                       .primaryColor,
@@ -137,7 +144,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                   textColor: Theme
                       .of(context)
                       .primaryColor,
-                ),
+                );}),
                 CommonElevatedButton(
                   onPressed: () {
                     if (model.showWidget.value <= 6) {

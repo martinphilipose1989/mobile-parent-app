@@ -8,7 +8,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:network_retrofit/network_retrofit.dart';
 
 class ParentInfoEditing extends StatelessWidget {
   const ParentInfoEditing({super.key, required this.model, });
@@ -73,7 +72,7 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.occupation,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
@@ -81,7 +80,7 @@ class ParentInfoEditing extends StatelessWidget {
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
-
+                       val=model.fatherOccupation!;
                       },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -104,22 +103,28 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.area,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
+                      onMultiSelect: (Val) {},
+                      onSingleSelect: (val){
+                        val=model.fatherArea!;
+                      },
                       showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.country,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
+                      onSingleSelect: (val){
+                        val=model.fatherCountry!;
+                      },
                       showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -130,22 +135,28 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.state,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
+                      onSingleSelect:(val){
+                        val=model.fatherState!;
+                      } ,
                       showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.city,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
+                      onSingleSelect: (val){
+                        val=model.fatherCity!;
+                      },
                       showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -219,13 +230,16 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.occupation,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.motherOccupation!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -247,23 +261,29 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.area,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.motherArea!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items:model.country,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.motherCountry!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -273,23 +293,29 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.state,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.motherState!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items:model.city,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.motherCity!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -318,7 +344,7 @@ class ParentInfoEditing extends StatelessWidget {
             )),
         child: ExpansionTile(
             title: const CommonText(
-              text: "Gurdian's Details",
+              text: "Guardian's Details",
               style: AppTypography.subtitle2,
             ),
             children: [
@@ -362,18 +388,21 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.occupation,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.guardianOccupation!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
-                      labelText: "Organization Namer",
+                      labelText: "Organization Name",
                       controller:model.guardianOrganizationNameController
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -390,23 +419,29 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.area,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.guardianArea!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items:model.country,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.guardianCountry!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -416,43 +451,55 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.state,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.guardianState!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.city,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val=model.guardianCity!;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.area,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.guardianArea;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.country,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.guardianCountry;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -462,23 +509,29 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.state,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.state;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.city,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.guardianCity;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -577,13 +630,16 @@ class ParentInfoEditing extends StatelessWidget {
                     const CommonDatePickerWidget(),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.gender,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Gender',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                          val!=model.siblingGender;
+                      },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -593,13 +649,16 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: [],
+                      items: model.grade,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Grade',
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      onSingleSelect: (val){
+                        val!=model.siblingGrade;
+                      },
                     ),
                   ],
                 ),
