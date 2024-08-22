@@ -13,22 +13,22 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   }
   
   @override
-  Future<Either<NetworkError, ParentInfo>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo}){
+  Future<Either<NetworkError, SingleResponse>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo}){
     return _networkPort.updateParentDetails(enquiryID: enquiryID, parentInfo: parentInfo);
   }
 
   @override
-  Future<Either<NetworkError, ContactDetails>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails}){
+  Future<Either<NetworkError, SingleResponse>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails}){
     return _networkPort.updateContactDetails(enquiryID: enquiryID, contactDetails: contactDetails);
   }
 
   @override
-  Future<Either<NetworkError, MedicalDetails>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails}){
+  Future<Either<NetworkError, SingleResponse>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails}){
     return _networkPort.updateMedicalDetails(enquiryID: enquiryID, medicalDetails: medicalDetails);
   }
 
   @override
-  Future<Either<NetworkError, BankDetails>> updateBankDetails({required String enquiryID, required  BankDetailsEntity bankDetails}){
+  Future<Either<NetworkError, SingleResponse>> updateBankDetails({required String enquiryID, required  BankDetailsEntity bankDetails}){
     return _networkPort.updateBankDetails(enquiryID: enquiryID, bankDetails: bankDetails);
   }
 }

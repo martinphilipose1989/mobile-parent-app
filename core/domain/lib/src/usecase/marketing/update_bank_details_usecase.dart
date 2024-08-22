@@ -3,7 +3,7 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class UpdateBankDetailsUsecase extends BaseUseCase<BaseError,
-    UpdateBankDetailsUsecaseParams, BankDetails> {
+    UpdateBankDetailsUsecaseParams, SingleResponse> {
   final RegistrationRepository _registrationRepository;
 
   UpdateBankDetailsUsecase(
@@ -11,7 +11,7 @@ class UpdateBankDetailsUsecase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, BankDetails>> execute({
+  Future<Either<BaseError, SingleResponse>> execute({
     required UpdateBankDetailsUsecaseParams params,
   }) {
     return _registrationRepository.updateBankDetails(

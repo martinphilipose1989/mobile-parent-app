@@ -226,15 +226,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       final params = UpdateParentDetailsUsecaseParams(
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
       parentDetail.add(Resource.loading());
-      RequestManager<ParentInfo>(
+      RequestManager<SingleResponse>(
           params,
           createCall: () => updateParentDetailsUsecase.execute(params: params)
 
       ).asFlow().listen((result) {
-        parentDetail.add(Resource.success(data: result.data));
-       parentInfo = result.data;
+        parentDetail.add(Resource.success(data: result.data?.data));
+       parentInfo = result.data?.data;
 
-        addParentDetails( result.data??ParentInfo());
+        addParentDetails( result.data?.data??ParentInfo());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -248,14 +248,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateMedicalDetailsUsecaseParams(
           enquiryID: enquiryID, medicalDetails: medicalEntity);
-      RequestManager<MedicalDetails>(
+      RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateMedicalDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-        medicalDetail.add(Resource.success(data: result.data));
-        medicalDetails = result.data;
-        addMedicalDetails( result.data??MedicalDetails());
+        medicalDetail.add(Resource.success(data: result.data?.data));
+        medicalDetails = result.data?.data;
+        addMedicalDetails( result.data?.data??MedicalDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -269,14 +269,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateContactDetailsUsecaseParams(
           enquiryID: enquiryID, contactDetails: contactInfoEntity);
-      RequestManager<ContactDetails>(
+      RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateContactDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-        contactDetail.add(Resource.success(data: result.data));
-        contactDetails = result.data;
-        addContactDetails( result.data??ContactDetails());
+        contactDetail.add(Resource.success(data: result.data?.data));
+        contactDetails = result.data?.data;
+        addContactDetails( result.data?.data??ContactDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -289,14 +289,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateBankDetailsUsecaseParams(
           enquiryID: enquiryID, bankDetails: bankDetailEntity);
-      RequestManager<BankDetails>(
+      RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateBankDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-        bankDetail.add(Resource.success(data: result.data));
-        bankDetails = result.data;
-        addBankDetails( result.data??BankDetails());
+        bankDetail.add(Resource.success(data: result.data?.data));
+        bankDetails = result.data?.data;
+        addBankDetails( result.data?.data??BankDetails());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;

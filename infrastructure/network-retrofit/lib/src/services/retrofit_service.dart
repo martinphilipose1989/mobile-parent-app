@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -223,27 +222,27 @@ abstract class RetrofitService {
   );
 
   @PATCH('/marketing/app/registration/{enquiryId}/parent-details')
-  Future<HttpResponse<SingleResponse<ParentInfoEntity>>> updateParentDetails(
+  Future<HttpResponse<SingleResponse>> updateParentDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required ParentInfoEntity parentInfo}
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/contact-details')
-  Future<HttpResponse<SingleResponse<ContactDetailsEntity>>> updateContactDetails(
+  Future<HttpResponse<SingleResponse>> updateContactDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required ContactDetailsEntity contactDetails
       }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/medical-details')
-  Future<HttpResponse<SingleResponse<MedicalDetailsEntity>>> updateMedicalDetails(
+  Future<HttpResponse<SingleResponse>> updateMedicalDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required MedicalDetailsEntity medicalDetails
       }
       );
 
   @PATCH('/marketing/app/registration/{enquiryId}/bank-details')
-  Future<HttpResponse<SingleResponse<BankDetailsEntity>>> updateBankDetails(
+  Future<HttpResponse<SingleResponse>> updateBankDetails(
       {@Path('enquiryId') required String enquiryId,
         @Body() required BankDetailsEntity bankDetails
       }

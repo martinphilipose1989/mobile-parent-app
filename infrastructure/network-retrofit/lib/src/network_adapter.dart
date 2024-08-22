@@ -381,35 +381,48 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, ParentInfo>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo}) async{
+  Future<Either<NetworkError, SingleResponse>> updateParentDetails({required String enquiryID, required ParentInfoEntity parentInfo}) async{
     var response = await safeApiCall(apiService.updateParentDetails(enquiryId: enquiryID,parentInfo: parentInfo));
     return response.fold((l) {
       return Left(l);
-  }, (r) =>  Right(r.data.data!.transform()));
+  }, (r) {
+      Map<String, dynamic> jsonData = r.data.data;
+      ParentInfoEntity parentInfo = ParentInfoEntity.fromJson(jsonData);
+      return Right(SingleResponse<ParentInfo>(status: r.data.status ?? 0,message: r.data.message ?? "",data: parentInfo.transform()));
+    });
   }
 
   @override
-  Future<Either<NetworkError, BankDetails>> updateBankDetails({required String enquiryID, required BankDetailsEntity bankDetails}) async{
+  Future<Either<NetworkError, SingleResponse>> updateBankDetails({required String enquiryID, required BankDetailsEntity bankDetails}) async{
     var response = await safeApiCall(apiService.updateBankDetails(enquiryId: enquiryID,bankDetails: bankDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.data!.transform()));
+    }, (r) {
+      Map<String, dynamic> jsonData = r.data.data;
+      BankDetailsEntity bankDetails = BankDetailsEntity.fromJson(jsonData);
+    return Right(SingleResponse<BankDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: bankDetails.transform()));});
   }
 
   @override
-  Future<Either<NetworkError, ContactDetails>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails}) async{
+  Future<Either<NetworkError, SingleResponse>> updateContactDetails({required String enquiryID, required ContactDetailsEntity contactDetails}) async{
     var response = await safeApiCall(apiService.updateContactDetails(enquiryId: enquiryID,contactDetails: contactDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.data!.transform()));
+    }, (r) {
+      Map<String, dynamic> jsonData = r.data.data;
+      ContactDetailsEntity contactDetails = ContactDetailsEntity.fromJson(jsonData);
+    return Right(SingleResponse<ContactDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: contactDetails.transform()));});
   }
 
   @override
-  Future<Either<NetworkError, MedicalDetails>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails}) async{
+  Future<Either<NetworkError, SingleResponse>> updateMedicalDetails({required String enquiryID, required MedicalDetailsEntity medicalDetails}) async{
     var response = await safeApiCall(apiService.updateMedicalDetails(enquiryId: enquiryID,medicalDetails: medicalDetails));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.data!.transform()));
+    }, (r) {
+      Map<String, dynamic> jsonData = r.data.data;
+      MedicalDetailsEntity medicalDetails = MedicalDetailsEntity.fromJson(jsonData);
+    return Right(SingleResponse<MedicalDetails>(status: r.data.status ?? 0,message: r.data.message ?? "",data: medicalDetails.transform()));});
   }
 
   @override
