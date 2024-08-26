@@ -24,4 +24,9 @@ class CommonDataEntity extends BaseLayerDataTransformer<CommonDataEntity,CommonD
     commonDataClass.value = value;
     return commonDataClass;
   }
+
+  @override
+  CommonDataEntity restore(CommonDataClass data) {
+    return CommonDataEntity(id: data.id, value: data.value);
+  }
 }

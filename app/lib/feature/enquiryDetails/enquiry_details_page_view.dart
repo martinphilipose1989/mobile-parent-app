@@ -48,6 +48,14 @@ class EnquiriesDetailsPageView
         model.getMdmAttribute(infoType: 'schoolLocation');
         model.getMdmAttribute(infoType: 'gender');
         model.getMdmAttribute(infoType: 'board');
+        model.getMdmAttribute(infoType: 'course');
+        model.getMdmAttribute(infoType: 'stream');
+        model.getMdmAttribute(infoType: 'shift');
+        model.getMdmAttribute(infoType: 'batch');
+        model.getMdmAttribute(infoType: 'psaSubType');
+        model.getMdmAttribute(infoType: 'psaCategory');
+        model.getMdmAttribute(infoType: 'psaSubCategory');
+        model.getMdmAttribute(infoType: 'periodOfService');
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
         return null;
@@ -157,19 +165,7 @@ class EnquiriesDetailsPageView
                                   initialData: model.selectedValue.value,
                                   dataBuilder: (context, data) {
                                     return data == 1
-                                        ? AppStreamBuilder<Resource<EnquiryDetail>>(
-                                            stream: model.enquiryDetail,
-                                            initialData: Resource.none(),
-                                            dataBuilder: (context, data) {
-                                              if(data?.status == Status.loading){
-                                                return const CircularProgressIndicator();
-                                              }
-                                              if(data?.status == Status.error){ 
-                                                return const CommonText(text: "Documents not found");
-                                              }
-                                              return UploadDocuments(enquiryDetail: data?.data,model: model,enquiryID: enquiryDetailArgs.enquiryId??'',);
-                                            },
-                                          )
+                                        ? UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',)
                                         : model.editRegistrationDetails.value
                                             ? SingleChildScrollView(
                                                 child: (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(

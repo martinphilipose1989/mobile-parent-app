@@ -1,9 +1,11 @@
 import 'package:app/dependencies.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,51 +15,73 @@ class UploadDocuments extends StatelessWidget {
   EnquiryDetail? enquiryDetail;
   String? enquiryID;
   UploadDocuments({super.key,this.enquiryDetail,required this.model,this.enquiryID});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 10,),
-        Container(
-          height: 54,
-          width: MediaQuery.of(context).size.width,
-          color: const Color(0xffF0F2F4),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+    return AppStreamBuilder<Resource<EnquiryDetailBase>>(
+      stream: model.fetchEnquiryDetail,
+      initialData: Resource.none(),
+      onData: (value) {
+        print(value.status);
+        if(value.status == Status.success){
+          enquiryDetail = value.data?.data;
+        }
+      },
+      dataBuilder: (context, snapshot) {
+        print("Status: ${snapshot?.status}");
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10,),
+            Container(
+              height: 54,
+              width: MediaQuery.of(context).size.width,
+              color: const Color(0xffF0F2F4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CommonText(text: "Documents",
-                      style: AppTypography.body2.copyWith(
-                        fontFamily: 'Poppins',
-                        color: AppColors.textGray
-                      ),
+                    Row(
+                      children: [
+                        CommonText(text: "Documents",
+                          style: AppTypography.body2.copyWith(
+                            fontFamily: 'Poppins',
+                            color: AppColors.textGray
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_upward,
+                          color: AppColors.textGray,
+                          size: 16,
+                        ),
+                      ],
                     ),
-                    const Icon(
-                      Icons.arrow_upward,
-                      color: AppColors.textGray,
-                      size: 16,
+                    CommonText(text: "Action",
+                      style: AppTypography.body2.copyWith(
+                          fontFamily: 'Poppins',
+                          color: AppColors.textGray
+                      ),
                     ),
                   ],
                 ),
-                CommonText(text: "Action",
-                  style: AppTypography.body2.copyWith(
-                      fontFamily: 'Poppins',
-                      color: AppColors.textGray
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Column(
-          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index])),
-        ),
-        const SizedBox(height: 100,),
-      ],
+            if(snapshot?.status == Status.success)...[
+              Column(
+                children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index])),
+              ),
+            ],
+            if(snapshot?.status == Status.loading) ...[
+              const Center(child: CircularProgressIndicator(),)
+            ],
+            if(snapshot?.status == Status.error)...[
+              const CommonText(text: "Document list not found")
+            ],
+            const SizedBox(height: 100,),
+          ],
+        );
+      }
     );
   }
 

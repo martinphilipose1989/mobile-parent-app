@@ -1,5 +1,6 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/competency_test_schedule_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
@@ -9,6 +10,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,52 +100,59 @@ class ScheduleCompetencyTestPageView
                       const SizedBox(
                         height: 16,
                       ),
-                      StreamBuilder<List<SlotsDetail>>(
-                        stream: model.competenctTestSlots,
-                        builder: (context, snapshot) {
-                          if(!snapshot.hasData){
+                      AppStreamBuilder<Resource<Slots>>(
+                        stream: model.timeSlots,
+                        initialData: Resource.none(),
+                        dataBuilder: (context, snapshot) {
+                          if(snapshot?.status == Status.success){
                             return const Center(child: CircularProgressIndicator(),);
                           }
-                          return StreamBuilder<int>(
+                          if(snapshot?.status == Status.success){
+                            return ((snapshot?.data?.data??[]).isEmpty)?  const CommonText(text: "Slots are not available"): 
+                            StreamBuilder<int>(
                             stream: model.selectedTimeIndex,
                             builder: (context, snapshot) {
-                              return SizedBox(
-                                height: 90,
-                                child: GridView.builder(
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 0.45
-                                    ),
-                                    itemCount: model.competenctTestSlots.value.length,
-                                    scrollDirection: Axis.horizontal, // Number of items
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: (){
-                                          model.selectedTimeIndex.add(index);
-                                          model.slotID = model.competenctTestSlots.value[index].id??'';
-                                          model.selectedTime = model.competenctTestSlots.value[index].slot??'';
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              color: index==model.selectedTimeIndex.value?AppColors.primaryLighter:Colors.white, //Color(0xffA3A3A3)
-                                              border: Border.all(width: 1,color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textLightGray)
-                                          ),
-                                          child: CommonText(
-                                            text: model.competenctTestSlots.value[index].slot??'',
-                                            style: AppTypography.subtitle2.copyWith(
-                                                color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textGray
+                                return SizedBox(
+                                  height: 90,
+                                  child: GridView.builder(
+                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                          childAspectRatio: 0.45
+                                      ),
+                                      itemCount: model.competenctTestSlots.value.length,
+                                      scrollDirection: Axis.horizontal, // Number of items
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: (){
+                                            model.selectedTimeIndex.add(index);
+                                            model.slotID = model.competenctTestSlots.value[index].id??'';
+                                            model.selectedTime = model.competenctTestSlots.value[index].slot??'';
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: index==model.selectedTimeIndex.value?AppColors.primaryLighter:Colors.white, //Color(0xffA3A3A3)
+                                                border: Border.all(width: 1,color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textLightGray)
+                                            ),
+                                            child: CommonText(
+                                              text: model.competenctTestSlots.value[index].slot??'',
+                                              style: AppTypography.subtitle2.copyWith(
+                                                  color: index==model.selectedTimeIndex.value?Theme.of(context).primaryColor:AppColors.textGray
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }),
-                              );
-                            }
-                          );
+                                        );
+                                      }),
+                                );
+                              }
+                            );
+                          }
+                          else{
+                            return const CommonText(text: "Slots are not available");
+                          }
                         }
                       ),
                       const SizedBox(

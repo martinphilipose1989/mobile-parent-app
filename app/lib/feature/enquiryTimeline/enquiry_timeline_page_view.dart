@@ -47,8 +47,8 @@ class EnquiriesTimelinePageView
           const SizedBox(
             height: 10,
           ),
-          AppStreamBuilder<Resource<List<EnquiryTimelineDetail>>>(
-                stream: model.enquiryTimeline,
+          AppStreamBuilder<Resource<EnquiryTimeLineBase>>(
+                stream: model.fetchEnquiryTimeline,
                 initialData: Resource.none(),
                 dataBuilder: (context, result) {
                   switch (result?.status) {
@@ -57,10 +57,10 @@ class EnquiriesTimelinePageView
                     case Status.success:
                       return Expanded(
                         child: ListView.builder(
-                          itemCount: (result?.data??[]).length,
+                          itemCount: (result?.data?.data?.timeline??[]).length,
                           shrinkWrap: false,
                           itemBuilder: (context, index) {
-                            return TimelineListitem(index: index,length: (result?.data??[]).length,timeline: (result?.data??[])[index],);
+                            return TimelineListitem(index: index,length: (result?.data?.data?.timeline??[]).length,timeline: (result?.data?.data?.timeline??[])[index],);
                           },
                         ),
                       );

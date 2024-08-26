@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -46,11 +47,21 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
-  final PublishSubject<Resource<List<EnquiryListDetailModel>>> enquiryList = PublishSubject();
+final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
-  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  // final PublishSubject<Resource<EnquiryListModel>> enquiryList = PublishSubject();
 
-  Future<void> fetchEnquiries({bool isRefresh = false}) async {
+  // Stream<Resource<EnquiryListModel>> get getEnquiryList =>
+  //   enquiryList.stream;
+
+  // -------- Get Equiry List Usecase -------- //
+  
+  final PublishSubject<Resource<EnquiryListModel>> _getEnquiryResponse = PublishSubject();
+
+  Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream => _getEnquiryResponse.stream;
+
+
+  void fetchEnquiries({bool isRefresh = false}) {
     exceptionHandlerBinder.handle(block: () {
       if(isRefresh){
         pageNumber = 1;
@@ -60,26 +71,33 @@ class EnquiriesPageModel extends BasePageViewModel {
         pageNumber: pageNumber,
         pageSize: pageSize
       );
-      if(pageNumber == 1 && !isRefresh){
-        enquiryList.add(Resource.loading());
+      if(pageNumber < 1 && !isRefresh){
+        isLoading.value = true;
       }
       RequestManager<EnquiryListModel>(
         params,
         createCall: () => getEnquiryListUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) {
-        if (isRefresh) {
-          enquiryList.add(Resource.success(data: result.data?.data?.data??[]));
-        } else {
-          var newContent = result.data?.data?.data??[];
-          _currentEnquiries = [..._currentEnquiries, ...newContent];
-          enquiryList.add(Resource.success(data: _currentEnquiries));
+      ).asFlow().listen((event) {
+        debugPrint("EnResultEvent - ${event.status}");
+        _getEnquiryResponse.add(event);
+        if(isRefresh){
+          pageNumber = 1;
         }
-        isNextPage = result.data?.data?.isNextPage ?? false;
-        isLoading.value = false;
+        if(event.status == Status.success
+        && event.data?.data?.totalCount != 0
+        && event.data?.data?.data != null) {
+          if(isRefresh){
+            _currentEnquiries = event.data?.data?.data ?? [];
+          }
+          else{
+            var newContent = event.data?.data?.data??[];
+            _currentEnquiries = [..._currentEnquiries, ...newContent];
+            isLoading.value = false;
+          }
+        }
       }).onError((error) {
-        print("Error ${error.toString()}");
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
       });

@@ -14,7 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ListV extends StatelessWidget {
   final List<EnquiryListDetailModel>? enquiries;
   ScrollController scrollController;
-  Future<void> Function() onRefresh;
+  void Function() onRefresh;
 
   ListV({super.key, required this.enquiries, required this.scrollController, required this.onRefresh,});
 
@@ -22,7 +22,7 @@ class ListV extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: RefreshIndicator(
-        onRefresh: onRefresh,
+        onRefresh: () async => onRefresh,
         child: ListView.builder(
           controller: scrollController,
           itemCount: enquiries?.length,

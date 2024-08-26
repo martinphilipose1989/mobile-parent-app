@@ -13,6 +13,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase);
   
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
+  final PublishSubject<Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
+  Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream;
   final BehaviorSubject<EnquiryDetail> enquiryDetails = BehaviorSubject.seeded(EnquiryDetail());
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
@@ -29,7 +31,10 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        admissionJourney.add(Resource.success(data: result.data?.data??[]));
+        _fetchAdmissionJourney.add(result);
+        if(result.status == Status.success){
+          admissionJourney.add(Resource.success(data: result.data?.data??[]));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

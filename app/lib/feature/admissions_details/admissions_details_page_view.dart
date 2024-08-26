@@ -103,8 +103,8 @@ class AdmissionsDetailsPageView
                   ],
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
-                AppStreamBuilder<Resource<List<AdmissionJourneyDetail>>>(
-                stream: model.admissionJourney,
+                AppStreamBuilder<Resource<AdmissionJourneyBase>>(
+                stream: model.fetchAdmissionJourney,
                 initialData: Resource.none(),
                 dataBuilder: (context, result) {
                   switch(result?.status){
@@ -113,7 +113,7 @@ class AdmissionsDetailsPageView
                     case Status.success:
                       return CommonStepperPage(
                               stepperList: List.generate(
-                                (result?.data??[]).isEmpty? 1: (result?.data??[]).length,
+                                (result?.data?.data??[]).isEmpty? 1: (result?.data?.data??[]).length,
                                 (index) {
                                   return Step(
                                       // subtitle: result?.data?[index].stage == ''
@@ -121,16 +121,16 @@ class AdmissionsDetailsPageView
                                       //     : CommonText(
                                       //         text: model.stepperData[index]['subtitle']),
                                       title: CommonText(
-                                        text: result?.data?[index].stage??'',
+                                        text: result?.data?.data?[index].stage??'',
                                       ),
-                                      state: result?.data?[index].status == "Completed"
+                                      state: result?.data?.data?[index].status == "Completed"
                                           ? StepState.complete
                                           : StepState.indexed,
-                                      isActive: result?.data?[index].status == "Completed",
+                                      isActive: result?.data?.data?[index].status == "Completed",
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: result?.data?.indexWhere((element) => element.status == "Open",)??0);
+                              activeStep: result?.data?.data?.indexWhere((element) => element.status == "Open",)??0);
                     case Status.error:
                       return const Center(child: Text('Enquiries not found'),);
                     default:

@@ -50,6 +50,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
   BehaviorSubject<PSADetail>? psaDetails = BehaviorSubject<PSADetail>.seeded(PSADetail());
   PublishSubject<Resource<EnquiryDetail>> enquiryDetail= PublishSubject();
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
+
   PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile = PublishSubject();
   PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile = PublishSubject();
   PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile = PublishSubject();
@@ -70,10 +73,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
    BehaviorSubject<String> periodOfServiceSubject = BehaviorSubject<String>.seeded('');
    BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
  //IVT-specific controllers
-   TextEditingController ivtBoardController = TextEditingController();
-  TextEditingController ivtCourseController = TextEditingController();
-   TextEditingController ivtStreamController = TextEditingController();
-   TextEditingController ivtShiftController = TextEditingController();
+    BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
       BehaviorSubject<bool>.seeded(false);
@@ -116,6 +119,15 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedPsaBatch =
       BehaviorSubject<bool>.seeded(false);
 
+  final BehaviorSubject<bool> selecteBoard =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedCourse =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedStream =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedShift =
+      BehaviorSubject<bool>.seeded(false);
+
   final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
@@ -139,6 +151,39 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<List<String>> psaBatch = BehaviorSubject<List<String>>.seeded([]);
 
   final BehaviorSubject<List<String>> gender = BehaviorSubject<List<String>>.seeded([]);
+
+  final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
+
+  List<MdmAttributeModel>? gradeTypesAttribute;
+  List<MdmAttributeModel>? schoolLocationTypesAttribute;
+  List<MdmAttributeModel>? genderAttribute;
+  List<MdmAttributeModel>? existingSchoolBoardAttribute;
+  List<MdmAttributeModel>? psaCategoryAttribute;
+  List<MdmAttributeModel>? psaSubCategoryAttribute;
+  List<MdmAttributeModel>? psaSubTypeAttribute;
+  List<MdmAttributeModel>? periodOfServiceAttribute;
+  List<MdmAttributeModel>? psaBatchAttribute;
+  List<MdmAttributeModel>? streamTypeAttribute;
+  List<MdmAttributeModel>? courseTypeAttribute;
+  List<MdmAttributeModel>? shiftTypeAttribute;
+
+  CommonDataClass? selectedSchoolLocationEntity; 
+  CommonDataClass? selectedGradeEntity;
+  CommonDataClass? selectedGenderEntity;
+  CommonDataClass? selectedExistingSchoolBoardEntity;
+  CommonDataClass? selectedExistingSchoolGradeEntity;
+  CommonDataClass? selectedParentTypeEntity;
+  CommonDataClass? selectedPsaSubTypeEntity;
+  CommonDataClass? selectedPsaCategoryEntity;
+  CommonDataClass? selectedPsaSubCategoryEntity;
+  CommonDataClass? selectedPeriodOfServiceEntity;
+  CommonDataClass? selectedPsaBatchEntity;
+  CommonDataClass? selectedBoardEntity;
+  CommonDataClass? selectedStreamEntity;
+  CommonDataClass? selectedCourseEntity;
+  CommonDataClass? selectedShiftEntity;
 
   Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
@@ -273,18 +318,19 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   Future<void> getEnquiryDetail({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
-      
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
         enquiryID: "66ba1b522c07e8497dde3061",
       );
-      enquiryDetail.add(Resource.loading());
       RequestManager<EnquiryDetailBase>(
         params,
         createCall: () => getEnquiryDetailUseCase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
+        _fetchEnquiryDetail.add(result);
+        if(result.status == Status.success){
+          enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -304,31 +350,52 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         if(infoType == "grade"){
+          gradeTypesAttribute = result.data?.data;
           gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "schoolLocation"){
+          schoolLocationTypesAttribute = result.data?.data;
           schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "gender"){
+          genderAttribute = result.data?.data;
           gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "board"){
+          existingSchoolBoardAttribute = result.data?.data;
           existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "psaCategory"){
+          psaCategoryAttribute = result.data?.data;
           psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "psaSubCategory"){
+          psaSubCategoryAttribute = result.data?.data;
           psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "psaSubType"){
+          psaSubTypeAttribute = result.data?.data;
           psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "periodOfService"){
+          periodOfServiceAttribute = result.data?.data;
           periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
         }
         if(infoType == "batch"){
+          psaBatchAttribute = result.data?.data;
           psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "stream"){
+          streamTypeAttribute = result.data?.data;
+          stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "course"){
+          courseTypeAttribute = result.data?.data;
+          course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "shift"){
+          shiftTypeAttribute = result.data?.data;
+          shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -411,26 +478,70 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     dobController.text = detail.studentDetails?.dob ?? ''; 
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
     selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
     selectedParentTypeSubject.add("Father");
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
     // globalIdController.text = detail.studentDetails?.globalId ?? '';
   }
 
-  addPsaDetails(PSADetail detail){
+  addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? ''; 
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedParentTypeSubject.add("Father");
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
     psaSubTypeSubject.add(detail.psaSubType?.value?? '');
+    selectedPsaSubTypeEntity = detail.psaSubType;
     psaCategorySubject.add(detail.psaCategory?.value?? '');
+    selectedPsaCategoryEntity = detail.psaCategory;
     psaSubCategorySubject.add(detail.psaSubCategory?.value?? '');
+    selectedPsaSubCategoryEntity = detail.psaSubCategory;
     periodOfServiceSubject.add(detail.psaPeriodOfService?.value?? '');
+    selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
     psaBatchSubject.add(detail.psaBatch?.value?? '');
+    selectedPsaBatchEntity = detail.psaBatch;
   }
 
-  addIvtDetails(IVTDetail detail){
-    ivtBoardController.text = detail.board?.value?? '';
-    ivtCourseController.text = detail.course?.value?? '';
-    ivtStreamController.text = detail.stream?.value?? '';
-    ivtShiftController.text = detail.shift?.value?? '';
+  addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? ''; 
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedParentTypeSubject.add("Father");
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
+    ivtBoardSubject.add(detail.board?.value?? '');
+    ivtCourseSubject.add(detail.course?.value?? '');
+    ivtStreamSubject.add(detail.stream?.value?? '');
+    ivtShiftSubject.add(detail.shift?.value?? '');
   }
 }

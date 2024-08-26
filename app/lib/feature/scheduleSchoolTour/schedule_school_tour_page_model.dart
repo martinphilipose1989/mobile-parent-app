@@ -37,6 +37,8 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   DateFormat dateFormat1 = DateFormat('yyyy-MM-dd');
 
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
+  final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
+  Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
 
   void getDefaultDate(){
     selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -60,7 +62,9 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        schoolVisitDetail.add(Resource.success(data: result.data?.data));
+        if(result.status == Status.success){
+          schoolVisitDetail.add(Resource.success(data: result.data?.data));
+        }
 
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -108,9 +112,12 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        schoolVisitTimeSlots.add(result.data?.data??[]);
-        slotId = result.data?.data?[0].id??'';
-        selectedTime = result.data?.data?[0].slot??'';
+        _timeSlots.add(result);
+        if(result.status == Status.success){
+          schoolVisitTimeSlots.add(result.data?.data??[]);
+          slotId = result.data?.data?[0].id??'';
+          selectedTime = result.data?.data?[0].slot??'';
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

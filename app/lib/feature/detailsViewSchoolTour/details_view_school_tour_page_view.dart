@@ -46,15 +46,15 @@ class DetailsViewSchoolTourPageView
                       const SizedBox(
                         height: 10,
                       ),
-                      AppStreamBuilder<Resource<SchoolVisitDetail>>(
-                        stream: model.schoolVisitDetail,
+                      AppStreamBuilder<Resource<SchoolVisitDetailBase>>(
+                        stream: model.schoolVisitDetailResponse,
                         initialData: Resource.none(),
                         dataBuilder: (context, result) {
                           switch(result?.status){
                             case Status.loading:
                               return const Center(child: CircularProgressIndicator(),);
                             case Status.success:
-                              return SchoolTourScheduledDetailsWidget(schoolVisitDetail: result?.data??SchoolVisitDetail());
+                              return SchoolTourScheduledDetailsWidget(schoolVisitDetail: result?.data?.data??SchoolVisitDetail());
                             default:
                               return const Center(child: CircularProgressIndicator(),);
                           }

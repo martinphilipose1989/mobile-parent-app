@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
@@ -12,6 +14,8 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
   EnquiriesAdmissionsJourneyViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase);
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
+  final PublishSubject <Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
+  Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream; 
   EnquiryDetail? enquiryDetail;
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
@@ -28,7 +32,10 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        admissionJourney.add(Resource.success(data: result.data?.data??[]));
+        _fetchAdmissionJourney.add(result);
+        if(result.status == Status.success){
+          admissionJourney.add(Resource.success(data: result.data?.data??[]));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -50,7 +57,6 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         enquiryDetail = result.data?.data;
-        print(result.status);
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

@@ -83,6 +83,7 @@ export 'src/model/response/slots/slots_detail_model.dart';
 export 'src/model/response/mdm_attribute/mdm_detail_model.dart';
 export 'src/model/response/mdm_attribute/attribute_model.dart';
 export 'src/model/response/mdm_attribute/mdm_attribute_base_model.dart';
+export 'src/model/response/registration_info/residential_address_contact_info.dart';
 
 
 //utils

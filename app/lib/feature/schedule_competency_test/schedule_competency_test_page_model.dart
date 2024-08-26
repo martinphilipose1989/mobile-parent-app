@@ -39,6 +39,9 @@ class CompetencyTestModel extends BasePageViewModel {
 
   final competenctTestSlots = BehaviorSubject<List<SlotsDetail>>();
   String enquiryID = "";
+
+  final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
+  Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
   
     void getDefaultDate(){
     selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -56,9 +59,12 @@ class CompetencyTestModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        competenctTestSlots.add(result.data?.data??[]);
-        slotID = result.data?.data?[0].id??'';
-        selectedTime = result.data?.data?[0].slot??'';
+        _timeSlots.add(result);
+        if(result.status == Status.success){
+          competenctTestSlots.add(result.data?.data??[]);
+          slotID = result.data?.data?[0].id??'';
+          selectedTime = result.data?.data?[0].slot??'';
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

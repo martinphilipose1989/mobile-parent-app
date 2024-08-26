@@ -14,6 +14,9 @@ class EnquiriesTimelinePageModel extends BasePageViewModel {
 
   final PublishSubject<Resource<List<EnquiryTimelineDetail>>> enquiryTimeline= PublishSubject();
 
+  final PublishSubject<Resource<EnquiryTimeLineBase>> _fetchEnquiryTimeline = PublishSubject();
+  Stream<Resource<EnquiryTimeLineBase>> get fetchEnquiryTimeline => _fetchEnquiryTimeline.stream;
+
   Future<void> getEnquiryTimeLine({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       
@@ -27,7 +30,10 @@ class EnquiriesTimelinePageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryTimeline.add(Resource.success(data: result.data?.data?.timeline));
+        _fetchEnquiryTimeline.add(result);
+        if(result.status == Status.success){
+          enquiryTimeline.add(Resource.success(data: result.data?.data?.timeline));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

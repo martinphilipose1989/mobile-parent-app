@@ -36,7 +36,7 @@ abstract class ErrorsModule {
           return toastErrorPresenter;
 
         case NetworkError:
-          return alertErrorPresenter;
+          return snackBarErrorPresenter;
 
         default:
           return snackBarErrorPresenter;

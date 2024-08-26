@@ -2,6 +2,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -153,8 +154,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   //ResidentialDetails
   TextEditingController houseOrBuildingController= TextEditingController();
-  TextEditingController streetNameController= TextEditingController();
-  TextEditingController landMarkController=TextEditingController();
+  TextEditingController streetNameController = TextEditingController();
+  TextEditingController landMarkController =TextEditingController();
+  TextEditingController residentialCountryController = TextEditingController();
+  TextEditingController residentialStateController = TextEditingController();
+  TextEditingController residentialCityController = TextEditingController();
+  TextEditingController residentialPinCodeController = TextEditingController();
   String? emergencyContact;
   String? residentialCountry;
   String? residentialState;
@@ -473,11 +478,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
     streetNameController.text= contactDetails.residentialAddress?.street??"";
     landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-     emergencyContact=contactDetails.emergencyContact;
-     residentialCountry=contactDetails.residentialAddress?.country?.value??"";
-     residentialState=contactDetails.residentialAddress?.state?.value??"";
-     residentialCity= contactDetails.residentialAddress?.city?.value??"";
-     residentialPinCode=contactDetails.residentialAddress?.street??"";
+    emergencyContact=contactDetails.emergencyContact;
+    residentialCountry=contactDetails.residentialAddress?.country??"";
+    residentialState=contactDetails.residentialAddress?.state??"";
+    residentialCity= contactDetails.residentialAddress?.city??"";
+    residentialPinCode=contactDetails.residentialAddress?.pincode??"";
     contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
   }
 
@@ -573,10 +578,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     streetNameController.text= contactDetails.residentialAddress?.street??"";
     landMarkController.text= contactDetails.residentialAddress?.landmark??"";
     emergencyContact=contactDetails.emergencyContact;
-    residentialCountry=contactDetails.residentialAddress?.country?.value??"";
-    residentialState=contactDetails.residentialAddress?.state?.value??"";
-    residentialCity= contactDetails.residentialAddress?.city?.value??"";
-    residentialPinCode=contactDetails.residentialAddress?.street??"";
+    residentialCountryController.text=contactDetails.residentialAddress?.country??"";
+    residentialStateController.text=contactDetails.residentialAddress?.state??"";
+    residentialCityController.text= contactDetails.residentialAddress?.city??"";
+    residentialPinCodeController.text=contactDetails.residentialAddress?.pincode??"";
     contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
     await updateContactDetail(enquiryId,contactDetails);
   }

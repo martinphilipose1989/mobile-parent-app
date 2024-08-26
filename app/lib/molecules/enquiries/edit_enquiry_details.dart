@@ -65,7 +65,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                 items: snapshot.data??[],
                 onSingleSelect: (selectedValue) {
                   if (model.schoolLocationTypes.value.contains(selectedValue)) {
+                    var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                     model.selectedSchoolLocationType.add(true);
+                    model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
+                    model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
                   }
                 },
                 isMutiSelect: false,
@@ -111,7 +114,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   items: snapshot.data??[],
                   onSingleSelect: (selectedValue) {
                     if (model.gradeTypes.value.contains(selectedValue)) {
+                      var grade = model.gradeTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedGradeType.add(true);
+                      model.selectedGenderEntity?.id = grade?.id;
+                      model.selectedGradeEntity?.value = grade?.attributes?.name;
                     }
                   },
                   singleSelectItemSubject: model.selectedGradeSubject,
@@ -162,7 +168,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.selectedGenderSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.gender.value.contains(selectedValue)) {
+                      var gender = model.genderAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedGenerType.add(true);
+                      model.selectedGenderEntity?.id = gender?.id;
+                      model.selectedGenderEntity?.value = gender?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -196,7 +205,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.selectedExistingSchoolBoardSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.existingSchoolBoard.value.contains(selectedValue)) {
+                      var board = model.existingSchoolBoardAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedExistingSchoolBoard.add(true);
+                      model.selectedExistingSchoolBoardEntity?.id = board?.id;
+                      model.selectedExistingSchoolBoardEntity?.value = board?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -224,7 +236,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.existingSchoolGrade.value.contains(selectedValue)) {
+                      var grade = model.gradeTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedExistingSchoolGrade.add(true);
+                      model.selectedExistingSchoolGradeEntity?.id = grade?.id;
+                      model.selectedExistingSchoolGradeEntity?.value = grade?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -293,7 +308,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.psaSubTypeSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.psaSubType.value.contains(selectedValue)) {
+                      var psaSubType = model.psaSubTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedPsaSubType.add(true);
+                      model.selectedPsaSubTypeEntity?.id = psaSubType?.id;
+                      model.selectedPsaSubTypeEntity?.value = psaSubType?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -321,7 +339,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.psaCategorySubject,
                   onSingleSelect: (selectedValue) {
                     if (model.psaCategory.value.contains(selectedValue)) {
+                      var psaCategory = model.psaCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedPsaCategory.add(true);
+                      model.selectedPsaCategoryEntity?.id = psaCategory?.id;
+                      model.selectedPsaCategoryEntity?.value = psaCategory?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -349,7 +370,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.psaSubCategorySubject,
                   onSingleSelect: (selectedValue) {
                     if (model.psaSubCategory.value.contains(selectedValue)) {
+                      var psaSubCategory = model.psaSubCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedPsaSubCategory.add(true);
+                      model.selectedPsaSubCategoryEntity?.id = psaSubCategory?.id;
+                      model.selectedPsaSubCategoryEntity?.value = psaSubCategory?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -377,7 +401,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.periodOfServiceSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.periodOfService.value.contains(selectedValue)) {
+                    var periodOfService = model.periodOfServiceAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedPeriodOfService.add(true);
+                      model.selectedPeriodOfServiceEntity?.id = periodOfService?.id;
+                      model.selectedPeriodOfServiceEntity?.value = periodOfService?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -405,7 +432,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   singleSelectItemSubject: model.psaBatchSubject,
                   onSingleSelect: (selectedValue) {
                     if (model.psaBatch.value.contains(selectedValue)) {
+                      var psaBatch = model.psaBatchAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
                       model.selectedPsaBatch.add(true);
+                      model.selectedPsaBatchEntity?.id = psaBatch?.id;
+                      model.selectedPsaBatchEntity?.value = psaBatch?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
@@ -421,28 +451,128 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
   Widget ivtDetails(){
     return Column(
       children: [
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Board',
-          controller: model.ivtBoardController,
+        StreamBuilder<List<String>>(
+          stream: model.existingSchoolBoard,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Board',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.ivtBoardSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.existingSchoolBoard.value.contains(selectedValue)) {
+                      var board = model.existingSchoolBoardAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                      model.selecteBoard.add(true);
+                      model.selectedBoardEntity?.id = board?.id;
+                      model.selectedBoardEntity?.value = board?.attributes?.name;
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Course',
-          controller: model.ivtCourseController,
+        StreamBuilder<List<String>>(
+          stream: model.course,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Course',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.ivtCourseSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.course.value.contains(selectedValue)) {
+                      var course = model.courseTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                      model.selectedCourse.add(true);
+                      model.selectedCourseEntity?.id = course?.id;
+                      model.selectedCourseEntity?.value = course?.attributes?.name;
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Stream',
-          controller: model.ivtStreamController,
+        StreamBuilder<List<String>>(
+          stream: model.stream,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Stream',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.ivtStreamSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.stream.value.contains(selectedValue)) {
+                      var stream = model.streamTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                      model.selectedStream.add(true);
+                      model.selectedStreamEntity?.id = stream?.id;
+                      model.selectedStreamEntity?.value = stream?.attributes?.name;
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
         const SizedBox(height: 20,),
-        CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Shift',
-          controller: model.ivtShiftController,
+        StreamBuilder<List<String>>(
+          stream: model.shift,
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            } else {
+              return SizedBox(
+                height: 48,
+                child: CustomDropdownButton(
+                  width: MediaQuery.of(context).size.width,
+                  onMultiSelect: (selectedValues) {},
+                  dropdownName: 'Shift',
+                  showAstreik: true,
+                  showBorderColor: true,
+                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.ivtShiftSubject,
+                  onSingleSelect: (selectedValue) {
+                    if (model.shift.value.contains(selectedValue)) {
+                      var board = model.shiftTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                      model.selectedShift.add(true);
+                      model.selectedShiftEntity?.id = board?.id;
+                      model.selectedShiftEntity?.value = board?.attributes?.name;
+                    }
+                  },
+                  isMutiSelect: false,
+                ),
+              );
+            }
+          }
         ),
       ],
     );
