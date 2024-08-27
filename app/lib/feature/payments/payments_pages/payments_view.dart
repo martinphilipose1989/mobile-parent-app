@@ -112,7 +112,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                       height: 38.h,
                       child: PaymentsChipsList(
                         chipValues: List.generate(
-                          data.data?.data?.brandCodes!.length ?? 0,
+                          data.data?.data?.brandCodes?.length ?? 0,
                           (index) {
                             return ChipsModel(
                                 name: data
@@ -120,7 +120,11 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                 isSelected: false);
                           },
                         ),
-                        onCallBack: (routeName) {},
+                        onCallBack: (index) {
+                          final brand = data.data!.data!.brandCodes![index];
+
+                          model.onSelectBrandCode(brandCode: brand);
+                        },
                       ),
                     ),
                   );

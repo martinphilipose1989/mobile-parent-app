@@ -77,7 +77,9 @@ class PaymentsModel extends BasePageViewModel {
         createCall: () =>
             _getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        studentIDs.add(result.data!.data!.students![0].id!);
+        if (result.data?.data != null) {
+          studentIDs.add(result.data!.data!.students![0].id!);
+        }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -103,7 +105,10 @@ class PaymentsModel extends BasePageViewModel {
         params,
         createCall: () => _getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        academicYearIds.add(result.data!.data![0].id!);
+        if (result.data?.data != null) {
+          academicYearIds.add(result.data!.data![0].id!);
+        }
+
         _getAcademicYearModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -130,6 +135,7 @@ class PaymentsModel extends BasePageViewModel {
         createCall: () => _getSchoolNamesUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _getSchoolNamesModel.add(result);
+        selectSchoolBrand = result.data?.data?.brandCodes?[0];
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -143,6 +149,13 @@ class PaymentsModel extends BasePageViewModel {
   final BehaviorSubject<GetPendingFeesModel> _getPendingFeesModel =
       BehaviorSubject();
 
+  BrandCode? selectSchoolBrand;
+
+  void onSelectBrandCode({required BrandCode brandCode}) {
+    selectSchoolBrand = brandCode;
+    filterPendingFeeList(academicYear: academicYearIds, studentIDs: studentIDs);
+  }
+
   Future<void> filterPendingFeeList(
       {List<int>? studentIDs, List<int>? academicYear}) async {
     await exceptionHandlerBinder.handle(block: () {
@@ -150,14 +163,18 @@ class PaymentsModel extends BasePageViewModel {
           academicYear: academicYear ?? [],
           applicableTo: 2,
           students: studentIDs ?? [],
+          brandId: selectSchoolBrand?.brandCode?.toInt(),
+          entityId: int.tryParse(selectSchoolBrand?.legalIdentity ?? ''),
           type: 'pending');
       RequestManager<GetPendingFeesModel>(
         params,
         createCall: () => _getPendingFeesUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        _getPendingFeesModel.add(result.data!);
-        createANewListAsPerStudentId(result.data!);
-        calculateTotalAmount();
+        if (result.status == Status.success) {
+          _getPendingFeesModel.add(result.data!);
+          createANewListAsPerStudentId(result.data!);
+          calculateTotalAmount();
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

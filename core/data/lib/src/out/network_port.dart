@@ -23,7 +23,9 @@ abstract class NetworkPort {
       {required String type,
       required List<int> students,
       required List<int> academicYear,
-      required int applicableTo});
+      required int applicableTo,
+      int? entityId,
+      int? brandId});
 
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List<int> studentIds, required List<int> academicYearIds});

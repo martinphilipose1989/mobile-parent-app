@@ -126,13 +126,17 @@ class NetworkAdapter implements NetworkPort {
       {required String type,
       required List<int> students,
       required List<int> academicYear,
-      required int applicableTo}) async {
+      required int applicableTo,
+      int? entityId,
+      int? brandId}) async {
     var response = await safeApiCall(apiService.getPendingFees(
         GetPendingFeesRequest(
             type: type,
             students: students,
             academicYear: academicYear,
-            applicableTo: applicableTo)));
+            applicableTo: applicableTo,
+            brandId: brandId,
+            entityId: entityId)));
     return response.fold(
       (l) {
         return Left(l);

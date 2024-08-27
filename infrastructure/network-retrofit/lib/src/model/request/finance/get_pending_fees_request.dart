@@ -13,13 +13,18 @@ class GetPendingFeesRequest {
   final int applicableTo;
   @JsonKey(name: "academic_years")
   final List<int> academicYear;
+  @JsonKey(name: "entity_id")
+  final int? entityId;
+  @JsonKey(name: "brand_id")
+  final int? brandId;
 
-  GetPendingFeesRequest({
-    required this.type,
-    required this.students,
-    required this.applicableTo,
-    required this.academicYear,
-  });
+  GetPendingFeesRequest(
+      {required this.type,
+      required this.students,
+      required this.applicableTo,
+      required this.academicYear,
+      this.brandId,
+      this.entityId});
 
   factory GetPendingFeesRequest.fromJson(Map<String, dynamic> json) =>
       _$GetPendingFeesRequestFromJson(json);

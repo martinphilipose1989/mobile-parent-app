@@ -24,7 +24,9 @@ abstract class FinanceRepository {
       {required String type,
       required List<int> students,
       required List<int> academicYear,
-      required int applicableTo});
+      required int applicableTo,
+      int? brandId,
+      int? entityId});
 
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List<int> studentIds, required List<int> academicYearIds});

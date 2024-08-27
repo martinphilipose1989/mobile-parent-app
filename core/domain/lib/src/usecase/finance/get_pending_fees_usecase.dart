@@ -20,7 +20,9 @@ class GetPendingFeesUsecase extends BaseUseCase<BaseError,
         type: params.type,
         students: params.students,
         academicYear: params.academicYear,
-        applicableTo: params.applicableTo);
+        applicableTo: params.applicableTo,
+        brandId: params.brandId,
+        entityId: params.entityId);
   }
 }
 
@@ -29,13 +31,16 @@ class GetPendingFeesUsecaseParams extends Params {
   final List<int> students;
   final List<int> academicYear;
   final int applicableTo;
+  final int? entityId;
+  final int? brandId;
 
-  GetPendingFeesUsecaseParams({
-    required this.type,
-    required this.students,
-    required this.academicYear,
-    required this.applicableTo,
-  });
+  GetPendingFeesUsecaseParams(
+      {required this.type,
+      required this.students,
+      required this.academicYear,
+      required this.applicableTo,
+      this.brandId,
+      this.entityId});
 
   @override
   Either<AppError, bool> verify() {

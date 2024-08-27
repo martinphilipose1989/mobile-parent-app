@@ -50,12 +50,16 @@ class FinanceRepositoryImpl extends FinanceRepository {
       {required String type,
       required List<int> students,
       required List<int> academicYear,
-      required int applicableTo}) {
+      required int applicableTo,
+      int? entityId,
+      int? brandId}) {
     return networkPort.getPendingFees(
         type: type,
         students: students,
         academicYear: academicYear,
-        applicableTo: applicableTo);
+        applicableTo: applicableTo,
+        brandId: brandId,
+        entityId: entityId);
   }
 
   @override
