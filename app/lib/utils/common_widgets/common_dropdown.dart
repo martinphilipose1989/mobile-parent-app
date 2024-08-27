@@ -16,6 +16,7 @@ class CustomDropdownButton extends StatefulWidget {
   final bool displayZerothIndex;
   final Function(List<String> selectedValues) onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
+  final String? Function(String?)? validator;
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -26,6 +27,7 @@ class CustomDropdownButton extends StatefulWidget {
       this.displayZerothIndex = false,
       this.width,
       required this.onMultiSelect,
+      this.validator,
       this.onSingleSelect});
 
   @override
@@ -71,8 +73,9 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           clipBehavior: Clip.none,
           children: [
             DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
+              child: DropdownButtonFormField2<String>(
                 isExpanded: true,
+                validator: widget.validator,
                 hint: Row(
                   children: [
                     Expanded(
@@ -110,16 +113,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   singleSelectItemSubject.add(value ?? "");
                 },
                 buttonStyleData: ButtonStyleData(
-                  height: 68.h,
+                  height: 48.h,
                   width: widget.width ?? 175.w,
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                        color: widget.showBorderColor
-                            ? Colors.black26
-                            : Colors.transparent,
-                        width: 1),
+                  //  padding: const EdgeInsets.only(left: 14, right: 14),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
                 ),
@@ -134,7 +131,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                 dropdownStyleData: DropdownStyleData(
                   direction: DropdownDirection.left,
                   maxHeight: 200,
-                  width: 200,
+                  width: widget.width ?? 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
                     color: Colors.white,
@@ -196,8 +193,9 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           clipBehavior: Clip.none,
           children: [
             DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
+              child: DropdownButtonFormField2<String>(
                 isExpanded: true,
+                validator: widget.validator,
                 hint: const Row(
                   children: [
                     Expanded(
@@ -289,14 +287,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                 buttonStyleData: ButtonStyleData(
                   height: 48.h,
                   width: widget.width ?? 175.w,
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                        color: widget.showBorderColor
-                            ? Colors.black
-                            : Colors.transparent,
-                        width: 1),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
                 ),

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
@@ -14,10 +15,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
 import '../../base/app_base_page.dart';
 
 class PaymentsPage extends BasePage<PaymentsPageModel> {
-  const PaymentsPage({super.key});
+  final PaymentPageeArguments paymentPageeArguments;
+  const PaymentsPage({
+    super.key,
+    required this.paymentPageeArguments,
+  });
 
   @override
   PaymentsPageState createState() => PaymentsPageState();
@@ -33,13 +39,8 @@ class PaymentsPageState
 
   @override
   void onModelReady(PaymentsPageModel model) {
-    model.paymentModes.addAll(ProviderScope.containerOf(context)
-        .read(paymentsModelProvider)
-        .finalPaymentModelList);
-    model.selectedFees.addAll(ProviderScope.containerOf(context)
-        .read(paymentsModelProvider)
-        .selectedPendingFessList);
-
+    model.paymentModes = widget.paymentPageeArguments.finalPaymentModelList;
+    model.selectedFees = widget.paymentPageeArguments.selectedPendingFessList;
     model.amount.text = ProviderScope.containerOf(context)
         .read(paymentsModelProvider)
         .totalAmount
@@ -168,4 +169,13 @@ class PaymentsPageState
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
+}
+
+class PaymentPageeArguments {
+  final List<GetPendingFeesPaymentModeModel> finalPaymentModelList;
+  final List<GetPendingFeesFeeModel> selectedPendingFessList;
+
+  PaymentPageeArguments(
+      {required this.finalPaymentModelList,
+      required this.selectedPendingFessList});
 }

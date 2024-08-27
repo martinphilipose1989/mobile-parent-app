@@ -4,6 +4,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
@@ -16,10 +17,10 @@ import '../../utils/common_widgets/common_textformfield_widget.dart';
 class Chequepage extends StatefulWidget {
   const Chequepage({
     super.key,
-    required this.pageModel,
+    // required this.pageModel,
   });
 
-  final PaymentsPageModel pageModel;
+  //final PaymentsPageModel pageModel;
 
   @override
   State<Chequepage> createState() => _ChequepageState();
@@ -32,7 +33,7 @@ class _ChequepageState extends State<Chequepage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    pageModel = widget.pageModel;
+    // pageModel = widget.pageModel;
   }
 
   @override
@@ -50,21 +51,21 @@ class _ChequepageState extends State<Chequepage> {
           CommonTextFormField(
             showAstreik: true,
             labelText: 'Payment Type',
-            controller: pageModel!.payemntType,
+            // controller: pageModel!.payemntType,
             readOnly: true,
           ),
           CommonSizedBox.sizedBox(height: 20, width: 10),
           CommonTextFormField(
             showAstreik: true,
             labelText: 'In Favour',
-            controller: pageModel!.inFavour,
+            // controller: pageModel!.inFavour,
             readOnly: true,
           ),
           CommonSizedBox.sizedBox(height: 20, width: 10),
           CommonTextFormField(
             showAstreik: true,
             labelText: 'Amount',
-            controller: pageModel!.amount,
+            // controller: pageModel!.amount,
             readOnly: true,
           ),
           CommonSizedBox.sizedBox(height: 20, width: 10),
@@ -74,6 +75,33 @@ class _ChequepageState extends State<Chequepage> {
             color: AppColors.textPaleGray,
           ),
           CommonSizedBox.sizedBox(height: 20, width: 10),
+          ListView.builder(
+            itemCount: 1,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CustomDropdownButton(
+                    onMultiSelect: (selectedValues) {},
+                    onSingleSelect: (selectedValue) {
+                      // if (widget.pageModel.chequeTypes
+                      //     .contains(selectedValue)) {
+                      //   widget.pageModel.selectedChequeType.add(true);
+                      // }
+                    },
+                    isMutiSelect: false,
+                    width: MediaQuery.of(context).size.width,
+                    items: [],
+                    showAstreik: true,
+                    showBorderColor: true,
+                    dropdownName: 'Cheque Type',
+                  ),
+                  CommonSizedBox.sizedBox(height: 20, width: 10),
+                ],
+              );
+            },
+          )
           // SizedBox(
           //     height: 200,
           //     child: Column(
@@ -262,57 +290,57 @@ class _ChequepageState extends State<Chequepage> {
           //                     ),
           //                   ),
           //                   CommonSizedBox.sizedBox(height: 20, width: 10),
-          //                   InkWell(
-          //                     onTap: () {
-          //                       widget.pageModel.noOfCheques.add(data! + 1);
-          //                     },
-          //                     child: CommonText(
-          //                       text: '+Add Another Cheque',
-          //                       style: AppTypography.subtitle2.copyWith(
-          //                           color:
-          //                               Theme.of(context).colorScheme.primary),
-          //                     ),
-          //                   )
-          //                 ],
-          //               );
+          //           InkWell(
+          //             onTap: () {
+          //               widget.pageModel.noOfCheques.add(data! + 1);
           //             },
+          //             child: CommonText(
+          //               text: '+Add Another Cheque',
+          //               style: AppTypography.subtitle2.copyWith(
+          //                   color:
+          //                       Theme.of(context).colorScheme.primary),
+          //             ),
           //           )
-          //         : const SizedBox.shrink();
+          //         ],
+          //       );
+          //     },
+          //   )
+          // : const SizedBox.shrink();
           //   },
           // ),
-          AppStreamBuilder<Resource<domain.GetStorePaymentModel>>(
-            stream: pageModel!.getStorePaymentModel,
-            initialData: Resource.none(),
-            onData: (value) {
-              if (value.status == Status.success) {
-                CommonPopups().showSuccess(
-                  context,
-                  'Payment\nSuccessfull!',
-                  (shouldRoute) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RoutePaths.payments, ModalRoute.withName('/'));
-                  },
-                );
-              }
-            },
-            dataBuilder: (context, data) {
-              return data!.status == Status.loading
-                  ? const SizedBox(
-                      width: 100,
-                      child: CircularProgressIndicator(),
-                    )
-                  : CommonElevatedButton(
-                      width: MediaQuery.of(context).size.width,
-                      onPressed: () {
-                        pageModel!.storeFeepayment();
-                      },
-                      text: 'Continue',
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      textStyle: AppTypography.subtitle2.copyWith(
-                          color: Theme.of(context).colorScheme.onTertiary),
-                    );
-            },
-          )
+          // AppStreamBuilder<Resource<domain.GetStorePaymentModel>>(
+          //   stream: pageModel!.getStorePaymentModel,
+          //   initialData: Resource.none(),
+          //   onData: (value) {
+          //     if (value.status == Status.success) {
+          //       CommonPopups().showSuccess(
+          //         context,
+          //         'Payment\nSuccessfull!',
+          //         (shouldRoute) {
+          //           Navigator.pushNamedAndRemoveUntil(
+          //               context, RoutePaths.payments, ModalRoute.withName('/'));
+          //         },
+          //       );
+          //     }
+          //   },
+          //   dataBuilder: (context, data) {
+          //     return data!.status == Status.loading
+          //         ? const SizedBox(
+          //             width: 100,
+          //             child: CircularProgressIndicator(),
+          //           )
+          //         : CommonElevatedButton(
+          //             width: MediaQuery.of(context).size.width,
+          //             onPressed: () {
+          //               pageModel!.storeFeepayment();
+          //             },
+          //             text: 'Continue',
+          //             backgroundColor: Theme.of(context).colorScheme.secondary,
+          //             textStyle: AppTypography.subtitle2.copyWith(
+          //                 color: Theme.of(context).colorScheme.onTertiary),
+          //           );
+          //   },
+          // )
         ]),
       ),
     );

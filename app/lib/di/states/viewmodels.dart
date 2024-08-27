@@ -1,6 +1,7 @@
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
+import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -9,7 +10,11 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_model.dart';
 import 'package:app/feature/otp/otp_view_model.dart';
-import 'package:app/feature/payments/payments_model.dart';
+import 'package:app/feature/payments/payment_history/payment_history_model.dart';
+import 'package:app/feature/payments/payment_history_fees_type/payment_history_fees_model.dart';
+import 'package:app/feature/payments/payment_history_student_ledger/payment_history_student_ledger_model.dart';
+import 'package:app/feature/payments/payment_history_transaction_type/payment_history_transaction_model.dart';
+import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
@@ -144,6 +149,35 @@ final commonChipListProvider =
 
 final enquiriesAdmissionsJourneyProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesAdmissionsJourneyViewModel>(
-  (ref) => EnquiriesAdmissionsJourneyViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>()),
-);
+        (ref) => EnquiriesAdmissionsJourneyViewModel(
+            getIt.get<FlutterExceptionHandlerBinder>()));
+
+final chequePageModelProvider =
+    ChangeNotifierProvider.autoDispose<ChequePageModel>((ref) =>
+        ChequePageModel(
+            getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<GetStorePaymentUsecase>(),
+            getIt.get<GetTokenGeneratorUsecase>()));
+
+final paymentHistoryProvider =
+    ChangeNotifierProvider.autoDispose<PaymentHistoryModel>((ref) =>
+        PaymentHistoryModel(getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<GetAcademicYearUsecase>()));
+
+final paymentHistoryTransactionProvider =
+    ChangeNotifierProvider.autoDispose<PaymentHistoryTransactionModel>(
+        (ref) => PaymentHistoryTransactionModel(
+              getIt.get<FlutterExceptionHandlerBinder>(),
+              getIt.get<GetTransactionTypeUsecase>(),
+            ));
+
+final paymentHistoryFeesProvider =
+    ChangeNotifierProvider.autoDispose<PaymentHistoryFeesModel>((ref) =>
+        PaymentHistoryFeesModel(getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<GetPendingFeesUsecase>()));
+
+final paymentHistoryStudentLedgerProvider =
+    ChangeNotifierProvider.autoDispose<PaymentHistoryStudentLedgerModel>(
+        (ref) => PaymentHistoryStudentLedgerModel(
+            getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<GetPendingFeesUsecase>()));

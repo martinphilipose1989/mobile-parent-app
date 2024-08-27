@@ -13,6 +13,7 @@ export 'src/model/error/database_error.dart';
 export 'src/model/error/network_error.dart';
 export 'src/model/error_info.dart';
 export 'src/model/user.dart';
+export 'src/model/chips_model.dart';
 export 'src/shared_base.dart';
 export 'src/utils/mapper/base_layer_transformer.dart';
 export 'src/model/request/finance/store_payment/store_payment_model_request.dart';
@@ -27,6 +28,8 @@ export 'src/model/response/finance/get_guardian_student_details.dart';
 export 'src/model/response/finance/get_pending_fees_model.dart';
 export 'src/model/response/finance/pending_fees_as_per_student_ids.dart';
 export 'src/model/response/finance/get_school_names_model.dart';
+export 'src/model/response/finance/get_transaction_type_model.dart';
+export 'src/model/response/finance/group_by_fee_type_model.dart';
 
 //utils
 export 'src/utils/validator.dart';

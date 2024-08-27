@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
                   supportedLocales: Strings.delegate.supportedLocales,
                   onGenerateTitle: (context) => Strings.of(context).appName,
                   debugShowCheckedModeBanner: false,
-                  initialRoute: RoutePaths.splash,
+                  initialRoute: RoutePaths.payments,
                   theme: regularTheme,
                   darkTheme: darkTheme,
                   themeMode: themeMode,

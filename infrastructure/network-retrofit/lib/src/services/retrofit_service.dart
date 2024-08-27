@@ -13,6 +13,7 @@ import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
+import 'package:network_retrofit/src/model/response/finance/get_transaction_type/get_transaction_type_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:retrofit/retrofit.dart';
@@ -66,4 +67,8 @@ abstract class RetrofitService {
       '${NetworkProperties.financeBaseUrl}/finance/transactions/brand_codes/mobile/list')
   Future<HttpResponse<SchoolNamesEntity>> getSchoolNames(
       @Body() SchoolNamesRequest schoolNamesRequest);
+
+  @GET('${NetworkProperties.financeBaseUrl}/finance/transactions/payments/{id}')
+  Future<HttpResponse<GetTransactionTypeEntity>> getTransactionType(
+      @Path('id') int id);
 }

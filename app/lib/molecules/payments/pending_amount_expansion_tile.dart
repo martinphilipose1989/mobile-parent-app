@@ -1,4 +1,4 @@
-import 'package:app/feature/payments/payments_model.dart';
+import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';

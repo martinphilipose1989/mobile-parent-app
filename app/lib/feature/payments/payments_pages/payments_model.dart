@@ -29,20 +29,9 @@ class PaymentsModel extends BasePageViewModel {
 
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
 
-  final BehaviorSubject<int> switchTabsPaymentHistory =
-      BehaviorSubject<int>.seeded(0);
-
   final List<String> academicYearDropdownValues = [
     'AY 2023 - 2024',
     'AY 2024 - 2025',
-  ];
-
-  final List schoolList = [
-    {'name': 'VIBGYOR High', 'isSelected': false},
-    {'name': 'VIBGYOR Kids', 'isSelected': false},
-    {'name': 'VIBGYOR Rise', 'isSelected': false},
-    {'name': 'VIBGYOR Roots', 'isSelected': false},
-    {'name': 'VIVA', 'isSelected': false}
   ];
 
   final List paymentHistoryTypes = [
@@ -50,6 +39,25 @@ class PaymentsModel extends BasePageViewModel {
     {'name': 'Fees Type', 'isSelected': false},
     {'name': 'Student Ledger', 'isSelected': false},
   ];
+
+// executing all api call sequentially
+
+  Future<void> executeTasksSequentially() async {
+    await getStudentList();
+    await getAcademicYear();
+
+    Future.delayed(
+      const Duration(seconds: 5),
+      () => getSchoolNames(),
+    );
+
+    Future.delayed(
+        const Duration(seconds: 5),
+        () => filterPendingFeeList(
+            academicYear: academicYearIds, studentIDs: studentIDs));
+  }
+
+//end
 
 // Calling students list
 
@@ -60,8 +68,8 @@ class PaymentsModel extends BasePageViewModel {
       get getGuardianStudentDetailsModel =>
           _getGuardianStudentDetailsModel.stream;
 
-  void getStudentList() {
-    exceptionHandlerBinder.handle(block: () {
+  Future<void> getStudentList() async {
+    await exceptionHandlerBinder.handle(block: () {
       GetGuardianStudentDetailsUsecaseParams params =
           GetGuardianStudentDetailsUsecaseParams(mobileNo: 9986070926);
       RequestManager<GetGuardianStudentDetailsModel>(
@@ -69,6 +77,7 @@ class PaymentsModel extends BasePageViewModel {
         createCall: () =>
             _getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
+        studentIDs.add(result.data!.data!.students![0].id!);
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -86,14 +95,15 @@ class PaymentsModel extends BasePageViewModel {
   Stream<Resource<GetAcademicYearModel>> get getAcademicYearModel =>
       _getAcademicYearModel.stream;
 
-  void getAcademicYear() {
-    exceptionHandlerBinder.handle(block: () {
+  Future<void> getAcademicYear() async {
+    await exceptionHandlerBinder.handle(block: () {
       GetAcademicYearUsecaseParams params =
-          GetAcademicYearUsecaseParams(students: [2], type: 'collected');
+          GetAcademicYearUsecaseParams(students: [1], type: 'pending');
       RequestManager<GetAcademicYearModel>(
         params,
         createCall: () => _getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
+        academicYearIds.add(result.data!.data![0].id!);
         _getAcademicYearModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -111,10 +121,10 @@ class PaymentsModel extends BasePageViewModel {
   Stream<Resource<SchoolNamesModel>> get getSchoolNamesModel =>
       _getSchoolNamesModel.stream;
 
-  void getSchoolNames() {
-    exceptionHandlerBinder.handle(block: () {
-      GetSchoolNamesUsecaseParams params =
-          GetSchoolNamesUsecaseParams(academicYearIds: [25], studentIds: [2]);
+  Future<void> getSchoolNames() async {
+    await exceptionHandlerBinder.handle(block: () {
+      GetSchoolNamesUsecaseParams params = GetSchoolNamesUsecaseParams(
+          academicYearIds: academicYearIds, studentIds: studentIDs);
       RequestManager<SchoolNamesModel>(
         params,
         createCall: () => _getSchoolNamesUsecase.execute(params: params),
@@ -133,8 +143,9 @@ class PaymentsModel extends BasePageViewModel {
   final BehaviorSubject<GetPendingFeesModel> _getPendingFeesModel =
       BehaviorSubject();
 
-  void filterPendingFeeList({List<int>? studentIDs, List<int>? academicYear}) {
-    exceptionHandlerBinder.handle(block: () {
+  Future<void> filterPendingFeeList(
+      {List<int>? studentIDs, List<int>? academicYear}) async {
+    await exceptionHandlerBinder.handle(block: () {
       GetPendingFeesUsecaseParams params = GetPendingFeesUsecaseParams(
           academicYear: academicYear ?? [],
           applicableTo: 2,
@@ -159,8 +170,9 @@ class PaymentsModel extends BasePageViewModel {
 
   final BehaviorSubject<int> exactPendingAmountToBePaid =
       BehaviorSubject<int>.seeded(0);
-  int receivedValue = 0;
+
   void calculateTotalAmount() {
+    int receivedValue = 0;
     final currentList = _getPendingFeesModel.value;
     for (var i = 0; i < (currentList.data?.fees?.length ?? 0); i++) {
       receivedValue +=
@@ -178,21 +190,16 @@ class PaymentsModel extends BasePageViewModel {
   void getSelectedStudentIds(
       {required List<String> selectedValues,
       required List<GetGuardianStudentDetailsStudentModel> students}) {
+    List<int> tempList = [];
     for (var student in students) {
       for (var studentName in selectedValues) {
         if (student.studentDisplayName == studentName) {
-          if (studentIDs.contains(student.id)) {
-            studentIDs.remove(student.id ?? 0);
-            filterPendingFeeList(
-                studentIDs: studentIDs, academicYear: academicYearIds);
-          } else {
-            studentIDs.add(student.id ?? 0);
-            filterPendingFeeList(
-                studentIDs: studentIDs, academicYear: academicYearIds);
-          }
+          tempList.add(student.id!);
         }
       }
     }
+    studentIDs = tempList;
+    filterPendingFeeList(studentIDs: studentIDs, academicYear: academicYearIds);
   }
 
   // end
@@ -200,22 +207,33 @@ class PaymentsModel extends BasePageViewModel {
   // filtering fees api as per academic year
 
   void getSelectedAcademicYear(
-      {required List<String> selectedValues, required List<YearData>? data}) {
-    for (var year in data!) {
-      for (var selectedYear in selectedValues) {
-        if (year.name == selectedYear) {
-          if (academicYearIds.contains(year.id)) {
-            academicYearIds.remove(year.id ?? 0);
-            filterPendingFeeList(
-                studentIDs: studentIDs, academicYear: academicYearIds);
-          } else {
-            academicYearIds.add(year.id ?? 0);
-            filterPendingFeeList(
-                studentIDs: studentIDs, academicYear: academicYearIds);
-          }
+      {required List<String> selectedValues, required List<YearData> data}) {
+    List<int> tempList = [];
+    for (var value in data) {
+      for (var selectedValue in selectedValues) {
+        if (value.name == selectedValue) {
+          tempList.add(value.id!);
         }
       }
     }
+    academicYearIds = tempList;
+    filterPendingFeeList(studentIDs: studentIDs, academicYear: academicYearIds);
+  }
+
+  // end
+
+  // filtering pending fees as per school brand
+
+  void filterPendingFeesAsPerSchoolBrand({required int brandCode}) {
+    //  var currentList = pendingFeesFilteredById;
+
+    // List<PendingFeesAsPerStudentIds> tempList = [];
+
+    // for (var i = 0; i < (currentList?.length ?? 0); i++) {
+    //   if (currentList![i].) {
+
+    //   }
+    // }
   }
 
   // end
@@ -333,12 +351,4 @@ class PaymentsModel extends BasePageViewModel {
     // TODO: implement dispose
     super.dispose();
   }
-}
-
-class Chips {
-  final String? name;
-
-  bool isSelected;
-
-  Chips({this.name, this.isSelected = false});
 }

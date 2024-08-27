@@ -42,7 +42,7 @@ class CommonTextFormField extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         SizedBox(
-          height: 48.h,
+          //height: 48.h,
           child: TextFormField(
             inputFormatters: inputFormatters,
             controller: controller,
@@ -56,6 +56,8 @@ class CommonTextFormField extends StatelessWidget {
             maxLines: maxLines ?? 1,
             decoration: decoration ??
                 InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   prefixIcon: prefix,
                   hintText: hintText ?? '',
                 ),

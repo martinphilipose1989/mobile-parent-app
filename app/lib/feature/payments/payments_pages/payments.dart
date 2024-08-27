@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/payments/payments_view.dart';
-import 'package:app/feature/payments/payments_model.dart';
+import 'package:app/feature/payments/payments_pages/payments_view.dart';
+import 'package:app/feature/payments/payments_pages/payments_model.dart';
+import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -9,11 +10,12 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-import '../../base/app_base_page.dart';
+import '../../../base/app_base_page.dart';
 
 class Payments extends BasePage<PaymentsModel> {
   const Payments({super.key});
@@ -33,11 +35,10 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   void onModelReady(PaymentsModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.tabController = TabController(length: 2, vsync: this);
-    model.getStudentList();
-    model.getAcademicYear();
-    model.getSchoolNames();
-    model.studentIDs.add(2);
-    model.filterPendingFeeList(studentIDs: model.studentIDs, academicYear: []);
+    User(selectedStudentId: 2);
+    if (model.selectedValue.value == 0) {
+      model.executeTasksSequentially();
+    }
   }
 
   @override
@@ -101,7 +102,12 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                                     'Sorry the selected fee do not satisfy payment mode');
                               } else {
                                 Navigator.pushNamed(
-                                    context, RoutePaths.paymentsPage);
+                                    context, RoutePaths.paymentsPage,
+                                    arguments: PaymentPageeArguments(
+                                        finalPaymentModelList:
+                                            model.finalPaymentModelList,
+                                        selectedPendingFessList:
+                                            model.selectedPendingFessList));
                               }
                             },
                             text: 'Pay Now',

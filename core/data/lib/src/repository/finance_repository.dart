@@ -64,4 +64,10 @@ class FinanceRepositoryImpl extends FinanceRepository {
     return networkPort.getSchoolNames(
         studentIds: studentIds, academicYearIds: academicYearIds);
   }
+
+  @override
+  Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
+      {required int id}) {
+    return networkPort.getTransactionType(id: id);
+  }
 }

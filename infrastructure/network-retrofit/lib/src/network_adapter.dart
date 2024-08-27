@@ -155,4 +155,16 @@ class NetworkAdapter implements NetworkPort {
       (r) => Right(r.data.transform()),
     );
   }
+
+  @override
+  Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
+      {required int id}) async {
+    var response = await safeApiCall(apiService.getTransactionType(id));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
 }

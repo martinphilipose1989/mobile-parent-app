@@ -1,12 +1,12 @@
-import 'package:app/feature/payments/payments_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PaymentsChipsList extends StatefulWidget {
-  final List<Chips> chipValues;
+  final List<domain.ChipsModel> chipValues;
   final Function(int index) onCallBack;
 
   const PaymentsChipsList(

@@ -27,4 +27,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List<int> studentIds, required List<int> academicYearIds});
+
+  Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
+      {required int id});
 }

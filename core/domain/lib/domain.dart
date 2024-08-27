@@ -20,4 +20,5 @@ export 'src/usecase/finance/get_validate_pay_now.dart';
 export 'src/usecase/finance/get_pending_fees_usecase.dart';
 export 'src/usecase//finance/get_school_names_usecase.dart';
 export 'src/usecase/finance/get_store_payment_usecase.dart';
+export 'src/usecase/finance/get_transaction_type_usecase.dart';
 export 'package:shared/shared.dart';

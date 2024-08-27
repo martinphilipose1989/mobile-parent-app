@@ -1,8 +1,8 @@
-import 'package:app/feature/payments/payments_model.dart';
+import 'package:app/feature/payments/payment_history/payment_history_page.dart';
+import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/payments/pending_amount_expansion_tile.dart';
 import 'package:app/molecules/payments/payments_chips_list.dart';
-import 'package:app/molecules/payments/switch_views_payment_history.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -46,7 +46,10 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
           dataBuilder: (context, data) {
             return data == 0
                 ? pendingAmount(cxt, model)
-                : paymentHistory(cxt, model);
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: const PaymentHistoryPage());
           },
         )
       ],
@@ -111,7 +114,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         chipValues: List.generate(
                           data.data?.data?.brandCodes!.length ?? 0,
                           (index) {
-                            return Chips(
+                            return ChipsModel(
                                 name: data
                                     .data?.data?.brandCodes![index].displayName,
                                 isSelected: false);
@@ -144,6 +147,9 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                 AppImages.studentIcon,
                 height: 20.h,
               ),
+              const SizedBox(
+                width: 10,
+              ),
               SizedBox(
                 child:
                     AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
@@ -157,7 +163,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         : data.data?.data?.students == null
                             ? const SizedBox.shrink()
                             : SizedBox(
-                                height: 48.h,
+                                height: 50.h,
                                 width: 128.w,
                                 child: CustomDropdownButton(
                                   dropdownName: '',
@@ -171,7 +177,6 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                       [],
                                   isMutiSelect: true,
                                   onMultiSelect: (selectedValues) {
-                                    print(selectedValues);
                                     model.getSelectedStudentIds(
                                         students:
                                             data.data?.data!.students ?? [],
@@ -192,75 +197,31 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                   ? const SizedBox(
                       child: CircularProgressIndicator(),
                     )
-                  : SizedBox(
-                      height: 48.h,
-                      width: 175.w,
-                      child: CustomDropdownButton(
-                        displayZerothIndex: false,
-                        onMultiSelect: (selectedValues) {
-                          model.getSelectedAcademicYear(
-                              data: data.data?.data! ?? [],
-                              selectedValues: selectedValues);
-                        },
-                        dropdownName: 'Select Academic year',
-                        showAstreik: true,
-                        showBorderColor: true,
-                        items:
-                            data.data?.data?.map((e) => e.name).toList() ?? [],
-                        isMutiSelect: true,
-                      ),
-                    );
+                  : data.data?.data == null
+                      ? const SizedBox.shrink()
+                      : SizedBox(
+                          height: 50.h,
+                          width: 175.w,
+                          child: CustomDropdownButton(
+                            displayZerothIndex: true,
+                            onMultiSelect: (selectedValues) {
+                              model.getSelectedAcademicYear(
+                                  data: data.data?.data! ?? [],
+                                  selectedValues: selectedValues);
+                            },
+                            dropdownName: 'Select Academic year',
+                            showAstreik: true,
+                            showBorderColor: true,
+                            items:
+                                data.data?.data?.map((e) => e.name).toList() ??
+                                    [],
+                            isMutiSelect: true,
+                          ),
+                        );
             },
           )
         ],
       ),
-    );
-  }
-
-  Widget paymentHistory(BuildContext cxt, PaymentsModel model) {
-    return Column(
-      children: [
-        CommonSizedBox.sizedBox(height: 20, width: 10),
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            height: 48.h,
-            width: 175.w,
-            child: CustomDropdownButton(
-              dropdownName: 'Select Academic year',
-              showAstreik: true,
-              showBorderColor: true,
-              items: model.academicYearDropdownValues,
-              isMutiSelect: true,
-              onMultiSelect: (selectedValues) {},
-            ),
-          ),
-        ),
-        CommonSizedBox.sizedBox(height: 20, width: 10),
-        Padding(
-          padding: const EdgeInsets.only(left: 1),
-          child: SizedBox(
-            height: 38.h,
-            child: PaymentsChipsList(
-              chipValues: List.generate(
-                model.paymentHistoryTypes.length,
-                (index) {
-                  return Chips(
-                      name: model.paymentHistoryTypes[index]['name'],
-                      isSelected: model.paymentHistoryTypes[index]
-                          ['isSelected']);
-                },
-              ),
-              onCallBack: (contentType) {
-                model.switchTabsPaymentHistory.add(contentType);
-                debugPrint(contentType.toString());
-              },
-            ),
-          ),
-        ),
-        CommonSizedBox.sizedBox(height: 20, width: 10),
-        SwitchViewPaymentHistory(providerBase),
-      ],
     );
   }
 }

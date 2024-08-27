@@ -28,20 +28,11 @@ class PaymentsPageModel extends BasePageViewModel {
 
   List<GetPendingFeesFeeModel> selectedFees = [];
 
-  final BehaviorSubject<bool> selectedChequeType =
-      BehaviorSubject<bool>.seeded(false);
-
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
   TextEditingController payemntType = TextEditingController();
   TextEditingController inFavour = TextEditingController();
   TextEditingController amount = TextEditingController();
-
-  final List<String> chequeTypes = [
-    'Current Dated Cheque',
-    'Post Dated Cheque',
-    'Demand Draft'
-  ];
 
   final List<String> feesType = [
     'Registration Fees',
@@ -80,52 +71,6 @@ class PaymentsPageModel extends BasePageViewModel {
       });
     }).execute();
   }
-
-  final BehaviorSubject<Resource<GetStorePaymentModel>> _getStorePaymentModel =
-      BehaviorSubject<Resource<GetStorePaymentModel>>();
-
-  Stream<Resource<GetStorePaymentModel>> get getStorePaymentModel =>
-      _getStorePaymentModel.stream;
-
-  void storeFeepayment() {
-    exceptionHandlerBinder.handle(block: () {
-      GetStorePaymentUsecaseParams params = GetStorePaymentUsecaseParams(
-          storePaymentModelRequest: StorePaymentModelRequest(
-              isManualEntry: 1,
-              manualReceiptImage: "null",
-              manualReceiptNo: 'RCP0001',
-              paymentMode: 8,
-              paymentAmount: 25450,
-              chequeInFavour: 63,
-              lobId: 52,
-              paymentDetails: [
-            PaymentDetailModelRequest(
-              paymentModeId: 9,
-              amount: 25450,
-              chequeNo: '5015',
-              chequeDate: "2024-05-01",
-              bankName: 'ICICI',
-              issuerName: 'Vipul',
-              issuerIfsc: 'ICICI0001',
-              chequeImage: 'null',
-              tokenNo: 'TKN102924070600002',
-            )
-          ],
-              feeIds: [
-            FeeIdModelRequest(collected: 25450, feeOrder: 3, studentFeeId: 5),
-          ]));
-      RequestManager<GetStorePaymentModel>(
-        params,
-        createCall: () => _getStorePaymentUsecase.execute(params: params),
-      ).asFlow().listen((result) {
-        _getStorePaymentModel.add(result);
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-      });
-    }).execute();
-  }
-
-  // end
 
   @override
   void dispose() {

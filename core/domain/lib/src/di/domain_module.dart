@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/finance/get_transaction_type_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -37,5 +38,10 @@ abstract class DomainModule {
   @lazySingleton
   GetSchoolNamesUsecase getSchoolNames(FinanceRepository repository) {
     return GetSchoolNamesUsecase(repository);
+  }
+
+  @lazySingleton
+  GetTransactionTypeUsecase getTransactionType(FinanceRepository repository) {
+    return GetTransactionTypeUsecase(repository);
   }
 }
