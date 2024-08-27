@@ -35,7 +35,6 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   void onModelReady(PaymentsModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.tabController = TabController(length: 2, vsync: this);
-    User(selectedStudentId: 2);
     if (model.selectedValue.value == 0) {
       model.executeTasksSequentially();
     }
