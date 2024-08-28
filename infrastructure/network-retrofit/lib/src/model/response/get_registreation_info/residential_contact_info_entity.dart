@@ -51,5 +51,20 @@ class ResidentialAddressContactInfoEntity extends BaseLayerDataTransformer<Resid
     residentialAddressContactInfo.isPermanentAddress = isPermanentAddress;
     return residentialAddressContactInfo;
   }
+
+  @override
+  ResidentialAddressContactInfoEntity restore(ResidentialAddressContactInfo data) {
+    ResidentialAddressContactInfoEntity residentialAddressContactInfoEntity = ResidentialAddressContactInfoEntity(
+      house: data.house,
+      street: data.street,
+      landmark: data.landmark,
+      country: data.country,
+      state: data.state,
+      city: data.city,
+      pincode: data.pincode,
+      isPermanentAddress: data.isPermanentAddress,
+    );  
+    return residentialAddressContactInfoEntity;
+  }
 }
 

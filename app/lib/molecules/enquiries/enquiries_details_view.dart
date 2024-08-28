@@ -10,21 +10,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
   IVTDetail? ivtDetail;
   NewAdmissionDetail? newAdmissionDetail;
   EnquiryDetailArgs? enquiryDetailArgs;
-  EnquiriesDetailsViewWidget({super.key,this.ivtDetail,this.newAdmissionDetail,this.psaDetail, this.enquiryDetailArgs}){
-    // if(enquiryDetailArgs?.enquiryType == "New Admission"){
-    //   newAdmissionDetailBehaviorSubject?.add(newAdmissionDetail??NewAdmissionDetail());
-    // }
-    // else if(enquiryDetailArgs?.enquiryType == "PSA"){
-    //   psaDetailBehaviorSubject?.add(psaDetail??PSADetail());
-    // }
-    // else if(enquiryDetailArgs?.enquiryType == "IVT"){
-    //   ivtDetailBehaviorSubject?.add(ivtDetail??IVTDetail());
-    // }
-  }
-
-  // BehaviorSubject<PSADetail>? psaDetailBehaviorSubject = BehaviorSubject<PSADetail>();
-  // BehaviorSubject<IVTDetail>? ivtDetailBehaviorSubject = BehaviorSubject<IVTDetail>();
-  // BehaviorSubject<NewAdmissionDetail>? newAdmissionDetailBehaviorSubject = BehaviorSubject<NewAdmissionDetail>();
+  EnquiriesDetailsViewWidget({super.key,this.ivtDetail,this.newAdmissionDetail,this.psaDetail, this.enquiryDetailArgs});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +20,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        enquiryDetailArgs?.enquiryType == "New Admission"? getAdmissionDetails(newAdmissionDetail: newAdmissionDetail): enquiryDetailArgs?.enquiryType == "PSA"? getPsaDetails(psaDetail: psaDetail): getIvtDetails(ivtDetail: ivtDetail)
+        enquiryDetailArgs?.enquiryType == "IVT"? getIvtDetails(ivtDetail: ivtDetail): enquiryDetailArgs?.enquiryType == "PSA"? getPsaDetails(psaDetail: psaDetail): getAdmissionDetails(newAdmissionDetail: newAdmissionDetail)
       ],
     );
   }
@@ -66,8 +52,8 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: "NA"),
-            _detailItem(title: "Global Id", subtitle: "NA"),
+            _detailItem(title: "Parent Type", subtitle: psaDetail?.enquirerParent),
+            _detailItem(title: "Global Id", subtitle: psaDetail?.enquirerParent == "Father" ? psaDetail?.parentDetails?.fatherDetails?.globalId??"":psaDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );
   }
@@ -94,8 +80,8 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: "NA"),
-            _detailItem(title: "Global Id", subtitle: "NA"),
+            _detailItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent),
+            _detailItem(title: "Global Id", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??"":newAdmissionDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );
   }
@@ -126,8 +112,8 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: "ENAMDMS#4402"),
-            _detailItem(title: "Global Id", subtitle: "ENAMDMS#4402"),
+            _detailItem(title: "Parent Type", subtitle: ivtDetail?.enquirerParent),
+            _detailItem(title: "Global Id", subtitle: ivtDetail?.enquirerParent == "Father" ? ivtDetail?.parentDetails?.fatherDetails?.globalId??"": ivtDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );
   }

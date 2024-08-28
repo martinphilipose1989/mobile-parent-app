@@ -39,7 +39,7 @@ class AdmissionsViewModel extends BasePageViewModel {
       if (isRefresh){
         pageNumber = 1;
       }
-      final result = await getIt.get<GetAdmissionListUsecase>().execute(params: GetAdmissionListUsecaseParams(phone: '9937767311', pageNumber: pageNumber, pageSize: pageSize));
+      final result = await getIt.get<GetAdmissionListUsecase>().execute(params: GetAdmissionListUsecaseParams(phone: '9000000002', pageNumber: pageNumber, pageSize: pageSize));
       isLoading.add(false);
       if(isRefresh){
         admissionList.add(result.fold((l)=> [], (r)=> r.data?.data??[]));

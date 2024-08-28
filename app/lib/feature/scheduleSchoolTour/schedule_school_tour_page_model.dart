@@ -53,7 +53,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
       );
       CreateSchoolVisitUseCaseParams params = CreateSchoolVisitUseCaseParams(
         schoolCreationRequest: request,
-        enquiryID: "6685346f0386eb1f0298cd51",
+        enquiryID: enquiryID,
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(
@@ -82,7 +82,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
       );
       RescheduleSchoolVisitUseCaseParams params = RescheduleSchoolVisitUseCaseParams(
         schoolCreationRequest: request,
-        enquiryID: "6685346f0386eb1f0298cd51",
+        enquiryID: enquiryID,
       );
       schoolVisitDetail.add(Resource.loading());
       RequestManager<SchoolVisitDetailBase>(

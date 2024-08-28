@@ -182,7 +182,13 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(apiService.getNewAdmissionDetail(enquiryID: enquiryID));
     return response.fold((l) {
       return Left(l);
-    }, (r) => Right(r.data.transform()));
+    }, (r){
+      var data = r.data.data?.schoolLocation?.value??'';
+      var transformData = r.data.transform();
+      print("School Location: $data");
+      print("Transformed School Location: ${transformData.data?.schoolLocation?.value}");
+      return Right(r.data.transform());
+    });
   }
 
   @override

@@ -63,9 +63,8 @@ class ScheduleSchoolTourPageView
                         height: 10,
                       ),
                       CommonCalendarPage(onDateSelected: (date) {
-                        model.setSelectedDate(date);
-                        model.selectedDate=date;
-                        model.fetchTimeSlotsSchoolVisit(date, '6685346f0386eb1f0298cd51');
+                        model.selectedDate = date;
+                        model.fetchTimeSlotsSchoolVisit(date, enquiryDetailArgs.enquiryId??'');
                       }),
                       isReschedule? SchoolTourScheduledDetailsWidget(schoolVisitDetail: schoolVisitDetail??SchoolVisitDetail()) : const SizedBox.shrink(),
                       const SizedBox(
@@ -191,14 +190,13 @@ class ScheduleSchoolTourPageView
                           'Comments: ${model.commentController.text}',
                               (shouldRoute) {
                             if(isReschedule){
-                              model.rescheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
+                                model.rescheduleSchoolTour(enquiryID: enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
                                 Navigator.pop(context);
-                                });
-
+                              });
                             } else{
-                            model.scheduleSchoolTour(enquiryID: "6685346f0386eb1f0298cd51",slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
-                              Navigator.pop(context);
-                            });;
+                                model.scheduleSchoolTour(enquiryID:enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate ).whenComplete(() {
+                                Navigator.pop(context);
+                              });
                             }
                           },
                         );

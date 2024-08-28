@@ -68,7 +68,7 @@ class ListV extends StatelessWidget {
                             image: AppImages.personIcon,
                             name: enquiries?[index].studentName??'',
                             year: enquiries?[index].academicYear??'',
-                            id: enquiries?[index].enquiryId??'',
+                            id: enquiries?[index].enquiryNumber??'',
                             title: enquiries?[index].school??'',
                             subtitle: '${enquiries?[index].grade??''} | ${enquiries?[index].board??''}',
                             buttontext: enquiries?[index].enquiryStage??''),

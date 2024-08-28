@@ -44,4 +44,18 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
     return studentDetails;
   }
 
+  @override
+  StudentDetailsEntity restore(StudentDetails data) {
+    CommonDataEntity commonDataEntity = CommonDataEntity();
+    StudentDetailsEntity studentDetailsEntity = StudentDetailsEntity(
+      firstName : data.firstName,
+      lastName : data.lastName,
+      grade : commonDataEntity.restore(data.grade!),
+      gender : commonDataEntity.restore(data.gender!),
+      dob : data.dob,
+      eligibleGrade : data.eligibleGrade,
+    );
+    return studentDetailsEntity;
+  }
+
 }

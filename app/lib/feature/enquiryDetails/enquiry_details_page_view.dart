@@ -35,14 +35,15 @@ class EnquiriesDetailsPageView
       case 2:
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
-      if(enquiryDetailArgs.enquiryType == "IVT"){
-        model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',);
+      if(model.selectedValue.value == 0){
+        if(enquiryDetailArgs.enquiryType == "IVT"){
+        model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
       }
       else if(enquiryDetailArgs.enquiryType == "PSA"){
-        model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+        model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
       }
       else{
-        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
       }
         model.getMdmAttribute(infoType: 'grade');
         model.getMdmAttribute(infoType: 'schoolLocation');
@@ -58,6 +59,11 @@ class EnquiriesDetailsPageView
         model.getMdmAttribute(infoType: 'periodOfService');
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
+      } else{
+        model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+        model.editRegistrationDetails.add(true);
+        model.showMenuOnFloatingButton.add(false);
+      }
         return null;
       case 4:
         return Navigator.of(context)
@@ -92,7 +98,7 @@ class EnquiriesDetailsPageView
                         image: AppImages.personIcon,
                         name: "${enquiryDetailArgs.studentName} ",
                         year: enquiryDetailArgs.academicYear??'',
-                        id: enquiryDetailArgs.enquiryId??'',
+                        id: enquiryDetailArgs.enquiryNumber??'',
                         title: enquiryDetailArgs.school??'',
                         subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
                         buttontext: enquiryDetailArgs.enquiryStage??'',
@@ -168,59 +174,95 @@ class EnquiriesDetailsPageView
                                         ? UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',)
                                         : model.editRegistrationDetails.value
                                             ? SingleChildScrollView(
-                                                child: (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(
-                                              stream: model.newAdmissionDetails,
-                                              builder: (context, snapshot) {
-                                                if(!snapshot.hasData){
+                                              child: (enquiryDetailArgs.enquiryType == "New Admission")? AppStreamBuilder<Resource<NewAdmissionBase>>(
+                                              stream: model.newAdmissionDetail,
+                                              initialData: Resource.none(),
+                                              dataBuilder: (context, snapshot) {
+                                                if(snapshot?.status == Status.loading){
                                                   return const CircularProgressIndicator();
                                                 }
-                                                return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
+                                                if(snapshot?.status == Status.success){
+                                                  return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
+                                                }
+                                                else{
+                                                  return const CommonText(text: "Details not found");
+                                                }
                                               }
                                             ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
-                                                StreamBuilder<PSADetail>(
-                                                  stream: model.psaDetails,
-                                                  builder: (context, snapshot) {
-                                                    if(!snapshot.hasData){
+                                                AppStreamBuilder<Resource<PsaResponse>>(
+                                                  stream: model.psaDetail,
+                                                  initialData: Resource.none(),
+                                                  dataBuilder: (context, snapshot) {
+                                                    if(snapshot?.status == Status.loading){
                                                       return const CircularProgressIndicator();
                                                     }
-                                                    return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
+                                                    if(snapshot?.status == Status.success){
+                                                      return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
+                                                    }
+                                                    else{
+                                                      return const CommonText(text: "Details not found");
+                                                    }
                                                   }
-                                                ) : StreamBuilder<IVTDetail>(
-                                                  stream: model.ivtDetails,
-                                                  builder: (context, snapshot) {
-                                                    if(!snapshot.hasData){
+                                                ) : AppStreamBuilder<Resource<IVTBase>>(
+                                                  stream: model.ivtDetail,
+                                                  initialData: Resource.none(),
+                                                  dataBuilder: (context, snapshot) {
+                                                    if(snapshot?.status == Status.loading){
                                                       return const CircularProgressIndicator();
                                                     }
-                                                    return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
+                                                    if(snapshot?.status == Status.error){
+                                                      return const CommonText(text: "Details not found");
+                                                    }
+                                                    else {
+                                                      return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
+                                                    }
                                                   }
                                                 )
                                               )
-                                            : (enquiryDetailArgs.enquiryType == "New Admission")? StreamBuilder<NewAdmissionDetail>(
-                                              stream: model.newAdmissionDetails,
-                                              builder: (context, snapshot) {
-                                                if(!snapshot.hasData){
-                                                  return const CircularProgressIndicator();
-                                                }
-                                                return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,);
-                                              }
-                                            ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
-                                                StreamBuilder<PSADetail>(
-                                                  stream: model.psaDetails,
-                                                  builder: (context, snapshot) {
-                                                    if(!snapshot.hasData){
-                                                      return const CircularProgressIndicator();
-                                                    }
-                                                    return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value,);
-                                                  }
-                                                ) : StreamBuilder<IVTDetail>(
-                                                  stream: model.ivtDetails,
-                                                  builder: (context, snapshot) {
-                                                    if(!snapshot.hasData){
+                                            : (enquiryDetailArgs.enquiryType == "IVT")? AppStreamBuilder<Resource<IVTBase>>(
+                                                  stream: model.ivtDetail,
+                                                  initialData: Resource.none(),
+                                                  dataBuilder: (context, snapshot) {
+                                                    if(snapshot?.status == Status.loading){
                                                      return const CircularProgressIndicator();
                                                     }
-                                                    return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,);
+                                                    if(snapshot?.status == Status.error){
+                                                      return const CommonText(text: "Details not found");
+                                                    }
+                                                    else {
+                                                      return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,);
+                                                    }
+                                                  }): (enquiryDetailArgs.enquiryType == "PSA") ? 
+                                                AppStreamBuilder<Resource<PsaResponse>>(
+                                                  stream: model.psaDetail,
+                                                  initialData: Resource.none(),
+                                                  dataBuilder: (context, snapshot) {
+                                                    if(snapshot?.status == Status.loading){
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                    if(snapshot?.status == Status.error){
+                                                      return const CommonText(text: "Details not found");
+                                                    }
+                                                    else {
+                                                      return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value,);
+                                                    }
                                                   }
-                                                );
+                                                ) : AppStreamBuilder<Resource<NewAdmissionBase>>(
+                                                      stream: model.newAdmissionDetail,
+                                                      initialData: Resource.none(),
+                                                      dataBuilder: (context, snapshot) {
+                                                        if(snapshot?.status == Status.loading){
+                                                          return const CircularProgressIndicator();
+                                                        }
+                                                        if(snapshot?.status == Status.error){
+                                                          return const CommonText(text: "Details not found");
+                                                        }
+                                                        else {
+                                                          return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,);
+                                                        }
+                                                      }
+                                                    );
+                                                
                                   },
                                 );
                               },

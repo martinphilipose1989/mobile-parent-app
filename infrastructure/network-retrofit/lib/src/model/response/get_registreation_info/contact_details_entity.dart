@@ -1,6 +1,5 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:network_retrofit/src/model/response/get_new_admission/residential_address_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/residential_contact_info_entity.dart';
 
 part 'contact_details_entity.g.dart';

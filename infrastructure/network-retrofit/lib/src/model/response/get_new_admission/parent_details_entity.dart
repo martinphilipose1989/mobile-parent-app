@@ -29,4 +29,14 @@ class ParentDetailsEntity extends BaseLayerDataTransformer<ParentDetailsEntity,P
     return parentDetails;
     
   }
+
+  @override
+  ParentDetailsEntity restore(ParentDetails data) {
+    ParentContactDetailEntity parentContactDetailEntity = ParentContactDetailEntity();
+    ParentDetailsEntity parentDetailsEntity = ParentDetailsEntity(
+      fatherDetails : parentContactDetailEntity.restore(data.fatherDetails!),
+      motherDetails : parentContactDetailEntity.restore(data.motherDetails!),
+    );
+    return parentDetailsEntity;
+  }
 }

@@ -48,4 +48,19 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
     return bankDetails;
   }
 
+  @override
+  BankDetailsEntity restore(BankDetails data) {
+    BankDetailsEntity bankDetailsEntity = BankDetailsEntity(
+      ifscCode: data.ifscCode,
+      bankName: data.bankName,
+      branchName: data.branchName,
+      accountHolderName: data.accountHolderName,
+      accountType: data.accountType,
+      accountNumber: data.accountNumber,
+      upiInfo: data.upiInfo,  
+    );
+    
+    return bankDetailsEntity;
+  }
+
 }

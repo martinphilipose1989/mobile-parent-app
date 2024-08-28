@@ -49,6 +49,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
   BehaviorSubject<PSADetail>? psaDetails = BehaviorSubject<PSADetail>.seeded(PSADetail());
+  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetail = PublishSubject();
+  Stream<Resource<NewAdmissionBase>> get newAdmissionDetail => _newAdmissionDetail.stream;
+  final PublishSubject<Resource<IVTBase>> _ivtDetail = PublishSubject(); 
+  Stream<Resource<IVTBase>> get ivtDetail => _ivtDetail.stream;
+  final PublishSubject<Resource<PsaResponse>> _psaDetail = PublishSubject();
+  Stream<Resource<PsaResponse>> get psaDetail => _psaDetail.stream;
   PublishSubject<Resource<EnquiryDetail>> enquiryDetail= PublishSubject();
   final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
   Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
@@ -66,6 +72,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
    TextEditingController dobController = TextEditingController()  ;
    TextEditingController existingSchoolNameController = TextEditingController();
    TextEditingController globalIdController = TextEditingController();
+   TextEditingController parentTypeController = TextEditingController();
  //PSA-specific controllers
    BehaviorSubject<String> psaSubTypeSubject = BehaviorSubject<String>.seeded('');
    BehaviorSubject<String> psaCategorySubject = BehaviorSubject<String>.seeded('');
@@ -92,6 +99,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
+
+  List<ValueNotifier<bool>> isDocumentUploaded = [];
   
   EnquiryDetailArgs? enquiryDetailArgs;
 
@@ -189,7 +198,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
       
       RequestManager<NewAdmissionBase>(
@@ -198,9 +207,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
-        if(isEdit){
-          addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
+        _newAdmissionDetail.add(result);
+        if(result.status == Status.success){
+          print("Location: ${result.data?.data?.toString()}");
+          newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
+          if(isEdit){
+            addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
+          }
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -212,7 +225,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
       
       RequestManager<IVTBase>(
@@ -221,7 +234,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        ivtDetails?.add(result.data?.data?? IVTDetail());
+        _ivtDetail.add(result);
+        if(result.status == Status.success){
+          ivtDetails?.add(result.data?.data?? IVTDetail());
+          if(isEdit){
+            addIvtDetails(result.data?.data??IVTDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+          }
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -233,7 +252,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
       
       RequestManager<PsaResponse>(
@@ -242,7 +261,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        psaDetails?.add(result.data?.data?? PSADetail());
+        _psaDetail.add(result);
+        if(result.status == Status.success){
+          psaDetails?.add(result.data?.data?? PSADetail());
+          if(isEdit){
+            addPsaDetails(result.data?.data??PSADetail(), enquiryDetailArgs??EnquiryDetailArgs());
+          }
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -254,7 +279,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       UpdatePsaDetailUsecaseParams params = UpdatePsaDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
         psaDetail: psaDetail
       );
       
@@ -276,7 +301,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       UpdateIvtDetailUsecaseParams params = UpdateIvtDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
         ivtDetail: ivtDetail
       );
       
@@ -298,7 +323,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
      
       UpdateNewAdmissionUsecaseUseCaseParams params = UpdateNewAdmissionUsecaseUseCaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
         newAdmissionDetail: newAdmissionDetail
       );
       
@@ -319,7 +344,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   Future<void> getEnquiryDetail({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
       RequestManager<EnquiryDetailBase>(
         params,
@@ -403,7 +428,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file}) async{
+  Future<void> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file,int? index}) async{
     exceptionHandlerBinder.handle(block: () {
       
       UploadEnquiryDocumentUsecaseParams params = UploadEnquiryDocumentUsecaseParams(
@@ -419,6 +444,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
+        isDocumentUploaded[index??0].value = true;
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -426,7 +452,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> deleteEnquiryDocument({required String enquiryID,required String documentID}) async{
+  Future<void> deleteEnquiryDocument({required String enquiryID,required String documentID,int? index}) async{
     exceptionHandlerBinder.handle(block: () {
       
       DeleteEnquiryDocumentUsecaseParams params = DeleteEnquiryDocumentUsecaseParams(
@@ -441,6 +467,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
+        isDocumentUploaded[index??0].value = false;
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -476,7 +503,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
@@ -488,7 +515,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedParentTypeSubject.add("Father");
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    // globalIdController.text = detail.studentDetails?.globalId ?? '';
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
   }
 
   addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
@@ -497,7 +525,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
@@ -506,7 +534,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
     selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedParentTypeSubject.add("Father");
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     psaSubTypeSubject.add(detail.psaSubType?.value?? '');
@@ -519,6 +546,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
     psaBatchSubject.add(detail.psaBatch?.value?? '');
     selectedPsaBatchEntity = detail.psaBatch;
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
   }
 
   addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
@@ -527,7 +556,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?.value?? '';
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
@@ -536,12 +565,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
     selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedParentTypeSubject.add("Father");
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     ivtBoardSubject.add(detail.board?.value?? '');
     ivtCourseSubject.add(detail.course?.value?? '');
     ivtStreamSubject.add(detail.stream?.value?? '');
     ivtShiftSubject.add(detail.shift?.value?? '');
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
   }
 }

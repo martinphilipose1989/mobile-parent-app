@@ -68,4 +68,23 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     return medicalDetails;
   }
 
+  @override
+  MedicalDetailsEntity restore(MedicalDetails data) {
+    MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity(
+      isChildHospitalised: data.isChildHospitalised,
+      yearOfHospitalization: data.yearOfHospitalization,
+      reasonOfHopitalization: data.reasonOfHopitalization,
+      hasPhysicalDisability: data.hasPhysicalDisability,
+      physicalDisabilityDescription: data.physicalDisabilityDescription,
+      hasMedicalHistory: data.hasMedicalHistory,
+      medicalHistoryDescription: data.medicalHistoryDescription,
+      hasAllergy: data.hasAllergy,
+      allergyDescription: data.allergyDescription,
+      bloodGroup: data.bloodGroup,
+      hasPersonalisedLearningNeeds: data.hasPersonalisedLearningNeeds,
+      personalisedLearningNeedsDescription: data.personalisedLearningNeedsDescription,
+    );
+    return medicalDetailsEntity;
+  }
+
 }

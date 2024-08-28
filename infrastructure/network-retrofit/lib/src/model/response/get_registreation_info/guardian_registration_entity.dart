@@ -98,5 +98,32 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     guardianDetails.organisationName=organizationName;
     return guardianDetails;
   }
+
+  @override
+  GuardianDetailsEntity restore(GuardianDetails data) {
+    GuardianDetailsEntity guardianDetailsEntity = GuardianDetailsEntity(
+      firstName: data.firstName,
+      lastName: data.lastName,
+      aadharNumber: data.aadharNumber,
+      panNumber: data.panNumber,
+      relationWithChild: data.relationWithChild,
+      houseNumber: data.houseNumber,
+      street: data.street,
+      landmark: data.landmark,
+      country: data.country,
+      pincode: data.pincode,
+      state: data.state,
+      city: data.city,
+      emailId: data.emailId,
+      mobileNumber: data.mobileNumber,
+      guardianType: data.guardianType,
+      occupation: data.occupation,
+      qualification: data.qualification,
+      officeAddress: data.officeAddress,
+      designation: data.designation,
+      organizationName: data.organizationName,
+    );
+    return guardianDetailsEntity;
+  }
 }
 

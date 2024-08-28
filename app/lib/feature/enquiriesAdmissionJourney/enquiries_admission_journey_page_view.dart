@@ -61,7 +61,7 @@ class EnquiriesAdmissionsJourneyPageView
                 image: AppImages.personIcon,
                 name: "${enquiryDetail.studentName} ",
                 year: enquiryDetail.academicYear??'',
-                id: enquiryDetail.enquiryId??'',
+                id: enquiryDetail.enquiryNumber??'',
                 title: enquiryDetail.school??'',
                 subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
                 buttontext: enquiryDetail.enquiryStage??'',
@@ -100,7 +100,7 @@ class EnquiriesAdmissionsJourneyPageView
                 stream: model.fetchAdmissionJourney,
                 initialData: Resource.none(),
                 onData: (value) {
-                  print('Status is ${value.status}');
+                  
                 },
                 dataBuilder: (context, result) {
                   switch(result?.status){
@@ -109,7 +109,7 @@ class EnquiriesAdmissionsJourneyPageView
                     case Status.success:
                       return CommonStepperPage(
                               stepperList: List.generate(
-                                (result?.data?.data??[]).isEmpty? 1: (result?.data?.data??[]).length,
+                                (result?.data?.data??[]).length,
                                 (index) {
                                   return Step(
                                       // subtitle: result?.data?[index].stage == ''
@@ -122,11 +122,11 @@ class EnquiriesAdmissionsJourneyPageView
                                       state: result?.data?.data?[index].status == "Completed"
                                           ? StepState.complete
                                           : StepState.indexed,
-                                      isActive: result?.data?.data?[index].status == "Open",
+                                      isActive: result?.data?.data?[index].status == "Completed",
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: result?.data?.data?.indexWhere((element) => element.status == "Open",)??0);
+                              activeStep: result?.data?.data?.indexWhere((element) => (element.status == "Completed" || element.status == "Open" || element.status == "Closed"),)??0);
                     case Status.error:
                       return const Center(child: Text('Enquiries not found'),);
                     default:

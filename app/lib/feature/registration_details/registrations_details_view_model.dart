@@ -170,6 +170,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController yearOfHospitalizationController=TextEditingController();
   TextEditingController reasonOfHospitalizationController=TextEditingController();
   TextEditingController specificDisabilityController=TextEditingController();
+  TextEditingController specifyMedicalHistoryController=TextEditingController();
+  TextEditingController specifyAllergiesController=TextEditingController();
+  TextEditingController personalisedLearningNeedsController=TextEditingController();
+  String? bloodGroup;
 
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
@@ -181,11 +185,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController upiController = TextEditingController();
 
 
-  Future<void> fetchAllDetails(String infoType) async {
+  Future<void> fetchAllDetails(String enquiryID,String infoType) async {
     exceptionHandlerBinder.handle(block: () {
       GetRegistrationDetailUsecaseParams params =
       GetRegistrationDetailUsecaseParams(
-          enquiryID: '66ba1b522c07e8497dde3061', infoType: infoType);
+          enquiryID: enquiryID, infoType: infoType);
 
       parentDetail.add(Resource.loading());
       contactDetail.add(Resource.loading());
@@ -213,7 +217,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           bankDetail.add(Resource.success(data: result.data?.data));
           bankDetails = result.data?.data;
           addBankDetails(result.data?.data??BankDetails());
-          print(result.data?.message);
         }
         isLoading.value = false;
       }).onError((error) {
@@ -312,7 +315,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> getNewAdmissionDetails({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
 
       RequestManager<NewAdmissionBase>(
@@ -334,7 +337,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> getIvtDetails({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
 
       RequestManager<IVTBase>(
@@ -356,7 +359,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> getPsaDetails({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
 
       RequestManager<PsaResponse>(
@@ -378,7 +381,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> getEnquiryDetail({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
-        enquiryID: "66ba1b522c07e8497dde3061",
+        enquiryID: enquiryID,
       );
       enquiryDetail.add(Resource.loading());
       RequestManager<EnquiryDetailBase>(
@@ -423,6 +426,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   CommonRadioButton<bool>(null);
 
   final CommonRadioButton<String> radioButtonController6 =
+  CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> radioButtonController7 =
+  CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> radioButtonController8 =
+  CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> radioButtonController9 =
   CommonRadioButton<String>(null);
 
 

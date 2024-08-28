@@ -5,6 +5,8 @@ part 'parent_contact_detail_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ParentContactDetailEntity extends BaseLayerDataTransformer<ParentContactDetailEntity,ParentContactDetail>{
+    @JsonKey(name: 'global_id')
+    String? globalId;
     @JsonKey(name: 'first_name')
     String? firstName;
     @JsonKey(name: 'last_name')
@@ -15,6 +17,7 @@ class ParentContactDetailEntity extends BaseLayerDataTransformer<ParentContactDe
     String? mobile;
 
     ParentContactDetailEntity({
+      this.globalId,
       this.firstName,
       this.lastName,
       this.email,
@@ -29,11 +32,24 @@ class ParentContactDetailEntity extends BaseLayerDataTransformer<ParentContactDe
   @override
   ParentContactDetail transform() {
     ParentContactDetail parentContactDetail =ParentContactDetail();
+    parentContactDetail.globalId = globalId;
     parentContactDetail.email = email;
     parentContactDetail.firstName = firstName;
     parentContactDetail.lastName = lastName;
     parentContactDetail.mobile = mobile;
-    return ParentContactDetail();
+    return parentContactDetail;
+  }
+
+  @override
+  ParentContactDetailEntity restore(ParentContactDetail data) {
+    ParentContactDetailEntity parentContactDetailEntity = ParentContactDetailEntity(
+      globalId : data.globalId,
+      email : data.email,
+      firstName : data.firstName,
+      lastName : data.lastName,
+      mobile : data.mobile,
+    );
+    return parentContactDetailEntity;
   }
 
 }

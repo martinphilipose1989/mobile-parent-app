@@ -20,6 +20,8 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
     ParentDetailsEntity? parentDetails;
     @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
+    @JsonKey(name: 'enquirer_parent')
+    String? enquirerParent;
     @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
     @JsonKey(name: 'board')
@@ -37,6 +39,7 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
       this.schoolLocation,
       this.parentDetails,
       this.existingSchoolDetails,
+      this.enquirerParent,
       this.studentDetails,
       this.board,
       this.course,
@@ -57,6 +60,7 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
     ivtDetail.schoolLocation = schoolLocation?.transform();
     ivtDetail.parentDetails = parentDetails?.transform();
     ivtDetail.existingSchoolDetails = existingSchoolDetails?.transform();
+    ivtDetail.enquirerParent = enquirerParent;
     ivtDetail.studentDetails = studentDetails?.transform();
     ivtDetail.board = board?.transform();
     ivtDetail.course = course?.transform();

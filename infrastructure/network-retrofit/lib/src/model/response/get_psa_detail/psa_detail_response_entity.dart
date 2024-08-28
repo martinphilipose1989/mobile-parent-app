@@ -1,5 +1,3 @@
-
-
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/academic_year_entity.dart';
@@ -22,6 +20,8 @@ class PsaDetailResponseEntity extends BaseLayerDataTransformer<PsaDetailResponse
     ParentDetailsEntity? parentDetails;
     @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
+    @JsonKey(name: 'enquirer_parent')
+    String? enquirerParent;
     @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
     @JsonKey(name: 'psa_sub_type')
@@ -41,6 +41,7 @@ class PsaDetailResponseEntity extends BaseLayerDataTransformer<PsaDetailResponse
       this.schoolLocation,
       this.parentDetails,
       this.existingSchoolDetails,
+      this.enquirerParent,
       this.studentDetails,
       this.psaSubType,
       this.psaCategory,
@@ -62,6 +63,7 @@ class PsaDetailResponseEntity extends BaseLayerDataTransformer<PsaDetailResponse
     psaDetail.schoolLocation = schoolLocation?.transform();
     psaDetail.parentDetails = parentDetails?.transform();
     psaDetail.existingSchoolDetails = existingSchoolDetails?.transform();
+    psaDetail.enquirerParent = enquirerParent;
     psaDetail.studentDetails = studentDetails?.transform();
     psaDetail.psaSubType = psaSubType?.transform();
     psaDetail.psaCategory = psaCategory?.transform();

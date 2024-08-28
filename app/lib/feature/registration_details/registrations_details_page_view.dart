@@ -92,9 +92,10 @@ class RegistrationsDetailsPageView
                     ),
                   ),
                   onCallBack: (index) {
-                    if (model.editRegistrationDetails.value) {
-                    } else {
+                    if (!model.editRegistrationDetails.value) {
                       model.showWidget.add(index);
+                    } else {
+                      return;
                     }
                     if(index == 0){
                       if(enquiryDetailArgs?.enquiryType == "IVT"){
@@ -107,7 +108,7 @@ class RegistrationsDetailsPageView
                     }else if(index == 5){
                       model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
                     } else{
-                      model.fetchAllDetails(model.registrationDetails[index]['infoType']);
+                      model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
                     }
                   },
                 ),

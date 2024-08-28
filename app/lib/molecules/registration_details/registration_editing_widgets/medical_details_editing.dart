@@ -1,6 +1,7 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -72,6 +73,82 @@ class MedicalDetailsEditing extends StatelessWidget {
           showAstreik: false,
           labelText: 'Specify Disability',
            controller: model.specificDisabilityController,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonText(
+          text: "Medical History",
+          style: AppTypography.subtitle1,
+        ),
+        CommonRadioButtonWidget(
+          title: 'Yes',
+          commonRadioButton: model.radioButtonController7,
+          value: 'Yes',
+        ),
+        CommonRadioButtonWidget(
+          title: 'No',
+          commonRadioButton: model.radioButtonController7,
+          value: 'No',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+         CommonTextFormField(
+          showAstreik: false,
+          labelText: 'Specify Medical History',
+           controller: model.specifyMedicalHistoryController,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonText(
+          text: "Allergies",
+          style: AppTypography.subtitle1,
+        ),
+        CommonRadioButtonWidget(
+          title: 'Yes',
+          commonRadioButton: model.radioButtonController8,
+          value: 'Yes',
+        ),
+        CommonRadioButtonWidget(
+          title: 'No',
+          commonRadioButton: model.radioButtonController8,
+          value: 'No',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+         CommonTextFormField(
+          showAstreik: false,
+          labelText: 'Specify Allergies',
+           controller: model.specifyAllergiesController,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+            items: model.grade,
+            width: MediaQuery.of(context).size.width,
+            isMutiSelect: false,
+            dropdownName: 'Blood Group',
+            showAstreik: true,
+            onMultiSelect: (selectedValues) {},
+            showBorderColor: true,
+            onSingleSelect: (val){
+            val=model.bloodGroup!;
+          },
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonText(
+          text: "Personalised Learning Needs",
+          style: AppTypography.subtitle1,
+        ),
+        CommonRadioButtonWidget(
+          title: 'Yes',
+          commonRadioButton: model.radioButtonController9,
+          value: 'Yes',
+        ),
+        CommonRadioButtonWidget(
+          title: 'No',
+          commonRadioButton: model.radioButtonController9,
+          value: 'No',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+         CommonTextFormField(
+          showAstreik: false,
+          labelText: 'Personalised Learning Needs',
+           controller: model.personalisedLearningNeedsController,
         ),
       ],
     );

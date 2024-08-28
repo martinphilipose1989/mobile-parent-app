@@ -33,4 +33,15 @@ class GuestStudentDetailsEntity extends BaseLayerDataTransformer<GuestStudentDet
     guestStudentDetails.location = location?.transform();
     return guestStudentDetails;
   }
+
+  @override
+  GuestStudentDetailsEntity restore(GuestStudentDetails data) {
+    CommonDataEntity commonDataEntity = CommonDataEntity();
+    GuestStudentDetailsEntity guestStudentDetailsEntity = GuestStudentDetailsEntity(
+      board : commonDataEntity.restore(data.board!),
+      course : commonDataEntity.restore(data.course!),
+      location : commonDataEntity.restore(data.location!),
+    );
+    return guestStudentDetailsEntity;
+  }
 }

@@ -26,6 +26,8 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDeta
     ParentDetailsEntity? parentDetails;
     @JsonKey(name: 'existing_school_details')
     ExistingSchoolDetailsEntity? existingSchoolDetails;
+    @JsonKey(name: 'enquirer_parent')
+    String? enquirerParent;
     @JsonKey(name: 'student_details')
     StudentDetailsEntity? studentDetails;
     @JsonKey(name: 'board')
@@ -47,6 +49,7 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDeta
       this.guestStudentDetails,
       this.parentDetails,
       this.existingSchoolDetails,
+      this.enquirerParent,
       this.studentDetails,
       this.board,
       this.course,
@@ -63,19 +66,49 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDeta
   @override
   NewAdmissionDetail transform() {
     NewAdmissionDetail newAdmissionDetail = NewAdmissionDetail();
-      newAdmissionDetail.enquiryDate =enquiryDate;
+      newAdmissionDetail.enquiryDate = enquiryDate;
       newAdmissionDetail.academicYear = academicYear?.transform();
       newAdmissionDetail.schoolLocation = schoolLocation?.transform();
       newAdmissionDetail.isGuestStudent = isGuestStudent;
       newAdmissionDetail.guestStudentDetails = guestStudentDetails?.transform();
       newAdmissionDetail.parentDetails = parentDetails?.transform();
       newAdmissionDetail.existingSchoolDetails = existingSchoolDetails?.transform();
+      newAdmissionDetail.enquirerParent = enquirerParent;
       newAdmissionDetail.studentDetails= studentDetails?.transform();
       newAdmissionDetail.board = board?.transform();
       newAdmissionDetail.course = course?.transform();
       newAdmissionDetail.stream = stream?.transform();
       newAdmissionDetail.shift = shift?.transform();
       newAdmissionDetail.residentialAddress = residentialAddress?.transform();
-    return NewAdmissionDetail();
+    return newAdmissionDetail;
+  }
+
+  @override
+  NewAdmissionDetailEntity restore(NewAdmissionDetail data) {
+    AcademicYearEntity academicYearEntity = AcademicYearEntity();
+    academicYearEntity = academicYearEntity.restore(data.academicYear!);
+    CommonDataEntity commonDataEntity = CommonDataEntity();
+    GuestStudentDetailsEntity guestStudentDetailsEntity = GuestStudentDetailsEntity();
+    ParentDetailsEntity parentDetailsEntity = ParentDetailsEntity();
+    ExistingSchoolDetailsEntity existingSchoolDetailsEntity = ExistingSchoolDetailsEntity();
+    StudentDetailsEntity studentDetailsEntity = StudentDetailsEntity();
+    ResidentialAddressEntity residentialAddressEntity = ResidentialAddressEntity();
+    NewAdmissionDetailEntity newAdmissionDetailEntity = NewAdmissionDetailEntity(
+      enquiryDate : data.enquiryDate,
+      academicYear : academicYearEntity,
+      schoolLocation : commonDataEntity.restore(data.schoolLocation!),
+      isGuestStudent : data.isGuestStudent,
+      guestStudentDetails : guestStudentDetailsEntity.restore(data.guestStudentDetails!),
+      parentDetails : parentDetailsEntity.restore(data.parentDetails!),
+      existingSchoolDetails : existingSchoolDetailsEntity.restore(data.existingSchoolDetails!),
+      enquirerParent : data.enquirerParent,
+      studentDetails: studentDetailsEntity.restore(data.studentDetails!),
+      board : commonDataEntity.restore(data.board!),
+      course : commonDataEntity.restore(data.course!),
+      stream : commonDataEntity.restore(data.stream!),
+      shift : commonDataEntity.restore(data.shift!),
+      residentialAddress : residentialAddressEntity.restore(data.residentialAddress!),
+    );
+    return newAdmissionDetailEntity;
   }
 }

@@ -84,4 +84,27 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
 
   }
 
+  @override
+  ParentRegistrationDetailEntity restore(ParentRegistrationDetail data) {
+    ParentRegistrationDetailEntity parentRegistrationDetailEntity = ParentRegistrationDetailEntity(
+      firstName: data.firstName,
+      lastName: data.lastName,
+      aadharNumber: data.aadharNumber,
+      panNumber: data.panNumber,
+      qualification: data.qualification,
+      occupation: data.occupation,
+      organisationName: data.organisationName,
+      designationName: data.designationName,
+      officeAddress: data.officeAddress,
+      area: data.area,
+      country: data.country,
+      state: data.state,
+      city: data.city,
+      emailId: data.emailId,
+      mobileNumber: data.mobileNumber,
+      pinCode: data.pinCode,
+    );
+    return parentRegistrationDetailEntity;
+  }
+
 }

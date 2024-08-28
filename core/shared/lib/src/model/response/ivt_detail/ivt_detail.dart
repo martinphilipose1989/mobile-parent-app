@@ -7,6 +7,7 @@ class IVTDetail {
     CommonDataClass? schoolLocation;
     ParentDetails? parentDetails;
     ExistingSchoolDetails? existingSchoolDetails;
+    String? enquirerParent;
     StudentDetails? studentDetails;
     CommonDataClass? board;
     CommonDataClass? course;

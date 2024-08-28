@@ -17,8 +17,6 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
 
-import '../../model/resource.dart';
-
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
   EnquiryDetailArgs? enquiryDetailArgs;
@@ -96,31 +94,17 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 ),
             AppStreamBuilder(
               stream: model.showWidget,
-              initialData: Resource.none(),
+              initialData: model.showWidget.value,
               dataBuilder: (context, data) {
-
                return CommonElevatedButton(
                   onPressed: () {
-                    /*
                     if (model.showWidget.value == 0) {
-                      model.editRegistrationDetails.add(false);
-                    } else {
-                      ProviderScope
-                          .containerOf(context)
-                          .read(commonChipListProvider)
-                          .highlightIndex
-                          .add(ProviderScope
-                          .containerOf(context)
-                          .read(commonChipListProvider)
-                          .highlightIndex
-                          .value -
-                          1);
-                      model.showWidget.add(model.showWidget.value - 1);
-                    }
-
-                     */
-                    if (model.showWidget.value == 0) {
-                      model.editRegistrationDetails.add(false);
+                      if(widget.routeFrom == "enquiry"){
+                        Navigator.pop(context);
+                      }
+                      else{
+                        model.editRegistrationDetails.add(false);
+                      }
                     } else {
                       if (model.showWidget.value == 1) {
                         model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
@@ -134,7 +118,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                     }
                    print(model.showWidget.value);
                   },
-                  text: model.showWidget.valueOrNull == 0 ? 'Go Back' : 'Save',
+                  text: model.showWidget.valueOrNull == 0 ? 'Cancel' : 'Save',
                   borderColor: Theme
                       .of(context)
                       .primaryColor,
@@ -147,7 +131,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 );}),
                 CommonElevatedButton(
                   onPressed: () {
-                    if (model.showWidget.value <= 6) {
+                    if (model.showWidget.value <= 5) {
                       ProviderScope
                           .containerOf(context)
                           .read(commonChipListProvider)
@@ -159,25 +143,13 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           .value +
                           1);
                       model.showWidget.add(model.showWidget.value + 1);
+                      if(model.showWidget.value == 5){
+                        model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+                      }
+                      else{
+                        model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
+                      }
                     }
-/*
-                    if (model.showWidget.value == 1) {
-                      model.updateParentDetail(
-                          '',  );
-                    } else if (model.showWidget.value == 2) {
-                      model.updateContactDetail(
-                          '', model.contactDetail as ContactDetailsEntity);
-                    } else if (model.showWidget.value == 3) {
-                      model.updateMedicalDetail(
-                          '', model.medicalDetail as MedicalDetailsEntity);
-                    } else if (model.showWidget.value == 4) {
-                      model.updateBankDetail(
-                          '', model.medicalDetail as BankDetailsEntity);
-                    }
-
- */
-
-
                   },
                   text: 'Next',
                   backgroundColor: AppColors.accent,

@@ -257,23 +257,11 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           ivtDetails()
         ],
         const SizedBox(height: 20,),
-        SizedBox(
-          height: 48,
-          child: CustomDropdownButton(
-            width: MediaQuery.of(context).size.width,
-            onMultiSelect: (selectedValues) {},
-            dropdownName: 'Parent Type',
-            showAstreik: true,
-            showBorderColor: true,
-            items: model.parentType,
-            singleSelectItemSubject: model.selectedParentTypeSubject,
-            onSingleSelect: (selectedValue) {
-              if (model.parentType.contains(selectedValue)) {
-                model.selectedParentType.add(true);
-              }
-            },
-            isMutiSelect: false,
-          ),
+        CommonTextFormField(
+          showAstreik: false,
+          labelText: "Parent Type",
+          readOnly: true,
+          controller: model.parentTypeController,
         ),
         const SizedBox(height: 20,),
         CommonTextFormField(

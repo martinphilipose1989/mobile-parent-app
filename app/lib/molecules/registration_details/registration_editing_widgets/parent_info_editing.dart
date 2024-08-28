@@ -679,6 +679,7 @@ class ParentInfoEditing extends StatelessWidget {
         commonRadioButton: model.radioButtonController2,
         value: 'No',
       ),
+      const SizedBox(height: 100,)
     ]);
   }
 }

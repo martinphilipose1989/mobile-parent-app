@@ -16,6 +16,8 @@ class GuardianDetails {
     String? guardianType;
     String? qualification;
     String? occupation;
+    String? organizationName;
+String? designation;
     String? organisationName;
     String? designationName;
     String? officeAddress;

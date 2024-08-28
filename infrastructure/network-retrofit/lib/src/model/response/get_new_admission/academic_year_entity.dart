@@ -24,4 +24,13 @@ class AcademicYearEntity extends BaseLayerDataTransformer<AcademicYearEntity,Aca
     academicYear.value = value;
     return academicYear;
   }
+
+  @override
+  AcademicYearEntity restore(AcademicYear data) {
+    AcademicYearEntity academicYearEntity = AcademicYearEntity(
+      value : data.value,
+      id : data.id
+    );
+    return academicYearEntity;
+  }
 }

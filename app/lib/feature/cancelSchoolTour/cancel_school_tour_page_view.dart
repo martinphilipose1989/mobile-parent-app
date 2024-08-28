@@ -2,6 +2,7 @@ import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart'
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/school_tour_scheduled_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
@@ -102,7 +103,9 @@ class CancelSchoolTourPageView
                           'Selected Time: ${model.schoolVisitDetailData?.slot??''}',
                           'Comments: ${model.controller.text}',
                           (shouldRoute) {
-                            model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'');
+                            model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'').whenComplete(() {
+                                Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.enquiriesAdmissionsJourneyPage));
+                            });
                           },
                         );
                   }

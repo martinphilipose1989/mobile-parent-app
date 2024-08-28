@@ -32,4 +32,16 @@ class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentI
     parentInfo.guardianDetails=guardianDetails?.transform();
     return parentInfo;
   }
+
+  @override
+  ParentInfoEntity restore(ParentInfo data) {
+    ParentRegistrationDetailEntity parentRegistrationDetailEntity = ParentRegistrationDetailEntity();
+    GuardianDetailsEntity guardianDetailsEntity = GuardianDetailsEntity();
+    ParentInfoEntity parentInfoEntity = ParentInfoEntity(
+      fatherDetails: parentRegistrationDetailEntity.restore(data.fatherDetails!),
+      motherDetails: parentRegistrationDetailEntity.restore(data.motherDetails!),
+      guardianDetails: guardianDetailsEntity.restore(data.guardianDetails!),
+    );
+    return parentInfoEntity;
+  }
 }
