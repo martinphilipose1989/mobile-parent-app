@@ -39,7 +39,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           height: 20,
         ),
         CommonTextFormField(
-          showAstreik: true,
+          showAstreik: false,
           labelText: "Enquiry Type",
           readOnly: true,
           controller: model.enquiryTypeController,
@@ -270,7 +270,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           readOnly: true,
           controller: model.globalIdController,
         ),
-        const SizedBox(height: 100,),        
+        const SizedBox(height: 100,),   
       ],
     );
   }

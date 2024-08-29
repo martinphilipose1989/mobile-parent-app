@@ -10,7 +10,7 @@ class SchoolVisitDetailEntity extends BaseLayerDataTransformer<SchoolVisitDetail
   String? id;
   @JsonKey(name: 'enquiry_id')
   String? enquiryId;
-  @JsonKey(name: 'school_visit_date')
+  @JsonKey(name: 'date')
   String? schoolVisitDate;
   @JsonKey(name: 'slot')
   String? slot;

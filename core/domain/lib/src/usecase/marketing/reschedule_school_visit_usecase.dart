@@ -22,7 +22,7 @@ class RescheduleSchoolVisitUseCase extends BaseUseCase<BaseError,
 
 class RescheduleSchoolVisitUseCaseParams extends Params {
   final String enquiryID;
-  final SchoolCreationRequest schoolCreationRequest;
+  final RescheduleSchoolVisitRequest schoolCreationRequest;
   RescheduleSchoolVisitUseCaseParams({
     required this.enquiryID,
     required this.schoolCreationRequest

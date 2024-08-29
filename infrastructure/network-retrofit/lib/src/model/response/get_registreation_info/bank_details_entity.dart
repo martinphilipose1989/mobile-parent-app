@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bank_details_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankDetails>{
     @JsonKey(name: 'ifscCode')
     String? ifscCode;
@@ -33,7 +33,16 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
     factory BankDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$BankDetailsEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$BankDetailsEntityToJson(this);
+
+  Map<String,dynamic> toJson() => {
+    'ifsc': ifscCode,
+    'bank_name': bankName,
+    'branch_name': branchName,
+    'account_holder_name': accountHolderName,
+    'account_type': accountType,
+    'account_number': accountNumber,
+    'upi': upiInfo,
+  };
 
   @override
   BankDetails transform() {

@@ -15,9 +15,7 @@ class CompetencyTestModel extends BasePageViewModel {
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
   final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
-  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase){
-    fetchTimeSlots(DateFormat('dd-MM-yyyy').format(DateTime.now()),'669a46527986d066b783f479');
-  }
+  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase);
 
   String selectedTime = "";
 
@@ -34,6 +32,8 @@ class CompetencyTestModel extends BasePageViewModel {
   final BehaviorSubject<String> selectedModeSubject = BehaviorSubject<String>.seeded('Online');
 
   final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetails= PublishSubject();
+  final PublishSubject<Resource<CompetencyTestDetailBase>> _createCompetencyTest = PublishSubject();
+  Stream<Resource<CompetencyTestDetailBase>> get createCompetencyTest => _createCompetencyTest.stream;
 
   final BehaviorSubject<int> selectedTimeIndex = BehaviorSubject<int>.seeded(0);
 
@@ -62,8 +62,10 @@ class CompetencyTestModel extends BasePageViewModel {
         _timeSlots.add(result);
         if(result.status == Status.success){
           competenctTestSlots.add(result.data?.data??[]);
-          slotID = result.data?.data?[0].id??'';
-          selectedTime = result.data?.data?[0].slot??'';
+          if((result.data?.data??[]).isNotEmpty){
+            slotID = result.data?.data?[0].id??'';
+            selectedTime = result.data?.data?[0].slot??'';
+          }
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -90,7 +92,10 @@ class CompetencyTestModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        competencyTestDetails.add(Resource.success(data: result.data?.data));
+        _createCompetencyTest.add(result);
+        if(result.status == Status.success){
+          competencyTestDetails.add(Resource.success(data: result.data?.data));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -117,7 +122,10 @@ class CompetencyTestModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        competencyTestDetails.add(Resource.success(data: result.data?.data));
+        _createCompetencyTest.add(result);
+        if(result.status == Status.success){
+          competencyTestDetails.add(Resource.success(data: result.data?.data));
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

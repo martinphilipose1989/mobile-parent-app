@@ -33,17 +33,24 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     RegistrationsDetailsViewModel, RegistrationsDetailsPage> {
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
+    model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
     }
     if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
-      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+      );
     }
     else if(widget.enquiryDetailArgs?.enquiryType == "PSA"){
-      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+      );
     }
     else{
-      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+      );
     }
   }
 
@@ -116,7 +123,6 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       }
                     }
-                   print(model.showWidget.value);
                   },
                   text: model.showWidget.valueOrNull == 0 ? 'Cancel' : 'Save',
                   borderColor: Theme

@@ -15,6 +15,8 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
     String? shortNameTwoDigit;
     @JsonKey(name: 'group')
     String? group;
+    @JsonKey(name: 'reason')
+    String? reason;
 
     AttributesDetailsEntity({
         this.name,
@@ -22,6 +24,7 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
         this.shortform,
         this.shortNameTwoDigit,
         this.group,
+        this.reason
     });
 
     factory AttributesDetailsEntity.fromJson(Map<String, dynamic> json) => _$AttributesDetailsEntityFromJson(json);
@@ -35,6 +38,7 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
     model.shortform = shortform;
     model.shortNameTwoDigit = shortNameTwoDigit;
     model.group = group;
+    model.reason = reason;
     return model;
   }
 }

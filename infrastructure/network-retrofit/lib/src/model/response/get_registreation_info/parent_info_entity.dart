@@ -5,7 +5,7 @@ import 'package:network_retrofit/src/model/response/get_registreation_info/paren
 
 part 'parent_info_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentInfo>{
     @JsonKey(name: 'fatherDetails')
     ParentRegistrationDetailEntity? fatherDetails;
@@ -22,7 +22,11 @@ class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentI
   factory ParentInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentInfoEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParentInfoEntityToJson(this);
+  Map<String, dynamic> toJson() => {
+    "father_details": fatherDetails,
+    "mother_details": motherDetails,
+    "guardian_details": guardianDetails
+  };
 
   @override
   ParentInfo transform() {

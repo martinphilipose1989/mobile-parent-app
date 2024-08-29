@@ -54,9 +54,15 @@ class DetailsViewSchoolTourPageView
                             case Status.loading:
                               return const Center(child: CircularProgressIndicator(),);
                             case Status.success:
-                              return SchoolTourScheduledDetailsWidget(schoolVisitDetail: result?.data?.data??SchoolVisitDetail());
+                              return AppStreamBuilder<SchoolVisitDetail>(
+                                stream: model.schoolVisitDetailData,
+                                initialData: model.schoolVisitDetailData.value,
+                                dataBuilder: (context, data) {
+                                  return SchoolTourScheduledDetailsWidget(schoolVisitDetail: model.schoolVisitDetailData.value);
+                                },
+                              );
                             default:
-                              return const Center(child: CircularProgressIndicator(),);
+                              return const Center(child: Text("School tour details not found"),);
                           }
                         },
                       ),
@@ -81,7 +87,7 @@ class DetailsViewSchoolTourPageView
                 children: [
                   CommonElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RoutePaths.cancelSchoolTourPage,arguments: [enquiryDetail,model.schoolVisitDetailData]);
+                      Navigator.of(context).pushNamed(RoutePaths.cancelSchoolTourPage,arguments: [enquiryDetail,model.schoolVisitDetailData.value]);
                     },
                     text: 'Cancel Tour',
                     borderColor: Theme.of(context).primaryColor,
@@ -95,7 +101,15 @@ class DetailsViewSchoolTourPageView
                   ),
                   CommonElevatedButton(
                     onPressed: () {
-                       Navigator.of(context).pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,'schoolVisitDetail': model.schoolVisitDetailData,'isReschedule': true});
+                       Navigator.of(context).pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,'schoolVisitDetail': model.schoolVisitDetailData.value,'isReschedule': true}).then(
+                        (data){
+                          if(data != null){
+                            if(data is SchoolVisitDetail){
+                              model.schoolVisitDetailData.value = data;
+                            }
+                          }
+                        }
+                       );
                     },
                     text: 'Reschedule Tour',
                     backgroundColor: AppColors.accent,

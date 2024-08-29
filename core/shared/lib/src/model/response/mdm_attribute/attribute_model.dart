@@ -4,6 +4,7 @@ class AttributesDetailsModel {
     String? shortform;
     String? shortNameTwoDigit;
     String? group;
+    String? reason;
 
     AttributesDetailsModel({
         this.name,
@@ -11,6 +12,7 @@ class AttributesDetailsModel {
         this.shortform,
         this.shortNameTwoDigit,
         this.group,
+        this.reason
     });
 
 }

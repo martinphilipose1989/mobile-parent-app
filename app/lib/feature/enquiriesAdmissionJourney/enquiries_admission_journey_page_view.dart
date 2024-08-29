@@ -34,16 +34,27 @@ class EnquiriesAdmissionsJourneyPageView
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 2:
         return UrlLauncher.launchEmail('example@example.com', context: context);
-      case 3:
+      case 3:{
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())? Navigator.of(context).pushNamed(
           RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetail
-        ) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,});
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: enquiryDetail.enquiryId??'');
+        }) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,}).then((value) {
+              if(value!=null){
+                model.getEnquiryDetail(enquiryID: enquiryDetail.enquiryId??'');
+              }
+            },);
+      }
       case 4:
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetail);
       default:
-        return null;
+        return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
+          RoutePaths.competencyTestDetailPage,arguments: enquiryDetail
+        ) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail});
     }
   }
 

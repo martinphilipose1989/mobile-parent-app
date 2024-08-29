@@ -79,7 +79,12 @@ final admissionsDetailsProvider =
 final registrationsDetailsProvider =
     ChangeNotifierProvider.autoDispose<RegistrationsDetailsViewModel>(
   (ref) =>
-      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<UpdateParentDetailsUsecase>(),getIt.get<UpdateMedicalDetailsUsecase>(),getIt.get<UpdateBankDetailsUsecase>(),getIt.get<UpdateContactDetailsUsecase>()),
+      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),
+        getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<UpdateParentDetailsUsecase>(),
+        getIt.get<UpdateMedicalDetailsUsecase>(),getIt.get<UpdateBankDetailsUsecase>(),getIt.get<UpdateContactDetailsUsecase>(),
+        getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<GetMdmAttributeUsecase>(),
+        getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>()
+    ),
 
 );
 
@@ -152,7 +157,7 @@ final detailsViewSchoolTourPageModelProvider =
 final cancelSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<CancelSchoolTourPageModel>(
   (ref) =>
-      CancelSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelSchoolVisitUsecase>()),
+      CancelSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelSchoolVisitUsecase>(),getIt.get<GetMdmAttributeUsecase>()),
 );
 
 // Common widgets providers

@@ -24,7 +24,7 @@ class EnquiriesDetailsPage extends BasePage<EnquiriesDetailsPageModel> {
 
 class EnquiriesDetailsPageState
     extends AppBasePageState<EnquiriesDetailsPageModel, EnquiriesDetailsPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<EnquiriesDetailsPageModel> provideBase() {
     return enquiriesDetailsPageModelProvider;
@@ -88,13 +88,13 @@ class EnquiriesDetailsPageState
                             if (model.selectedValue.value == 1) {
                               model.selectedValue.add(model.selectedValue.value-1);
                               if(widget.enquiryDetailArgs.enquiryType == "IVT"){
-                                  model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',);
+                                  model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                                 }
                                 else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
-                                  model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                                  model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                                 } 
                                 else{
-                                  model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                                  model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                                 }
                             }
                             else{
@@ -111,7 +111,6 @@ class EnquiriesDetailsPageState
                         CommonElevatedButton(
                           onPressed: () {
                             if(model.selectedValue.value==0){
-                              
                               // model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
                               if(widget.enquiryDetailArgs.enquiryType == "IVT"){
                                 IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();

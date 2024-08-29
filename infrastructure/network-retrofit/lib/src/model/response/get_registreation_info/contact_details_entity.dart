@@ -4,7 +4,7 @@ import 'package:network_retrofit/src/model/response/get_registreation_info/resid
 
 part 'contact_details_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity,ContactDetails>{
     String? emergencyContact;
     List<dynamic>? pointOfContact;
@@ -19,7 +19,11 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
   factory ContactDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$ContactDetailsEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$ContactDetailsEntityToJson(this);  
+    Map<String, dynamic> toJson() => {
+      "emergency_contact": emergencyContact,
+      "point_of_contact": pointOfContact,
+      "residential_address": residentialAddress
+    };
 
   @override
   ContactDetails transform() {

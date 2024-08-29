@@ -6,6 +6,7 @@ import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:domain/domain.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
@@ -16,7 +17,7 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
   final PublishSubject<Resource<SchoolVisitDetailBase>> _schoolVisitDetailResponse = PublishSubject();
   Stream<Resource<SchoolVisitDetailBase>> get schoolVisitDetailResponse => _schoolVisitDetailResponse.stream;
-  SchoolVisitDetail? schoolVisitDetailData;
+  BehaviorSubject<SchoolVisitDetail> schoolVisitDetailData = BehaviorSubject.seeded(SchoolVisitDetail());
 
   Future<void> getSchoolVisitDetail(String enquiryID) async {
       exceptionHandlerBinder.handle(block: () {
@@ -34,7 +35,7 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
         _schoolVisitDetailResponse.add(result);
         if(result.status == Status.success){
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
-          schoolVisitDetailData = result.data?.data;
+          schoolVisitDetailData.value = result.data?.data??SchoolVisitDetail();
         }
         // activeStep.add()
       }).onError((error) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -17,6 +19,9 @@ class CancelCompetencyPageModel extends BasePageViewModel {
 
 
   final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetail = PublishSubject();
+  final PublishSubject<Resource<CompetencyTestDetailBase>> _cancelCompetencyTest = PublishSubject();
+  Stream<Resource<CompetencyTestDetailBase>> get cancelCompetencyTestStream => _cancelCompetencyTest.stream;
+
   CompetencyTestDetails? competencyTestDetailsData;
   TextEditingController controller = TextEditingController();
   DateFormat dateFormat = DateFormat('d MMMM yyyy');
@@ -31,7 +36,6 @@ class CancelCompetencyPageModel extends BasePageViewModel {
       CancelCompetencyTestUsecaseParams params = CancelCompetencyTestUsecaseParams(
         enquiryID: enquiryID,
         cancelCompetencyTestRequest: request,
-        
       );
       competencyTestDetail.add(Resource.loading());
       RequestManager<CompetencyTestDetailBase>(
@@ -40,8 +44,11 @@ class CancelCompetencyPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        competencyTestDetail.add(Resource.success(data: result.data?.data));
-        competencyTestDetailsData = result.data?.data;
+        _cancelCompetencyTest.add(result);
+        if(result.status == Status.success){
+          competencyTestDetail.add(Resource.success(data: result.data?.data));
+          competencyTestDetailsData = result.data?.data;
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

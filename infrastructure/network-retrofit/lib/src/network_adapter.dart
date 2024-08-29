@@ -256,7 +256,7 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest}) async {
+  Future<Either<NetworkError, SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required RescheduleSchoolVisitRequest schoolCreationRequest}) async {
     var response = await safeApiCall(apiService.rescheduleSchoolVisit(schoolVisitID: enquiryID, schoolCreationRequest: schoolCreationRequest));
     return response.fold((l) {
       return Left(l);

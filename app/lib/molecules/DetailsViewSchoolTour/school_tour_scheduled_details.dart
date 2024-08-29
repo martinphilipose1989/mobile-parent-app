@@ -22,7 +22,7 @@ class SchoolTourScheduledDetailsWidget extends StatelessWidget {
           color: const Color(0xffE0E0E0),
         ),
         const SizedBox(height: 10,),
-        _detailItem(title: "Date",subtitle: DateFormat('dd/MM/yyyy').format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now()).toString())),),
+        _detailItem(title: "Date",subtitle: DateFormat('dd/MM/yyyy').format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString()))),),
         const SizedBox(height: 10,),
         _detailItem(title: "Selected Time",subtitle: schoolVisitDetail.slot??''),
         const SizedBox(height: 10,),

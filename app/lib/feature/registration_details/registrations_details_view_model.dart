@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:domain/domain.dart';
@@ -24,11 +27,21 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final GetIvtDetailUsecase getIvtDetailUsecase;
   final GetPsaDetailUsecase getPsaDetailUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
+  final UpdatePsaDetailUsecase updatePsaDetailUsecase;
+  final UpdateIvtDetailUsecase updateIvtDetailUsecase;
+  final UpdateNewAdmissionUsecase updateNewAdmissionUsecase;
+  final GetMdmAttributeUsecase getMdmAttributeUsecase;
+  final DownloadEnquiryDocumentUsecase downloadEnquiryDocumentUsecase;
+  final UploadEnquiryDocumentUsecase uploadEnquiryDocumentUsecase;
+  final DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
       this.getRegistrationDetailUsecase, this.getNewAdmissionDetailUseCase,
-      this.getIvtDetailUsecase, this.getPsaDetailUsecase,
-      this.getEnquiryDetailUseCase, this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase, this.updateContactDetailsUsecase) ;
+      this.getIvtDetailUsecase, this.getPsaDetailUsecase,this.getEnquiryDetailUseCase,
+      this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase,
+      this.updateContactDetailsUsecase,this.updatePsaDetailUsecase,this.updateIvtDetailUsecase,
+      this.updateNewAdmissionUsecase,this.getMdmAttributeUsecase,this.downloadEnquiryDocumentUsecase,
+      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase) ;
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -54,7 +67,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final List<String> country=['India','Pakistan','Nepal','Bangladesh'];
   final List<String> state=['Maharashtra','Gujarat','Madhya Pradesh'];
   final List<String> city=['Mumbai, Ahmedabad, Nagpur'];
-  final List<String> gender=['male','female'];
   final List<String> grade = ['A','B','C','D'];
   final List<String> contactRelationshipOptions = [
     'Father',
@@ -67,6 +79,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     '560001',
     '600001',
   ];
+
+  EnquiryDetailArgs? enquiryDetailArgs;
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
   final PublishSubject<Resource<ParentInfo>> parentDetail =
@@ -77,11 +91,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   PublishSubject();
   final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
 
-  PublishSubject<
-      Resource<NewAdmissionDetail>> newAdmissionDetails = PublishSubject();
+  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetails = PublishSubject();
+  Stream<Resource<NewAdmissionBase>> get newAdmissionDetails => _newAdmissionDetails.stream;
   PublishSubject<Resource<IVTDetail>> ivtDetails = PublishSubject();
   PublishSubject<Resource<PSADetail>> psaDetails = PublishSubject();
-  PublishSubject<Resource<EnquiryDetail>> enquiryDetail = PublishSubject();
+  final PublishSubject<Resource<EnquiryDetailBase>> _enquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get enquiryDetail => _enquiryDetail.stream;
+  BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetailSubject = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
+  BehaviorSubject<IVTDetail>? ivtDetailSubject = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
+  BehaviorSubject<PSADetail>? psaDetailSubject = BehaviorSubject<PSADetail>.seeded(PSADetail());
+  PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile = PublishSubject();
+  PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile = PublishSubject();
+  PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile = PublishSubject();
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -184,6 +205,119 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController accountNumberController = TextEditingController();
   TextEditingController upiController = TextEditingController();
 
+  //New Admission Details
+   TextEditingController enquiryNumberController = TextEditingController();
+   TextEditingController enquiryTypeController = TextEditingController();
+   TextEditingController studentFirstNameController = TextEditingController();
+   TextEditingController studentLastNameController = TextEditingController();
+   TextEditingController dobController = TextEditingController()  ;
+   TextEditingController existingSchoolNameController = TextEditingController();
+   TextEditingController globalIdController = TextEditingController();
+   TextEditingController parentTypeController = TextEditingController();
+ //PSA-specific controllers
+   BehaviorSubject<String> psaSubTypeSubject = BehaviorSubject<String>.seeded('');
+   BehaviorSubject<String> psaCategorySubject = BehaviorSubject<String>.seeded('');
+   BehaviorSubject<String> psaSubCategorySubject = BehaviorSubject<String>.seeded('');
+   BehaviorSubject<String> periodOfServiceSubject = BehaviorSubject<String>.seeded('');
+   BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
+ //IVT-specific controllers
+    BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
+    BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
+
+  final BehaviorSubject<bool> selectedGradeType =
+      BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<bool> selectedSchoolLocationType =
+      BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<bool> selectedExistingSchoolGrade =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedExistingSchoolBoard =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedParentType =
+      BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<bool> selectedPsaSubType =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedPsaCategory =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedPsaSubCategory =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedPeriodOfService =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedPsaBatch =
+      BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<bool> selecteBoard =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedCourse =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedStream =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> selectedShift =
+      BehaviorSubject<bool>.seeded(false);
+
+  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>.seeded('');
+  
+  final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
+
+  final List<String> parentType = ["Mother","Father","Guardian"];
+
+  final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gradeTypes = BehaviorSubject<List<String>>.seeded([]);
+
+  final BehaviorSubject<List<String>> psaSubType = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaSubCategory = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaCategory = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> periodOfService = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaBatch = BehaviorSubject<List<String>>.seeded([]);
+
+  final BehaviorSubject<List<String>> gender = BehaviorSubject<List<String>>.seeded([]);
+
+  final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
+
+  List<MdmAttributeModel>? gradeTypesAttribute;
+  List<MdmAttributeModel>? schoolLocationTypesAttribute;
+  List<MdmAttributeModel>? genderAttribute;
+  List<MdmAttributeModel>? existingSchoolBoardAttribute;
+  List<MdmAttributeModel>? psaCategoryAttribute;
+  List<MdmAttributeModel>? psaSubCategoryAttribute;
+  List<MdmAttributeModel>? psaSubTypeAttribute;
+  List<MdmAttributeModel>? periodOfServiceAttribute;
+  List<MdmAttributeModel>? psaBatchAttribute;
+  List<MdmAttributeModel>? streamTypeAttribute;
+  List<MdmAttributeModel>? courseTypeAttribute;
+  List<MdmAttributeModel>? shiftTypeAttribute;
+
+  CommonDataClass? selectedSchoolLocationEntity; 
+  CommonDataClass? selectedGradeEntity;
+  CommonDataClass? selectedGenderEntity;
+  CommonDataClass? selectedExistingSchoolBoardEntity;
+  CommonDataClass? selectedExistingSchoolGradeEntity;
+  CommonDataClass? selectedParentTypeEntity;
+  CommonDataClass? selectedPsaSubTypeEntity;
+  CommonDataClass? selectedPsaCategoryEntity;
+  CommonDataClass? selectedPsaSubCategoryEntity;
+  CommonDataClass? selectedPeriodOfServiceEntity;
+  CommonDataClass? selectedPsaBatchEntity;
+  CommonDataClass? selectedBoardEntity;
+  CommonDataClass? selectedStreamEntity;
+  CommonDataClass? selectedCourseEntity;
+  CommonDataClass? selectedShiftEntity;
+
+  List<ValueNotifier<bool>> isDocumentUploaded = [];
+
 
   Future<void> fetchAllDetails(String enquiryID,String infoType) async {
     exceptionHandlerBinder.handle(block: () {
@@ -208,7 +342,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         } else if (infoType == 'ContactInfo') {
           contactDetail.add(Resource.success(data: result.data?.data));
           contactDetails = result.data?.data;
-        addContactDetails(result.data?.data??ContactDetails());
+          addContactDetails(result.data?.data??ContactDetails());
         } else if (infoType == 'MedicalInfo') {
           medicalDetail.add(Resource.success(data: result.data?.data));
           medicalDetails = result.data?.data;
@@ -312,7 +446,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getNewAdmissionDetails({required String enquiryID}) async {
+  Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
         enquiryID: enquiryID,
@@ -325,8 +459,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               params: params,
             ),
       ).asFlow().listen((result) {
-        newAdmissionDetails.add(
-            Resource.success(data: result.data?.data ?? NewAdmissionDetail()));
+        _newAdmissionDetails.add(result);
+        if(result.status == Status.success){
+          newAdmissionDetailSubject?.add(result.data?.data??NewAdmissionDetail());
+          if(isEdit){
+            addNewAdmissionDetails(result.data?.data??NewAdmissionDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+          }
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -334,7 +473,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getIvtDetails({required String enquiryID}) async {
+  Future<void> getIvtDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
         enquiryID: enquiryID,
@@ -349,6 +488,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         ivtDetails.add(
             Resource.success(data: result.data?.data ?? IVTDetail()));
+        if(isEdit){
+          addIvtDetails(result.data?.data??IVTDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -356,7 +498,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getPsaDetails({required String enquiryID}) async {
+  Future<void> getPsaDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
         enquiryID: enquiryID,
@@ -371,6 +513,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         psaDetails.add(
             Resource.success(data: result.data?.data ?? PSADetail()));
+        if(isEdit){
+          addPsaDetails(result.data?.data??PSADetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -383,7 +528,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
         enquiryID: enquiryID,
       );
-      enquiryDetail.add(Resource.loading());
       RequestManager<EnquiryDetailBase>(
         params,
         createCall: () =>
@@ -391,13 +535,290 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               params: params,
             ),
       ).asFlow().listen((result) {
-        enquiryDetail.add(
-            Resource.success(data: result.data?.data ?? EnquiryDetail()));
+        _enquiryDetail.add(result);
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  Future<void> updatePsaDetails({required String enquiryID,required PsaDetailResponseEntity psaDetail}) async{
+    exceptionHandlerBinder.handle(block: () {
+     
+      UpdatePsaDetailUsecaseParams params = UpdatePsaDetailUsecaseParams(
+        enquiryID: enquiryID,
+        psaDetail: psaDetail
+      );
+      
+      RequestManager<PsaResponse>(
+        params,
+        createCall: () => updatePsaDetailUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        psaDetailSubject?.add(result.data?.data?? PSADetail());
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> updateIvtDetails({required String enquiryID,required IvtDetailResponseEntity ivtDetail}) async{
+    exceptionHandlerBinder.handle(block: () {
+     
+      UpdateIvtDetailUsecaseParams params = UpdateIvtDetailUsecaseParams(
+        enquiryID: enquiryID,
+        ivtDetail: ivtDetail
+      );
+      
+      RequestManager<IVTBase>(
+        params,
+        createCall: () => updateIvtDetailUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        ivtDetailSubject?.add(result.data?.data??IVTDetail());
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> updateNewAdmissionDetails({required String enquiryID,required NewAdmissionDetailEntity newAdmissionDetail}) async{
+    exceptionHandlerBinder.handle(block: () {
+     
+      UpdateNewAdmissionUsecaseUseCaseParams params = UpdateNewAdmissionUsecaseUseCaseParams(
+        enquiryID: enquiryID,
+        newAdmissionDetail: newAdmissionDetail
+      );
+      
+      RequestManager<NewAdmissionBase>(
+        params,
+        createCall: () => updateNewAdmissionUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        newAdmissionDetailSubject?.add(result.data?.data?? NewAdmissionDetail());
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getMdmAttribute({required String infoType}) async {
+    exceptionHandlerBinder.handle(block: () {
+      GetMdmAttributeUsecaseParams params = GetMdmAttributeUsecaseParams(
+        infoType: infoType,
+      );
+      RequestManager<MdmAttributeBaseModel>(
+        params,
+        createCall: () => getMdmAttributeUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        if(infoType == "grade"){
+          gradeTypesAttribute = result.data?.data;
+          gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "schoolLocation"){
+          schoolLocationTypesAttribute = result.data?.data;
+          schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "gender"){
+          genderAttribute = result.data?.data;
+          gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "board"){
+          existingSchoolBoardAttribute = result.data?.data;
+          existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "psaCategory"){
+          psaCategoryAttribute = result.data?.data;
+          psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "psaSubCategory"){
+          psaSubCategoryAttribute = result.data?.data;
+          psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "psaSubType"){
+          psaSubTypeAttribute = result.data?.data;
+          psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "periodOfService"){
+          periodOfServiceAttribute = result.data?.data;
+          periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "batch"){
+          psaBatchAttribute = result.data?.data;
+          psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        }
+        if(infoType == "stream"){
+          streamTypeAttribute = result.data?.data;
+          stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "course"){
+          courseTypeAttribute = result.data?.data;
+          course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "shift"){
+          shiftTypeAttribute = result.data?.data;
+          shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file,int? index}) async{
+    exceptionHandlerBinder.handle(block: () {
+      
+      UploadEnquiryDocumentUsecaseParams params = UploadEnquiryDocumentUsecaseParams(
+        documentID: documentID,
+        enquiryID: enquiryID,
+        file: file
+      );
+      uploadEnquiryFile.add(Resource.loading());
+      RequestManager<EnquiryFileUploadBase>(
+        params,
+        createCall: () => uploadEnquiryDocumentUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
+        isDocumentUploaded[index??0].value = true;
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> deleteEnquiryDocument({required String enquiryID,required String documentID,int? index}) async{
+    exceptionHandlerBinder.handle(block: () {
+      
+      DeleteEnquiryDocumentUsecaseParams params = DeleteEnquiryDocumentUsecaseParams(
+        documentID: documentID,
+        enquiryID: enquiryID,
+      );
+      deleteEnquiryFile.add(Resource.loading());
+      RequestManager<DeleteEnquiryFileBase>(
+        params,
+        createCall: () => deleteEnquiryDocumentUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
+        isDocumentUploaded[index??0].value = false;
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> downloadEnquiryDocument({required String enquiryID,required String documentID}) async{
+    exceptionHandlerBinder.handle(block: () {
+      
+      DownloadEnquiryDocumentUsecaseParams params = DownloadEnquiryDocumentUsecaseParams(
+        documentID: documentID,
+        enquiryID: enquiryID,
+      );
+      getEnquiryFile.add(Resource.loading());
+      RequestManager<DownloadEnquiryFileBase>(
+        params,
+        createCall: () => downloadEnquiryDocumentUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? ''; 
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedParentTypeSubject.add("Father");
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+  }
+
+  addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? ''; 
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
+    psaSubTypeSubject.add(detail.psaSubType?.value?? '');
+    selectedPsaSubTypeEntity = detail.psaSubType;
+    psaCategorySubject.add(detail.psaCategory?.value?? '');
+    selectedPsaCategoryEntity = detail.psaCategory;
+    psaSubCategorySubject.add(detail.psaSubCategory?.value?? '');
+    selectedPsaSubCategoryEntity = detail.psaSubCategory;
+    periodOfServiceSubject.add(detail.psaPeriodOfService?.value?? '');
+    selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
+    psaBatchSubject.add(detail.psaBatch?.value?? '');
+    selectedPsaBatchEntity = detail.psaBatch;
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+  }
+
+  addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
+    enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
+    enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
+    studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    dobController.text = detail.studentDetails?.dob ?? ''; 
+    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    selectedGradeEntity = detail.studentDetails?.grade;
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationEntity = detail.schoolLocation;
+    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
+    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderEntity = detail.studentDetails?.gender;
+    ivtBoardSubject.add(detail.board?.value?? '');
+    ivtCourseSubject.add(detail.course?.value?? '');
+    ivtStreamSubject.add(detail.stream?.value?? '');
+    ivtShiftSubject.add(detail.shift?.value?? '');
+    parentTypeController.text = detail.enquirerParent??'';
+    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
   }
 
 
@@ -419,11 +840,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final CommonRadioButton<bool> radioButtonController3 =
   CommonRadioButton<bool>(null);
 
-  final CommonRadioButton<bool> radioButtonController4 =
-  CommonRadioButton<bool>(null);
+  final CommonRadioButton<String> radioButtonController4 =
+  CommonRadioButton<String>(null);
 
-  final CommonRadioButton<bool> radioButtonController5 =
-  CommonRadioButton<bool>(null);
+  final CommonRadioButton<String> radioButtonController5 =
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController6 =
   CommonRadioButton<String>(null);
@@ -502,8 +923,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     yearOfHospitalizationController.text=medicalDetails.yearOfHospitalization??"";
     reasonOfHospitalizationController.text=medicalDetails.reasonOfHopitalization??"";
     specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
-  medicalDetails.isChildHospitalised=radioButtonController4.selectedItem;
- medicalDetails.hasPhysicalDisability=radioButtonController5.selectedItem;
+    specifyMedicalHistoryController.text = medicalDetails.medicalHistoryDescription??"";
+    specifyAllergiesController.text = medicalDetails.allergyDescription??"";
+    bloodGroup = medicalDetails.bloodGroup??"";
+    personalisedLearningNeedsController.text = medicalDetails.personalisedLearningNeedsDescription??'';
+    radioButtonController4.selectItem((medicalDetails.isChildHospitalised??false) ? "Yes": "No");
+    radioButtonController5.selectItem((medicalDetails.hasPhysicalDisability??false)? "Yes": "No");
+    radioButtonController7.selectItem((medicalDetails.hasMedicalHistory??false)?"Yes":"No");
+    radioButtonController8.selectItem((medicalDetails.hasAllergy??false)?"Yes":"No");
+    radioButtonController9.selectItem((medicalDetails.hasPersonalisedLearningNeeds??false)?"Yes":"No");
   }
 
   addBankDetails(BankDetails bankDetails){
@@ -564,25 +992,33 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     await updateParentDetail(enquiryId, parentInfoEntity);
   }
   Future<void>saveMedicalDetails(String enquiryId) async{
-    MedicalDetailsEntity medicalDetails = MedicalDetailsEntity();
-    yearOfHospitalizationController.text=medicalDetails.yearOfHospitalization??"";
-    reasonOfHospitalizationController.text=medicalDetails.reasonOfHopitalization??"";
-    specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
-    medicalDetails.isChildHospitalised=radioButtonController4.selectedItem;
-    medicalDetails.hasPhysicalDisability=radioButtonController5.selectedItem;
-
-    await updateMedicalDetail(enquiryId,medicalDetails);
+    MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity();
+    medicalDetails?.yearOfHospitalization = yearOfHospitalizationController.text;
+    medicalDetails?.reasonOfHopitalization = reasonOfHospitalizationController.text;
+    medicalDetails?.physicalDisabilityDescription = specificDisabilityController.text;
+    medicalDetails?.isChildHospitalised = radioButtonController4.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasPhysicalDisability = radioButtonController5.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasMedicalHistory = radioButtonController7.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasAllergy = radioButtonController8.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasPersonalisedLearningNeeds = radioButtonController9.selectedItem == "Yes" ? true : false;
+    medicalDetails?.bloodGroup = bloodGroup;
+    medicalDetails?.medicalHistoryDescription = specifyMedicalHistoryController.text.trim();
+    medicalDetails?.allergyDescription = specifyAllergiesController.text.trim();
+    medicalDetails?.personalisedLearningNeedsDescription = personalisedLearningNeedsController.text.trim(); 
+    medicalDetailsEntity = medicalDetailsEntity.restore(medicalDetails!);
+    await updateMedicalDetail(enquiryId,medicalDetailsEntity);
   }
   Future<void>saveBankDetails(String enquiryId)async{
-    BankDetailsEntity bankDetails = BankDetailsEntity();
-    ifscCodeController.text = bankDetails.ifscCode??"";
-    bankNameController.text = bankDetails.bankName??"";
-    branchNameController.text=bankDetails.branchName??"";
-    accountHolderNameController.text =bankDetails.accountHolderName??"";
-    accountTypeController.text=bankDetails.accountType??"";
-    accountNumberController.text = bankDetails.accountNumber??"";
-    upiController.text=bankDetails.upiInfo??"";
-    await updateBankDetail(enquiryId,bankDetails);
+    BankDetailsEntity bankDetailsEntity = BankDetailsEntity();
+    bankDetails?.ifscCode = ifscCodeController.text;
+    bankDetails?.bankName = bankNameController.text;
+    bankDetails?.branchName = branchNameController.text;
+    bankDetails?.accountHolderName = accountHolderNameController.text;
+    bankDetails?.accountType = accountTypeController.text;
+    bankDetails?.accountNumber = accountNumberController.text;
+    bankDetails?.upiInfo = upiController.text;
+    bankDetailsEntity = bankDetailsEntity.restore(bankDetails!);
+    await updateBankDetail(enquiryId,bankDetailsEntity);
   }
   Future<void>saveContactDetails(String enquiryId)async{
     ContactDetailsEntity contactDetails =ContactDetailsEntity();

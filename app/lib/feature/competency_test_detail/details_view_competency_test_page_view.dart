@@ -7,6 +7,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -46,17 +47,23 @@ class DetailsViewCompetencyTestPageView
                       const SizedBox(
                         height: 10,
                       ),
-                      AppStreamBuilder<Resource<CompetencyTestDetails>>(
-                        stream: model.competencyTestDetail,
+                      AppStreamBuilder<Resource<CompetencyTestDetailBase>>(
+                        stream: model.competencyTestDetailBase,
                         initialData: Resource.none(),
                         dataBuilder: (context, result) {
                           switch(result?.status){
                             case Status.loading:
                               return const Center(child: CircularProgressIndicator(),);
                             case Status.success:
-                              return CompetencyTestScheduledDetailsWidget(competencyTestDetails: result?.data??CompetencyTestDetails());
+                              return AppStreamBuilder<CompetencyTestDetails>(
+                                stream: model.competencyTestDetails,
+                                initialData: model.competencyTestDetails.value,
+                                dataBuilder: (context, data) {
+                                  return CompetencyTestScheduledDetailsWidget(competencyTestDetails: model.competencyTestDetails.value);
+                                },
+                              );
                             default:
-                              return const Center(child: CircularProgressIndicator(),);
+                              return const Center(child: CommonText(text: 'Competency test details not found.'),);
                           }
                         },
                       ),
@@ -81,7 +88,7 @@ class DetailsViewCompetencyTestPageView
                 children: [
                   CommonElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RoutePaths.cancelCompetencyTestPage,arguments: [enquiryDetail,model.competencyTestDetails]);
+                      Navigator.of(context).pushNamed(RoutePaths.cancelCompetencyTestPage,arguments: [enquiryDetail,model.competencyTestDetails.value]);
                     },
                     text: 'Cancel Test',
                     borderColor: Theme.of(context).primaryColor,
@@ -95,7 +102,15 @@ class DetailsViewCompetencyTestPageView
                   ),
                   CommonElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail,'competencyTestDetail': model.competencyTestDetail,'isReschedule': true});
+                      Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail,'competencyTestDetail': model.competencyTestDetails.value,'isReschedule': true}).then(
+                        (data){
+                          if(data != null){
+                            if(data is CompetencyTestDetails){
+                              model.competencyTestDetails.value = data;
+                            }
+                          }
+                        }
+                       );
                     },
                     text: 'Reschedule Test',
                     backgroundColor: AppColors.accent,

@@ -52,7 +52,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError,Slots>> getSchoolVisitSlots({required String enquiryID,required String date});
   Future<Either<NetworkError,SchoolVisitDetailBase>> getSchoolVisitDetail({required String enquiryID});
   Future<Either<NetworkError,SchoolVisitDetailBase>> createSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest});
-  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest});
+  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required RescheduleSchoolVisitRequest schoolCreationRequest});
   Future<Either<NetworkError,SchoolVisitDetailBase>> cancelSchoolVisit({required String enquiryID,required SchoolVisitCancelRequest cancelSchoolRequest});
   
   Future<Either<NetworkError,AdmissionListBaseModel>> getAdmissionList({required String phone,required int pageNumber,int pageSize = 10});

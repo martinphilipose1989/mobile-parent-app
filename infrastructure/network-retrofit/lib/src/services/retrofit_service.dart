@@ -117,7 +117,7 @@ abstract class RetrofitService {
 
   @PATCH('marketing/app/enquiry/{enquiryID}/new-admission')
   Future<HttpResponse<NewAdmissionEntity>> updateNewAdmissionDetail(
-    {@Path('equiryID') required String enquiryID,
+    {@Path('enquiryID') required String enquiryID,
       @Body() required NewAdmissionDetailEntity newAdmissionDetail
     }
   );
@@ -129,7 +129,7 @@ abstract class RetrofitService {
 
   @PATCH('marketing/app/enquiry/{enquiryID}/psa')
   Future<HttpResponse<PsaBaseResponseEntity>> updatePsaDetail(
-    {@Path('equiryID') required String enquiryID,
+    {@Path('enquiryID') required String enquiryID,
       @Body() required PsaDetailResponseEntity psaDetail
     }
   );
@@ -160,7 +160,7 @@ abstract class RetrofitService {
   @POST('marketing/school-visit/{enquiryID}/reschedule')
   Future<HttpResponse<SchoolVisitEntity>> rescheduleSchoolVisit(
     {@Path('enquiryID') required String schoolVisitID,
-    @Body() required SchoolCreationRequest schoolCreationRequest}
+    @Body() required RescheduleSchoolVisitRequest schoolCreationRequest}
   );
 
   @POST('marketing/school-visit/{enquiryID}/cancel')

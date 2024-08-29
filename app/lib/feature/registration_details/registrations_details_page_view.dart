@@ -45,10 +45,12 @@ class RegistrationsDetailsPageView
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 3:
         return UrlLauncher.launchEmail('example@example.com', context: context);
-      case 4:
+      case 4:{
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
+        
         return null;
+      }
       case 5:
         return Navigator.of(context)
             .pushNamed(RoutePaths.scheduleSchoolTourPage);
@@ -80,38 +82,43 @@ class RegistrationsDetailsPageView
                 compeletion: '25% Completed',
               ),
               CommonSizedBox.sizedBox(height: 20, width: 10),
-              SizedBox(
-                height: 40,
-                child: CommonChipListPage(
-                  chipValues: List.generate(
-                    model.registrationDetails.length,
-                    (index) => CommonChips(
-                      isSelected: model.registrationDetails[index]
-                          ['isSelected'],
-                      name: model.registrationDetails[index]['name'],
+              AppStreamBuilder<bool>(
+                stream: model.editRegistrationDetails, 
+                initialData: model.editRegistrationDetails.value, 
+                dataBuilder: (context, data) {
+                  return SizedBox(
+                    height: 40,
+                    child: CommonChipListPage(
+                      isEdit: model.editRegistrationDetails.value,
+                      chipValues: List.generate(
+                        model.registrationDetails.length,
+                        (index) => CommonChips(
+                          isSelected: model.registrationDetails[index]
+                              ['isSelected'],
+                          name: model.registrationDetails[index]['name'],
+                        ),
+                      ),
+                      onCallBack: (index) {
+                        if (!model.editRegistrationDetails.value) {
+                          model.showWidget.add(index);
+                        } 
+                        if(index == 0){
+                          if(enquiryDetailArgs?.enquiryType == "IVT"){
+                            model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                          } else if(enquiryDetailArgs?.enquiryType == "PSA"){
+                            model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                          } else{
+                            model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                          }
+                        }else if(index == 5){
+                          model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                        } else{
+                          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
+                        }
+                      },
                     ),
-                  ),
-                  onCallBack: (index) {
-                    if (!model.editRegistrationDetails.value) {
-                      model.showWidget.add(index);
-                    } else {
-                      return;
-                    }
-                    if(index == 0){
-                      if(enquiryDetailArgs?.enquiryType == "IVT"){
-                        model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                      } else if(enquiryDetailArgs?.enquiryType == "PSA"){
-                        model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                      } else{
-                        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                      }
-                    }else if(index == 5){
-                      model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                    } else{
-                      model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
-                    }
-                  },
-                ),
+                  );
+                },
               ),
               CommonSizedBox.sizedBox(height: 20, width: 10),
               AppStreamBuilder<bool>(
@@ -126,6 +133,7 @@ class RegistrationsDetailsPageView
                           height: MediaQuery.of(context).size.height - 300,
                           width: double.infinity,
                           child: SingleChildScrollView(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom+50),
                               child: editRegistrationDetailsData!
                                   ? registrationsEditingWidgetAsPerIndex(
                                       model.showWidget.value, model)
@@ -178,7 +186,7 @@ class RegistrationsDetailsPageView
       int index,  model) {
     switch (index) {
       case 0:
-        return const EnquiryAndStudentEditing();
+        return EnquiryAndStudentEditing(model: model,enquiryDetailArgs: enquiryDetailArgs??EnquiryDetailArgs(),);
       case 1:
         return ParentInfoEditing(model: model);
       case 2:
@@ -290,7 +298,7 @@ class RegistrationsDetailsPageView
           }
         });
       case 5:
-        return AppStreamBuilder<Resource<EnquiryDetail>>(
+        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
         stream: model.enquiryDetail,
           initialData: Resource.none(),
           dataBuilder: (context, result) {
@@ -298,7 +306,7 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data,);
+          return UploadDocs(enquiryDetail: result?.data?.data,);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:
@@ -346,7 +354,7 @@ class RegistrationsDetailsPageView
           }
         });
       default:
-      return AppStreamBuilder<Resource<NewAdmissionDetail>>(
+      return AppStreamBuilder<Resource<NewAdmissionBase>>(
         stream: model.newAdmissionDetails,
           initialData: Resource.none(),
           dataBuilder: (context, result) {
@@ -354,7 +362,7 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,newAdmissionDetail: result?.data);
+            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,newAdmissionDetail: result?.data?.data);
           case Status.error:
             return const Center(child: Text('Enquiries not found'),);
           default:

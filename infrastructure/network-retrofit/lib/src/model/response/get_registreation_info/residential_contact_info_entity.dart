@@ -3,7 +3,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 
 part 'residential_contact_info_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createPerFieldToJson: false)
 class ResidentialAddressContactInfoEntity extends BaseLayerDataTransformer<ResidentialAddressContactInfoEntity,ResidentialAddressContactInfo>{
   @JsonKey(name: 'house')
   String? house;
@@ -36,7 +36,16 @@ class ResidentialAddressContactInfoEntity extends BaseLayerDataTransformer<Resid
   factory ResidentialAddressContactInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$ResidentialAddressContactInfoEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResidentialAddressContactInfoEntityToJson(this);
+  Map<String, dynamic> toJson() => {
+    "house": house,
+    "street": street,
+    "landmark": landmark,
+    "country": country,
+    "pin_code": pincode,
+    "state": state,
+    "city": city,
+    "is_permanent_address": isPermanentAddress
+  };
 
   @override
   ResidentialAddressContactInfo transform() {
@@ -67,4 +76,3 @@ class ResidentialAddressContactInfoEntity extends BaseLayerDataTransformer<Resid
     return residentialAddressContactInfoEntity;
   }
 }
-

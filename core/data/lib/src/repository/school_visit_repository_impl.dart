@@ -22,7 +22,7 @@ class SchoolVisitRepositoryImpl extends SchoolVisitRepository{
     return _networkPort.createSchoolVisit(enquiryID: enquiryID, schoolCreationRequest: schoolCreationRequest);
   }
   @override
-  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required SchoolCreationRequest schoolCreationRequest}){
+  Future<Either<NetworkError,SchoolVisitDetailBase>> rescheduleSchoolVisit({required String enquiryID,required RescheduleSchoolVisitRequest schoolCreationRequest}){
     return _networkPort.rescheduleSchoolVisit(enquiryID: enquiryID, schoolCreationRequest: schoolCreationRequest);
   }
 

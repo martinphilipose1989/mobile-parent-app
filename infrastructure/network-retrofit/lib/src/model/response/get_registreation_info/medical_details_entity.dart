@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'medical_details_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity,MedicalDetails>{
     @JsonKey(name: 'isChildHospitalised')
     bool? isChildHospitalised;
@@ -48,7 +48,20 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     factory MedicalDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$MedicalDetailsEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$MedicalDetailsEntityToJson(this);
+    Map<String, dynamic> toJson() => {
+      "was_hopitalised": isChildHospitalised,
+      "year_of_hospitalisation": yearOfHospitalization,
+      "reason_of_hospitalisation": reasonOfHopitalization,
+      "has_physical_disability": hasPhysicalDisability,
+      "physical_disability_description": physicalDisabilityDescription,
+      "has_medical_history": hasMedicalHistory,
+      "medical_history_description": medicalHistoryDescription,
+      "has_allergy": hasAllergy,
+      "allergy_description": allergyDescription,
+      "blood_group": bloodGroup,
+      "has_learning_needs": personalisedLearningNeedsDescription,
+      "personalised_learning_needs": personalisedLearningNeedsDescription,
+    };
 
   @override
   MedicalDetails transform() {

@@ -15,9 +15,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final CreateSchoolVisitUseCase createSchoolVisitUseCase;
   final RescheduleSchoolVisitUseCase rescheduleSchoolVisitUseCase;
   final GetSchoolVisitSlotsUsecase getSchoolVisitSlotsUseCase;
-  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase){
-    fetchTimeSlotsSchoolVisit(DateFormat('dd-MM-yyyy').format(DateTime.now()), "669a46527986d066b783f479");
-  }
+  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase);
   
   final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
 
@@ -39,7 +37,8 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
   final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
   Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
-
+  final PublishSubject<Resource<SchoolVisitDetailBase>> _scheduleSchoolVisit = PublishSubject();
+  Stream<Resource<SchoolVisitDetailBase>> get scheduleSchoolVisit => _scheduleSchoolVisit.stream;
   void getDefaultDate(){
     selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
@@ -62,20 +61,19 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
+        _scheduleSchoolVisit.add(result);
         if(result.status == Status.success){
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
-
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
-
       });
     }).execute();
   }
 
   Future<void> rescheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
     exceptionHandlerBinder.handle(block: () {
-      SchoolCreationRequest request = SchoolCreationRequest(
+      RescheduleSchoolVisitRequest request = RescheduleSchoolVisitRequest(
         schoolVisitDate: selectedDate,
         slotId: slotId,
         comment: commentController.text,
@@ -91,7 +89,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        schoolVisitDetail.add(Resource.success(data: result.data?.data));
+        _scheduleSchoolVisit.add(result);
+        if(result.status == Status.success){
+          schoolVisitDetail.add(Resource.success(data: result.data?.data));
+        }
 
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -115,8 +116,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         _timeSlots.add(result);
         if(result.status == Status.success){
           schoolVisitTimeSlots.add(result.data?.data??[]);
-          slotId = result.data?.data?[0].id??'';
-          selectedTime = result.data?.data?[0].slot??'';
+          if((result.data?.data??[]).isNotEmpty){
+            slotId = result.data?.data?[0].id??'';
+            selectedTime = result.data?.data?[0].slot??'';
+          }
         }
         // activeStep.add()
       }).onError((error) {

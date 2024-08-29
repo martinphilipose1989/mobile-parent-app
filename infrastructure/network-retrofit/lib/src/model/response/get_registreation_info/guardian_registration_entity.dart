@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'guardian_registration_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEntity,GuardianDetails>{
     @JsonKey(name:'firstName')
     String? firstName;
@@ -71,7 +71,23 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
   factory GuardianDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$GuardianDetailsEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$GuardianDetailsEntityToJson(this);
+    Map<String, dynamic> toJson() => {
+      "first_name": firstName,
+      "last_name": lastName,
+      "mobile": mobileNumber,
+      "email": emailId,
+      "relationship_with_child": relationWithChild,
+      "house": houseNumber,
+      "street": street,
+      "landmark": landmark,
+      "country": country,
+      "pin_code": pincode,
+      "state": state,
+      "city": city,
+      "aadhar": aadharNumber,
+      "pan": panNumber,
+      "guardian_type": guardianType
+    };
 
   @override
   GuardianDetails transform() {

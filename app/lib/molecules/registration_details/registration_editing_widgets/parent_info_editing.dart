@@ -630,7 +630,7 @@ class ParentInfoEditing extends StatelessWidget {
                     const CommonDatePickerWidget(),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: model.gender,
+                      items: model.gender.value,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Gender',

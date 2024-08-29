@@ -68,6 +68,10 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
   }
 
+  bool isDetailViewCompetency(){
+    return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+  }
+
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false},
     {'name': 'Parent Info', 'isSelected': false},
@@ -92,6 +96,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     {'image': AppImages.email, 'name': "Email"},
     {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
+    {'image': AppImages.bookTest, 'name': ""}
   ];
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);

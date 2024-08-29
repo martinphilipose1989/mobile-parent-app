@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'parent_registration_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegistrationDetailEntity,ParentRegistrationDetail>{
     @JsonKey(name: 'firstName')
     String? firstName;
@@ -54,12 +54,29 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
         this.city,
         this.emailId,
         this.mobileNumber,
-      this.pinCode
+        this.pinCode
     });
   factory ParentRegistrationDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentRegistrationDetailEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParentRegistrationDetailEntityToJson(this);
+  Map<String, dynamic> toJson() => {
+    "first_name": firstName,
+    "last_name": lastName,
+    "mobile": mobileNumber,
+    "email": emailId,
+    "pan": panNumber,
+    "aadhar": aadharNumber,
+    "qualification": qualification,
+    "occupation": occupation,
+    "organization_name": organisationName,
+    "designation": designationName,
+    "office_address": officeAddress,
+    "area": area,
+    "country": country,
+    "pin_code": pinCode,
+    "state": state,
+    "city": city
+  };
 
   @override
   ParentRegistrationDetail transform() {

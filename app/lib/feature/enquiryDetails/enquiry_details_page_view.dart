@@ -152,13 +152,13 @@ class EnquiriesDetailsPageView
                           },
                           onFirstTabTap: () {
                             if(enquiryDetailArgs.enquiryType == "IVT"){
-                              model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',);
+                              model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                             }
                             else if(enquiryDetailArgs.enquiryType == "PSA"){
-                              model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+                              model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                             } 
                             else{
-                              model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'');
+                              model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                             }
                           },
                         ),
