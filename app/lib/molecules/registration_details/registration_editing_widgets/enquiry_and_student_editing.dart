@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -296,11 +297,21 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       ivtDetails()
                     ],
                     const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      showAstreik: false,
-                      labelText: "Parent Type",
-                      readOnly: true,
-                      controller: model.parentTypeController,
+                    SizedBox(
+                        height: 48,
+                        child: CustomDropdownButton(
+                          width: MediaQuery.of(context).size.width,
+                          onMultiSelect: (selectedValues) {},
+                          dropdownName: 'Select Parent Type',
+                          showAstreik: true,
+                          showBorderColor: true,
+                          items: model.parentType,
+                          singleSelectItemSubject: model.selectedParentTypeSubject,
+                          onSingleSelect: (selectedValue) {
+                            model.selectedParentTypeSubject.value = selectedValue;
+                          },
+                          isMutiSelect: false,
+                        ),
                     ),
                     const SizedBox(height: 20,),
                     CommonTextFormField(
@@ -309,6 +320,70 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       readOnly: true,
                       controller: model.globalIdController,
                     ),
+                    const SizedBox(height: 20,),
+                    AppStreamBuilder<String>(
+                      stream: model.selectedParentTypeSubject,
+                      initialData: model.selectedParentTypeSubject.value, 
+                      dataBuilder: (context, data) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 20,),
+                            if((data??'') == "Father")...[
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent First Name',
+                                controller: model.studentsFatherFirstNameController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Last Name',
+                                controller: model.studentsFatherLastNameController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Email ID',
+                                controller: model.studentsFatherEmailController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Mobile Number',
+                                controller: model.studentsFatherContactController,
+                              ),
+                            ]
+                            else...[
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent First Name',
+                                controller: model.studentsMotherFirstNameController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Last Name',
+                                controller: model.studentsMotherLastNameController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Email ID',
+                                controller: model.studentsMotherEmailController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Parent Mobile Number',
+                                controller: model.studentsMotherContactController,
+                              ),
+                            ]
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20,),
+                    
                   ],
                 ),
               )

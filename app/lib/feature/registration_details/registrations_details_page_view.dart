@@ -216,12 +216,19 @@ class RegistrationsDetailsPageView
         return AppStreamBuilder<Resource<EnquiryDetailBase>>(
           stream: model.enquiryDetail,
           initialData: Resource.none(),
+          onData: (value) {
+            if(value.status == Status.success){
+              value.data?.data?.enquiryDocuments?.forEach((element){
+                model.isDocumentUploaded.add(ValueNotifier((element.file??'').isNotEmpty || element.file!=null));
+              });
+            }
+          },
           dataBuilder: (context, result) {
           switch (result?.status){
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data?.data,);
+          return UploadDocs(enquiryDetail: result?.data?.data,model: model,);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:
@@ -253,7 +260,6 @@ class RegistrationsDetailsPageView
               return const Center(child: CircularProgressIndicator(),);
           }
           },
-          
         );
       case 2:
         return AppStreamBuilder<Resource<ContactDetails>>(
@@ -312,12 +318,19 @@ class RegistrationsDetailsPageView
         return AppStreamBuilder<Resource<EnquiryDetailBase>>(
         stream: model.enquiryDetail,
           initialData: Resource.none(),
+          onData: (value) {
+            if(value.status == Status.success){
+              value.data?.data?.enquiryDocuments?.forEach((element){
+                model.isDocumentUploaded.add(ValueNotifier((element.file??'').isNotEmpty || element.file!=null));
+              });
+            }
+          },
           dataBuilder: (context, result) {
           switch (result?.status){
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data?.data,);
+          return UploadDocs(enquiryDetail: result?.data?.data,model: model,);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:

@@ -8,7 +8,7 @@ class FileUtilityAdapter  extends FileUtilityPort{
   FileUtilityAdapter(this._filePicker);
 
   @override
-  Future<Either<AppError, File>> pickFile({
+  Future<Either<AppError, File?>> pickFile({
     FileType? type,
     List<String>? allowedExtensions,
   }) async {
@@ -33,12 +33,9 @@ class FileUtilityAdapter  extends FileUtilityPort{
         ));
       }
       return Right(File(platformFile.path ?? ""));
-    } else {
-      return Left(AppError(
-        error: ErrorInfo(message: "Failed to fetch File"),
-        throwable: Exception("Failed to fetch File"),
-        type: ErrorType.filePickerFailed
-      ));
+    }
+    else{
+      return const Right(null);
     }
   }
 }

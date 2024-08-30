@@ -333,7 +333,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
+        _newAdmissionDetail.add(result);
+        if(result.status == Status.success){
+          newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
+          selectedValue.add(selectedValue.value+1);
+          getEnquiryDetail(enquiryID: enquiryID);
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

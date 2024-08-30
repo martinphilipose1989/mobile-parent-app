@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -215,6 +216,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
    TextEditingController existingSchoolNameController = TextEditingController();
    TextEditingController globalIdController = TextEditingController();
    TextEditingController parentTypeController = TextEditingController();
+   TextEditingController studentsFatherFirstNameController = TextEditingController();
+   TextEditingController studentsFatherLastNameController = TextEditingController();
+   TextEditingController studentsFatherContactController = TextEditingController();
+   TextEditingController studentsFatherEmailController = TextEditingController();
+   TextEditingController studentsMotherFirstNameController = TextEditingController();
+   TextEditingController studentsMotherLastNameController = TextEditingController();
+   TextEditingController studentsMotherContactController = TextEditingController();
+   TextEditingController studentsMotherEmailController = TextEditingController();
+
  //PSA-specific controllers
    BehaviorSubject<String> psaSubTypeSubject = BehaviorSubject<String>.seeded('');
    BehaviorSubject<String> psaCategorySubject = BehaviorSubject<String>.seeded('');
@@ -388,7 +398,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         parentDetail.add(Resource.success(data: result.data?.data));
        parentInfo = result.data?.data;
-
         addParentDetails( result.data?.data??ParentInfo());
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -788,11 +797,19 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
     selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedParentTypeSubject.add("Father");
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    parentTypeController.text = detail.enquirerParent??'';
+    // parentTypeController.text = detail.enquirerParent??'';
+    selectedParentTypeSubject.add(detail.enquirerParent??'');
     globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
+    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
+    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
+    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
+    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
+    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
+    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
+    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
   }
 
   addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
@@ -823,8 +840,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
     psaBatchSubject.add(detail.psaBatch?.value?? '');
     selectedPsaBatchEntity = detail.psaBatch;
-    parentTypeController.text = detail.enquirerParent??'';
+    selectedParentTypeSubject.add(detail.enquirerParent??'');
     globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
+    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
+    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
+    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
+    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
+    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
+    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
+    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
   }
 
   addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
@@ -849,8 +874,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ivtCourseSubject.add(detail.course?.value?? '');
     ivtStreamSubject.add(detail.stream?.value?? '');
     ivtShiftSubject.add(detail.shift?.value?? '');
-    parentTypeController.text = detail.enquirerParent??'';
+    selectedParentTypeSubject.add(detail.enquirerParent??'');
     globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
+    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
+    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
+    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
+    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
+    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
+    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
+    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
   }
 
 
@@ -973,6 +1006,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
      accountHolderNameController.text =bankDetails.accountHolderName??"";
      accountTypeController.text=bankDetails.accountType??"";
      accountNumberController.text = bankDetails.accountNumber??"";
+     upiController.text = bankDetails.upiInfo??"";
   }
   Future<void> saveParentDetails(String enquiryId)async {
     ParentInfoEntity parentInfoEntity=ParentInfoEntity();
@@ -1064,5 +1098,86 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     residentialPinCodeController.text=contactDetails.residentialAddress?.pincode??"";
     contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
     await updateContactDetail(enquiryId,contactDetails);
+  }
+
+  Future<void> saveStudentDetail() async{
+    if((enquiryDetailArgs?.enquiryType??'') == "IVT"){
+      IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
+      ivtDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
+      ivtDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
+      ivtDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      ivtDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
+      ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
+      ivtDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
+      ivtDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity;
+      ivtDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolGradeEntity;
+      ivtDetailSubject?.value.board = selectedBoardEntity;
+      ivtDetailSubject?.value.course = selectedCourseEntity;
+      ivtDetailSubject?.value.stream = selectedStreamEntity;
+      ivtDetailSubject?.value.shift = selectedShiftEntity;
+      ivtDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      ivtDetail = ivtDetail.restore(ivtDetailSubject!.value);
+      updateIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', ivtDetail: ivtDetail);
+    }
+    else if((enquiryDetailArgs?.enquiryType??'') == "PSA"){
+      PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
+      psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
+      psaDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
+      psaDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      psaDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
+      psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
+      psaDetailSubject?.value.existingSchoolDetails?.name =  existingSchoolNameController.text;
+      psaDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity;
+      psaDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity;
+      psaDetailSubject?.value.psaBatch = selectedPsaBatchEntity;
+      psaDetailSubject?.value.psaCategory = selectedPsaCategoryEntity;
+      psaDetailSubject?.value.psaSubCategory = selectedPsaSubCategoryEntity;
+      psaDetailSubject?.value.psaSubType = selectedPsaSubTypeEntity;
+      psaDetailSubject?.value.psaPeriodOfService = selectedPeriodOfServiceEntity;
+      psaDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
+      psaDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
+      psaDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
+      psaDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
+      psaDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      psaDetail = psaDetail.restore(psaDetailSubject!.value);
+      updatePsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', psaDetail: psaDetail);
+    }
+    else{
+      NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
+      newAdmissionDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
+      newAdmissionDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      newAdmissionDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      newAdmissionDetailSubject?.value.studentDetails?.gender = selectedGenderEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.grade = selectedGradeEntity!;
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity!;
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity!;
+      newAdmissionDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      newAdmissionDetail = newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
+      updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
+    }
   }
 }

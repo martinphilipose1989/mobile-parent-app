@@ -5,6 +5,7 @@ import 'package:app/molecules/DetailsViewSchoolTour/school_tour_scheduled_detail
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_calendar/common_calendar_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -169,6 +170,8 @@ class ScheduleSchoolTourPageView
                               showAstreik: true,
                               labelText: "Comment",
                               hintText: "Add Comment",
+                              
+                              validator:(value)=> AppValidators.validateNotEmpty(value, "comment"),
                             ),
                           ),
                         ],

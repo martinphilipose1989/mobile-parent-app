@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -66,6 +68,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
       }).onError((error) {
+        log("${error.runtimeType}");
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -140,15 +143,34 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
 
   bool validateForm() {
     if (selectedDate.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select date."));
+      exceptionHandlerBinder.showError(
+        AppError(
+          type: ErrorType.uiEmptyField,
+          throwable: Exception(),
+          error: ErrorInfo(message: 'Please select date'),
+        ),
+      );
       return false;
     }
     else if (slotId.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select time."));
+
+      exceptionHandlerBinder.showError(
+        AppError(
+          type: ErrorType.uiEmptyField,
+          throwable: Exception(),
+          error: ErrorInfo(message: 'Please select time.'),
+        ),
+      );
       return false;
     }
     else if (commentController.text.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please enter comment."));
+      exceptionHandlerBinder.showError(
+        AppError(
+          type: ErrorType.uiEmptyField,
+          throwable: Exception(),
+          error: ErrorInfo(message: 'Please enter comment.'),
+        ),
+      );
       return false;
     }
     else {

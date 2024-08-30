@@ -140,7 +140,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       }
                     }
                   },
-                  text: model.showWidget.valueOrNull == 0 ? 'Cancel' : 'Save',
+                  text: 'Save',
                   borderColor: Theme
                       .of(context)
                       .primaryColor,
@@ -171,6 +171,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       else{
                         model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
                       }
+                    }
+                    else{
+                      return;
                     }
                   },
                   text: 'Next',

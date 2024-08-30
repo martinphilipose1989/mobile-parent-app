@@ -139,15 +139,17 @@ class UploadDocuments extends StatelessWidget {
                                     );
                                   },
                                   (r) {
-                                    model.uploadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(), file: r,index: index);
+                                    if(r!=null){
+                                      model.uploadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(), file: r,index: index);
+                                    }
                                   }
                                 );
                               },
                               child: SvgPicture.asset(
                                 AppImages.uploadIcon,
                                 colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26, // Desired color
-                                  BlendMode.srcIn, // Blend mode to apply the color
+                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26, 
+                                  BlendMode.srcIn, 
                                 ),
                               )
                             ),
@@ -160,8 +162,8 @@ class UploadDocuments extends StatelessWidget {
                               child: SvgPicture.asset(
                                 AppImages.import,
                                 colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value ? Colors.black : Colors.black26, // Desired color
-                                  BlendMode.srcIn, // Blend mode to apply the color
+                                  model.editRegistrationDetails.value ? Colors.black : Colors.black26,
+                                  BlendMode.srcIn, 
                                 ),
                               )
                             ),
@@ -177,8 +179,8 @@ class UploadDocuments extends StatelessWidget {
                               child: SvgPicture.asset(
                                 AppImages.delete,
                                 colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26, // Desired color
-                                  BlendMode.srcIn, // Blend mode to apply the color
+                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26,
+                                  BlendMode.srcIn,
                                 ),
                               )
                             ),

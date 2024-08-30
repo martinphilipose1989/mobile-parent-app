@@ -1,12 +1,18 @@
+import 'package:app/dependencies.dart';
+import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class UploadDocs extends StatelessWidget {
   EnquiryDetail? enquiryDetail;
-  UploadDocs({super.key, this.enquiryDetail});
+  RegistrationsDetailsViewModel model;
+  String? enquiryID;
+  UploadDocs({super.key, this.enquiryDetail, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +37,13 @@ class UploadDocs extends StatelessWidget {
           ),
         ),
         Column(
-          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (intdex)=> documentsNameAndIcons(enquiryDetail?.enquiryDocuments?[intdex].documentName??'')),
+          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> documentsNameAndIcons(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index)),
         ),
       ],
     );
   }
 
-  Widget documentsNameAndIcons(String title) {
+  Widget documentsNameAndIcons(BuildContext context,{required String title,EnquiryDocument? enquiryDocument,required ValueNotifier<bool> isUploaded,int? index}) {
     return Column(
       children: [
         CommonSizedBox.sizedBox(height: 10, width: 5),
@@ -58,11 +64,52 @@ class UploadDocs extends StatelessWidget {
               flex: 1,
               child: Row(
                 children: [
-                  const Icon(Icons.cloud_upload_outlined),
+                  GestureDetector(
+                    onTap: () async{
+                      if(!model.editRegistrationDetails.value){
+                        return;
+                      }
+                      var file = await getIt.get<FileUtilityPort>().pickFile();
+                      file.fold(
+                        (l) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: CommonText(text: l.error.message))
+                          );
+                        },
+                        (r) {
+                          if(r!=null){
+                            model.uploadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(), file: r,index: index);
+                          }
+                        }
+                      );
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Icon(
+                      Icons.cloud_upload_outlined,
+                      color: model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? AppColors.primary : Colors.black26,
+                    ),
+                  ),
+                   CommonSizedBox.sizedBox(height: 5, width: 8),
+                  GestureDetector(
+                    onTap: (){
+                      model.downloadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString());
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Icon(
+                      Icons.cloud_download_outlined,
+                       color: model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? AppColors.primary : Colors.black26,
+                    ),
+                  ),
                   CommonSizedBox.sizedBox(height: 5, width: 8),
-                  const Icon(Icons.cloud_download_outlined),
-                  CommonSizedBox.sizedBox(height: 5, width: 8),
-                  const Icon(Icons.delete_outlined),
+                  GestureDetector(
+                    child: Icon(
+                      Icons.delete_outlined,
+                      color: model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? AppColors.primary : Colors.black26
+                    ),
+                    onTap: (){
+                      model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(),index: index);
+                    },
+                  ),
                 ],
               ),
             )
