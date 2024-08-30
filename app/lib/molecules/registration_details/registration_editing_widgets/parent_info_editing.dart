@@ -108,7 +108,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
-                      onMultiSelect: (Val) {},
+                      onMultiSelect: (val) {},
                       onSingleSelect: (val){
                         val=model.fatherArea!;
                       },
@@ -116,7 +116,7 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: model.country,
+                      items: model.country.value,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Country',
@@ -135,7 +135,7 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: model.state,
+                      items: model.state.value,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'State',
@@ -148,7 +148,7 @@ class ParentInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
-                      items: model.city,
+                      items: model.city.value,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
@@ -273,17 +273,22 @@ class ParentInfoEditing extends StatelessWidget {
                       },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items:model.country,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Country',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.motherCountry!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.country,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items:model.country.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'Country',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.motherCountry!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -292,30 +297,40 @@ class ParentInfoEditing extends StatelessWidget {
                        controller: model.motherPinCodeController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.state,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'State',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.motherState!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.state,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.state.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'State',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.motherState!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items:model.city,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'City',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.motherCity!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.city,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items:model.city.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'City',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.motherCity!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -431,17 +446,22 @@ class ParentInfoEditing extends StatelessWidget {
                       },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items:model.country,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Country',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.guardianCountry!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.country,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items:model.country.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'Country',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.guardianCountry!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -450,30 +470,40 @@ class ParentInfoEditing extends StatelessWidget {
                       controller: model.guardianPinCodeController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.state,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'State',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.guardianState!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.state,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.state.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'State',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.guardianState!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.city,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'City',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val=model.guardianCity!;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.city,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.city.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'City',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val=model.guardianCity!;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -489,17 +519,22 @@ class ParentInfoEditing extends StatelessWidget {
                       },
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.country,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Country',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.guardianCountry;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.country,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.country.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'Country',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val!=model.guardianCountry;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
@@ -508,30 +543,40 @@ class ParentInfoEditing extends StatelessWidget {
                        controller: model.guardianPinCodeController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.state,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'State',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.state;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.state,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.state.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'State',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val!=model.state;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.city,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'City',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.guardianCity;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.city,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.city.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'City',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val!=model.guardianCity;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(

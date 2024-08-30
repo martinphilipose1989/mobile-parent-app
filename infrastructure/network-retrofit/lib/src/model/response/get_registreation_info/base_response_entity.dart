@@ -15,10 +15,10 @@ class SingleResponse<T> extends BaseResponse {
   T? data;
 
   SingleResponse({
-    required String message,
-    required int status,
+    required String super.message,
+    required int super.status,
     this.data,
-  }) : super(message: message, status: status);
+  });
 
   factory SingleResponse.fromJson(Map<String, dynamic> json,
       ) {

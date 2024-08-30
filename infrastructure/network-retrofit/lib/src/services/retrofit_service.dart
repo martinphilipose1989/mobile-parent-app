@@ -31,7 +31,6 @@ import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_resp
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
-import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -393,6 +392,11 @@ abstract class RetrofitService {
   
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.academicYear}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getAcademicYearAttribute(
+    {@Header("Authorization") required String token}
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.bloodGroup}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getBloodGroupAttribute(
     {@Header("Authorization") required String token}
   );
 }

@@ -47,9 +47,11 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       controller: model.enquiryNumberController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    const CommonTextFormField(
+                    CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Enquiry Date',
+                      readOnly: true,
+                      controller: model.enquiryDateController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -606,4 +608,95 @@ class EnquiryAndStudentEditing extends StatelessWidget {
     );
   }
 
+  Widget externalDetails(BuildContext context){
+  return  Column(
+      children: [
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Mother Tounge',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Nationality',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Place Of Birth',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Religion',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Caste',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CustomDropdownButton(
+          items: [],
+          width: MediaQuery.of(context).size.width,
+          isMutiSelect: false,
+          dropdownName: 'Sub Caste',
+          showAstreik: true,
+          onMultiSelect: (selectedValues) {},
+          showBorderColor: true,
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonTextFormField(
+          showAstreik: true,
+          labelText: 'Parent Email ID',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonTextFormField(
+          showAstreik: true,
+          labelText: 'Parent Mobile Number',
+        ),
+        const CommonTextFormField(
+          showAstreik: true,
+          labelText: 'Parent First Name',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonTextFormField(
+          showAstreik: true,
+          labelText: 'Parent Last Name',
+        ),
+        CommonSizedBox.sizedBox(height: 15, width: 10),
+        const CommonTextFormField(
+          showAstreik: true,
+          labelText: 'Global ID',
+        )
+      ],
+    );
+  }
 }

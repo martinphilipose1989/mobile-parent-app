@@ -6,6 +6,8 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class MedicalDetailsEditing extends StatelessWidget {
@@ -41,17 +43,30 @@ class MedicalDetailsEditing extends StatelessWidget {
           commonRadioButton: model.radioButtonController4,
           value: 'No',
         ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Year Of Hospitalization',
-           controller: model.yearOfHospitalizationController,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Reason Of Hospitalization',
-           controller:model.reasonOfHospitalizationController,
+        AppStreamBuilder<String?>(
+          stream: model.radioButtonController4.selectedItemStream,
+          initialData: model.radioButtonController.selectedItem,
+          dataBuilder: (context, data) {
+            return Column(
+              children: [
+                if((data??'') == "Yes")...[
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                  CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Year Of Hospitalization',
+                    keyboardType: const TextInputType.numberWithOptions(),
+                    controller: model.yearOfHospitalizationController,
+                  ),
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                   CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Reason Of Hospitalization',
+                    controller:model.reasonOfHospitalizationController,
+                  ),
+                ],
+              ],
+            );
+          },
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
         const CommonText(
@@ -68,12 +83,25 @@ class MedicalDetailsEditing extends StatelessWidget {
           commonRadioButton: model.radioButtonController5,
           value: 'No',
         ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Specify Disability',
-           controller: model.specificDisabilityController,
+        AppStreamBuilder<String?>(
+          stream: model.radioButtonController5.selectedItemStream,
+          initialData: model.radioButtonController5.selectedItem,
+          dataBuilder: (context, data) {
+            return Column(
+              children: [
+                if((data??'')== "Yes")...[
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                  CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Specify Disability',
+                     controller: model.specificDisabilityController,
+                  ),
+                ]
+              ],
+            );
+          },
         ),
+        
         CommonSizedBox.sizedBox(height: 15, width: 10),
         const CommonText(
           text: "Medical History",
@@ -89,11 +117,23 @@ class MedicalDetailsEditing extends StatelessWidget {
           commonRadioButton: model.radioButtonController7,
           value: 'No',
         ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Specify Medical History',
-           controller: model.specifyMedicalHistoryController,
+        AppStreamBuilder<String?>(
+          stream: model.radioButtonController7.selectedItemStream,
+          initialData: model.radioButtonController7.selectedItem,
+          dataBuilder: (context, data) {
+            return Column(
+              children: [
+                if((data??'') == "Yes")...[
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                  CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Specify Medical History',
+                     controller: model.specifyMedicalHistoryController,
+                  ),
+                ]
+              ],
+            );
+          },
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
         const CommonText(
@@ -110,24 +150,47 @@ class MedicalDetailsEditing extends StatelessWidget {
           commonRadioButton: model.radioButtonController8,
           value: 'No',
         ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Specify Allergies',
-           controller: model.specifyAllergiesController,
+        AppStreamBuilder<String?>(
+          stream: model.radioButtonController8.selectedItemStream,
+          initialData: model.radioButtonController8.selectedItem,
+          dataBuilder: (context, data) {
+            return Column(
+              children: [
+                if((data??'')=="Yes")...[
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                  CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Specify Allergies',
+                     controller: model.specifyAllergiesController,
+                  ),
+                ]
+              ],
+            );
+          },
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-            items: model.grade,
-            width: MediaQuery.of(context).size.width,
-            isMutiSelect: false,
-            dropdownName: 'Blood Group',
-            showAstreik: true,
-            onMultiSelect: (selectedValues) {},
-            showBorderColor: true,
-            onSingleSelect: (val){
-            val=model.bloodGroup!;
-          },
+        StreamBuilder<List<String>>(
+          stream: model.bloodGroup,
+          builder: (context, snapshot) {
+            return CustomDropdownButton(
+                items: model.bloodGroup.value,
+                width: MediaQuery.of(context).size.width,
+                isMutiSelect: false,
+                dropdownName: 'Blood Group',
+                showAstreik: true,
+                onMultiSelect: (selectedValues) {},
+                showBorderColor: true,
+                onSingleSelect: (val){
+                  var bloodGroup = model.bloodGroupAttribute?.firstWhere((element)=> (element.attributes?.group??'').contains(val));
+                  model.selectedBloodGroup = val;
+                  CommonDataClass group = CommonDataClass();
+                  group.id = bloodGroup?.id;
+                  group.value = bloodGroup?.attributes?.group;
+                  model.selectedBloodGroupEntity = group;
+                  model.selectedBloodGroup;
+                },
+            );
+          }
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
         const CommonText(
@@ -144,12 +207,24 @@ class MedicalDetailsEditing extends StatelessWidget {
           commonRadioButton: model.radioButtonController9,
           value: 'No',
         ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'Personalised Learning Needs',
-           controller: model.personalisedLearningNeedsController,
-        ),
+        AppStreamBuilder<String?>(
+          stream: model.radioButtonController9.selectedItemStream,
+          initialData: model.radioButtonController9.selectedItem,
+          dataBuilder: (context, data) {
+            return Column(
+              children: [
+                if((data??'')== "Yes")...[
+                  CommonSizedBox.sizedBox(height: 15, width: 10),
+                  CommonTextFormField(
+                    showAstreik: false,
+                    labelText: 'Personalised Learning Needs',
+                     controller: model.personalisedLearningNeedsController,
+                  ),
+                ]
+              ],
+            );
+          },
+        )
       ],
     );
   }

@@ -36,6 +36,22 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
+      model.getMdmAttribute(infoType: 'grade');
+        model.getMdmAttribute(infoType: 'schoolLocation');
+        model.getMdmAttribute(infoType: 'gender');
+        model.getMdmAttribute(infoType: 'board');
+        model.getMdmAttribute(infoType: 'course');
+        model.getMdmAttribute(infoType: 'stream');
+        model.getMdmAttribute(infoType: 'shift');
+        model.getMdmAttribute(infoType: 'batch');
+        model.getMdmAttribute(infoType: 'psaSubType');
+        model.getMdmAttribute(infoType: 'psaCategory');
+        model.getMdmAttribute(infoType: 'psaSubCategory');
+        model.getMdmAttribute(infoType: 'periodOfService');
+        model.getMdmAttribute(infoType: "country");
+        model.getMdmAttribute(infoType: "state");
+        model.getMdmAttribute(infoType: "city");
+        model.getMdmAttribute(infoType: "bloodGroup");
     }
     if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
       model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',

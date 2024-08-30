@@ -64,9 +64,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   final List<String> occupation=['Government','Private','Business'];
   final List<String> area=['Metro','Urban','SubUrban','Town'];
-  final List<String> country=['India','Pakistan','Nepal','Bangladesh'];
-  final List<String> state=['Maharashtra','Gujarat','Madhya Pradesh'];
-  final List<String> city=['Mumbai, Ahmedabad, Nagpur'];
+  // final List<String> country=['India','Pakistan','Nepal','Bangladesh'];
+  // final List<String> state=['Maharashtra','Gujarat','Madhya Pradesh'];
+  // final List<String> city=['Mumbai, Ahmedabad, Nagpur'];
   final List<String> grade = ['A','B','C','D'];
   final List<String> contactRelationshipOptions = [
     'Father',
@@ -194,7 +194,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController specifyMedicalHistoryController=TextEditingController();
   TextEditingController specifyAllergiesController=TextEditingController();
   TextEditingController personalisedLearningNeedsController=TextEditingController();
-  String? bloodGroup;
+  String? selectedBloodGroup;
 
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
@@ -206,6 +206,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController upiController = TextEditingController();
 
   //New Admission Details
+   TextEditingController enquiryDateController = TextEditingController();
    TextEditingController enquiryNumberController = TextEditingController();
    TextEditingController enquiryTypeController = TextEditingController();
    TextEditingController studentFirstNameController = TextEditingController();
@@ -286,6 +287,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> country = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> state = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> city = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> bloodGroup = BehaviorSubject<List<String>>.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -299,6 +304,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   List<MdmAttributeModel>? streamTypeAttribute;
   List<MdmAttributeModel>? courseTypeAttribute;
   List<MdmAttributeModel>? shiftTypeAttribute;
+  List<MdmAttributeModel>? countryAttribute;
+  List<MdmAttributeModel>? stateAttribute;
+  List<MdmAttributeModel>? cityAttribute;
+  List<MdmAttributeModel>? bloodGroupAttribute;
 
   CommonDataClass? selectedSchoolLocationEntity; 
   CommonDataClass? selectedGradeEntity;
@@ -315,6 +324,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   CommonDataClass? selectedStreamEntity;
   CommonDataClass? selectedCourseEntity;
   CommonDataClass? selectedShiftEntity;
+  CommonDataClass? selectedCountryEntity;
+  CommonDataClass? selectedStateEntity;
+  CommonDataClass? selectedCityEntity;
+  CommonDataClass? selectedBloodGroupEntity;
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
 
@@ -668,6 +681,22 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           shiftTypeAttribute = result.data?.data;
           shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
         }
+        if(infoType == "country"){
+          countryAttribute = result.data?.data;
+          country.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        } 
+        if(infoType == "state"){
+          stateAttribute = result.data?.data;
+          state.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "city"){
+          cityAttribute = result.data?.data;
+          city.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+        }
+        if(infoType == "bloodGroup"){
+          bloodGroupAttribute = result.data?.data;
+          bloodGroup.add(result.data?.data?.map((e)=> e.attributes?.group??'').toList()??[]);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -746,6 +775,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
@@ -768,6 +798,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
@@ -799,6 +830,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
+    enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = detail.studentDetails?.dob ?? ''; 
@@ -925,7 +957,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
     specifyMedicalHistoryController.text = medicalDetails.medicalHistoryDescription??"";
     specifyAllergiesController.text = medicalDetails.allergyDescription??"";
-    bloodGroup = medicalDetails.bloodGroup??"";
+    selectedBloodGroup = medicalDetails.bloodGroup??"";
     personalisedLearningNeedsController.text = medicalDetails.personalisedLearningNeedsDescription??'';
     radioButtonController4.selectItem((medicalDetails.isChildHospitalised??false) ? "Yes": "No");
     radioButtonController5.selectItem((medicalDetails.hasPhysicalDisability??false)? "Yes": "No");
@@ -1001,7 +1033,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     medicalDetails?.hasMedicalHistory = radioButtonController7.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasAllergy = radioButtonController8.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasPersonalisedLearningNeeds = radioButtonController9.selectedItem == "Yes" ? true : false;
-    medicalDetails?.bloodGroup = bloodGroup;
+    medicalDetails?.bloodGroup = selectedBloodGroupEntity;
     medicalDetails?.medicalHistoryDescription = specifyMedicalHistoryController.text.trim();
     medicalDetails?.allergyDescription = specifyAllergiesController.text.trim();
     medicalDetails?.personalisedLearningNeedsDescription = personalisedLearningNeedsController.text.trim(); 

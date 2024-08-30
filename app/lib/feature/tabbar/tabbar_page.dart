@@ -20,7 +20,7 @@ class TabbarPage extends BasePage<TabbarViewModel> {
 }
 
 class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<TabbarViewModel> provideBase() {
     return tabbarViewModelProvider;

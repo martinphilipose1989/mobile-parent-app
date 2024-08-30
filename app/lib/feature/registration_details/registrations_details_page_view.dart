@@ -46,9 +46,21 @@ class RegistrationsDetailsPageView
       case 3:
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 4:{
+        model.getMdmAttribute(infoType: 'grade');
+        model.getMdmAttribute(infoType: 'schoolLocation');
+        model.getMdmAttribute(infoType: 'gender');
+        model.getMdmAttribute(infoType: 'board');
+        model.getMdmAttribute(infoType: 'course');
+        model.getMdmAttribute(infoType: 'stream');
+        model.getMdmAttribute(infoType: 'shift');
+        model.getMdmAttribute(infoType: 'batch');
+        model.getMdmAttribute(infoType: 'psaSubType');
+        model.getMdmAttribute(infoType: 'psaCategory');
+        model.getMdmAttribute(infoType: 'psaSubCategory');
+        model.getMdmAttribute(infoType: 'periodOfService');
+        
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
-        
         return null;
       }
       case 5:
@@ -182,8 +194,7 @@ class RegistrationsDetailsPageView
     );
   }
 
-  Widget registrationsEditingWidgetAsPerIndex(
-      int index,  model) {
+  Widget registrationsEditingWidgetAsPerIndex(int index,RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
         return EnquiryAndStudentEditing(model: model,enquiryDetailArgs: enquiryDetailArgs??EnquiryDetailArgs(),);
@@ -202,15 +213,15 @@ class RegistrationsDetailsPageView
           model: model,
         );
       case 5:
-        return AppStreamBuilder<Resource<EnquiryDetail>>(
-        stream: model.enquiryDetail,
+        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
+          stream: model.enquiryDetail,
           initialData: Resource.none(),
           dataBuilder: (context, result) {
           switch (result?.status){
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data,);
+          return UploadDocs(enquiryDetail: result?.data?.data,);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:

@@ -7,8 +7,8 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class MedicalDetail extends StatelessWidget {
-  MedicalDetails? medicalDetails;
-  MedicalDetail({super.key, this.medicalDetails});
+  final MedicalDetails? medicalDetails;
+  const MedicalDetail({super.key, this.medicalDetails});
 
   @override
   Widget build(BuildContext context) {

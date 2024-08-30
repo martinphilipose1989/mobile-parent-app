@@ -8,7 +8,7 @@ class MedicalDetails{
     String? medicalHistoryDescription;
     bool? hasAllergy;
     String? allergyDescription;
-    String? bloodGroup;
+    dynamic bloodGroup;
     bool? hasPersonalisedLearningNeeds;
     String? personalisedLearningNeedsDescription;
 

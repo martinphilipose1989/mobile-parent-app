@@ -123,44 +123,59 @@ class ContactInfoEditing extends StatelessWidget {
                       controller:model.landMarkController
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.country,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Country',
-                      showAstreik: true,
-                      onSingleSelect: (val){
-                        val!=model.residentialCountry;
-                      },
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-
+                    StreamBuilder<List<String>>(
+                      stream: model.country,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.country.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'Country',
+                          showAstreik: true,
+                          onSingleSelect: (val){
+                            val!=model.residentialCountry;
+                          },
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                        
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.state,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'State',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.residentialState;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.state,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.state.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'State',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val!=model.residentialState;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.city,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'City',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.residentialCity;
-                      },
+                    StreamBuilder<List<String>>(
+                      stream: model.city,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                          items: model.city.value,
+                          width: MediaQuery.of(context).size.width,
+                          isMutiSelect: false,
+                          dropdownName: 'City',
+                          showAstreik: true,
+                          onMultiSelect: (selectedValues) {},
+                          showBorderColor: true,
+                          onSingleSelect: (val){
+                            val!=model.residentialCity;
+                          },
+                        );
+                      }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
