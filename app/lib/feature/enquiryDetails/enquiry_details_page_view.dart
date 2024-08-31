@@ -298,7 +298,7 @@ class EnquiriesDetailsPageView
                   bottom: 100,
                   child: data!
                       ? Menu(
-                          height: 395.h,
+                          height: 400.h,
                           menuData: model.menuData,
                           onTap: (index) {
                             actionOnMenu(index, context, model);

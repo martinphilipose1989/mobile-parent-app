@@ -130,7 +130,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       }
                     } else {
                       if (model.showWidget.value == 1) {
-                        model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                        print(model.fatherFirstNameController.text);
+
+                       model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 2) {
                         model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 3) {
@@ -191,7 +193,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             return Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: SizedBox(
-                  height: 56.h,
+                  height: 46.h,
                   width: 130.w,
                   child: CommonElevatedButton(
                     onPressed: () {
