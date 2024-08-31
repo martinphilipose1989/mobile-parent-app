@@ -189,7 +189,7 @@ abstract class RetrofitService {
   @POST('marketing/competency-test/{enquiryID}/reschedule')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> rescheduleCompetencyTest(
     {@Path('enquiryID') required String enquiryID,
-    @Body() required CompetencyTestCreationRequest competencyTestCreationRequest}
+    @Body() required CompetencyTestRescheduleRequest competencyTestCreationRequest}
   );
 
   @POST('marketing/competency-test/{enquiryID}/cancel')

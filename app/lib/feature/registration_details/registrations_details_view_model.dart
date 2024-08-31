@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -214,7 +215,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
    TextEditingController studentLastNameController = TextEditingController();
    TextEditingController dobController = TextEditingController()  ;
    TextEditingController existingSchoolNameController = TextEditingController();
-   TextEditingController globalIdController = TextEditingController();
+   TextEditingController fatherGlobalIdController = TextEditingController();
+   TextEditingController motherGlobalIdController = TextEditingController();
    TextEditingController parentTypeController = TextEditingController();
    TextEditingController studentsFatherFirstNameController = TextEditingController();
    TextEditingController studentsFatherLastNameController = TextEditingController();
@@ -236,6 +238,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
     BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
     BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
+
+    TextEditingController religionController = TextEditingController();
+    TextEditingController placeOfBirthController = TextEditingController();
+    TextEditingController motherTongueController = TextEditingController();
+    TextEditingController casteController = TextEditingController();
+    TextEditingController subCasteController = TextEditingController();
+    TextEditingController nationalityController = TextEditingController();
 
   final BehaviorSubject<bool> selectedGradeType =
       BehaviorSubject<bool>.seeded(false);
@@ -280,7 +289,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
 
-  final List<String> parentType = ["Mother","Father","Guardian"];
+  final List<String> parentType = ["Mother","Father"];
 
   final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
@@ -787,7 +796,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob??'').replaceAll('-', '/'); 
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
+    religionController.text = detail.studentDetails?.religion??'';
+    casteController.text = detail.studentDetails?.caste??'';
+    subCasteController.text = detail.studentDetails?.subCaste??'';
+    nationalityController.text = detail.studentDetails?.nationality??'';
+    motherTongueController.text = detail.studentDetails?.motherTongue??'';
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -801,7 +816,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedGenderEntity = detail.studentDetails?.gender;
     // parentTypeController.text = detail.enquirerParent??'';
     selectedParentTypeSubject.add(detail.enquirerParent??'');
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
+    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
     studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
     studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
     studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
@@ -818,7 +834,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
+    religionController.text = detail.studentDetails?.religion??'';
+    casteController.text = detail.studentDetails?.caste??'';
+    subCasteController.text = detail.studentDetails?.subCaste??'';
+    nationalityController.text = detail.studentDetails?.nationality??'';
+    motherTongueController.text = detail.studentDetails?.motherTongue??'';
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -841,7 +863,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     psaBatchSubject.add(detail.psaBatch?.value?? '');
     selectedPsaBatchEntity = detail.psaBatch;
     selectedParentTypeSubject.add(detail.enquirerParent??'');
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
+    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
     studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
     studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
     studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
@@ -858,7 +881,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate??'';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
+    religionController.text = detail.studentDetails?.religion??'';
+    casteController.text = detail.studentDetails?.caste??'';
+    subCasteController.text = detail.studentDetails?.subCaste??'';
+    nationalityController.text = detail.studentDetails?.nationality??'';
+    motherTongueController.text = detail.studentDetails?.motherTongue??'';
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -875,7 +904,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ivtStreamSubject.add(detail.stream?.value?? '');
     ivtShiftSubject.add(detail.shift?.value?? '');
     selectedParentTypeSubject.add(detail.enquirerParent??'');
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
+    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
     studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
     studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
     studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
@@ -1106,7 +1136,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ivtDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
       ivtDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
       ivtDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
-      ivtDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
       ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       ivtDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
@@ -1133,7 +1169,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
       psaDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
       psaDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
-      psaDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
       psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       psaDetailSubject?.value.existingSchoolDetails?.name =  existingSchoolNameController.text;
@@ -1161,9 +1203,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
       newAdmissionDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
-      newAdmissionDetailSubject?.value.studentDetails?.dob = dobController.text; 
+      newAdmissionDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
       newAdmissionDetailSubject?.value.studentDetails?.gender = selectedGenderEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.grade = selectedGradeEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity!;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity!;

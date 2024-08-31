@@ -97,7 +97,7 @@ class UploadDocs extends StatelessWidget {
                     behavior: HitTestBehavior.opaque,
                     child: Icon(
                       Icons.cloud_download_outlined,
-                       color: model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? AppColors.primary : Colors.black26,
+                       color: ((enquiryDocument?.file??'').isNotEmpty) ? AppColors.primary : Colors.black26,
                     ),
                   ),
                   CommonSizedBox.sizedBox(height: 5, width: 8),

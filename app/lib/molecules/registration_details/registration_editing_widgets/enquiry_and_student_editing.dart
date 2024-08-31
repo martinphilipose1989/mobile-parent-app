@@ -314,21 +314,20 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         ),
                     ),
                     const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      showAstreik: false,
-                      labelText: 'Gloabal ID',
-                      readOnly: true,
-                      controller: model.globalIdController,
-                    ),
-                    const SizedBox(height: 20,),
                     AppStreamBuilder<String>(
                       stream: model.selectedParentTypeSubject,
                       initialData: model.selectedParentTypeSubject.value, 
                       dataBuilder: (context, data) {
                         return Column(
                           children: [
-                            const SizedBox(height: 20,),
                             if((data??'') == "Father")...[
+                              CommonTextFormField(
+                                showAstreik: false,
+                                labelText: 'Gloabal ID',
+                                readOnly: true,
+                                controller: model.fatherGlobalIdController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
                               CommonTextFormField(
                                 showAstreik: true,
                                 labelText: 'Parent First Name',
@@ -354,6 +353,13 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               ),
                             ]
                             else...[
+                              CommonTextFormField(
+                                showAstreik: false,
+                                labelText: 'Gloabal ID',
+                                readOnly: true,
+                                controller: model.fatherGlobalIdController,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
                               CommonTextFormField(
                                 showAstreik: true,
                                 labelText: 'Parent First Name',
@@ -383,7 +389,41 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 20,),
-                    
+                    CommonTextFormField(
+                      labelText: 'Religion',
+                      showAstreik: true,
+                      controller: model.religionController,
+                    ),
+                    const SizedBox(height: 20,),
+                    CommonTextFormField(
+                      labelText: 'Place Of Birth',
+                      showAstreik: true,
+                      controller: model.placeOfBirthController,
+                    ),
+                    const SizedBox(height: 20),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Caste',
+                      controller: model.casteController,
+                    ),
+                    const SizedBox(height: 20,),
+                    CommonTextFormField(
+                      labelText: 'Sub Caste',
+                      showAstreik: true,
+                      controller: model.subCasteController,
+                    ),
+                    const SizedBox(height: 20,),
+                    CommonTextFormField(
+                      labelText: 'Nationality',
+                      showAstreik: true,
+                      controller: model.nationalityController,
+                    ),
+                    const SizedBox(height: 20,),
+                    CommonTextFormField(
+                      labelText: 'Mother Tounge',
+                      showAstreik: true,
+                      controller: model.motherTongueController,
+                    ),
                   ],
                 ),
               )

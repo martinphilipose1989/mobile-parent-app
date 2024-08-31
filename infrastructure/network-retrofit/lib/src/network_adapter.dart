@@ -304,7 +304,7 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest}) async {
+  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID,required CompetencyTestRescheduleRequest competencyTestCreationRequest}) async {
     var response = await safeApiCall(apiService.rescheduleCompetencyTest(enquiryID: enquiryID, competencyTestCreationRequest: competencyTestCreationRequest));
     return response.fold((l) {
       return Left(l);

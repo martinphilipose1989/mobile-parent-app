@@ -105,11 +105,10 @@ class CompetencyTestModel extends BasePageViewModel {
 
   Future<void> rescheduleCompetencyTest({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
-      CompetencyTestCreationRequest request = CompetencyTestCreationRequest(
-        competencyTestDate: selectedDate,
-        slotId: slotID,
+      CompetencyTestRescheduleRequest request = CompetencyTestRescheduleRequest(
+        date: selectedDate,
+        newSlotId: slotID,
         mode: selectedMode,
-        createdBy: 0
       );
       RescheduleCompetencyTestUseCaseParams params = RescheduleCompetencyTestUseCaseParams(
         competencyTestCreationRequest: request,

@@ -22,7 +22,7 @@ class RescheduleCompetencyTestUseCase extends BaseUseCase<BaseError,
 
 class RescheduleCompetencyTestUseCaseParams extends Params {
   final String enquiryID;
-  final CompetencyTestCreationRequest competencyTestCreationRequest;
+  final CompetencyTestRescheduleRequest competencyTestCreationRequest;
   RescheduleCompetencyTestUseCaseParams({
     required this.enquiryID,
     required this.competencyTestCreationRequest

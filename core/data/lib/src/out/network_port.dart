@@ -60,7 +60,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError,Slots>> getCompetencyTestSlots({required String enquiryID,required date});
   Future<Either<NetworkError,CompetencyTestDetailBase>> getCompetencyTestDetail({required String enquiryID,});
   Future<Either<NetworkError,CompetencyTestDetailBase>> createCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest});
-  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID,required CompetencyTestCreationRequest competencyTestCreationRequest});
+  Future<Either<NetworkError,CompetencyTestDetailBase>> rescheduleCompetencyTest({required String enquiryID,required CompetencyTestRescheduleRequest competencyTestCreationRequest});
   Future<Either<NetworkError,CompetencyTestDetailBase>> cancelCompetencyTest({required String enquiryID,required CancelCompetencyTestRequest cancelCompetencyTestRequest});
 
   Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});

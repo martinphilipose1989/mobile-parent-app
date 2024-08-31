@@ -162,7 +162,7 @@ class UploadDocuments extends StatelessWidget {
                               child: SvgPicture.asset(
                                 AppImages.import,
                                 colorFilter: ColorFilter.mode(
-                                  model.editRegistrationDetails.value ? Colors.black : Colors.black26,
+                                  ((enquiryDocument?.file??'').isNotEmpty) ? Colors.black : Colors.black26,
                                   BlendMode.srcIn, 
                                 ),
                               )

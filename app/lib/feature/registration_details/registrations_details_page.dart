@@ -121,23 +121,16 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
               dataBuilder: (context, data) {
                return CommonElevatedButton(
                   onPressed: () {
-                    if (model.showWidget.value == 0) {
-                      if(widget.routeFrom == "enquiry"){
-                        Navigator.pop(context);
-                      }
-                      else{
-                        model.editRegistrationDetails.add(false);
-                      }
-                    } else {
-                      if (model.showWidget.value == 1) {
-                        model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                      } else if (model.showWidget.value == 2) {
-                        model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                      } else if (model.showWidget.value == 3) {
-                        model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                      } else if (model.showWidget.value == 4) {
-                        model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                      }
+                    if(model.showWidget.value == 0){
+                      model.saveStudentDetail();
+                    } else if (model.showWidget.value == 1) {
+                      model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                    } else if (model.showWidget.value == 2) {
+                      model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                    } else if (model.showWidget.value == 3) {
+                      model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                    } else if (model.showWidget.value == 4) {
+                      model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
                     }
                   },
                   text: 'Save',
