@@ -35,7 +35,6 @@ class DashboardPageState
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 }

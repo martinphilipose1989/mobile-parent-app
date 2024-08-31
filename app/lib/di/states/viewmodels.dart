@@ -1,6 +1,7 @@
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
+import 'package:app/feature/create_qrcode/create_qrcode_viewmodel.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -137,4 +138,10 @@ final enquiriesAdmissionsJourneyProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesAdmissionsJourneyViewModel>(
   (ref) => EnquiriesAdmissionsJourneyViewModel(
       getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
+final createQrcodeViewModelProvider =
+    ChangeNotifierProvider.autoDispose<CreateQrcodeViewModel>(
+  (ref) => CreateQrcodeViewModel(
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>()),
 );

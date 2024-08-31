@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -29,13 +30,17 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   void onModelReady(TabbarViewModel model) {
     // bind exception handler here.
-    model.tabController = TabController(length: 4, vsync: this);
+
+    if (!model.isTabControllerInitialized()) {
+      // Safe to use tabController
+      model.tabController = TabController(length: 4, vsync: this);
+    }
+
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
   }
 
   @override
   Future<bool> onBackPressed({param}) {
-    // TODO: implement onBackPressed
     log("onback being called");
     return super.onBackPressed(param: true);
   }
@@ -64,11 +69,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           width: MediaQuery.of(context).size.width,
           color: Colors.purple,
         ),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.orange,
-        ),
+        const CreateQrcodePage()
       ],
     );
   }
@@ -166,11 +167,11 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.home),
+                    const Icon(Icons.school),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: 'Visit School',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

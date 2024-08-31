@@ -15,6 +15,7 @@ export 'src/model/error_info.dart';
 export 'src/model/user.dart';
 export 'src/shared_base.dart';
 export 'src/utils/mapper/base_layer_transformer.dart';
-
+export 'src/model/gatepass/request/create_qrcode_request_model.dart';
+export 'src/model/gatepass/response/create_qrcode_response_model.dart';
 //utils
 export 'src/utils/validator.dart';

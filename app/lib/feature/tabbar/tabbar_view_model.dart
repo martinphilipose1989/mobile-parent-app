@@ -10,6 +10,16 @@ class TabbarViewModel extends BasePageViewModel {
   TabbarViewModel(this.exceptionHandlerBinder);
   late TabController tabController;
 
+  bool isTabControllerInitialized() {
+    try {
+      tabController
+          .index; // Accessing any property will throw an error if not initialized
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   void onItemTapped(int index) {
     tabController.index = index;
   }

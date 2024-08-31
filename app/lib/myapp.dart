@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             designSize: const Size(390, 844),
             builder: (context, child) {
               return MaterialApp(
-                  key: UniqueKey(),
+                  // key: UniqueKey(),
                   // navigatorKey: AppService.navigatorKey,
                   builder: (context, widget) => ResponsiveBreakpoints.builder(
                         child: widget!,
