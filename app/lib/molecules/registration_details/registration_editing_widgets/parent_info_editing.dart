@@ -16,7 +16,6 @@ class ParentInfoEditing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(children: [
       Container(
         width: 358.w,

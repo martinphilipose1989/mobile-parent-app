@@ -184,7 +184,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             return Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: SizedBox(
-                  height: 56.h,
+                  height: 46.h,
                   width: 130.w,
                   child: CommonElevatedButton(
                     onPressed: () {

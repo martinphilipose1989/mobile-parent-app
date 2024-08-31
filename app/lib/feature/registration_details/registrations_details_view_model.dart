@@ -1040,52 +1040,55 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
   Future<void> saveParentDetails(String enquiryId)async {
     ParentInfoEntity parentInfoEntity=ParentInfoEntity();
-    fatherFirstNameController.text = parentInfoEntity.fatherDetails?.firstName??"";
-    fatherLastNameController.text=parentInfoEntity.fatherDetails?.lastName??"";
-    fatherAdharCardController.text=parentInfoEntity.fatherDetails?.aadharNumber??"";
-    fatherPanCardController.text=parentInfoEntity.fatherDetails?.panNumber??"";
-    qualificationController.text=parentInfoEntity.fatherDetails?.qualification??"";
-    organizationNameController.text = parentInfoEntity.fatherDetails?.organisationName??"";
-    designationController.text=parentInfoEntity.fatherDetails?.designationName??"";
-    pinCodeController.text=parentInfoEntity.fatherDetails?.pinCode??"";
-    fatherEmailController.text=parentInfoEntity.fatherDetails?.emailId??"";
-    fatherMobileController.text=parentInfoEntity.fatherDetails?.mobileNumber??"";
-    fatherOccupation=parentInfoEntity.fatherDetails?.occupation;
-    fatherArea=parentInfoEntity.fatherDetails?.area;
-    fatherCountry=parentInfoEntity.fatherDetails?.country;
-    fatherState=parentInfoEntity.fatherDetails?.state;
-    fatherCity=parentInfoEntity.fatherDetails?.city;
 
-    motherFirstNameController.text =parentInfoEntity.motherDetails?.firstName??"";
-    motherLastNameController.text = parentInfoEntity.motherDetails?.lastName??"";
-    motherAdharCardController.text = parentInfoEntity.motherDetails?.aadharNumber??"";
-    motherPanCardController.text=parentInfoEntity.motherDetails?.panNumber??"";
-    motherQualificationController.text=parentInfoEntity.motherDetails?.qualification??"";
-    motherOrganizationNameController.text=parentInfoEntity.motherDetails?.organisationName??"";
-    motherDesignationController.text =parentInfoEntity.motherDetails?.designationName??"";
-    motherOfficeAddressController.text=parentInfoEntity.motherDetails?.officeAddress??"";
-    motherPinCodeController.text=parentInfoEntity.motherDetails?.pinCode??"";
-    motherEmailController.text=parentInfoEntity.motherDetails?.emailId??"";
-    motherMobileController.text=parentInfoEntity.motherDetails?.mobileNumber??"";
-    motherOccupation=parentInfoEntity.motherDetails?.occupation;
-    motherArea=parentInfoEntity.motherDetails?.area;
-    motherCountry=parentInfoEntity.motherDetails?.country;
-    motherState=parentInfoEntity.motherDetails?.state;
-    motherCity=parentInfoEntity.motherDetails?.city;
 
-    guardianFirstNameController.text =parentInfoEntity.guardianDetails?.firstName??"";
-    guardianLastNameController.text = parentInfoEntity.guardianDetails?.lastName??"";
-    guardianAdharCardController.text = parentInfoEntity.guardianDetails?.aadharNumber??"";
-    guardianPanCardController.text=parentInfoEntity.guardianDetails?.panNumber??"";
-    guardianQualificationController.text=parentInfoEntity.guardianDetails?.qualification??"";
-    guardianOrganizationNameController.text=parentInfoEntity.guardianDetails?.organizationName??"";
-    guardianDesignationController.text =parentInfoEntity.guardianDetails?.designation??"";
-    guardianOfficeAddressController.text=parentInfoEntity.guardianDetails?.officeAddress??"";
-    guardianPinCodeController.text=parentInfoEntity.guardianDetails?.pincode??"";
-    guardianEmailController.text=parentInfoEntity.guardianDetails?.emailId??"";
-    guardianMobileController.text=parentInfoEntity.guardianDetails?.mobileNumber??"";
-    guardianOccupation=parentInfoEntity.guardianDetails?.occupation;
-    await updateParentDetail(enquiryId, parentInfoEntity);
+    parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text;
+    parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text;
+    parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text;
+    parentInfo?.fatherDetails?.panNumber=fatherPanCardController.text;
+    parentInfo?.fatherDetails?.qualification=fatherPanCardController.text;
+    parentInfo?.fatherDetails?.organisationName=organizationNameController.text;
+    parentInfo?.fatherDetails?.designationName=designationController.text;
+    parentInfo?.fatherDetails?.pinCode=pinCodeController.text;
+    parentInfo?.fatherDetails?.emailId=fatherEmailController.text;
+    parentInfo?.fatherDetails?.mobileNumber=fatherMobileController.text;
+    parentInfo?.fatherDetails?.occupation=fatherOccupation;
+    parentInfo?.fatherDetails?.area=fatherArea;
+    parentInfo?.fatherDetails?.country=fatherCountry;
+    parentInfo?.fatherDetails?.state=fatherState;
+    parentInfo?.fatherDetails?.city=fatherCity;
+
+    parentInfo?.motherDetails?.firstName=motherFirstNameController.text;
+    parentInfo?.motherDetails?.lastName=motherLastNameController.text;
+    parentInfo?.motherDetails?.aadharNumber=motherAdharCardController.text ;
+    parentInfo?.motherDetails?.panNumber=motherPanCardController.text;
+    parentInfo?.motherDetails?.qualification=motherQualificationController.text;
+    parentInfo?.motherDetails?.organisationName= motherOrganizationNameController.text;
+    parentInfo?.motherDetails?.designationName=motherDesignationController.text ;
+    parentInfo?.motherDetails?.officeAddress=motherOfficeAddressController.text;
+    parentInfo?.motherDetails?.pinCode=motherPinCodeController.text;
+    parentInfo?.motherDetails?.emailId=motherEmailController.text;
+    parentInfo?.motherDetails?.mobileNumber=motherMobileController.text;
+    parentInfo?.motherDetails?.occupation=motherOccupation;
+    parentInfo?.motherDetails?.area=motherArea;
+    parentInfo?.motherDetails?.country=motherCountry;
+    parentInfo?.motherDetails?.state=motherState;
+    parentInfo?.motherDetails?.city=motherCity;
+
+    parentInfo?.guardianDetails?.firstName=guardianFirstNameController.text;
+    parentInfo?.guardianDetails?.lastName=guardianLastNameController.text ;
+    parentInfo?.guardianDetails?.aadharNumber= guardianAdharCardController.text;
+    parentInfo?.guardianDetails?.panNumber=guardianPanCardController.text;
+    parentInfo?.guardianDetails?.qualification=guardianQualificationController.text;
+    parentInfo?.guardianDetails?.organizationName=guardianOrganizationNameController.text;
+    parentInfo?.guardianDetails?.designation=guardianDesignationController.text ;
+    parentInfo?.guardianDetails?.officeAddress=guardianOfficeAddressController.text;
+    parentInfo?.guardianDetails?.pincode=guardianPinCodeController.text;
+    parentInfo?.guardianDetails?.emailId=guardianEmailController.text;
+    parentInfo?.guardianDetails?.mobileNumber=guardianMobileController.text;
+    parentInfo?.guardianDetails?.occupation=guardianOccupation;
+   parentInfoEntity =parentInfoEntity.restore(parentInfo!);
+   await updateParentDetail(enquiryId, parentInfoEntity);
   }
   Future<void>saveMedicalDetails(String enquiryId) async{
     MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity();
@@ -1117,17 +1120,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     await updateBankDetail(enquiryId,bankDetailsEntity);
   }
   Future<void>saveContactDetails(String enquiryId)async{
-    ContactDetailsEntity contactDetails =ContactDetailsEntity();
-    houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
-    streetNameController.text= contactDetails.residentialAddress?.street??"";
-    landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-    emergencyContact=contactDetails.emergencyContact;
-    residentialCountryController.text=contactDetails.residentialAddress?.country??"";
-    residentialStateController.text=contactDetails.residentialAddress?.state??"";
-    residentialCityController.text= contactDetails.residentialAddress?.city??"";
-    residentialPinCodeController.text=contactDetails.residentialAddress?.pincode??"";
-    contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
-    await updateContactDetail(enquiryId,contactDetails);
+    ContactDetailsEntity contactDetail =ContactDetailsEntity();
+    contactDetails?.residentialAddress?.house=houseOrBuildingController.text;
+    contactDetails?.residentialAddress?.street=streetNameController.text;
+    contactDetails?.residentialAddress?.landmark=landMarkController.text;
+    contactDetails?.emergencyContact=emergencyContact;
+    contactDetails?.residentialAddress?.country=residentialCountryController.text;
+    contactDetails?.residentialAddress?.state=residentialStateController.text;
+    contactDetails?.residentialAddress?.city=residentialCityController.text;
+    contactDetails?.residentialAddress?.pincode=residentialPinCodeController.text;
+    contactDetails?.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
+    contactDetail=contactDetail.restore(contactDetails!);
+    await updateContactDetail(enquiryId,contactDetail);
   }
 
   Future<void> saveStudentDetail() async{
