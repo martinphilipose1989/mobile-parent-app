@@ -102,11 +102,47 @@ class CreateQrcodeResponseDataEntity
 
   @override
   CreateQrcodeResponseDataEntity restore(data) {
-    return CreateQrcodeResponseDataEntity();
+    return CreateQrcodeResponseDataEntity(
+        comingFrom: comingFrom,
+        companyName: companyName,
+        createdAt: createdAt,
+        gatepassNumber: gatepassNumber,
+        guestCount: guestCount,
+        id: id,
+        incomingTime: incomingTime,
+        issuedDate: issuedDate,
+        issuedTime: issuedTime,
+        otherPointOfContact: otherPointOfContact,
+        outgoingTime: outgoingTime,
+        pointOfContact: pointOfContact,
+        purposeOfVisitId: purposeOfVisitId,
+        qrCode: qrCode,
+        updatedAt: updatedAt,
+        v: v,
+        visitorId: visitorId,
+        visitorTypeId: visitorTypeId);
   }
 
   @override
   CreateQrcodeResponseData transform() {
-    return CreateQrcodeResponseData();
+    return CreateQrcodeResponseData(
+        comingFrom: comingFrom,
+        companyName: companyName,
+        createdAt: createdAt,
+        gatepassNumber: gatepassNumber,
+        guestCount: guestCount,
+        id: id,
+        incomingTime: incomingTime,
+        issuedDate: issuedDate,
+        issuedTime: issuedTime,
+        otherPointOfContact: otherPointOfContact,
+        outgoingTime: outgoingTime,
+        pointOfContact: pointOfContact,
+        purposeOfVisitId: purposeOfVisitId,
+        qrCode: qrCode,
+        updatedAt: updatedAt,
+        v: v,
+        visitorId: visitorId,
+        visitorTypeId: visitorTypeId);
   }
 }
