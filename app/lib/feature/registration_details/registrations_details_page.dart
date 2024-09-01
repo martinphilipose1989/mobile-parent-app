@@ -53,6 +53,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "city");
         model.getMdmAttribute(infoType: "bloodGroup");
     }
+    if(widget.routeFrom!="enquiry"){
+      model.enquiryDetails = widget.enquiryDetail;
+    }
     if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
       model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
         isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
@@ -104,79 +107,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
       initialData: model.editRegistrationDetails.value,
       dataBuilder: (context, data) {
         return data!
-            ? SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(
-                  width: 20,
-                ),
-            AppStreamBuilder(
-              stream: model.showWidget,
-              initialData: model.showWidget.value,
-              dataBuilder: (context, data) {
-               return CommonElevatedButton(
-                  onPressed: () {
-                    if(model.showWidget.value == 0){
-                      model.saveStudentDetail();
-                    } else if (model.showWidget.value == 1) {
-                      model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                    } else if (model.showWidget.value == 2) {
-                      model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                    } else if (model.showWidget.value == 3) {
-                      model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                    } else if (model.showWidget.value == 4) {
-                      model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                    }
-                  },
-                  text: 'Save',
-                  borderColor: Theme
-                      .of(context)
-                      .primaryColor,
-                  borderWidth: 1,
-                  width: 171.w,
-                  height: 40.h,
-                  textColor: Theme
-                      .of(context)
-                      .primaryColor,
-                );}),
-                CommonElevatedButton(
-                  onPressed: () {
-                    if (model.showWidget.value <= 5) {
-                      ProviderScope
-                          .containerOf(context)
-                          .read(commonChipListProvider)
-                          .highlightIndex
-                          .add(ProviderScope
-                          .containerOf(context)
-                          .read(commonChipListProvider)
-                          .highlightIndex
-                          .value +
-                          1);
-                      model.showWidget.add(model.showWidget.value + 1);
-                      if(model.showWidget.value == 5){
-                        model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
-                      }
-                      else{
-                        model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
-                      }
-                    }
-                    else{
-                      return;
-                    }
-                  },
-                  text: 'Next',
-                  backgroundColor: AppColors.accent,
-                  width: 171.w,
-                  height: 40.h,
-                  textColor: AppColors.accentOn,
-                ),
-              ],
-            ))
+            ? const SizedBox.shrink()
             : AppStreamBuilder<bool>(
           stream: model.showMenuOnFloatingButton,
           initialData: model.showMenuOnFloatingButton.value,
@@ -211,6 +142,93 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             );
           },
         );
+      },
+    );
+  }
+
+  @override
+  Widget? buildBottomNavigationBar(RegistrationsDetailsViewModel model) {
+    return AppStreamBuilder<bool>(
+      stream: model.editRegistrationDetails,
+      initialData: model.editRegistrationDetails.value,
+      dataBuilder: (context, data) {
+        return  data! ? SizedBox(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 12.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+              AppStreamBuilder(
+                stream: model.showWidget,
+                initialData: model.showWidget.value,
+                dataBuilder: (context, data) {
+                 return CommonElevatedButton(
+                    onPressed: () {
+                      if(model.showWidget.value == 0){
+                        if(model.studenEnquiryFormKey.currentState!.validate()){
+                          model.saveStudentDetail();
+                        }
+                      } else if (model.showWidget.value == 1) {
+                        model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                      } else if (model.showWidget.value == 2) {
+                        model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                      } else if (model.showWidget.value == 3) {
+                        model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                      } else if (model.showWidget.value == 4) {
+                        if(model.bankDetailsFormKey.currentState!.validate()){
+                          model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                        }
+                      }
+                    },
+                    text: 'Save',
+                    borderColor: Theme
+                        .of(context)
+                        .primaryColor,
+                    borderWidth: 1,
+                    width: 171.w,
+                    height: 40.h,
+                    textColor: Theme
+                        .of(context)
+                        .primaryColor,
+                  );}),
+                  CommonElevatedButton(
+                    onPressed: () {
+                      if (model.showWidget.value <= 5) {
+                        ProviderScope
+                            .containerOf(context)
+                            .read(commonChipListProvider)
+                            .highlightIndex
+                            .add(ProviderScope
+                            .containerOf(context)
+                            .read(commonChipListProvider)
+                            .highlightIndex
+                            .value +
+                            1);
+                        model.showWidget.add(model.showWidget.value + 1);
+                        if(model.showWidget.value == 5){
+                          model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
+                        }
+                        else{
+                          model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
+                        }
+                      }
+                      else{
+                        return;
+                      }
+                    },
+                    text: 'Next',
+                    backgroundColor: AppColors.accent,
+                    width: 171.w,
+                    height: 40.h,
+                    textColor: AppColors.accentOn,
+                  ),
+                ],
+              ),
+            )) : const SizedBox.shrink();
       },
     );
   }

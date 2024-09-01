@@ -82,7 +82,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     '600001',
   ];
 
+  final studenEnquiryFormKey = GlobalKey<FormState>();
+  final parentInfoFormKey = GlobalKey<FormState>();
+  final contactInfoFormKey = GlobalKey<FormState>();
+  final medicalDetailsFormKey = GlobalKey<FormState>();
+  final bankDetailsFormKey = GlobalKey<FormState>();
+
   EnquiryDetailArgs? enquiryDetailArgs;
+  EnquiryDetail? enquiryDetails;
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
   final PublishSubject<Resource<ParentInfo>> parentDetail =
@@ -350,6 +357,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
 
+  bool isDetailView(){
+    return enquiryDetails?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+  }
+
+
+  bool isDetailViewCompetency(){
+    return enquiryDetails?.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+  }
 
   Future<void> fetchAllDetails(String enquiryID,String infoType) async {
     exceptionHandlerBinder.handle(block: () {
@@ -1042,59 +1057,59 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ParentInfoEntity parentInfoEntity=ParentInfoEntity();
 
 
-    parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text;
-    parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text;
-    parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text;
-    parentInfo?.fatherDetails?.panNumber=fatherPanCardController.text;
-    parentInfo?.fatherDetails?.qualification=fatherPanCardController.text;
-    parentInfo?.fatherDetails?.organisationName=organizationNameController.text;
-    parentInfo?.fatherDetails?.designationName=designationController.text;
-    parentInfo?.fatherDetails?.pinCode=pinCodeController.text;
-    parentInfo?.fatherDetails?.emailId=fatherEmailController.text;
-    parentInfo?.fatherDetails?.mobileNumber=fatherMobileController.text;
+    parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text.trim();
+    parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text.trim();
+    parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text.trim();
+    parentInfo?.fatherDetails?.panNumber=fatherPanCardController.text.trim();
+    parentInfo?.fatherDetails?.qualification=fatherPanCardController.text.trim();
+    parentInfo?.fatherDetails?.organisationName=organizationNameController.text.trim();
+    parentInfo?.fatherDetails?.designationName=designationController.text.trim();
+    parentInfo?.fatherDetails?.pinCode=pinCodeController.text.trim();
+    parentInfo?.fatherDetails?.emailId=fatherEmailController.text.trim();
+    parentInfo?.fatherDetails?.mobileNumber=fatherMobileController.text.trim();
     parentInfo?.fatherDetails?.occupation=fatherOccupation;
     parentInfo?.fatherDetails?.area=fatherArea;
     parentInfo?.fatherDetails?.country=fatherCountry;
     parentInfo?.fatherDetails?.state=fatherState;
     parentInfo?.fatherDetails?.city=fatherCity;
 
-    parentInfo?.motherDetails?.firstName=motherFirstNameController.text;
-    parentInfo?.motherDetails?.lastName=motherLastNameController.text;
-    parentInfo?.motherDetails?.aadharNumber=motherAdharCardController.text ;
-    parentInfo?.motherDetails?.panNumber=motherPanCardController.text;
-    parentInfo?.motherDetails?.qualification=motherQualificationController.text;
-    parentInfo?.motherDetails?.organisationName= motherOrganizationNameController.text;
-    parentInfo?.motherDetails?.designationName=motherDesignationController.text ;
-    parentInfo?.motherDetails?.officeAddress=motherOfficeAddressController.text;
-    parentInfo?.motherDetails?.pinCode=motherPinCodeController.text;
-    parentInfo?.motherDetails?.emailId=motherEmailController.text;
-    parentInfo?.motherDetails?.mobileNumber=motherMobileController.text;
+    parentInfo?.motherDetails?.firstName=motherFirstNameController.text.trim();
+    parentInfo?.motherDetails?.lastName=motherLastNameController.text.trim();
+    parentInfo?.motherDetails?.aadharNumber=motherAdharCardController.text.trim();
+    parentInfo?.motherDetails?.panNumber=motherPanCardController.text.trim();
+    parentInfo?.motherDetails?.qualification=motherQualificationController.text.trim();
+    parentInfo?.motherDetails?.organisationName= motherOrganizationNameController.text.trim();
+    parentInfo?.motherDetails?.designationName=motherDesignationController.text.trim();
+    parentInfo?.motherDetails?.officeAddress=motherOfficeAddressController.text.trim();
+    parentInfo?.motherDetails?.pinCode=motherPinCodeController.text.trim();
+    parentInfo?.motherDetails?.emailId=motherEmailController.text.trim();
+    parentInfo?.motherDetails?.mobileNumber=motherMobileController.text.trim();
     parentInfo?.motherDetails?.occupation=motherOccupation;
     parentInfo?.motherDetails?.area=motherArea;
     parentInfo?.motherDetails?.country=motherCountry;
     parentInfo?.motherDetails?.state=motherState;
     parentInfo?.motherDetails?.city=motherCity;
 
-    parentInfo?.guardianDetails?.firstName=guardianFirstNameController.text;
-    parentInfo?.guardianDetails?.lastName=guardianLastNameController.text ;
-    parentInfo?.guardianDetails?.aadharNumber= guardianAdharCardController.text;
-    parentInfo?.guardianDetails?.panNumber=guardianPanCardController.text;
-    parentInfo?.guardianDetails?.qualification=guardianQualificationController.text;
-    parentInfo?.guardianDetails?.organizationName=guardianOrganizationNameController.text;
-    parentInfo?.guardianDetails?.designation=guardianDesignationController.text ;
-    parentInfo?.guardianDetails?.officeAddress=guardianOfficeAddressController.text;
-    parentInfo?.guardianDetails?.pincode=guardianPinCodeController.text;
-    parentInfo?.guardianDetails?.emailId=guardianEmailController.text;
-    parentInfo?.guardianDetails?.mobileNumber=guardianMobileController.text;
+    parentInfo?.guardianDetails?.firstName=guardianFirstNameController.text.trim();
+    parentInfo?.guardianDetails?.lastName=guardianLastNameController.text.trim();
+    parentInfo?.guardianDetails?.aadharNumber= guardianAdharCardController.text.trim();
+    parentInfo?.guardianDetails?.panNumber=guardianPanCardController.text.trim();
+    parentInfo?.guardianDetails?.qualification=guardianQualificationController.text.trim();
+    parentInfo?.guardianDetails?.organizationName=guardianOrganizationNameController.text.trim();
+    parentInfo?.guardianDetails?.designation=guardianDesignationController.text.trim();
+    parentInfo?.guardianDetails?.officeAddress=guardianOfficeAddressController.text.trim();
+    parentInfo?.guardianDetails?.pincode=guardianPinCodeController.text.trim();
+    parentInfo?.guardianDetails?.emailId=guardianEmailController.text.trim();
+    parentInfo?.guardianDetails?.mobileNumber=guardianMobileController.text.trim();
     parentInfo?.guardianDetails?.occupation=guardianOccupation;
-   parentInfoEntity =parentInfoEntity.restore(parentInfo!);
-   await updateParentDetail(enquiryId, parentInfoEntity);
+    parentInfoEntity =parentInfoEntity.restore(parentInfo!);
+    await updateParentDetail(enquiryId, parentInfoEntity);
   }
   Future<void>saveMedicalDetails(String enquiryId) async{
     MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity();
-    medicalDetails?.yearOfHospitalization = yearOfHospitalizationController.text;
-    medicalDetails?.reasonOfHopitalization = reasonOfHospitalizationController.text;
-    medicalDetails?.physicalDisabilityDescription = specificDisabilityController.text;
+    medicalDetails?.yearOfHospitalization = yearOfHospitalizationController.text.trim();
+    medicalDetails?.reasonOfHopitalization = reasonOfHospitalizationController.text.trim();
+    medicalDetails?.physicalDisabilityDescription = specificDisabilityController.text.trim();
     medicalDetails?.isChildHospitalised = radioButtonController4.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasPhysicalDisability = radioButtonController5.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasMedicalHistory = radioButtonController7.selectedItem == "Yes" ? true : false;
@@ -1109,26 +1124,26 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
   Future<void>saveBankDetails(String enquiryId)async{
     BankDetailsEntity bankDetailsEntity = BankDetailsEntity();
-    bankDetails?.ifscCode = ifscCodeController.text;
-    bankDetails?.bankName = bankNameController.text;
-    bankDetails?.branchName = branchNameController.text;
-    bankDetails?.accountHolderName = accountHolderNameController.text;
-    bankDetails?.accountType = accountTypeController.text;
-    bankDetails?.accountNumber = accountNumberController.text;
-    bankDetails?.upiInfo = upiController.text;
+    bankDetails?.ifscCode = ifscCodeController.text.trim();
+    bankDetails?.bankName = bankNameController.text.trim();
+    bankDetails?.branchName = branchNameController.text.trim();
+    bankDetails?.accountHolderName = accountHolderNameController.text.trim();
+    bankDetails?.accountType = accountTypeController.text.trim();
+    bankDetails?.accountNumber = accountNumberController.text.trim();
+    bankDetails?.upiInfo = upiController.text.trim();
     bankDetailsEntity = bankDetailsEntity.restore(bankDetails!);
     await updateBankDetail(enquiryId,bankDetailsEntity);
   }
   Future<void>saveContactDetails(String enquiryId)async{
     ContactDetailsEntity contactDetail =ContactDetailsEntity();
-    contactDetails?.residentialAddress?.house=houseOrBuildingController.text;
-    contactDetails?.residentialAddress?.street=streetNameController.text;
-    contactDetails?.residentialAddress?.landmark=landMarkController.text;
+    contactDetails?.residentialAddress?.house=houseOrBuildingController.text.trim();
+    contactDetails?.residentialAddress?.street=streetNameController.text.trim();
+    contactDetails?.residentialAddress?.landmark=landMarkController.text.trim();
     contactDetails?.emergencyContact=emergencyContact;
-    contactDetails?.residentialAddress?.country=residentialCountryController.text;
-    contactDetails?.residentialAddress?.state=residentialStateController.text;
-    contactDetails?.residentialAddress?.city=residentialCityController.text;
-    contactDetails?.residentialAddress?.pincode=residentialPinCodeController.text;
+    contactDetails?.residentialAddress?.country=residentialCountryController.text.trim();
+    contactDetails?.residentialAddress?.state=residentialStateController.text.trim();
+    contactDetails?.residentialAddress?.city=residentialCityController.text.trim();
+    contactDetails?.residentialAddress?.pincode=residentialPinCodeController.text.trim();
     contactDetails?.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
     contactDetail=contactDetail.restore(contactDetails!);
     await updateContactDetail(enquiryId,contactDetail);
@@ -1138,15 +1153,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     if((enquiryDetailArgs?.enquiryType??'') == "IVT"){
       IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
       ivtDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
-      ivtDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
-      ivtDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      ivtDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
+      ivtDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
       ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
       ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       ivtDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
@@ -1157,32 +1172,32 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ivtDetailSubject?.value.stream = selectedStreamEntity;
       ivtDetailSubject?.value.shift = selectedShiftEntity;
       ivtDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
       ivtDetail = ivtDetail.restore(ivtDetailSubject!.value);
       updateIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', ivtDetail: ivtDetail);
     }
     else if((enquiryDetailArgs?.enquiryType??'') == "PSA"){
       PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
       psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
-      psaDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
-      psaDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      psaDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
+      psaDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
       psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
+      psaDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
+      psaDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
+      psaDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
+      psaDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
+      psaDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
+      psaDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
       psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
-      psaDetailSubject?.value.existingSchoolDetails?.name =  existingSchoolNameController.text;
+      psaDetailSubject?.value.existingSchoolDetails?.name =  existingSchoolNameController.text.trim();
       psaDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity;
       psaDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity;
       psaDetailSubject?.value.psaBatch = selectedPsaBatchEntity;
@@ -1191,43 +1206,43 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       psaDetailSubject?.value.psaSubType = selectedPsaSubTypeEntity;
       psaDetailSubject?.value.psaPeriodOfService = selectedPeriodOfServiceEntity;
       psaDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
-      psaDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
-      psaDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
-      psaDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
-      psaDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
       psaDetail = psaDetail.restore(psaDetailSubject!.value);
       updatePsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', psaDetail: psaDetail);
     }
     else{
       NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
       newAdmissionDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity!;
-      newAdmissionDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text; 
-      newAdmissionDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text; 
+      newAdmissionDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
+      newAdmissionDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
       newAdmissionDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
       newAdmissionDetailSubject?.value.studentDetails?.gender = selectedGenderEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.grade = selectedGradeEntity!;
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text;
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text;
-      newAdmissionDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text.trim();
       newAdmissionDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity!;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity!;
       newAdmissionDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text;
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text;
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
+      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
       newAdmissionDetail = newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
       updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
     }

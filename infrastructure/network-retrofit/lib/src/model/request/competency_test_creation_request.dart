@@ -18,16 +18,15 @@ class CompetencyTestCreationRequest {
     });
 
     factory CompetencyTestCreationRequest.fromJson(Map<String, dynamic> json) => CompetencyTestCreationRequest(
-        competencyTestDate: json["competency_test_date"],
+        competencyTestDate: json["date"],
         slotId: json["slot_id"],
         mode: json["mode"],
         createdBy: json["created_by"],
     );
 
     Map<String, dynamic> toJson() => {
-        "competency_test_date": competencyTestDate,
+        "date": competencyTestDate,
         "slot_id": slotId,
         "mode": mode,
-        "created_by": createdBy,
     };
 }

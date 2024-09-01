@@ -10,6 +10,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
@@ -71,112 +72,7 @@ class EnquiriesDetailsPageState
       initialData: model.editRegistrationDetails.value,
       dataBuilder: (context, data) {
         return data!
-            ? AppStreamBuilder<int>(
-              stream: model.selectedValue,
-              initialData: model.selectedValue.value,
-              dataBuilder: (context, snapshot) {
-                return Container(
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        CommonElevatedButton(
-                          onPressed: () {
-                            if (model.selectedValue.value == 1) {
-                              model.selectedValue.add(model.selectedValue.value-1);
-                              if(widget.enquiryDetailArgs.enquiryType == "IVT"){
-                                  model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                                }
-                                else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
-                                  model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                                } 
-                                else{
-                                  model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                                }
-                            }
-                            else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          text: model.selectedValue.value == 0 ? 'Cancel' : 'Go Back',
-                          borderColor: Theme.of(context).primaryColor,
-                          borderWidth: 1,
-                          width: 171.w,
-                          height: 40.h,
-                          textColor: Theme.of(context).primaryColor,
-                        ),
-                        CommonElevatedButton(
-                          onPressed: () {
-                            if(model.selectedValue.value==0){
-                              // model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-                              if(widget.enquiryDetailArgs.enquiryType == "IVT"){
-                                IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
-                                ivtDetail.schoolLocation = ivtDetail.schoolLocation?.restore(model.selectedSchoolLocationEntity!);
-                                ivtDetail.studentDetails?.firstName = model.studentFirstNameController.text; 
-                                ivtDetail.studentDetails?.lastName = model.studentLastNameController.text; 
-                                ivtDetail.studentDetails?.dob = model.dobController.text; 
-                                ivtDetail.studentDetails?.gender = ivtDetail.studentDetails?.gender?.restore(model.selectedGenderEntity!);
-                                ivtDetail.studentDetails?.grade = ivtDetail.studentDetails?.grade?.restore(model.selectedGradeEntity!);
-                                ivtDetail.existingSchoolDetails?.name =  model.existingSchoolNameController.text;
-                                ivtDetail.existingSchoolDetails?.grade = ivtDetail.existingSchoolDetails?.grade?.restore(model.selectedExistingSchoolGradeEntity!);
-                                ivtDetail.existingSchoolDetails?.board = ivtDetail.existingSchoolDetails?.board?.restore(model.selectedExistingSchoolBoardEntity!);
-                                ivtDetail.board = CommonDataEntity(id: 1, value: model.selectedExistingSchoolBoardSubject.value);
-                                ivtDetail.course = CommonDataEntity(id: 1, value: "Course");
-                                ivtDetail.stream = CommonDataEntity(id: 1, value: "Stream");
-                                ivtDetail.shift = CommonDataEntity(id: 1, value: "Shift");
-                                model.updateIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', ivtDetail: ivtDetail);
-                              }
-                              else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
-                                PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
-                                psaDetail.schoolLocation = psaDetail.schoolLocation?.restore(model.selectedSchoolLocationEntity!);
-                                psaDetail.studentDetails?.firstName = model.studentFirstNameController.text; 
-                                psaDetail.studentDetails?.lastName = model.studentLastNameController.text; 
-                                psaDetail.studentDetails?.dob = model.dobController.text; 
-                                psaDetail.studentDetails?.gender = psaDetail.studentDetails?.gender?.restore(model.selectedGenderEntity!);
-                                psaDetail.studentDetails?.grade = psaDetail.studentDetails?.grade?.restore(model.selectedGradeEntity!);
-                                psaDetail.existingSchoolDetails?.name =  model.existingSchoolNameController.text;
-                                psaDetail.existingSchoolDetails?.grade = psaDetail.existingSchoolDetails?.grade?.restore(model.selectedExistingSchoolGradeEntity!);
-                                psaDetail.existingSchoolDetails?.board = psaDetail.existingSchoolDetails?.board?.restore(model.selectedExistingSchoolBoardEntity!);
-                                psaDetail.psaBatch = psaDetail.psaBatch?.restore(model.selectedPsaBatchEntity!);
-                                psaDetail.psaCategory = psaDetail.psaCategory?.restore(model.selectedPsaCategoryEntity!);
-                                psaDetail.psaSubCategory = psaDetail.psaSubCategory?.restore(model.selectedPsaSubCategoryEntity!);
-                                psaDetail.psaSubType = psaDetail.psaSubType?.restore(model.selectedPsaSubTypeEntity!);
-                                psaDetail.psaPeriodOfService = psaDetail.psaPeriodOfService?.restore(model.selectedPeriodOfServiceEntity!);
-                                model.updatePsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', psaDetail: psaDetail);
-                              }
-                              else{
-                                NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
-                                model.newAdmissionDetails?.value.schoolLocation = model.selectedSchoolLocationEntity!;
-                                model.newAdmissionDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text; 
-                                model.newAdmissionDetails?.value.studentDetails?.lastName = model.studentLastNameController.text; 
-                                model.newAdmissionDetails?.value.studentDetails?.dob = model.dobController.text; 
-                                model.newAdmissionDetails?.value.studentDetails?.gender = model.selectedGenderEntity!;
-                                model.newAdmissionDetails?.value.studentDetails?.grade = model.selectedGradeEntity!;
-                                model.newAdmissionDetails?.value.existingSchoolDetails?.name = model.existingSchoolNameController.text;
-                                model.newAdmissionDetails?.value.existingSchoolDetails?.grade = model.selectedExistingSchoolGradeEntity!;
-                                model.newAdmissionDetails?.value.existingSchoolDetails?.board = model.selectedExistingSchoolBoardEntity!;
-                                newAdmissionDetail = newAdmissionDetail.restore(model.newAdmissionDetails!.value);
-                                model.updateNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
-                              }
-                              // model.selectedValue.add(model.selectedValue.value+1);
-                            }
-                            else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          text: model.selectedValue.value == 0 ? 'Next' : "Submit",
-                          backgroundColor: AppColors.accent,
-                          width: 171.w,
-                          height: 40.h,
-                          textColor: AppColors.accentOn,
-                        ),
-                      ],
-                    ));
-              }
-            )
+            ? const SizedBox.shrink()
             : AppStreamBuilder<bool>(
                 stream: model.showMenuOnFloatingButton,
                 initialData: model.showMenuOnFloatingButton.value,
@@ -211,7 +107,117 @@ class EnquiriesDetailsPageState
 
   @override
   Widget? buildBottomNavigationBar(EnquiriesDetailsPageModel model) {
-    
-    return super.buildBottomNavigationBar(model);
+    return AppStreamBuilder<bool>(
+      stream: model.editRegistrationDetails,
+      initialData: model.editRegistrationDetails.value,
+      dataBuilder: (context, data) {
+        return data! ? AppStreamBuilder<int>(
+              stream: model.selectedValue,
+              initialData: model.selectedValue.value,
+              dataBuilder: (context, snapshot) {
+                return Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 12.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CommonElevatedButton(
+                          onPressed: () {
+                            if (model.selectedValue.value == 1) {
+                              model.selectedValue.add(model.selectedValue.value-1);
+                              if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                                  model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                }
+                                else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
+                                  model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                } 
+                                else{
+                                  model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                }
+                            }
+                            else{
+                              Navigator.pop(context);
+                            }
+                          },
+                          text: model.selectedValue.value == 0 ? 'Cancel' : 'Go Back',
+                          borderColor: Theme.of(context).primaryColor,
+                          borderWidth: 1,
+                          width: 171.w,
+                          height: 40.h,
+                          textColor: Theme.of(context).primaryColor,
+                        ),
+                        CommonElevatedButton(
+                          onPressed: () {
+                            if(model.selectedValue.value==0){
+                              // model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                              if(widget.enquiryDetailArgs.enquiryType == "IVT"){
+                                IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
+                                model.ivtDetails?.value.schoolLocation = model.selectedSchoolLocationEntity;
+                                model.ivtDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
+                                model.ivtDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
+                                model.ivtDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.ivtDetails?.value.studentDetails?.gender = model.selectedGenderEntity;
+                                model.ivtDetails?.value.studentDetails?.grade = model.selectedGradeEntity;
+                                model.ivtDetails?.value.existingSchoolDetails?.name =  model.existingSchoolNameController.text.trim();
+                                model.ivtDetails?.value.existingSchoolDetails?.grade = model.selectedExistingSchoolGradeEntity;
+                                model.ivtDetails?.value.existingSchoolDetails?.board = model.selectedExistingSchoolBoardEntity;
+                                model.ivtDetails?.value.board = model.selectedBoardEntity;
+                                model.ivtDetails?.value.course = model.selectedCourseEntity;
+                                model.ivtDetails?.value.stream = model.selectedStreamEntity;
+                                model.ivtDetails?.value.shift = model.selectedShiftEntity;
+                                ivtDetail = ivtDetail.restore(model.ivtDetails!.value);
+                                model.updateIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', ivtDetail: ivtDetail);
+                              }
+                              else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
+                                PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
+                                model.psaDetails?.value.schoolLocation = model.selectedSchoolLocationEntity;
+                                model.psaDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
+                                model.psaDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
+                                model.psaDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.psaDetails?.value.studentDetails?.gender = model.selectedGenderEntity;
+                                model.psaDetails?.value.studentDetails?.grade = model.selectedGradeEntity;
+                                model.psaDetails?.value.existingSchoolDetails?.name =  model.existingSchoolNameController.text.trim();
+                                model.psaDetails?.value.existingSchoolDetails?.grade = model.selectedExistingSchoolGradeEntity;
+                                model.psaDetails?.value.existingSchoolDetails?.board = model.selectedExistingSchoolBoardEntity;
+                                model.psaDetails?.value.psaBatch = model.selectedPsaBatchEntity;
+                                model.psaDetails?.value.psaCategory = model.selectedPsaCategoryEntity;
+                                model.psaDetails?.value.psaSubCategory = model.selectedPsaSubCategoryEntity;
+                                model.psaDetails?.value.psaSubType = model.selectedPsaSubTypeEntity;
+                                model.psaDetails?.value.psaPeriodOfService = model.selectedPeriodOfServiceEntity;
+                                psaDetail = psaDetail.restore(model.psaDetails!.value);
+                                model.updatePsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', psaDetail: psaDetail);
+                              }
+                              else{
+                                NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
+                                model.newAdmissionDetails?.value.schoolLocation = model.selectedSchoolLocationEntity!;
+                                model.newAdmissionDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
+                                model.newAdmissionDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
+                                model.newAdmissionDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.newAdmissionDetails?.value.studentDetails?.gender = model.selectedGenderEntity!;
+                                model.newAdmissionDetails?.value.studentDetails?.grade = model.selectedGradeEntity!;
+                                model.newAdmissionDetails?.value.existingSchoolDetails?.name = model.existingSchoolNameController.text.trim();
+                                model.newAdmissionDetails?.value.existingSchoolDetails?.grade = model.selectedExistingSchoolGradeEntity!;
+                                model.newAdmissionDetails?.value.existingSchoolDetails?.board = model.selectedExistingSchoolBoardEntity!;
+                                newAdmissionDetail = newAdmissionDetail.restore(model.newAdmissionDetails!.value);
+                                model.updateNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
+                              }
+                              // model.selectedValue.add(model.selectedValue.value+1);
+                            }
+                            else{
+                              Navigator.pop(context);
+                            }
+                          },
+                          text: model.selectedValue.value == 0 ? 'Next' : "Submit",
+                          backgroundColor: AppColors.accent,
+                          width: 171.w,
+                          height: 40.h,
+                          textColor: AppColors.accentOn,
+                        ),
+                      ],
+                    ));
+              }
+            ) : const SizedBox.shrink();
+      },
+    );
   }
 }

@@ -41,9 +41,6 @@ class AdmissionsDetailsPageView
           RoutePaths.competencyTestDetailPage,arguments: admissionDetail
         ) : Navigator.of(context)
            .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
-
-
-
       case 5:
        return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);

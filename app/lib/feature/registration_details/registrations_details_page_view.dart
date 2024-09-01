@@ -37,8 +37,10 @@ class RegistrationsDetailsPageView
       int index, BuildContext context, RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetailArgs
+        ) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs,});
       case 1:
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
@@ -64,11 +66,13 @@ class RegistrationsDetailsPageView
         return null;
       }
       case 5:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
+          RoutePaths.competencyTestDetailPage,arguments: enquiryDetailArgs
+        ) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetailArgs});
       case 6:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.enquiriesTimelinePage);
+            .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
       default:
         return null;
     }
@@ -145,7 +149,8 @@ class RegistrationsDetailsPageView
                           height: MediaQuery.of(context).size.height - 300,
                           width: double.infinity,
                           child: SingleChildScrollView(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom+50),
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom+55),
+                              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                               child: editRegistrationDetailsData!
                                   ? registrationsEditingWidgetAsPerIndex(
                                       model.showWidget.value, model)

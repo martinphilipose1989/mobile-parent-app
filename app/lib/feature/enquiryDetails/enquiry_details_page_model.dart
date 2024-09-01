@@ -45,6 +45,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   );
   late TabController tabController;
   bool visivilty = false;
+  final formKey = GlobalKey<FormState>();
+
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
   BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 

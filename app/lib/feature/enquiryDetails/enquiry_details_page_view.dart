@@ -70,7 +70,7 @@ class EnquiriesDetailsPageView
             .pushNamed(RoutePaths.scheduleSchoolTourPage);
       case 5:
         return Navigator.of(context)
-            .pushNamed(RoutePaths.enquiriesTimelinePage);
+            .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
       default:
         return null;
     }

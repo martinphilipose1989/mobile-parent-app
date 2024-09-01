@@ -1,12 +1,14 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -68,26 +70,27 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         if(!snapshot.hasData){
                           return const CircularProgressIndicator();
                         }else {
-                          return SizedBox(
-                          height: 48,
-                          child: CustomDropdownButton(
-                            width: MediaQuery.of(context).size.width,
-                            onMultiSelect: (selectedValues) {},
-                            dropdownName: 'School Location',
-                            showAstreik: true,
-                            showBorderColor: true,
-                            singleSelectItemSubject: model.selectedSchoolLocationSubject,
-                            items: snapshot.data??[],
-                            onSingleSelect: (selectedValue) {
-                              if (model.schoolLocationTypes.value.contains(selectedValue)) {
-                                var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                model.selectedSchoolLocationType.add(true);
-                                model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
-                                model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
-                              }
-                            },
-                            isMutiSelect: false,
-                            ),
+                          return Form(
+                            key: model.studenEnquiryFormKey,
+                            child: CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'School Location',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              singleSelectItemSubject: model.selectedSchoolLocationSubject,
+                              items: snapshot.data??[],
+                              onSingleSelect: (selectedValue) {
+                                if (model.schoolLocationTypes.value.contains(selectedValue)) {
+                                  var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedSchoolLocationType.add(true);
+                                  model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
+                                  model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value)=> AppValidators.validateDropdown(value, 'school location'),
+                              ),
                           );
                         }
                       }
@@ -114,38 +117,40 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    const Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    CommonSizedBox.sizedBox(height: 20, width: 10),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: "Student First Name",
-                      controller: model.studentFirstNameController,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: "Student Last Name",
-                      controller: model.studentLastNameController,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    StreamBuilder<List<String>>(
-                      stream: model.gradeTypes,
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData){
-                          return const CircularProgressIndicator();
-                        }else{
-                          return SizedBox(
-                            height: 48,
-                            child: CustomDropdownButton(
+                child: Form(
+                  key: model.studenEnquiryFormKey,
+                  child: Column(
+                    children: [
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                      ),
+                      CommonSizedBox.sizedBox(height: 20, width: 10),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: "Student First Name",
+                        controller: model.studentFirstNameController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Student first name'),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: "Student Last Name",
+                        controller: model.studentLastNameController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Student last name'),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StreamBuilder<List<String>>(
+                        stream: model.gradeTypes,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          }else{
+                            return CustomDropdownButton(
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'Grade',
@@ -162,43 +167,42 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               },
                               singleSelectItemSubject: model.selectedGradeSubject,
                               isMutiSelect: false,
-                            ),
+                              validator: (value)=> AppValidators.validateDropdown(value, 'grade'),
+                            );
+                          }
+                        }
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: "DOB",
+                        controller: model.dobController,
+                        readOnly: true,
+                        onTap: ()async{
+                          DateTime? dob = await showDatePicker(
+                            context: context,
+                            firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
+                            lastDate: DateTime.now(),
+                            barrierDismissible: true
                           );
-                        }
-                      }
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: "DOB",
-                      controller: model.dobController,
-                      readOnly: true,
-                      onTap: ()async{
-                        DateTime? dob = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
-                          lastDate: DateTime.now(),
-                          barrierDismissible: true
-                        );
-                        if(dob!=null){
-                          model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    StreamBuilder<List<String>>(
-                      stream: model.gender,
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData){
-                          return const CircularProgressIndicator();
-                        } else {
-                          return SizedBox(
-                            height: 48,
-                            child: CustomDropdownButton(
+                          if(dob!=null){
+                            model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
+                          }
+                        },
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Date of birth',checkSpecialCharacters: false),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StreamBuilder<List<String>>(
+                        stream: model.gender,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'Gender',
@@ -215,27 +219,26 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 }
                               },
                               isMutiSelect: false,
-                            ),
-                          );
+                              validator: (value)=> AppValidators.validateDropdown(value, 'gender'),
+                            );
+                          }
                         }
-                      }
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: 'Existing School Name',
-                      controller: model.existingSchoolNameController,
-                    ),
-                    const SizedBox(height: 20,),
-                    StreamBuilder<List<String>>(
-                      stream: model.existingSchoolBoard,
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData){
-                          return const CircularProgressIndicator();
-                        } else {
-                          return SizedBox(
-                            height: 48,
-                            child: CustomDropdownButton(
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Existing School Name',
+                        controller: model.existingSchoolNameController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Existing school name'),
+                      ),
+                      const SizedBox(height: 20,),
+                      StreamBuilder<List<String>>(
+                        stream: model.existingSchoolBoard,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'Existing School Board',
@@ -252,21 +255,19 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 }
                               },
                               isMutiSelect: false,
-                            ),
-                          );
+                              validator: (value)=> AppValidators.validateDropdown(value, 'existing school board'),
+                            );
+                          }
                         }
-                      }
-                    ),
-                    const SizedBox(height: 20,),
-                    StreamBuilder<List<String>>(
-                      stream: model.gradeTypes,
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData){
-                          return const CircularProgressIndicator();
-                        } else {
-                          return SizedBox(
-                            height: 48,
-                            child: CustomDropdownButton(
+                      ),
+                      const SizedBox(height: 20,),
+                      StreamBuilder<List<String>>(
+                        stream: model.gradeTypes,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'Existing School Grade',
@@ -283,148 +284,171 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 }
                               },
                               isMutiSelect: false,
-                            ),
-                          );
+                              validator: (value)=> AppValidators.validateDropdown(value, 'existing school grade'),
+                            );
+                          }
                         }
-                      }
-                    ),
-                    if((enquiryDetailArgs.enquiryType??"") == "PSA")...[
+                      ),
+                      if((enquiryDetailArgs.enquiryType??"") == "PSA")...[
+                        const SizedBox(height: 20,),
+                        psaDetails()
+                      ],
+                      if((enquiryDetailArgs.enquiryType??"") == "IVT")...[
+                        const SizedBox(height: 20,),
+                        ivtDetails()
+                      ],
                       const SizedBox(height: 20,),
-                      psaDetails()
-                    ],
-                    if((enquiryDetailArgs.enquiryType??"") == "IVT")...[
+                      CustomDropdownButton(
+                        width: MediaQuery.of(context).size.width,
+                        onMultiSelect: (selectedValues) {},
+                        dropdownName: 'Select Parent Type',
+                        showAstreik: true,
+                        showBorderColor: true,
+                        items: model.parentType,
+                        singleSelectItemSubject: model.selectedParentTypeSubject,
+                        onSingleSelect: (selectedValue) {
+                          model.selectedParentTypeSubject.value = selectedValue;
+                        },
+                        isMutiSelect: false,
+                        validator: (value)=> AppValidators.validateDropdown(value, 'parent type'),
+                      ),
                       const SizedBox(height: 20,),
-                      ivtDetails()
+                      AppStreamBuilder<String>(
+                        stream: model.selectedParentTypeSubject,
+                        initialData: model.selectedParentTypeSubject.value, 
+                        dataBuilder: (context, data) {
+                          return Column(
+                            children: [
+                              if((data??'') == "Father")...[
+                                CommonTextFormField(
+                                  showAstreik: false,
+                                  labelText: 'Gloabal ID',
+                                  readOnly: true,
+                                  controller: model.fatherGlobalIdController,
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent First Name',
+                                  controller: model.studentsFatherFirstNameController,
+                                  validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent first name'),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Last Name',
+                                  controller: model.studentsFatherLastNameController,
+                                  validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent last name'),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Email ID',
+                                  controller: model.studentsFatherEmailController,
+                                  validator: (value)=> AppValidators.validateEmail(value),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Mobile Number',
+                                  controller: model.studentsFatherContactController,
+                                  validator: (value)=> AppValidators.validateMobile(value),
+                                  maxLength: 10,
+                                  keyboardType: TextInputType.phone,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                ),
+                              ]
+                              else...[
+                                CommonTextFormField(
+                                  showAstreik: false,
+                                  labelText: 'Gloabal ID',
+                                  readOnly: true,
+                                  controller: model.motherAdharCardController,
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent First Name',
+                                  controller: model.studentsMotherFirstNameController,
+                                  validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent first name'),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Last Name',
+                                  controller: model.studentsMotherLastNameController,
+                                  validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent last name'),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Email ID',
+                                  controller: model.studentsMotherEmailController,
+                                  validator: (value)=> AppValidators.validateEmail(value),
+                                ),
+                                CommonSizedBox.sizedBox(height: 15, width: 10),
+                                CommonTextFormField(
+                                  showAstreik: true,
+                                  labelText: 'Parent Mobile Number',
+                                  maxLength: 10,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  keyboardType: TextInputType.phone,
+                                  controller: model.studentsMotherContactController,
+                                  validator: (value)=> AppValidators.validateMobile(value),
+                                ),
+                              ]
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        labelText: 'Religion',
+                        showAstreik: true,
+                        controller: model.religionController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'religion'),
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        labelText: 'Place Of Birth',
+                        showAstreik: true,
+                        controller: model.placeOfBirthController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'place of birth'),
+                      ),
+                      const SizedBox(height: 20),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Caste',
+                        controller: model.casteController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'caste'),
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        labelText: 'Sub Caste',
+                        showAstreik: true,
+                        controller: model.subCasteController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'sub caste'),
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        labelText: 'Nationality',
+                        showAstreik: true,
+                        controller: model.nationalityController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'nationality'),
+                      ),
+                      const SizedBox(height: 20,),
+                      CommonTextFormField(
+                        labelText: 'Mother Tounge',
+                        showAstreik: true,
+                        controller: model.motherTongueController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'mother tounge'),
+                      ),
                     ],
-                    const SizedBox(height: 20,),
-                    SizedBox(
-                        height: 48,
-                        child: CustomDropdownButton(
-                          width: MediaQuery.of(context).size.width,
-                          onMultiSelect: (selectedValues) {},
-                          dropdownName: 'Select Parent Type',
-                          showAstreik: true,
-                          showBorderColor: true,
-                          items: model.parentType,
-                          singleSelectItemSubject: model.selectedParentTypeSubject,
-                          onSingleSelect: (selectedValue) {
-                            model.selectedParentTypeSubject.value = selectedValue;
-                          },
-                          isMutiSelect: false,
-                        ),
-                    ),
-                    const SizedBox(height: 20,),
-                    AppStreamBuilder<String>(
-                      stream: model.selectedParentTypeSubject,
-                      initialData: model.selectedParentTypeSubject.value, 
-                      dataBuilder: (context, data) {
-                        return Column(
-                          children: [
-                            if((data??'') == "Father")...[
-                              CommonTextFormField(
-                                showAstreik: false,
-                                labelText: 'Gloabal ID',
-                                readOnly: true,
-                                controller: model.fatherGlobalIdController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent First Name',
-                                controller: model.studentsFatherFirstNameController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Last Name',
-                                controller: model.studentsFatherLastNameController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Email ID',
-                                controller: model.studentsFatherEmailController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Mobile Number',
-                                controller: model.studentsFatherContactController,
-                              ),
-                            ]
-                            else...[
-                              CommonTextFormField(
-                                showAstreik: false,
-                                labelText: 'Gloabal ID',
-                                readOnly: true,
-                                controller: model.fatherGlobalIdController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent First Name',
-                                controller: model.studentsMotherFirstNameController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Last Name',
-                                controller: model.studentsMotherLastNameController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Email ID',
-                                controller: model.studentsMotherEmailController,
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                labelText: 'Parent Mobile Number',
-                                controller: model.studentsMotherContactController,
-                              ),
-                            ]
-                          ],
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      labelText: 'Religion',
-                      showAstreik: true,
-                      controller: model.religionController,
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      labelText: 'Place Of Birth',
-                      showAstreik: true,
-                      controller: model.placeOfBirthController,
-                    ),
-                    const SizedBox(height: 20),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: 'Caste',
-                      controller: model.casteController,
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      labelText: 'Sub Caste',
-                      showAstreik: true,
-                      controller: model.subCasteController,
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      labelText: 'Nationality',
-                      showAstreik: true,
-                      controller: model.nationalityController,
-                    ),
-                    const SizedBox(height: 20,),
-                    CommonTextFormField(
-                      labelText: 'Mother Tounge',
-                      showAstreik: true,
-                      controller: model.motherTongueController,
-                    ),
-                  ],
+                  ),
                 ),
               )
             ]),
@@ -441,26 +465,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'PSA Sub Type',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.psaSubTypeSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.psaSubType.value.contains(selectedValue)) {
-                      var psaSubType = model.psaSubTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedPsaSubType.add(true);
-                      model.selectedPsaSubTypeEntity?.id = psaSubType?.id;
-                      model.selectedPsaSubTypeEntity?.value = psaSubType?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'PSA Sub Type',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.psaSubTypeSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.psaSubType.value.contains(selectedValue)) {
+                    var psaSubType = model.psaSubTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedPsaSubType.add(true);
+                    model.selectedPsaSubTypeEntity?.id = psaSubType?.id;
+                    model.selectedPsaSubTypeEntity?.value = psaSubType?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'PSA sub type'),
               );
             }
           }
@@ -472,26 +494,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'PSA Category',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.psaCategorySubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.psaCategory.value.contains(selectedValue)) {
-                      var psaCategory = model.psaCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedPsaCategory.add(true);
-                      model.selectedPsaCategoryEntity?.id = psaCategory?.id;
-                      model.selectedPsaCategoryEntity?.value = psaCategory?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'PSA Category',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.psaCategorySubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.psaCategory.value.contains(selectedValue)) {
+                    var psaCategory = model.psaCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedPsaCategory.add(true);
+                    model.selectedPsaCategoryEntity?.id = psaCategory?.id;
+                    model.selectedPsaCategoryEntity?.value = psaCategory?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'PSA category'),
               );
             }
           }
@@ -503,26 +523,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'PSA Sub Category',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.psaSubCategorySubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.psaSubCategory.value.contains(selectedValue)) {
-                      var psaSubCategory = model.psaSubCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedPsaSubCategory.add(true);
-                      model.selectedPsaSubCategoryEntity?.id = psaSubCategory?.id;
-                      model.selectedPsaSubCategoryEntity?.value = psaSubCategory?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'PSA Sub Category',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.psaSubCategorySubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.psaSubCategory.value.contains(selectedValue)) {
+                    var psaSubCategory = model.psaSubCategoryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedPsaSubCategory.add(true);
+                    model.selectedPsaSubCategoryEntity?.id = psaSubCategory?.id;
+                    model.selectedPsaSubCategoryEntity?.value = psaSubCategory?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'PSA sub category'),
               );
             }
           }
@@ -534,26 +552,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'Period of service',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.periodOfServiceSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.periodOfService.value.contains(selectedValue)) {
-                    var periodOfService = model.periodOfServiceAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedPeriodOfService.add(true);
-                      model.selectedPeriodOfServiceEntity?.id = periodOfService?.id;
-                      model.selectedPeriodOfServiceEntity?.value = periodOfService?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'Period of service',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.periodOfServiceSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.periodOfService.value.contains(selectedValue)) {
+                  var periodOfService = model.periodOfServiceAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedPeriodOfService.add(true);
+                    model.selectedPeriodOfServiceEntity?.id = periodOfService?.id;
+                    model.selectedPeriodOfServiceEntity?.value = periodOfService?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'period of service'),
               );
             }
           }
@@ -565,26 +581,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'PSA batch',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.psaBatchSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.psaBatch.value.contains(selectedValue)) {
-                      var psaBatch = model.psaBatchAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedPsaBatch.add(true);
-                      model.selectedPsaBatchEntity?.id = psaBatch?.id;
-                      model.selectedPsaBatchEntity?.value = psaBatch?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'PSA batch',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.psaBatchSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.psaBatch.value.contains(selectedValue)) {
+                    var psaBatch = model.psaBatchAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedPsaBatch.add(true);
+                    model.selectedPsaBatchEntity?.id = psaBatch?.id;
+                    model.selectedPsaBatchEntity?.value = psaBatch?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'PSA batch'),
               );
             }
           }
@@ -602,26 +616,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'Board',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.ivtBoardSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.existingSchoolBoard.value.contains(selectedValue)) {
-                      var board = model.existingSchoolBoardAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selecteBoard.add(true);
-                      model.selectedBoardEntity?.id = board?.id;
-                      model.selectedBoardEntity?.value = board?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'Board',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.ivtBoardSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.existingSchoolBoard.value.contains(selectedValue)) {
+                    var board = model.existingSchoolBoardAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selecteBoard.add(true);
+                    model.selectedBoardEntity?.id = board?.id;
+                    model.selectedBoardEntity?.value = board?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'board'),
               );
             }
           }
@@ -633,26 +645,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'Course',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.ivtCourseSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.course.value.contains(selectedValue)) {
-                      var course = model.courseTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedCourse.add(true);
-                      model.selectedCourseEntity?.id = course?.id;
-                      model.selectedCourseEntity?.value = course?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'Course',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.ivtCourseSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.course.value.contains(selectedValue)) {
+                    var course = model.courseTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedCourse.add(true);
+                    model.selectedCourseEntity?.id = course?.id;
+                    model.selectedCourseEntity?.value = course?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'course'),
               );
             }
           }
@@ -664,26 +674,24 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'Stream',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.ivtStreamSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.stream.value.contains(selectedValue)) {
-                      var stream = model.streamTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedStream.add(true);
-                      model.selectedStreamEntity?.id = stream?.id;
-                      model.selectedStreamEntity?.value = stream?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'Stream',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.ivtStreamSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.stream.value.contains(selectedValue)) {
+                    var stream = model.streamTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedStream.add(true);
+                    model.selectedStreamEntity?.id = stream?.id;
+                    model.selectedStreamEntity?.value = stream?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'stream'),
               );
             }
           }
@@ -695,122 +703,28 @@ class EnquiryAndStudentEditing extends StatelessWidget {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();
             } else {
-              return SizedBox(
-                height: 48,
-                child: CustomDropdownButton(
-                  width: MediaQuery.of(context).size.width,
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'Shift',
-                  showAstreik: true,
-                  showBorderColor: true,
-                  items: snapshot.data??[],
-                  singleSelectItemSubject: model.ivtShiftSubject,
-                  onSingleSelect: (selectedValue) {
-                    if (model.shift.value.contains(selectedValue)) {
-                      var board = model.shiftTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                      model.selectedShift.add(true);
-                      model.selectedShiftEntity?.id = board?.id;
-                      model.selectedShiftEntity?.value = board?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                ),
+              return CustomDropdownButton(
+                width: MediaQuery.of(context).size.width,
+                onMultiSelect: (selectedValues) {},
+                dropdownName: 'Shift',
+                showAstreik: true,
+                showBorderColor: true,
+                items: snapshot.data??[],
+                singleSelectItemSubject: model.ivtShiftSubject,
+                onSingleSelect: (selectedValue) {
+                  if (model.shift.value.contains(selectedValue)) {
+                    var board = model.shiftTypeAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    model.selectedShift.add(true);
+                    model.selectedShiftEntity?.id = board?.id;
+                    model.selectedShiftEntity?.value = board?.attributes?.name;
+                  }
+                },
+                isMutiSelect: false,
+                validator: (value)=> AppValidators.validateDropdown(value, 'shift'),
               );
             }
           }
         ),
-      ],
-    );
-  }
-
-  Widget externalDetails(BuildContext context){
-  return  Column(
-      children: [
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Mother Tounge',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Nationality',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Place Of Birth',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Religion',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Caste',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CustomDropdownButton(
-          items: [],
-          width: MediaQuery.of(context).size.width,
-          isMutiSelect: false,
-          dropdownName: 'Sub Caste',
-          showAstreik: true,
-          onMultiSelect: (selectedValues) {},
-          showBorderColor: true,
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Parent Email ID',
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Parent Mobile Number',
-        ),
-        const CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Parent First Name',
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Parent Last Name',
-        ),
-        CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
-          showAstreik: true,
-          labelText: 'Global ID',
-        )
       ],
     );
   }

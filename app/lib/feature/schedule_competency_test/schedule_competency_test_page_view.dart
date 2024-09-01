@@ -90,7 +90,6 @@ class ScheduleCompetencyTestPageView
                           CommonCalendarPage(
                             initialDate: DateTime.parse((competencyTestDetails?.competencyTestDate??DateTime.now().toString())),
                             onDateSelected: (date) {
-                            model.setSelectedDate(date);
                             model.selectedDate=date;
                             model.fetchTimeSlots(date, enquiryDetailArgs.enquiryId??'');
                           }),

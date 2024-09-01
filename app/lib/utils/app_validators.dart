@@ -39,9 +39,16 @@ class AppValidators {
   }
 
   // Method to check if text is empty
-  static String? validateNotEmpty(String? value, String fieldName) {
+  static String? validateNotEmpty(String? value, String fieldName,{bool checkSpecialCharacters = true}) {
     if (value == null || value.isEmpty) {
       return '$fieldName cannot be empty';
+    }
+    if(checkSpecialCharacters){
+      String pattern = r'^[a-zA-Z\s]+$';
+      RegExp regex = RegExp(pattern);
+      if (!regex.hasMatch(value)) {
+        return '$fieldName cannot contain special characters';
+      }
     }
     return null;
   }

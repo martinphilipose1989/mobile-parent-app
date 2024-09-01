@@ -1,4 +1,5 @@
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_inputformatters.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class CommonTextFormField extends StatelessWidget {
   final bool showAstreik;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
   final void Function()? onTap;
 
   const CommonTextFormField(
@@ -36,6 +38,7 @@ class CommonTextFormField extends StatelessWidget {
       this.showSearchIcon = false,
       this.prefix,
       this.inputFormatters,
+      this.maxLength,
       this.onTap});
 
   @override
@@ -44,7 +47,10 @@ class CommonTextFormField extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         TextFormField(
-          inputFormatters: inputFormatters,
+          inputFormatters: [
+            RemoveEmojiInputFormatter(),
+            if (inputFormatters != null) ...inputFormatters!,
+          ],
           controller: controller,
           cursorHeight: 20,
           readOnly: readOnly,
@@ -54,10 +60,12 @@ class CommonTextFormField extends StatelessWidget {
           validator: validator,
           obscureText: obscureText,
           maxLines: maxLines ?? 1,
+          maxLength: maxLength,
           decoration: decoration ??
               InputDecoration(
                 prefixIcon: prefix,
                 hintText: hintText ?? '',
+                counterText: '',
                 errorStyle: AppTypography.caption.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.failure,
