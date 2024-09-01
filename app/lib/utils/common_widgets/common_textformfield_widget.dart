@@ -43,26 +43,29 @@ class CommonTextFormField extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        SizedBox(
-          height: 48.h,
-          child: TextFormField(
-            inputFormatters: inputFormatters,
-            controller: controller,
-            cursorHeight: 20,
-            readOnly: readOnly,
-            style:
-                AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
-            keyboardType: keyboardType,
-            validator: validator,
-            obscureText: obscureText,
-            maxLines: maxLines ?? 1,
-            decoration: decoration ??
-                InputDecoration(
-                  prefixIcon: prefix,
-                  hintText: hintText ?? '',
+        TextFormField(
+          inputFormatters: inputFormatters,
+          controller: controller,
+          cursorHeight: 20,
+          readOnly: readOnly,
+          style:
+              AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
+          keyboardType: keyboardType,
+          validator: validator,
+          obscureText: obscureText,
+          maxLines: maxLines ?? 1,
+          decoration: decoration ??
+              InputDecoration(
+                prefixIcon: prefix,
+                hintText: hintText ?? '',
+                errorStyle: AppTypography.caption.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.failure,
+                  fontSize: 12.sp,
+                  height: 0.5.h
                 ),
-            onTap: onTap,
-          ),
+              ),
+          onTap: onTap,
         ),
         Positioned(
           left: 6,

@@ -89,7 +89,9 @@ class ScheduleSchoolTourPageView
                           const SizedBox(
                             height: 10,
                           ),
-                          CommonCalendarPage(onDateSelected: (date) {
+                          CommonCalendarPage(
+                            initialDate: DateTime.parse((schoolVisitDetail?.schoolVisitDate??DateTime.now().toString())),
+                            onDateSelected: (date) {
                             model.selectedDate = date;
                             model.fetchTimeSlotsSchoolVisit(date, enquiryDetailArgs.enquiryId??'');
                           }),
@@ -163,15 +165,14 @@ class ScheduleSchoolTourPageView
                           SizedBox(
                             height: 25.h,
                           ),
-                          SizedBox(
-                            height: 48,
+                          Form(
+                            key: model.formKey,
                             child: CommonTextFormField(
                               controller: model.commentController,
                               showAstreik: true,
                               labelText: "Comment",
                               hintText: "Add Comment",
-                              
-                              validator:(value)=> AppValidators.validateNotEmpty(value, "comment"),
+                              validator:(value)=> AppValidators.validateNotEmpty(value, "Comment"),
                             ),
                           ),
                         ],
@@ -209,22 +210,31 @@ class ScheduleSchoolTourPageView
                       ),],
                       CommonElevatedButton(
                         onPressed: () {                      
-                          if (model.validateForm()) {
-                            CommonPopups().showConfirm(
-                              context,
-                              isReschedule? 'Confirm Reschedule Details':'Confirm Appointment Details',
-                              'Please Confirm the below details',
-                              'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
-                              'Selected Time: ${model.selectedTime}',
-                              'Comments: ${model.commentController.text}',
-                              (shouldRoute) {
-                                if(isReschedule){
-                                    model.rescheduleSchoolTour(enquiryID: enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate);
-                                } else{
-                                    model.scheduleSchoolTour(enquiryID:enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate);
-                                }
-                              },
-                            );
+                          if (model.formKey.currentState!.validate()) {
+                            var data = model.validateForm();
+                            if(data.isNotEmpty){
+                              final snackBar = SnackBar(
+                                content: Text(data),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                            else {
+                              CommonPopups().showConfirm(
+                                context,
+                                isReschedule? 'Confirm Reschedule Details':'Confirm Appointment Details',
+                                'Please Confirm the below details',
+                                'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
+                                'Selected Time: ${model.selectedTime}',
+                                'Comments: ${model.commentController.text}',
+                                (shouldRoute) {
+                                  if(isReschedule){
+                                      model.rescheduleSchoolTour(enquiryID: enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate);
+                                  } else{
+                                      model.scheduleSchoolTour(enquiryID:enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate);
+                                  }
+                                },
+                              );
+                            }
                           }
         
                         },

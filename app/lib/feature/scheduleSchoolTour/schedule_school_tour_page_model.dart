@@ -21,8 +21,11 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   
   final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
 
+  final formKey = GlobalKey<FormState>();
   final dateSubject = BehaviorSubject<String>();
   String enquiryID = "";
+  bool isReschedule = false;
+  SchoolVisitDetail? schoolVisitDetails;
   TextEditingController commentController = TextEditingController();
 
   String slotId = "";
@@ -36,7 +39,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   DateFormat dateFormat = DateFormat('d MMMM yyyy');
   DateFormat dateFormat1 = DateFormat('yyyy-MM-dd');
 
-  final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
+  PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
   final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
   Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
   final PublishSubject<Resource<SchoolVisitDetailBase>> _scheduleSchoolVisit = PublishSubject();
@@ -120,8 +123,15 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           schoolVisitTimeSlots.add(result.data?.data??[]);
           if((result.data?.data??[]).isNotEmpty){
-            slotId = result.data?.data?[0].id??'';
-            selectedTime = result.data?.data?[0].slot??'';
+            if(isReschedule){
+              slotId = schoolVisitDetails?.slotId??'';
+              selectedTime = schoolVisitDetails?.slot??'';
+              selectedTimeIndex.add((result.data?.data??[]).indexWhere((slots)=> slots.slot == selectedTime));
+            }
+            else {
+              slotId = result.data?.data?[0].id??'';
+              selectedTime = result.data?.data?[0].slot??'';
+            }
           }
         }
         // activeStep.add()
@@ -141,40 +151,15 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
     notifyListeners();
   }
 
-  bool validateForm() {
+  String validateForm() {    
     if (selectedDate.isEmpty) {
-      exceptionHandlerBinder.showError(
-        AppError(
-          type: ErrorType.uiEmptyField,
-          throwable: Exception(),
-          error: ErrorInfo(message: 'Please select date'),
-        ),
-      );
-      return false;
+      return 'Please select date';
     }
     else if (slotId.isEmpty) {
-
-      exceptionHandlerBinder.showError(
-        AppError(
-          type: ErrorType.uiEmptyField,
-          throwable: Exception(),
-          error: ErrorInfo(message: 'Please select time.'),
-        ),
-      );
-      return false;
-    }
-    else if (commentController.text.isEmpty) {
-      exceptionHandlerBinder.showError(
-        AppError(
-          type: ErrorType.uiEmptyField,
-          throwable: Exception(),
-          error: ErrorInfo(message: 'Please enter comment.'),
-        ),
-      );
-      return false;
+      return "Please select time";
     }
     else {
-      return true;
+      return "";
     }
   }
 }

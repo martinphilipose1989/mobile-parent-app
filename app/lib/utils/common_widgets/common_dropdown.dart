@@ -17,6 +17,8 @@ class CustomDropdownButton extends StatefulWidget {
   final Function(List<String> selectedValues) onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
   final BehaviorSubject<String>? singleSelectItemSubject;
+  final FormFieldValidator<String>? validator;
+
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -26,6 +28,7 @@ class CustomDropdownButton extends StatefulWidget {
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
+      this.validator,
       required this.onMultiSelect,
       this.onSingleSelect,
       this.singleSelectItemSubject});
@@ -76,7 +79,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           clipBehavior: Clip.none,
           children: [
             DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
+              child: DropdownButtonFormField2<String>(
                 isExpanded: true,
                 hint: Row(
                   children: [
@@ -93,6 +96,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     ),
                   ],
                 ),
+                validator: widget.validator,
                 items: widget.items
                     .map((String? item) => DropdownMenuItem<String>(
                           value: item,
@@ -114,20 +118,28 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   widget.onSingleSelect!(value ?? "");
                   singleSelectItemSubject.add(value ?? "");
                 },
-                buttonStyleData: ButtonStyleData(
-                  height: 68.h,
-                  width: widget.width ?? 175.w,
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                        color: widget.showBorderColor
-                            ? Colors.black26
-                            : Colors.transparent,
-                        width: 1),
-                    color: Colors.white,
-                  ),
+                decoration: InputDecoration(
+                  errorStyle: AppTypography.caption.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.failure,
+                  fontSize: 12.sp,
+                  height: 0.5.h
                 ),
+                ),
+                // buttonStyleData: ButtonStyleData(
+                //   height: 68.h,
+                //   width: widget.width ?? 175.w,
+                //   padding: const EdgeInsets.only(left: 14, right: 14),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(6),
+                //     border: Border.all(
+                //         color: widget.showBorderColor
+                //             ? Colors.black26
+                //             : Colors.transparent,
+                //         width: 1),
+                //     color: Colors.white,
+                //   ),
+                // ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.keyboard_arrow_down_sharp,

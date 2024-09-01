@@ -5,6 +5,7 @@ import 'package:app/molecules/DetailsViewSchoolTour/school_tour_scheduled_detail
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -63,34 +64,36 @@ class CancelSchoolTourPageView
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 48,
-                        child: CustomDropdownButton(
-                          width: MediaQuery.of(context).size.width,
-                          onMultiSelect: (selectedValues) {},
-                          dropdownName: 'Reason For Cancellation',
-                          showAstreik: true,
-                          showBorderColor: true,
-                          items: model.reasonTypes,
-                          onSingleSelect: (selectedValue) {
-                            if (model.reasonTypes.contains(selectedValue)) {
-                              model.selectedReasonType.add(true);
-                              model.selectedReason = selectedValue;
-                            }
-                          },
-                          isMutiSelect: false,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 48,
-                        child: CommonTextFormField(
-                          showAstreik: true,
-                          controller: model.controller,
-                          labelText: "Comment",
-                          hintText: "",
+                      Form(
+                        key: model.formKey,
+                        child: Column(
+                          children: [
+                            CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Reason For Cancellation',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              items: model.reasonTypes,
+                              onSingleSelect: (selectedValue) {
+                                if (model.reasonTypes.contains(selectedValue)) {
+                                  model.selectedReasonType.add(true);
+                                  model.selectedReason = selectedValue;
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value) => AppValidators.validateDropdown(value, "cancellation reason"),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CommonTextFormField(
+                              showAstreik: true,
+                              controller: model.controller,
+                              labelText: "Comment",
+                              validator: (value)=> AppValidators.validateNotEmpty(value, "Comment"),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -109,18 +112,18 @@ class CancelSchoolTourPageView
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                   child: CommonElevatedButton(
                     onPressed: () {
-                      if(model.validateForm()){
+                      if(model.formKey.currentState!.validate()){
                         CommonPopups().showConfirm(
-                              context,
-                              'Confirm Cancellation Details',
-                              'Please Confirm the below details',
-                              'Date: ${model.dateFormat.format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString())))}',
-                              'Selected Time: ${model.schoolVisitDetailData?.slot??''}',
-                              'Comments: ${model.controller.text}',
-                              (shouldRoute) {
-                                model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'');
-                              },
-                            );
+                          context,
+                          'Confirm Cancellation Details',
+                          'Please Confirm the below details',
+                          'Date: ${model.dateFormat.format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString())))}',
+                          'Selected Time: ${model.schoolVisitDetailData?.slot??''}',
+                          'Comments: ${model.controller.text}',
+                          (shouldRoute) {
+                            model.cacnelSchoolVisit(enquiryID: enquiryDetailArgs.enquiryId??'',schoolVisitID: schoolVisitDetail.id??'');
+                          },
+                        );
                       }
                     },
                     text: 'Cancel Tour',

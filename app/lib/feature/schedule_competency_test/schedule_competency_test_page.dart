@@ -29,7 +29,19 @@ class ScheduleCompetencyTestPageState extends AppBasePageState<CompetencyTestMod
 
   @override
   void onModelReady(CompetencyTestModel model) {
-    model.fetchTimeSlots(DateFormat('dd-MM-yyyy').format(DateTime.now()),widget.enquiryDetailArgs.enquiryId??'');
+    model.enquiryID = widget.enquiryDetailArgs.enquiryId??'';
+    model.isReschedule == widget.isReschedule;
+
+    if(widget.isReschedule){
+      model.competencyTestDetail = widget.competencyTestDetails;
+      model.selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.parse((widget.competencyTestDetails?.competencyTestDate??DateTime.now().toString())));
+      model.selectedMode = widget.competencyTestDetails?.mode??'';
+      model.fetchTimeSlots(model.selectedDate, widget.enquiryDetailArgs.enquiryId??'');
+    }
+    else{
+      model.fetchTimeSlots(DateFormat('dd-MM-yyyy').format(DateTime.now()), widget.enquiryDetailArgs.enquiryId??'');
+      model.getDefaultDate();
+    }
     model.getDefaultDate();
     model.exceptionHandlerBinder.bind(
       context,

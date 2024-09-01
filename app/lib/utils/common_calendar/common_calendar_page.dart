@@ -10,12 +10,14 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CommonCalendarPage extends StatelessWidget {
   final Function(String) onDateSelected;
-  const CommonCalendarPage({super.key, required this.onDateSelected});
+  final DateTime? initialDate;
+  const CommonCalendarPage({super.key, required this.onDateSelected,this.initialDate});
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CommonCalendarModel>(
         builder: (context, model, child) {
+          model!.selectedDate.value = initialDate??DateTime.now();
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -26,7 +28,7 @@ class CommonCalendarPage extends StatelessWidget {
               child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: AppStreamBuilder<DateTime>(
-                    stream: model!.selectedDate,
+                    stream: model.selectedDate,
                     initialData: model.selectedDate.value,
                     dataBuilder: (context, data) {
                       return Row(

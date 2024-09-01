@@ -39,6 +39,8 @@ class CompetencyTestModel extends BasePageViewModel {
 
   final competenctTestSlots = BehaviorSubject<List<SlotsDetail>>();
   String enquiryID = "";
+  bool isReschedule = false;
+  CompetencyTestDetails? competencyTestDetail;
 
   final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
   Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
@@ -63,8 +65,15 @@ class CompetencyTestModel extends BasePageViewModel {
         if(result.status == Status.success){
           competenctTestSlots.add(result.data?.data??[]);
           if((result.data?.data??[]).isNotEmpty){
-            slotID = result.data?.data?[0].id??'';
-            selectedTime = result.data?.data?[0].slot??'';
+            if(isReschedule){
+              slotID = competencyTestDetail?.slotID??'';
+              selectedTime = competencyTestDetail?.slot??'';
+              selectedTimeIndex.add((result.data?.data??[]).indexWhere((slots)=> slots.slot == selectedTime));
+            }
+            else{ 
+              slotID = result.data?.data?[0].id??'';
+              selectedTime = result.data?.data?[0].slot??'';
+            }
           }
         }
       }).onError((error) {
@@ -147,21 +156,18 @@ class CompetencyTestModel extends BasePageViewModel {
     selectedModeSubject.add(mode);
   }
 
-  bool validateForm() {
+  String validateForm() {
     if (selectedDate.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select date."));
-      return false;
+      return "Please select date.";
     }
     else if (slotID.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select time."));
-      return false;
+      return "Please select time.";
     }
-    else if (selectedMode.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select test mode."));
-      return false;
+    else if(selectedMode.isEmpty) {
+      return "Please select test mode";
     }
     else {
-      return true;
+      return "";
     }
   }
 }

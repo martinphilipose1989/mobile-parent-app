@@ -30,8 +30,18 @@ class ScheduleSchoolTourPageState extends AppBasePageState<ScheduleSchoolTourPag
   @override
   void onModelReady(ScheduleSchoolTourPageModel model) {
     model.enquiryID = widget.enquiryDetailArgs.enquiryId??'';
-    model.fetchTimeSlotsSchoolVisit(DateFormat('dd-MM-yyyy').format(DateTime.now()), widget.enquiryDetailArgs.enquiryId??'');
-    model.getDefaultDate();
+    model.isReschedule == widget.isReschedule;
+
+    if(widget.isReschedule){
+      model.schoolVisitDetails = widget.schoolVisitDetail;
+      model.selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.parse((widget.schoolVisitDetail?.schoolVisitDate??DateTime.now().toString())));
+      model.commentController.text = widget.schoolVisitDetail?.comment??'';
+      model.fetchTimeSlotsSchoolVisit(model.selectedDate, widget.enquiryDetailArgs.enquiryId??'');
+    }
+    else{
+      model.fetchTimeSlotsSchoolVisit(DateFormat('dd-MM-yyyy').format(DateTime.now()), widget.enquiryDetailArgs.enquiryId??'');
+      model.getDefaultDate();
+    }
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

@@ -87,7 +87,9 @@ class ScheduleCompetencyTestPageView
                           const SizedBox(
                             height: 10,
                           ),
-                          CommonCalendarPage(onDateSelected: (date) {
+                          CommonCalendarPage(
+                            initialDate: DateTime.parse((competencyTestDetails?.competencyTestDate??DateTime.now().toString())),
+                            onDateSelected: (date) {
                             model.setSelectedDate(date);
                             model.selectedDate=date;
                             model.fetchTimeSlots(date, enquiryDetailArgs.enquiryId??'');
@@ -219,23 +221,30 @@ class ScheduleCompetencyTestPageView
                       ),],
                       CommonElevatedButton(
                         onPressed: () {                      
-                          if (model.validateForm()) {
-                            CommonPopups().showConfirm(
-                              context,
-                              isReschedule? 'Confirm Reschedule Details':'Confirm Test Details',
-                              'Please Confirm the below details',
-                              'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
-                              'Selected Time: ${model.selectedTime}',
-                              'Mode: ${model.selectedMode}',
-                              (shouldRoute) {
-                                if(isReschedule){
-                                  model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
-                                } else {
-                                  model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
-                                }
-                              },
-                            );
-                          }
+                            String data = model.validateForm();
+                            if(data.isNotEmpty){
+                              final snackBar = SnackBar(
+                                content: Text(data),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                            else {
+                              CommonPopups().showConfirm(
+                                context,
+                                isReschedule? 'Confirm Reschedule Details':'Confirm Test Details',
+                                'Please Confirm the below details',
+                                'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
+                                'Selected Time: ${model.selectedTime}',
+                                'Mode: ${model.selectedMode}',
+                                (shouldRoute) {
+                                  if(isReschedule){
+                                    model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                                  } else {
+                                    model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                                  }
+                                },
+                              );
+                            }
                         },
                         text:isReschedule? 'Reschedule Test': 'Book Test',
                         backgroundColor: AppColors.accent,

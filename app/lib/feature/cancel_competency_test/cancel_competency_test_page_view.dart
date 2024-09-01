@@ -5,6 +5,7 @@ import 'package:app/molecules/DetailsViewSchoolTour/competency_test_schedule_det
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -67,32 +68,36 @@ class CancelCompetencyTestPageView
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 48,
-                        child: CustomDropdownButton(
-                          width: MediaQuery.of(context).size.width,
-                          onMultiSelect: (selectedValues) {},
-                          dropdownName: 'Reason For Cancellation',
-                          showAstreik: true,
-                          showBorderColor: true,
-                          items: model.reasonTypes,
-                          onSingleSelect: (selectedValue) {
-                            if (model.reasonTypes.contains(selectedValue)) {
-                              model.selectedReasonType.add(true);
-                            }
-                          },
-                          isMutiSelect: false,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        height: 48,
-                        child: CommonTextFormField(
-                          showAstreik: true,
-                          labelText: "Comment",
-                          hintText: "",
+                      Form(
+                        key: model.formKey,
+                        child: Column(
+                          children: [
+                            CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Reason For Cancellation',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              items: model.reasonTypes,
+                              onSingleSelect: (selectedValue) {
+                                if (model.reasonTypes.contains(selectedValue)) {
+                                  model.selectedReasonType.add(true);
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value) => AppValidators.validateDropdown(value, "cancellation reason"),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CommonTextFormField(
+                              controller: model.controller,
+                              showAstreik: true,
+                              labelText: "Comment",
+                              hintText: "",
+                              validator: (value) => AppValidators.validateNotEmpty(value, "Comment"),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -111,18 +116,18 @@ class CancelCompetencyTestPageView
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                   child: CommonElevatedButton(
                     onPressed: () {
-                      if(model.validateForm()){
+                      if(model.formKey.currentState!.validate()){
                         CommonPopups().showConfirm(
-                              context,
-                              'Confirm Cancellation Details',
-                              'Please Confirm the below details',
-                              'Date: ${model.dateFormat.format(DateTime.parse(competencyTestDetail.competencyTestDate??DateTime.now().toString()))}',
-                              'Selected Time: ${competencyTestDetail.slot}',
-                              'Comments: ${model.controller.text}',
-                              (shouldRoute) {
-                                model.cancelCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'',competencyTestID: competencyTestDetail.id??'');
-                              },
-                            );
+                          context,
+                          'Confirm Cancellation Details',
+                          'Please Confirm the below details',
+                          'Date: ${model.dateFormat.format(DateTime.parse(competencyTestDetail.competencyTestDate??DateTime.now().toString()))}',
+                          'Selected Time: ${competencyTestDetail.slot}',
+                          'Comments: ${model.controller.text}',
+                          (shouldRoute) {
+                            model.cancelCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'',competencyTestID: competencyTestDetail.id??'');
+                          },
+                        );
                       }
                     },
                     text: 'Cancel Test',

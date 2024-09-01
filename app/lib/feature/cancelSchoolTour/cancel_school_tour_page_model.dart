@@ -22,6 +22,7 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
   SchoolVisitDetail? schoolVisitDetailData;
   TextEditingController controller = TextEditingController();
   DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  final formKey = GlobalKey<FormState>();
 
   Future<void> cacnelSchoolVisit({required String enquiryID, required String schoolVisitID}) async {
       exceptionHandlerBinder.handle(block: () {
