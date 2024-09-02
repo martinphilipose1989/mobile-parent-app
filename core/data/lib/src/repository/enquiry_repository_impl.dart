@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:data/data.dart';
-import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_detail_response_entity.dart';
-import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_detail_entity.dart';
-import 'package:network_retrofit/src/model/response/get_psa_detail/psa_detail_response_entity.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 
 class EnquiryRepositoryImpl implements EnquiryRepository{
   final NetworkPort _networkPort;
@@ -81,6 +80,11 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   @override
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID, required String documentID}) {
     return _networkPort.downloadEnquiryDocument(enquiryID: enquiryID, documentID: documentID);
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadFile({required String fileUrl}) {
+    return _networkPort.downloadFile(fileUrl: fileUrl);
   }
 
   @override

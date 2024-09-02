@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -16,6 +17,7 @@ abstract class EnquiryRepository{
   Future<Either<NetworkError,  PsaResponse>> updatePsaDetail({required String enquiryID, required PsaDetailResponseEntity psaDetail});
   Future<Either<NetworkError,EnquiryFileUploadBase>> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file});
   Future<Either<NetworkError,DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID,required String documentID});
+  Future<Either<NetworkError,Uint8List>> downloadFile({required String fileUrl});
   Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID});
   Future<Either<NetworkError,MdmAttributeBaseModel>> getMdmAttribute({required String infoType});
 }

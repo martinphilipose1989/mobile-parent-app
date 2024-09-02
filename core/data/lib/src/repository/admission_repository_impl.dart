@@ -1,5 +1,4 @@
 import 'package:data/data.dart';
-import 'package:domain/domain.dart';
 
 class AdmissionRepositoryImpl extends AdmissionRepository{
   final NetworkPort _networkPort;

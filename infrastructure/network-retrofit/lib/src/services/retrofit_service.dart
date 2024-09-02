@@ -197,11 +197,18 @@ abstract class RetrofitService {
     {@Path('enquiryID') required String enquiryID,
     @Body() required CancelCompetencyTestRequest cancelCompetencyTestRequest}
   );
-@GET('marketing/enquiry/{enquiryID}/document/{documentID}')
+
+  @GET('marketing/enquiry/{enquiryID}/document/{documentID}')
   Future<HttpResponse<DownloadEnquiryFileResponseEntity>> downloadEnquiryDocument(
     {@Path('enquiryID') required String enquiryID,
     @Path('documentID') required String documentID
     }
+  );
+
+  @GET('{file_url}')
+  @DioResponseType(ResponseType.bytes)
+  Future<HttpResponse<List<int>>> downloadFile(
+    {@Path('file_url') required String fileUrl}
   );
 
   @PATCH('marketing/enquiry/{enquiryID}/document/{documentID}/delete')

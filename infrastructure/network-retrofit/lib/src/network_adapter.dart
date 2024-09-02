@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:data/data.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
@@ -344,7 +345,15 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID, required String documentID}) async{
+  Future<Either<NetworkError, Uint8List>> downloadFile({required String fileUrl}) async{
+    var response = await safeApiCall(apiService.downloadFile(fileUrl: fileUrl));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID, required String documentID}) async {
     var response = await safeApiCall(apiService.deleteEnquiryDocument(enquiryID: enquiryID,documentID: documentID));
     return response.fold((l){
       return Left(l);

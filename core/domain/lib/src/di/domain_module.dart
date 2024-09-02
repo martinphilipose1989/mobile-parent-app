@@ -185,6 +185,11 @@ abstract class DomainModule {
   @lazySingleton
   UpdateMedicalDetailsUsecase updateMedicalDetailsUsecase (RegistrationRepository registrationRepository) {
     return UpdateMedicalDetailsUsecase(registrationRepository);
-
   }
+
+  @lazySingleton
+  DownloadFileUsecase downloadFileUsecase (EnquiryRepository enquiryRepository) {
+    return DownloadFileUsecase(enquiryRepository);  
+  }
+  
 }

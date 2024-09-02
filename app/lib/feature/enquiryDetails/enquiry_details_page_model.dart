@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -27,7 +29,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   DownloadEnquiryDocumentUsecase downloadEnquiryDocumentUsecase;
   UploadEnquiryDocumentUsecase uploadEnquiryDocumentUsecase;
   DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
-  
+  DownloadFileUsecase downloadFileUsecase;
+
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   EnquiriesDetailsPageModel(
     this.exceptionHandlerBinder,
@@ -42,6 +45,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     this.updatePsaDetailUsecase,
     this.updateIvtDetailUsecase,
     this.updateNewAdmissionUsecase,
+    this.downloadFileUsecase
   );
   late TabController tabController;
   bool visivilty = false;
@@ -64,6 +68,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile = PublishSubject();
   PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile = PublishSubject();
   PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile = PublishSubject();
+  PublishSubject<Resource<Uint8List>> downloadFile = PublishSubject();
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
   
   //New Admission Details
@@ -498,6 +503,39 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
         // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> downloadDocument({required String fileUrl}) async{
+    exceptionHandlerBinder.handle(block: () {
+      DownloadFileUsecaseParams params = DownloadFileUsecaseParams(
+        fileUrl: fileUrl
+      );
+      RequestManager<Uint8List>(
+        params,
+        createCall: () => downloadFileUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) async{
+        if(result.status == Status.success){
+          try {
+            final directory = await getApplicationDocumentsDirectory();
+            final fullPath = directory.path;
+            final file = File(fullPath);
+            // await file.writeAsBytes(response.data);
+      
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text('File downloaded successfully!')),
+            // );
+          } catch (e) {
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text('Error: $e')),
+            // );
+          }
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

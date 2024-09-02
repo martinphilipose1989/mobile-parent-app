@@ -98,7 +98,7 @@ final enquiriesDetailsPageModelProvider =
   (ref) =>
       EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<GetMdmAttributeUsecase>(),
         getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>(),getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),
-        getIt.get<UpdateNewAdmissionUsecase>()
+        getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<DownloadFileUsecase>()
       ),
 );
 

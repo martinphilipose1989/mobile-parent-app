@@ -55,6 +55,7 @@ export 'src/usecase/marketing/get_mdm_attribute_usecase.dart';
 export 'src/usecase/marketing/upload_enquiry_document_usecase.dart';
 export 'src/usecase/marketing/download_enquiry_document.dart';
 export 'src/usecase/marketing/delete_enquiry_document_usecase.dart';
+export 'src/usecase/marketing/download_file_usecase.dart';
 
 export 'package:shared/shared.dart';
 

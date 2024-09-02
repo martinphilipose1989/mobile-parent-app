@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:domain/domain.dart';
 
 import 'dart:io';
@@ -68,6 +70,8 @@ abstract class NetworkPort {
   Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID});
 
   Future<Either<NetworkError,MdmAttributeBaseModel>> getMdmAttribute({required String infoType});
+
+  Future<Either<NetworkError, Uint8List>> downloadFile({required String fileUrl});
   
 }
   
