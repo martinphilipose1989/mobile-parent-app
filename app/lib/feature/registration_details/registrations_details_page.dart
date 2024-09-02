@@ -17,6 +17,8 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
 
+import '../../utils/common_widgets/common_popups.dart';
+
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
   EnquiryDetailArgs? enquiryDetailArgs;
@@ -215,6 +217,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         else{
                           model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
                         }
+                      } else if(model.showWidget.value <= 5){
+                        model.showPopUP(context);
+
                       }
                       else{
                         return;

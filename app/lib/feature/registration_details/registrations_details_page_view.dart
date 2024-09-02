@@ -26,6 +26,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
+import '../../utils/common_widgets/common_popups.dart';
 
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {
@@ -241,9 +242,16 @@ class RegistrationsDetailsPageView
           }
         });
       default:
-        return const SizedBox.shrink();
+        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
+            stream: model.enquiryDetail,
+            initialData: Resource.none(),
+            dataBuilder: (context, result) {
+              return model.showPopUP(context);
+
+    });
     }
-  }
+    }
+
 
   Widget registrationsWidgetAsPerIndex(int index, RegistrationsDetailsViewModel model) {
     switch (index) {
