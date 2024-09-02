@@ -83,7 +83,7 @@ final registrationsDetailsProvider =
         getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<UpdateParentDetailsUsecase>(),
         getIt.get<UpdateMedicalDetailsUsecase>(),getIt.get<UpdateBankDetailsUsecase>(),getIt.get<UpdateContactDetailsUsecase>(),
         getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<GetMdmAttributeUsecase>(),
-        getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>()
+        getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>(),getIt.get<DownloadFileUsecase>()
     ),
 
 );

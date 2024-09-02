@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -489,7 +490,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   Future<void> downloadEnquiryDocument({required String enquiryID,required String documentID}) async{
     exceptionHandlerBinder.handle(block: () {
-      
       DownloadEnquiryDocumentUsecaseParams params = DownloadEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
@@ -500,9 +500,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         createCall: () => downloadEnquiryDocumentUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) {
-        getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
-        // activeStep.add()
+      ).asFlow().listen((result) async{
+        if(result.status == Status.success){
+          getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
+          await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -522,15 +524,22 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) async{
         if(result.status == Status.success){
           try {
-            final directory = await getApplicationDocumentsDirectory();
-            final fullPath = directory.path;
-            final file = File(fullPath);
-            // await file.writeAsBytes(response.data);
-      
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(content: Text('File downloaded successfully!')),
-            // );
+            Directory? directory;
+            if(Platform.isAndroid){
+              directory = Directory('storage/emulated/0/Download');
+            }
+            else{
+              directory = await getApplicationDocumentsDirectory();
+            }
+            final fullPath = directory?.path??'';
+            final fileExtension = extractFileExtension(fileUrl);
+            final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+            final file = File('$fullPath/$fileName');
+            await file.writeAsBytes(result.data??Uint8List(0));
+            log('$fullPath/$fileName');
+            log("File Downloaded");
           } catch (e) {
+            log(e.toString());
             // ScaffoldMessenger.of(context).showSnackBar(
             //   SnackBar(content: Text('Error: $e')),
             // );
@@ -540,6 +549,15 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  String? extractFileExtension(String url) {
+    final RegExp regExp = RegExp(r'\.([a-zA-Z0-9]+)(?:\?|$)');
+    final match = regExp.firstMatch(url);
+    if (match != null && match.groupCount > 0) {
+      return match.group(1);
+    }
+    return null;
   }
 
   addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){

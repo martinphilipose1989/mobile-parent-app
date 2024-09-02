@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -36,6 +39,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final DownloadEnquiryDocumentUsecase downloadEnquiryDocumentUsecase;
   final UploadEnquiryDocumentUsecase uploadEnquiryDocumentUsecase;
   final DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
+  final DownloadFileUsecase downloadFileUsecase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
       this.getRegistrationDetailUsecase, this.getNewAdmissionDetailUseCase,
@@ -43,7 +47,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase,
       this.updateContactDetailsUsecase,this.updatePsaDetailUsecase,this.updateIvtDetailUsecase,
       this.updateNewAdmissionUsecase,this.getMdmAttributeUsecase,this.downloadEnquiryDocumentUsecase,
-      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase) ;
+      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase,this.downloadFileUsecase) ;
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -813,12 +817,61 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
-        // activeStep.add()
+        if(result.status == Status.success){
+          getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
+          downloadDocument(fileUrl: result.data?.data?['url']??'');
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  Future<void> downloadDocument({required String fileUrl}) async{
+    exceptionHandlerBinder.handle(block: () {
+      DownloadFileUsecaseParams params = DownloadFileUsecaseParams(
+        fileUrl: fileUrl
+      );
+      RequestManager<Uint8List>(
+        params,
+        createCall: () => downloadFileUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) async{
+        if(result.status == Status.success){
+          try {
+            Directory? directory;
+            if(Platform.isAndroid){
+              directory = Directory('storage/emulated/0/Download');
+            }
+            else{
+              directory = await getApplicationDocumentsDirectory();
+            }
+            final fullPath = directory.path;
+            final fileExtension = extractFileExtension(fileUrl);
+            final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+            final file = File('$fullPath/$fileName');
+            await file.writeAsBytes(result.data??Uint8List(0));
+          } catch (e) {
+            log(e.toString());
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text('Error: $e')),
+            // );
+          }
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  String? extractFileExtension(String url) {
+    final RegExp regExp = RegExp(r'\.([a-zA-Z0-9]+)(?:\?|$)');
+    final match = regExp.firstMatch(url);
+    if (match != null && match.groupCount > 0) {
+      return match.group(1);
+    }
+    return null;
   }
 
   addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){

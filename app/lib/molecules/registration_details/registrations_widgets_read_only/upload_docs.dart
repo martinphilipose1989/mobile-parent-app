@@ -5,7 +5,6 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 class UploadDocs extends StatelessWidget {
