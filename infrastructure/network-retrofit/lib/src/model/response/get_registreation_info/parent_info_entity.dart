@@ -23,9 +23,9 @@ class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentI
       _$ParentInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => {
-    "father_details": fatherDetails,
-    "mother_details": motherDetails,
-    "guardian_details": guardianDetails
+    "father_details": fatherDetails?.toJson(),
+    "mother_details": motherDetails?.toJson(),
+    "guardian_details": guardianDetails?.toJson()
   };
 
   @override

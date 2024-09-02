@@ -87,7 +87,7 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     medicalDetails.medicalHistoryDescription = medicalHistoryDescription;
     medicalDetails.hasAllergy = hasAllergy;
     medicalDetails.allergyDescription = allergyDescription;
-    medicalDetails.bloodGroup = bloodGroup;
+    medicalDetails.bloodGroup = (bloodGroup is CommonDataEntity) ? bloodGroup.transform() : bloodGroup;
     medicalDetails.hasPersonalisedLearningNeeds = hasPersonalisedLearningNeeds;
     medicalDetails.personalisedLearningNeedsDescription = personalisedLearningNeedsDescription;
     return medicalDetails;

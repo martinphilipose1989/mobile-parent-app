@@ -1,5 +1,5 @@
 import 'package:data/data.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 
 part 'guardian_registration_entity.g.dart';
 
@@ -22,13 +22,15 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     @JsonKey(name:'landmark')
     String? landmark;
     @JsonKey(name:'country')
-    String? country;
+    dynamic country;
+    @JsonKey(name:'area')
+    String? area;
     @JsonKey(name:'pincode')
     String? pincode;
     @JsonKey(name:'state')
-    String? state;
+    dynamic state;
     @JsonKey(name:'city')
-    String? city;
+    dynamic city;
     @JsonKey(name:'emailId')
     String? emailId;
     @JsonKey(name:'mobileNumber')
@@ -47,21 +49,22 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     String? guardianType;
 
     GuardianDetailsEntity({
-        this.firstName,
-        this.lastName,
-        this.aadharNumber,
-        this.panNumber,
-        this.relationWithChild,
-        this.houseNumber,
-        this.street,
-        this.landmark,
-        this.country,
-        this.pincode,
-        this.state,
-        this.city,
-        this.emailId,
-        this.mobileNumber,
-        this.guardianType,
+      this.firstName,
+      this.lastName,
+      this.aadharNumber,
+      this.panNumber,
+      this.relationWithChild,
+      this.houseNumber,
+      this.street,
+      this.landmark,
+      this.area,
+      this.country,
+      this.pincode,
+      this.state,
+      this.city,
+      this.emailId,
+      this.mobileNumber,
+      this.guardianType,
       this.qualification,
       this.officeAddress,
       this.occupation,
@@ -78,6 +81,7 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       "email": emailId,
       "relationship_with_child": relationWithChild,
       "house": houseNumber,
+      "area": area,
       "street": street,
       "landmark": landmark,
       "country": country,
@@ -100,10 +104,11 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     guardianDetails.houseNumber = houseNumber;
     guardianDetails.street = street;
     guardianDetails.landmark = landmark;
-    guardianDetails.country = country;
+    guardianDetails.area = area;
+    guardianDetails.country = (country is CommonDataEntity)? country?.transform() : country;
     guardianDetails.pincode = pincode;
-    guardianDetails.state = state;
-    guardianDetails.city = city;
+    guardianDetails.state = (state is CommonDataEntity)? state?.transform() : state;
+    guardianDetails.city = (city is CommonDataEntity)? city?.transform() : city;
     guardianDetails.emailId = emailId;
     guardianDetails.mobileNumber = mobileNumber;
     guardianDetails.guardianType = guardianType;
@@ -117,6 +122,7 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
 
   @override
   GuardianDetailsEntity restore(GuardianDetails data) {
+    CommonDataEntity commonDataEntity = CommonDataEntity();
     GuardianDetailsEntity guardianDetailsEntity = GuardianDetailsEntity(
       firstName: data.firstName,
       lastName: data.lastName,
@@ -126,10 +132,11 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       houseNumber: data.houseNumber,
       street: data.street,
       landmark: data.landmark,
-      country: data.country,
+      country: (data.country is CommonDataClass)? commonDataEntity.restore(data.country!) : data.country,
+      area: data.area,
       pincode: data.pincode,
-      state: data.state,
-      city: data.city,
+      state: (data.state is CommonDataClass)? commonDataEntity.restore(data.state!) : data.state,
+      city: (data.city is CommonDataClass)? commonDataEntity.restore(data.city!) : data.city,
       emailId: data.emailId,
       mobileNumber: data.mobileNumber,
       guardianType: data.guardianType,

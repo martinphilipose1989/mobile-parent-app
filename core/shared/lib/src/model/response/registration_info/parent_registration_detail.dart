@@ -9,9 +9,9 @@ class ParentRegistrationDetail {
     String? designationName;
     String? officeAddress;
     String? area;
-    String? country;
-    String? state;
-    String? city;
+    dynamic country;
+    dynamic state;
+    dynamic city;
     String? emailId;
     String? mobileNumber;
     String? pinCode;

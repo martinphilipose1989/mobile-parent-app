@@ -1,5 +1,5 @@
 import 'package:data/data.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 
 part 'parent_registration_entity.g.dart';
 
@@ -26,11 +26,11 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     @JsonKey(name: 'area')
     String? area;
     @JsonKey(name: 'country')
-    String? country;
+    dynamic country;
     @JsonKey(name: 'state')
-    String? state;
+    dynamic state;
     @JsonKey(name: 'city')
-    String? city;
+    dynamic city;
     @JsonKey(name: 'emailId')
     String? emailId;
     @JsonKey(name: 'mobileNumber')
@@ -72,10 +72,10 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     "designation": designationName,
     "office_address": officeAddress,
     "area": area,
-    "country": country,
+    "country": country?.toJson(),
     "pin_code": pinCode,
-    "state": state,
-    "city": city
+    "state": state?.toJson(),
+    "city": city?.toJson()
   };
 
   @override
@@ -91,9 +91,9 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     parentRegistrationDetail.designationName=designationName;
     parentRegistrationDetail.officeAddress=officeAddress;
     parentRegistrationDetail.area=area;
-    parentRegistrationDetail.country=country;
-    parentRegistrationDetail.state=state;
-    parentRegistrationDetail.city=city;
+    parentRegistrationDetail.country= (country is CommonDataEntity)? country?.transform() : country;
+    parentRegistrationDetail.state= (state is CommonDataEntity)? state?.transform() : state;
+    parentRegistrationDetail.city= (city is CommonDataEntity)? city?.transform() : city;
     parentRegistrationDetail.emailId=emailId;
     parentRegistrationDetail.mobileNumber=mobileNumber;
     parentRegistrationDetail.pinCode=pinCode;
@@ -103,6 +103,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
 
   @override
   ParentRegistrationDetailEntity restore(ParentRegistrationDetail data) {
+    CommonDataEntity commonDataEntity = CommonDataEntity();
     ParentRegistrationDetailEntity parentRegistrationDetailEntity = ParentRegistrationDetailEntity(
       firstName: data.firstName,
       lastName: data.lastName,
@@ -114,9 +115,9 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
       designationName: data.designationName,
       officeAddress: data.officeAddress,
       area: data.area,
-      country: data.country,
-      state: data.state,
-      city: data.city,
+      country: (data.country is CommonDataClass)? commonDataEntity.restore(data.country!) : data.country,
+      state: (data.state is CommonDataClass)? commonDataEntity.restore(data.state!) : data.state,
+      city: (data.city is CommonDataClass)? commonDataEntity.restore(data.city!) : data.city,
       emailId: data.emailId,
       mobileNumber: data.mobileNumber,
       pinCode: data.pinCode,

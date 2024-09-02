@@ -122,7 +122,12 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        val=model.fatherCountry!;
+                        if (model.country.value.contains(val)) {
+                          var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                          // model.selectedFatherCountryType.add(true);
+                          model.selectedFatherCountryEntity?.id = country?.id;
+                          model.selectedFatherCountryEntity?.value = country?.attributes?.name;
+                        }
                       },
                       showBorderColor: true,
                     ),
@@ -141,7 +146,12 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect:(val){
-                        val=model.fatherState!;
+                        if(model.state.value.contains(val)){
+                          var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                          // model.selectedFatherStateType.add(true);
+                          model.selectedFatherStateEntity?.id = state?.id;
+                          model.selectedFatherStateEntity?.value = state?.attributes?.name;
+                        }
                       } ,
                       showBorderColor: true,
                     ),
@@ -154,7 +164,12 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        val=model.fatherCity!;
+                        if(model.city.value.contains(val)){
+                          var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                          // model.selectedFatherCityType.add(true);
+                          model.selectedFatherCityEntity?.id = city?.id;
+                          model.selectedFatherCityEntity?.value = city?.attributes?.name;
+                        }
                       },
                       showBorderColor: true,
                     ),
@@ -284,7 +299,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.motherCountry!;
+                            if(model.country.value.contains(val)){
+                              var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedFatherCountryType.add(true);
+                              model.selectedFatherCountryEntity?.id = country?.id;
+                              model.selectedFatherCountryEntity?.value = country?.attributes?.name;
+                            }
                           },
                         );
                       }
@@ -308,7 +328,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.motherState!;
+                            if(model.state.value.contains(val)){
+                              var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedFatherStateType.add(true);
+                              model.selectedFatherStateEntity?.id = state?.id;
+                              model.selectedFatherStateEntity?.value = state?.attributes?.name;
+                            }
                           },
                         );
                       }
@@ -326,7 +351,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.motherCity!;
+                            if(model.city.value.contains(val)){
+                              var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedMotherCityType.add(true);
+                              model.selectedMotherCityEntity?.id = city?.id;
+                              model.selectedMotherCityEntity?.value = city?.attributes?.name;
+                            }
                           },
                         );
                       }
@@ -457,7 +487,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.guardianCountry!;
+                            if(model.country.value.contains(val)){
+                              var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedGuardianCountryType.add(true);
+                              model.selectedGuardianCountryEntity?.id = country?.id;
+                              model.selectedGuardianCountryEntity?.value = country?.attributes?.name;
+                            }
                           },
                         );
                       }
@@ -481,7 +516,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.guardianState!;
+                            if(model.state.value.contains(val)){
+                              var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedFatherStateType.add(true);
+                              model.selectedGuardianStateEntity?.id = state?.id;
+                              model.selectedGuardianStateEntity?.value = state?.attributes?.name;
+                            }
                           },
                         );
                       }
@@ -499,80 +539,12 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
-                            val=model.guardianCity!;
-                          },
-                        );
-                      }
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.area,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Area',
-                      showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        val!=model.guardianArea;
-                      },
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                    StreamBuilder<List<String>>(
-                      stream: model.country,
-                      builder: (context, snapshot) {
-                        return CustomDropdownButton(
-                          items: model.country.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Country',
-                          showAstreik: true,
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val){
-                            val!=model.guardianCountry;
-                          },
-                        );
-                      }
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                     CommonTextFormField(
-                      showAstreik: true,
-                      labelText: "Pin Code",
-                       controller: model.guardianPinCodeController,
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                    StreamBuilder<List<String>>(
-                      stream: model.state,
-                      builder: (context, snapshot) {
-                        return CustomDropdownButton(
-                          items: model.state.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'State',
-                          showAstreik: true,
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val){
-                            val!=model.state;
-                          },
-                        );
-                      }
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                    StreamBuilder<List<String>>(
-                      stream: model.city,
-                      builder: (context, snapshot) {
-                        return CustomDropdownButton(
-                          items: model.city.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'City',
-                          showAstreik: true,
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val){
-                            val!=model.guardianCity;
+                            if(model.city.value.contains(val)){
+                              var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              // model.selectedFatherCityType.add(true);
+                              model.selectedGuardianCityEntity?.id = city?.id;
+                              model.selectedGuardianCityEntity?.value = city?.attributes?.name;
+                            }
                           },
                         );
                       }

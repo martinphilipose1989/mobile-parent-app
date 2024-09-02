@@ -86,6 +86,7 @@ class UploadDocuments extends StatelessWidget {
                 if(snapshot?.status == Status.error)...[
                   const CommonText(text: "Document list not found")
                 ],
+                
                 const SizedBox(height: 100,),
               ],
             );

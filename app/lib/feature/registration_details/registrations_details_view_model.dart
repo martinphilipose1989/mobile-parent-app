@@ -133,9 +133,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController fatherMobileController = TextEditingController();
   String? fatherOccupation;
   String? fatherArea;
-  String? fatherCountry;
-  String? fatherState;
-  String? fatherCity;
+  CommonDataClass? selectedFatherCountryEntity;
+  CommonDataClass? selectedFatherStateEntity;
+  CommonDataClass? selectedFatherCityEntity;
 
 
 //motherEditController
@@ -152,9 +152,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController motherMobileController = TextEditingController();
   String? motherOccupation;
   String? motherArea;
-  String? motherCountry;
-  String? motherState;
-  String? motherCity;
+  CommonDataClass? selectedMotherCountryEntity;
+  CommonDataClass? selectedMotherStateEntity;
+  CommonDataClass? selectedMotherCityEntity;
 
 //guardianEditDetails
   TextEditingController guardianFirstNameController = TextEditingController();
@@ -170,9 +170,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianMobileController = TextEditingController();
   String? guardianOccupation;
   String? guardianArea;
-  String? guardianCountry;
-  String? guardianState;
-  String? guardianCity;
+  CommonDataClass? selectedGuardianCountryEntity;
+  CommonDataClass? selectedGuardianStateEntity;
+  CommonDataClass? selectedGuardianCityEntity;
 
 //siblingsEditDetails
   TextEditingController siblingFirstNameController = TextEditingController();
@@ -286,13 +286,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedShift =
       BehaviorSubject<bool>.seeded(false);
 
+  
+
   final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>.seeded('');
-  
+  final BehaviorSubject<String> selectedGuardianCountrySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianStateSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianCitySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianAreaSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianOccupationSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherCountrySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherStateSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherCitySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherOccupationSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherAreaSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherCountrySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherStateSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherCitySubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherAreaSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherOccupationSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
 
@@ -983,9 +999,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherMobileController.text=parentDetails.fatherDetails?.mobileNumber??"";
      fatherOccupation=parentDetails.fatherDetails?.occupation??"";
      fatherArea=parentDetails.fatherDetails?.area??"";
-     fatherCountry=parentDetails.fatherDetails?.country??"";
-     fatherState=parentDetails.fatherDetails?.state??"";
-     fatherCity=parentDetails.fatherDetails?.city??"";
+     selectedFatherCountryEntity=parentDetails.fatherDetails?.country;
+     selectedFatherStateEntity=parentDetails.fatherDetails?.state;
+     selectedFatherCityEntity=parentDetails.fatherDetails?.city;
+     selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
+     selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
+     selectedFatherCitySubject.add(parentDetails.fatherDetails?.city?.value??'');
+     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area??'');
+     selectedFatherOccupationSubject.add(parentDetails.fatherDetails?.occupation??'');
 
      motherFirstNameController.text =parentDetails.motherDetails?.firstName??"";
      motherLastNameController.text = parentDetails.motherDetails?.lastName??"";
@@ -1000,10 +1021,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
      motherMobileController.text=parentDetails.motherDetails?.mobileNumber??"";
     fatherOccupation=parentDetails.motherDetails?.occupation??"";
     fatherArea=parentDetails.motherDetails?.area??"";
-    fatherCountry=parentDetails.motherDetails?.country??"";
-    fatherState=parentDetails.motherDetails?.state??"";
-    fatherCity=parentDetails.motherDetails?.city??"";
-
+    selectedFatherCountryEntity=parentDetails.motherDetails?.country;
+    selectedFatherStateEntity=parentDetails.motherDetails?.state;
+    selectedFatherCityEntity=parentDetails.motherDetails?.city;
+    selectedMotherAreaSubject.add(parentDetails.motherDetails?.area??'');
+    selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
+    selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
+    selectedMotherCitySubject.add(parentDetails.motherDetails?.city?.value??'');
+    selectedMotherOccupationSubject.add(parentDetails.motherDetails?.occupation??'');
+    
     guardianFirstNameController.text =parentDetails.guardianDetails?.firstName??"";
     guardianLastNameController.text = parentDetails.guardianDetails?.lastName??"";
     guardianAdharCardController.text = parentDetails.guardianDetails?.aadharNumber??"";
@@ -1015,6 +1041,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianPinCodeController.text=parentDetails.guardianDetails?.pincode??"";
     guardianEmailController.text=parentDetails.guardianDetails?.emailId??"";
     guardianMobileController.text=parentDetails.guardianDetails?.mobileNumber??"";
+    selectedGuardianCountryEntity=parentDetails.guardianDetails?.country;
+    selectedGuardianStateEntity=parentDetails.guardianDetails?.state;
+    selectedGuardianCityEntity=parentDetails.guardianDetails?.city;
+    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area??'');
+    selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
+    selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
+    selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city?.value??'');
+    selectedGuardianOccupationSubject.add(parentDetails.guardianDetails?.occupation??'');
   }
 
   addContactDetails(ContactDetails contactDetails) {
@@ -1056,7 +1090,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> saveParentDetails(String enquiryId)async {
     ParentInfoEntity parentInfoEntity=ParentInfoEntity();
 
-
     parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text.trim();
     parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text.trim();
     parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text.trim();
@@ -1069,9 +1102,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.fatherDetails?.mobileNumber=fatherMobileController.text.trim();
     parentInfo?.fatherDetails?.occupation=fatherOccupation;
     parentInfo?.fatherDetails?.area=fatherArea;
-    parentInfo?.fatherDetails?.country=fatherCountry;
-    parentInfo?.fatherDetails?.state=fatherState;
-    parentInfo?.fatherDetails?.city=fatherCity;
+    parentInfo?.fatherDetails?.country=selectedFatherCountryEntity;
+    parentInfo?.fatherDetails?.state=selectedFatherStateEntity;
+    parentInfo?.fatherDetails?.city=selectedFatherCityEntity;
 
     parentInfo?.motherDetails?.firstName=motherFirstNameController.text.trim();
     parentInfo?.motherDetails?.lastName=motherLastNameController.text.trim();
@@ -1086,9 +1119,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.motherDetails?.mobileNumber=motherMobileController.text.trim();
     parentInfo?.motherDetails?.occupation=motherOccupation;
     parentInfo?.motherDetails?.area=motherArea;
-    parentInfo?.motherDetails?.country=motherCountry;
-    parentInfo?.motherDetails?.state=motherState;
-    parentInfo?.motherDetails?.city=motherCity;
+    parentInfo?.motherDetails?.country=selectedMotherCountryEntity;
+    parentInfo?.motherDetails?.state=selectedMotherStateEntity;
+    parentInfo?.motherDetails?.city=selectedMotherCityEntity;
 
     parentInfo?.guardianDetails?.firstName=guardianFirstNameController.text.trim();
     parentInfo?.guardianDetails?.lastName=guardianLastNameController.text.trim();
@@ -1102,7 +1135,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.emailId=guardianEmailController.text.trim();
     parentInfo?.guardianDetails?.mobileNumber=guardianMobileController.text.trim();
     parentInfo?.guardianDetails?.occupation=guardianOccupation;
-    parentInfoEntity =parentInfoEntity.restore(parentInfo!);
+    parentInfo?.guardianDetails?.country=selectedGuardianCountryEntity;
+    parentInfo?.guardianDetails?.state=selectedGuardianStateEntity;
+    parentInfo?.guardianDetails?.city=selectedGuardianCityEntity;
+    parentInfoEntity =parentInfoEntity.restore(parentInfo??ParentInfo());
     await updateParentDetail(enquiryId, parentInfoEntity);
   }
   Future<void>saveMedicalDetails(String enquiryId) async{
