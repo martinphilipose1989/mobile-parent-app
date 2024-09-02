@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
@@ -17,11 +18,13 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_page.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -81,142 +84,174 @@ class RegistrationsDetailsPageView
 
   @override
   Widget build(BuildContext context, RegistrationsDetailsViewModel model) {
-    return Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListItem(
-                image: AppImages.personIcon,
-                name: "${enquiryDetailArgs?.studentName} ",
-                year: enquiryDetailArgs?.academicYear??'',
-                id: enquiryDetailArgs?.enquiryId??'',
-                title: enquiryDetailArgs?.school??'',
-                subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
-                buttontext: "${enquiryDetailArgs?.enquiryStage}",
-                compeletion: '25% Completed',
-              ),
-              CommonSizedBox.sizedBox(height: 20, width: 10),
-              AppStreamBuilder<bool>(
-                stream: model.editRegistrationDetails, 
-                initialData: model.editRegistrationDetails.value, 
-                dataBuilder: (context, data) {
-                  return SizedBox(
-                    height: 40,
-                    child: CommonChipListPage(
-                      isEdit: model.editRegistrationDetails.value,
-                      chipValues: List.generate(
-                        model.registrationDetails.length,
-                        (index) => CommonChips(
-                          isSelected: model.registrationDetails[index]
-                              ['isSelected'],
-                          name: model.registrationDetails[index]['name'],
-                        ),
-                      ),
-                      onCallBack: (index) {
-                        if (!model.editRegistrationDetails.value) {
-                          model.showWidget.add(index);
-                        } 
-                        if(index == 0){
-                          if(enquiryDetailArgs?.enquiryType == "IVT"){
-                            model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                          } else if(enquiryDetailArgs?.enquiryType == "PSA"){
-                            model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                          } else{
-                            model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                          }
-                        }else if(index == 5){
-                          model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                        } else{
-                          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
-                        }
-                      },
-                    ),
-                  );
-                },
-              ),
-              CommonSizedBox.sizedBox(height: 20, width: 10),
-              AppStreamBuilder<bool>(
-                  stream: model.editRegistrationDetails,
-                  initialData: model.editRegistrationDetails.value,
-                  dataBuilder: (context, editRegistrationDetailsData) {
-                    return AppStreamBuilder<int>(
-                      stream: model.showWidget,
-                      initialData: model.showWidget.value,
-                      dataBuilder: (context, data) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height - 300,
-                          width: double.infinity,
-                          child: SingleChildScrollView(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom+55),
-                              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                              child: editRegistrationDetailsData!
-                                  ? registrationsEditingWidgetAsPerIndex(
-                                      model.showWidget.value, model)
-                                  : registrationsWidgetAsPerIndex(
-                                      model.showWidget.value,model)),
-                        );
-                      },
-                    );
-                  })
-            ],
-          ),
-        ),
-        AppStreamBuilder<bool>(
-            stream: model.showMenuOnFloatingButton,
-            initialData: model.showMenuOnFloatingButton.value,
-            dataBuilder: (context, data) {
-              return data!
-                  ? Container(
-                      color: Colors.black.withOpacity(0.5),
-                    )
-                  : SizedBox.fromSize();
-            }),
-
-        AppStreamBuilder<bool>(
-            stream: model.showMenuOnFloatingButton,
-            initialData: model.showMenuOnFloatingButton.value,
-            dataBuilder: (context, data) {
-              return Positioned(
-                  right: 20,
-                  bottom: 100,
-                  child: data!
-                      ? Menu(
-                          height: 453.h,
-                          menuData: model.menuData,
-                          onTap: (index) {
-                            actionOnMenu(index, context, model);
+    return AppStreamBuilder<bool>(
+      stream: model.isLoading,
+      initialData: model.isLoading.value,
+      dataBuilder: (context, snapshot) {
+        return Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListItem(
+                    image: AppImages.personIcon,
+                    name: "${enquiryDetailArgs?.studentName} ",
+                    year: enquiryDetailArgs?.academicYear??'',
+                    id: enquiryDetailArgs?.enquiryId??'',
+                    title: enquiryDetailArgs?.school??'',
+                    subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
+                    buttontext: "${enquiryDetailArgs?.enquiryStage}",
+                    compeletion: '25% Completed',
+                  ),
+                  CommonSizedBox.sizedBox(height: 20, width: 10),
+                  AppStreamBuilder<bool>(
+                    stream: model.editRegistrationDetails, 
+                    initialData: model.editRegistrationDetails.value, 
+                    dataBuilder: (context, data) {
+                      return SizedBox(
+                        height: 40,
+                        child: CommonChipListPage(
+                          isEdit: model.editRegistrationDetails.value,
+                          chipValues: List.generate(
+                            model.registrationDetails.length,
+                            (index) => CommonChips(
+                              isSelected: model.registrationDetails[index]
+                                  ['isSelected'],
+                              name: model.registrationDetails[index]['name'],
+                            ),
+                          ),
+                          onCallBack: (index) {
+                            if (!model.editRegistrationDetails.value) {
+                              model.showWidget.add(index);
+                            } 
+                            if(index == 0){
+                              if(enquiryDetailArgs?.enquiryType == "IVT"){
+                                model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                              } else if(enquiryDetailArgs?.enquiryType == "PSA"){
+                                model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                              } else{
+                                model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                              }
+                            }else if(index == 5){
+                              model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                            } else{
+                              model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
+                            }
                           },
-                          showMenuOnFloatingButton:
-                              model.showMenuOnFloatingButton,
+                        ),
+                      );
+                    },
+                  ),
+                  CommonSizedBox.sizedBox(height: 20, width: 10),
+                  AppStreamBuilder<bool>(
+                      stream: model.editRegistrationDetails,
+                      initialData: model.editRegistrationDetails.value,
+                      dataBuilder: (context, editRegistrationDetailsData) {
+                        return AppStreamBuilder<int>(
+                          stream: model.showWidget,
+                          initialData: model.showWidget.value,
+                          dataBuilder: (context, data) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height - 300,
+                              width: double.infinity,
+                              child: SingleChildScrollView(
+                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom+55),
+                                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                                  child: editRegistrationDetailsData!
+                                      ? registrationsEditingWidgetAsPerIndex(
+                                          model.showWidget.value, model,context)
+                                      : registrationsWidgetAsPerIndex(
+                                          model.showWidget.value,model)),
+                            );
+                          },
+                        );
+                      })
+                ],
+              ),
+            ),
+            AppStreamBuilder<bool>(
+                stream: model.showMenuOnFloatingButton,
+                initialData: model.showMenuOnFloatingButton.value,
+                dataBuilder: (context, data) {
+                  return data!
+                      ? Container(
+                          color: Colors.black.withOpacity(0.5),
                         )
-                      : SizedBox.fromSize());
-            })
-
-
-      ],
+                      : SizedBox.fromSize();
+                }),
+        
+            AppStreamBuilder<bool>(
+                stream: model.showMenuOnFloatingButton,
+                initialData: model.showMenuOnFloatingButton.value,
+                dataBuilder: (context, data) {
+                  return Positioned(
+                      right: 20,
+                      bottom: 100,
+                      child: data!
+                          ? Menu(
+                              height: 453.h,
+                              menuData: model.menuData,
+                              onTap: (index) {
+                                actionOnMenu(index, context, model);
+                              },
+                              showMenuOnFloatingButton:
+                                  model.showMenuOnFloatingButton,
+                            )
+                          : SizedBox.fromSize());
+                }),
+            if(model.isLoading.value)...[const CommonAppLoader()]
+          ],
+        );
+      }
     );
   }
 
-  Widget registrationsEditingWidgetAsPerIndex(int index,RegistrationsDetailsViewModel model) {
+  Widget registrationsEditingWidgetAsPerIndex(int index,RegistrationsDetailsViewModel model,BuildContext context) {
     switch (index) {
       case 0:
         return EnquiryAndStudentEditing(model: model,enquiryDetailArgs: enquiryDetailArgs??EnquiryDetailArgs(),);
       case 1:
-        return ParentInfoEditing(model: model);
+        return AppStreamBuilder<Resource<ParentInfo>>(
+          stream: model.parentDetail,
+          initialData: Resource.none(),
+          onData: (value) {
+          },
+          dataBuilder: (context, data) {
+            return ParentInfoEditing(model: model);
+          },
+        );
       case 2:
-        return ContactInfoEditing(
-          model: model,
+        return AppStreamBuilder<Resource<ContactDetails>>(
+          stream: model.contactDetail,
+          initialData: Resource.none(),
+          onData: (value) {
+            
+          },
+          dataBuilder: (context, data) {
+            return ContactInfoEditing(model: model);
+          },
         );
       case 3:
-        return MedicalDetailsEditing(
-          model: model,
+        return AppStreamBuilder<Resource<MedicalDetails>>(
+          stream: model.medicalDetail,
+          initialData: Resource.none(),
+          
+          dataBuilder: (context, data) {
+            return MedicalDetailsEditing(model: model);
+          },
         );
       case 4:
-        return BankDetailsEditing(
-          model: model,
+        return AppStreamBuilder<Resource<BankDetails>>(
+          stream: model.bankDetail,
+          initialData: Resource.none(),
+          onData: (value) {
+            
+          },
+          dataBuilder: (context, data) {
+            return BankDetailsEditing(model: model);
+          },
         );
       case 5:
         return AppStreamBuilder<Resource<EnquiryDetailBase>>(

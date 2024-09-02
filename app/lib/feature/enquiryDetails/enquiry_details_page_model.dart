@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -111,6 +112,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   List<ValueNotifier<bool>> isDocumentUploaded = [];
   
   EnquiryDetailArgs? enquiryDetailArgs;
+
+
+  BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
 
   final BehaviorSubject<bool> selectedGradeType =
       BehaviorSubject<bool>.seeded(false);
@@ -290,6 +294,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
         psaDetail: psaDetail
       );
+
+      isLoading.value = true;
       
       RequestManager<PsaResponse>(
         params,
@@ -297,9 +303,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        psaDetails?.add(result.data?.data?? PSADetail());
+        if(result.status == Status.success){
+          psaDetails?.add(result.data?.data?? PSADetail());
+          isLoading.value = false;
+        }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -312,16 +322,20 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
         ivtDetail: ivtDetail
       );
-      
+      isLoading.value = true;
       RequestManager<IVTBase>(
         params,
         createCall: () => updateIvtDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        ivtDetails?.add(result.data?.data??IVTDetail());
+        if(result.status == Status.success){
+          ivtDetails?.add(result.data?.data??IVTDetail());
+          isLoading.value = false;
+        }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -334,7 +348,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
         newAdmissionDetail: newAdmissionDetail
       );
-      
+
+      isLoading.value = true;
+
       RequestManager<NewAdmissionBase>(
         params,
         createCall: () => updateNewAdmissionUsecase.execute(
@@ -345,10 +361,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
           selectedValue.add(selectedValue.value+1);
+          isLoading.value = false;
           getEnquiryDetail(enquiryID: enquiryID);
         }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -450,16 +468,21 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         file: file
       );
       uploadEnquiryFile.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<EnquiryFileUploadBase>(
         params,
         createCall: () => uploadEnquiryDocumentUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
-        isDocumentUploaded[index??0].value = true;
+        if(result.status == Status.success){
+          uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
+          isDocumentUploaded[index??0].value = true;
+          isLoading.value = false;
+        }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -473,16 +496,21 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
       );
       deleteEnquiryFile.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
         params,
         createCall: () => deleteEnquiryDocumentUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
-        isDocumentUploaded[index??0].value = false;
+        if(result.status == Status.success){
+          deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
+          isDocumentUploaded[index??0].value = false;
+          isLoading.value = false;
+        }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -494,6 +522,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
+      isLoading.value = true;
       getEnquiryFile.add(Resource.loading());
       RequestManager<DownloadEnquiryFileBase>(
         params,
@@ -506,6 +535,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
         }
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -538,14 +568,17 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             await file.writeAsBytes(result.data??Uint8List(0));
             log('$fullPath/$fileName');
             log("File Downloaded");
+            isLoading.value = true;
           } catch (e) {
             log(e.toString());
+            isLoading.value = false;
             // ScaffoldMessenger.of(context).showSnackBar(
             //   SnackBar(content: Text('Error: $e')),
             // );
           }
         }
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -565,7 +598,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -587,7 +620,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -618,7 +651,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = detail.studentDetails?.dob ?? ''; 
+    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -636,5 +669,17 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     ivtShiftSubject.add(detail.shift?.value?? '');
     parentTypeController.text = detail.enquirerParent??'';
     globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+  }
+
+  showPopUP(context){
+    Future.delayed(Duration.zero, ()
+    {
+      CommonPopups().showSuccess(
+          context,
+          'Enquiry Created Successfully',
+              (shouldRoute) {
+            Navigator.pop(context);
+          });
+    });
   }
 }

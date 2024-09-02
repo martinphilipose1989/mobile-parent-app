@@ -10,6 +10,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -78,177 +79,137 @@ class EnquiriesDetailsPageView
 
   @override
   Widget build(BuildContext context, EnquiriesDetailsPageModel model) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return AppStreamBuilder<bool>(
+      stream: model.isLoading,
+      initialData: model.isLoading.value,
+      dataBuilder: (context, snapshot) {
+        return Stack(
+          children: [
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
                     children: [
-                      ListItem(
-                        image: AppImages.personIcon,
-                        name: "${enquiryDetailArgs.studentName} ",
-                        year: enquiryDetailArgs.academicYear??'',
-                        id: enquiryDetailArgs.enquiryNumber??'',
-                        title: enquiryDetailArgs.school??'',
-                        subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                        buttontext: enquiryDetailArgs.enquiryStage??'',
-                        compeletion: '',
-                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                    ],
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const CommonText(
-                          text: "Admission Journey",
-                          style: AppTypography.body1,
-                        ),
-                        Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListItem(
+                            image: AppImages.personIcon,
+                            name: "${enquiryDetailArgs.studentName} ",
+                            year: enquiryDetailArgs.academicYear??'',
+                            id: enquiryDetailArgs.enquiryNumber??'',
+                            title: enquiryDetailArgs.school??'',
+                            subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                            buttontext: enquiryDetailArgs.enquiryStage??'',
+                            compeletion: '',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                      Visibility(
+                        visible: false,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(Icons.remove_red_eye_outlined,
-                                color: AppColors.primary),
-                            const SizedBox(
-                              width: 5,
+                            const CommonText(
+                              text: "Admission Journey",
+                              style: AppTypography.body1,
                             ),
-                            CommonText(
-                              text: "View Details",
-                              style: AppTypography.subtitle2.copyWith(
-                                color: AppColors.primary,
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.remove_red_eye_outlined,
+                                    color: AppColors.primary),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                CommonText(
+                                  text: "View Details",
+                                  style: AppTypography.subtitle2.copyWith(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Visibility(
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
                         ),
-                        CommonTabPage(
-                          firstTabTitle: "Enquiry Details",
-                          secondTabTitle: "Upload Documents",
-                          tabController: model.tabController,
-                          selectedValue: model.selectedValue,
-                          onSecondTabTap: (){
-                            model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
-                          },
-                          onFirstTabTap: () {
-                            if(enquiryDetailArgs.enquiryType == "IVT"){
-                              model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                            }
-                            else if(enquiryDetailArgs.enquiryType == "PSA"){
-                              model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                            } 
-                            else{
-                              model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
-                            }
-                          },
-                        ),
-                        AppStreamBuilder<bool>(
-                              stream: model.editRegistrationDetails,
-                              initialData: model.editRegistrationDetails.value,
-                              dataBuilder: (context, editRegistrationDetailsData) {
-                                return AppStreamBuilder<int>(
-                                  stream: model.selectedValue,
-                                  initialData: model.selectedValue.value,
-                                  dataBuilder: (context, data) {
-                                    return data == 1
-                                        ? UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',)
-                                        : model.editRegistrationDetails.value
-                                            ? SingleChildScrollView(
-                                              child: (enquiryDetailArgs.enquiryType == "New Admission")? AppStreamBuilder<Resource<NewAdmissionBase>>(
-                                              stream: model.newAdmissionDetail,
-                                              initialData: Resource.none(),
-                                              dataBuilder: (context, snapshot) {
-                                                if(snapshot?.status == Status.loading){
-                                                  return const CircularProgressIndicator();
-                                                }
-                                                if(snapshot?.status == Status.success){
-                                                  return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
-                                                }
-                                                else{
-                                                  return const CommonText(text: "Details not found");
-                                                }
-                                              }
-                                            ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
-                                                AppStreamBuilder<Resource<PsaResponse>>(
-                                                  stream: model.psaDetail,
+                      ),
+                      Visibility(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CommonTabPage(
+                              firstTabTitle: "Enquiry Details",
+                              secondTabTitle: "Upload Documents",
+                              tabController: model.tabController,
+                              selectedValue: model.selectedValue,
+                              onSecondTabTap: (){
+                                model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+                              },
+                              onFirstTabTap: () {
+                                if(enquiryDetailArgs.enquiryType == "IVT"){
+                                  model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                }
+                                else if(enquiryDetailArgs.enquiryType == "PSA"){
+                                  model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                } 
+                                else{
+                                  model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
+                                }
+                              },
+                            ),
+                            AppStreamBuilder<bool>(
+                                  stream: model.editRegistrationDetails,
+                                  initialData: model.editRegistrationDetails.value,
+                                  dataBuilder: (context, editRegistrationDetailsData) {
+                                    return AppStreamBuilder<int>(
+                                      stream: model.selectedValue,
+                                      initialData: model.selectedValue.value,
+                                      dataBuilder: (context, data) {
+                                        return data == 1
+                                            ? UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',)
+                                            : model.editRegistrationDetails.value
+                                                ? SingleChildScrollView(
+                                                  child: (enquiryDetailArgs.enquiryType == "New Admission")? AppStreamBuilder<Resource<NewAdmissionBase>>(
+                                                  stream: model.newAdmissionDetail,
                                                   initialData: Resource.none(),
                                                   dataBuilder: (context, snapshot) {
                                                     if(snapshot?.status == Status.loading){
                                                       return const CircularProgressIndicator();
                                                     }
                                                     if(snapshot?.status == Status.success){
-                                                      return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
+                                                      return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
                                                     }
                                                     else{
                                                       return const CommonText(text: "Details not found");
                                                     }
                                                   }
-                                                ) : AppStreamBuilder<Resource<IVTBase>>(
-                                                  stream: model.ivtDetail,
-                                                  initialData: Resource.none(),
-                                                  dataBuilder: (context, snapshot) {
-                                                    if(snapshot?.status == Status.loading){
-                                                      return const CircularProgressIndicator();
-                                                    }
-                                                    if(snapshot?.status == Status.error){
-                                                      return const CommonText(text: "Details not found");
-                                                    }
-                                                    else {
-                                                      return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
-                                                    }
-                                                  }
-                                                )
-                                              )
-                                            : (enquiryDetailArgs.enquiryType == "IVT")? AppStreamBuilder<Resource<IVTBase>>(
-                                                  stream: model.ivtDetail,
-                                                  initialData: Resource.none(),
-                                                  dataBuilder: (context, snapshot) {
-                                                    if(snapshot?.status == Status.loading){
-                                                     return const CircularProgressIndicator();
-                                                    }
-                                                    if(snapshot?.status == Status.error){
-                                                      return const CommonText(text: "Details not found");
-                                                    }
-                                                    else {
-                                                      return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,);
-                                                    }
-                                                  }): (enquiryDetailArgs.enquiryType == "PSA") ? 
-                                                AppStreamBuilder<Resource<PsaResponse>>(
-                                                  stream: model.psaDetail,
-                                                  initialData: Resource.none(),
-                                                  dataBuilder: (context, snapshot) {
-                                                    if(snapshot?.status == Status.loading){
-                                                      return const CircularProgressIndicator();
-                                                    }
-                                                    if(snapshot?.status == Status.error){
-                                                      return const CommonText(text: "Details not found");
-                                                    }
-                                                    else {
-                                                      return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value,);
-                                                    }
-                                                  }
-                                                ) : AppStreamBuilder<Resource<NewAdmissionBase>>(
-                                                      stream: model.newAdmissionDetail,
+                                                ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
+                                                    AppStreamBuilder<Resource<PsaResponse>>(
+                                                      stream: model.psaDetail,
+                                                      initialData: Resource.none(),
+                                                      dataBuilder: (context, snapshot) {
+                                                        if(snapshot?.status == Status.loading){
+                                                          return const CircularProgressIndicator();
+                                                        }
+                                                        if(snapshot?.status == Status.success){
+                                                          return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
+                                                        }
+                                                        else{
+                                                          return const CommonText(text: "Details not found");
+                                                        }
+                                                      }
+                                                    ) : AppStreamBuilder<Resource<IVTBase>>(
+                                                      stream: model.ivtDetail,
                                                       initialData: Resource.none(),
                                                       dataBuilder: (context, snapshot) {
                                                         if(snapshot?.status == Status.loading){
@@ -258,57 +219,104 @@ class EnquiriesDetailsPageView
                                                           return const CommonText(text: "Details not found");
                                                         }
                                                         else {
-                                                          return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,);
+                                                          return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
                                                         }
                                                       }
-                                                    );
-                                                
+                                                    )
+                                                  )
+                                                : (enquiryDetailArgs.enquiryType == "IVT")? AppStreamBuilder<Resource<IVTBase>>(
+                                                      stream: model.ivtDetail,
+                                                      initialData: Resource.none(),
+                                                      dataBuilder: (context, snapshot) {
+                                                        if(snapshot?.status == Status.loading){
+                                                         return const CircularProgressIndicator();
+                                                        }
+                                                        if(snapshot?.status == Status.error){
+                                                          return const CommonText(text: "Details not found");
+                                                        }
+                                                        else {
+                                                          return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,);
+                                                        }
+                                                      }): (enquiryDetailArgs.enquiryType == "PSA") ? 
+                                                    AppStreamBuilder<Resource<PsaResponse>>(
+                                                      stream: model.psaDetail,
+                                                      initialData: Resource.none(),
+                                                      dataBuilder: (context, snapshot) {
+                                                        if(snapshot?.status == Status.loading){
+                                                          return const CircularProgressIndicator();
+                                                        }
+                                                        if(snapshot?.status == Status.error){
+                                                          return const CommonText(text: "Details not found");
+                                                        }
+                                                        else {
+                                                          return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value,);
+                                                        }
+                                                      }
+                                                    ) : AppStreamBuilder<Resource<NewAdmissionBase>>(
+                                                          stream: model.newAdmissionDetail,
+                                                          initialData: Resource.none(),
+                                                          dataBuilder: (context, snapshot) {
+                                                            if(snapshot?.status == Status.loading){
+                                                              return const CircularProgressIndicator();
+                                                            }
+                                                            if(snapshot?.status == Status.error){
+                                                              return const CommonText(text: "Details not found");
+                                                            }
+                                                            else {
+                                                              return EnquiriesDetailsViewWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,);
+                                                            }
+                                                          }
+                                                        );
+                                                    
+                                      },
+                                    );
                                   },
-                                );
-                              },
+                            ),
+                              
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
                         ),
-                          
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        AppStreamBuilder<bool>(
-            stream: model.showMenuOnFloatingButton,
-            initialData: model.showMenuOnFloatingButton.value,
-            dataBuilder: (context, data) {
-              return data!
-                  ? Container(
-                      color: Colors.black.withOpacity(0.5),
-                    )
-                  : SizedBox.fromSize();
-            }),
-        AppStreamBuilder<bool>(
-            stream: model.showMenuOnFloatingButton,
-            initialData: model.showMenuOnFloatingButton.value,
-            dataBuilder: (context, data) {
-              return Positioned(
-                  right: 20,
-                  bottom: 100,
-                  child: data!
-                      ? Menu(
-                          height: 400.h,
-                          menuData: model.menuData,
-                          onTap: (index) {
-                            actionOnMenu(index, context, model);
-                          },
-                          showMenuOnFloatingButton:
-                              model.showMenuOnFloatingButton,
+            AppStreamBuilder<bool>(
+                stream: model.showMenuOnFloatingButton,
+                initialData: model.showMenuOnFloatingButton.value,
+                dataBuilder: (context, data) {
+                  return data!
+                      ? Container(
+                          color: Colors.black.withOpacity(0.5),
                         )
-                      : SizedBox.fromSize());
-            })
-      ],
+                      : SizedBox.fromSize();
+                }),
+            AppStreamBuilder<bool>(
+                stream: model.showMenuOnFloatingButton,
+                initialData: model.showMenuOnFloatingButton.value,
+                dataBuilder: (context, data) {
+                  return Positioned(
+                      right: 20,
+                      bottom: 100,
+                      child: data!
+                          ? Menu(
+                              height: 400.h,
+                              menuData: model.menuData,
+                              onTap: (index) {
+                                actionOnMenu(index, context, model);
+                              },
+                              showMenuOnFloatingButton:
+                                  model.showMenuOnFloatingButton,
+                            )
+                          : SizedBox.fromSize());
+                }),
+            if(model.isLoading.value)...[const CommonAppLoader()]
+          ],
+        );
+      }
     );
   }
 }

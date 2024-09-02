@@ -37,7 +37,7 @@ final BankDetails? bankDetails;
                         height: 1,
                         thickness: 1,
                       ),
-                      DetailsItem(title: "IFSC COde", subtitle:bankDetails?.ifscCode??""),
+                      DetailsItem(title: "IFSC Code", subtitle:bankDetails?.ifscCode??""),
                       DetailsItem(
                           title: "Bank Name", subtitle: bankDetails?.bankName??''),
                       DetailsItem(title: "Branch Name", subtitle: bankDetails?.branchName??''),

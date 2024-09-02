@@ -204,7 +204,7 @@ class EnquiriesDetailsPageState
                               // model.selectedValue.add(model.selectedValue.value+1);
                             }
                             else{
-                              Navigator.pop(context);
+                              model.showPopUP(context);
                             }
                           },
                           text: model.selectedValue.value == 0 ? 'Next' : "Submit",

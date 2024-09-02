@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
@@ -9,6 +10,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -87,6 +89,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     '600001',
   ];
 
+  BuildContext? context;
+
   final studenEnquiryFormKey = GlobalKey<FormState>();
   final parentInfoFormKey = GlobalKey<FormState>();
   final contactInfoFormKey = GlobalKey<FormState>();
@@ -96,7 +100,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   EnquiryDetailArgs? enquiryDetailArgs;
   EnquiryDetail? enquiryDetails;
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
-  final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
+  final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(false);
   final PublishSubject<Resource<ParentInfo>> parentDetail =
   PublishSubject();
   final PublishSubject<Resource<ContactDetails>> contactDetail =
@@ -439,14 +443,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       final params = UpdateParentDetailsUsecaseParams(
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
       parentDetail.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<SingleResponse>(
           params,
           createCall: () => updateParentDetailsUsecase.execute(params: params)
 
       ).asFlow().listen((result) {
-        parentDetail.add(Resource.success(data: result.data?.data));
-       parentInfo = result.data?.data;
-        addParentDetails( result.data?.data??ParentInfo());
+        if(result.status == Status.success){
+          parentDetail.add(Resource.success(data: result.data?.data));
+          parentInfo = result.data?.data;
+          addParentDetails( result.data?.data??ParentInfo());
+          ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .add(ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .value +1
+          );
+          isLoading.value = false;
+          showWidget.add(showWidget.value + 1);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -460,6 +479,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateMedicalDetailsUsecaseParams(
           enquiryID: enquiryID, medicalDetails: medicalEntity);
+          isLoading.value = true;
       RequestManager<SingleResponse>(
           params,
           createCall: () =>
@@ -467,7 +487,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         medicalDetail.add(Resource.success(data: result.data?.data));
         medicalDetails = result.data?.data;
-        addMedicalDetails( result.data?.data??MedicalDetails());
+        ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .add(ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .value +1
+        );
+        isLoading.value = false;
+        showWidget.add(showWidget.value + 1);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -481,14 +512,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateContactDetailsUsecaseParams(
           enquiryID: enquiryID, contactDetails: contactInfoEntity);
+          isLoading.value = true;
       RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateContactDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
+        if(result.status == Status.success){
         contactDetail.add(Resource.success(data: result.data?.data));
         contactDetails = result.data?.data;
         addContactDetails( result.data?.data??ContactDetails());
+        ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .add(ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .value +1
+          );
+        isLoading.value = false;
+        showWidget.add(showWidget.value + 1);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -501,14 +547,30 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateBankDetailsUsecaseParams(
           enquiryID: enquiryID, bankDetails: bankDetailEntity);
+          isLoading.add(true);
       RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateBankDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-        bankDetail.add(Resource.success(data: result.data?.data));
-        bankDetails = result.data?.data;
-        addBankDetails( result.data?.data??BankDetails());
+        if(result.status == Status.success){
+          bankDetail.add(Resource.success(data: result.data?.data));
+          bankDetails = result.data?.data;
+          addBankDetails( result.data?.data??BankDetails());
+          ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .add(ProviderScope
+          .containerOf(context!)
+          .read(commonChipListProvider)
+          .highlightIndex
+          .value +1
+          );
+          isLoading.value = false;
+          getEnquiryDetail(enquiryID: enquiryID);
+          showWidget.add(showWidget.value + 1);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -664,16 +726,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         enquiryID: enquiryID,
         newAdmissionDetail: newAdmissionDetail
       );
-      
+      isLoading.value = true;
       RequestManager<NewAdmissionBase>(
         params,
         createCall: () => updateNewAdmissionUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        newAdmissionDetailSubject?.add(result.data?.data?? NewAdmissionDetail());
-        // activeStep.add()
+        if(result.status == Status.success){
+          isLoading.value = false;
+          newAdmissionDetailSubject?.add(result.data?.data?? NewAdmissionDetail());
+        }
+        
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -775,8 +841,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
-        isDocumentUploaded[index??0].value = true;
+        if(result.status == Status.success){
+          uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
+          isDocumentUploaded[index??0].value = true;
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -798,8 +866,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
-        isDocumentUploaded[index??0].value = false;
+        if(result.status == Status.success){
+          deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
+          isDocumentUploaded[index??0].value = false;
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

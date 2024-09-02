@@ -17,7 +17,6 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:flutter/material.dart' as flutter;
 
-import '../../utils/common_widgets/common_popups.dart';
 
 class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   final String routeFrom;
@@ -35,6 +34,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     RegistrationsDetailsViewModel, RegistrationsDetailsPage> {
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
+    model.context = context;
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
@@ -184,6 +184,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         if(model.bankDetailsFormKey.currentState!.validate()){
                           model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
                         }
+                      } else {
+                        model.showPopUP(context);
                       }
                     },
                     text: 'Save',
@@ -219,7 +221,6 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         }
                       } else if(model.showWidget.value <= 5){
                         model.showPopUP(context);
-
                       }
                       else{
                         return;
