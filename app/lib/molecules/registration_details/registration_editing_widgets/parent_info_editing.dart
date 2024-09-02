@@ -16,7 +16,9 @@ class ParentInfoEditing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Form(
+      key: model.parentInfoFormKey,
+        child:Column(children: [
       Container(
         width: 358.w,
         margin: const EdgeInsets.only(bottom: 15),
@@ -696,6 +698,6 @@ class ParentInfoEditing extends StatelessWidget {
         value: 'No',
       ),
       const SizedBox(height: 100,)
-    ]);
+    ]));
   }
 }

@@ -14,7 +14,9 @@ class ContactInfoEditing extends StatelessWidget {
   final RegistrationsDetailsViewModel model;
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Form(
+      key: model.contactInfoFormKey,
+        child:Column(children: [
       Container(
         width: 358.w,
         margin: const EdgeInsets.only(bottom: 15),
@@ -231,6 +233,6 @@ class ContactInfoEditing extends StatelessWidget {
               )
             ]),
       ),
-    ]);
+    ]));
   }
 }
