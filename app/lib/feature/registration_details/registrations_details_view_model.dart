@@ -15,6 +15,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
+import '../../utils/common_widgets/common_popups.dart';
 import '../../utils/request_manager.dart';
 
 @injectable
@@ -190,6 +191,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController residentialStateController = TextEditingController();
   TextEditingController residentialCityController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
+  TextEditingController parentEmailIdController = TextEditingController();
+  TextEditingController parentMobileNumberController = TextEditingController();
+  String? contactParentType;
   String? emergencyContact;
   String? residentialCountry;
   String? residentialState;
@@ -1060,6 +1064,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     residentialState=contactDetails.residentialAddress?.state??"";
     residentialCity= contactDetails.residentialAddress?.city??"";
     residentialPinCode=contactDetails.residentialAddress?.pincode??"";
+    parentEmailIdController.text=contactDetails.pointOfContact?.parentEmailId??"";
+    parentMobileNumberController.text=contactDetails.pointOfContact?.parentContactNumber??"";
+    contactParentType=contactDetails.pointOfContact?.parentType??"";
     contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
   }
 
@@ -1180,6 +1187,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     contactDetails?.residentialAddress?.state=residentialStateController.text.trim();
     contactDetails?.residentialAddress?.city=residentialCityController.text.trim();
     contactDetails?.residentialAddress?.pincode=residentialPinCodeController.text.trim();
+    contactDetails?.pointOfContact?.parentContactNumber=parentMobileNumberController.text.trim();
+    contactDetails?.pointOfContact?.parentEmailId=parentEmailIdController.text.trim();
+    contactDetails?.pointOfContact?.parentType=contactParentType;
     contactDetails?.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
     contactDetail=contactDetail.restore(contactDetails!);
     await updateContactDetail(enquiryId,contactDetail);
@@ -1282,5 +1292,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetail = newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
       updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
     }
+  }
+
+  showPopUP(context){
+    Future.delayed(Duration.zero, ()
+    {
+      CommonPopups().showSuccess(
+          context,
+          'Student Registered Successfully',
+              (shouldRoute) {
+            Navigator.pop(context);
+
+          });
+    });
   }
 }

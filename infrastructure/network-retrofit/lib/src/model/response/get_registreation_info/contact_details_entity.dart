@@ -1,5 +1,6 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/point_of_contact_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/residential_contact_info_entity.dart';
 
 part 'contact_details_entity.g.dart';
@@ -7,7 +8,7 @@ part 'contact_details_entity.g.dart';
 @JsonSerializable(explicitToJson: true,createToJson: false)
 class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity,ContactDetails>{
     String? emergencyContact;
-    List<dynamic>? pointOfContact;
+    PointOfContactInfoEntity? pointOfContact;
     ResidentialAddressContactInfoEntity? residentialAddress;
 
     ContactDetailsEntity({
@@ -29,7 +30,7 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
   ContactDetails transform() {
     ContactDetails contactDetails = ContactDetails();
     contactDetails.emergencyContact = emergencyContact;
-    contactDetails.pointOfContact = pointOfContact;
+    contactDetails.pointOfContact = pointOfContact?.transform();
     contactDetails.residentialAddress = residentialAddress?.transform();
     return contactDetails;
   }

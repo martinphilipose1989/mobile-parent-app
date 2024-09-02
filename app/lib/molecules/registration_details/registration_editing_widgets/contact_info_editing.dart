@@ -63,19 +63,41 @@ class ContactInfoEditing extends StatelessWidget {
             border: Border.all(
               width: 1,
             )),
-        child: const ExpansionTile(
-            title: CommonText(
+        child:  ExpansionTile(
+            title: const CommonText(
               text: "Point Of Contact",
               style: AppTypography.subtitle2,
             ),
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Divider(
+                    const Divider(
                       height: 1,
                       thickness: 1,
+                    ),
+                    CustomDropdownButton(
+                      items: model.contactRelationshipOptions,
+                      width: MediaQuery.of(context).size.width,
+                      isMutiSelect: false,
+                      dropdownName: 'Parent Type',
+                      showAstreik: true,
+                      onMultiSelect: (selectedValues) {},
+                      onSingleSelect: (val){
+                        val!=model.contactParentType;
+                      },
+                      showBorderColor: true,
+                    ),
+                    CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Parent Mobile Number',
+                        controller:model.parentMobileNumberController
+                    ),
+                    CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Parent Email Id',
+                        controller:model.parentEmailIdController
                     ),
                   ],
                 ),
@@ -188,8 +210,7 @@ class ContactInfoEditing extends StatelessWidget {
                       showBorderColor: true,
                       onSingleSelect: (val){
                         val!=model.residentialPinCode;
-
-                      },
+                        },
                     ),
                     const CommonText(
                       text: "Is Permanent Address Same As Present?",
