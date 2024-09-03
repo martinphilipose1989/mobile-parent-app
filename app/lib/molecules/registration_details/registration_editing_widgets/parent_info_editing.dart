@@ -10,6 +10,9 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/app_validators.dart';
+import '../../../utils/stream_builder/app_stream_builder.dart';
+
 class ParentInfoEditing extends StatelessWidget {
   const ParentInfoEditing({super.key, required this.model, });
 
@@ -19,7 +22,9 @@ class ParentInfoEditing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: model.parentInfoFormKey,
-        child:Column(children: [
+        child:Column(
+mainAxisSize: MainAxisSize.max,
+            children: [
       Container(
         width: 358.w,
         margin: const EdgeInsets.only(bottom: 15),
@@ -47,30 +52,37 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Father's First Name",
                       controller: model.fatherFirstNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'First Name',checkSpecialCharacters: false,validateLength: true,minLength: 2),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Father's Last Name",
                       controller: model.fatherLastNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Last Name',checkSpecialCharacters: false,validateLength: true,minLength: 2),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Father's Adhar Card No",
                       controller: model.fatherAdharCardController,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Adhar Card No',checkSpecialCharacters: false,validateLength: true,minLength: 12),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Father's Pan Card No",
                       controller:model.fatherPanCardController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Pan Card No',checkSpecialCharacters: false,validateLength: true,minLength: 10),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Qualification",
                       controller: model.qualificationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Qualification',checkSpecialCharacters: false,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -79,6 +91,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
                       showAstreik: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Occupation',checkSpecialCharacters: false,),
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
@@ -90,18 +103,21 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Organization Name",
                       controller: model.organizationNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Organization Name',checkSpecialCharacters: false),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Designation",
                       controller: model.designationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Designation',checkSpecialCharacters: false),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Office Address",
-                      controller:model.officeAddressController
+                      controller:model.officeAddressController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Office Address',checkSpecialCharacters: false),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -109,6 +125,7 @@ class ParentInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Area',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Father Area',checkSpecialCharacters: false),
                       showAstreik: true,
                       onMultiSelect: (val) {},
                       onSingleSelect: (val){
@@ -123,6 +140,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Country',
                       showAstreik: true,
+                     validator: (value)=> AppValidators.validateNotEmpty(value, 'Country',checkSpecialCharacters: false,),
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
                         if (model.country.value.contains(val)) {
@@ -141,6 +159,8 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Pin Code",
                       controller: model.pinCodeController,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Pin code',checkSpecialCharacters: false),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -149,6 +169,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'State',
                       showAstreik: true,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, 'State',checkSpecialCharacters: false,),
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect:(val){
                         if(model.state.value.contains(val)){
@@ -168,6 +189,7 @@ class ParentInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'City',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'City',checkSpecialCharacters: false,),
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
@@ -187,12 +209,15 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Father's Email ID",
                       controller: model.fatherEmailController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Email ID',checkSpecialCharacters: false,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Father's Mobile Number",
-                      controller:model.fatherMobileController
+                      controller:model.fatherMobileController,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Mobile Number',checkSpecialCharacters: false,),
                     ),
                   ],
                 ),
@@ -226,30 +251,40 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Mother's First Name",
                       controller: model.motherFirstNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's First Name",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Mother's Last Name",
                       controller: model.motherLastNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Last Name",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Mother's Adhar Card No",
                       controller: model.motherAdharCardController,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Adhar Card No",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Mother's Pan Card No",
-                      controller:model.motherPanCardController
-                    ),
+                      controller:model.motherPanCardController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Pan Card No",checkSpecialCharacters: true,),
+
+    ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Qualification",
                       controller: model.motherQualificationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Qualification",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -258,6 +293,8 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
                       showAstreik: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Occupation",checkSpecialCharacters: true,),
+
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
@@ -268,19 +305,25 @@ class ParentInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Organization Name",
-                      controller:model.motherQualificationController
+                      controller:model.motherQualificationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Organization Name",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Designation",
-                      controller:model.motherDesignationController
+                      controller:model.motherDesignationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Designation",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Office Address",
-                      controller:model.motherOfficeAddressController
+                      controller:model.motherOfficeAddressController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Office Address",checkSpecialCharacters: false,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -291,6 +334,8 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Area",checkSpecialCharacters: true,),
+
                       onSingleSelect: (val){
                         val=model.motherArea!;
                       },
@@ -325,7 +370,10 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Pin Code",
                        controller: model.motherPinCodeController,
-                    ),
+                       keyboardType: TextInputType.number,
+                       validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Pin code",checkSpecialCharacters: true,),
+
+                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     StreamBuilder<List<String>>(
                       stream: model.state,
@@ -335,6 +383,8 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'State',
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's State",checkSpecialCharacters: true,),
+
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -361,6 +411,8 @@ class ParentInfoEditing extends StatelessWidget {
                           isMutiSelect: false,
                           dropdownName: 'City',
                           showAstreik: true,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's City",checkSpecialCharacters: true,),
+
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
@@ -381,12 +433,18 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Mother's Email ID",
                        controller: model.motherEmailController,
-                    ),
+
+                       validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's Email ID",checkSpecialCharacters: false,),
+
+                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Mother's Mobile Number",
                       controller: model.motherMobileController,
+                      keyboardType: TextInputType.text,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Mother's First Name",checkSpecialCharacters: true,),
+
                     ),
                   ],
                 ),
@@ -420,30 +478,42 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Guardian's First Name",
                        controller: model.guardianFirstNameController,
-                    ),
+                       validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's First Name",checkSpecialCharacters: true,),
+
+                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
                       showAstreik: true,
                       labelText: "Guardian's Last Name",
                       controller: model.guardianLastNameController,
-                    ),
+                       validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Last Name",checkSpecialCharacters: true,),
+
+
+                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Guardian's Adhar Card No.",
-                      controller:model.guardianAdharCardController
-                    ),
+                      controller:model.guardianAdharCardController,
+                        keyboardType: TextInputType.number,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Adhar Card No",checkSpecialCharacters: true,),
+
+    ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
                       showAstreik: true,
                       labelText: "Guardian's Pan Card No.",
-                      controller:model.guardianPanCardController
-                    ),
+                      controller:model.guardianPanCardController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Pan Card No",checkSpecialCharacters: true,),
+
+    ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Qualification",
-                        controller:model.guardianQualificationController
+                        controller:model.guardianQualificationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Qualification",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -451,6 +521,7 @@ class ParentInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Occupation',
+                      //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",checkSpecialCharacters: true,),
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
@@ -462,19 +533,25 @@ class ParentInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Organization Name",
-                      controller:model.guardianOrganizationNameController
+                      controller:model.guardianOrganizationNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Organization Name",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Designation",
-                      controller:model.guardianDesignationController
+                      controller:model.guardianDesignationController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Designation",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Office Address",
-                      controller:model.guardianOfficeAddressController
+                      controller:model.guardianOfficeAddressController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Office Address",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
@@ -483,6 +560,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Area',
                       showAstreik: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Area",checkSpecialCharacters: true,),
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
@@ -499,6 +577,7 @@ class ParentInfoEditing extends StatelessWidget {
                           isMutiSelect: false,
                           dropdownName: 'Country',
                           showAstreik: true,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Country",checkSpecialCharacters: true,),
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
@@ -519,6 +598,9 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Pin Code",
                       controller: model.guardianPinCodeController,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Pin Code",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     StreamBuilder<List<String>>(
@@ -530,6 +612,8 @@ class ParentInfoEditing extends StatelessWidget {
                           isMutiSelect: false,
                           dropdownName: 'State',
                           showAstreik: true,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's State",checkSpecialCharacters: true,),
+
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val){
@@ -554,6 +638,8 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'City',
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's City",checkSpecialCharacters: true,),
+
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -574,13 +660,17 @@ class ParentInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Guardian's Email ID",
-                      controller: model.guardianEmailController
+                      controller: model.guardianEmailController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Email Id",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Guardian's Mobile Number",
-                      controller:model.guardianMobileController
+                      controller:model.guardianMobileController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Mobile Number",checkSpecialCharacters: true,),
+
                     ),
                     CommonRadioButtonWidget(
                       title: 'Custodian Guardian',
@@ -650,18 +740,24 @@ class ParentInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Sibling's Enrollment Number",
                       controller: model.siblingsEnrollmentController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's Enrollment Number",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Sibling First Name",
-                      controller:model.siblingFirstNameController
+                      controller:model.siblingFirstNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's First Name",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "Sibling Last Name",
-                      controller:model.siblingLastNameController
+                      controller:model.siblingLastNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's Last Name",checkSpecialCharacters: true,),
+
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     const CommonDatePickerWidget(),
@@ -672,6 +768,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Gender',
                       showAstreik: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's Gender",checkSpecialCharacters: true,),
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
@@ -682,6 +779,8 @@ class ParentInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: "School",
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's School",checkSpecialCharacters: true,),
+
                       controller: model.siblingsSchoolController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -691,6 +790,7 @@ class ParentInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Grade',
                       showAstreik: true,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Sibling's Grade",checkSpecialCharacters: true,),
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
@@ -702,20 +802,82 @@ class ParentInfoEditing extends StatelessWidget {
               )
             ]),
       ),
-      const CommonText(
-        text: 'For Sibling 1',
+      const Align(
+        alignment: Alignment.topLeft,
+        child:
+      CommonText(
+        text: "Are Your Parent's Separated?",
         style: AppTypography.subtitle2,
-      ),
+      ),),
+
+        Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(width: 200,
+     child:Row(
+
+       mainAxisSize: MainAxisSize.min,
+         children:[
+
+           Expanded(
+             child:
       CommonRadioButtonWidget(
         title: 'Yes',
         commonRadioButton: model.radioButtonController2,
         value: 'Yes',
-      ),
+      ),),
+
+      Expanded(child:
       CommonRadioButtonWidget(
         title: 'No',
         commonRadioButton: model.radioButtonController2,
         value: 'No',
-      ),
+      ),)]),),),
+
+    AppStreamBuilder<String?>(
+    stream: model.radioButtonController2.selectedItemStream,
+    initialData: model.radioButtonController2.selectedItem,
+    dataBuilder: (context, data) {
+      return
+              Visibility(
+                visible: data=='Yes',
+                child:
+              const Align(
+                alignment: Alignment.topLeft,
+                child:
+                CommonText(
+                  text: "Who Has The Custody Of the Child?",
+                  style: AppTypography.subtitle2,
+                ),),);}),
+    AppStreamBuilder<String?>(
+    stream: model.radioButtonController2.selectedItemStream,
+    initialData: model.radioButtonController2.selectedItem,
+    dataBuilder: (context, data) {
+    return
+Visibility(
+  visible: data=='Yes',
+  child:
+              Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(width: 300,
+                  child:Row(
+
+                      mainAxisSize: MainAxisSize.min,
+                      children:[
+
+                        Expanded(
+                          child:
+                          CommonRadioButtonWidget(
+                            title: 'Mother',
+                            commonRadioButton: model.radioButtonController10,
+                            value: 'Yes',
+                          ),),
+
+                        Expanded(child:
+                        CommonRadioButtonWidget(
+                          title: 'Father',
+                          commonRadioButton: model.radioButtonController10,
+                          value: 'No',
+                        ),)]),),),);}),
       const SizedBox(height: 100,)
     ]));
   }

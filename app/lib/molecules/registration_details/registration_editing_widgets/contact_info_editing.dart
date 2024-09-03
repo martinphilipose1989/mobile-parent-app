@@ -8,6 +8,8 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/app_validators.dart';
+
 class ContactInfoEditing extends StatelessWidget {
   const ContactInfoEditing({super.key, required this.model});
 
@@ -43,6 +45,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CustomDropdownButton(
                       items: model.contactRelationshipOptions,
                       width: MediaQuery.of(context).size.width,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Contact Number",),
                       isMutiSelect: false,
                       dropdownName: 'Contact Number',
                       showAstreik: true,
@@ -86,6 +89,8 @@ class ContactInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Type",),
+
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
@@ -97,13 +102,17 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Mobile Number',
-                        controller:model.parentMobileNumberController1
+                        controller:model.parentMobileNumberController1,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Mobile Number",checkSpecialCharacters: true,minLength: 10),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Email Id',
-                        controller:model.parentEmailIdController1
+                        controller:model.parentEmailIdController1,
+
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Email Id",checkSpecialCharacters: false,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     const CommonText(text:'Preference 2'),
@@ -113,6 +122,8 @@ class ContactInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
+
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
@@ -124,13 +135,16 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Mobile Number',
-                        controller:model.parentMobileNumberController2
+                        controller:model.parentMobileNumberController2,
+                      keyboardType: TextInputType.number,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Mobile Number",checkSpecialCharacters: true,minLength: 10),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Email Id',
-                        controller:model.parentEmailIdController2
+                        controller:model.parentEmailIdController2,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
                     ),
                   ],
                 ),
@@ -164,18 +178,21 @@ class ContactInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: 'House No./ Building',
                       controller: model.houseOrBuildingController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "House No/ Building",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: 'Street Name',
-                      controller:model.streetNameController
+                      controller:model.streetNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Street Name",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
                       labelText: 'Landmark',
-                      controller:model.landMarkController
+                      controller:model.landMarkController,
+                        validator: (value)=> AppValidators.validateNotEmpty(value, "Landmark",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     StreamBuilder<List<String>>(
@@ -184,6 +201,8 @@ class ContactInfoEditing extends StatelessWidget {
                         return CustomDropdownButton(
                           items: model.country.value,
                           width: MediaQuery.of(context).size.width,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "Country",),
+
                           isMutiSelect: false,
                           dropdownName: 'Country',
                           showAstreik: true,
@@ -208,6 +227,8 @@ class ContactInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'State',
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "State",),
+
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -229,6 +250,8 @@ class ContactInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'City',
+                          validator: (value)=> AppValidators.validateNotEmpty(value, "City",),
+
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -247,6 +270,8 @@ class ContactInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Pin Code',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "PinCode",),
+
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
