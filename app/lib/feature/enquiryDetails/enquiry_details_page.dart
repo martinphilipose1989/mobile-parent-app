@@ -34,6 +34,7 @@ class EnquiriesDetailsPageState
   @override
   void onModelReady(EnquiriesDetailsPageModel model) {
     model.tabController = TabController(length: 2, vsync: this);
+    model.context = context;
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
     if(widget.enquiryDetailArgs.enquiryType == "IVT"){

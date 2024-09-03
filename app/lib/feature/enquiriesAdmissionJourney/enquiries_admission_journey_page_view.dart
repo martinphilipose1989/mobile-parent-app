@@ -130,14 +130,15 @@ class EnquiriesAdmissionsJourneyPageView
                                       title: CommonText(
                                         text: result?.data?.data?[index].stage??'',
                                       ),
-                                      state: result?.data?.data?[index].status == "Completed"
-                                          ? StepState.complete
-                                          : StepState.indexed,
-                                      isActive: result?.data?.data?[index].status == "Completed",
+                                      state: result?.data?.data?[index].status == "Open" || result?.data?.data?[index].status == "In Progress"
+                                          ? StepState.indexed
+                                          : StepState.complete,
+                                      isActive: result?.data?.data?[index].status != "Open" || result?.data?.data?[index].status != "In Progress",
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: result?.data?.data?.indexWhere((element) => (element.status == "Completed" || element.status == "Open" || element.status == "Closed"),)??0);
+                              activeStep: (result?.data?.data??[]).indexWhere((element) => (element.status == "Open" || element.status == "In Progress")) == -1 ? 0 : 
+                                (result?.data?.data??[]).indexWhere((element) => (element.status == "Open" || element.status == "In Progress")));
                     case Status.error:
                       return const Center(child: Text('Enquiries not found'),);
                     default:

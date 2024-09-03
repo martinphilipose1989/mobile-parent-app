@@ -52,10 +52,10 @@ class ParentDetail extends StatelessWidget {
                         title: "Office Address",
                         subtitle: parentInfo?.fatherDetails?.officeAddress??''),
                     DetailsItem(title: "Area", subtitle: parentInfo?.fatherDetails?.area??''),
-                    DetailsItem(title: "Country", subtitle: parentInfo?.fatherDetails?.country?.value??''),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.fatherDetails?.country is String)? parentInfo?.fatherDetails?.country : parentInfo?.fatherDetails?.country?.value??''),
                     // DetailsItem(title: "Pin Code", subtitle: parentInfo?.fatherDetails?.),
-                    DetailsItem(title: "State", subtitle: parentInfo?.fatherDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: parentInfo?.fatherDetails?.city?.value??''),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.fatherDetails?.state is String)? parentInfo?.fatherDetails?.state: parentInfo?.fatherDetails?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.fatherDetails?.city : parentInfo?.fatherDetails?.city?.value??''),
                     DetailsItem(
                         title: "Father's Email Id",
                         subtitle: parentInfo?.fatherDetails?.emailId??''),
@@ -106,10 +106,10 @@ class ParentDetail extends StatelessWidget {
                         title: "Office Address",
                         subtitle: parentInfo?.motherDetails?.officeAddress??''),
                     DetailsItem(title: "Area", subtitle: parentInfo?.motherDetails?.area??''),
-                    DetailsItem(title: "Country", subtitle: parentInfo?.motherDetails?.country?.value??''),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.motherDetails?.country is String)? parentInfo?.motherDetails?.country : parentInfo?.motherDetails?.country?.value??''),
                     // DetailsItem(title: "Pin Code", subtitle: parentInfo?.motherDetails?.),
-                    DetailsItem(title: "State", subtitle: parentInfo?.motherDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: parentInfo?.motherDetails?.city?.value??''),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.motherDetails?.state is String)? parentInfo?.motherDetails?.state: parentInfo?.motherDetails?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.motherDetails?.city : parentInfo?.motherDetails?.city?.value??''),
                     DetailsItem(
                         title: "Mother's Email Id",
                         subtitle: parentInfo?.motherDetails?.emailId??''),
@@ -156,10 +156,10 @@ class ParentDetail extends StatelessWidget {
                     DetailsItem(title: "Street Name", subtitle: parentInfo?.guardianDetails?.street??''),
                     DetailsItem(
                         title: "Landmark", subtitle: parentInfo?.guardianDetails?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: parentInfo?.guardianDetails?.country?.value??''),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.motherDetails?.country is String)? parentInfo?.motherDetails?.country : parentInfo?.motherDetails?.country?.value??''),
                     DetailsItem(title: "Pin Code", subtitle: parentInfo?.guardianDetails?.pincode??''),
-                    DetailsItem(title: "State", subtitle: parentInfo?.guardianDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: parentInfo?.guardianDetails?.city?.value??''),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.guardianDetails?.state is String)? parentInfo?.guardianDetails?.state: parentInfo?.guardianDetails?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.guardianDetails?.city is String)? parentInfo?.guardianDetails?.city : parentInfo?.guardianDetails?.city?.value??''),
                     DetailsItem(
                         title: "Gurdian's Email Id",
                         subtitle: parentInfo?.guardianDetails?.emailId??''),
@@ -197,12 +197,12 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
-                    const CommonText(
+                    CommonText(
                       text: 'For Sibling 1',
                       style: AppTypography.subtitle2,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
-                    const DetailsItem(
+                    DetailsItem(
                         title: "Is Sibling", subtitle: ''),
                     DetailsItem(
                         title: "Enrolment Number", subtitle: 'EMBA1234'),

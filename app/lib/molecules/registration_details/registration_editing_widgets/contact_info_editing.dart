@@ -202,7 +202,6 @@ class ContactInfoEditing extends StatelessWidget {
                           items: model.country.value,
                           width: MediaQuery.of(context).size.width,
                           validator: (value)=> AppValidators.validateNotEmpty(value, "Country",),
-
                           isMutiSelect: false,
                           dropdownName: 'Country',
                           showAstreik: true,

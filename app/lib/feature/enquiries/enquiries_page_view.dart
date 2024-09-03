@@ -5,7 +5,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesPageView extends BasePageViewWidget<EnquiriesPageModel> {
@@ -25,15 +24,7 @@ class EnquiriesPageView extends BasePageViewWidget<EnquiriesPageModel> {
           return const Center(child: Text('Enquiries not found'),);
         }
         if(result?.status == Status.success){
-          return Column(
-            children: [
-              ListV(enquiries: result?.data?.data?.data,scrollController: model.scrollController,model: model,),
-              if(result?.status == Status.loading && model.pageNumber > 1)...[
-                    const Center(child: CircularProgressIndicator(),),
-                    SizedBox(height: 15.h,),
-              ]
-            ],
-          );
+          return ListV(enquiries: result?.data?.data?.data,scrollController: model.scrollController,model: model,);
         }
         if(result?.status == Status.error && model.pageNumber == 1){
           return const Center(child: const CommonText(text: 'Enquiries not found'));

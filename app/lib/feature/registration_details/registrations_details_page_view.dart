@@ -61,7 +61,22 @@ class RegistrationsDetailsPageView
         model.getMdmAttribute(infoType: 'psaCategory');
         model.getMdmAttribute(infoType: 'psaSubCategory');
         model.getMdmAttribute(infoType: 'periodOfService');
-        
+        model.getMdmAttribute(infoType: "country");
+        model.getMdmAttribute(infoType: "state");
+        model.getMdmAttribute(infoType: "city");
+        model.getMdmAttribute(infoType: "bloodGroup");
+        if(model.showWidget.value == 1){
+          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "ParentInfo");
+        }
+        if(model.showWidget.value == 2){
+          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "ContactInfo");
+        }
+        if(model.showWidget.value == 3){
+          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "MedicalInfo");
+        }
+        if(model.showWidget.value == 4){
+          model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "BankInfo");
+        }
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
         return null;
@@ -280,9 +295,9 @@ class RegistrationsDetailsPageView
             dataBuilder: (context, result) {
               return model.showPopUP(context);
 
-    });
+      });
     }
-    }
+  }
 
 
   Widget registrationsWidgetAsPerIndex(int index, RegistrationsDetailsViewModel model) {

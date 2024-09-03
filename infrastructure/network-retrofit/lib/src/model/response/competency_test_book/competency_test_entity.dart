@@ -11,6 +11,8 @@ class CompetencyTestEntity extends BaseLayerDataTransformer<CompetencyTestEntity
   String? competencyTestTime;
   @JsonKey(name: 'comment')
   String? comment;
+  @JsonKey(name: 'test_result')
+  String? testResult;
   @JsonKey(name: 'added_by')
   int? addedBy;
 
@@ -18,6 +20,7 @@ class CompetencyTestEntity extends BaseLayerDataTransformer<CompetencyTestEntity
       this.competencyTestDate,
       this.competencyTestTime,
       this.comment,
+      this.testResult,
       this.addedBy,
     });
 
@@ -32,6 +35,7 @@ class CompetencyTestEntity extends BaseLayerDataTransformer<CompetencyTestEntity
     competencyTestDetail.competencyTestDate = competencyTestDate;
     competencyTestDetail.competencyTestTime = competencyTestTime;
     competencyTestDetail.comment = comment;
+    competencyTestDetail.testResult = testResult;
     competencyTestDetail.addedBy = addedBy;
     return competencyTestDetail;
   }

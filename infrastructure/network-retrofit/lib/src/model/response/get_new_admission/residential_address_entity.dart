@@ -12,14 +12,14 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     String? street;
     @JsonKey(name: 'landmark')
     String? landmark;
-    @JsonKey(name: 'country')
-    CommonDataEntity? country;
+    @JsonKey(name: 'country',fromJson: _fromJson)
+    dynamic country;
     @JsonKey(name: 'pinCode')
     String? pinCode;
-    @JsonKey(name: 'state')
-    CommonDataEntity? state;
-    @JsonKey(name: 'city')
-    CommonDataEntity? city;
+    @JsonKey(name: 'state',fromJson: _fromJson)
+    dynamic state;
+    @JsonKey(name: 'city',fromJson: _fromJson)
+    dynamic city;
     @JsonKey(name: 'is_permanent_address')
     bool? isPermanentAddress;
 
@@ -39,16 +39,25 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
 
   Map<String, dynamic> toJson() => _$ResidentialAddressEntityToJson(this);
 
+  static dynamic _fromJson(dynamic data){
+    if(data is Map<String,dynamic>){
+      return CommonDataEntity.fromJson(data);
+    }
+    else{
+      return data;
+    }
+  }
+
   @override
   ResidentialAddress transform() {
     ResidentialAddress residentialAddress = ResidentialAddress();
-    residentialAddress.city = city?.transform();
-    residentialAddress.country = country?.transform();
+    residentialAddress.city = (city is CommonDataEntity) ? city?.transform() : city;
+    residentialAddress.country = (country is CommonDataEntity) ? country?.transform() : country;
     residentialAddress.house = house;
     residentialAddress.isPermanentAddress = isPermanentAddress;
     residentialAddress.landmark = landmark;
     residentialAddress.pinCode = pinCode;
-    residentialAddress.state = state?.transform();
+    residentialAddress.state = (state is CommonDataEntity) ? state?.transform() : state;
     residentialAddress.street = street;
     return residentialAddress;
   }

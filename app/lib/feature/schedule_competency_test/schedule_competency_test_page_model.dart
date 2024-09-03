@@ -94,7 +94,6 @@ class CompetencyTestModel extends BasePageViewModel {
         competencyTestCreationRequest: request,
         enquiryID: enquiryID
       );
-      competencyTestDetails.add(Resource.loading());
       RequestManager<CompetencyTestDetailBase>(
         params,
         createCall: () => createCompetencyTestUsecase.execute(

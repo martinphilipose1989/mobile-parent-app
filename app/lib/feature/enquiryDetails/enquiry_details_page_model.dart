@@ -52,6 +52,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   late TabController tabController;
   bool visivilty = false;
   final formKey = GlobalKey<FormState>();
+  BuildContext? context;
 
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
   BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
@@ -487,6 +488,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           
           isDocumentUploaded[index??0].value = true;
           isLoading.value = false;
+          ScaffoldMessenger.of(context!).showSnackBar(
+            const SnackBar(content: Text('File uploaded successfully')),
+          );
         }
         // activeStep.add()
       }).onError((error) {
@@ -512,9 +516,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         if(result.status == Status.success){
-
           isDocumentUploaded[index??0].value = false;
           isLoading.value = false;
+          ScaffoldMessenger.of(context!).showSnackBar(
+            const SnackBar(content: Text('File deleted successfully')),
+          );
         }
         // activeStep.add()
       }).onError((error) {
@@ -539,7 +545,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) async{
         if(result.status == Status.success){
-          
           await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
         }
       }).onError((error) {
@@ -577,12 +582,15 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             log('$fullPath/$fileName');
             log("File Downloaded");
             isLoading.value = false;
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(content: Text('File downloaded successfully at: ${file.path}')),
+            );
           } catch (e) {
             log(e.toString());
             isLoading.value = false;
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(content: Text('Error: $e')),
-            // );
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(content: Text('Error: $e')),
+            );
           }
         }
       }).onError((error) {

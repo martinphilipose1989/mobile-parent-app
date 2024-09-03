@@ -237,7 +237,7 @@ class ScheduleCompetencyTestPageView
                                 'Mode: ${model.selectedMode}',
                                 (shouldRoute) {
                                   if(isReschedule){
-                                    model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
+                                    model.rescheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
                                   } else {
                                     model.scheduleCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'');
                                   }

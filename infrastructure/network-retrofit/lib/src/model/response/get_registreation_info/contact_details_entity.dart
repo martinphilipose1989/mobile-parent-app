@@ -8,8 +8,8 @@ part 'contact_details_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true,createToJson: false)
 class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity,ContactDetails>{
-    @JsonKey(name: 'emergencyContact')
-    EmergencyContactEntity? emergencyContact;
+    @JsonKey(name: 'emergencyContact',fromJson: _fromJson)
+    dynamic emergencyContact;
     @JsonKey(name: 'pointOfContact')
     List<PointOfContactInfoEntity>? pointOfContact;
     @JsonKey(name: 'residentialAddress')
@@ -30,10 +30,19 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
       "residential_address": residentialAddress?.toJson()
     };
 
+  static dynamic _fromJson(dynamic data){
+    if(data is Map<String,dynamic>){
+      return EmergencyContactEntity.fromJson(data);
+    }
+    else{
+      return data;
+    }
+  }
+
   @override
   ContactDetails transform() {
     ContactDetails contactDetails = ContactDetails();
-    contactDetails.emergencyContact = emergencyContact?.transform();
+    contactDetails.emergencyContact = (emergencyContact is EmergencyContactEntity) ? emergencyContact?.transform() : emergencyContact;
     contactDetails.pointOfContact = pointOfContact?.map((e)=> e.transform()).toList();
     contactDetails.residentialAddress = residentialAddress?.transform();
     return contactDetails;

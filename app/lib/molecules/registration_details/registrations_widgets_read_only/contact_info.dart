@@ -35,7 +35,7 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.emergencyContact?.emergencyContact??''),
+                    DetailsItem(title: "Contact No. Of", subtitle: (contactDetail?.emergencyContact is EmergencyContact)? contactDetail?.emergencyContact.emergencyContact: contactDetail?.emergencyContact),
                   ],
                 ),
               )
@@ -115,9 +115,9 @@ class ContactDetail extends StatelessWidget {
                         title: "Street Name", subtitle: contactDetail?.residentialAddress?.street??''),
                     DetailsItem(
                         title: "Landmark", subtitle: contactDetail?.residentialAddress?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: contactDetail?.residentialAddress?.country?.value??''),
-                    DetailsItem(title: "State", subtitle: contactDetail?.residentialAddress?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: contactDetail?.residentialAddress?.city?.value??''),
+                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.country is String) ? contactDetail?.residentialAddress?.country : contactDetail?.residentialAddress?.country?.value??''),
+                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.state is String) ? contactDetail?.residentialAddress?.state : contactDetail?.residentialAddress?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.city is String) ? contactDetail?.residentialAddress?.city : contactDetail?.residentialAddress?.city?.value??''),
                     DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.pinCode??''),
                     DetailsItem(
                         title: "Is Permanent Address Same As Present?",

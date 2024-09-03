@@ -8,7 +8,6 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -945,12 +944,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             final file = File('$fullPath/$fileName');
             await file.writeAsBytes(result.data??Uint8List(0));
             isLoading.value = false;
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(content: Text('File Downloaded Successfully at: ${file.path}')),
+            );
           } catch (e) {
             isLoading.value = false;
             log(e.toString());
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(content: Text('Error: $e')),
-            // );
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(content: Text('Error: $e')),
+            );
           }
         }
       }).onError((error) {
@@ -1151,13 +1153,17 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherMobileController.text=parentDetails.fatherDetails?.mobileNumber??"";
     fatherOccupation=parentDetails.fatherDetails?.occupation??"";
     fatherArea=parentDetails.fatherDetails?.area??"";
-    selectedFatherCountryEntity=(parentDetails.fatherDetails?.country is CommonDataClass)? parentDetails.fatherDetails?.country : null;
-    selectedFatherStateEntity=(parentDetails.fatherDetails?.state is CommonDataClass)? parentDetails.fatherDetails?.state:null;
-    selectedFatherCityEntity=(parentDetails.fatherDetails?.city is CommonDataClass)? parentDetails.fatherDetails?.city:null;
     if(parentDetails.fatherDetails?.city is CommonDataClass){
-      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
-      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
       selectedFatherCitySubject.add(parentDetails.fatherDetails?.city?.value??'');
+      selectedFatherCityEntity= parentDetails.fatherDetails?.city;
+    }
+    if(parentDetails.fatherDetails?.country is CommonDataClass){
+      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
+      selectedFatherCountryEntity= parentDetails.fatherDetails?.country;
+    }
+    if(parentDetails.fatherDetails?.state is CommonDataClass){
+      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
+      selectedFatherStateEntity=(parentDetails.fatherDetails?.state is CommonDataClass)? parentDetails.fatherDetails?.state:null;
     }
     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area??'');
     selectedFatherOccupationSubject.add(parentDetails.fatherDetails?.occupation??'');
@@ -1180,9 +1186,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedMotherCityEntity=(parentDetails.motherDetails?.city is CommonDataClass)? parentDetails.motherDetails?.city:null;
     selectedMotherAreaSubject.add(parentDetails.motherDetails?.area??'');
     if(parentDetails.motherDetails?.city is CommonDataClass){
-      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
-      selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
       selectedMotherCitySubject.add(parentDetails.motherDetails?.city?.value??'');
+      selectedMotherCityEntity= parentDetails.motherDetails?.city;
+    }
+    if(parentDetails.motherDetails?.country is CommonDataClass){
+      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
+      selectedMotherCountryEntity= parentDetails.motherDetails?.country;
+    }
+    if(parentDetails.motherDetails?.state is CommonDataClass){
+      selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
+      selectedMotherStateEntity=(parentDetails.motherDetails?.state is CommonDataClass)? parentDetails.motherDetails?.state:null;
     }
     selectedMotherOccupationSubject.add(parentDetails.motherDetails?.occupation??'');
     
@@ -1202,9 +1215,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedGuardianCityEntity=(parentDetails.guardianDetails?.city is CommonDataClass)? parentDetails.guardianDetails?.city : null;
     selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area??'');
     if(parentDetails.guardianDetails?.city is CommonDataClass){
-      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
-      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
       selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city?.value??'');
+      selectedGuardianCityEntity= parentDetails.guardianDetails?.city;
+    }
+    if(parentDetails.guardianDetails?.country is CommonDataClass){
+      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
+      selectedGuardianCountryEntity= parentDetails.guardianDetails?.country;
+    }
+    if(parentDetails.guardianDetails?.state is CommonDataClass){
+      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
+      selectedGuardianStateEntity=(parentDetails.guardianDetails?.state is CommonDataClass)? parentDetails.guardianDetails?.state:null;
     }
     selectedGuardianOccupationSubject.add(parentDetails.guardianDetails?.occupation??'');
   }
@@ -1213,14 +1233,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
     streetNameController.text= contactDetails.residentialAddress?.street??"";
     landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-    emergencyContact = contactDetails.emergencyContact?.emergencyContact??'';
-    residentialCountry = contactDetails.residentialAddress?.country;
-    residentialState = contactDetails.residentialAddress?.state;
-    residentialCity = contactDetails.residentialAddress?.city;
-    selectedResidentialCity.value = contactDetails.residentialAddress?.country?.value??'';
+    if(contactDetails.emergencyContact is EmergencyContact){
+      emergencyContact = contactDetails.emergencyContact.emergencyContact;
+    }
+    if(contactDetails.residentialAddress?.country is CommonDataClass || contactDetails.residentialAddress?.city is CommonDataClass){
+      residentialCountry = contactDetails.residentialAddress?.country;
+      residentialState = contactDetails.residentialAddress?.state;
+      residentialCity = contactDetails.residentialAddress?.city;
+      selectedResidentialCity.value = contactDetails.residentialAddress?.country?.value??'';
+      selectedResidentialState.value = contactDetails.residentialAddress?.state?.value??'';
+      selectedResidentialCountry.value = contactDetails.residentialAddress?.country?.value??'';
+    }
     residentialPinCode = contactDetails.residentialAddress?.pinCode??"";
-    selectedResidentialState.value = contactDetails.residentialAddress?.state?.value??'';
-    selectedResidentialCountry.value = contactDetails.residentialAddress?.country?.value??'';
     if(contactDetails.pointOfContact?.length == 1){
       parentEmailIdController1.text = contactDetails.pointOfContact?[0].parentEmailId??"";
       parentMobileNumberController1.text = contactDetails.pointOfContact?[0].parentContactNumber??"";

@@ -2,6 +2,7 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/feature/registration_details/registration_details_vaildator.dart';
 import 'package:app/feature/registration_details/registrations_details_page_view.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
@@ -170,32 +171,17 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 dataBuilder: (context, data) {
                  return CommonElevatedButton(
                     onPressed: () {
+                      RegistrationDetailsValidator validator = RegistrationDetailsValidator(model);
                       if(model.showWidget.value == 0){
-                        if(widget.enquiryDetail?.enquiryType == "IVT"){
-                          if(model.studenFormKey.currentState!.validate() && model.ivtFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
-                            model.saveStudentDetail();
-                          }
-                          if(model.enquiryDetailArgs?.enquiryType == "PSA"){
-                            if(model.studenFormKey.currentState!.validate() && model.psaFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
-                              model.saveStudentDetail();
-                            }
-                          }
-                          else{
-                            if(model.studenFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
-                              model.saveStudentDetail();
-                            }
-                          }
-                        }
+                        validator.validateStudentFields(context);
                       } else if (model.showWidget.value == 1) {
-                        model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                        validator.validateParentInfoFields(context);
                       } else if (model.showWidget.value == 2) {
-                        model.saveContactDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                        validator.validateContactDetails(context);
                       } else if (model.showWidget.value == 3) {
-                        model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
+                        validator.validateMedicalDetails(context);
                       } else if (model.showWidget.value == 4) {
-                        if(model.bankDetailsFormKey.currentState!.validate() && model.upiFormKey.currentState!.validate()){
-                          model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
-                        }
+                        validator.validateBankDetails(context);
                       } else {
                         model.showPopUP(context);
                       }
@@ -213,7 +199,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                   );}),
                   CommonElevatedButton(
                     onPressed: () {
-                      if (model.showWidget.value <= 5) {
+                      if (model.showWidget.value < 5) {
                         ProviderScope
                             .containerOf(context)
                             .read(commonChipListProvider)
@@ -231,7 +217,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         else{
                           model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
                         }
-                      } else if(model.showWidget.value <= 5){
+                      } else if(model.showWidget.value == 5){
                         model.showPopUP(context);
                       }
                       else{

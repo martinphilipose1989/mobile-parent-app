@@ -110,7 +110,7 @@ class AdmissionsDetailsPageView
                     case Status.success:
                       return CommonStepperPage(
                               stepperList: List.generate(
-                                (result?.data?.data??[]).isEmpty? 1: (result?.data?.data??[]).length,
+                                (result?.data?.data??[]).length,
                                 (index) {
                                   return Step(
                                       // subtitle: result?.data?[index].stage == ''
@@ -120,14 +120,14 @@ class AdmissionsDetailsPageView
                                       title: CommonText(
                                         text: result?.data?.data?[index].stage??'',
                                       ),
-                                      state: result?.data?.data?[index].status == "Completed"
-                                          ? StepState.complete
-                                          : StepState.indexed,
+                                      state: result?.data?.data?[index].status == "Open" || result?.data?.data?[index].status == "In Progress"
+                                          ? StepState.indexed
+                                          : StepState.complete,
                                       isActive: result?.data?.data?[index].status == "Completed",
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: result?.data?.data?.indexWhere((element) => element.status == "Open",)??0);
+                              activeStep: (result?.data?.data??[]).indexWhere((element) => element.status == "Open"||element.status == "In Progress") == -1 ? 0 : (result?.data?.data??[]).indexWhere((element) => element.status == "Open"||element.status == "In Progress"));
                     case Status.error:
                       return const Center(child: Text('Enquiries not found'),);
                     default:
