@@ -129,7 +129,7 @@ class UploadDocuments extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () async{
-                                if(!model.editRegistrationDetails.value){
+                                if(!model.editRegistrationDetails.value || model.isDocumentUploaded[index??0].value){
                                   return;
                                 }
                                 var file = await getIt.get<FileUtilityPort>().pickFile();
@@ -157,13 +157,16 @@ class UploadDocuments extends StatelessWidget {
                             const SizedBox(width: 5,),
                             GestureDetector(
                               onTap: (){
+                                if(!model.isDocumentUploaded[index??0].value){
+                                  return;
+                                }
                                 model.downloadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString());
                               },
                               behavior: HitTestBehavior.opaque,
                               child: SvgPicture.asset(
                                 AppImages.import,
                                 colorFilter: ColorFilter.mode(
-                                  ((enquiryDocument?.file??'').isNotEmpty) ? Colors.black : Colors.black26,
+                                  model.isDocumentUploaded[index??0].value ? Colors.black : Colors.black26,
                                   BlendMode.srcIn, 
                                 ),
                               )
@@ -171,7 +174,7 @@ class UploadDocuments extends StatelessWidget {
                             const SizedBox(width: 5,),
                             GestureDetector(
                               onTap: (){
-                                if(!model.editRegistrationDetails.value){
+                                if(!model.editRegistrationDetails.value || !model.isDocumentUploaded[index??0].value){
                                   return;
                                 }
                                 model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(),index: index);

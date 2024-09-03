@@ -15,4 +15,21 @@ class StudentDetails {
     String? motherTongue;
     String? aadhar;
     String? globalId;
+
+  StudentDetails({
+    this.firstName,
+    this.lastName,
+    this.grade,
+    this.gender,
+    this.dob,
+    this.eligibleGrade,
+    this.placeOfBirth,
+    this.religion,
+    this.caste,
+    this.subCaste,
+    this.nationality,
+    this.motherTongue,
+    this.aadhar,
+    this.globalId,
+  });
 }

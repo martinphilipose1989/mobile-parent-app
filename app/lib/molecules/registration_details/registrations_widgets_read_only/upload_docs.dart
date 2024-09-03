@@ -11,7 +11,7 @@ class UploadDocs extends StatelessWidget {
   EnquiryDetail? enquiryDetail;
   RegistrationsDetailsViewModel model;
   String? enquiryID;
-  UploadDocs({super.key, this.enquiryDetail, required this.model});
+  UploadDocs({super.key, this.enquiryDetail, required this.model, this.enquiryID});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class UploadDocs extends StatelessWidget {
                     behavior: HitTestBehavior.opaque,
                     child: Icon(
                       Icons.cloud_download_outlined,
-                       color: ((enquiryDocument?.file??'').isNotEmpty) ? AppColors.primary : Colors.black26,
+                       color: model.isDocumentUploaded[index??0].value ? AppColors.primary : Colors.black26,
                     ),
                   ),
                   CommonSizedBox.sizedBox(height: 5, width: 8),

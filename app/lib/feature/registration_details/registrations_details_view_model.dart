@@ -6,6 +6,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -195,18 +196,21 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController houseOrBuildingController= TextEditingController();
   TextEditingController streetNameController = TextEditingController();
   TextEditingController landMarkController =TextEditingController();
-  TextEditingController residentialCountryController = TextEditingController();
-  TextEditingController residentialStateController = TextEditingController();
-  TextEditingController residentialCityController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
-  TextEditingController parentEmailIdController = TextEditingController();
-  TextEditingController parentMobileNumberController = TextEditingController();
-  String? contactParentType;
+  TextEditingController parentEmailIdController1 = TextEditingController();
+  TextEditingController parentMobileNumberController1 = TextEditingController();
+  TextEditingController parentEmailIdController2 = TextEditingController();
+  TextEditingController parentMobileNumberController2 = TextEditingController();
+  String? contactParentType1;
+  String? contactParentType2;
   String? emergencyContact;
-  String? residentialCountry;
-  String? residentialState;
-  String? residentialCity;
+  CommonDataClass? residentialCountry;
+  CommonDataClass? residentialState;
+  CommonDataClass? residentialCity;
   String? residentialPinCode;
+  BehaviorSubject<String> selectedResidentialCity = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedResidentialState = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedResidentialCountry = BehaviorSubject.seeded('');
 
   //YearOfHospitalization
   TextEditingController yearOfHospitalizationController=TextEditingController();
@@ -465,6 +469,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           );
           isLoading.value = false;
           showWidget.add(showWidget.value + 1);
+          fetchAllDetails(enquiryID, "ContactInfo");
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -479,13 +484,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateMedicalDetailsUsecaseParams(
           enquiryID: enquiryID, medicalDetails: medicalEntity);
-          isLoading.value = true;
+      isLoading.value = true;
       RequestManager<SingleResponse>(
           params,
           createCall: () =>
               updateMedicalDetailsUsecase.execute(params: params)
       ).asFlow().listen((result) {
-        medicalDetail.add(Resource.success(data: result.data?.data));
+        if(result.status == Status.success){
+          medicalDetail.add(Resource.success(data: result.data?.data));
         medicalDetails = result.data?.data;
         ProviderScope
           .containerOf(context!)
@@ -498,7 +504,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           .value +1
         );
         isLoading.value = false;
+        fetchAllDetails(enquiryID, "BankInfo");
         showWidget.add(showWidget.value + 1);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -533,6 +541,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           .value +1
           );
         isLoading.value = false;
+        fetchAllDetails(enquiryID, "MedicalInfo");
         showWidget.add(showWidget.value + 1);
         }
       }).onError((error) {
@@ -834,7 +843,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         enquiryID: enquiryID,
         file: file
       );
-      uploadEnquiryFile.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<EnquiryFileUploadBase>(
         params,
         createCall: () => uploadEnquiryDocumentUsecase.execute(
@@ -844,9 +853,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
           isDocumentUploaded[index??0].value = true;
+          isLoading.value = false;
         }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -859,7 +870,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
-      deleteEnquiryFile.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
         params,
         createCall: () => deleteEnquiryDocumentUsecase.execute(
@@ -869,9 +880,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
           isDocumentUploaded[index??0].value = false;
+          isLoading.value = false;
         }
         // activeStep.add()
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -884,7 +897,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
-      getEnquiryFile.add(Resource.loading());
+      isLoading.value = true;
       RequestManager<DownloadEnquiryFileBase>(
         params,
         createCall: () => downloadEnquiryDocumentUsecase.execute(
@@ -896,6 +909,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           downloadDocument(fileUrl: result.data?.data?['url']??'');
         }
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -926,7 +940,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
             await file.writeAsBytes(result.data??Uint8List(0));
+            isLoading.value = false;
           } catch (e) {
+            isLoading.value = false;
             log(e.toString());
             // ScaffoldMessenger.of(context).showSnackBar(
             //   SnackBar(content: Text('Error: $e')),
@@ -934,6 +950,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -1090,8 +1107,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final CommonRadioButton<String> radioButtonController2 =
   CommonRadioButton<String>(null);
 
-  final CommonRadioButton<bool> radioButtonController3 =
-  CommonRadioButton<bool>(null);
+  final CommonRadioButton<String> radioButtonController3 =
+  CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController4 =
   CommonRadioButton<String>(null);
@@ -1182,15 +1199,25 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
     streetNameController.text= contactDetails.residentialAddress?.street??"";
     landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-    emergencyContact=contactDetails.emergencyContact;
-    residentialCountry=contactDetails.residentialAddress?.country??"";
-    residentialState=contactDetails.residentialAddress?.state??"";
-    residentialCity= contactDetails.residentialAddress?.city??"";
-    residentialPinCode=contactDetails.residentialAddress?.pincode??"";
-    parentEmailIdController.text=contactDetails.pointOfContact?.parentEmailId??"";
-    parentMobileNumberController.text=contactDetails.pointOfContact?.parentContactNumber??"";
-    contactParentType=contactDetails.pointOfContact?.parentType??"";
-    contactDetails.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
+    emergencyContact = contactDetails.emergencyContact?.emergencyContact??'';
+    residentialCountry = contactDetails.residentialAddress?.country;
+    residentialState = contactDetails.residentialAddress?.state;
+    residentialCity = contactDetails.residentialAddress?.city;
+    selectedResidentialCity.value = contactDetails.residentialAddress?.country?.value??'';
+    residentialPinCode = contactDetails.residentialAddress?.pinCode??"";
+    selectedResidentialState.value = contactDetails.residentialAddress?.state?.value??'';
+    selectedResidentialCountry.value = contactDetails.residentialAddress?.country?.value??'';
+    if(contactDetails.pointOfContact?.length == 1){
+      parentEmailIdController1.text = contactDetails.pointOfContact?[0].parentEmailId??"";
+      parentMobileNumberController1.text = contactDetails.pointOfContact?[0].parentContactNumber??"";
+      contactParentType1 = contactDetails.pointOfContact?[0].parentType??"";
+    }
+    if(contactDetails.pointOfContact?.length == 2){
+      parentEmailIdController2.text = contactDetails.pointOfContact?[1].parentEmailId??"";
+      parentMobileNumberController2.text = contactDetails.pointOfContact?[1].parentContactNumber??"";
+      contactParentType2 = contactDetails.pointOfContact?[1].parentType??"";
+    }
+    radioButtonController3.selectItem((contactDetails.residentialAddress?.isPermanentAddress??false) ? "Yes" : "No");
   }
 
   addMedicalDetails(MedicalDetails medicalDetails){
@@ -1273,18 +1300,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
   Future<void>saveMedicalDetails(String enquiryId) async{
     MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity();
-    medicalDetails?.yearOfHospitalization = yearOfHospitalizationController.text.trim();
-    medicalDetails?.reasonOfHopitalization = reasonOfHospitalizationController.text.trim();
-    medicalDetails?.physicalDisabilityDescription = specificDisabilityController.text.trim();
     medicalDetails?.isChildHospitalised = radioButtonController4.selectedItem == "Yes" ? true : false;
+    medicalDetails?.yearOfHospitalization = medicalDetails?.isChildHospitalised??false ? yearOfHospitalizationController.text.trim() : "";
+    medicalDetails?.reasonOfHopitalization = medicalDetails?.isChildHospitalised??false ? reasonOfHospitalizationController.text.trim() : "";
     medicalDetails?.hasPhysicalDisability = radioButtonController5.selectedItem == "Yes" ? true : false;
+    medicalDetails?.physicalDisabilityDescription = medicalDetails?.hasPhysicalDisability??false ? specificDisabilityController.text.trim() : "";
     medicalDetails?.hasMedicalHistory = radioButtonController7.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasAllergy = radioButtonController8.selectedItem == "Yes" ? true : false;
     medicalDetails?.hasPersonalisedLearningNeeds = radioButtonController9.selectedItem == "Yes" ? true : false;
     medicalDetails?.bloodGroup = selectedBloodGroupEntity;
-    medicalDetails?.medicalHistoryDescription = specifyMedicalHistoryController.text.trim();
-    medicalDetails?.allergyDescription = specifyAllergiesController.text.trim();
-    medicalDetails?.personalisedLearningNeedsDescription = personalisedLearningNeedsController.text.trim(); 
+    medicalDetails?.medicalHistoryDescription = medicalDetails?.hasMedicalHistory??false ? specifyMedicalHistoryController.text.trim() : "";
+    medicalDetails?.allergyDescription = medicalDetails?.hasAllergy??false ? specifyAllergiesController.text.trim() : "";
+    medicalDetails?.personalisedLearningNeedsDescription = medicalDetails?.hasPersonalisedLearningNeeds??false ? personalisedLearningNeedsController.text.trim() : ""; 
     medicalDetailsEntity = medicalDetailsEntity.restore(medicalDetails!);
     await updateMedicalDetail(enquiryId,medicalDetailsEntity);
   }
@@ -1297,24 +1324,36 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     bankDetails?.accountType = accountTypeController.text.trim();
     bankDetails?.accountNumber = accountNumberController.text.trim();
     bankDetails?.upiInfo = upiController.text.trim();
-    bankDetailsEntity = bankDetailsEntity.restore(bankDetails!);
+    bankDetailsEntity = bankDetailsEntity.restore(bankDetails??BankDetails());
     await updateBankDetail(enquiryId,bankDetailsEntity);
   }
   Future<void>saveContactDetails(String enquiryId)async{
     ContactDetailsEntity contactDetail =ContactDetailsEntity();
-    contactDetails?.residentialAddress?.house=houseOrBuildingController.text.trim();
-    contactDetails?.residentialAddress?.street=streetNameController.text.trim();
-    contactDetails?.residentialAddress?.landmark=landMarkController.text.trim();
-    contactDetails?.emergencyContact=emergencyContact;
-    contactDetails?.residentialAddress?.country=residentialCountryController.text.trim();
-    contactDetails?.residentialAddress?.state=residentialStateController.text.trim();
-    contactDetails?.residentialAddress?.city=residentialCityController.text.trim();
-    contactDetails?.residentialAddress?.pincode=residentialPinCodeController.text.trim();
-    contactDetails?.pointOfContact?.parentContactNumber=parentMobileNumberController.text.trim();
-    contactDetails?.pointOfContact?.parentEmailId=parentEmailIdController.text.trim();
-    contactDetails?.pointOfContact?.parentType=contactParentType;
-    contactDetails?.residentialAddress?.isPermanentAddress=radioButtonController3.selectedItem;
-    contactDetail=contactDetail.restore(contactDetails!);
+    contactDetails ??= ContactDetails(
+      residentialAddress: ResidentialAddress(
+        house : houseOrBuildingController.text.trim(),
+        street : streetNameController.text.trim(),
+        landmark : landMarkController.text.trim(),
+        country : residentialCountry,
+        state : residentialState,
+        city : residentialCity,
+        pinCode : residentialPinCode,
+        isPermanentAddress: radioButtonController3.selectedItem == "Yes" ? true : false
+      ),
+      emergencyContact: EmergencyContact(emergencyContact: emergencyContact),
+      pointOfContact: [
+        PointOfContactDetail(
+          parentType: contactParentType1,
+          parentContactNumber: parentMobileNumberController1.text.trim(),
+          parentEmailId: parentEmailIdController1.text.trim(),
+        ),
+        PointOfContactDetail(
+          parentType: contactParentType2,
+          parentContactNumber: parentMobileNumberController2.text.trim(),
+        )
+      ]
+    );
+    contactDetail=contactDetail.restore(contactDetails??ContactDetails());
     await updateContactDetail(enquiryId,contactDetail);
   }
 
@@ -1404,14 +1443,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity!;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity!;
       newAdmissionDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
-      newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
+      if(newAdmissionDetailSubject?.value.enquirerParent == "Father"){
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
+      }
+      else{
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
+      }
       newAdmissionDetail = newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
       updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
     }

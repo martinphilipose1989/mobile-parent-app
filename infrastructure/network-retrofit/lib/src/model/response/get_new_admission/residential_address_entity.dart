@@ -60,10 +60,10 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
       house: data.house,
       street: data.street,
       landmark: data.landmark,
-      country: commonDataEntity.restore(data.country!),
+      country: commonDataEntity.restore(data.country??CommonDataClass()),
       pinCode: data.pinCode,
-      state: commonDataEntity.restore(data.state!),
-      city: commonDataEntity.restore(data.city!),
+      state: commonDataEntity.restore(data.state??CommonDataClass()),
+      city: commonDataEntity.restore(data.city??CommonDataClass()),
       isPermanentAddress: data.isPermanentAddress,
     );  
     return residentialAddressEntity;

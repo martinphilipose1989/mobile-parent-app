@@ -39,7 +39,7 @@ class AppValidators {
   }
 
   // Method to check if text is empty
-  static String? validateNotEmpty(String? value, String fieldName,{bool checkSpecialCharacters = true}) {
+  static String? validateNotEmpty(String? value, String fieldName,{bool checkSpecialCharacters = true,bool validateLength = false,int? minLength}) {
     if (value == null || value.isEmpty) {
       return '$fieldName cannot be empty';
     }
@@ -48,6 +48,11 @@ class AppValidators {
       RegExp regex = RegExp(pattern);
       if (!regex.hasMatch(value)) {
         return '$fieldName cannot contain special characters';
+      }
+    }
+    if(validateLength){
+      if(value.length < (minLength??3)){
+        return '$fieldName should contain more then ${minLength??3} characters';
       }
     }
     return null;

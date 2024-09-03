@@ -467,7 +467,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
         file: file
       );
-      uploadEnquiryFile.add(Resource.loading());
+      
       isLoading.value = true;
       RequestManager<EnquiryFileUploadBase>(
         params,
@@ -476,7 +476,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         if(result.status == Status.success){
-          uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
+          
           isDocumentUploaded[index??0].value = true;
           isLoading.value = false;
         }
@@ -495,7 +495,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         documentID: documentID,
         enquiryID: enquiryID,
       );
-      deleteEnquiryFile.add(Resource.loading());
+
       isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
         params,
@@ -504,7 +504,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         if(result.status == Status.success){
-          deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
+
           isDocumentUploaded[index??0].value = false;
           isLoading.value = false;
         }
@@ -523,7 +523,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         enquiryID: enquiryID,
       );
       isLoading.value = true;
-      getEnquiryFile.add(Resource.loading());
+      
       RequestManager<DownloadEnquiryFileBase>(
         params,
         createCall: () => downloadEnquiryDocumentUsecase.execute(
@@ -531,7 +531,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) async{
         if(result.status == Status.success){
-          getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
+          
           await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
         }
       }).onError((error) {
@@ -561,14 +561,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             else{
               directory = await getApplicationDocumentsDirectory();
             }
-            final fullPath = directory?.path??'';
+            final fullPath = directory.path;
             final fileExtension = extractFileExtension(fileUrl);
             final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
             await file.writeAsBytes(result.data??Uint8List(0));
             log('$fullPath/$fileName');
             log("File Downloaded");
-            isLoading.value = true;
+            isLoading.value = false;
           } catch (e) {
             log(e.toString());
             isLoading.value = false;

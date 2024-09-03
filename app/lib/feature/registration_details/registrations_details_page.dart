@@ -38,7 +38,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
-      model.getMdmAttribute(infoType: 'grade');
+        model.getMdmAttribute(infoType: 'grade');
         model.getMdmAttribute(infoType: 'schoolLocation');
         model.getMdmAttribute(infoType: 'gender');
         model.getMdmAttribute(infoType: 'board');

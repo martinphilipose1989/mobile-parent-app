@@ -1,13 +1,11 @@
-
-
-import 'dart:math';
-
 import 'package:data/data.dart';
 
 import '../../../../network_retrofit.dart';
 part 'point_of_contact_entity.g.dart';
 @JsonSerializable(explicitToJson: true,createPerFieldToJson: false)
 class PointOfContactInfoEntity extends BaseLayerDataTransformer<PointOfContactInfoEntity,PointOfContactDetail>{
+  @JsonKey(name: 'id')
+  int? id;
   @JsonKey(name: 'contact_person')
   String? parentType;
   @JsonKey(name: 'mobile')
@@ -17,6 +15,7 @@ class PointOfContactInfoEntity extends BaseLayerDataTransformer<PointOfContactIn
 
 
   PointOfContactInfoEntity({
+    this.id,
     this.parentType,
     this.parentContactNumber,
     this.parentEmailId
@@ -26,6 +25,7 @@ class PointOfContactInfoEntity extends BaseLayerDataTransformer<PointOfContactIn
       _$PointOfContactInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "contact_person": parentType,
     "mobile": parentContactNumber,
     "email": parentEmailId,

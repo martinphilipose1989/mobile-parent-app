@@ -48,7 +48,7 @@ class BankDetailsEditing extends StatelessWidget {
                           labelText: 'IFSC Code',
                           controller: model.ifscCodeController,
                           maxLength: 11,
-                          validator: (value)=> AppValidators.validateNotEmpty(value, 'IFSC code',checkSpecialCharacters: false),
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'IFSC code',checkSpecialCharacters: false,validateLength: true,minLength: 9),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
@@ -84,7 +84,7 @@ class BankDetailsEditing extends StatelessWidget {
                           labelText: 'Account Number',
                           maxLength: 14,
                           controller:model.accountNumberController,
-                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Account number',checkSpecialCharacters: false),
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Account number',checkSpecialCharacters: false,validateLength: true,minLength: 10),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
@@ -107,12 +107,15 @@ class BankDetailsEditing extends StatelessWidget {
           style: AppTypography.subtitle1,
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-         CommonTextFormField(
-          showAstreik: false,
-          labelText: 'UPI ID',
-           controller: model.upiController,
-           validator: (value)=> AppValidators.validateNotEmpty(value, 'UPI ID',checkSpecialCharacters: false),
-        ),
+         Form(
+           key: model.bankDetailsFormKey,
+           child: CommonTextFormField(
+            showAstreik: false,
+            labelText: 'UPI ID',
+             controller: model.upiController,
+             validator: (value)=> AppValidators.validateNotEmpty(value, 'UPI ID',checkSpecialCharacters: false,validateLength: true,minLength: 5),
+                   ),
+         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const CommonText(
           text: "UnderTaking",

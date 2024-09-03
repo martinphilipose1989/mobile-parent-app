@@ -48,7 +48,7 @@ class ContactInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        val!=model.emergencyContact;
+                        model.emergencyContact = val;
                       },
                       showBorderColor: true,
                     ),
@@ -79,6 +79,8 @@ class ContactInfoEditing extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
+                    const CommonText(text:'Preference 1'),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
                       items: model.contactRelationshipOptions,
                       width: MediaQuery.of(context).size.width,
@@ -87,19 +89,48 @@ class ContactInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        val!=model.contactParentType;
+                        model.contactParentType1 = val;
                       },
                       showBorderColor: true,
                     ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Mobile Number',
-                        controller:model.parentMobileNumberController
+                        controller:model.parentMobileNumberController1
                     ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: true,
                         labelText: 'Parent Email Id',
-                        controller:model.parentEmailIdController
+                        controller:model.parentEmailIdController1
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    const CommonText(text:'Preference 2'),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CustomDropdownButton(
+                      items: model.contactRelationshipOptions,
+                      width: MediaQuery.of(context).size.width,
+                      isMutiSelect: false,
+                      dropdownName: 'Parent Type',
+                      showAstreik: true,
+                      onMultiSelect: (selectedValues) {},
+                      onSingleSelect: (val){
+                        model.contactParentType2 = val;
+                      },
+                      showBorderColor: true,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Parent Mobile Number',
+                        controller:model.parentMobileNumberController2
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                        showAstreik: true,
+                        labelText: 'Parent Email Id',
+                        controller:model.parentEmailIdController2
                     ),
                   ],
                 ),
@@ -156,8 +187,11 @@ class ContactInfoEditing extends StatelessWidget {
                           isMutiSelect: false,
                           dropdownName: 'Country',
                           showAstreik: true,
+                          singleSelectItemSubject: model.selectedResidentialCountry,
                           onSingleSelect: (val){
-                            val!=model.residentialCountry;
+                            var country = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                            model.residentialCountry?.id = country?.id;
+                            model.residentialCountry?.value = country?.attributes?.name;
                           },
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -177,8 +211,11 @@ class ContactInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
+                          singleSelectItemSubject: model.selectedResidentialState,
                           onSingleSelect: (val){
-                            val!=model.residentialState;
+                            var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                            model.residentialState?.id = state?.id;
+                            model.residentialState?.value = state?.attributes?.name;
                           },
                         );
                       }
@@ -195,8 +232,11 @@ class ContactInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
+                          singleSelectItemSubject: model.selectedResidentialCity,
                           onSingleSelect: (val){
-                            val!=model.residentialCity;
+                            var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                            model.residentialCity?.id = city?.id;
+                            model.residentialCity?.value = city?.attributes?.name;
                           },
                         );
                       }
@@ -211,8 +251,8 @@ class ContactInfoEditing extends StatelessWidget {
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,
                       onSingleSelect: (val){
-                        val!=model.residentialPinCode;
-                        },
+                        model.residentialPinCode = val;
+                      },
                     ),
                     const CommonText(
                       text: "Is Permanent Address Same As Present?",

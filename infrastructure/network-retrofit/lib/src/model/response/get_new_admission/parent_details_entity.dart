@@ -4,7 +4,7 @@ import 'package:network_retrofit/src/model/response/get_new_admission/parent_con
 
 part 'parent_details_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class ParentDetailsEntity extends BaseLayerDataTransformer<ParentDetailsEntity,ParentDetails>{
     @JsonKey(name: 'father_details')
     ParentContactDetailEntity? fatherDetails;
@@ -19,7 +19,16 @@ class ParentDetailsEntity extends BaseLayerDataTransformer<ParentDetailsEntity,P
   factory ParentDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentDetailsEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParentDetailsEntityToJson(this);
+  Map<String, dynamic> toJson(){
+    Map<String,dynamic> request = {};
+    if(fatherDetails != null){
+      request.addAll({'father_details': fatherDetails?.toJson()});
+    }
+    if(motherDetails != null){
+      request.addAll({"mother_details": motherDetails?.toJson()});
+    }
+    return request;
+  }
 
   @override
   ParentDetails transform() {

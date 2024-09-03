@@ -11,4 +11,14 @@ class ResidentialAddress {
     CommonDataClass? city;
     bool? isPermanentAddress;
 
+  ResidentialAddress({
+    this.house,
+    this.street,
+    this.landmark,
+    this.country,
+    this.pinCode,
+    this.state,
+    this.city,
+    this.isPermanentAddress,
+  }); 
 }

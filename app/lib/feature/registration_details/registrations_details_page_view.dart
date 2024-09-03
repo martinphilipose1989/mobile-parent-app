@@ -1,4 +1,3 @@
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
@@ -24,12 +23,10 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
-import '../../utils/common_widgets/common_popups.dart';
 
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {
@@ -269,7 +266,7 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data?.data,model: model,);
+          return UploadDocs(enquiryDetail: result?.data?.data,model: model,enquiryID: enquiryDetailArgs?.enquiryId,);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:
@@ -350,7 +347,6 @@ class RegistrationsDetailsPageView
         stream: model.bankDetail,
           initialData: Resource.none(),
           dataBuilder: (context, result) {
-           print(result?.data);
           switch (result?.status){
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
@@ -378,7 +374,7 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-          return UploadDocs(enquiryDetail: result?.data?.data,model: model,);
+          return UploadDocs(enquiryDetail: result?.data?.data,model: model,enquiryID: enquiryDetailArgs?.enquiryId);
             case Status.error:
               return const Center(child: Text('Enquiries not found'),);
             default:
