@@ -63,7 +63,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   Stream<Resource<IVTBase>> get ivtDetail => _ivtDetail.stream;
   final PublishSubject<Resource<PsaResponse>> _psaDetail = PublishSubject();
   Stream<Resource<PsaResponse>> get psaDetail => _psaDetail.stream;
-  PublishSubject<Resource<EnquiryDetail>> enquiryDetail= PublishSubject();
+  BehaviorSubject<EnquiryDetail> enquiryDetail= BehaviorSubject.seeded(EnquiryDetail());
   final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
   Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
 
@@ -385,13 +385,21 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
         if(result.status == Status.success){
-          enquiryDetail.add(Resource.success(data: result.data?.data?? EnquiryDetail()));
+          enquiryDetail.add(result.data?.data?? EnquiryDetail());
         }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  bool isDetailView(){
+    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+  }
+
+  bool isDetailViewCompetency(){
+    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
   }
 
   Future<void> getMdmAttribute({required String infoType}) async {

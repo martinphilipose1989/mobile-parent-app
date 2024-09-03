@@ -25,11 +25,11 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     String? officeAddress;
     @JsonKey(name: 'area')
     String? area;
-    @JsonKey(name: 'country')
+    @JsonKey(name: 'country',fromJson: _fromJson)
     dynamic country;
-    @JsonKey(name: 'state')
+    @JsonKey(name: 'state',fromJson: _fromJson)
     dynamic state;
-    @JsonKey(name: 'city')
+    @JsonKey(name: 'city',fromJson: _fromJson)
     dynamic city;
     @JsonKey(name: 'emailId')
     String? emailId;
@@ -58,6 +58,9 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     });
   factory ParentRegistrationDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentRegistrationDetailEntityFromJson(json);
+
+  static dynamic _fromJson(dynamic value) =>
+      (value is Map<String,dynamic>) ? CommonDataEntity.fromJson(value) : value;
 
   Map<String, dynamic> toJson() => {
     "first_name": firstName,

@@ -67,8 +67,17 @@ class EnquiriesDetailsPageView
       }
         return null;
       case 4:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        model.showMenuOnFloatingButton.add(false);
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetailArgs
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+        }) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs,}).then((value) {
+              if(value!=null){
+                model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+              }
+            },);
       case 5:
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
@@ -176,7 +185,26 @@ class EnquiriesDetailsPageView
                                       initialData: model.selectedValue.value,
                                       dataBuilder: (context, data) {
                                         return data == 1
-                                            ? UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',)
+                                            ? AppStreamBuilder<Resource<EnquiryDetailBase>>(
+                                              stream: model.fetchEnquiryDetail,
+                                              initialData: Resource.none(),
+                                              onData: (value) {
+                                                if(value.status == Status.success){
+                                                  value.data?.data?.enquiryDocuments?.forEach((file)=> model.isDocumentUploaded.add(ValueNotifier((file.file??"").isNotEmpty || file.file!=null)));
+                                                }
+                                              },
+                                              dataBuilder: (context, snapshot) {
+                                                if(snapshot?.status == Status.success){
+                                                  return UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',enquiryDetail: snapshot?.data?.data,);
+                                                }
+                                                if(snapshot?.status == Status.loading){
+                                                  return const Center(child: CircularProgressIndicator(),);
+                                                }
+                                                else{
+                                                  return UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',);
+                                                }
+                                              }
+                                            )
                                             : model.editRegistrationDetails.value
                                                 ? SingleChildScrollView(
                                                   child: (enquiryDetailArgs.enquiryType == "New Admission")? AppStreamBuilder<Resource<NewAdmissionBase>>(

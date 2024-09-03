@@ -74,6 +74,15 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
   factory GuardianDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$GuardianDetailsEntityFromJson(json);
 
+  static dynamic _fromJson(dynamic data){
+    if(data is Map<String,dynamic>){
+      return CommonDataEntity.fromJson(data);
+    }
+    else{
+      return data;
+    }
+  }
+
     Map<String, dynamic> toJson() => {
       "first_name": firstName,
       "last_name": lastName,

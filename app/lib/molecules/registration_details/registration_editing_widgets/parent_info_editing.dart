@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -127,8 +128,10 @@ class ParentInfoEditing extends StatelessWidget {
                         if (model.country.value.contains(val)) {
                           var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                           // model.selectedFatherCountryType.add(true);
-                          model.selectedFatherCountryEntity?.id = country?.id;
-                          model.selectedFatherCountryEntity?.value = country?.attributes?.name;
+                          model.selectedFatherCountryEntity = CommonDataClass(
+                              id: country?.id,
+                              value: country?.attributes?.name
+                          );
                         }
                       },
                       showBorderColor: true,
@@ -151,8 +154,10 @@ class ParentInfoEditing extends StatelessWidget {
                         if(model.state.value.contains(val)){
                           var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                           // model.selectedFatherStateType.add(true);
-                          model.selectedFatherStateEntity?.id = state?.id;
-                          model.selectedFatherStateEntity?.value = state?.attributes?.name;
+                          model.selectedFatherStateEntity = CommonDataClass(
+                              id: state?.id,
+                              value: state?.attributes?.name
+                          );
                         }
                       } ,
                       showBorderColor: true,
@@ -169,8 +174,10 @@ class ParentInfoEditing extends StatelessWidget {
                         if(model.city.value.contains(val)){
                           var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                           // model.selectedFatherCityType.add(true);
-                          model.selectedFatherCityEntity?.id = city?.id;
-                          model.selectedFatherCityEntity?.value = city?.attributes?.name;
+                          model.selectedFatherCityEntity = CommonDataClass(
+                            id: city?.id,
+                            value: city?.attributes?.name
+                          );
                         }
                       },
                       showBorderColor: true,
@@ -304,8 +311,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.country.value.contains(val)){
                               var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedFatherCountryType.add(true);
-                              model.selectedFatherCountryEntity?.id = country?.id;
-                              model.selectedFatherCountryEntity?.value = country?.attributes?.name;
+                              model.selectedMotherCountryEntity = CommonDataClass(
+                                id: country?.id,
+                                value: country?.attributes?.name
+                              );
                             }
                           },
                         );
@@ -333,8 +342,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.state.value.contains(val)){
                               var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedFatherStateType.add(true);
-                              model.selectedFatherStateEntity?.id = state?.id;
-                              model.selectedFatherStateEntity?.value = state?.attributes?.name;
+                              model.selectedMotherStateEntity = CommonDataClass(
+                                id: state?.id,
+                                value: state?.attributes?.name
+                              );
                             }
                           },
                         );
@@ -356,8 +367,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.city.value.contains(val)){
                               var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedMotherCityType.add(true);
-                              model.selectedMotherCityEntity?.id = city?.id;
-                              model.selectedMotherCityEntity?.value = city?.attributes?.name;
+                              model.selectedMotherCityEntity = CommonDataClass(
+                                id: city?.id,
+                                value: city?.attributes?.name
+                              );
                             }
                           },
                         );
@@ -492,8 +505,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.country.value.contains(val)){
                               var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedGuardianCountryType.add(true);
-                              model.selectedGuardianCountryEntity?.id = country?.id;
-                              model.selectedGuardianCountryEntity?.value = country?.attributes?.name;
+                              model.selectedGuardianCountryEntity = CommonDataClass(
+                                id: country?.id,
+                                value: country?.attributes?.name
+                              );
                             }
                           },
                         );
@@ -521,8 +536,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.state.value.contains(val)){
                               var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedFatherStateType.add(true);
-                              model.selectedGuardianStateEntity?.id = state?.id;
-                              model.selectedGuardianStateEntity?.value = state?.attributes?.name;
+                              model.selectedGuardianStateEntity = CommonDataClass(
+                                id: state?.id,
+                                value: state?.attributes?.name
+                              );
                             }
                           },
                         );
@@ -544,8 +561,10 @@ class ParentInfoEditing extends StatelessWidget {
                             if(model.city.value.contains(val)){
                               var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
                               // model.selectedFatherCityType.add(true);
-                              model.selectedGuardianCityEntity?.id = city?.id;
-                              model.selectedGuardianCityEntity?.value = city?.attributes?.name;
+                              model.selectedGuardianCityEntity = CommonDataClass(
+                                id: city?.id,
+                                value: city?.attributes?.name
+                              );
                             }
                           },
                         );

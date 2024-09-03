@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiries/enquiries_page_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -14,15 +15,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ListV extends StatelessWidget {
   final List<EnquiryListDetailModel>? enquiries;
   ScrollController scrollController;
-  void Function() onRefresh;
+  EnquiriesPageModel model;
 
-  ListV({super.key, required this.enquiries, required this.scrollController, required this.onRefresh,});
+  ListV({super.key, required this.enquiries, required this.scrollController, required this.model,});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: RefreshIndicator(
-        onRefresh: () async => onRefresh,
+        onRefresh: () async => model.fetchEnquiries(isRefresh: true),
         child: ListView.builder(
           controller: scrollController,
           itemCount: enquiries?.length,

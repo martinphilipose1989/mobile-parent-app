@@ -64,39 +64,36 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       controller: model.enquiryTypeController,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    Form(
-                      key: model.studenEnquiryFormKey,
-                      child: StreamBuilder<List<String>>(
-                        stream: model.schoolLocationTypes,
-                        builder: (context, snapshot) {
-                          if(!snapshot.hasData){
-                            return const CircularProgressIndicator();
-                          }else {
-                            return Form(
-                              key: model.studenEnquiryFormKey,
-                              child: CustomDropdownButton(
-                                width: MediaQuery.of(context).size.width,
-                                onMultiSelect: (selectedValues) {},
-                                dropdownName: 'School Location',
-                                showAstreik: true,
-                                showBorderColor: true,
-                                singleSelectItemSubject: model.selectedSchoolLocationSubject,
-                                items: snapshot.data??[],
-                                onSingleSelect: (selectedValue) {
-                                  if (model.schoolLocationTypes.value.contains(selectedValue)) {
-                                    var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                    model.selectedSchoolLocationType.add(true);
-                                    model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
-                                    model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
-                                  }
-                                },
-                                isMutiSelect: false,
-                                validator: (value)=> AppValidators.validateDropdown(value, 'school location'),
-                                ),
-                            );
-                          }
+                    StreamBuilder<List<String>>(
+                      stream: model.schoolLocationTypes,
+                      builder: (context, snapshot) {
+                        if(!snapshot.hasData){
+                          return const CircularProgressIndicator();
+                        }else {
+                          return Form(
+                            key: model.enquiryFormKey,
+                            child: CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'School Location',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              singleSelectItemSubject: model.selectedSchoolLocationSubject,
+                              items: snapshot.data??[],
+                              onSingleSelect: (selectedValue) {
+                                if (model.schoolLocationTypes.value.contains(selectedValue)) {
+                                  var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedSchoolLocationType.add(true);
+                                  model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
+                                  model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value)=> AppValidators.validateDropdown(value, 'school location'),
+                              ),
+                          );
                         }
-                      ),
+                      }
                     ),
                   ],
                 ),
@@ -121,7 +118,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Form(
-                  key: model.studenEnquiryFormKey,
+                  key: model.studenFormKey,
                   child: Column(
                     children: [
                       const Divider(
@@ -461,7 +458,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
 
   Widget psaDetails(){
     return Form(
-      key: model.studenEnquiryFormKey,
+      key: model.psaFormKey,
       child: Column(
         children: [
           StreamBuilder<List<String>>(
@@ -615,7 +612,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
 
   Widget ivtDetails(){
     return Form(
-      key: model.studenEnquiryFormKey,
+      key: model.ivtFormKey,
       child: Column(
         children: [
           StreamBuilder<List<String>>(

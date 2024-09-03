@@ -92,11 +92,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   BuildContext? context;
 
-  final studenEnquiryFormKey = GlobalKey<FormState>();
+  final studenFormKey = GlobalKey<FormState>();
+  final enquiryFormKey = GlobalKey<FormState>();
+  final ivtFormKey = GlobalKey<FormState>();
+  final psaFormKey = GlobalKey<FormState>();
   final parentInfoFormKey = GlobalKey<FormState>();
   final contactInfoFormKey = GlobalKey<FormState>();
   final medicalDetailsFormKey = GlobalKey<FormState>();
   final bankDetailsFormKey = GlobalKey<FormState>();
+  final upiFormKey = GlobalKey<FormState>();
 
   EnquiryDetailArgs? enquiryDetailArgs;
   EnquiryDetail? enquiryDetails;
@@ -1141,37 +1145,41 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     pinCodeController.text=parentDetails.fatherDetails?.pinCode??"";
     fatherEmailController.text=parentDetails.fatherDetails?.emailId??"";
     fatherMobileController.text=parentDetails.fatherDetails?.mobileNumber??"";
-     fatherOccupation=parentDetails.fatherDetails?.occupation??"";
-     fatherArea=parentDetails.fatherDetails?.area??"";
-     selectedFatherCountryEntity=parentDetails.fatherDetails?.country;
-     selectedFatherStateEntity=parentDetails.fatherDetails?.state;
-     selectedFatherCityEntity=parentDetails.fatherDetails?.city;
-     selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
-     selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
-     selectedFatherCitySubject.add(parentDetails.fatherDetails?.city?.value??'');
-     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area??'');
-     selectedFatherOccupationSubject.add(parentDetails.fatherDetails?.occupation??'');
+    fatherOccupation=parentDetails.fatherDetails?.occupation??"";
+    fatherArea=parentDetails.fatherDetails?.area??"";
+    selectedFatherCountryEntity=(parentDetails.fatherDetails?.country is CommonDataClass)? parentDetails.fatherDetails?.country : null;
+    selectedFatherStateEntity=(parentDetails.fatherDetails?.state is CommonDataClass)? parentDetails.fatherDetails?.state:null;
+    selectedFatherCityEntity=(parentDetails.fatherDetails?.city is CommonDataClass)? parentDetails.fatherDetails?.city:null;
+    if(parentDetails.fatherDetails?.city is CommonDataClass){
+      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
+      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
+      selectedFatherCitySubject.add(parentDetails.fatherDetails?.city?.value??'');
+    }
+    selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area??'');
+    selectedFatherOccupationSubject.add(parentDetails.fatherDetails?.occupation??'');
 
-     motherFirstNameController.text =parentDetails.motherDetails?.firstName??"";
-     motherLastNameController.text = parentDetails.motherDetails?.lastName??"";
-     motherAdharCardController.text = parentDetails.motherDetails?.aadharNumber??"";
-     motherPanCardController.text=parentDetails.motherDetails?.panNumber??"";
-     motherQualificationController.text=parentDetails.motherDetails?.qualification??"";
-     motherOrganizationNameController.text=parentDetails.motherDetails?.organisationName??"";
-     motherDesignationController.text =parentDetails.motherDetails?.designationName??"";
-     motherOfficeAddressController.text=parentDetails.motherDetails?.officeAddress??"";
-     motherPinCodeController.text=parentDetails.motherDetails?.pinCode??"";
-     motherEmailController.text=parentDetails.motherDetails?.emailId??"";
-     motherMobileController.text=parentDetails.motherDetails?.mobileNumber??"";
-    fatherOccupation=parentDetails.motherDetails?.occupation??"";
-    fatherArea=parentDetails.motherDetails?.area??"";
-    selectedFatherCountryEntity=parentDetails.motherDetails?.country;
-    selectedFatherStateEntity=parentDetails.motherDetails?.state;
-    selectedFatherCityEntity=parentDetails.motherDetails?.city;
+    motherFirstNameController.text =parentDetails.motherDetails?.firstName??"";
+    motherLastNameController.text = parentDetails.motherDetails?.lastName??"";
+    motherAdharCardController.text = parentDetails.motherDetails?.aadharNumber??"";
+    motherPanCardController.text=parentDetails.motherDetails?.panNumber??"";
+    motherQualificationController.text=parentDetails.motherDetails?.qualification??"";
+    motherOrganizationNameController.text=parentDetails.motherDetails?.organisationName??"";
+    motherDesignationController.text =parentDetails.motherDetails?.designationName??"";
+    motherOfficeAddressController.text=parentDetails.motherDetails?.officeAddress??"";
+    motherPinCodeController.text=parentDetails.motherDetails?.pinCode??"";
+    motherEmailController.text=parentDetails.motherDetails?.emailId??"";
+    motherMobileController.text=parentDetails.motherDetails?.mobileNumber??"";
+    motherOccupation=parentDetails.motherDetails?.occupation??"";
+    motherArea=parentDetails.motherDetails?.area??"";
+    selectedMotherCountryEntity=(parentDetails.motherDetails?.country is CommonDataClass) ? parentDetails.motherDetails?.country: null;
+    selectedMotherStateEntity=(parentDetails.motherDetails?.state is CommonDataClass)? parentDetails.motherDetails?.state:null;
+    selectedMotherCityEntity=(parentDetails.motherDetails?.city is CommonDataClass)? parentDetails.motherDetails?.city:null;
     selectedMotherAreaSubject.add(parentDetails.motherDetails?.area??'');
-    selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
-    selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
-    selectedMotherCitySubject.add(parentDetails.motherDetails?.city?.value??'');
+    if(parentDetails.motherDetails?.city is CommonDataClass){
+      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
+      selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
+      selectedMotherCitySubject.add(parentDetails.motherDetails?.city?.value??'');
+    }
     selectedMotherOccupationSubject.add(parentDetails.motherDetails?.occupation??'');
     
     guardianFirstNameController.text =parentDetails.guardianDetails?.firstName??"";
@@ -1185,13 +1193,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianPinCodeController.text=parentDetails.guardianDetails?.pincode??"";
     guardianEmailController.text=parentDetails.guardianDetails?.emailId??"";
     guardianMobileController.text=parentDetails.guardianDetails?.mobileNumber??"";
-    selectedGuardianCountryEntity=parentDetails.guardianDetails?.country;
-    selectedGuardianStateEntity=parentDetails.guardianDetails?.state;
-    selectedGuardianCityEntity=parentDetails.guardianDetails?.city;
+    selectedGuardianCountryEntity=(parentDetails.guardianDetails?.country is CommonDataClass)? parentDetails.guardianDetails?.country : null;
+    selectedGuardianStateEntity=(parentDetails.guardianDetails?.state is CommonDataClass)? parentDetails.guardianDetails?.state : null;
+    selectedGuardianCityEntity=(parentDetails.guardianDetails?.city is CommonDataClass)? parentDetails.guardianDetails?.city : null;
     selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area??'');
-    selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
-    selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
-    selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city?.value??'');
+    if(parentDetails.guardianDetails?.city is CommonDataClass){
+      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
+      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
+      selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city?.value??'');
+    }
     selectedGuardianOccupationSubject.add(parentDetails.guardianDetails?.occupation??'');
   }
 

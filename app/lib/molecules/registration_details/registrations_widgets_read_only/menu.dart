@@ -61,6 +61,7 @@ class Menu extends StatelessWidget {
           children: [
             SvgPicture.asset(
               image,
+              height: 36.r,
             ),
             CommonSizedBox.sizedBox(height: 10, width: 10),
             CommonText(

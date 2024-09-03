@@ -185,7 +185,7 @@ class RegistrationsDetailsPageView
                 dataBuilder: (context, data) {
                   return Positioned(
                       right: 20,
-                      bottom: 100,
+                      bottom: 150,
                       child: data!
                           ? Menu(
                               height: 350.h,

@@ -1,6 +1,5 @@
 import 'package:app/dependencies.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
-import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -23,75 +22,51 @@ class UploadDocuments extends StatelessWidget {
       stream: model.editRegistrationDetails,
       initialData: model.editRegistrationDetails.value,
       dataBuilder: (context, snapshot) {
-        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
-          stream: model.fetchEnquiryDetail,
-          initialData: Resource.none(),
-          onData: (value) {
-            if(value.status == Status.success){
-              enquiryDetail = value.data?.data;
-              enquiryDetail?.enquiryDocuments?.forEach(
-                (element){
-                  model.isDocumentUploaded.add(ValueNotifier((element.file??'').isNotEmpty || element.file!=null));
-                }
-              );
-            }
-          },
-          dataBuilder: (context, snapshot) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10,),
-                Container(
-                  height: 54,
-                  width: MediaQuery.of(context).size.width,
-                  color: const Color(0xffF0F2F4),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10,),
+            Container(
+              height: 54,
+              width: MediaQuery.of(context).size.width,
+              color: const Color(0xffF0F2F4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            CommonText(text: "Documents",
-                              style: AppTypography.body2.copyWith(
-                                fontFamily: 'Poppins',
-                                color: AppColors.textGray
-                              ),
-                            ),
-                            const Icon(
-                              Icons.arrow_upward,
-                              color: AppColors.textGray,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        CommonText(text: "Action",
+                        CommonText(text: "Documents",
                           style: AppTypography.body2.copyWith(
-                              fontFamily: 'Poppins',
-                              color: AppColors.textGray
+                            fontFamily: 'Poppins',
+                            color: AppColors.textGray
                           ),
+                        ),
+                        const Icon(
+                          Icons.arrow_upward,
+                          color: AppColors.textGray,
+                          size: 16,
                         ),
                       ],
                     ),
-                  ),
+                    CommonText(text: "Action",
+                      style: AppTypography.body2.copyWith(
+                          fontFamily: 'Poppins',
+                          color: AppColors.textGray
+                      ),
+                    ),
+                  ],
                 ),
-                if(snapshot?.status == Status.success)...[
-                  Column(
-                    children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index)),
-                  ),
-                ],
-                if(snapshot?.status == Status.loading) ...[
-                  const Center(child: CircularProgressIndicator(),)
-                ],
-                if(snapshot?.status == Status.error)...[
-                  const CommonText(text: "Document list not found")
-                ],
-                
-                const SizedBox(height: 100,),
-              ],
-            );
-          }
+              ),
+            ),
+            Column(
+              children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index)),
+            ),
+            const SizedBox(height: 100,),
+          ],
         );
+          
       }
     );
   }

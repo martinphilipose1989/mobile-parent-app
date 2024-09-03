@@ -24,7 +24,7 @@ class EnquiriesPageModel extends BasePageViewModel {
   BehaviorSubject<bool>.seeded(false);
 
   final ScrollController scrollController = ScrollController();
-  List<EnquiryListDetailModel> _currentEnquiries = [];
+  List<EnquiryListDetailModel> currentEnquiries = [];
 
   void setupScrollListener() {
     scrollController.addListener(() {
@@ -71,30 +71,25 @@ final ValueNotifier<bool> isLoading = ValueNotifier(false);
         pageNumber: pageNumber,
         pageSize: pageSize
       );
-      if(pageNumber < 1 && !isRefresh){
-        isLoading.value = true;
-      }
       RequestManager<EnquiryListModel>(
         params,
         createCall: () => getEnquiryListUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((event) {
-        debugPrint("EnResultEvent - ${event.status}");
-        _getEnquiryResponse.add(event);
-        if(isRefresh){
-          pageNumber = 1;
+        if(event.status == Status.loading && !isRefresh){
+          _getEnquiryResponse.add(event);
         }
-        if(event.status == Status.success
-        && event.data?.data?.totalCount != 0
-        && event.data?.data?.data != null) {
-          if(isRefresh){
-            _currentEnquiries = event.data?.data?.data ?? [];
+        if(event.status == Status.success) {
+          if(!isRefresh){
+            currentEnquiries = event.data?.data?.data??[];
+            var newContent = event.data?.data?.data??[];
+            event.data?.data?.data = [...currentEnquiries, ...newContent];
+            isLoading.value = false;
+            _getEnquiryResponse.add(event);
           }
           else{
-            var newContent = event.data?.data?.data??[];
-            _currentEnquiries = [..._currentEnquiries, ...newContent];
-            isLoading.value = false;
+            _getEnquiryResponse.add(event);
           }
         }
       }).onError((error) {

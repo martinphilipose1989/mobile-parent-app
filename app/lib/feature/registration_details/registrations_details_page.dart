@@ -171,8 +171,20 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                  return CommonElevatedButton(
                     onPressed: () {
                       if(model.showWidget.value == 0){
-                        if(model.studenEnquiryFormKey.currentState!.validate()){
-                          model.saveStudentDetail();
+                        if(widget.enquiryDetail?.enquiryType == "IVT"){
+                          if(model.studenFormKey.currentState!.validate() && model.ivtFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
+                            model.saveStudentDetail();
+                          }
+                          if(model.enquiryDetailArgs?.enquiryType == "PSA"){
+                            if(model.studenFormKey.currentState!.validate() && model.psaFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
+                              model.saveStudentDetail();
+                            }
+                          }
+                          else{
+                            if(model.studenFormKey.currentState!.validate() && model.enquiryFormKey.currentState!.validate()){
+                              model.saveStudentDetail();
+                            }
+                          }
                         }
                       } else if (model.showWidget.value == 1) {
                         model.saveParentDetails(widget.enquiryDetailArgs?.enquiryId??'');
@@ -181,7 +193,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       } else if (model.showWidget.value == 3) {
                         model.saveMedicalDetails(widget.enquiryDetailArgs?.enquiryId??'');
                       } else if (model.showWidget.value == 4) {
-                        if(model.bankDetailsFormKey.currentState!.validate()){
+                        if(model.bankDetailsFormKey.currentState!.validate() && model.upiFormKey.currentState!.validate()){
                           model.saveBankDetails(widget.enquiryDetailArgs?.enquiryId??'');
                         }
                       } else {

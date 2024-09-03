@@ -108,7 +108,7 @@ class BankDetailsEditing extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
          Form(
-           key: model.bankDetailsFormKey,
+           key: model.upiFormKey,
            child: CommonTextFormField(
             showAstreik: false,
             labelText: 'UPI ID',
