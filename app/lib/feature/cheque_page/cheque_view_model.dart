@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -7,20 +8,21 @@ import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:intl/intl.dart';
 
 @injectable
 class ChequePageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetStorePaymentUsecase _getStorePaymentUsecase;
   final GetTokenGeneratorUsecase _getTokenGeneratorUsecase;
-  ChequePageModel(
-    this.exceptionHandlerBinder,
-    this._getStorePaymentUsecase,
-    this._getTokenGeneratorUsecase,
-  );
+  final ChooseFileUseCase _chooseFileUseCase;
+  ChequePageModel(this.exceptionHandlerBinder, this._getStorePaymentUsecase,
+      this._getTokenGeneratorUsecase, this._chooseFileUseCase);
 
   final BehaviorSubject<List<bool>> selectedChequeType =
       BehaviorSubject<List<bool>>.seeded([]);
+
+  late PaymentsPageModel paymentsPageModel;
 
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
@@ -35,10 +37,17 @@ class ChequePageModel extends BasePageViewModel {
   List<TextEditingController> chequeTypeControllers = <TextEditingController>[];
   List<TextEditingController> feeTypeControllers = <TextEditingController>[];
   List<TextEditingController> bankNameController = <TextEditingController>[];
+  List<TextEditingController> chequeImage = <TextEditingController>[];
 
   TextEditingController payemntType = TextEditingController();
   TextEditingController inFavour = TextEditingController();
   TextEditingController amount = TextEditingController();
+  late int chequeInFavourId;
+
+  late String customerIfscCode;
+  late String customerName;
+
+  late List<GetPendingFeesFeeModel> selectedPendingFessList;
 
   final List<String> chequeTypes = [
     'Current Dated Cheque',
@@ -46,22 +55,19 @@ class ChequePageModel extends BasePageViewModel {
     'Demand Draft'
   ];
 
-  final List<String> feesType = [
-    'Registration Fees',
-    'Admission Fees',
-    'Consolidated Fees',
-    'Transport Fees'
-  ];
+  List<String> feesType = [];
+  List<String> tempList = [];
 
   void _addChequeControllers() {
     tokenNumberControllers.add(TextEditingController());
     chequeNumberControllers.add(TextEditingController());
     chequeDateControllers.add(TextEditingController());
-    ifscCodeControllers.add(TextEditingController());
-    issueNameControllers.add(TextEditingController());
+    ifscCodeControllers.add(TextEditingController(text: customerIfscCode));
+    issueNameControllers.add(TextEditingController(text: customerName));
     amountControllers.add(TextEditingController());
     chequeTypeControllers.add(TextEditingController());
     feeTypeControllers.add(TextEditingController());
+    chequeImage.add(TextEditingController());
   }
 
   void addCheque(String selectedValue, int index) {
@@ -72,6 +78,19 @@ class ChequePageModel extends BasePageViewModel {
     }
     _addChequeControllers();
     tokenGenerator(index);
+  }
+
+  int getValueForMode(String mode) {
+    switch (mode) {
+      case 'Current Dated Cheque':
+        return 8;
+      case 'Post Dated Cheque':
+        return 10;
+      case 'Demand Draft':
+        return 9;
+      default:
+        throw ArgumentError('Invalid mode: $mode');
+    }
   }
 
   void removeCheque(int index) {
@@ -89,7 +108,39 @@ class ChequePageModel extends BasePageViewModel {
       amountControllers.removeAt(index);
       chequeTypeControllers.removeAt(index);
       feeTypeControllers.removeAt(index);
+      chequeImage.removeAt(index);
     }
+  }
+
+  final BehaviorSubject<Resource<UploadFile>> _pickFrontFileResponse =
+      BehaviorSubject<Resource<UploadFile>>();
+
+  Stream<Resource<UploadFile>> get pickFrontFileResponse =>
+      _pickFrontFileResponse.stream;
+
+  void pickImage(UpoladFileTypeEnum fileTypeEnum, int index) {
+    exceptionHandlerBinder.handle(block: () {
+      final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
+      RequestManager<UploadFile>(params,
+              createCall: () => _chooseFileUseCase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
+          _pickFrontFileResponse.add(result);
+          chequeImage[index].text = result.data?.filePath ?? "";
+        }
+      }).onError((error) {});
+    }).execute();
+  }
+
+  String formatDateToYYYYMMDD(String date) {
+    // Assuming the input date is in 'dd/MM/yyyy' format
+    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+
+    // Format the parsed date to 'YYYY-mm-dd'
+    String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+
+    return formattedDate;
   }
 
   final BehaviorSubject<Resource<GetStorePaymentModel>> _getStorePaymentModel =
@@ -105,28 +156,30 @@ class ChequePageModel extends BasePageViewModel {
         paymentModeId: int.parse(chequeTypeControllers[i].text),
         amount: int.parse(amountControllers[i].text),
         chequeNo: chequeNumberControllers[i].text,
-        chequeDate: chequeDateControllers[i].text,
-        bankName: bankNameController[i].text,
+        chequeDate: formatDateToYYYYMMDD(chequeDateControllers[i].text),
         issuerName: issueNameControllers[i].text,
         issuerIfsc: ifscCodeControllers[i].text,
-        chequeImage: 'null',
+        chequeImage: chequeImage[i].text,
         tokenNo: tokenNumberControllers[i].text,
       ));
     }
     exceptionHandlerBinder.handle(block: () {
       GetStorePaymentUsecaseParams params = GetStorePaymentUsecaseParams(
           storePaymentModelRequest: StorePaymentModelRequest(
-              isManualEntry: 1,
-              manualReceiptImage: "null",
-              manualReceiptNo: 'RCP0001',
               paymentMode: 8,
-              paymentAmount: 25450,
-              chequeInFavour: 63,
+              forMobile: true,
+              paymentAmount: int.parse(amount.text),
+              chequeInFavour: chequeInFavourId,
               lobId: 52,
               paymentDetails: paymentDetails,
-              feeIds: [
-            FeeIdModelRequest(collected: 25450, feeOrder: 3, studentFeeId: 5),
-          ]));
+              feeIds: List.generate(
+                selectedPendingFessList.length,
+                (index) => FeeIdModelRequest(
+                    collected: int.parse(
+                        selectedPendingFessList[index].paid!.split('.')[0]),
+                    feeOrder: selectedPendingFessList[index].feeOrder ?? 0,
+                    studentFeeId: selectedPendingFessList[index].id ?? 0),
+              )));
       RequestManager<GetStorePaymentModel>(
         params,
         createCall: () => _getStorePaymentUsecase.execute(params: params),
@@ -171,6 +224,21 @@ class ChequePageModel extends BasePageViewModel {
     } else {}
   }
 
+  void checkIfAllAmountMatches(
+      Function(bool value) onCallBack, ChequePageModel model) {
+    for (var i = 0; i < amountControllers.length; i++) {
+      int tempAmount = 0;
+
+      tempAmount += int.parse(amountControllers[i].text);
+
+      if (tempAmount != int.parse(amount.text)) {
+        onCallBack.call(true);
+      } else {
+        submitForm(model);
+      }
+    }
+  }
+
   int getChequeId(String chequeType) {
     switch (chequeType) {
       case 'Current Dated Cheque':
@@ -179,9 +247,18 @@ class ChequePageModel extends BasePageViewModel {
         return 9;
       case 'Post Dated Cheque':
         return 10;
-
       default:
         return 0;
+    }
+  }
+
+  void feeTypeListChanges(
+    String selectedValue,
+    int index,
+  ) {
+    feeTypeControllers[index].text = selectedValue;
+    if (tempList.contains(selectedValue)) {
+      tempList.remove(selectedValue);
     }
   }
 

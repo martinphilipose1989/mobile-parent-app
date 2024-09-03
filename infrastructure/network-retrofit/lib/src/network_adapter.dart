@@ -5,6 +5,7 @@ import 'package:network_retrofit/src/model/request/finance/get_pending_fees_requ
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
+import 'package:network_retrofit/src/model/request/finance/get_transaction_type_fees_collectes_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
@@ -79,9 +80,7 @@ class NetworkAdapter implements NetworkPort {
             lobID: storePaymentModelRequest.lobId,
             paymentAmount: storePaymentModelRequest.paymentAmount,
             paymentMode: storePaymentModelRequest.paymentMode,
-            isManualEntry: storePaymentModelRequest.isManualEntry,
-            manualReceiptImage: storePaymentModelRequest.manualReceiptImage,
-            manualReceiptNo: storePaymentModelRequest.manualReceiptNo,
+            forMobile: storePaymentModelRequest.forMobile,
             feeIds: storePaymentModelRequest.feeIds
                 .map((e) => FeeId(
                     studentFeeId: e.studentFeeId,
@@ -94,7 +93,7 @@ class NetworkAdapter implements NetworkPort {
                     chequeDate: e.chequeDate,
                     chequeImage: e.chequeImage,
                     chequeNo: e.chequeNo,
-                    bankName: e.bankName,
+                    bankName: '',
                     issuerIfsc: e.issuerIfsc,
                     issuerName: e.issuerName,
                     paymentModeId: e.paymentModeId,
@@ -164,6 +163,22 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id}) async {
     var response = await safeApiCall(apiService.getTransactionType(id));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
+      getTransactionTypeFeesCollected(
+          {required List<int> students,
+          required List<int> academicYear}) async {
+    var response = await safeApiCall(apiService.getTransactionTypeFeesCollected(
+        GetTransactionTypeFeesCollectesRequest(
+            students: students, academicYear: academicYear)));
     return response.fold(
       (l) {
         return Left(l);

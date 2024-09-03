@@ -113,7 +113,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                               .copyWith(),
                                         ),
                                         SizedBox(
-                                          width: 80,
+                                          width: 60,
                                           child: CommonText(
                                             textAlign: TextAlign.center,
                                             text: fees.paymentMode ?? "",

@@ -18,4 +18,11 @@ enum ErrorType {
   databaseNotSupported,
   databaseError1,
   databaseUserNotFound,
+
+  //ATTACHMENT ERROR
+  fileSizeExceed,
+  filePickerFailed,
+  imagePickerFailed,
+  imagePickerCancelled,
+  uiInvalidAmount
 }

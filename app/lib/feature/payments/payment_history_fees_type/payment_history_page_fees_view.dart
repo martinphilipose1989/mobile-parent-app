@@ -13,7 +13,7 @@ class PaymentHistoryFeesView
   @override
   Widget build(BuildContext context, PaymentHistoryFeesModel model) {
     return AppStreamBuilder<Resource<GetPendingFeesModel>>(
-      stream: model.getPendingFeesModel,
+      stream: model.paymentHistoryModel.getFeesTypeModel,
       initialData: Resource.none(),
       dataBuilder: (context, data) {
         return data!.status == Status.loading
@@ -21,7 +21,7 @@ class PaymentHistoryFeesView
                 child: CircularProgressIndicator(),
               )
             : PaymentHistoryFeesTypeExpansion(
-                groupedModels: model.groupedModels);
+                groupedModels: model.paymentHistoryModel.groupedModels);
       },
     );
   }

@@ -16,6 +16,7 @@ dependencies:
     path: ../domain
   shared:
     path: ../shared
+  file_picker: ^8.0.7
 
 
 dev_dependencies:

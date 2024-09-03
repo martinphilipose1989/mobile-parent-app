@@ -74,4 +74,12 @@ class FinanceRepositoryImpl extends FinanceRepository {
       {required int id}) {
     return networkPort.getTransactionType(id: id);
   }
+
+  @override
+  Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
+      getTransactionTypeFeesCollected(
+          {required List<int> students, required List<int> academicYear}) {
+    return networkPort.getTransactionTypeFeesCollected(
+        students: students, academicYear: academicYear);
+  }
 }

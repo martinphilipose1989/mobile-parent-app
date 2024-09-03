@@ -1,7 +1,7 @@
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
 import 'package:app/model/resource.dart';
-import 'package:app/molecules/payments/payments_chips_list.dart';
 import 'package:app/molecules/payment_history/switch_views_payment_history.dart';
+import 'package:app/molecules/payments/payments_chips_list.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -35,7 +35,23 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
                           width: 175.w,
                           child: CustomDropdownButton(
                             displayZerothIndex: true,
-                            onMultiSelect: (selectedValues) {},
+                            onMultiSelect: (selectedValues) {
+                              model.getSelectedAcademicYear(
+                                  selectedValues: selectedValues,
+                                  data: data.data?.data ?? [],
+                                  onchange: (values) {
+                                    if (model.switchTabsPaymentHistory.value ==
+                                        0) {
+                                      model.getFeesCollected();
+                                    } else if (model
+                                            .switchTabsPaymentHistory.value ==
+                                        1) {
+                                      model.getFeesType();
+                                    } else {
+                                      model.getStudentLedger();
+                                    }
+                                  });
+                            },
                             dropdownName: 'Select Academic year',
                             showAstreik: true,
                             showBorderColor: true,
@@ -71,7 +87,7 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
           ),
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
-        SwitchViewPaymentHistory(providerBase),
+        SwitchViewPaymentHistory(providerBase)
       ],
     );
   }

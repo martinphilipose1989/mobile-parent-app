@@ -1,5 +1,5 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/finance/get_transaction_type_usecase.dart';
+import 'package:domain/src/usecase/attachemnt/choose_file_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -43,5 +43,16 @@ abstract class DomainModule {
   @lazySingleton
   GetTransactionTypeUsecase getTransactionType(FinanceRepository repository) {
     return GetTransactionTypeUsecase(repository);
+  }
+
+  @lazySingleton
+  GetTransactionTypeFeesCollectedUsecase getTransactionTypeFeesCollected(
+      FinanceRepository repository) {
+    return GetTransactionTypeFeesCollectedUsecase(repository);
+  }
+
+  @lazySingleton
+  ChooseFileUseCase pickFile(AttachmentRepository repository) {
+    return ChooseFileUseCase(attachmentRepository: repository);
   }
 }

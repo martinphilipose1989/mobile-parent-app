@@ -1,20 +1,42 @@
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
-  const CommonDatePickerWidget({super.key, this.labelName});
+  final bool? showAstreik;
+  final String? Function(String?)? validator;
+  final TextEditingController? dateController;
+  const CommonDatePickerWidget(
+      {super.key,
+      this.labelName,
+      this.showAstreik = false,
+      this.validator,
+      this.dateController});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
 }
 
 class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
-  final TextEditingController _dateController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    widget.dateController!.text = formatDateToDDMMYYYY(DateTime.now());
+  }
+
+  String formatDateToDDMMYYYY(DateTime date) {
+    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
 
   @override
   void dispose() {
-    _dateController.dispose();
+    widget.dateController!.dispose();
     super.dispose();
   }
 
@@ -27,25 +49,19 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     );
     if (picked != null) {
       setState(() {
-        _dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+        widget.dateController?.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        widget.labelName == null
-            ? const SizedBox()
-            : Text(
-                widget.labelName ?? "",
-                style: Theme.of(context).inputDecorationTheme.labelStyle,
-              ),
-        widget.labelName == null ? const SizedBox() : const SizedBox(height: 8),
         TextFormField(
-          controller: _dateController,
+          validator: widget.validator,
+          controller: widget.dateController,
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
             prefixIcon: IconButton(
@@ -63,6 +79,35 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
             _selectDate(context);
           },
         ),
+        Positioned(
+          left: 6,
+          top: -11,
+          child: widget.labelName != ''
+              ? Container(
+                  color: Colors
+                      .white, // Match the background color to avoid overlap
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    children: [
+                      CommonText(
+                        text: widget.labelName ?? "",
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.textNeutral35),
+                      ),
+                      widget.showAstreik!
+                          ? CommonText(
+                              text: ' *',
+                              style: AppTypography.caption.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.failure,
+                                  fontSize: 12.sp),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                )
+              : Container(),
+        )
       ],
     );
   }

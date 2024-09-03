@@ -21,12 +21,8 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
   final List<FeeId> feeIds;
   @JsonKey(name: "payment_details")
   final List<PaymentDetail> paymentDetails;
-  @JsonKey(name: "is_manual_entry")
-  final int isManualEntry;
-  @JsonKey(name: "manual_receipt_no")
-  final String manualReceiptNo;
-  @JsonKey(name: "manual_receipt_image")
-  final String manualReceiptImage;
+  @JsonKey(name: "for_mobile")
+  final bool forMobile;
 
   GetStorePaymentRequest(
       {required this.paymentMode,
@@ -35,9 +31,7 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
       required this.lobID,
       required this.feeIds,
       required this.paymentDetails,
-      required this.isManualEntry,
-      required this.manualReceiptImage,
-      required this.manualReceiptNo});
+      required this.forMobile});
 
   factory GetStorePaymentRequest.fromJson(Map<String, dynamic> json) =>
       _$GetStorePaymentRequestFromJson(json);
@@ -48,12 +42,10 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
   GetStorePaymentRequest restore(StorePaymentModelRequest data) {
     return GetStorePaymentRequest(
         lobID: data.lobId,
+        forMobile: forMobile,
         chequeInFavour: data.chequeInFavour,
         paymentAmount: data.paymentAmount,
         paymentMode: data.paymentMode,
-        isManualEntry: data.isManualEntry,
-        manualReceiptImage: data.manualReceiptImage,
-        manualReceiptNo: data.manualReceiptNo,
         feeIds: data.feeIds
             .map((e) => FeeId(
                 studentFeeId: e.studentFeeId,
@@ -66,7 +58,7 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
                 chequeDate: e.chequeDate,
                 chequeImage: e.chequeImage,
                 chequeNo: e.chequeNo,
-                bankName: e.bankName,
+                bankName: '',
                 issuerIfsc: e.issuerIfsc,
                 issuerName: e.issuerName,
                 paymentModeId: e.paymentModeId,

@@ -43,7 +43,7 @@ class GetPendingFeesFeeModel {
   final int? lateChargeAmount;
   final dynamic lateChargeType;
   final dynamic lateChargeMaxAmount;
-  final DateTime? createdOn;
+  final String? createdOn;
   final dynamic updatedOn;
   final dynamic lateChargeDuration;
   final String? segment1;
@@ -114,6 +114,7 @@ class GetPendingFeesFeeModel {
   final int? overdueDays;
   final int? isOverdue;
   final String? paymentMode;
+  final String? instrumentNumber;
   bool isSelected;
 
   GetPendingFeesFeeModel(
@@ -209,6 +210,7 @@ class GetPendingFeesFeeModel {
       this.overdueDays,
       this.isOverdue,
       this.isSelected = false,
+      this.instrumentNumber,
       this.paymentMode});
 
   GetPendingFeesFeeModel copyWith(
@@ -245,7 +247,7 @@ class GetPendingFeesFeeModel {
       int? lateChargeAmount,
       dynamic lateChargeType,
       dynamic lateChargeMaxAmount,
-      DateTime? createdOn,
+      String? createdOn,
       dynamic updatedOn,
       dynamic lateChargeDuration,
       String? segment1,
@@ -304,6 +306,7 @@ class GetPendingFeesFeeModel {
       int? overdueDays,
       int? isOverdue,
       bool? isSelected,
+      String? instrumentNumber,
       String? paymentMode}) {
     return GetPendingFeesFeeModel(
         acknowledgementDate: acknowledgementDate ?? this.acknowledgementDate,
@@ -395,6 +398,7 @@ class GetPendingFeesFeeModel {
         overdueDays: overdueDays ?? this.overdueDays,
         isOverdue: isOverdue ?? this.isOverdue,
         isSelected: isSelected ?? this.isSelected,
+        instrumentNumber: instrumentNumber ?? this.instrumentNumber,
         paymentMode: paymentMode ?? this.paymentMode);
   }
 }

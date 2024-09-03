@@ -11,19 +11,24 @@ class SwitchViewPaymentHistory extends BasePageViewWidget<PaymentHistoryModel> {
 
   @override
   Widget build(BuildContext context, PaymentHistoryModel model) {
-    // TODO: implement build
-    return Expanded(
-      // height: MediaQuery.of(context).size.height,
-      // width: MediaQuery.of(context).size.width,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: AppStreamBuilder<int>(
         stream: model.switchTabsPaymentHistory,
         initialData: model.switchTabsPaymentHistory.value,
         dataBuilder: (context, data) {
           return data == 0
-              ? const PaymentHistoryTransactionPage()
+              ? PaymentHistoryTransactionPage(
+                  paymentHistoryModel: model,
+                )
               : data == 1
-                  ? const PaymentHistoryFeesPage()
-                  : const PaymentHistoryStudentLedgerPage();
+                  ? PaymentHistoryFeesPage(
+                      paymentHistoryModel: model,
+                    )
+                  : PaymentHistoryStudentLedgerPage(
+                      paymentHistoryModel: model,
+                    );
         },
       ),
     );

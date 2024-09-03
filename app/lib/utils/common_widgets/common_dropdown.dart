@@ -12,6 +12,8 @@ class CustomDropdownButton extends StatefulWidget {
   final bool showBorderColor;
   final String dropdownName;
   final bool showAstreik;
+
+  final String? selectedValue;
   final double? width;
   final bool displayZerothIndex;
   final Function(List<String> selectedValues) onMultiSelect;
@@ -26,6 +28,7 @@ class CustomDropdownButton extends StatefulWidget {
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
+      this.selectedValue,
       required this.onMultiSelect,
       this.validator,
       this.onSingleSelect});
@@ -47,10 +50,23 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.items);
+    eitherDisplayZerothIndexOrSelectedName();
+  }
+
+  void eitherDisplayZerothIndexOrSelectedName() {
     if (widget.displayZerothIndex) {
       List<String> addedZerothIndex = [];
       addedZerothIndex.add(widget.items[0] ?? '');
       selectedItemsSubject.add(addedZerothIndex);
+    } else {
+      for (var element in widget.items) {
+        if (element == widget.selectedValue) {
+          List<String> tempList = [];
+          tempList.add(element ?? "");
+          selectedItemsSubject.add(tempList);
+        }
+      }
     }
   }
 
@@ -109,7 +125,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     ? null
                     : singleSelectItemSubject.value,
                 onChanged: (value) {
-                  widget.onSingleSelect!(value ?? "");
+                  widget.onSingleSelect?.call(value ?? '');
                   singleSelectItemSubject.add(value ?? "");
                 },
                 buttonStyleData: ButtonStyleData(
@@ -196,6 +212,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               child: DropdownButtonFormField2<String>(
                 isExpanded: true,
                 validator: widget.validator,
+
                 hint: const Row(
                   children: [
                     Expanded(
@@ -356,9 +373,9 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   }
 }
 
-class DropdownData<T> {
-  final T dropDownValue;
-  final bool isSelected;
+class DropdownData {
+  final String name;
+  final int id;
 
-  DropdownData({required this.dropDownValue, this.isSelected = false});
+  DropdownData({required this.name, required this.id});
 }

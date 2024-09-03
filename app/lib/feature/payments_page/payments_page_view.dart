@@ -5,6 +5,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -73,8 +74,8 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                   ],
                                 ),
                                 CommonText(
-                                  text:
-                                      '₹ ${model.selectedFees[index].pending ?? ""}',
+                                  text: CurrencyFormatter.formatToRupee(
+                                      model.selectedFees[index].pending ?? ""),
                                   style: AppTypography.subtitle2
                                       .copyWith(color: AppColors.success),
                                 ),
@@ -101,6 +102,7 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
             SizedBox(
               height: 1.sh,
               child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return model.paymentModes[index].paymentModeId == 8 ||
                             model.paymentModes[index].paymentModeId == 9 ||

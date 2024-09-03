@@ -1,14 +1,20 @@
+import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/request_manager.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
+  final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
 
-  DashboardPageModel(this.exceptionHandlerBinder);
+  DashboardPageModel(
+      this.exceptionHandlerBinder, this._getGuardianStudentDetailsUsecase);
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -66,6 +72,46 @@ class DashboardPageModel extends BasePageViewModel {
         return '';
     }
   }
+
+  GetGuardianStudentDetailsStudentModel? selectedStudentId;
+
+  void getSelectedStudentid(String name) {
+    for (var student
+        in _getGuardianStudentDetailsModel.value.data!.data!.students!) {
+      if (student.studentDisplayName == name) {
+        selectedStudentId = student;
+      }
+    }
+  }
+
+  // Calling students list
+
+  final BehaviorSubject<Resource<GetGuardianStudentDetailsModel>>
+      _getGuardianStudentDetailsModel = BehaviorSubject();
+
+  Stream<Resource<GetGuardianStudentDetailsModel>>
+      get getGuardianStudentDetailsModel =>
+          _getGuardianStudentDetailsModel.stream;
+
+  Future<void> getStudentList() async {
+    await exceptionHandlerBinder.handle(block: () {
+      GetGuardianStudentDetailsUsecaseParams params =
+          GetGuardianStudentDetailsUsecaseParams(mobileNo: 6380876483);
+      RequestManager<GetGuardianStudentDetailsModel>(
+        params,
+        createCall: () =>
+            _getGuardianStudentDetailsUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {
+          _getGuardianStudentDetailsModel.add(result);
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  // end
 }
 
 class Chips {

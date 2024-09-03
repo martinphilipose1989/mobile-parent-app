@@ -11,12 +11,14 @@ import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
+import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
-import 'package:app/molecules/payments/payment_details.dart';
+import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
 import 'package:app/utils/common_widgets/common_webview.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../feature/splash/splash_page.dart';
@@ -39,7 +41,9 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.payments));
       case RoutePaths.paymentDetails:
         return CupertinoPageRoute(
-            builder: (context) => const PaymentDetailScreen(),
+            builder: (context) => PaymentDetailScreen(
+                  fee: settings.arguments as GetPendingFeesFeeModel,
+                ),
             settings: const RouteSettings(name: RoutePaths.paymentDetails));
       case RoutePaths.paymentsPage:
         return CupertinoPageRoute(
@@ -54,7 +58,9 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.couponList));
       case RoutePaths.chequePayment:
         return CupertinoPageRoute(
-            builder: (context) => const ChequePage(),
+            builder: (context) => ChequePage(
+                  paymentsPageModel: settings.arguments as PaymentsPageModel,
+                ),
             settings: const RouteSettings(name: RoutePaths.chequePayment));
       case RoutePaths.otpPage:
         return CupertinoPageRoute(

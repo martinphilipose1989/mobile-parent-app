@@ -53,7 +53,7 @@ class HighlightListState extends State<HighlightList> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                        height: 56.h,
+                        height: 55.h,
                         width: 56.w,
                         padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(

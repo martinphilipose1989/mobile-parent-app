@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,8 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
   @override
   Widget build(BuildContext context, PaymentsModel model) {
     return Padding(
-        padding: const EdgeInsets.all(15),
-        child: ListView(
-          children: [
-            tabs(context, model),
-          ],
-        ));
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+        child: SingleChildScrollView(child: tabs(context, model)));
   }
 
   Widget tabs(BuildContext cxt, PaymentsModel model) {
@@ -47,7 +44,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
             return data == 0
                 ? pendingAmount(cxt, model)
                 : SizedBox(
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height - 100,
                     width: MediaQuery.of(context).size.width,
                     child: const PaymentHistoryPage());
           },
@@ -87,7 +84,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                   initialData: model.exactPendingAmountToBePaid.value,
                   dataBuilder: (context, data) {
                     return CommonText(
-                      text: '₹ $data',
+                      text: CurrencyFormatter.formatToRupee(data.toString()),
                       style: AppTypography.h6
                           .copyWith(color: Theme.of(cxt).colorScheme.primary),
                     );
@@ -122,7 +119,6 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         ),
                         onCallBack: (index) {
                           final brand = data.data!.data!.brandCodes![index];
-
                           model.onSelectBrandCode(brandCode: brand);
                         },
                       ),
@@ -174,7 +170,10 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                   width: 300,
                                   showAstreik: false,
                                   showBorderColor: false,
-                                  displayZerothIndex: true,
+                                  displayZerothIndex: false,
+                                  selectedValue: model.selectedStudent
+                                          ?.studentDisplayName ??
+                                      "",
                                   items: data.data?.data?.students!
                                           .map((e) => e.studentDisplayName)
                                           .toList() ??

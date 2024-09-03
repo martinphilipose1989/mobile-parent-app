@@ -9,6 +9,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class Payments extends BasePage<PaymentsModel> {
 }
 
 class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<PaymentsModel> provideBase() {
     return paymentsModelProvider;
@@ -35,9 +36,13 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   void onModelReady(PaymentsModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.tabController = TabController(length: 2, vsync: this);
-    if (model.selectedValue.value == 0) {
-      model.executeTasksSequentially();
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    if (model.selectedStudent != null) {
+      model.studentIDs.add(model.selectedStudent?.id ?? 0);
     }
+    model.executeTasksSequentially();
   }
 
   @override
@@ -58,7 +63,6 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
           return snapshot.data == 0
               ? Container(
                   height: 90.h,
-                  width: 390.w,
                   padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
                   decoration:
                       const BoxDecoration(color: AppColors.primaryLighter),
@@ -80,7 +84,8 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                             initialData: model.totalAmount.value,
                             dataBuilder: (context, data) {
                               return CommonText(
-                                text: '₹ $data',
+                                text: CurrencyFormatter.formatToRupee(
+                                    data.toString()),
                                 style: AppTypography.h6.copyWith(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -92,7 +97,7 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                       ),
                       SizedBox(
                           height: 40.h,
-                          width: 110.w,
+                          width: 140.w,
                           child: CommonElevatedButton(
                             onPressed: () {
                               model.checkWhetherfeesIdExistInPayments();
@@ -109,7 +114,7 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                                             model.selectedPendingFessList));
                               }
                             },
-                            text: 'Pay Now',
+                            text: 'Continue',
                             backgroundColor:
                                 Theme.of(context).colorScheme.secondary,
                             textStyle: AppTypography.subtitle2.copyWith(

@@ -72,7 +72,7 @@ class PaymentDetail
       chequeDate: data.chequeDate,
       chequeImage: data.chequeImage,
       chequeNo: data.chequeNo,
-      bankName: data.bankName,
+      bankName: '',
       issuerIfsc: data.issuerIfsc,
       issuerName: data.issuerName,
       paymentModeId: data.paymentModeId,

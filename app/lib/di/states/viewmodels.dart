@@ -43,7 +43,8 @@ final tabbarViewModelProvider =
 
 final dashboardViewModelProvider =
     ChangeNotifierProvider.autoDispose<DashboardPageModel>(
-  (ref) => DashboardPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => DashboardPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetGuardianStudentDetailsUsecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
@@ -157,12 +158,16 @@ final chequePageModelProvider =
         ChequePageModel(
             getIt.get<FlutterExceptionHandlerBinder>(),
             getIt.get<GetStorePaymentUsecase>(),
-            getIt.get<GetTokenGeneratorUsecase>()));
+            getIt.get<GetTokenGeneratorUsecase>(),
+            getIt.get<ChooseFileUseCase>()));
 
 final paymentHistoryProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryModel>((ref) =>
-        PaymentHistoryModel(getIt.get<FlutterExceptionHandlerBinder>(),
-            getIt.get<GetAcademicYearUsecase>()));
+        PaymentHistoryModel(
+            getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<GetAcademicYearUsecase>(),
+            getIt.get<GetTransactionTypeFeesCollectedUsecase>(),
+            getIt.get<GetPendingFeesUsecase>()));
 
 final paymentHistoryTransactionProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryTransactionModel>(
@@ -172,12 +177,13 @@ final paymentHistoryTransactionProvider =
             ));
 
 final paymentHistoryFeesProvider =
-    ChangeNotifierProvider.autoDispose<PaymentHistoryFeesModel>((ref) =>
-        PaymentHistoryFeesModel(getIt.get<FlutterExceptionHandlerBinder>(),
-            getIt.get<GetPendingFeesUsecase>()));
+    ChangeNotifierProvider.autoDispose<PaymentHistoryFeesModel>(
+        (ref) => PaymentHistoryFeesModel(
+              getIt.get<FlutterExceptionHandlerBinder>(),
+            ));
 
 final paymentHistoryStudentLedgerProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryStudentLedgerModel>(
         (ref) => PaymentHistoryStudentLedgerModel(
-            getIt.get<FlutterExceptionHandlerBinder>(),
-            getIt.get<GetPendingFeesUsecase>()));
+              getIt.get<FlutterExceptionHandlerBinder>(),
+            ));

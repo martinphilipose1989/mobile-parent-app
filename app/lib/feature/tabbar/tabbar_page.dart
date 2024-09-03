@@ -20,7 +20,7 @@ class TabbarPage extends BasePage<TabbarViewModel> {
 }
 
 class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<TabbarViewModel> provideBase() {
     return tabbarViewModelProvider;
@@ -36,7 +36,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   Future<bool> onBackPressed({param}) {
     // TODO: implement onBackPressed
-    log("onback being called");
+
     return super.onBackPressed(param: true);
   }
 

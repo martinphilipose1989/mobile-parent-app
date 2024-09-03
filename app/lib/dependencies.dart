@@ -1,4 +1,5 @@
 import 'package:app/di/app_dependency_configurator.dart';
+import 'package:attachment/attachment.dart';
 import 'package:data/data.dart';
 import 'package:database_floor/floor.dart';
 import 'package:dependency_injection/dependency_injection.dart';
@@ -27,6 +28,9 @@ final configurators = [
 
   //configure domain layer
   DomainDependencyConfigurator(),
+
+  //configure attachment sources
+  AttachmentDependenciesConfigurator(),
 ];
 
 Future configureDependencies(DependencyConfigurationContext context) async {

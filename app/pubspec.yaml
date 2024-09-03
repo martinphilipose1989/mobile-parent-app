@@ -40,6 +40,8 @@ dependencies:
     path: ../infrastructure/database-floor/
   network_retrofit:
     path: ../infrastructure/network-retrofit/
+  attachment:
+    path: ../infrastructure/attachment/ 
   data:
     path: ../core/data/
   domain:

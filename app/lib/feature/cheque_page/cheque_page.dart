@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cheque_page/cheque_page_view.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
+import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
 class ChequePage extends BasePage<ChequePageModel> {
-  const ChequePage({super.key});
+  final PaymentsPageModel paymentsPageModel;
+  const ChequePage({super.key, required this.paymentsPageModel});
 
   @override
   ChequePageState createState() => ChequePageState();
@@ -23,15 +25,21 @@ class ChequePageState extends AppBasePageState<ChequePageModel, ChequePage>
 
   @override
   void onModelReady(ChequePageModel model) {
-    model.amount = ProviderScope.containerOf(context)
-        .read(paymentsPageModelProvider)
-        .amount;
-    model.inFavour = ProviderScope.containerOf(context)
-        .read(paymentsPageModelProvider)
-        .inFavour;
-    model.payemntType = ProviderScope.containerOf(context)
-        .read(paymentsPageModelProvider)
-        .payemntType;
+    model.amount = widget.paymentsPageModel.amount;
+    model.inFavour = widget.paymentsPageModel.inFavour;
+    model.payemntType = widget.paymentsPageModel.payemntType;
+    model.chequeInFavourId = widget.paymentsPageModel.chequeInFavourId;
+    model.paymentsPageModel = widget.paymentsPageModel;
+    model.selectedPendingFessList = ProviderScope.containerOf(context)
+        .read(paymentsModelProvider)
+        .selectedPendingFessList;
+    model.customerName = widget.paymentsPageModel.customerName;
+    model.customerIfscCode = widget.paymentsPageModel.customerIfscCode;
+
+    model.feesType = model.selectedPendingFessList
+        .map((e) => e.feeDisplayName.toString())
+        .toList();
+    model.tempList = model.feesType;
   }
 
   @override

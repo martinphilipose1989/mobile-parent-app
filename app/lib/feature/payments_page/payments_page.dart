@@ -8,7 +8,9 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class PaymentsPage extends BasePage<PaymentsPageModel> {
 
 class PaymentsPageState
     extends AppBasePageState<PaymentsPageModel, PaymentsPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<PaymentsPageModel> provideBase() {
     return paymentsPageModelProvider;
@@ -61,7 +63,6 @@ class PaymentsPageState
   Widget payNowButton(PaymentsPageModel model) {
     return Container(
       height: 90.h,
-      width: 390.w,
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
       decoration: const BoxDecoration(color: AppColors.primaryLighter),
       child: Row(
@@ -86,7 +87,7 @@ class PaymentsPageState
                     .value,
                 dataBuilder: (context, data) {
                   return CommonText(
-                    text: '₹ $data',
+                    text: CurrencyFormatter.formatToRupee(data.toString()),
                     style: AppTypography.h6.copyWith(
                         color: Theme.of(context).colorScheme.onTertiary),
                   );
@@ -122,7 +123,7 @@ class PaymentsPageState
                         )
                       : SizedBox(
                           height: 40.h,
-                          width: 110.w,
+                          width: 140.w,
                           child: CommonElevatedButton(
                             onPressed: () {
                               switch (stringValue) {

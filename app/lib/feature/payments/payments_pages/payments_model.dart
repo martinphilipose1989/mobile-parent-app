@@ -29,40 +29,20 @@ class PaymentsModel extends BasePageViewModel {
 
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
 
-  final List<String> academicYearDropdownValues = [
-    'AY 2023 - 2024',
-    'AY 2024 - 2025',
-  ];
-
-  final List paymentHistoryTypes = [
-    {'name': 'Transaction Type', 'isSelected': false},
-    {'name': 'Fees Type', 'isSelected': false},
-    {'name': 'Student Ledger', 'isSelected': false},
-  ];
+  late GetGuardianStudentDetailsStudentModel? selectedStudent;
 
 // executing all api call sequentially
 
   Future<void> executeTasksSequentially() async {
-    await getStudentList();
-    await getAcademicYear();
-
-    Future.delayed(
-      const Duration(seconds: 5),
-      () => getSchoolNames(),
-    );
-
-    Future.delayed(
-        const Duration(seconds: 5),
-        () => filterPendingFeeList(
-            academicYear: academicYearIds, studentIDs: studentIDs));
+    getStudentList();
   }
 
 //end
 
 // Calling students list
 
-  final PublishSubject<Resource<GetGuardianStudentDetailsModel>>
-      _getGuardianStudentDetailsModel = PublishSubject();
+  final BehaviorSubject<Resource<GetGuardianStudentDetailsModel>>
+      _getGuardianStudentDetailsModel = BehaviorSubject();
 
   Stream<Resource<GetGuardianStudentDetailsModel>>
       get getGuardianStudentDetailsModel =>
@@ -71,16 +51,16 @@ class PaymentsModel extends BasePageViewModel {
   Future<void> getStudentList() async {
     await exceptionHandlerBinder.handle(block: () {
       GetGuardianStudentDetailsUsecaseParams params =
-          GetGuardianStudentDetailsUsecaseParams(mobileNo: 9986070926);
+          GetGuardianStudentDetailsUsecaseParams(mobileNo: 6380876483);
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
             _getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        if (result.data?.data != null) {
-          studentIDs.add(result.data!.data!.students![0].id!);
+        if (result.status == Status.success) {
+          _getGuardianStudentDetailsModel.add(result);
+          getAcademicYear();
         }
-        _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -100,13 +80,17 @@ class PaymentsModel extends BasePageViewModel {
   Future<void> getAcademicYear() async {
     await exceptionHandlerBinder.handle(block: () {
       GetAcademicYearUsecaseParams params =
-          GetAcademicYearUsecaseParams(students: [1], type: 'pending');
+          GetAcademicYearUsecaseParams(students: studentIDs, type: 'pending');
       RequestManager<GetAcademicYearModel>(
         params,
         createCall: () => _getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        if (result.data?.data != null) {
-          academicYearIds.add(result.data!.data![0].id!);
+        if (result.status == Status.success) {
+          if (academicYearIds.isEmpty) {
+            academicYearIds.add(result.data!.data![0].id!);
+          }
+
+          getSchoolNames();
         }
 
         _getAcademicYearModel.add(result);
@@ -134,8 +118,12 @@ class PaymentsModel extends BasePageViewModel {
         params,
         createCall: () => _getSchoolNamesUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        _getSchoolNamesModel.add(result);
-        selectSchoolBrand = result.data?.data?.brandCodes?[0];
+        if (result.status == Status.success) {
+          _getSchoolNamesModel.add(result);
+          selectSchoolBrand = result.data?.data?.brandCodes?[0];
+          filterPendingFeeList(
+              academicYear: academicYearIds, studentIDs: studentIDs);
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -172,6 +160,17 @@ class PaymentsModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           _getPendingFeesModel.add(result.data!);
+          int tempTotalAmount = 0;
+
+          for (var i = 0; i < (result.data?.data?.fees?.length ?? 0); i++) {
+            if (result.data?.data?.fees?[i].isOverdue == 1) {
+              result.data?.data?.fees?[i].isSelected =
+                  !(result.data?.data?.fees?[i].isSelected ?? false);
+              tempTotalAmount += int.parse(
+                  result.data?.data?.fees?[i].pending?.split('.')[0] ?? '');
+            }
+          }
+          totalAmount.add(tempTotalAmount);
           createANewListAsPerStudentId(result.data!);
           calculateTotalAmount();
         }
@@ -216,7 +215,7 @@ class PaymentsModel extends BasePageViewModel {
       }
     }
     studentIDs = tempList;
-    filterPendingFeeList(studentIDs: studentIDs, academicYear: academicYearIds);
+    getAcademicYear();
   }
 
   // end
@@ -234,23 +233,7 @@ class PaymentsModel extends BasePageViewModel {
       }
     }
     academicYearIds = tempList;
-    filterPendingFeeList(studentIDs: studentIDs, academicYear: academicYearIds);
-  }
-
-  // end
-
-  // filtering pending fees as per school brand
-
-  void filterPendingFeesAsPerSchoolBrand({required int brandCode}) {
-    //  var currentList = pendingFeesFilteredById;
-
-    // List<PendingFeesAsPerStudentIds> tempList = [];
-
-    // for (var i = 0; i < (currentList?.length ?? 0); i++) {
-    //   if (currentList![i].) {
-
-    //   }
-    // }
+    getSchoolNames();
   }
 
   // end
@@ -263,13 +246,15 @@ class PaymentsModel extends BasePageViewModel {
 
   List<PendingFeesAsPerStudentIds> abc = [];
   void createANewListAsPerStudentId(GetPendingFeesModel data) {
+    List<PendingFeesAsPerStudentIds> abc = [];
     for (var i = 0; i < studentIDs.length; i++) {
-      if (abc.isNotEmpty) {
-        abc.clear();
-      }
       abc.add(PendingFeesAsPerStudentIds(
           studentId: studentIDs[i],
-          studentName: '',
+          studentName: _getGuardianStudentDetailsModel
+                  .value.data?.data?.students
+                  ?.firstWhere((e) => e.id == studentIDs[i])
+                  .studentDisplayName ??
+              "",
           fees: data.data?.fees!
                   .where((e) => e.studentId == studentIDs[i])
                   .toList() ??
@@ -282,9 +267,6 @@ class PaymentsModel extends BasePageViewModel {
 
   //amount calculation on tap of checkbox
 
-  BehaviorSubject<List<int>> amountToBeCalculated =
-      BehaviorSubject<List<int>>.seeded([]);
-
   BehaviorSubject<int> totalAmount = BehaviorSubject<int>.seeded(0);
   void isFeesSelectable(
       {required int studentId,
@@ -293,27 +275,40 @@ class PaymentsModel extends BasePageViewModel {
       required String pendingAmount,
       required int feeId,
       required Function(bool) onCallBack}) {
-    pendingFeesFilteredById
-            .value.data![studentIdIndex].fees[feeIndex].isSelected =
-        !(pendingFeesFilteredById
-            .value.data![studentIdIndex].fees[feeIndex].isSelected);
-    pendingFeesFilteredById.add(pendingFeesFilteredById.value);
-    int receivedValue = int.tryParse(pendingAmount.split('.')[0]) ?? 0;
+    if (pendingFeesFilteredById
+        .value.data![studentIdIndex].fees[feeIndex].isSelected) {
+      pendingFeesFilteredById
+              .value.data![studentIdIndex].fees[feeIndex].isSelected =
+          !(pendingFeesFilteredById
+              .value.data![studentIdIndex].fees[feeIndex].isSelected);
+      pendingFeesFilteredById.add(pendingFeesFilteredById.value);
 
-    // Get the current list
-    List<int> currentList = amountToBeCalculated.value;
+      int receivedValue = int.tryParse(pendingAmount.split('.')[0]) ?? 0;
 
-    if (currentList.contains(receivedValue)) {
-      currentList.remove(receivedValue);
+      totalAmount.add(totalAmount.value - receivedValue);
     } else {
-      currentList.add(receivedValue);
+      pendingFeesFilteredById
+              .value.data![studentIdIndex].fees[feeIndex].isSelected =
+          !(pendingFeesFilteredById
+              .value.data![studentIdIndex].fees[feeIndex].isSelected);
+      pendingFeesFilteredById.add(pendingFeesFilteredById.value);
+      int receivedValue = int.tryParse(pendingAmount.split('.')[0]) ?? 0;
+
+      // Get the current list
+      List<int> currentList = [];
+
+      if (currentList.contains(receivedValue)) {
+        currentList.remove(receivedValue);
+      } else {
+        currentList.add(receivedValue);
+      }
+
+      int tempHold = 0;
+      for (var i = 0; i < currentList.length; i++) {
+        tempHold += currentList[i];
+      }
+      totalAmount.add(totalAmount.value + tempHold);
     }
-    amountToBeCalculated.add(currentList);
-    int tempHold = 0;
-    for (var i = 0; i < currentList.length; i++) {
-      tempHold += currentList[i];
-    }
-    totalAmount.add(tempHold);
   }
 
   // end
@@ -328,37 +323,26 @@ class PaymentsModel extends BasePageViewModel {
     List<GetPendingFeesPaymentModeModel> paymentModes =
         _getPendingFeesModel.value.data!.paymentModes ?? [];
     List<int> selectedFees = [];
-
-    for (var i = 0; i < fees!.length; i++) {
-      if (fees[i].isSelected == true) {
-        if (selectedFees.contains(fees[i].feeId ?? 0)) {
-          selectedFees.remove(fees[i].feeId ?? 0);
-        } else {
-          selectedFees.add(fees[i].feeId ?? 0);
-        }
-
-        if (selectedPendingFessList.contains(fees[i])) {
-          selectedPendingFessList.remove(fees[i]);
-        } else {
-          selectedPendingFessList.add(fees[i]);
-        }
+    List<GetPendingFeesFeeModel> tempList = [];
+    List<GetPendingFeesPaymentModeModel> tempList2 = [];
+    for (var i = 0; i < (fees?.length ?? 0); i++) {
+      if (fees![i].isSelected) {
+        selectedFees.add(fees[i].feeId ?? 0);
+        tempList.add(fees[i]);
       }
     }
+    selectedPendingFessList = tempList;
+
     for (var fee in selectedFees) {
       for (var paymentMode in paymentModes) {
         if (paymentMode.feeIds!.contains(fee)) {
-          if (finalPaymentModelList.contains(paymentMode)) {
-            finalPaymentModelList.remove(paymentMode);
-          } else {
-            finalPaymentModelList.add(paymentMode);
+          if (!tempList2.contains(paymentMode)) {
+            tempList2.add(paymentMode);
           }
         }
       }
     }
-
-    print(selectedFees);
-    print(selectedPendingFessList.map((e) => print(e.id)));
-    print(finalPaymentModelList);
+    finalPaymentModelList = tempList2;
   }
 
   // end

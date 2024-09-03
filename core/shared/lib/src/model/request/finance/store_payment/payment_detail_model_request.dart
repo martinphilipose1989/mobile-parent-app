@@ -7,7 +7,6 @@ class PaymentDetailModelRequest {
   final String issuerIfsc;
   final dynamic chequeImage;
   final String tokenNo;
-  final String bankName;
 
   PaymentDetailModelRequest({
     required this.paymentModeId,
@@ -18,7 +17,6 @@ class PaymentDetailModelRequest {
     required this.issuerIfsc,
     required this.chequeImage,
     required this.tokenNo,
-    required this.bankName,
   });
 
   PaymentDetailModelRequest copyWith(
@@ -33,7 +31,6 @@ class PaymentDetailModelRequest {
           int? feeId,
           String? bankName}) =>
       PaymentDetailModelRequest(
-        bankName: bankName ?? this.bankName,
         paymentModeId: paymentModeId ?? this.paymentModeId,
         amount: amount ?? this.amount,
         chequeNo: chequeNo ?? this.chequeNo,

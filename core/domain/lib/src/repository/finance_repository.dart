@@ -33,4 +33,8 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id});
+
+  Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
+      getTransactionTypeFeesCollected(
+          {required List<int> students, required List<int> academicYear});
 }

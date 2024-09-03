@@ -1,7 +1,9 @@
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/currency_formatter.dart';
+import 'package:app/utils/date_formatter.dart';
+import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -9,7 +11,8 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 
 class PaymentHistoryStudentLedgerList extends StatefulWidget {
-  const PaymentHistoryStudentLedgerList({super.key});
+  final List<domain.GetPendingFeesFeeModel> fees;
+  const PaymentHistoryStudentLedgerList({super.key, required this.fees});
 
   @override
   State<PaymentHistoryStudentLedgerList> createState() =>
@@ -35,28 +38,34 @@ class _PaymentHistoryStudentLedgerState
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.50,
+            height: MediaQuery.of(context).size.height,
             child: ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.fees.length,
               itemBuilder: (context, index) {
+                domain.GetPendingFeesFeeModel fee = widget.fees[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutePaths.paymentDetails);
+                    Navigator.pushNamed(context, RoutePaths.paymentDetails,
+                        arguments: fee);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CommonText(
-                              text: 'TTC56858TY6',
+                              text: fee.feeId != null
+                                  ? fee.feeDisplayName ?? ''
+                                  : fee.instrumentNumber ?? '',
                               style: AppTypography.subtitle2,
                             ),
                             CommonText(
-                              text: '21 June 2024',
+                              text:
+                                  DateFormatter.formatDate(fee.createdOn ?? ''),
                               style: AppTypography.caption,
                             ),
                           ],
@@ -64,9 +73,12 @@ class _PaymentHistoryStudentLedgerState
                         Row(
                           children: [
                             CommonText(
-                              text: '₹ 1,30,000',
-                              style: AppTypography.subtitle2
-                                  .copyWith(color: AppColors.success),
+                              text: CurrencyFormatter.formatToRupee(
+                                  fee.amount ?? ''),
+                              style: AppTypography.subtitle2.copyWith(
+                                  color: fee.feeId != null
+                                      ? AppColors.failure
+                                      : AppColors.success),
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 20),
                             const Icon(
@@ -86,7 +98,6 @@ class _PaymentHistoryStudentLedgerState
                   thickness: 1,
                 );
               },
-              itemCount: 2,
             ),
           ),
         ],

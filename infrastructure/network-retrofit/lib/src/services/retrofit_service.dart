@@ -5,6 +5,7 @@ import 'package:network_retrofit/src/model/request/finance/get_pending_fees_requ
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
+import 'package:network_retrofit/src/model/request/finance/get_transaction_type_fees_collectes_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
@@ -19,6 +20,7 @@ import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../model/response/finance/get_sibling_list/get_sibling_list_response_entity.dart';
+import '../model/response/finance/get_transaction_fees_collected/get_transaction_fees_collected_entity.dart';
 
 part 'retrofit_service.g.dart';
 
@@ -71,4 +73,12 @@ abstract class RetrofitService {
   @GET('${NetworkProperties.financeBaseUrl}/finance/transactions/payments/{id}')
   Future<HttpResponse<GetTransactionTypeEntity>> getTransactionType(
       @Path('id') int id);
+
+  @POST(
+      '${NetworkProperties.financeBaseUrl}/finance/transactions/fees_collected')
+  Future<HttpResponse<GetTransactiontypefeesCollectedEntity>>
+      getTransactionTypeFeesCollected(
+          @Body()
+          GetTransactionTypeFeesCollectesRequest
+              getTransactionTypeFeesCollectesRequest);
 }

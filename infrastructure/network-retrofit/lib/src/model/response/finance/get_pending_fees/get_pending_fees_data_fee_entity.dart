@@ -49,7 +49,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   @JsonKey(name: "late_charge_max_amount")
   final dynamic lateChargeMaxAmount;
   @JsonKey(name: "created_on")
-  final DateTime? createdOn;
+  final String? createdOn;
   @JsonKey(name: "updated_on")
   final dynamic updatedOn;
   @JsonKey(name: "late_charge_duration")
@@ -174,6 +174,8 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   final String? acknowledgementDate;
   @JsonKey(name: "acknowledgement_no")
   final String? acknowledgementNo;
+  @JsonKey(name: "instrument_number")
+  final String? instrumentNumber;
 
   GetPendingFeesDataFeeEntity(
       {this.id,
@@ -259,6 +261,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
       this.acknowledgementDate,
       this.acknowledgementNo,
       this.receiptDate,
+      this.instrumentNumber,
       this.receiptNumber});
 
   factory GetPendingFeesDataFeeEntity.fromJson(Map<String, dynamic> json) =>
@@ -353,6 +356,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
         acknowledgementDate: acknowledgementDate,
         acknowledgementNo: acknowledgementNo,
         receiptDate: receiptDate,
+        instrumentNumber: instrumentNumber,
         receiptNumber: receiptNumber);
   }
 }

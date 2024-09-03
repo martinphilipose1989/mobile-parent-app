@@ -30,6 +30,10 @@ export 'src/model/response/finance/pending_fees_as_per_student_ids.dart';
 export 'src/model/response/finance/get_school_names_model.dart';
 export 'src/model/response/finance/get_transaction_type_model.dart';
 export 'src/model/response/finance/group_by_fee_type_model.dart';
+export 'src/model/response/finance/get_transaction_type_fees_collected.dart';
+export 'src/model/file/upload_file.dart';
+export 'src/const/file_type_enum.dart';
+export 'src/model/error/local_error.dart';
 
 //utils
 export 'src/utils/validator.dart';

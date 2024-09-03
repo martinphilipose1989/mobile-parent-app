@@ -16,7 +16,7 @@ class DashboardPage extends BasePage<DashboardPageModel> {
 
 class DashboardPageState
     extends AppBasePageState<DashboardPageModel, DashboardPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<DashboardPageModel> provideBase() {
     return dashboardViewModelProvider;
@@ -26,6 +26,7 @@ class DashboardPageState
   void onModelReady(DashboardPageModel model) {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.getStudentList();
   }
 
   @override

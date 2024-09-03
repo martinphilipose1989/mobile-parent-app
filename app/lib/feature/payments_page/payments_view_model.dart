@@ -33,6 +33,9 @@ class PaymentsPageModel extends BasePageViewModel {
   TextEditingController payemntType = TextEditingController();
   TextEditingController inFavour = TextEditingController();
   TextEditingController amount = TextEditingController();
+  int chequeInFavourId = 0;
+  String customerIfscCode = '';
+  String customerName = '';
 
   final List<String> feesType = [
     'Registration Fees',
@@ -63,9 +66,17 @@ class PaymentsPageModel extends BasePageViewModel {
         createCall: () => _getValidatePayNowUseCase.execute(params: params),
       ).asFlow().listen((result) {
         _getValidateOnPayModel.add(result);
+        chequeInFavourId =
+            result.data?.data?.chequeInFavourDetails?.chequeInFavourId ?? 0;
         inFavour.text =
             result.data?.data?.chequeInFavourDetails?.chequeInFavour ?? '';
         payemntType.text = selectedPaymentType.value;
+        customerIfscCode =
+            result.data?.data?.lastTransactionDetailModel?.customerBankIfsc ??
+                "";
+        customerName =
+            result.data?.data?.lastTransactionDetailModel?.customerBankName ??
+                "";
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
