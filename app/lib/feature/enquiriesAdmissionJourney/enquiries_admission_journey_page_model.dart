@@ -96,7 +96,6 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     {'image': AppImages.email, 'name': "Email"},
     {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
-    {'image': AppImages.bookTest, 'name': ""}
   ];
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);

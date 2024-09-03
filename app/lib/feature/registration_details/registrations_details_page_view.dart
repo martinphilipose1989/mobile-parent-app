@@ -188,7 +188,7 @@ class RegistrationsDetailsPageView
                       bottom: 100,
                       child: data!
                           ? Menu(
-                              height: 453.h,
+                              height: 350.h,
                               menuData: model.menuData,
                               onTap: (index) {
                                 actionOnMenu(index, context, model);
@@ -198,7 +198,7 @@ class RegistrationsDetailsPageView
                             )
                           : SizedBox.fromSize());
                 }),
-            if(model.isLoading.value)...[const CommonAppLoader()]
+           if(model.isLoading.value)...[const CommonAppLoader()]
           ],
         );
       }

@@ -168,7 +168,7 @@ class EnquiriesAdmissionsJourneyPageView
                   bottom: 100,
                   child: data!
                       ? Menu(
-                          height: 350.h,
+                          height: 340.h,
                           menuData: model.menuData,
                           onTap: (index) {
                             actionOnMenu(index, context, model);
