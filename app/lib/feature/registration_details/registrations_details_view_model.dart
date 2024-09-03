@@ -1104,7 +1104,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final CommonRadioButton<String> radioButtonController1 =
   CommonRadioButton<String>(null);
 
-  final CommonRadioButton<String> radioButtonController2 =
+  final CommonRadioButton<String?> radioButtonController2 =
   CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController3 =
@@ -1127,6 +1127,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   final CommonRadioButton<String> radioButtonController9 =
   CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> radioButtonController10 =
+  CommonRadioButton<String>(null);
+
 
 
   addParentDetails(ParentInfo parentDetails) {
