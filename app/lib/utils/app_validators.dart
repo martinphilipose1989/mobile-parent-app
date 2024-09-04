@@ -39,7 +39,7 @@ class AppValidators {
   }
 
   // Method to check if text is empty
-  static String? validateNotEmpty(String? value, String fieldName,{bool checkSpecialCharacters = true,bool validateLength = false,int? minLength}) {
+  static String? validateNotEmpty(String? value, String fieldName,{bool checkSpecialCharacters = false,bool validateLength = false,int? minLength}) {
     if (value == null || value.isEmpty) {
       return '$fieldName cannot be empty';
     }

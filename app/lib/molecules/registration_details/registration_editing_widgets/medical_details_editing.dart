@@ -48,7 +48,7 @@ class MedicalDetailsEditing extends StatelessWidget {
           ),
           AppStreamBuilder<String?>(
             stream: model.radioButtonController4.selectedItemStream,
-            initialData: model.radioButtonController.selectedItem,
+            initialData: model.radioButtonController4.selectedItem,
             dataBuilder: (context, data) {
               return Column(
                 children: [

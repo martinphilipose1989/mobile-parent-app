@@ -51,10 +51,17 @@ class EnquiriesAdmissionsJourneyPageView
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetail);
       default:
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
           RoutePaths.competencyTestDetailPage,arguments: enquiryDetail
-        ) : Navigator.of(context)
-           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail});
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: enquiryDetail.enquiryId??'');
+        }) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail}).then((value){
+            if(value!=null){
+              model.getEnquiryDetail(enquiryID: enquiryDetail.enquiryId??'');
+            }
+           });
     }
   }
 

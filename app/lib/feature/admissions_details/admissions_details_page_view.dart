@@ -25,10 +25,17 @@ class AdmissionsDetailsPageView
   actionOnMenu(int index, BuildContext context, AdmissionsDetailsViewModel model) {
     switch (index) {
       case 0:
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())? Navigator.of(context).pushNamed(
           RoutePaths.detailsViewSchoolTourPage,arguments: admissionDetail
-        ) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': admissionDetail,});
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+        }) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': admissionDetail,}).then((value) {
+              if(value!=null){
+                model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+              }
+            },);
       case 1:
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
@@ -37,10 +44,17 @@ class AdmissionsDetailsPageView
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
       case 4:
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
           RoutePaths.competencyTestDetailPage,arguments: admissionDetail
-        ) : Navigator.of(context)
-           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail});
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+        }) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail}).then((value){
+            if(value!=null){
+              model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+            }
+           });
       case 5:
        return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);

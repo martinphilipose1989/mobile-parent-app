@@ -1333,6 +1333,17 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.country=selectedGuardianCountryEntity;
     parentInfo?.guardianDetails?.state=selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city=selectedGuardianCityEntity;
+    parentInfo?.childCustodyDetail?.areParentsSeparated = radioButtonController.selectedItem;
+    parentInfo?.childCustodyDetail?.childCustody = (radioButtonController.selectedItem == "No") ? "" : radioButtonController10.selectedItem;
+    parentInfo?.siblingDetails?[0] = SiblingDetail(
+      type: radioButtonController1.selectedItem,
+      enrollmentNumber: ((radioButtonController1.selectedItem??'') == "Vibgyor Student") ? siblingsEnrollmentController.text.trim() : "",
+      firstName: siblingFirstNameController.text.trim(),
+      lastName: siblingLastNameController.text.trim(),
+      gender: siblingGender,
+      grade: siblingGrade,
+      school: siblingsSchoolController.text.trim(),
+    );
     parentInfoEntity =parentInfoEntity.restore(parentInfo??ParentInfo());
     await updateParentDetail(enquiryId, parentInfoEntity);
   }
@@ -1388,6 +1399,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         PointOfContactDetail(
           parentType: contactParentType2,
           parentContactNumber: parentMobileNumberController2.text.trim(),
+          parentEmailId: parentEmailIdController2.text.trim(),
         )
       ]
     );

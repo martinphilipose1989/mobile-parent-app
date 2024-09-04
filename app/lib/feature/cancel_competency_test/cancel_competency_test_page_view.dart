@@ -139,7 +139,7 @@ class CancelCompetencyTestPageView
                 ),
               ),
             ),
-            if(data?.status == Status.success)... [const CommonAppLoader()]
+            if(data?.status == Status.loading)... [const CommonAppLoader()]
           ],
         );    
       },

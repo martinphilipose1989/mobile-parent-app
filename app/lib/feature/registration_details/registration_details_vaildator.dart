@@ -161,12 +161,14 @@ class RegistrationDetailsValidator{
 
       // Sibling's details
       List<Map<String, dynamic>> siblingFields = [
-        {'field': "Sibling's Enrollment Number", 'controller': model.siblingsEnrollmentController},
         {'field': "Sibling First Name", 'controller': model.siblingFirstNameController},
         {'field': "Sibling Last Name", 'controller': model.siblingLastNameController},
         {'field': "Sibling's School", 'controller': model.siblingsSchoolController},
       ];
 
+      Map<String,dynamic> isVibgyorStudent = {'field': "Is Sibling a Vibgyor Student",'controller': model.radioButtonController1.selectedItem};
+      Map<String,dynamic> siblingEnrollmentNumber = {'field': "Sibling's Enrollment Number",'controller': model.siblingsEnrollmentController};
+      
       // Validate all text fields
       for (var fieldSet in [fatherFields, motherFields, guardianFields, siblingFields]) {
         for (var field in fieldSet) {
@@ -254,19 +256,33 @@ class RegistrationDetailsValidator{
         }
       }
 
+      if(errorMessage.isEmpty){
+        if(isVibgyorStudent["controller"].selectedItem == null){
+          errorMessage = 'Please select an option for: ${isVibgyorStudent['field']}';
+        }
+        if(isVibgyorStudent['controller'].selectedItem == "Vibgyor Student"){
+          String? validationResult = AppValidators.validateNotEmpty(
+            siblingEnrollmentNumber['controller']!.text.trim(),
+            siblingEnrollmentNumber['field'].toString(),
+          );
+          if (validationResult != null) {
+            errorMessage = validationResult;
+          }
+        }
+      }
+
       // Show snackbar with error message
       if (errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(errorMessage),
-            
+            content: Text(errorMessage),   
           ),
         );
       }
-    else {
+      else {
       // Form is valid, proceed with submission
-      model.saveParentDetails(model.enquiryDetailArgs?.enquiryId??'');
-    }
+        model.saveParentDetails(model.enquiryDetailArgs?.enquiryId??'');
+      }
   }
 
   void validateBankDetails(BuildContext context) {
@@ -444,10 +460,22 @@ class RegistrationDetailsValidator{
           ];
 
           for (var field in hospitalFields) {
-            String? validationResult = AppValidators.validateNotEmpty(
-              field['controller']!.text.trim(),
-              field['field'] as String,
-            );
+            String? validationResult;
+
+            if(field['field'].toString().contains("Year")){
+              validationResult = AppValidators.validateNotEmpty(
+                field['controller']!.text.trim(),
+                field['field'] as String,
+                checkSpecialCharacters: false
+              );
+            }
+            else{
+              validationResult = AppValidators.validateNotEmpty(
+               field['controller']!.text.trim(),
+                field['field'] as String,
+              );
+            }
+            
             if (validationResult != null) {
               errorMessage = validationResult;
               break;

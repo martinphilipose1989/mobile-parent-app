@@ -38,10 +38,17 @@ class RegistrationsDetailsPageView
       int index, BuildContext context, RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())? Navigator.of(context).pushNamed(
-          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetailArgs
-        ) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs,});
+          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetail
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+        }) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,}).then((value) {
+              if(value!=null){
+                model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+              }
+            },);
       case 1:
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
@@ -82,10 +89,17 @@ class RegistrationsDetailsPageView
         return null;
       }
       case 5:
+        model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
-          RoutePaths.competencyTestDetailPage,arguments: enquiryDetailArgs
-        ) : Navigator.of(context)
-           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetailArgs});
+          RoutePaths.competencyTestDetailPage,arguments: enquiryDetail
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+        }) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail}).then((value){
+            if(value!=null){
+              model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
+            }
+           });
       case 6:
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
