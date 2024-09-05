@@ -150,6 +150,7 @@ class RegistrationDetailsValidator{
         {'field': "Guardian's Last Name", 'controller': model.guardianLastNameController},
         {'field': "Guardian's Adhar Card No", 'controller': model.guardianAdharCardController},
         {'field': "Guardian's Pan Card No", 'controller': model.guardianPanCardController},
+        {'field': "Relationship With Child", 'controller': model.relationshipWithChildController},
         {'field': "Guardian's Qualification", 'controller': model.guardianQualificationController},
         {'field': "Guardian's Organization Name", 'controller': model.guardianOrganizationNameController},
         {'field': "Guardian's Designation", 'controller': model.guardianDesignationController},
@@ -166,7 +167,7 @@ class RegistrationDetailsValidator{
         {'field': "Sibling's School", 'controller': model.siblingsSchoolController},
       ];
 
-      Map<String,dynamic> isVibgyorStudent = {'field': "Is Sibling a Vibgyor Student",'controller': model.radioButtonController1.selectedItem};
+      Map<String,dynamic> isVibgyorStudent = {'field': "Is Sibling a Vibgyor Student",'controller': model.radioButtonController1};
       Map<String,dynamic> siblingEnrollmentNumber = {'field': "Sibling's Enrollment Number",'controller': model.siblingsEnrollmentController};
       
       // Validate all text fields
@@ -402,9 +403,9 @@ class RegistrationDetailsValidator{
       // Validate dropdowns
       if (errorMessage.isEmpty) {
         List<Map<String, dynamic>> dropdowns = [
-          {'field': 'Country', 'value': model.residentialCountry?.value},
-          {'field': 'State', 'value': model.residentialState?.value},
-          {'field': 'City', 'value': model.residentialCity?.value},
+          {'field': 'Country', 'value': model.selectedResidentialCountry.value},
+          {'field': 'State', 'value': model.selectedResidentialState.value},
+          {'field': 'City', 'value': model.selectedResidentialCity.value},
           {'field': 'Pin Code', 'value': model.residentialPinCode},
         ];
 

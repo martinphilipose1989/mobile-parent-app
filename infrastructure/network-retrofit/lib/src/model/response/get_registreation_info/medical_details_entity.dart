@@ -24,7 +24,7 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     bool? hasAllergy;
     @JsonKey(name: 'allergyDescription')
     String? allergyDescription;
-    @JsonKey(name: 'bloodGroup')
+    @JsonKey(name: 'bloodGroup',fromJson: _fromJson)
     dynamic bloodGroup;
     @JsonKey(name: 'hasPersonalisedLearningNeeds')
     bool? hasPersonalisedLearningNeeds;
@@ -48,6 +48,14 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
 
     factory MedicalDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$MedicalDetailsEntityFromJson(json);
+
+    static dynamic _fromJson(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      return CommonDataEntity.fromJson(data);
+    } else {
+      return data;
+    }
+  }
 
     Map<String, dynamic> toJson() {
       var request = {

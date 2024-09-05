@@ -125,7 +125,7 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val) {
-                            val = model.fatherOccupation!;
+                            model.fatherOccupation = val;
                           },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -393,7 +393,7 @@ class ParentInfoEditing extends StatelessWidget {
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val) {
-                            val = model.motherOccupation!;
+                            model.motherOccupation = val;
                           },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -659,6 +659,12 @@ class ParentInfoEditing extends StatelessWidget {
                             "Guardian's Pan Card No",
                             checkSpecialCharacters: true,
                           ),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: "Relationship with child",
+                          controller: model.relationshipWithChildController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(

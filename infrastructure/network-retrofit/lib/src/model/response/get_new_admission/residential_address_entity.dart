@@ -4,7 +4,7 @@ import 'package:network_retrofit/src/model/response/get_new_admission/common_dat
 
 part 'residential_address_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddressEntity,ResidentialAddress>{
     @JsonKey(name: 'house')
     String? house;
@@ -37,7 +37,18 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
   factory ResidentialAddressEntity.fromJson(Map<String, dynamic> json) =>
       _$ResidentialAddressEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResidentialAddressEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      "house": house,
+      "street": street,
+      "landmark": landmark,
+      "country": (country is CommonDataEntity) ? country.toJson() : country,
+      "pin_code": pinCode,
+      "state": (state is CommonDataEntity) ? state.toJson() : state,
+      "city": (city is CommonDataEntity) ? city.toJson() : city,
+      "is_permanent_address": isPermanentAddress
+    };
+  }
 
   static dynamic _fromJson(dynamic data){
     if(data is Map<String,dynamic>){

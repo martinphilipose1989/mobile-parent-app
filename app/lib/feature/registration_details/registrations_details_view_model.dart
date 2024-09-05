@@ -174,6 +174,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianLastNameController = TextEditingController();
   TextEditingController guardianAdharCardController = TextEditingController();
   TextEditingController guardianPanCardController = TextEditingController();
+  TextEditingController relationshipWithChildController = TextEditingController();
   TextEditingController guardianQualificationController = TextEditingController();
   TextEditingController guardianOrganizationNameController = TextEditingController();
   TextEditingController guardianDesignationController = TextEditingController();
@@ -1203,6 +1204,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianLastNameController.text = parentDetails.guardianDetails?.lastName??"";
     guardianAdharCardController.text = parentDetails.guardianDetails?.aadharNumber??"";
     guardianPanCardController.text=parentDetails.guardianDetails?.panNumber??"";
+    relationshipWithChildController.text = parentDetails.guardianDetails?.relationWithChild??"";
     guardianQualificationController.text=parentDetails.guardianDetails?.qualification??"";
     guardianOrganizationNameController.text=parentDetails.guardianDetails?.organisationName??"";
     guardianDesignationController.text =parentDetails.guardianDetails?.designationName??"";
@@ -1322,6 +1324,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.lastName=guardianLastNameController.text.trim();
     parentInfo?.guardianDetails?.aadharNumber= guardianAdharCardController.text.trim();
     parentInfo?.guardianDetails?.panNumber=guardianPanCardController.text.trim();
+    parentInfo?.guardianDetails?.relationWithChild = relationshipWithChildController.text.trim();
     parentInfo?.guardianDetails?.qualification=guardianQualificationController.text.trim();
     parentInfo?.guardianDetails?.organizationName=guardianOrganizationNameController.text.trim();
     parentInfo?.guardianDetails?.designation=guardianDesignationController.text.trim();
@@ -1335,7 +1338,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.city=selectedGuardianCityEntity;
     parentInfo?.childCustodyDetail?.areParentsSeparated = radioButtonController.selectedItem;
     parentInfo?.childCustodyDetail?.childCustody = (radioButtonController.selectedItem == "No") ? "" : radioButtonController10.selectedItem;
-    parentInfo?.siblingDetails?[0] = SiblingDetail(
+    parentInfo?.siblingDetails?.add(SiblingDetail(
       type: radioButtonController1.selectedItem,
       enrollmentNumber: ((radioButtonController1.selectedItem??'') == "Vibgyor Student") ? siblingsEnrollmentController.text.trim() : "",
       firstName: siblingFirstNameController.text.trim(),
@@ -1343,6 +1346,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       gender: siblingGender,
       grade: siblingGrade,
       school: siblingsSchoolController.text.trim(),
+    ));
+    parentInfo?.childCustodyDetail = ChildCustodyDetail(
+      areParentsSeparated: radioButtonController2.selectedItem,
+      childCustody: radioButtonController2.selectedItem == "Yes" ? radioButtonController10.selectedItem : "",
     );
     parentInfoEntity =parentInfoEntity.restore(parentInfo??ParentInfo());
     await updateParentDetail(enquiryId, parentInfoEntity);
@@ -1378,7 +1385,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
   Future<void>saveContactDetails(String enquiryId)async{
     ContactDetailsEntity contactDetail =ContactDetailsEntity();
-    contactDetails ??= ContactDetails(
+    contactDetails = ContactDetails(
       residentialAddress: ResidentialAddress(
         house : houseOrBuildingController.text.trim(),
         street : streetNameController.text.trim(),

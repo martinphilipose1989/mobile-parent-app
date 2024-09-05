@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -207,9 +208,11 @@ class ContactInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           singleSelectItemSubject: model.selectedResidentialCountry,
                           onSingleSelect: (val){
-                            var country = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
-                            model.residentialCountry?.id = country?.id;
-                            model.residentialCountry?.value = country?.attributes?.name;
+                            var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                            model.residentialCountry = CommonDataClass(
+                              id: country?.id,
+                              value: country?.attributes?.name
+                            );
                           },
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -234,8 +237,10 @@ class ContactInfoEditing extends StatelessWidget {
                           singleSelectItemSubject: model.selectedResidentialState,
                           onSingleSelect: (val){
                             var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
-                            model.residentialState?.id = state?.id;
-                            model.residentialState?.value = state?.attributes?.name;
+                            model.residentialState = CommonDataClass(
+                              id : state?.id,
+                              value : state?.attributes?.name
+                            );
                           },
                         );
                       }
@@ -257,8 +262,10 @@ class ContactInfoEditing extends StatelessWidget {
                           singleSelectItemSubject: model.selectedResidentialCity,
                           onSingleSelect: (val){
                             var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
-                            model.residentialCity?.id = city?.id;
-                            model.residentialCity?.value = city?.attributes?.name;
+                            model.residentialCity = CommonDataClass(
+                              id: city?.id,
+                              value: city?.attributes?.name
+                            );
                           },
                         );
                       }
@@ -270,7 +277,6 @@ class ContactInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Pin Code',
                       validator: (value)=> AppValidators.validateNotEmpty(value, "PinCode",),
-
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       showBorderColor: true,

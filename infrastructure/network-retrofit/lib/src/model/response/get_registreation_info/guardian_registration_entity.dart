@@ -21,15 +21,15 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     String? street;
     @JsonKey(name:'landmark')
     String? landmark;
-    @JsonKey(name:'country')
+    @JsonKey(name:'country', fromJson: _fromJson)
     dynamic country;
     @JsonKey(name:'area')
     String? area;
     @JsonKey(name:'pincode')
     String? pincode;
-    @JsonKey(name:'state')
+    @JsonKey(name:'state',fromJson: _fromJson)
     dynamic state;
-    @JsonKey(name:'city')
+    @JsonKey(name:'city',fromJson: _fromJson)
     dynamic city;
     @JsonKey(name:'emailId')
     String? emailId;
@@ -93,10 +93,10 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       "area": area,
       "street": street,
       "landmark": landmark,
-      "country": country,
+      "country": (country is CommonDataEntity)? country.toJson() : country,
       "pin_code": pincode,
-      "state": state,
-      "city": city,
+      "state": (state is CommonDataEntity)? state.toJson() : state,
+      "city": (city is CommonDataEntity)? city.toJson() : city,
       "aadhar": aadharNumber,
       "pan": panNumber,
       "guardian_type": guardianType
