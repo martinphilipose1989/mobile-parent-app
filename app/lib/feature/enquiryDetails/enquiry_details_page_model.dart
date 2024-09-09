@@ -32,6 +32,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   UploadEnquiryDocumentUsecase uploadEnquiryDocumentUsecase;
   DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   DownloadFileUsecase downloadFileUsecase;
+  EnquiryDetailArgs enquiryDetails;
 
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   EnquiriesDetailsPageModel(
@@ -47,8 +48,19 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     this.updatePsaDetailUsecase,
     this.updateIvtDetailUsecase,
     this.updateNewAdmissionUsecase,
-    this.downloadFileUsecase
-  );
+    this.downloadFileUsecase,
+    this.enquiryDetails
+  ){
+    getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
+    if (enquiryDetails.enquiryType == "IVT") {
+      getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
+    } else if (enquiryDetails.enquiryType == "PSA") {
+      getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
+    } else {
+      getNewAdmissionDetails(
+          enquiryID: enquiryDetails.enquiryId ?? '');
+    }
+  }
   late TabController tabController;
   bool visivilty = false;
   final formKey = GlobalKey<FormState>();
@@ -106,7 +118,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
     {'image': AppImages.editDetails, 'name': "Edit Details"},
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
+    {'image': AppImages.schoolTour, 'name': "School Visit"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 
@@ -395,8 +407,17 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
+  EnquiryStage? getSchoolVisitStage() {
+    return enquiryDetail.value.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('School Visit') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
   bool isDetailView(){
-    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+    final schoolVisitStage = getSchoolVisitStage();
+    return schoolVisitStage?.status == "In Progress";
   }
 
   bool isDetailViewCompetency(){

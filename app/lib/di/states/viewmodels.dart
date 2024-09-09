@@ -7,6 +7,7 @@ import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
 import 'package:app/feature/enquiries/enquiries_page_model.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_model.dart';
@@ -71,9 +72,9 @@ final admissionsProvider =
 );
 
 final admissionsDetailsProvider =
-    ChangeNotifierProvider.autoDispose<AdmissionsDetailsViewModel>(
-  (ref) =>
-      AdmissionsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
+    ChangeNotifierProvider.family<AdmissionsDetailsViewModel,EnquiryDetailArgs>(
+  (ref,args) =>
+      AdmissionsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),args),
 );
 
 final registrationsDetailsProvider =
@@ -94,11 +95,11 @@ final enquiriesPageModelProvider =
 );
 
 final enquiriesDetailsPageModelProvider =
-    ChangeNotifierProvider.autoDispose<EnquiriesDetailsPageModel>(
-  (ref) =>
+    ChangeNotifierProvider.family<EnquiriesDetailsPageModel,EnquiryDetailArgs>(
+  (ref,args) =>
       EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<GetMdmAttributeUsecase>(),
         getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>(),getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),
-        getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<DownloadFileUsecase>()
+        getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<DownloadFileUsecase>(),args
       ),
 );
 
@@ -173,7 +174,7 @@ final commonChipListProvider =
 );
 
 final enquiriesAdmissionsJourneyProvider =
-    ChangeNotifierProvider.autoDispose<EnquiriesAdmissionsJourneyViewModel>(
-  (ref) => EnquiriesAdmissionsJourneyViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>()),
+    ChangeNotifierProvider.family<EnquiriesAdmissionsJourneyViewModel,EnquiryDetailArgs>(
+  (ref,args) => EnquiriesAdmissionsJourneyViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),args),
 );

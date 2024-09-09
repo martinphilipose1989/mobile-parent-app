@@ -28,7 +28,7 @@ class EnquiriesDetailsPageState
     with TickerProviderStateMixin {
   @override
   ProviderBase<EnquiriesDetailsPageModel> provideBase() {
-    return enquiriesDetailsPageModelProvider;
+    return enquiriesDetailsPageModelProvider.call(widget.enquiryDetailArgs);
   }
 
   @override
@@ -36,16 +36,7 @@ class EnquiriesDetailsPageState
     model.tabController = TabController(length: 2, vsync: this);
     model.context = context;
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-    if(widget.enquiryDetailArgs.enquiryType == "IVT"){
-      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-    }
-    else if(widget.enquiryDetailArgs.enquiryType == "PSA"){
-      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-    }
-    else{
-      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-    }
+    
   }
 
   @override

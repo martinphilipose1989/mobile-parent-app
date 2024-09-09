@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
@@ -12,11 +13,17 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetAdmissionJourneyUsecase getAdmissionJourneyUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
-  EnquiriesAdmissionsJourneyViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase);
+  final EnquiryDetailArgs enquiryDetailArgs;
+  EnquiriesAdmissionsJourneyViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs){
+    getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
+    getAdmissionJourney(
+        enquiryID: enquiryDetailArgs.enquiryId ?? '', type: 'enquiry');
+  }
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
   final PublishSubject <Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
   Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream; 
   EnquiryDetail? enquiryDetail;
+  String? enquiryId;
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
     exceptionHandlerBinder.handle(block: () {
@@ -64,8 +71,17 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  bool isDetailView(){
-    return enquiryDetail?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+  EnquiryStage? getSchoolVisitStage() {
+    return enquiryDetail?.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('School Visit') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
+  bool isDetailView() {
+    final schoolVisitStage = getSchoolVisitStage();
+    return schoolVisitStage?.status == "In Progress";
   }
 
   bool isDetailViewCompetency(){
@@ -94,7 +110,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     {'image': AppImages.registrationIcon, 'name': "Registration"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
+    {'image': AppImages.schoolTour, 'name': "School Visit"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 

@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/app_validators.dart';
@@ -91,11 +92,10 @@ class ContactInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Type",),
-
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        model.contactParentType1 = val;
+                        model.contactParentTypePhone1 = val;
                       },
                       showBorderColor: true,
                     ),
@@ -105,7 +105,26 @@ class ContactInfoEditing extends StatelessWidget {
                         labelText: 'Parent Mobile Number',
                         controller:model.parentMobileNumberController1,
                       keyboardType: TextInputType.number,
+                      maxLength: 10,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Mobile Number",checkSpecialCharacters: true,minLength: 10),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                      CustomDropdownButton(
+                        items: model.contactRelationshipOptions,
+                        width: MediaQuery.of(context).size.width,
+                        isMutiSelect: false,
+                        dropdownName: 'Parent Type',
+                        validator: (value) => AppValidators.validateNotEmpty(
+                          value,
+                          "Parent Type",
+                        ),
+                        showAstreik: true,
+                        onMultiSelect: (selectedValues) {},
+                        onSingleSelect: (val) {
+                          model.contactParentTypeEmail1 = val;
+                        },
+                        showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
@@ -124,11 +143,10 @@ class ContactInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
                       validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
-
                       showAstreik: true,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
-                        model.contactParentType2 = val;
+                        model.contactParentTypePhone2 = val;
                       },
                       showBorderColor: true,
                     ),
@@ -138,7 +156,26 @@ class ContactInfoEditing extends StatelessWidget {
                         labelText: 'Parent Mobile Number',
                         controller:model.parentMobileNumberController2,
                       keyboardType: TextInputType.number,
+                      maxLength: 10,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Mobile Number",checkSpecialCharacters: true,minLength: 10),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                      CustomDropdownButton(
+                        items: model.contactRelationshipOptions,
+                        width: MediaQuery.of(context).size.width,
+                        isMutiSelect: false,
+                        dropdownName: 'Parent Type',
+                        validator: (value) => AppValidators.validateNotEmpty(
+                          value,
+                          "Parent Type",
+                        ),
+                        showAstreik: true,
+                        onMultiSelect: (selectedValues) {},
+                        onSingleSelect: (val) {
+                          model.contactParentTypeEmail2 = val;
+                        },
+                        showBorderColor: true,
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(

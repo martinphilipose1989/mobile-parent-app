@@ -7,6 +7,7 @@ class EnquiryListDetailModel {
     String? school;
     String? board;
     String? grade;
-    String? enquiryStage;
-    String? nextAction;
+    String? currentStage;
+    String? schoolVisitDate;
+    String? schoolVisitTime;
 }

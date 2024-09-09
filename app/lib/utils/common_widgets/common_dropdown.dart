@@ -113,7 +113,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     .toList(),
                 value: singleSelectItemSubject.value == ''
                     ? null
-                    : singleSelectItemSubject.value,
+                    : widget.items.contains(singleSelectItemSubject.value) ? singleSelectItemSubject.value : null,
                 onChanged: (value) {
                   widget.onSingleSelect!(value ?? "");
                   singleSelectItemSubject.add(value ?? "");

@@ -62,7 +62,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
+    {'image': AppImages.schoolTour, 'name': "School Visit"},
     {'image': AppImages.payments, 'name': "Payments"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
@@ -90,6 +90,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   ];
 
   BuildContext? context;
+
+  ScrollController controller = ScrollController();
 
   final studenFormKey = GlobalKey<FormState>();
   final enquiryFormKey = GlobalKey<FormState>();
@@ -205,8 +207,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController parentMobileNumberController1 = TextEditingController();
   TextEditingController parentEmailIdController2 = TextEditingController();
   TextEditingController parentMobileNumberController2 = TextEditingController();
-  String? contactParentType1;
-  String? contactParentType2;
+  String? contactParentTypePhone1;
+  String? contactParentTypeEmail1;
+  String? contactParentTypePhone2;
+  String? contactParentTypeEmail2;
   String? emergencyContact;
   CommonDataClass? residentialCountry;
   CommonDataClass? residentialState;
@@ -393,13 +397,32 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
 
+
+  EnquiryStage? getSchoolVisitStage() {
+    return enquiryDetails?.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('School visit') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
+  EnquiryStage? getCompetencyStage() {
+    return enquiryDetails?.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('Competency test') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
   bool isDetailView(){
-    return enquiryDetails?.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+    final schoolVisitStage = getSchoolVisitStage();
+    return schoolVisitStage?.status == "In Progress";
   }
 
 
   bool isDetailViewCompetency(){
-    return enquiryDetails?.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+    final competencyStage =  getCompetencyStage();
+    return competencyStage?.status == "In Progress";
   }
 
   Future<void> fetchAllDetails(String enquiryID,String infoType) async {
@@ -474,6 +497,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isLoading.value = false;
           showWidget.add(showWidget.value + 1);
           fetchAllDetails(enquiryID, "ContactInfo");
+          controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -510,6 +536,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         isLoading.value = false;
         fetchAllDetails(enquiryID, "BankInfo");
         showWidget.add(showWidget.value + 1);
+        controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -547,6 +576,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         isLoading.value = false;
         fetchAllDetails(enquiryID, "MedicalInfo");
         showWidget.add(showWidget.value + 1);
+        controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -583,6 +615,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isLoading.value = false;
           getEnquiryDetail(enquiryID: enquiryID);
           showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -749,6 +784,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           isLoading.value = false;
           newAdmissionDetailSubject?.add(result.data?.data?? NewAdmissionDetail());
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          isLoading.value = false;
+          fetchAllDetails(enquiryID, "ParentInfo");
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value+1)*50, duration: const Duration(milliseconds: 500), curve: Curves.linear);
         }
         
       }).onError((error) {
@@ -1250,12 +1297,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     if(contactDetails.pointOfContact?.length == 1){
       parentEmailIdController1.text = contactDetails.pointOfContact?[0].parentEmailId??"";
       parentMobileNumberController1.text = contactDetails.pointOfContact?[0].parentContactNumber??"";
-      contactParentType1 = contactDetails.pointOfContact?[0].parentType??"";
+      contactParentTypePhone1 = contactDetails.pointOfContact?[0].parentType??"";
     }
     if(contactDetails.pointOfContact?.length == 2){
       parentEmailIdController2.text = contactDetails.pointOfContact?[1].parentEmailId??"";
       parentMobileNumberController2.text = contactDetails.pointOfContact?[1].parentContactNumber??"";
-      contactParentType2 = contactDetails.pointOfContact?[1].parentType??"";
+      contactParentTypePhone2 = contactDetails.pointOfContact?[1].parentType??"";
     }
     radioButtonController3.selectItem((contactDetails.residentialAddress?.isPermanentAddress??false) ? "Yes" : "No");
   }
@@ -1399,12 +1446,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       emergencyContact: EmergencyContact(emergencyContact: emergencyContact),
       pointOfContact: [
         PointOfContactDetail(
-          parentType: contactParentType1,
+          parentType: contactParentTypePhone1,
           parentContactNumber: parentMobileNumberController1.text.trim(),
           parentEmailId: parentEmailIdController1.text.trim(),
         ),
         PointOfContactDetail(
-          parentType: contactParentType2,
+          parentType: contactParentTypePhone2,
           parentContactNumber: parentMobileNumberController2.text.trim(),
           parentEmailId: parentEmailIdController2.text.trim(),
         )

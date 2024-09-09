@@ -52,7 +52,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: psaDetail?.enquirerParent),
+            _detailItem(title: "Parent Type", subtitle: psaDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: psaDetail?.enquirerParent == "Father" ? psaDetail?.parentDetails?.fatherDetails?.globalId??"":psaDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );
@@ -80,7 +80,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent),
+            _detailItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??"":newAdmissionDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );
@@ -112,7 +112,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
               width: double.infinity,
               color: AppColors.textPaleGray,
             ),
-            _detailItem(title: "Parent Type", subtitle: ivtDetail?.enquirerParent),
+            _detailItem(title: "Parent Type", subtitle: ivtDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: ivtDetail?.enquirerParent == "Father" ? ivtDetail?.parentDetails?.fatherDetails?.globalId??"": ivtDetail?.parentDetails?.motherDetails?.globalId??""),
           ],
         );

@@ -1,3 +1,4 @@
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
@@ -10,12 +11,18 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetAdmissionJourneyUsecase getAdmissionJourneyUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
-  AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase);
+  final EnquiryDetailArgs enquiryDetailArgs;
+  AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs){
+    getAdmissionJourney(
+        enquiryID: enquiryDetailArgs.enquiryId?? '', type: 'admission');
+    getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
+  }
   
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
   final PublishSubject<Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
   Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream;
   final BehaviorSubject<EnquiryDetail> enquiryDetails = BehaviorSubject.seeded(EnquiryDetail());
+  String? enquiryId;
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
     exceptionHandlerBinder.handle(block: () {
@@ -63,13 +70,31 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
+  EnquiryStage? getSchoolVisitStage() {
+    return enquiryDetails.value.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('School Visit') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
+  EnquiryStage? getCompetencyStage() {
+    return enquiryDetails.value.enquiryStage
+        ?.firstWhere(
+          (element) => element.stageName?.contains('Competency test') ?? false,
+          orElse: () => EnquiryStage(),
+        );
+  }
+
   bool isDetailView(){
-    return enquiryDetails.value.enquiryStage?.firstWhere((element)=>element.stageName == "School visit").status == "In Progress";
+    final schoolVisitStage = getSchoolVisitStage();
+    return schoolVisitStage?.status == "In Progress";
   }
 
 
   bool isDetailViewCompetency(){
-    return enquiryDetails.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+    final competencyStage =  getCompetencyStage();
+    return competencyStage?.status == "In Progress";
   }
 
   final List registrationDetails = [
@@ -96,7 +121,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
+    {'image': AppImages.schoolTour, 'name': "School Visit"},
     {'image': AppImages.payments, 'name': "Payments"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},

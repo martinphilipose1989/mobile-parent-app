@@ -53,10 +53,10 @@ class CancelCompetencyTestPageView
                           image: AppImages.personIcon,
                           name: enquiryDetailArgs.studentName??'',
                           year: enquiryDetailArgs.academicYear??'',
-                          id: enquiryDetailArgs.enquiryId??'',
+                          id: enquiryDetailArgs.enquiryNumber??'',
                           title: enquiryDetailArgs.school??'',
                           subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                          buttontext: enquiryDetailArgs.enquiryStage??''),
+                          buttontext: enquiryDetailArgs.currentStage??''),
                       const SizedBox(
                         height: 10,
                       ),

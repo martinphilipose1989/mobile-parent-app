@@ -66,6 +66,9 @@ final ValueNotifier<bool> isLoading = ValueNotifier(false);
       if(isRefresh){
         pageNumber = 1;
       }
+      if(!isNextPage){
+        return;
+      }
       GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
         phone: '9000000002',
         pageNumber: pageNumber,
@@ -86,6 +89,7 @@ final ValueNotifier<bool> isLoading = ValueNotifier(false);
             var newContent = event.data?.data?.data??[];
             event.data?.data?.data = [...currentEnquiries, ...newContent];
             isLoading.value = false;
+            isNextPage = event.data?.data?.isNextPage??false;
             _getEnquiryResponse.add(event);
           }
           else{

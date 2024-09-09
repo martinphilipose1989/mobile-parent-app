@@ -40,10 +40,10 @@ class DetailsViewCompetencyTestPageView
                           image: AppImages.personIcon,
                           name: enquiryDetail.studentName??'',
                           year: enquiryDetail.academicYear??'',
-                          id: enquiryDetail.enquiryId??'',
+                          id: enquiryDetail.enquiryNumber??'',
                           title: enquiryDetail.school??'',
                           subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
-                          buttontext: enquiryDetail.enquiryStage??'',),
+                          buttontext: enquiryDetail.currentStage??'',),
                       const SizedBox(
                         height: 10,
                       ),

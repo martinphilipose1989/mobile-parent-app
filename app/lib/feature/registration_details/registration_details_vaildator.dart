@@ -15,16 +15,11 @@ class RegistrationDetailsValidator{
       {'field': 'Student First Name', 'controller': model.studentFirstNameController},
       {'field': 'Student Last Name', 'controller': model.studentLastNameController},
       {'field': 'Date of Birth', 'controller': model.dobController},
-      {'field': 'Existing School Name', 'controller': model.existingSchoolNameController},
       {'field': 'Parent First Name', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherFirstNameController : model.studentsMotherFirstNameController},
       {'field': 'Parent Last Name', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherLastNameController : model.studentsMotherLastNameController},
       {'field': 'Parent Email ID', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherEmailController : model.studentsMotherEmailController},
       {'field': 'Parent Mobile Number', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherContactController : model.studentsMotherContactController},
-      {'field': 'Religion', 'controller': model.religionController},
-      {'field': 'Place of Birth', 'controller': model.placeOfBirthController},
-      {'field': 'Caste', 'controller': model.casteController},
-      {'field': 'Sub Caste', 'controller': model.subCasteController},
-      {'field': 'Nationality', 'controller': model.nationalityController},
+      {'field': 'Place of Birth', 'controller': model.placeOfBirthController},      
       {'field': 'Mother Tongue', 'controller': model.motherTongueController},
     ];
 
@@ -33,8 +28,6 @@ class RegistrationDetailsValidator{
       {'field': 'School Location', 'value': model.selectedSchoolLocationSubject.value},
       {'field': 'Grade', 'value': model.selectedGradeSubject.value},
       {'field': 'Gender', 'value': model.selectedGenderSubject.value},
-      {'field': 'Existing School Board', 'value': model.selectedExistingSchoolBoardSubject.value},
-      {'field': 'Existing School Grade', 'value': model.selectedExistingSchoolGradeSubject.value},
       {'field': 'Parent Type', 'value': model.selectedParentTypeSubject.value},
     ];
 
@@ -121,10 +114,6 @@ class RegistrationDetailsValidator{
         {'field': "Father's Adhar Card No", 'controller': model.fatherAdharCardController},
         {'field': "Father's Pan Card No", 'controller': model.fatherPanCardController},
         {'field': "Father's Qualification", 'controller': model.qualificationController},
-        {'field': "Father's Organization Name", 'controller': model.organizationNameController},
-        {'field': "Father's Designation", 'controller': model.designationController},
-        {'field': "Father's Office Address", 'controller': model.officeAddressController},
-        {'field': "Father's Pin Code", 'controller': model.pinCodeController},
         {'field': "Father's Email ID", 'controller': model.fatherEmailController},
         {'field': "Father's Mobile Number", 'controller': model.fatherMobileController},
       ];
@@ -136,42 +125,38 @@ class RegistrationDetailsValidator{
         {'field': "Mother's Adhar Card No", 'controller': model.motherAdharCardController},
         {'field': "Mother's Pan Card No", 'controller': model.motherPanCardController},
         {'field': "Mother's Qualification", 'controller': model.motherQualificationController},
-        {'field': "Mother's Organization Name", 'controller': model.motherQualificationController},
-        {'field': "Mother's Designation", 'controller': model.motherDesignationController},
-        {'field': "Mother's Office Address", 'controller': model.motherOfficeAddressController},
-        {'field': "Mother's Pin Code", 'controller': model.motherPinCodeController},
         {'field': "Mother's Email ID", 'controller': model.motherEmailController},
         {'field': "Mother's Mobile Number", 'controller': model.motherMobileController},
       ];
 
       // Guardian's details
-      List<Map<String, dynamic>> guardianFields = [
-        {'field': "Guardian's First Name", 'controller': model.guardianFirstNameController},
-        {'field': "Guardian's Last Name", 'controller': model.guardianLastNameController},
-        {'field': "Guardian's Adhar Card No", 'controller': model.guardianAdharCardController},
-        {'field': "Guardian's Pan Card No", 'controller': model.guardianPanCardController},
-        {'field': "Relationship With Child", 'controller': model.relationshipWithChildController},
-        {'field': "Guardian's Qualification", 'controller': model.guardianQualificationController},
-        {'field': "Guardian's Organization Name", 'controller': model.guardianOrganizationNameController},
-        {'field': "Guardian's Designation", 'controller': model.guardianDesignationController},
-        {'field': "Guardian's Office Address", 'controller': model.guardianOfficeAddressController},
-        {'field': "Guardian's Pin Code", 'controller': model.guardianPinCodeController},
-        {'field': "Guardian's Email ID", 'controller': model.guardianEmailController},
-        {'field': "Guardian's Mobile Number", 'controller': model.guardianMobileController},
-      ];
+      // List<Map<String, dynamic>> guardianFields = [
+      //   {'field': "Guardian's First Name", 'controller': model.guardianFirstNameController},
+      //   {'field': "Guardian's Last Name", 'controller': model.guardianLastNameController},
+      //   {'field': "Guardian's Adhar Card No", 'controller': model.guardianAdharCardController},
+      //   {'field': "Guardian's Pan Card No", 'controller': model.guardianPanCardController},
+      //   {'field': "Relationship With Child", 'controller': model.relationshipWithChildController},
+      //   {'field': "Guardian's Qualification", 'controller': model.guardianQualificationController},
+      //   {'field': "Guardian's Organization Name", 'controller': model.guardianOrganizationNameController},
+      //   {'field': "Guardian's Designation", 'controller': model.guardianDesignationController},
+      //   {'field': "Guardian's Office Address", 'controller': model.guardianOfficeAddressController},
+      //   {'field': "Guardian's Pin Code", 'controller': model.guardianPinCodeController},
+      //   {'field': "Guardian's Email ID", 'controller': model.guardianEmailController},
+      //   {'field': "Guardian's Mobile Number", 'controller': model.guardianMobileController},
+      // ];
 
       // Sibling's details
-      List<Map<String, dynamic>> siblingFields = [
-        {'field': "Sibling First Name", 'controller': model.siblingFirstNameController},
-        {'field': "Sibling Last Name", 'controller': model.siblingLastNameController},
-        {'field': "Sibling's School", 'controller': model.siblingsSchoolController},
-      ];
+      // List<Map<String, dynamic>> siblingFields = [
+      //   {'field': "Sibling First Name", 'controller': model.siblingFirstNameController},
+      //   {'field': "Sibling Last Name", 'controller': model.siblingLastNameController},
+      //   {'field': "Sibling's School", 'controller': model.siblingsSchoolController},
+      // ];
 
-      Map<String,dynamic> isVibgyorStudent = {'field': "Is Sibling a Vibgyor Student",'controller': model.radioButtonController1};
-      Map<String,dynamic> siblingEnrollmentNumber = {'field': "Sibling's Enrollment Number",'controller': model.siblingsEnrollmentController};
+      // Map<String,dynamic> isVibgyorStudent = {'field': "Is Sibling a Vibgyor Student",'controller': model.radioButtonController1};
+      // Map<String,dynamic> siblingEnrollmentNumber = {'field': "Sibling's Enrollment Number",'controller': model.siblingsEnrollmentController};
       
       // Validate all text fields
-      for (var fieldSet in [fatherFields, motherFields, guardianFields, siblingFields]) {
+      for (var fieldSet in [fatherFields, motherFields]) {
         for (var field in fieldSet) {
           String? validationResult;
           if(field['field'].toString().contains('Email')){
@@ -184,11 +169,11 @@ class RegistrationDetailsValidator{
               field['controller']!.text.trim(),
             );
           }
-          if(field['field'].toString().contains('Pin')){
-            validationResult = AppValidators.validatePinCode(
-              field['controller']!.text.trim(),
-            );
-          }
+          // if(field['field'].toString().contains('Pin')){
+          //   validationResult = AppValidators.validatePinCode(
+          //     field['controller']!.text.trim(),
+          //   );
+          // }
           if(field['field'].toString().contains('Adhar')){
             validationResult = AppValidators.validateNotEmpty(
               field['controller']!.text.trim(),
@@ -207,11 +192,6 @@ class RegistrationDetailsValidator{
               checkSpecialCharacters: false,
             );
           }
-          if(field['field'].toString().contains('Pin')){
-            validationResult = AppValidators.validatePinCode(
-              field['controller']!.text.trim(),
-            );
-          }
           else {
             validationResult = AppValidators.validateNotEmpty(
               field['controller']!.text.trim(),
@@ -227,50 +207,50 @@ class RegistrationDetailsValidator{
       }
 
       // Validate dropdowns
-      if (errorMessage.isEmpty) {
-        final dropdowns = [
-          {'field': "Father's Occupation", 'value': model.fatherOccupation},
-          {'field': "Father's Area", 'value': model.fatherArea},
-          {'field': "Father's Country", 'value': model.selectedFatherCountryEntity?.value},
-          {'field': "Father's State", 'value': model.selectedFatherStateEntity?.value},
-          {'field': "Father's City", 'value': model.selectedFatherCityEntity?.value},
-          {'field': "Mother's Occupation", 'value': model.motherOccupation},
-          {'field': "Mother's Area", 'value': model.motherArea},
-          {'field': "Mother's Country", 'value': model.selectedMotherCountryEntity?.value},
-          {'field': "Mother's State", 'value': model.selectedMotherStateEntity?.value},
-          {'field': "Mother's City", 'value': model.selectedMotherCityEntity?.value},
-          {'field': "Guardian's Occupation", 'value': model.guardianOccupation},
-          {'field': "Guardian's Area", 'value': model.guardianArea},
-          {'field': "Guardian's Country", 'value': model.selectedGuardianCountryEntity?.value},
-          {'field': "Guardian's State", 'value': model.selectedGuardianStateEntity?.value},
-          {'field': "Guardian's City", 'value': model.selectedGuardianCityEntity?.value},
-          {'field': "Sibling's Gender", 'value': model.siblingGender},
-          {'field': "Sibling's Grade", 'value': model.siblingGrade},
-        ];
+      // if (errorMessage.isEmpty) {
+      //   final dropdowns = [
+      //     {'field': "Father's Occupation", 'value': model.fatherOccupation},
+      //     {'field': "Father's Area", 'value': model.fatherArea},
+      //     {'field': "Father's Country", 'value': model.selectedFatherCountryEntity?.value},
+      //     {'field': "Father's State", 'value': model.selectedFatherStateEntity?.value},
+      //     {'field': "Father's City", 'value': model.selectedFatherCityEntity?.value},
+      //     {'field': "Mother's Occupation", 'value': model.motherOccupation},
+      //     {'field': "Mother's Area", 'value': model.motherArea},
+      //     {'field': "Mother's Country", 'value': model.selectedMotherCountryEntity?.value},
+      //     {'field': "Mother's State", 'value': model.selectedMotherStateEntity?.value},
+      //     {'field': "Mother's City", 'value': model.selectedMotherCityEntity?.value},
+      //     {'field': "Guardian's Occupation", 'value': model.guardianOccupation},
+      //     {'field': "Guardian's Area", 'value': model.guardianArea},
+      //     {'field': "Guardian's Country", 'value': model.selectedGuardianCountryEntity?.value},
+      //     {'field': "Guardian's State", 'value': model.selectedGuardianStateEntity?.value},
+      //     {'field': "Guardian's City", 'value': model.selectedGuardianCityEntity?.value},
+      //     {'field': "Sibling's Gender", 'value': model.siblingGender},
+      //     {'field': "Sibling's Grade", 'value': model.siblingGrade},
+      //   ];
 
-        for (var dropdown in dropdowns) {
-          String? validationResult = AppValidators.validateDropdown(dropdown['value'], dropdown['field'] as String);
-          if (validationResult != null) {
-            errorMessage = validationResult;
-            break;
-          }
-        }
-      }
+      //   for (var dropdown in dropdowns) {
+      //     String? validationResult = AppValidators.validateDropdown(dropdown['value'], dropdown['field'] as String);
+      //     if (validationResult != null) {
+      //       errorMessage = validationResult;
+      //       break;
+      //     }
+      //   }
+      // }
 
-      if(errorMessage.isEmpty){
-        if(isVibgyorStudent["controller"].selectedItem == null){
-          errorMessage = 'Please select an option for: ${isVibgyorStudent['field']}';
-        }
-        if(isVibgyorStudent['controller'].selectedItem == "Vibgyor Student"){
-          String? validationResult = AppValidators.validateNotEmpty(
-            siblingEnrollmentNumber['controller']!.text.trim(),
-            siblingEnrollmentNumber['field'].toString(),
-          );
-          if (validationResult != null) {
-            errorMessage = validationResult;
-          }
-        }
-      }
+      // if(errorMessage.isEmpty){
+      //   if(isVibgyorStudent["controller"].selectedItem == null){
+      //     errorMessage = 'Please select an option for: ${isVibgyorStudent['field']}';
+      //   }
+      //   if(isVibgyorStudent['controller'].selectedItem == "Vibgyor Student"){
+      //     String? validationResult = AppValidators.validateNotEmpty(
+      //       siblingEnrollmentNumber['controller']!.text.trim(),
+      //       siblingEnrollmentNumber['field'].toString(),
+      //     );
+      //     if (validationResult != null) {
+      //       errorMessage = validationResult;
+      //     }
+      //   }
+      // }
 
       // Show snackbar with error message
       if (errorMessage.isNotEmpty) {
@@ -338,46 +318,46 @@ class RegistrationDetailsValidator{
       String errorMessage = '';
 
       // Emergency Contact
-      if (model.emergencyContact == null || model.emergencyContact!.isEmpty) {
-        errorMessage = 'Please select an Emergency Contact';
-      }
+      // if (model.emergencyContact == null || model.emergencyContact!.isEmpty) {
+      //   errorMessage = 'Please select an Emergency Contact';
+      // }
 
-      // Point of Contact
-      List<Map<String, dynamic>> pointOfContactFields = [
-        {'field': 'Parent Mobile Number 1', 'controller': model.parentMobileNumberController1,},
-        {'field': 'Parent Email Id 1', 'controller': model.parentEmailIdController1},
-        {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
-        {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
-      ];
+      // // Point of Contact
+      // List<Map<String, dynamic>> pointOfContactFields = [
+      //   {'field': 'Parent Mobile Number 1', 'controller': model.parentMobileNumberController1,},
+      //   {'field': 'Parent Email Id 1', 'controller': model.parentEmailIdController1},
+      //   {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
+      //   {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
+      // ];
 
-      for (var field in pointOfContactFields) {
-        String? validationResult;
-        if(field['field'].toString().contains('Email') ){
-            validationResult = AppValidators.validateEmail(
-            field['controller']!.text.trim(),
-          );
-        }
-        if(field['field'].toString().contains('Mobile') ){
-            validationResult = AppValidators.validateMobile(
-            field['controller']!.text.trim(),
-          );
-        }
-        if (validationResult != null) {
-          errorMessage = validationResult;
-          break;
-        }
-      }
+      // for (var field in pointOfContactFields) {
+      //   String? validationResult;
+      //   if(field['field'].toString().contains('Email') ){
+      //       validationResult = AppValidators.validateEmail(
+      //       field['controller']!.text.trim(),
+      //     );
+      //   }
+      //   if(field['field'].toString().contains('Mobile') ){
+      //       validationResult = AppValidators.validateMobile(
+      //       field['controller']!.text.trim(),
+      //     );
+      //   }
+      //   if (validationResult != null) {
+      //     errorMessage = validationResult;
+      //     break;
+      //   }
+      // }
 
-      // Validate email format
-      if (errorMessage.isEmpty) {
-        for (var emailController in [model.parentEmailIdController1, model.parentEmailIdController2]) {
-          String? validationResult = AppValidators.validateEmail(emailController.text);
-          if (validationResult != null) {
-            errorMessage = validationResult;
-            break;
-          }
-        }
-      }
+      // // Validate email format
+      // if (errorMessage.isEmpty) {
+      //   for (var emailController in [model.parentEmailIdController1, model.parentEmailIdController2]) {
+      //     String? validationResult = AppValidators.validateEmail(emailController.text);
+      //     if (validationResult != null) {
+      //       errorMessage = validationResult;
+      //       break;
+      //     }
+      //   }
+      // }
 
       // Residential Details
       List<Map<String, dynamic>> residentialFields = [

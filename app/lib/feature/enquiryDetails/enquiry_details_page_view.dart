@@ -115,7 +115,7 @@ class EnquiriesDetailsPageView
                             id: enquiryDetailArgs.enquiryNumber??'',
                             title: enquiryDetailArgs.school??'',
                             subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                            buttontext: enquiryDetailArgs.enquiryStage??'',
+                            buttontext: enquiryDetailArgs.currentStage??'',
                             compeletion: '',
                           ),
                           const SizedBox(

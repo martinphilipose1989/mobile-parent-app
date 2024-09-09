@@ -7,7 +7,7 @@ part 'existing_school_detail_entity.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ExistingSchoolDetailsEntity extends BaseLayerDataTransformer<ExistingSchoolDetailsEntity,ExistingSchoolDetails>{
     @JsonKey(name: 'name')
-    String? name;
+    dynamic name;
     @JsonKey(name: 'board')
     CommonDataEntity? board;
     @JsonKey(name: 'grade')
@@ -29,7 +29,7 @@ class ExistingSchoolDetailsEntity extends BaseLayerDataTransformer<ExistingSchoo
     ExistingSchoolDetails existingSchoolDetails = ExistingSchoolDetails();
     existingSchoolDetails.board = board?.transform();
     existingSchoolDetails.grade = grade?.transform();
-    existingSchoolDetails.name = name??'';
+    existingSchoolDetails.name = (name is String)? name??'' : "";
     return existingSchoolDetails;
   }
 
@@ -39,7 +39,7 @@ class ExistingSchoolDetailsEntity extends BaseLayerDataTransformer<ExistingSchoo
     ExistingSchoolDetailsEntity existingSchoolDetailsEntity = ExistingSchoolDetailsEntity(
       board : commonDataEntity.restore(data.board!),
       grade : commonDataEntity.restore(data.grade!),
-      name : data.name??'',
+      name : (name is String)? data.name??'' : "",
     );
     return existingSchoolDetailsEntity;
   }

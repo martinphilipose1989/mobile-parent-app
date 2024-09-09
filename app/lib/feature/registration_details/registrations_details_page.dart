@@ -171,22 +171,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 dataBuilder: (context, data) {
                  return CommonElevatedButton(
                     onPressed: () {
-                      RegistrationDetailsValidator validator = RegistrationDetailsValidator(model);
-                      if(model.showWidget.value == 0){
-                        validator.validateStudentFields(context);
-                      } else if (model.showWidget.value == 1) {
-                        validator.validateParentInfoFields(context);
-                      } else if (model.showWidget.value == 2) {
-                        validator.validateContactDetails(context);
-                      } else if (model.showWidget.value == 3) {
-                        validator.validateMedicalDetails(context);
-                      } else if (model.showWidget.value == 4) {
-                        validator.validateBankDetails(context);
-                      } else {
-                        model.showPopUP(context);
-                      }
+                      Navigator.pop(context);
                     },
-                    text: 'Save',
+                    text: 'Cancel',
                     borderColor: Theme
                         .of(context)
                         .primaryColor,
@@ -199,29 +186,19 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                   );}),
                   CommonElevatedButton(
                     onPressed: () {
-                      if (model.showWidget.value < 5) {
-                        ProviderScope
-                            .containerOf(context)
-                            .read(commonChipListProvider)
-                            .highlightIndex
-                            .add(ProviderScope
-                            .containerOf(context)
-                            .read(commonChipListProvider)
-                            .highlightIndex
-                            .value +
-                            1);
-                        model.showWidget.add(model.showWidget.value + 1);
-                        if(model.showWidget.value == 5){
-                          model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
-                        }
-                        else{
-                          model.fetchAllDetails(widget.enquiryDetailArgs?.enquiryId??'',model.registrationDetails[model.showWidget.value]['infoType']);
-                        }
-                      } else if(model.showWidget.value == 5){
+                      RegistrationDetailsValidator validator = RegistrationDetailsValidator(model);
+                      if (model.showWidget.value == 0) {
+                        validator.validateStudentFields(context);
+                      } else if (model.showWidget.value == 1) {
+                        validator.validateParentInfoFields(context);
+                      } else if (model.showWidget.value == 2) {
+                        validator.validateContactDetails(context);
+                      } else if (model.showWidget.value == 3) {
+                        validator.validateMedicalDetails(context);
+                      } else if (model.showWidget.value == 4) {
+                        validator.validateBankDetails(context);
+                      } else {
                         model.showPopUP(context);
-                      }
-                      else{
-                        return;
                       }
                     },
                     text: 'Next',

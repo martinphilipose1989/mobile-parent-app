@@ -13,14 +13,16 @@ class CommonChipListPage extends StatelessWidget {
   final List<CommonChips> chipValues;
   final Function(int index) onCallBack;
   final bool isEdit;
+  final ScrollController? controller;
   const CommonChipListPage(
-      {super.key, required this.chipValues, required this.onCallBack,this.isEdit = false});
+      {super.key, required this.chipValues, required this.onCallBack,this.isEdit = false, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CommonChipListViewModel>(
         builder: (context, model, child) {
           return ListView.builder(
+            controller: controller,
             scrollDirection: Axis.horizontal,
             itemCount: chipValues.length,
             itemBuilder: (context, index) {

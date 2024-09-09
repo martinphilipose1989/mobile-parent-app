@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
@@ -23,6 +24,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -125,10 +127,10 @@ class RegistrationsDetailsPageView
                     image: AppImages.personIcon,
                     name: "${enquiryDetailArgs?.studentName} ",
                     year: enquiryDetailArgs?.academicYear??'',
-                    id: enquiryDetailArgs?.enquiryId??'',
+                    id: enquiryDetailArgs?.enquiryNumber??'',
                     title: enquiryDetailArgs?.school??'',
                     subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
-                    buttontext: "${enquiryDetailArgs?.enquiryStage}",
+                    buttontext: "${enquiryDetailArgs?.currentStage}",
                     compeletion: '25% Completed',
                   ),
                   CommonSizedBox.sizedBox(height: 20, width: 10),
@@ -139,7 +141,7 @@ class RegistrationsDetailsPageView
                       return SizedBox(
                         height: 40,
                         child: CommonChipListPage(
-                          isEdit: model.editRegistrationDetails.value,
+                          controller: model.controller,
                           chipValues: List.generate(
                             model.registrationDetails.length,
                             (index) => CommonChips(
@@ -149,9 +151,10 @@ class RegistrationsDetailsPageView
                             ),
                           ),
                           onCallBack: (index) {
-                            if (!model.editRegistrationDetails.value) {
-                              model.showWidget.add(index);
-                            } 
+                            if(model.showWidget.value == index){
+                              return;
+                            }
+                            model.showWidget.add(index);
                             if(index == 0){
                               if(enquiryDetailArgs?.enquiryType == "IVT"){
                                 model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');

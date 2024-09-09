@@ -45,14 +45,13 @@ class AdmissionsList extends StatelessWidget {
                     EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
                       enquiryId: admissionList?[index].enquiryId,
                       enquiryNumber: admissionList?[index].enquiryNumber,
-                      enquiryStage: admissionList?[index].enquiryStage,
+                      currentStage: admissionList?[index].enquiryStage,
                       enquiryType: admissionList?[index].enquiryType,
                       school: admissionList?[index].school,
                       studentName: admissionList?[index].studentName,
                       academicYear: admissionList?[index].academicYear,
                       board: admissionList?[index].board,
                       grade: admissionList?[index].grade,
-                      nextAction: admissionList?[index].nextAction,
                     );
                     Navigator.pushNamed(context, RoutePaths.admissionsDetails,arguments: admissionDetail);
                   },

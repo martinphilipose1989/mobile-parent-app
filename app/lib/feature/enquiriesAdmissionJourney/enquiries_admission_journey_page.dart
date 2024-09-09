@@ -25,8 +25,6 @@ class _AdmissionsPageState extends AppBasePageState<
     EnquiriesAdmissionsJourneyViewModel, EnquiriesAdmissionsJourneyPage> {
   @override
   void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {
-    model.getAdmissionJourney(enquiryID: widget.enquiryDetail?.enquiryId??'', type: 'enquiry');
-    model.getEnquiryDetail(enquiryID: widget.enquiryDetail?.enquiryId??'');
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,
@@ -58,7 +56,7 @@ class _AdmissionsPageState extends AppBasePageState<
 
   @override
   ProviderBase<EnquiriesAdmissionsJourneyViewModel> provideBase() {
-    return enquiriesAdmissionsJourneyProvider;
+    return enquiriesAdmissionsJourneyProvider.call(widget.enquiryDetail??EnquiryDetailArgs());
   }
 
   @override
@@ -104,18 +102,21 @@ class EnquiryDetailArgs{
   String? school;
   String? board;
   String? grade;
-  String? enquiryStage;
-  String? nextAction;
+  String? currentStage;
+  String? schoolVisitDate;
+  String? schoolVisitTime;
+
   EnquiryDetailArgs({
     this.enquiryId,
     this.enquiryNumber,
     this.enquiryType,
-    this.enquiryStage,
+    this.currentStage,
     this.studentName,
     this.academicYear,
     this.school,
     this.board,
     this.grade,
-    this.nextAction
+    this.schoolVisitDate,
+    this.schoolVisitTime
   });
 }

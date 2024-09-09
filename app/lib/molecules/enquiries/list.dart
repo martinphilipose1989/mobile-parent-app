@@ -6,6 +6,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -29,58 +30,65 @@ class ListV extends StatelessWidget {
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 20.h),
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
-            child: Container(
-              height: 128,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.listItem,
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 2,
-                        color: AppColors.disableNeutral80,
-                        offset: Offset(0, 1))
-                  ]),
-              child: GestureDetector(
-                onTap: () {
-                  EnquiryDetailArgs enquiryDetail = EnquiryDetailArgs(
-                    enquiryId: enquiries?[index].enquiryId,
-                    enquiryNumber: enquiries?[index].enquiryNumber,
-                    enquiryStage: enquiries?[index].enquiryStage,
-                    enquiryType: enquiries?[index].enquiryType,
-                    studentName: enquiries?[index].studentName,
-                    academicYear: enquiries?[index].academicYear,
-                    school: enquiries?[index].school,
-                    board: enquiries?[index].board,
-                    grade: enquiries?[index].grade,
-                    nextAction: enquiries?[index].nextAction, 
-                  );
-                  Navigator.pushNamed(
-                      context, RoutePaths.enquiriesAdmissionsJourneyPage,arguments: {"enquiryDetailArgs":enquiryDetail,});
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListItem(
-                          image: AppImages.personIcon,
-                          name: enquiries?[index].studentName??'',
-                          year: enquiries?[index].academicYear??'',
-                          id: enquiries?[index].enquiryNumber??'',
-                          title: enquiries?[index].school??'',
-                          subtitle: '${enquiries?[index].grade??''} | ${enquiries?[index].board??''}',
-                          buttontext: enquiries?[index].enquiryStage??''),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CommonText(
-                        text: "School Visit scheduled on 18th July 10:30 AM",
-                        style: AppTypography.overline.copyWith(
-                            color: AppColors.primary, letterSpacing: 0),
-                      )
-                    ],
+          return GestureDetector(
+            onTap: () {
+              EnquiryDetailArgs enquiryDetail = EnquiryDetailArgs(
+                enquiryId: enquiries?[index].enquiryId,
+                enquiryNumber: enquiries?[index].enquiryNumber,
+                currentStage: enquiries?[index].currentStage,
+                enquiryType: enquiries?[index].enquiryType,
+                studentName: enquiries?[index].studentName,
+                academicYear: enquiries?[index].academicYear,
+                school: enquiries?[index].school,
+                board: enquiries?[index].board,
+                grade: enquiries?[index].grade,
+                
+              );
+              Navigator.pushNamed(
+                  context, RoutePaths.enquiriesAdmissionsJourneyPage,
+                  arguments: {
+                    "enquiryDetailArgs": enquiryDetail,
+                  });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
+              child: Container(
+                height: (!enquiries![index].schoolVisitDate.isEmptyOrNull() && !enquiries![index].schoolVisitTime.isEmptyOrNull())? 128 : 115,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: AppColors.listItem,
+                    boxShadow: const [
+                      BoxShadow(
+                          blurRadius: 2,
+                          color: AppColors.disableNeutral80,
+                          offset: Offset(0, 1))
+                    ]),
+                child: GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListItem(
+                            image: AppImages.personIcon,
+                            name: enquiries?[index].studentName??'',
+                            year: enquiries?[index].academicYear??'',
+                            id: enquiries?[index].enquiryNumber??'',
+                            title: enquiries?[index].school??'',
+                            subtitle: '${enquiries?[index].grade??''} | ${enquiries?[index].board??''}',
+                            buttontext: enquiries?[index].currentStage??''),
+                        if(!enquiries![index].schoolVisitDate.isEmptyOrNull() && !enquiries![index].schoolVisitTime.isEmptyOrNull())...[
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CommonText(
+                            text: "School Visit scheduled on ${enquiries?[index].schoolVisitDate??""} ${enquiries?[index].schoolVisitTime??''}",
+                            style: AppTypography.overline.copyWith(
+                              color: AppColors.primary, letterSpacing: 0),
+                          )
+                        ]
+                      ],
+                    ),
                   ),
                 ),
               ),

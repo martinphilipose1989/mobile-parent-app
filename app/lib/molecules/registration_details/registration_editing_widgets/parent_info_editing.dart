@@ -116,7 +116,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Occupation',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             'Occupation',
@@ -130,7 +130,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Organization Name",
                           controller: model.organizationNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -139,7 +139,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Designation",
                           controller: model.designationController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -148,7 +148,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Office Address",
                           controller: model.officeAddressController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -164,7 +164,7 @@ class ParentInfoEditing extends StatelessWidget {
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Father Area',
                               checkSpecialCharacters: false),
-                          showAstreik: true,
+                          showAstreik: false,
                           onMultiSelect: (val) {},
                           onSingleSelect: (val) {
                             val = model.fatherArea!;
@@ -177,7 +177,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Country',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             'Country',
@@ -200,7 +200,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.pinCodeController,
                           keyboardType: TextInputType.number,
@@ -218,7 +218,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'State',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             'State',
@@ -249,7 +249,7 @@ class ParentInfoEditing extends StatelessWidget {
                             'City',
                             checkSpecialCharacters: false,
                           ),
-                          showAstreik: true,
+                          showAstreik: false,
                           onMultiSelect: (selectedValues) {},
                           onSingleSelect: (val) {
                             if (model.city.value.contains(val)) {
@@ -384,7 +384,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Occupation',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Occupation",
@@ -398,7 +398,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Organization Name",
                           controller: model.motherQualificationController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -409,7 +409,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Designation",
                           controller: model.motherDesignationController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -420,7 +420,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Office Address",
                           controller: model.motherOfficeAddressController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -435,7 +435,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Area',
-                          showAstreik: true,
+                          showAstreik: false,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -456,7 +456,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'Country',
-                                showAstreik: true,
+                                showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
                                 onSingleSelect: (val) {
@@ -476,7 +476,7 @@ class ParentInfoEditing extends StatelessWidget {
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.motherPinCodeController,
                           keyboardType: TextInputType.number,
@@ -505,7 +505,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   "Mother's State",
                                   checkSpecialCharacters: true,
                                 ),
-                                showAstreik: true,
+                                showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
                                 onSingleSelect: (val) {
@@ -532,7 +532,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'City',
-                                showAstreik: true,
+                                showAstreik: false,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -612,7 +612,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 20, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's First Name",
                           controller: model.guardianFirstNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -623,7 +623,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's Last Name",
                           controller: model.guardianLastNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -634,7 +634,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's Adhar Card No.",
                           controller: model.guardianAdharCardController,
                           keyboardType: TextInputType.number,
@@ -650,7 +650,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's Pan Card No.",
                           controller: model.guardianPanCardController,
                           maxLength: 12,
@@ -662,13 +662,13 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Relationship with child",
                           controller: model.relationshipWithChildController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Qualification",
                           controller: model.guardianQualificationController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -684,7 +684,7 @@ class ParentInfoEditing extends StatelessWidget {
                           isMutiSelect: false,
                           dropdownName: 'Occupation',
                           //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
-                          showAstreik: true,
+                          showAstreik: false,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
                           onSingleSelect: (val) {
@@ -693,7 +693,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Organization Name",
                           controller: model.guardianOrganizationNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -704,7 +704,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Designation",
                           controller: model.guardianDesignationController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -715,7 +715,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Office Address",
                           controller: model.guardianOfficeAddressController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -730,7 +730,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Area',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Guardian's Area",
@@ -751,7 +751,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'Country',
-                                showAstreik: true,
+                                showAstreik: false,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -777,7 +777,7 @@ class ParentInfoEditing extends StatelessWidget {
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.guardianPinCodeController,
                           keyboardType: TextInputType.number,
@@ -800,7 +800,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'State',
-                                showAstreik: true,
+                                showAstreik: false,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -839,7 +839,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   "Guardian's City",
                                   checkSpecialCharacters: true,
                                 ),
-                                showAstreik: true,
+                                showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
                                 onSingleSelect: (val) {
@@ -859,7 +859,7 @@ class ParentInfoEditing extends StatelessWidget {
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's Email ID",
                           controller: model.guardianEmailController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -870,7 +870,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Guardian's Mobile Number",
                           controller: model.guardianMobileController,
                           maxLength: 10,
@@ -955,7 +955,7 @@ class ParentInfoEditing extends StatelessWidget {
                             dataBuilder: (context, data) {
                               return ((data ?? '') == "Vibgyor Student")
                                   ? CommonTextFormField(
-                                      showAstreik: true,
+                                      showAstreik: false,
                                       labelText: "Sibling's Enrollment Number",
                                       controller:
                                           model.siblingsEnrollmentController,
@@ -970,7 +970,7 @@ class ParentInfoEditing extends StatelessWidget {
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Sibling First Name",
                           controller: model.siblingFirstNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -981,7 +981,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "Sibling Last Name",
                           controller: model.siblingLastNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -998,7 +998,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Gender',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Sibling's Gender",
@@ -1012,7 +1012,7 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: true,
+                          showAstreik: false,
                           labelText: "School",
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -1027,7 +1027,7 @@ class ParentInfoEditing extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'Grade',
-                          showAstreik: true,
+                          showAstreik: false,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Sibling's Grade",
@@ -1047,7 +1047,7 @@ class ParentInfoEditing extends StatelessWidget {
           const Align(
             alignment: Alignment.topLeft,
             child: CommonText(
-              text: "Are Your Parent's Separated?",
+              text: "Are Parent's Separated?",
               style: AppTypography.subtitle2,
             ),
           ),

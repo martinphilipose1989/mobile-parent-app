@@ -33,7 +33,7 @@ class CancelSchoolTourPageState
   PreferredSizeWidget? buildAppbar(CancelSchoolTourPageModel model) {
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Cancel School Tour',
+      appbarTitle: 'Cancel School Visit',
       showBackButton: true,
     );
   }

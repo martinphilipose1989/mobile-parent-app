@@ -82,7 +82,7 @@ class EnquiriesAdmissionsJourneyPageView
                 id: enquiryDetail.enquiryNumber??'',
                 title: enquiryDetail.school??'',
                 subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
-                buttontext: enquiryDetail.enquiryStage??'',
+                buttontext: enquiryDetail.currentStage??'',
                 compeletion: '',
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),

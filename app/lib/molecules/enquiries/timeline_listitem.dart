@@ -7,6 +7,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class TimelineListitem extends StatelessWidget {
 
@@ -66,7 +67,7 @@ class TimelineListitem extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 15,),
-                      CommonText(text: timeline.createdAt.toString(),
+                      CommonText(text: DateFormat.yMd().add_jm().format(timeline.createdAt??DateTime.now()),
                         style: AppTypography.body2.copyWith(
                           fontSize: 10,
                           color: AppColors.textDark
