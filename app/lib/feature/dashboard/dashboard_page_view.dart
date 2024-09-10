@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
@@ -136,9 +134,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
             showBorderColor: true,
             items: dropdownValues,
             isMutiSelect: false,
-            onSingleSelect: (selectedValue) {
-              log(selectedValue);
-            },
+            onSingleSelect: (selectedValue) {},
           ),
         )
       ],

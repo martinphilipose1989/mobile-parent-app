@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:typed_data';
 
 import 'package:app/model/resource.dart';
@@ -26,10 +27,11 @@ class CreateQrcodeViewModel extends BasePageViewModel {
       : _requestGatepassUsecase = requestGatepassUsecase;
 
   void requestGatePass() {
+    qrCodeSubject.add(Resource.loading());
     final params = RequestGatepassUsecaseParams(
       requestBody: CreateQrcodeRequestModel(
-        email: "johndoe@example.com",
-        mobile: "+919090901234",
+        email: "janedoe@example.com",
+        mobile: "+919090901235",
         name: "John Doe",
       ),
     );

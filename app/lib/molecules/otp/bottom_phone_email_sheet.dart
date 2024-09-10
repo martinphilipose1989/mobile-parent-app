@@ -19,15 +19,16 @@ class BottomPhoneEmailSheet extends StatelessWidget {
     return Container(
       height: 331.h,
       decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 2,
-                spreadRadius: 2,
-                color: AppColors.disableNeutral80)
-          ],
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 2, spreadRadius: 2, color: AppColors.disableNeutral80)
+        ],
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

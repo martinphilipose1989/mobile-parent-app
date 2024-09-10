@@ -1,6 +1,5 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'create_qrcode_response.g.dart';
 
 @JsonSerializable()
@@ -15,7 +14,11 @@ class CreateQrcodeResponseEntity
   @JsonKey(name: "message")
   String? message;
 
-  CreateQrcodeResponseEntity({this.status, this.data, this.message});
+  CreateQrcodeResponseEntity({
+    this.status,
+    this.data,
+    this.message,
+  });
 
   factory CreateQrcodeResponseEntity.fromJson(Map<String, dynamic> json) =>
       _$CreateQrcodeResponseEntityFromJson(json);
@@ -29,7 +32,8 @@ class CreateQrcodeResponseEntity
 
   @override
   CreateQrcodeResponseModel transform() {
-    return CreateQrcodeResponseModel();
+    return CreateQrcodeResponseModel(
+        data: data?.transform(), status: status, message: message);
   }
 }
 
@@ -47,15 +51,15 @@ class CreateQrcodeResponseDataEntity
   @JsonKey(name: "gatepass_number")
   String? gatepassNumber;
   @JsonKey(name: "company_name")
-  String? companyName;
+  dynamic companyName;
   @JsonKey(name: "point_of_contact")
-  String? pointOfContact;
+  dynamic pointOfContact;
   @JsonKey(name: "other_point_of_contact")
-  String? otherPointOfContact;
+  dynamic otherPointOfContact;
   @JsonKey(name: "purpose_of_visit_id")
-  String? purposeOfVisitId;
+  dynamic purposeOfVisitId;
   @JsonKey(name: "coming_from")
-  String? comingFrom;
+  dynamic comingFrom;
   @JsonKey(name: "guest_count")
   int? guestCount;
   @JsonKey(name: "issued_date")
@@ -63,11 +67,15 @@ class CreateQrcodeResponseDataEntity
   @JsonKey(name: "issued_time")
   String? issuedTime;
   @JsonKey(name: "incoming_time")
-  String? incomingTime;
+  dynamic incomingTime;
   @JsonKey(name: "outgoing_time")
-  String? outgoingTime;
+  dynamic outgoingTime;
   @JsonKey(name: "qr_code")
   String? qrCode;
+  @JsonKey(name: "vehicle_number")
+  dynamic vehicleNumber;
+  @JsonKey(name: "created_by")
+  dynamic createdBy;
   @JsonKey(name: "created_at")
   String? createdAt;
   @JsonKey(name: "updated_at")
@@ -75,74 +83,41 @@ class CreateQrcodeResponseDataEntity
   @JsonKey(name: "__v")
   int? v;
 
-  CreateQrcodeResponseDataEntity(
-      {this.id,
-      this.visitorId,
-      this.visitorTypeId,
-      this.gatepassNumber,
-      this.companyName,
-      this.pointOfContact,
-      this.otherPointOfContact,
-      this.purposeOfVisitId,
-      this.comingFrom,
-      this.guestCount,
-      this.issuedDate,
-      this.issuedTime,
-      this.incomingTime,
-      this.outgoingTime,
-      this.qrCode,
-      this.createdAt,
-      this.updatedAt,
-      this.v});
+  CreateQrcodeResponseDataEntity({
+    this.id,
+    this.visitorId,
+    this.visitorTypeId,
+    this.gatepassNumber,
+    this.companyName,
+    this.pointOfContact,
+    this.otherPointOfContact,
+    this.purposeOfVisitId,
+    this.comingFrom,
+    this.guestCount,
+    this.issuedDate,
+    this.issuedTime,
+    this.incomingTime,
+    this.outgoingTime,
+    this.qrCode,
+    this.vehicleNumber,
+    this.createdBy,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
 
-  factory CreateQrcodeResponseDataEntity.fromJson(Map<String, String> json) =>
+  factory CreateQrcodeResponseDataEntity.fromJson(Map<String, dynamic> json) =>
       _$CreateQrcodeResponseDataEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateQrcodeResponseDataEntityToJson(this);
 
   @override
-  CreateQrcodeResponseDataEntity restore(data) {
-    return CreateQrcodeResponseDataEntity(
-        comingFrom: comingFrom,
-        companyName: companyName,
-        createdAt: createdAt,
-        gatepassNumber: gatepassNumber,
-        guestCount: guestCount,
-        id: id,
-        incomingTime: incomingTime,
-        issuedDate: issuedDate,
-        issuedTime: issuedTime,
-        otherPointOfContact: otherPointOfContact,
-        outgoingTime: outgoingTime,
-        pointOfContact: pointOfContact,
-        purposeOfVisitId: purposeOfVisitId,
-        qrCode: qrCode,
-        updatedAt: updatedAt,
-        v: v,
-        visitorId: visitorId,
-        visitorTypeId: visitorTypeId);
+  CreateQrcodeResponseDataEntity restore(CreateQrcodeResponseData data) {
+    return CreateQrcodeResponseDataEntity();
   }
 
   @override
   CreateQrcodeResponseData transform() {
-    return CreateQrcodeResponseData(
-        comingFrom: comingFrom,
-        companyName: companyName,
-        createdAt: createdAt,
-        gatepassNumber: gatepassNumber,
-        guestCount: guestCount,
-        id: id,
-        incomingTime: incomingTime,
-        issuedDate: issuedDate,
-        issuedTime: issuedTime,
-        otherPointOfContact: otherPointOfContact,
-        outgoingTime: outgoingTime,
-        pointOfContact: pointOfContact,
-        purposeOfVisitId: purposeOfVisitId,
-        qrCode: qrCode,
-        updatedAt: updatedAt,
-        v: v,
-        visitorId: visitorId,
-        visitorTypeId: visitorTypeId);
+    return CreateQrcodeResponseData(comingFrom: comingFrom, qrCode: qrCode);
   }
 }

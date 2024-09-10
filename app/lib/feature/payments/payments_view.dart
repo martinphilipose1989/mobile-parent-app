@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:app/feature/payments/payments_model.dart';
 import 'package:app/molecules/payments/pending_amount_expansion_tile.dart';
 import 'package:app/molecules/payments/payments_chips_list.dart';
@@ -133,9 +132,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                   showBorderColor: false,
                   items: model.studentDropdownValues,
                   isMutiSelect: true,
-                  onMultiSelect: (selectedValues) {
-                    log(selectedValues.toString());
-                  },
+                  onMultiSelect: (selectedValues) {},
                 ),
               ),
             ],

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
@@ -41,7 +39,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   Future<bool> onBackPressed({param}) {
-    log("onback being called");
     return super.onBackPressed(param: true);
   }
 
