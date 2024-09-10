@@ -50,7 +50,7 @@ class ContactInfoEditing extends StatelessWidget {
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Contact Number",),
                       isMutiSelect: false,
                       dropdownName: 'Contact Number',
-                      showAstreik: true,
+                      showAstreik: false,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
                         model.emergencyContact = val;
@@ -92,7 +92,7 @@ class ContactInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Type",),
-                      showAstreik: true,
+                      showAstreik: false,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
                         model.contactParentTypePhone1 = val;
@@ -101,7 +101,7 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
-                        showAstreik: true,
+                        showAstreik: false,
                         labelText: 'Parent Mobile Number',
                         controller:model.parentMobileNumberController1,
                       keyboardType: TextInputType.number,
@@ -119,7 +119,7 @@ class ContactInfoEditing extends StatelessWidget {
                           value,
                           "Parent Type",
                         ),
-                        showAstreik: true,
+                        showAstreik: false,
                         onMultiSelect: (selectedValues) {},
                         onSingleSelect: (val) {
                           model.contactParentTypeEmail1 = val;
@@ -128,7 +128,7 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
-                        showAstreik: true,
+                        showAstreik: false,
                         labelText: 'Parent Email Id',
                         controller:model.parentEmailIdController1,
 
@@ -143,7 +143,7 @@ class ContactInfoEditing extends StatelessWidget {
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
                       validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
-                      showAstreik: true,
+                      showAstreik: false,
                       onMultiSelect: (selectedValues) {},
                       onSingleSelect: (val){
                         model.contactParentTypePhone2 = val;
@@ -152,7 +152,7 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
-                        showAstreik: true,
+                        showAstreik: false,
                         labelText: 'Parent Mobile Number',
                         controller:model.parentMobileNumberController2,
                       keyboardType: TextInputType.number,
@@ -170,7 +170,7 @@ class ContactInfoEditing extends StatelessWidget {
                           value,
                           "Parent Type",
                         ),
-                        showAstreik: true,
+                        showAstreik: false,
                         onMultiSelect: (selectedValues) {},
                         onSingleSelect: (val) {
                           model.contactParentTypeEmail2 = val;
@@ -179,7 +179,7 @@ class ContactInfoEditing extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
-                        showAstreik: true,
+                        showAstreik: false,
                         labelText: 'Parent Email Id',
                         controller:model.parentEmailIdController2,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
@@ -308,18 +308,15 @@ class ContactInfoEditing extends StatelessWidget {
                       }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CustomDropdownButton(
-                      items: model.pinCodeOptions,
-                      width: MediaQuery.of(context).size.width,
-                      isMutiSelect: false,
-                      dropdownName: 'Pin Code',
-                      validator: (value)=> AppValidators.validateNotEmpty(value, "PinCode",),
+                    CommonTextFormField(
                       showAstreik: true,
-                      onMultiSelect: (selectedValues) {},
-                      showBorderColor: true,
-                      onSingleSelect: (val){
-                        model.residentialPinCode = val;
-                      },
+                      labelText: "Pin Code",
+                      controller: model.residentialPinCodeController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      maxLength: 6,
                     ),
                     const CommonText(
                       text: "Is Permanent Address Same As Present?",

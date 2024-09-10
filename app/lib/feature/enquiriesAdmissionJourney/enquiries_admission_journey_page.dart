@@ -105,6 +105,7 @@ class EnquiryDetailArgs{
   String? currentStage;
   String? schoolVisitDate;
   String? schoolVisitTime;
+  int? formCompletionPercentage;
 
   EnquiryDetailArgs({
     this.enquiryId,
@@ -117,6 +118,7 @@ class EnquiryDetailArgs{
     this.board,
     this.grade,
     this.schoolVisitDate,
-    this.schoolVisitTime
+    this.schoolVisitTime,
+    this.formCompletionPercentage
   });
 }

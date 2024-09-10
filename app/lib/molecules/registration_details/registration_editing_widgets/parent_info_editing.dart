@@ -74,7 +74,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Adhar Card No",
+                          labelText: "Father's Aadhar Card No",
                           controller: model.fatherAdharCardController,
                           keyboardType: TextInputType.number,
                           maxLength: 14,
@@ -342,7 +342,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Adhar Card No",
+                          labelText: "Mother's Aadhar Card No",
                           controller: model.motherAdharCardController,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -351,7 +351,7 @@ class ParentInfoEditing extends StatelessWidget {
                           maxLength: 14,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
-                            "Mother's Adhar Card No",
+                            "Mother's Aadhar Card No",
                             checkSpecialCharacters: true,
                           ),
                         ),
@@ -635,7 +635,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Adhar Card No.",
+                          labelText: "Guardian's Aadhar Card No.",
                           controller: model.guardianAdharCardController,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -644,7 +644,7 @@ class ParentInfoEditing extends StatelessWidget {
                           maxLength: 14,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
-                            "Guardian's Adhar Card No",
+                            "Guardian's Aadhar Card No",
                             checkSpecialCharacters: true,
                           ),
                         ),

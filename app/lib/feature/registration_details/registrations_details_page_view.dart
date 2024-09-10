@@ -1,4 +1,3 @@
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
@@ -24,7 +23,6 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -131,7 +129,7 @@ class RegistrationsDetailsPageView
                     title: enquiryDetailArgs?.school??'',
                     subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
                     buttontext: "${enquiryDetailArgs?.currentStage}",
-                    compeletion: '25% Completed',
+                    compeletion: enquiryDetailArgs?.formCompletionPercentage == null ? '': (enquiryDetailArgs?.formCompletionPercentage??0).toString(),
                   ),
                   CommonSizedBox.sizedBox(height: 20, width: 10),
                   AppStreamBuilder<bool>(
@@ -248,7 +246,15 @@ class RegistrationsDetailsPageView
           onData: (value) {
           },
           dataBuilder: (context, data) {
-            return ParentInfoEditing(model: model);
+            if(data?.status == Status.loading){
+              return const Center(child: CircularProgressIndicator(),);
+            }
+            if(data?.status == Status.success){
+              return ParentInfoEditing(model: model);
+            }
+            else{
+              return ParentInfoEditing(model: model);
+            }
           },
         );
       case 2:
@@ -259,16 +265,35 @@ class RegistrationsDetailsPageView
             
           },
           dataBuilder: (context, data) {
-            return ContactInfoEditing(model: model);
+            if (data?.status == Status.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if(data?.status == Status.success){
+              return ContactInfoEditing(model: model);
+            }
+            else{
+              return ContactInfoEditing(model: model);
+            }
           },
         );
       case 3:
         return AppStreamBuilder<Resource<MedicalDetails>>(
           stream: model.medicalDetail,
           initialData: Resource.none(),
-          
           dataBuilder: (context, data) {
-            return MedicalDetailsEditing(model: model);
+            if (data?.status == Status.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if(data?.status == Status.success){
+              return MedicalDetailsEditing(model: model);
+            }
+            else{
+              return MedicalDetailsEditing(model: model);
+            }
           },
         );
       case 4:
@@ -279,7 +304,17 @@ class RegistrationsDetailsPageView
             
           },
           dataBuilder: (context, data) {
-            return BankDetailsEditing(model: model);
+            if (data?.status == Status.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if(data?.status == Status.success){
+              return BankDetailsEditing(model: model);
+            }
+            else{
+              return BankDetailsEditing(model: model);
+            }
           },
         );
       case 5:

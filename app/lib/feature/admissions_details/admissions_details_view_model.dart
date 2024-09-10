@@ -73,7 +73,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   EnquiryStage? getSchoolVisitStage() {
     return enquiryDetails.value.enquiryStage
         ?.firstWhere(
-          (element) => element.stageName?.contains('School Visit') ?? false,
+          (element) => element.stageName?.contains('School visit') ?? false,
           orElse: () => EnquiryStage(),
         );
   }

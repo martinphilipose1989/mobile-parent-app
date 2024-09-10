@@ -17,7 +17,7 @@ class BankDetailsEntity extends BaseLayerDataTransformer<BankDetailsEntity,BankD
     String? accountType;
     @JsonKey(name: 'accountNumber')
     String? accountNumber;
-    @JsonKey(name: 'upiInfo')
+    @JsonKey(name: 'upi')
     String? upiInfo;
 
     BankDetailsEntity({

@@ -83,7 +83,7 @@ class AdmissionsDetailsPageView
                   title: admissionDetail.school??'',
                   subtitle: "${admissionDetail.grade} | ${admissionDetail.board}",
                   buttontext: admissionDetail.currentStage??'',
-                  compeletion: '25% Completed',
+                  compeletion: "${(admissionDetail.formCompletionPercentage??0).toString()}% Completed",
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
                 Row(

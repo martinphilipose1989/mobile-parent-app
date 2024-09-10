@@ -45,13 +45,14 @@ class AdmissionsList extends StatelessWidget {
                     EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
                       enquiryId: admissionList?[index].enquiryId,
                       enquiryNumber: admissionList?[index].enquiryNumber,
-                      currentStage: admissionList?[index].enquiryStage,
+                      currentStage: admissionList?[index].currentStage,
                       enquiryType: admissionList?[index].enquiryType,
                       school: admissionList?[index].school,
                       studentName: admissionList?[index].studentName,
                       academicYear: admissionList?[index].academicYear,
                       board: admissionList?[index].board,
                       grade: admissionList?[index].grade,
+                      formCompletionPercentage: admissionList?[index].formCompletionPercentage
                     );
                     Navigator.pushNamed(context, RoutePaths.admissionsDetails,arguments: admissionDetail);
                   },
@@ -64,11 +65,11 @@ class AdmissionsList extends StatelessWidget {
                           image: AppImages.personIcon,
                           name: admissionList?[index].studentName??'',
                           year: admissionList?[index].academicYear??'',
-                          id: admissionList?[index].enquiryId??'',
+                          id: admissionList?[index].enquiryNumber??'',
                           title: admissionList?[index].school??'',
                           subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].grade??''}",
-                          buttontext: admissionList?[index].enquiryType??'',
-                          compeletion: admissionList?[index].enquiryStage??'',
+                          buttontext: admissionList?[index].currentStage??'',
+                          compeletion: "${(admissionList?[index].formCompletionPercentage??0).toString()}% Completed",
                         ),
                         const SizedBox(
                           height: 10,

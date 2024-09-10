@@ -227,7 +227,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController specifyMedicalHistoryController=TextEditingController();
   TextEditingController specifyAllergiesController=TextEditingController();
   TextEditingController personalisedLearningNeedsController=TextEditingController();
-  String? selectedBloodGroup;
+  BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
+  
 
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
@@ -431,34 +432,35 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       GetRegistrationDetailUsecaseParams(
           enquiryID: enquiryID, infoType: infoType);
 
-      parentDetail.add(Resource.loading());
-      contactDetail.add(Resource.loading());
-      medicalDetail.add(Resource.loading());
-      bankDetail.add(Resource.loading());
+      // parentDetail.add(Resource.loading());
+      // contactDetail.add(Resource.loading());
+      // medicalDetail.add(Resource.loading());
+      // bankDetail.add(Resource.loading());
 
       RequestManager<SingleResponse>(
         params,
         createCall: () => getRegistrationDetailUsecase.execute(params: params),
       ).asFlow().listen((result) {
-
-        if (infoType == 'ParentInfo') {
-          parentDetail.add(Resource.success(data: result.data?.data));
-          parentInfo = result.data?.data;
-          addParentDetails(result.data?.data??ParentInfo());
-        } else if (infoType == 'ContactInfo') {
-          contactDetail.add(Resource.success(data: result.data?.data));
-          contactDetails = result.data?.data;
-          addContactDetails(result.data?.data??ContactDetails());
-        } else if (infoType == 'MedicalInfo') {
-          medicalDetail.add(Resource.success(data: result.data?.data));
-          medicalDetails = result.data?.data;
-          addMedicalDetails( result.data?.data??MedicalDetails());
-        } else {
-          bankDetail.add(Resource.success(data: result.data?.data));
-          bankDetails = result.data?.data;
-          addBankDetails(result.data?.data??BankDetails());
-        }
-        isLoading.value = false;
+       if(result.status == Status.success){
+         if (infoType == 'ParentInfo') {
+            parentDetail.add(Resource.success(data: result.data?.data));
+            parentInfo = result.data?.data;
+            addParentDetails(result.data?.data ?? ParentInfo());
+          } else if (infoType == 'ContactInfo') {
+            contactDetail.add(Resource.success(data: result.data?.data));
+            contactDetails = result.data?.data;
+            addContactDetails(result.data?.data ?? ContactDetails());
+          } else if (infoType == 'MedicalInfo') {
+            medicalDetail.add(Resource.success(data: result.data?.data));
+            medicalDetails = result.data?.data;
+            addMedicalDetails(result.data?.data ?? MedicalDetails());
+          } else {
+            bankDetail.add(Resource.success(data: result.data?.data));
+            bankDetails = result.data?.data;
+            addBankDetails(result.data?.data ?? BankDetails());
+          }
+          isLoading.value = false;
+       }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -483,7 +485,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           parentDetail.add(Resource.success(data: result.data?.data));
           parentInfo = result.data?.data;
-          addParentDetails( result.data?.data??ParentInfo());
           ProviderScope
           .containerOf(context!)
           .read(commonChipListProvider)
@@ -562,7 +563,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
         contactDetail.add(Resource.success(data: result.data?.data));
         contactDetails = result.data?.data;
-        addContactDetails( result.data?.data??ContactDetails());
         ProviderScope
           .containerOf(context!)
           .read(commonChipListProvider)
@@ -601,7 +601,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           bankDetail.add(Resource.success(data: result.data?.data));
           bankDetails = result.data?.data;
-          addBankDetails( result.data?.data??BankDetails());
           ProviderScope
           .containerOf(context!)
           .read(commonChipListProvider)
@@ -783,7 +782,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         if(result.status == Status.success){
           isLoading.value = false;
-          newAdmissionDetailSubject?.add(result.data?.data?? NewAdmissionDetail());
           ProviderScope.containerOf(context!)
               .read(commonChipListProvider)
               .highlightIndex
@@ -1313,7 +1311,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
     specifyMedicalHistoryController.text = medicalDetails.medicalHistoryDescription??"";
     specifyAllergiesController.text = medicalDetails.allergyDescription??"";
-    selectedBloodGroup = medicalDetails.bloodGroup??"";
+    selectedBloodGroup.value = ((medicalDetails.bloodGroup??"").toString() == "N/A") ? "" : (medicalDetails.bloodGroup??"").toString();
     personalisedLearningNeedsController.text = medicalDetails.personalisedLearningNeedsDescription??'';
     radioButtonController4.selectItem((medicalDetails.isChildHospitalised??false) ? "Yes": "No");
     radioButtonController5.selectItem((medicalDetails.hasPhysicalDisability??false)? "Yes": "No");

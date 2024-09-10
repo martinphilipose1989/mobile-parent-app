@@ -188,14 +188,14 @@ class MedicalDetailsEditing extends StatelessWidget {
                   showAstreik: true,
                   onMultiSelect: (selectedValues) {},
                   showBorderColor: true,
+                  singleSelectItemSubject: model.selectedBloodGroup,
                   onSingleSelect: (val){
                     var bloodGroup = model.bloodGroupAttribute?.firstWhere((element)=> (element.attributes?.group??'').contains(val));
-                    model.selectedBloodGroup = val;
+                    model.selectedBloodGroup.value = val;
                     CommonDataClass group = CommonDataClass();
                     group.id = bloodGroup?.id;
                     group.value = bloodGroup?.attributes?.group;
                     model.selectedBloodGroupEntity = group;
-                    model.selectedBloodGroup;
                   },
                   validator: (value)=> AppValidators.validateDropdown(value, 'Blood group'),
               );

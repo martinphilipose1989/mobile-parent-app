@@ -111,7 +111,7 @@ class RegistrationDetailsValidator{
       List<Map<String, dynamic>> fatherFields = [
         {'field': "Father's First Name", 'controller': model.fatherFirstNameController},
         {'field': "Father's Last Name", 'controller': model.fatherLastNameController},
-        {'field': "Father's Adhar Card No", 'controller': model.fatherAdharCardController},
+        {'field': "Father's Aadhar Card No", 'controller': model.fatherAdharCardController},
         {'field': "Father's Pan Card No", 'controller': model.fatherPanCardController},
         {'field': "Father's Qualification", 'controller': model.qualificationController},
         {'field': "Father's Email ID", 'controller': model.fatherEmailController},
@@ -122,7 +122,7 @@ class RegistrationDetailsValidator{
       List<Map<String, dynamic>> motherFields = [
         {'field': "Mother's First Name", 'controller': model.motherFirstNameController},
         {'field': "Mother's Last Name", 'controller': model.motherLastNameController},
-        {'field': "Mother's Adhar Card No", 'controller': model.motherAdharCardController},
+        {'field': "Mother's Aadhar Card No", 'controller': model.motherAdharCardController},
         {'field': "Mother's Pan Card No", 'controller': model.motherPanCardController},
         {'field': "Mother's Qualification", 'controller': model.motherQualificationController},
         {'field': "Mother's Email ID", 'controller': model.motherEmailController},
@@ -174,7 +174,7 @@ class RegistrationDetailsValidator{
           //     field['controller']!.text.trim(),
           //   );
           // }
-          if(field['field'].toString().contains('Adhar')){
+          if(field['field'].toString().contains('Aadhar')){
             validationResult = AppValidators.validateNotEmpty(
               field['controller']!.text.trim(),
               field['field'].toString(),
@@ -267,51 +267,52 @@ class RegistrationDetailsValidator{
   }
 
   void validateBankDetails(BuildContext context) {
+    model.saveBankDetails(model.enquiryDetailArgs?.enquiryId ?? '');
     
-    String errorMessage = '';
+    // String errorMessage = '';
       
-      List<Map<String, dynamic>> bankFields = [
-        {'field': 'IFSC Code', 'controller': model.ifscCodeController, 'minLength': 9},
-        {'field': 'Bank Name', 'controller': model.bankNameController},
-        {'field': 'Branch Name', 'controller': model.branchNameController},
-        {'field': 'Account Holder Name', 'controller': model.accountHolderNameController},
-        {'field': 'Account Type', 'controller': model.accountTypeController},
-        {'field': 'Account Number', 'controller': model.accountNumberController, 'minLength': 10},
-        {'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
-      ];
+    //   List<Map<String, dynamic>> bankFields = [
+    //     {'field': 'IFSC Code', 'controller': model.ifscCodeController, 'minLength': 9},
+    //     {'field': 'Bank Name', 'controller': model.bankNameController},
+    //     {'field': 'Branch Name', 'controller': model.branchNameController},
+    //     {'field': 'Account Holder Name', 'controller': model.accountHolderNameController},
+    //     {'field': 'Account Type', 'controller': model.accountTypeController},
+    //     {'field': 'Account Number', 'controller': model.accountNumberController, 'minLength': 10},
+    //     {'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
+    //   ];
 
-      for (var field in bankFields) {
-        String? validationResult = AppValidators.validateNotEmpty(
-          field['controller']!.text.trim(),
-          field['field'] as String,
-          checkSpecialCharacters: false,
-          validateLength: field.containsKey('minLength'),
-          minLength: field['minLength'] as int?,
-        );
-        if (validationResult != null) {
-          errorMessage = validationResult;
-          break;
-        }
-      }
+    //   for (var field in bankFields) {
+    //     String? validationResult = AppValidators.validateNotEmpty(
+    //       field['controller']!.text.trim(),
+    //       field['field'] as String,
+    //       checkSpecialCharacters: false,
+    //       validateLength: field.containsKey('minLength'),
+    //       minLength: field['minLength'] as int?,
+    //     );
+    //     if (validationResult != null) {
+    //       errorMessage = validationResult;
+    //       break;
+    //     }
+    //   }
     
 
-    // Validate terms and conditions acceptance
-    if (model.radioButtonController6.selectedItem != 'I accept the terms & conditions') {
-      errorMessage = 'Please accept the terms and conditions';
-    }
+    // // Validate terms and conditions acceptance
+    // if (model.radioButtonController6.selectedItem != 'I accept the terms & conditions') {
+    //   errorMessage = 'Please accept the terms and conditions';
+    // }
 
-    if (errorMessage.isNotEmpty) {
-      // Show snackbar with error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
+    // if (errorMessage.isNotEmpty) {
+    //   // Show snackbar with error message
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text(errorMessage),
           
-        ),
-      );
-    } else {
-      // All validations passed
-      model.saveBankDetails(model.enquiryDetailArgs?.enquiryId??'');
-    }
+    //     ),
+    //   );
+    // } else {
+    //   // All validations passed
+    //   model.saveBankDetails(model.enquiryDetailArgs?.enquiryId??'');
+    // }
   }
 
   void validateContactDetails(BuildContext context) {
@@ -364,15 +365,24 @@ class RegistrationDetailsValidator{
         {'field': 'House No./ Building', 'controller': model.houseOrBuildingController},
         {'field': 'Street Name', 'controller': model.streetNameController},
         {'field': 'Landmark', 'controller': model.landMarkController},
+        {'field': 'Pin Code', 'value': model.residentialPinCodeController},
       ];
 
       if (errorMessage.isEmpty) {
         for (var field in residentialFields) {
-          String? validationResult = AppValidators.validateNotEmpty(
-            field['controller']!.text.trim(),
-            field['field'] as String,
-            checkSpecialCharacters: true,
-          );
+          String? validationResult;
+          if(field["field"].toString().contains("Pin")){
+            validationResult = AppValidators.validatePinCode(
+              field['controller']!.text.trim(),
+            );
+          }
+          else{
+            validationResult = AppValidators.validateNotEmpty(
+              field['controller']!.text.trim(),
+              field['field'] as String,
+              checkSpecialCharacters: true,
+            );
+          }
           if (validationResult != null) {
             errorMessage = validationResult;
             break;
@@ -386,7 +396,6 @@ class RegistrationDetailsValidator{
           {'field': 'Country', 'value': model.selectedResidentialCountry.value},
           {'field': 'State', 'value': model.selectedResidentialState.value},
           {'field': 'City', 'value': model.selectedResidentialCity.value},
-          {'field': 'Pin Code', 'value': model.residentialPinCode},
         ];
 
         for (var dropdown in dropdowns) {
@@ -507,7 +516,7 @@ class RegistrationDetailsValidator{
 
       // Validate Blood Group dropdown
       if (errorMessage.isEmpty) {
-        String? validationResult = AppValidators.validateDropdown(model.selectedBloodGroup, 'Blood Group');
+        String? validationResult = AppValidators.validateDropdown(model.selectedBloodGroup.valueOrNull, 'Blood Group');
         if (validationResult != null) {
           errorMessage = validationResult;
         }

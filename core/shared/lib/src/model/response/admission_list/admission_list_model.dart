@@ -7,7 +7,9 @@ class AdmissionListDetailModel {
     String? board;
     String? grade;
     String? enquiryNumber;
-    String? enquiryStage;
-    String? nextAction;
+    String? currentStage;
+    String? schoolVisitDate;
+    String? schoolVisitTime;
+    int? formCompletionPercentage;
 
 }

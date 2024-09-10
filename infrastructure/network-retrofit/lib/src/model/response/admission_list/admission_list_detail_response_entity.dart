@@ -21,10 +21,14 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
     String? grade;
     @JsonKey(name: 'enquiryNumber')
     String? enquiryNumber;
-    @JsonKey(name: 'enquiryStage')
-    String? enquiryStage;
-    @JsonKey(name: 'nextAction')
-    String? nextAction;
+    @JsonKey(name: 'currentStage')
+    String? currentStage;
+    @JsonKey(name: 'schoolVisitDate')
+    String? schoolVisitDate;
+    @JsonKey(name: 'schoolVisitTime')
+    String? schoolVisitTime;
+    @JsonKey(name: 'formCompletionPercentage')
+    int? formCompletionPercentage;
 
     AdmissionListDetailResponseEntity({
         this.enquiryType,
@@ -35,8 +39,10 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
         this.board,
         this.grade,
         this.enquiryNumber,
-        this.enquiryStage,
-        this.nextAction,
+        this.currentStage,
+        this.schoolVisitDate,
+        this.schoolVisitTime,
+        this.formCompletionPercentage,
     });
 
   factory AdmissionListDetailResponseEntity.fromJson(Map<String, dynamic> json) =>
@@ -54,8 +60,10 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
     admissionListDetailModel.school = school;
     admissionListDetailModel.board = board;
     admissionListDetailModel.grade = grade;
-    admissionListDetailModel.enquiryStage = enquiryStage;
-    admissionListDetailModel.nextAction = nextAction;
+    admissionListDetailModel.currentStage = currentStage;
+    admissionListDetailModel.schoolVisitDate = schoolVisitDate;
+    admissionListDetailModel.schoolVisitTime = schoolVisitTime;
+    admissionListDetailModel.formCompletionPercentage = formCompletionPercentage;
 
     return admissionListDetailModel;
   }

@@ -38,7 +38,7 @@ class ParentDetail extends StatelessWidget {
                         title: "Father's First Name", subtitle: parentInfo?.fatherDetails?.firstName??''),
                     DetailsItem(title: "Father's Last Name", subtitle: parentInfo?.fatherDetails?.lastName??''),
                     DetailsItem(
-                        title: "Father's Adhar Card No",
+                        title: "Father's Aadhar Card No",
                         subtitle: parentInfo?.fatherDetails?.aadharNumber??''),
                     DetailsItem(
                         title: "Father's Pan Card No", subtitle: parentInfo?.fatherDetails?.panNumber??''),
@@ -92,7 +92,7 @@ class ParentDetail extends StatelessWidget {
                         title: "Mother's First Name", subtitle: parentInfo?.motherDetails?.firstName??''),
                     DetailsItem(title: "Mother's Last Name", subtitle: parentInfo?.motherDetails?.lastName??''),
                     DetailsItem(
-                        title: "Mother's Adhar Card No",
+                        title: "Mother's Aadhar Card No",
                         subtitle: parentInfo?.motherDetails?.aadharNumber??''),
                     DetailsItem(
                         title: "Mother's Pan Card No", subtitle: parentInfo?.motherDetails?.panNumber??''),
@@ -146,7 +146,7 @@ class ParentDetail extends StatelessWidget {
                         title: "Gurdian's First Name", subtitle: parentInfo?.guardianDetails?.firstName??''),
                     DetailsItem(title: "Gurdian's Last Name", subtitle: parentInfo?.guardianDetails?.lastName??''),
                     DetailsItem(
-                        title: "Gurdian's Adhar Card No",
+                        title: "Gurdian's Aadhar Card No",
                         subtitle: parentInfo?.guardianDetails?.aadharNumber??''),
                     DetailsItem(
                         title: "Gurdian's Pan Card No", subtitle: parentInfo?.guardianDetails?.panNumber??''),
