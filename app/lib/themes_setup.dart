@@ -41,6 +41,8 @@ class AppColors {
   static const Color textPalerGray = Color(0xFFEBEBEB);
 
   static const Color listItem = Color(0xFFF7F7FF);
+
+  static const Color dividerColor = Color(0xFFE0E0E0);
 }
 
 List<ThemeData> getThemes(BuildContext context) {

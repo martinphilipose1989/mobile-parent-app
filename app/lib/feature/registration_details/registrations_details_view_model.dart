@@ -44,16 +44,33 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   final DownloadFileUsecase downloadFileUsecase;
 
-  RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
-      this.getRegistrationDetailUsecase, this.getNewAdmissionDetailUseCase,
-      this.getIvtDetailUsecase, this.getPsaDetailUsecase,this.getEnquiryDetailUseCase,
-      this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase,
-      this.updateContactDetailsUsecase,this.updatePsaDetailUsecase,this.updateIvtDetailUsecase,
-      this.updateNewAdmissionUsecase,this.getMdmAttributeUsecase,this.downloadEnquiryDocumentUsecase,
-      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase,this.downloadFileUsecase) ;
+  RegistrationsDetailsViewModel(
+      this.exceptionHandlerBinder,
+      this.getRegistrationDetailUsecase,
+      this.getNewAdmissionDetailUseCase,
+      this.getIvtDetailUsecase,
+      this.getPsaDetailUsecase,
+      this.getEnquiryDetailUseCase,
+      this.updateParentDetailsUsecase,
+      this.updateMedicalDetailsUsecase,
+      this.updateBankDetailsUsecase,
+      this.updateContactDetailsUsecase,
+      this.updatePsaDetailUsecase,
+      this.updateIvtDetailUsecase,
+      this.updateNewAdmissionUsecase,
+      this.getMdmAttributeUsecase,
+      this.downloadEnquiryDocumentUsecase,
+      this.uploadEnquiryDocumentUsecase,
+      this.deleteEnquiryDocumentUsecase,
+      this.downloadFileUsecase);
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
+    {
+      'name': "Select Subject",
+      'isSelected': false,
+      'infoType': 'Subject Infoi'
+    },
     {'name': 'Parent Info', 'isSelected': false, 'infoType': 'ParentInfo'},
     {'name': 'Contact Info', 'isSelected': false, 'infoType': 'ContactInfo'},
     {'name': 'Medical Details', 'isSelected': false, 'infoType': 'MedicalInfo'},
@@ -71,12 +88,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 
-  final List<String> occupation=['Government','Private','Business'];
-  final List<String> area=['Metro','Urban','SubUrban','Town'];
+  final List<String> occupation = ['Government', 'Private', 'Business'];
+  final List<String> area = ['Metro', 'Urban', 'SubUrban', 'Town'];
   // final List<String> country=['India','Pakistan','Nepal','Bangladesh'];
   // final List<String> state=['Maharashtra','Gujarat','Madhya Pradesh'];
   // final List<String> city=['Mumbai, Ahmedabad, Nagpur'];
-  final List<String> grade = ['A','B','C','D'];
+  final List<String> grade = ['A', 'B', 'C', 'D'];
   final List<String> contactRelationshipOptions = [
     'Father',
     'Mother',
@@ -107,26 +124,35 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   EnquiryDetail? enquiryDetails;
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(false);
-  final PublishSubject<Resource<ParentInfo>> parentDetail =
-  PublishSubject();
+  final PublishSubject<Resource<ParentInfo>> parentDetail = PublishSubject();
   final PublishSubject<Resource<ContactDetails>> contactDetail =
-  PublishSubject();
+      PublishSubject();
   final PublishSubject<Resource<MedicalDetails>> medicalDetail =
-  PublishSubject();
+      PublishSubject();
   final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
 
-  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetails = PublishSubject();
-  Stream<Resource<NewAdmissionBase>> get newAdmissionDetails => _newAdmissionDetails.stream;
+  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetails =
+      PublishSubject();
+  Stream<Resource<NewAdmissionBase>> get newAdmissionDetails =>
+      _newAdmissionDetails.stream;
   PublishSubject<Resource<IVTDetail>> ivtDetails = PublishSubject();
   PublishSubject<Resource<PSADetail>> psaDetails = PublishSubject();
-  final PublishSubject<Resource<EnquiryDetailBase>> _enquiryDetail = PublishSubject();
-  Stream<Resource<EnquiryDetailBase>> get enquiryDetail => _enquiryDetail.stream;
-  BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetailSubject = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
-  BehaviorSubject<IVTDetail>? ivtDetailSubject = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
-  BehaviorSubject<PSADetail>? psaDetailSubject = BehaviorSubject<PSADetail>.seeded(PSADetail());
-  PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile = PublishSubject();
-  PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile = PublishSubject();
-  PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile = PublishSubject();
+  final PublishSubject<Resource<EnquiryDetailBase>> _enquiryDetail =
+      PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get enquiryDetail =>
+      _enquiryDetail.stream;
+  BehaviorSubject<NewAdmissionDetail>? newAdmissionDetailSubject =
+      BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
+  BehaviorSubject<IVTDetail>? ivtDetailSubject =
+      BehaviorSubject<IVTDetail>.seeded(IVTDetail());
+  BehaviorSubject<PSADetail>? psaDetailSubject =
+      BehaviorSubject<PSADetail>.seeded(PSADetail());
+  PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile =
+      PublishSubject();
+  PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile =
+      PublishSubject();
+  PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile =
+      PublishSubject();
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -152,14 +178,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   CommonDataClass? selectedFatherStateEntity;
   CommonDataClass? selectedFatherCityEntity;
 
-
 //motherEditController
   TextEditingController motherFirstNameController = TextEditingController();
   TextEditingController motherLastNameController = TextEditingController();
   TextEditingController motherAdharCardController = TextEditingController();
   TextEditingController motherPanCardController = TextEditingController();
   TextEditingController motherQualificationController = TextEditingController();
-  TextEditingController motherOrganizationNameController = TextEditingController();
+  TextEditingController motherOrganizationNameController =
+      TextEditingController();
   TextEditingController motherDesignationController = TextEditingController();
   TextEditingController motherOfficeAddressController = TextEditingController();
   TextEditingController motherPinCodeController = TextEditingController();
@@ -176,11 +202,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianLastNameController = TextEditingController();
   TextEditingController guardianAdharCardController = TextEditingController();
   TextEditingController guardianPanCardController = TextEditingController();
-  TextEditingController relationshipWithChildController = TextEditingController();
-  TextEditingController guardianQualificationController = TextEditingController();
-  TextEditingController guardianOrganizationNameController = TextEditingController();
+  TextEditingController relationshipWithChildController =
+      TextEditingController();
+  TextEditingController guardianQualificationController =
+      TextEditingController();
+  TextEditingController guardianOrganizationNameController =
+      TextEditingController();
   TextEditingController guardianDesignationController = TextEditingController();
-  TextEditingController guardianOfficeAddressController = TextEditingController();
+  TextEditingController guardianOfficeAddressController =
+      TextEditingController();
   TextEditingController guardianPinCodeController = TextEditingController();
   TextEditingController guardianEmailController = TextEditingController();
   TextEditingController guardianMobileController = TextEditingController();
@@ -199,9 +229,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   String? siblingGrade;
 
   //ResidentialDetails
-  TextEditingController houseOrBuildingController= TextEditingController();
+  TextEditingController houseOrBuildingController = TextEditingController();
   TextEditingController streetNameController = TextEditingController();
-  TextEditingController landMarkController =TextEditingController();
+  TextEditingController landMarkController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
   TextEditingController parentEmailIdController1 = TextEditingController();
   TextEditingController parentMobileNumberController1 = TextEditingController();
@@ -218,65 +248,79 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   String? residentialPinCode;
   BehaviorSubject<String> selectedResidentialCity = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedResidentialState = BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedResidentialCountry = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedResidentialCountry =
+      BehaviorSubject.seeded('');
 
   //YearOfHospitalization
-  TextEditingController yearOfHospitalizationController=TextEditingController();
-  TextEditingController reasonOfHospitalizationController=TextEditingController();
-  TextEditingController specificDisabilityController=TextEditingController();
-  TextEditingController specifyMedicalHistoryController=TextEditingController();
-  TextEditingController specifyAllergiesController=TextEditingController();
-  TextEditingController personalisedLearningNeedsController=TextEditingController();
+  TextEditingController yearOfHospitalizationController =
+      TextEditingController();
+  TextEditingController reasonOfHospitalizationController =
+      TextEditingController();
+  TextEditingController specificDisabilityController = TextEditingController();
+  TextEditingController specifyMedicalHistoryController =
+      TextEditingController();
+  TextEditingController specifyAllergiesController = TextEditingController();
+  TextEditingController personalisedLearningNeedsController =
+      TextEditingController();
   BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
-  
 
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
-  TextEditingController branchNameController= TextEditingController();
+  TextEditingController branchNameController = TextEditingController();
   TextEditingController accountHolderNameController = TextEditingController();
-  TextEditingController accountTypeController =TextEditingController();
+  TextEditingController accountTypeController = TextEditingController();
   TextEditingController accountNumberController = TextEditingController();
   TextEditingController upiController = TextEditingController();
 
   //New Admission Details
-   TextEditingController enquiryDateController = TextEditingController();
-   TextEditingController enquiryNumberController = TextEditingController();
-   TextEditingController enquiryTypeController = TextEditingController();
-   TextEditingController studentFirstNameController = TextEditingController();
-   TextEditingController studentLastNameController = TextEditingController();
-   TextEditingController dobController = TextEditingController()  ;
-   TextEditingController existingSchoolNameController = TextEditingController();
-   TextEditingController fatherGlobalIdController = TextEditingController();
-   TextEditingController motherGlobalIdController = TextEditingController();
-   TextEditingController parentTypeController = TextEditingController();
-   TextEditingController studentsFatherFirstNameController = TextEditingController();
-   TextEditingController studentsFatherLastNameController = TextEditingController();
-   TextEditingController studentsFatherContactController = TextEditingController();
-   TextEditingController studentsFatherEmailController = TextEditingController();
-   TextEditingController studentsMotherFirstNameController = TextEditingController();
-   TextEditingController studentsMotherLastNameController = TextEditingController();
-   TextEditingController studentsMotherContactController = TextEditingController();
-   TextEditingController studentsMotherEmailController = TextEditingController();
+  TextEditingController enquiryDateController = TextEditingController();
+  TextEditingController enquiryNumberController = TextEditingController();
+  TextEditingController enquiryTypeController = TextEditingController();
+  TextEditingController studentFirstNameController = TextEditingController();
+  TextEditingController studentLastNameController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController existingSchoolNameController = TextEditingController();
+  TextEditingController fatherGlobalIdController = TextEditingController();
+  TextEditingController motherGlobalIdController = TextEditingController();
+  TextEditingController parentTypeController = TextEditingController();
+  TextEditingController studentsFatherFirstNameController =
+      TextEditingController();
+  TextEditingController studentsFatherLastNameController =
+      TextEditingController();
+  TextEditingController studentsFatherContactController =
+      TextEditingController();
+  TextEditingController studentsFatherEmailController = TextEditingController();
+  TextEditingController studentsMotherFirstNameController =
+      TextEditingController();
+  TextEditingController studentsMotherLastNameController =
+      TextEditingController();
+  TextEditingController studentsMotherContactController =
+      TextEditingController();
+  TextEditingController studentsMotherEmailController = TextEditingController();
 
- //PSA-specific controllers
-   BehaviorSubject<String> psaSubTypeSubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaCategorySubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaSubCategorySubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> periodOfServiceSubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
- //IVT-specific controllers
-    BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
+  //PSA-specific controllers
+  BehaviorSubject<String> psaSubTypeSubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaCategorySubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaSubCategorySubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> periodOfServiceSubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
+  //IVT-specific controllers
+  BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
 
-    TextEditingController religionController = TextEditingController();
-    TextEditingController placeOfBirthController = TextEditingController();
-    TextEditingController motherTongueController = TextEditingController();
-    TextEditingController casteController = TextEditingController();
-    TextEditingController subCasteController = TextEditingController();
-    TextEditingController nationalityController = TextEditingController();
+  TextEditingController religionController = TextEditingController();
+  TextEditingController placeOfBirthController = TextEditingController();
+  TextEditingController motherTongueController = TextEditingController();
+  TextEditingController casteController = TextEditingController();
+  TextEditingController subCasteController = TextEditingController();
+  TextEditingController nationalityController = TextEditingController();
 
   final BehaviorSubject<bool> selectedGradeType =
       BehaviorSubject<bool>.seeded(false);
@@ -311,53 +355,90 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedShift =
       BehaviorSubject<bool>.seeded(false);
 
-  
+  final BehaviorSubject<String> selectedGradeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedSchoolLocationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolGradeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolBoardSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedParentTypeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGenderSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianCountrySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianStateSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianCitySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianAreaSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianOccupationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherCountrySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherStateSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherCitySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherOccupationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherAreaSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherCountrySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherStateSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherCitySubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherAreaSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherOccupationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<bool> selectedGenerType =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<List<String>> schoolLocationTypes =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGuardianCountrySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGuardianStateSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGuardianCitySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGuardianAreaSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGuardianOccupationSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedFatherCountrySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedFatherStateSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedFatherCitySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedFatherOccupationSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedFatherAreaSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedMotherCountrySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedMotherStateSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedMotherCitySubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedMotherAreaSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedMotherOccupationSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
-  final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
+  final List<String> parentType = ["Mother", "Father"];
 
-  final List<String> parentType = ["Mother","Father"];
+  final BehaviorSubject<List<String>> existingSchoolGrade =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> existingSchoolBoard =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gradeTypes =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> gradeTypes = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaSubType =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaSubCategory =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaCategory =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> periodOfService =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaBatch =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> psaSubType = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaSubCategory = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaCategory = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> periodOfService = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaBatch = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gender =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> gender = BehaviorSubject<List<String>>.seeded([]);
-
-  final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> country = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> state = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> city = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> bloodGroup = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> stream =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> course =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> shift =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> country =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> state =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> city =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> bloodGroup =
+      BehaviorSubject<List<String>>.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -376,7 +457,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   List<MdmAttributeModel>? cityAttribute;
   List<MdmAttributeModel>? bloodGroupAttribute;
 
-  CommonDataClass? selectedSchoolLocationEntity; 
+  CommonDataClass? selectedSchoolLocationEntity;
   CommonDataClass? selectedGradeEntity;
   CommonDataClass? selectedGenderEntity;
   CommonDataClass? selectedExistingSchoolBoardEntity;
@@ -398,39 +479,35 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
 
-
   EnquiryStage? getSchoolVisitStage() {
-    return enquiryDetails?.enquiryStage
-        ?.firstWhere(
-          (element) => element.stageName?.contains('School visit') ?? false,
-          orElse: () => EnquiryStage(),
-        );
+    return enquiryDetails?.enquiryStage?.firstWhere(
+      (element) => element.stageName?.contains('School visit') ?? false,
+      orElse: () => EnquiryStage(),
+    );
   }
 
   EnquiryStage? getCompetencyStage() {
-    return enquiryDetails?.enquiryStage
-        ?.firstWhere(
-          (element) => element.stageName?.contains('Competency test') ?? false,
-          orElse: () => EnquiryStage(),
-        );
+    return enquiryDetails?.enquiryStage?.firstWhere(
+      (element) => element.stageName?.contains('Competency test') ?? false,
+      orElse: () => EnquiryStage(),
+    );
   }
 
-  bool isDetailView(){
+  bool isDetailView() {
     final schoolVisitStage = getSchoolVisitStage();
     return schoolVisitStage?.status == "In Progress";
   }
 
-
-  bool isDetailViewCompetency(){
-    final competencyStage =  getCompetencyStage();
+  bool isDetailViewCompetency() {
+    final competencyStage = getCompetencyStage();
     return competencyStage?.status == "In Progress";
   }
 
-  Future<void> fetchAllDetails(String enquiryID,String infoType) async {
+  Future<void> fetchAllDetails(String enquiryID, String infoType) async {
     exceptionHandlerBinder.handle(block: () {
       GetRegistrationDetailUsecaseParams params =
-      GetRegistrationDetailUsecaseParams(
-          enquiryID: enquiryID, infoType: infoType);
+          GetRegistrationDetailUsecaseParams(
+              enquiryID: enquiryID, infoType: infoType);
 
       // parentDetail.add(Resource.loading());
       // contactDetail.add(Resource.loading());
@@ -441,8 +518,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         params,
         createCall: () => getRegistrationDetailUsecase.execute(params: params),
       ).asFlow().listen((result) {
-       if(result.status == Status.success){
-         if (infoType == 'ParentInfo') {
+        if (result.status == Status.success) {
+          if (infoType == 'ParentInfo') {
             parentDetail.add(Resource.success(data: result.data?.data));
             parentInfo = result.data?.data;
             addParentDetails(result.data?.data ?? ParentInfo());
@@ -460,7 +537,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             addBankDetails(result.data?.data ?? BankDetails());
           }
           isLoading.value = false;
-       }
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -468,33 +545,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-
-
-  Future<void> updateParentDetail(String enquiryID,
-      ParentInfoEntity parentInfoEntity) async {
+  Future<void> updateParentDetail(
+      String enquiryID, ParentInfoEntity parentInfoEntity) async {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateParentDetailsUsecaseParams(
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
       parentDetail.add(Resource.loading());
       isLoading.value = true;
-      RequestManager<SingleResponse>(
-          params,
-          createCall: () => updateParentDetailsUsecase.execute(params: params)
-
-      ).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<SingleResponse>(params,
+              createCall: () =>
+                  updateParentDetailsUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           parentDetail.add(Resource.success(data: result.data?.data));
           parentInfo = result.data?.data;
-          ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .add(ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .value +1
-          );
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
           isLoading.value = false;
           showWidget.add(showWidget.value + 1);
           fetchAllDetails(enquiryID, "ContactInfo");
@@ -509,35 +582,32 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-
-  Future<void> updateMedicalDetail(String enquiryID,
-      MedicalDetailsEntity medicalEntity) async {
+  Future<void> updateMedicalDetail(
+      String enquiryID, MedicalDetailsEntity medicalEntity) async {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateMedicalDetailsUsecaseParams(
           enquiryID: enquiryID, medicalDetails: medicalEntity);
       isLoading.value = true;
-      RequestManager<SingleResponse>(
-          params,
-          createCall: () =>
-              updateMedicalDetailsUsecase.execute(params: params)
-      ).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<SingleResponse>(params,
+              createCall: () =>
+                  updateMedicalDetailsUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           medicalDetail.add(Resource.success(data: result.data?.data));
-        medicalDetails = result.data?.data;
-        ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .add(ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .value +1
-        );
-        isLoading.value = false;
-        fetchAllDetails(enquiryID, "BankInfo");
-        showWidget.add(showWidget.value + 1);
-        controller.animateTo((showWidget.value + 1) * 50,
+          medicalDetails = result.data?.data;
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          isLoading.value = false;
+          fetchAllDetails(enquiryID, "BankInfo");
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
         }
@@ -548,35 +618,32 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-
-  Future<void> updateContactDetail(String enquiryID,
-      ContactDetailsEntity contactInfoEntity) async {
+  Future<void> updateContactDetail(
+      String enquiryID, ContactDetailsEntity contactInfoEntity) async {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateContactDetailsUsecaseParams(
           enquiryID: enquiryID, contactDetails: contactInfoEntity);
-          isLoading.value = true;
-      RequestManager<SingleResponse>(
-          params,
-          createCall: () =>
-              updateContactDetailsUsecase.execute(params: params)
-      ).asFlow().listen((result) {
-        if(result.status == Status.success){
-        contactDetail.add(Resource.success(data: result.data?.data));
-        contactDetails = result.data?.data;
-        ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .add(ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .value +1
-          );
-        isLoading.value = false;
-        fetchAllDetails(enquiryID, "MedicalInfo");
-        showWidget.add(showWidget.value + 1);
-        controller.animateTo((showWidget.value + 1) * 50,
+      isLoading.value = true;
+      RequestManager<SingleResponse>(params,
+              createCall: () =>
+                  updateContactDetailsUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
+          contactDetail.add(Resource.success(data: result.data?.data));
+          contactDetails = result.data?.data;
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          isLoading.value = false;
+          fetchAllDetails(enquiryID, "MedicalInfo");
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
         }
@@ -587,30 +654,28 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> updateBankDetail(String enquiryID,
-      BankDetailsEntity bankDetailEntity) async {
+  Future<void> updateBankDetail(
+      String enquiryID, BankDetailsEntity bankDetailEntity) async {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateBankDetailsUsecaseParams(
           enquiryID: enquiryID, bankDetails: bankDetailEntity);
-          isLoading.add(true);
-      RequestManager<SingleResponse>(
-          params,
-          createCall: () =>
-              updateBankDetailsUsecase.execute(params: params)
-      ).asFlow().listen((result) {
-        if(result.status == Status.success){
+      isLoading.add(true);
+      RequestManager<SingleResponse>(params,
+              createCall: () =>
+                  updateBankDetailsUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           bankDetail.add(Resource.success(data: result.data?.data));
           bankDetails = result.data?.data;
-          ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .add(ProviderScope
-          .containerOf(context!)
-          .read(commonChipListProvider)
-          .highlightIndex
-          .value +1
-          );
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
           isLoading.value = false;
           getEnquiryDetail(enquiryID: enquiryID);
           showWidget.add(showWidget.value + 1);
@@ -625,24 +690,27 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
+  Future<void> getNewAdmissionDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
-      GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
+      GetNewAdmissionDetailUseCaseParams params =
+          GetNewAdmissionDetailUseCaseParams(
         enquiryID: enquiryID,
       );
 
       RequestManager<NewAdmissionBase>(
         params,
-        createCall: () =>
-            getNewAdmissionDetailUseCase.execute(
-              params: params,
-            ),
+        createCall: () => getNewAdmissionDetailUseCase.execute(
+          params: params,
+        ),
       ).asFlow().listen((result) {
         _newAdmissionDetails.add(result);
-        if(result.status == Status.success){
-          newAdmissionDetailSubject?.add(result.data?.data??NewAdmissionDetail());
-          if(isEdit){
-            addNewAdmissionDetails(result.data?.data??NewAdmissionDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        if (result.status == Status.success) {
+          newAdmissionDetailSubject
+              ?.add(result.data?.data ?? NewAdmissionDetail());
+          if (isEdit) {
+            addNewAdmissionDetails(result.data?.data ?? NewAdmissionDetail(),
+                enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
         // activeStep.add()
@@ -652,7 +720,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getIvtDetails({required String enquiryID,bool isEdit = false}) async {
+  Future<void> getIvtDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
         enquiryID: enquiryID,
@@ -660,15 +729,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
       RequestManager<IVTBase>(
         params,
-        createCall: () =>
-            getIvtDetailUsecase.execute(
-              params: params,
-            ),
+        createCall: () => getIvtDetailUsecase.execute(
+          params: params,
+        ),
       ).asFlow().listen((result) {
-        ivtDetails.add(
-            Resource.success(data: result.data?.data ?? IVTDetail()));
-        if(isEdit){
-          addIvtDetails(result.data?.data??IVTDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        ivtDetails
+            .add(Resource.success(data: result.data?.data ?? IVTDetail()));
+        if (isEdit) {
+          addIvtDetails(result.data?.data ?? IVTDetail(),
+              enquiryDetailArgs ?? EnquiryDetailArgs());
         }
         // activeStep.add()
       }).onError((error) {
@@ -677,7 +746,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getPsaDetails({required String enquiryID,bool isEdit = false}) async {
+  Future<void> getPsaDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
         enquiryID: enquiryID,
@@ -685,15 +755,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
       RequestManager<PsaResponse>(
         params,
-        createCall: () =>
-            getPsaDetailUsecase.execute(
-              params: params,
-            ),
+        createCall: () => getPsaDetailUsecase.execute(
+          params: params,
+        ),
       ).asFlow().listen((result) {
-        psaDetails.add(
-            Resource.success(data: result.data?.data ?? PSADetail()));
-        if(isEdit){
-          addPsaDetails(result.data?.data??PSADetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        psaDetails
+            .add(Resource.success(data: result.data?.data ?? PSADetail()));
+        if (isEdit) {
+          addPsaDetails(result.data?.data ?? PSADetail(),
+              enquiryDetailArgs ?? EnquiryDetailArgs());
         }
         // activeStep.add()
       }).onError((error) {
@@ -709,10 +779,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       );
       RequestManager<EnquiryDetailBase>(
         params,
-        createCall: () =>
-            getEnquiryDetailUseCase.execute(
-              params: params,
-            ),
+        createCall: () => getEnquiryDetailUseCase.execute(
+          params: params,
+        ),
       ).asFlow().listen((result) {
         _enquiryDetail.add(result);
         // activeStep.add()
@@ -722,21 +791,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> updatePsaDetails({required String enquiryID,required PsaDetailResponseEntity psaDetail}) async{
+  Future<void> updatePsaDetails(
+      {required String enquiryID,
+      required PsaDetailResponseEntity psaDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       UpdatePsaDetailUsecaseParams params = UpdatePsaDetailUsecaseParams(
-        enquiryID: enquiryID,
-        psaDetail: psaDetail
-      );
-      
+          enquiryID: enquiryID, psaDetail: psaDetail);
+
       RequestManager<PsaResponse>(
         params,
         createCall: () => updatePsaDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        psaDetailSubject?.add(result.data?.data?? PSADetail());
+        psaDetailSubject?.add(result.data?.data ?? PSADetail());
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -744,21 +812,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> updateIvtDetails({required String enquiryID,required IvtDetailResponseEntity ivtDetail}) async{
+  Future<void> updateIvtDetails(
+      {required String enquiryID,
+      required IvtDetailResponseEntity ivtDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       UpdateIvtDetailUsecaseParams params = UpdateIvtDetailUsecaseParams(
-        enquiryID: enquiryID,
-        ivtDetail: ivtDetail
-      );
-      
+          enquiryID: enquiryID, ivtDetail: ivtDetail);
+
       RequestManager<IVTBase>(
         params,
         createCall: () => updateIvtDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        ivtDetailSubject?.add(result.data?.data??IVTDetail());
+        ivtDetailSubject?.add(result.data?.data ?? IVTDetail());
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -766,13 +833,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> updateNewAdmissionDetails({required String enquiryID,required NewAdmissionDetailEntity newAdmissionDetail}) async{
+  Future<void> updateNewAdmissionDetails(
+      {required String enquiryID,
+      required NewAdmissionDetailEntity newAdmissionDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
-      UpdateNewAdmissionUsecaseUseCaseParams params = UpdateNewAdmissionUsecaseUseCaseParams(
-        enquiryID: enquiryID,
-        newAdmissionDetail: newAdmissionDetail
-      );
+      UpdateNewAdmissionUsecaseUseCaseParams params =
+          UpdateNewAdmissionUsecaseUseCaseParams(
+              enquiryID: enquiryID, newAdmissionDetail: newAdmissionDetail);
       isLoading.value = true;
       RequestManager<NewAdmissionBase>(
         params,
@@ -780,7 +847,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           isLoading.value = false;
           ProviderScope.containerOf(context!)
               .read(commonChipListProvider)
@@ -793,9 +860,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isLoading.value = false;
           fetchAllDetails(enquiryID, "ParentInfo");
           showWidget.add(showWidget.value + 1);
-          controller.animateTo((showWidget.value+1)*50, duration: const Duration(milliseconds: 500), curve: Curves.linear);
+          controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
         }
-        
       }).onError((error) {
         isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
@@ -814,69 +882,117 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(infoType == "grade"){
+        if (infoType == "grade") {
           gradeTypesAttribute = result.data?.data;
-          gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          gradeTypes.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "schoolLocation"){
+        if (infoType == "schoolLocation") {
           schoolLocationTypesAttribute = result.data?.data;
-          schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          schoolLocationTypes.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "gender"){
+        if (infoType == "gender") {
           genderAttribute = result.data?.data;
-          gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          gender.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "board"){
+        if (infoType == "board") {
           existingSchoolBoardAttribute = result.data?.data;
-          existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          existingSchoolBoard.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "psaCategory"){
+        if (infoType == "psaCategory") {
           psaCategoryAttribute = result.data?.data;
-          psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          psaCategory.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "psaSubCategory"){
+        if (infoType == "psaSubCategory") {
           psaSubCategoryAttribute = result.data?.data;
-          psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          psaSubCategory.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "psaSubType"){
+        if (infoType == "psaSubType") {
           psaSubTypeAttribute = result.data?.data;
-          psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          psaSubType.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "periodOfService"){
+        if (infoType == "periodOfService") {
           periodOfServiceAttribute = result.data?.data;
-          periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          periodOfService.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "batch"){
+        if (infoType == "batch") {
           psaBatchAttribute = result.data?.data;
-          psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          psaBatch.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "stream"){
+        if (infoType == "stream") {
           streamTypeAttribute = result.data?.data;
-          stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          stream.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "course"){
+        if (infoType == "course") {
           courseTypeAttribute = result.data?.data;
-          course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          course.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "shift"){
+        if (infoType == "shift") {
           shiftTypeAttribute = result.data?.data;
-          shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          shift.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "country"){
+        if (infoType == "country") {
           countryAttribute = result.data?.data;
-          country.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
-        } 
-        if(infoType == "state"){
+          country.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
+        }
+        if (infoType == "state") {
           stateAttribute = result.data?.data;
-          state.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          state.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "city"){
+        if (infoType == "city") {
           cityAttribute = result.data?.data;
-          city.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          city.add(result.data?.data
+                  ?.map((e) => e.attributes?.name ?? '')
+                  .toList() ??
+              []);
         }
-        if(infoType == "bloodGroup"){
+        if (infoType == "bloodGroup") {
           bloodGroupAttribute = result.data?.data;
-          bloodGroup.add(result.data?.data?.map((e)=> e.attributes?.group??'').toList()??[]);
+          bloodGroup.add(result.data?.data
+                  ?.map((e) => e.attributes?.group ?? '')
+                  .toList() ??
+              []);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -884,14 +1000,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file,int? index}) async{
+  Future<void> uploadEnquiryDocument(
+      {required String enquiryID,
+      required String documentID,
+      required File file,
+      int? index}) async {
     exceptionHandlerBinder.handle(block: () {
-      
-      UploadEnquiryDocumentUsecaseParams params = UploadEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        file: file
-      );
+      UploadEnquiryDocumentUsecaseParams params =
+          UploadEnquiryDocumentUsecaseParams(
+              documentID: documentID, enquiryID: enquiryID, file: file);
       isLoading.value = true;
       RequestManager<EnquiryFileUploadBase>(
         params,
@@ -899,9 +1016,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          uploadEnquiryFile.add(Resource.success(data: result.data?? EnquiryFileUploadBase()));
-          isDocumentUploaded[index??0].value = true;
+        if (result.status == Status.success) {
+          uploadEnquiryFile.add(
+              Resource.success(data: result.data ?? EnquiryFileUploadBase()));
+          isDocumentUploaded[index ?? 0].value = true;
           isLoading.value = false;
         }
         // activeStep.add()
@@ -912,10 +1030,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> deleteEnquiryDocument({required String enquiryID,required String documentID,int? index}) async{
+  Future<void> deleteEnquiryDocument(
+      {required String enquiryID,
+      required String documentID,
+      int? index}) async {
     exceptionHandlerBinder.handle(block: () {
-      
-      DeleteEnquiryDocumentUsecaseParams params = DeleteEnquiryDocumentUsecaseParams(
+      DeleteEnquiryDocumentUsecaseParams params =
+          DeleteEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
       );
@@ -926,9 +1047,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          deleteEnquiryFile.add(Resource.success(data: result.data?? DeleteEnquiryFileBase()));
-          isDocumentUploaded[index??0].value = false;
+        if (result.status == Status.success) {
+          deleteEnquiryFile.add(
+              Resource.success(data: result.data ?? DeleteEnquiryFileBase()));
+          isDocumentUploaded[index ?? 0].value = false;
           isLoading.value = false;
         }
         // activeStep.add()
@@ -939,10 +1061,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> downloadEnquiryDocument({required String enquiryID,required String documentID}) async{
+  Future<void> downloadEnquiryDocument(
+      {required String enquiryID, required String documentID}) async {
     exceptionHandlerBinder.handle(block: () {
-      
-      DownloadEnquiryDocumentUsecaseParams params = DownloadEnquiryDocumentUsecaseParams(
+      DownloadEnquiryDocumentUsecaseParams params =
+          DownloadEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
       );
@@ -953,9 +1076,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          getEnquiryFile.add(Resource.success(data: result.data?? DownloadEnquiryFileBase()));
-          downloadDocument(fileUrl: result.data?.data?['url']??'');
+        if (result.status == Status.success) {
+          getEnquiryFile.add(
+              Resource.success(data: result.data ?? DownloadEnquiryFileBase()));
+          downloadDocument(fileUrl: result.data?.data?['url'] ?? '');
         }
       }).onError((error) {
         isLoading.value = false;
@@ -964,34 +1088,35 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> downloadDocument({required String fileUrl}) async{
+  Future<void> downloadDocument({required String fileUrl}) async {
     exceptionHandlerBinder.handle(block: () {
-      DownloadFileUsecaseParams params = DownloadFileUsecaseParams(
-        fileUrl: fileUrl
-      );
+      DownloadFileUsecaseParams params =
+          DownloadFileUsecaseParams(fileUrl: fileUrl);
       RequestManager<Uint8List>(
         params,
         createCall: () => downloadFileUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) async{
-        if(result.status == Status.success){
+      ).asFlow().listen((result) async {
+        if (result.status == Status.success) {
           try {
             Directory? directory;
-            if(Platform.isAndroid){
+            if (Platform.isAndroid) {
               directory = Directory('storage/emulated/0/Download');
-            }
-            else{
+            } else {
               directory = await getApplicationDocumentsDirectory();
             }
             final fullPath = directory.path;
             final fileExtension = extractFileExtension(fileUrl);
-            final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+            final fileName =
+                '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
-            await file.writeAsBytes(result.data??Uint8List(0));
+            await file.writeAsBytes(result.data ?? Uint8List(0));
             isLoading.value = false;
             ScaffoldMessenger.of(context!).showSnackBar(
-              SnackBar(content: Text('File Downloaded Successfully at: ${file.path}')),
+              SnackBar(
+                  content:
+                      Text('File Downloaded Successfully at: ${file.path}')),
             );
           } catch (e) {
             isLoading.value = false;
@@ -1017,375 +1142,536 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     return null;
   }
 
-  addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
+  addNewAdmissionDetails(
+      NewAdmissionDetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
-    enquiryDateController.text = detail.enquiryDate??'';
+    enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob??'').replaceAll('-', '/'); 
-    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
-    religionController.text = detail.studentDetails?.religion??'';
-    casteController.text = detail.studentDetails?.caste??'';
-    subCasteController.text = detail.studentDetails?.subCaste??'';
-    nationalityController.text = detail.studentDetails?.nationality??'';
-    motherTongueController.text = detail.studentDetails?.motherTongue??'';
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    dobController.text =
+        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
+    religionController.text = detail.studentDetails?.religion ?? '';
+    casteController.text = detail.studentDetails?.caste ?? '';
+    subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    nationalityController.text = detail.studentDetails?.nationality ?? '';
+    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     // parentTypeController.text = detail.enquirerParent??'';
-    selectedParentTypeSubject.add(detail.enquirerParent??'');
-    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
-    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
-    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
-    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
-    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
-    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
-    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
-    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
 
-  addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
+  addPsaDetails(PSADetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
-    enquiryDateController.text = detail.enquiryDate??'';
+    enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
-    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
-    religionController.text = detail.studentDetails?.religion??'';
-    casteController.text = detail.studentDetails?.caste??'';
-    subCasteController.text = detail.studentDetails?.subCaste??'';
-    nationalityController.text = detail.studentDetails?.nationality??'';
-    motherTongueController.text = detail.studentDetails?.motherTongue??'';
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    dobController.text =
+        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
+    religionController.text = detail.studentDetails?.religion ?? '';
+    casteController.text = detail.studentDetails?.caste ?? '';
+    subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    nationalityController.text = detail.studentDetails?.nationality ?? '';
+    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    psaSubTypeSubject.add(detail.psaSubType?.value?? '');
+    psaSubTypeSubject.add(detail.psaSubType?.value ?? '');
     selectedPsaSubTypeEntity = detail.psaSubType;
-    psaCategorySubject.add(detail.psaCategory?.value?? '');
+    psaCategorySubject.add(detail.psaCategory?.value ?? '');
     selectedPsaCategoryEntity = detail.psaCategory;
-    psaSubCategorySubject.add(detail.psaSubCategory?.value?? '');
+    psaSubCategorySubject.add(detail.psaSubCategory?.value ?? '');
     selectedPsaSubCategoryEntity = detail.psaSubCategory;
-    periodOfServiceSubject.add(detail.psaPeriodOfService?.value?? '');
+    periodOfServiceSubject.add(detail.psaPeriodOfService?.value ?? '');
     selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
-    psaBatchSubject.add(detail.psaBatch?.value?? '');
+    psaBatchSubject.add(detail.psaBatch?.value ?? '');
     selectedPsaBatchEntity = detail.psaBatch;
-    selectedParentTypeSubject.add(detail.enquirerParent??'');
-    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
-    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
-    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
-    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
-    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
-    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
-    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
-    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
 
-  addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
+  addIvtDetails(IVTDetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
-    enquiryDateController.text = detail.enquiryDate??'';
+    enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
-    placeOfBirthController.text = detail.studentDetails?.placeOfBirth??'';
-    religionController.text = detail.studentDetails?.religion??'';
-    casteController.text = detail.studentDetails?.caste??'';
-    subCasteController.text = detail.studentDetails?.subCaste??'';
-    nationalityController.text = detail.studentDetails?.nationality??'';
-    motherTongueController.text = detail.studentDetails?.motherTongue??'';
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    dobController.text =
+        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
+    religionController.text = detail.studentDetails?.religion ?? '';
+    casteController.text = detail.studentDetails?.caste ?? '';
+    subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    nationalityController.text = detail.studentDetails?.nationality ?? '';
+    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    ivtBoardSubject.add(detail.board?.value?? '');
-    ivtCourseSubject.add(detail.course?.value?? '');
-    ivtStreamSubject.add(detail.stream?.value?? '');
-    ivtShiftSubject.add(detail.shift?.value?? '');
-    selectedParentTypeSubject.add(detail.enquirerParent??'');
-    fatherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    motherGlobalIdController.text = detail.parentDetails?.fatherDetails?.globalId??'';
-    studentsFatherFirstNameController.text = detail.parentDetails?.fatherDetails?.firstName??'';
-    studentsFatherLastNameController.text = detail.parentDetails?.fatherDetails?.lastName??'';
-    studentsFatherContactController.text = detail.parentDetails?.fatherDetails?.mobile??'';
-    studentsFatherEmailController.text = detail.parentDetails?.fatherDetails?.email??'';
-    studentsMotherFirstNameController.text = detail.parentDetails?.motherDetails?.firstName??'';
-    studentsMotherLastNameController.text = detail.parentDetails?.motherDetails?.lastName??'';
-    studentsMotherContactController.text = detail.parentDetails?.motherDetails?.mobile??'';
-    studentsMotherEmailController.text = detail.parentDetails?.motherDetails?.email??'';
+    ivtBoardSubject.add(detail.board?.value ?? '');
+    ivtCourseSubject.add(detail.course?.value ?? '');
+    ivtStreamSubject.add(detail.stream?.value ?? '');
+    ivtShiftSubject.add(detail.shift?.value ?? '');
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
-
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
-  BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(false);
 
   BehaviorSubject<bool> editRegistrationDetails =
-  BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(false);
 
   final CommonRadioButton<String> radioButtonController =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController1 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String?> radioButtonController2 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController3 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController4 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController5 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController6 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController7 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController8 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController9 =
-  CommonRadioButton<String>(null);
+      CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController10 =
-  CommonRadioButton<String>(null);
-
-
+      CommonRadioButton<String>(null);
 
   addParentDetails(ParentInfo parentDetails) {
+    fatherFirstNameController.text =
+        parentDetails.fatherDetails?.firstName ?? "";
+    fatherLastNameController.text = parentDetails.fatherDetails?.lastName ?? "";
+    fatherAdharCardController.text =
+        parentDetails.fatherDetails?.aadharNumber ?? "";
+    fatherPanCardController.text = parentDetails.fatherDetails?.panNumber ?? "";
+    qualificationController.text =
+        parentDetails.fatherDetails?.qualification ?? "";
+    organizationNameController.text =
+        parentDetails.fatherDetails?.organisationName ?? "";
+    designationController.text =
+        parentDetails.fatherDetails?.designationName ?? "";
+    pinCodeController.text = parentDetails.fatherDetails?.pinCode ?? "";
+    fatherEmailController.text = parentDetails.fatherDetails?.emailId ?? "";
+    fatherMobileController.text =
+        parentDetails.fatherDetails?.mobileNumber ?? "";
+    fatherOccupation = parentDetails.fatherDetails?.occupation ?? "";
+    fatherArea = parentDetails.fatherDetails?.area ?? "";
+    if (parentDetails.fatherDetails?.city is CommonDataClass) {
+      selectedFatherCitySubject
+          .add(parentDetails.fatherDetails?.city?.value ?? '');
+      selectedFatherCityEntity = parentDetails.fatherDetails?.city;
+    }
+    if (parentDetails.fatherDetails?.country is CommonDataClass) {
+      selectedFatherCountrySubject
+          .add(parentDetails.fatherDetails?.country?.value ?? '');
+      selectedFatherCountryEntity = parentDetails.fatherDetails?.country;
+    }
+    if (parentDetails.fatherDetails?.state is CommonDataClass) {
+      selectedFatherStateSubject
+          .add(parentDetails.fatherDetails?.state?.value ?? '');
+      selectedFatherStateEntity =
+          (parentDetails.fatherDetails?.state is CommonDataClass)
+              ? parentDetails.fatherDetails?.state
+              : null;
+    }
+    selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area ?? '');
+    selectedFatherOccupationSubject
+        .add(parentDetails.fatherDetails?.occupation ?? '');
 
-    fatherFirstNameController.text = parentDetails.fatherDetails?.firstName??"";
-    fatherLastNameController.text=parentDetails.fatherDetails?.lastName??"";
-    fatherAdharCardController.text=parentDetails.fatherDetails?.aadharNumber??"";
-    fatherPanCardController.text=parentDetails.fatherDetails?.panNumber??"";
-    qualificationController.text=parentDetails.fatherDetails?.qualification??"";
-    organizationNameController.text = parentDetails.fatherDetails?.organisationName??"";
-    designationController.text=parentDetails.fatherDetails?.designationName??"";
-    pinCodeController.text=parentDetails.fatherDetails?.pinCode??"";
-    fatherEmailController.text=parentDetails.fatherDetails?.emailId??"";
-    fatherMobileController.text=parentDetails.fatherDetails?.mobileNumber??"";
-    fatherOccupation=parentDetails.fatherDetails?.occupation??"";
-    fatherArea=parentDetails.fatherDetails?.area??"";
-    if(parentDetails.fatherDetails?.city is CommonDataClass){
-      selectedFatherCitySubject.add(parentDetails.fatherDetails?.city?.value??'');
-      selectedFatherCityEntity= parentDetails.fatherDetails?.city;
+    motherFirstNameController.text =
+        parentDetails.motherDetails?.firstName ?? "";
+    motherLastNameController.text = parentDetails.motherDetails?.lastName ?? "";
+    motherAdharCardController.text =
+        parentDetails.motherDetails?.aadharNumber ?? "";
+    motherPanCardController.text = parentDetails.motherDetails?.panNumber ?? "";
+    motherQualificationController.text =
+        parentDetails.motherDetails?.qualification ?? "";
+    motherOrganizationNameController.text =
+        parentDetails.motherDetails?.organisationName ?? "";
+    motherDesignationController.text =
+        parentDetails.motherDetails?.designationName ?? "";
+    motherOfficeAddressController.text =
+        parentDetails.motherDetails?.officeAddress ?? "";
+    motherPinCodeController.text = parentDetails.motherDetails?.pinCode ?? "";
+    motherEmailController.text = parentDetails.motherDetails?.emailId ?? "";
+    motherMobileController.text =
+        parentDetails.motherDetails?.mobileNumber ?? "";
+    motherOccupation = parentDetails.motherDetails?.occupation ?? "";
+    motherArea = parentDetails.motherDetails?.area ?? "";
+    selectedMotherCountryEntity =
+        (parentDetails.motherDetails?.country is CommonDataClass)
+            ? parentDetails.motherDetails?.country
+            : null;
+    selectedMotherStateEntity =
+        (parentDetails.motherDetails?.state is CommonDataClass)
+            ? parentDetails.motherDetails?.state
+            : null;
+    selectedMotherCityEntity =
+        (parentDetails.motherDetails?.city is CommonDataClass)
+            ? parentDetails.motherDetails?.city
+            : null;
+    selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
+    if (parentDetails.motherDetails?.city is CommonDataClass) {
+      selectedMotherCitySubject
+          .add(parentDetails.motherDetails?.city?.value ?? '');
+      selectedMotherCityEntity = parentDetails.motherDetails?.city;
     }
-    if(parentDetails.fatherDetails?.country is CommonDataClass){
-      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country?.value??'');
-      selectedFatherCountryEntity= parentDetails.fatherDetails?.country;
+    if (parentDetails.motherDetails?.country is CommonDataClass) {
+      selectedMotherCountrySubject
+          .add(parentDetails.motherDetails?.country?.value ?? '');
+      selectedMotherCountryEntity = parentDetails.motherDetails?.country;
     }
-    if(parentDetails.fatherDetails?.state is CommonDataClass){
-      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state?.value??'');
-      selectedFatherStateEntity=(parentDetails.fatherDetails?.state is CommonDataClass)? parentDetails.fatherDetails?.state:null;
+    if (parentDetails.motherDetails?.state is CommonDataClass) {
+      selectedMotherStateSubject
+          .add(parentDetails.motherDetails?.state?.value ?? '');
+      selectedMotherStateEntity =
+          (parentDetails.motherDetails?.state is CommonDataClass)
+              ? parentDetails.motherDetails?.state
+              : null;
     }
-    selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area??'');
-    selectedFatherOccupationSubject.add(parentDetails.fatherDetails?.occupation??'');
+    selectedMotherOccupationSubject
+        .add(parentDetails.motherDetails?.occupation ?? '');
 
-    motherFirstNameController.text =parentDetails.motherDetails?.firstName??"";
-    motherLastNameController.text = parentDetails.motherDetails?.lastName??"";
-    motherAdharCardController.text = parentDetails.motherDetails?.aadharNumber??"";
-    motherPanCardController.text=parentDetails.motherDetails?.panNumber??"";
-    motherQualificationController.text=parentDetails.motherDetails?.qualification??"";
-    motherOrganizationNameController.text=parentDetails.motherDetails?.organisationName??"";
-    motherDesignationController.text =parentDetails.motherDetails?.designationName??"";
-    motherOfficeAddressController.text=parentDetails.motherDetails?.officeAddress??"";
-    motherPinCodeController.text=parentDetails.motherDetails?.pinCode??"";
-    motherEmailController.text=parentDetails.motherDetails?.emailId??"";
-    motherMobileController.text=parentDetails.motherDetails?.mobileNumber??"";
-    motherOccupation=parentDetails.motherDetails?.occupation??"";
-    motherArea=parentDetails.motherDetails?.area??"";
-    selectedMotherCountryEntity=(parentDetails.motherDetails?.country is CommonDataClass) ? parentDetails.motherDetails?.country: null;
-    selectedMotherStateEntity=(parentDetails.motherDetails?.state is CommonDataClass)? parentDetails.motherDetails?.state:null;
-    selectedMotherCityEntity=(parentDetails.motherDetails?.city is CommonDataClass)? parentDetails.motherDetails?.city:null;
-    selectedMotherAreaSubject.add(parentDetails.motherDetails?.area??'');
-    if(parentDetails.motherDetails?.city is CommonDataClass){
-      selectedMotherCitySubject.add(parentDetails.motherDetails?.city?.value??'');
-      selectedMotherCityEntity= parentDetails.motherDetails?.city;
+    guardianFirstNameController.text =
+        parentDetails.guardianDetails?.firstName ?? "";
+    guardianLastNameController.text =
+        parentDetails.guardianDetails?.lastName ?? "";
+    guardianAdharCardController.text =
+        parentDetails.guardianDetails?.aadharNumber ?? "";
+    guardianPanCardController.text =
+        parentDetails.guardianDetails?.panNumber ?? "";
+    relationshipWithChildController.text =
+        parentDetails.guardianDetails?.relationWithChild ?? "";
+    guardianQualificationController.text =
+        parentDetails.guardianDetails?.qualification ?? "";
+    guardianOrganizationNameController.text =
+        parentDetails.guardianDetails?.organisationName ?? "";
+    guardianDesignationController.text =
+        parentDetails.guardianDetails?.designationName ?? "";
+    guardianOfficeAddressController.text =
+        parentDetails.guardianDetails?.officeAddress ?? "";
+    guardianPinCodeController.text =
+        parentDetails.guardianDetails?.pincode ?? "";
+    guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
+    guardianMobileController.text =
+        parentDetails.guardianDetails?.mobileNumber ?? "";
+    selectedGuardianCountryEntity =
+        (parentDetails.guardianDetails?.country is CommonDataClass)
+            ? parentDetails.guardianDetails?.country
+            : null;
+    selectedGuardianStateEntity =
+        (parentDetails.guardianDetails?.state is CommonDataClass)
+            ? parentDetails.guardianDetails?.state
+            : null;
+    selectedGuardianCityEntity =
+        (parentDetails.guardianDetails?.city is CommonDataClass)
+            ? parentDetails.guardianDetails?.city
+            : null;
+    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area ?? '');
+    if (parentDetails.guardianDetails?.city is CommonDataClass) {
+      selectedGuardianCitySubject
+          .add(parentDetails.guardianDetails?.city?.value ?? '');
+      selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
     }
-    if(parentDetails.motherDetails?.country is CommonDataClass){
-      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country?.value??'');
-      selectedMotherCountryEntity= parentDetails.motherDetails?.country;
+    if (parentDetails.guardianDetails?.country is CommonDataClass) {
+      selectedGuardianCountrySubject
+          .add(parentDetails.guardianDetails?.country?.value ?? '');
+      selectedGuardianCountryEntity = parentDetails.guardianDetails?.country;
     }
-    if(parentDetails.motherDetails?.state is CommonDataClass){
-      selectedMotherStateSubject.add(parentDetails.motherDetails?.state?.value??'');
-      selectedMotherStateEntity=(parentDetails.motherDetails?.state is CommonDataClass)? parentDetails.motherDetails?.state:null;
+    if (parentDetails.guardianDetails?.state is CommonDataClass) {
+      selectedGuardianStateSubject
+          .add(parentDetails.guardianDetails?.state?.value ?? '');
+      selectedGuardianStateEntity =
+          (parentDetails.guardianDetails?.state is CommonDataClass)
+              ? parentDetails.guardianDetails?.state
+              : null;
     }
-    selectedMotherOccupationSubject.add(parentDetails.motherDetails?.occupation??'');
-    
-    guardianFirstNameController.text =parentDetails.guardianDetails?.firstName??"";
-    guardianLastNameController.text = parentDetails.guardianDetails?.lastName??"";
-    guardianAdharCardController.text = parentDetails.guardianDetails?.aadharNumber??"";
-    guardianPanCardController.text=parentDetails.guardianDetails?.panNumber??"";
-    relationshipWithChildController.text = parentDetails.guardianDetails?.relationWithChild??"";
-    guardianQualificationController.text=parentDetails.guardianDetails?.qualification??"";
-    guardianOrganizationNameController.text=parentDetails.guardianDetails?.organisationName??"";
-    guardianDesignationController.text =parentDetails.guardianDetails?.designationName??"";
-    guardianOfficeAddressController.text=parentDetails.guardianDetails?.officeAddress??"";
-    guardianPinCodeController.text=parentDetails.guardianDetails?.pincode??"";
-    guardianEmailController.text=parentDetails.guardianDetails?.emailId??"";
-    guardianMobileController.text=parentDetails.guardianDetails?.mobileNumber??"";
-    selectedGuardianCountryEntity=(parentDetails.guardianDetails?.country is CommonDataClass)? parentDetails.guardianDetails?.country : null;
-    selectedGuardianStateEntity=(parentDetails.guardianDetails?.state is CommonDataClass)? parentDetails.guardianDetails?.state : null;
-    selectedGuardianCityEntity=(parentDetails.guardianDetails?.city is CommonDataClass)? parentDetails.guardianDetails?.city : null;
-    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area??'');
-    if(parentDetails.guardianDetails?.city is CommonDataClass){
-      selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city?.value??'');
-      selectedGuardianCityEntity= parentDetails.guardianDetails?.city;
-    }
-    if(parentDetails.guardianDetails?.country is CommonDataClass){
-      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country?.value??'');
-      selectedGuardianCountryEntity= parentDetails.guardianDetails?.country;
-    }
-    if(parentDetails.guardianDetails?.state is CommonDataClass){
-      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state?.value??'');
-      selectedGuardianStateEntity=(parentDetails.guardianDetails?.state is CommonDataClass)? parentDetails.guardianDetails?.state:null;
-    }
-    selectedGuardianOccupationSubject.add(parentDetails.guardianDetails?.occupation??'');
+    selectedGuardianOccupationSubject
+        .add(parentDetails.guardianDetails?.occupation ?? '');
   }
 
   addContactDetails(ContactDetails contactDetails) {
-    houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
-    streetNameController.text= contactDetails.residentialAddress?.street??"";
-    landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-    if(contactDetails.emergencyContact is EmergencyContact){
+    houseOrBuildingController.text =
+        contactDetails.residentialAddress?.house ?? "";
+    streetNameController.text = contactDetails.residentialAddress?.street ?? "";
+    landMarkController.text = contactDetails.residentialAddress?.landmark ?? "";
+    if (contactDetails.emergencyContact is EmergencyContact) {
       emergencyContact = contactDetails.emergencyContact.emergencyContact;
     }
-    if(contactDetails.residentialAddress?.country is CommonDataClass || contactDetails.residentialAddress?.city is CommonDataClass){
+    if (contactDetails.residentialAddress?.country is CommonDataClass ||
+        contactDetails.residentialAddress?.city is CommonDataClass) {
       residentialCountry = contactDetails.residentialAddress?.country;
       residentialState = contactDetails.residentialAddress?.state;
       residentialCity = contactDetails.residentialAddress?.city;
-      selectedResidentialCity.value = contactDetails.residentialAddress?.country?.value??'';
-      selectedResidentialState.value = contactDetails.residentialAddress?.state?.value??'';
-      selectedResidentialCountry.value = contactDetails.residentialAddress?.country?.value??'';
+      selectedResidentialCity.value =
+          contactDetails.residentialAddress?.country?.value ?? '';
+      selectedResidentialState.value =
+          contactDetails.residentialAddress?.state?.value ?? '';
+      selectedResidentialCountry.value =
+          contactDetails.residentialAddress?.country?.value ?? '';
     }
-    residentialPinCode = contactDetails.residentialAddress?.pinCode??"";
-    if(contactDetails.pointOfContact?.length == 1){
-      parentEmailIdController1.text = contactDetails.pointOfContact?[0].parentEmailId??"";
-      parentMobileNumberController1.text = contactDetails.pointOfContact?[0].parentContactNumber??"";
-      contactParentTypePhone1 = contactDetails.pointOfContact?[0].parentType??"";
+    residentialPinCode = contactDetails.residentialAddress?.pinCode ?? "";
+    if (contactDetails.pointOfContact?.length == 1) {
+      parentEmailIdController1.text =
+          contactDetails.pointOfContact?[0].parentEmailId ?? "";
+      parentMobileNumberController1.text =
+          contactDetails.pointOfContact?[0].parentContactNumber ?? "";
+      contactParentTypePhone1 =
+          contactDetails.pointOfContact?[0].parentType ?? "";
     }
-    if(contactDetails.pointOfContact?.length == 2){
-      parentEmailIdController2.text = contactDetails.pointOfContact?[1].parentEmailId??"";
-      parentMobileNumberController2.text = contactDetails.pointOfContact?[1].parentContactNumber??"";
-      contactParentTypePhone2 = contactDetails.pointOfContact?[1].parentType??"";
+    if (contactDetails.pointOfContact?.length == 2) {
+      parentEmailIdController2.text =
+          contactDetails.pointOfContact?[1].parentEmailId ?? "";
+      parentMobileNumberController2.text =
+          contactDetails.pointOfContact?[1].parentContactNumber ?? "";
+      contactParentTypePhone2 =
+          contactDetails.pointOfContact?[1].parentType ?? "";
     }
-    radioButtonController3.selectItem((contactDetails.residentialAddress?.isPermanentAddress??false) ? "Yes" : "No");
+    radioButtonController3.selectItem(
+        (contactDetails.residentialAddress?.isPermanentAddress ?? false)
+            ? "Yes"
+            : "No");
   }
 
-  addMedicalDetails(MedicalDetails medicalDetails){
-    yearOfHospitalizationController.text=medicalDetails.yearOfHospitalization??"";
-    reasonOfHospitalizationController.text=medicalDetails.reasonOfHopitalization??"";
-    specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
-    specifyMedicalHistoryController.text = medicalDetails.medicalHistoryDescription??"";
-    specifyAllergiesController.text = medicalDetails.allergyDescription??"";
-    selectedBloodGroup.value = ((medicalDetails.bloodGroup??"").toString() == "N/A") ? "" : (medicalDetails.bloodGroup??"").toString();
-    personalisedLearningNeedsController.text = medicalDetails.personalisedLearningNeedsDescription??'';
-    radioButtonController4.selectItem((medicalDetails.isChildHospitalised??false) ? "Yes": "No");
-    radioButtonController5.selectItem((medicalDetails.hasPhysicalDisability??false)? "Yes": "No");
-    radioButtonController7.selectItem((medicalDetails.hasMedicalHistory??false)?"Yes":"No");
-    radioButtonController8.selectItem((medicalDetails.hasAllergy??false)?"Yes":"No");
-    radioButtonController9.selectItem((medicalDetails.hasPersonalisedLearningNeeds??false)?"Yes":"No");
+  addMedicalDetails(MedicalDetails medicalDetails) {
+    yearOfHospitalizationController.text =
+        medicalDetails.yearOfHospitalization ?? "";
+    reasonOfHospitalizationController.text =
+        medicalDetails.reasonOfHopitalization ?? "";
+    specificDisabilityController.text =
+        medicalDetails.physicalDisabilityDescription ?? "";
+    specifyMedicalHistoryController.text =
+        medicalDetails.medicalHistoryDescription ?? "";
+    specifyAllergiesController.text = medicalDetails.allergyDescription ?? "";
+    selectedBloodGroup.value =
+        ((medicalDetails.bloodGroup ?? "").toString() == "N/A")
+            ? ""
+            : (medicalDetails.bloodGroup ?? "").toString();
+    personalisedLearningNeedsController.text =
+        medicalDetails.personalisedLearningNeedsDescription ?? '';
+    radioButtonController4.selectItem(
+        (medicalDetails.isChildHospitalised ?? false) ? "Yes" : "No");
+    radioButtonController5.selectItem(
+        (medicalDetails.hasPhysicalDisability ?? false) ? "Yes" : "No");
+    radioButtonController7
+        .selectItem((medicalDetails.hasMedicalHistory ?? false) ? "Yes" : "No");
+    radioButtonController8
+        .selectItem((medicalDetails.hasAllergy ?? false) ? "Yes" : "No");
+    radioButtonController9.selectItem(
+        (medicalDetails.hasPersonalisedLearningNeeds ?? false) ? "Yes" : "No");
   }
 
-  addBankDetails(BankDetails bankDetails){
-     ifscCodeController.text = bankDetails.ifscCode??"";
-     bankNameController.text = bankDetails.bankName??"";
-     branchNameController.text=bankDetails.branchName??"";
-     accountHolderNameController.text =bankDetails.accountHolderName??"";
-     accountTypeController.text=bankDetails.accountType??"";
-     accountNumberController.text = bankDetails.accountNumber??"";
-     upiController.text = bankDetails.upiInfo??"";
+  addBankDetails(BankDetails bankDetails) {
+    ifscCodeController.text = bankDetails.ifscCode ?? "";
+    bankNameController.text = bankDetails.bankName ?? "";
+    branchNameController.text = bankDetails.branchName ?? "";
+    accountHolderNameController.text = bankDetails.accountHolderName ?? "";
+    accountTypeController.text = bankDetails.accountType ?? "";
+    accountNumberController.text = bankDetails.accountNumber ?? "";
+    upiController.text = bankDetails.upiInfo ?? "";
   }
-  Future<void> saveParentDetails(String enquiryId)async {
-    ParentInfoEntity parentInfoEntity=ParentInfoEntity();
 
-    parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text.trim();
-    parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text.trim();
-    parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text.trim();
-    parentInfo?.fatherDetails?.panNumber=fatherPanCardController.text.trim();
-    parentInfo?.fatherDetails?.qualification=fatherPanCardController.text.trim();
-    parentInfo?.fatherDetails?.organisationName=organizationNameController.text.trim();
-    parentInfo?.fatherDetails?.designationName=designationController.text.trim();
-    parentInfo?.fatherDetails?.pinCode=pinCodeController.text.trim();
-    parentInfo?.fatherDetails?.emailId=fatherEmailController.text.trim();
-    parentInfo?.fatherDetails?.mobileNumber=fatherMobileController.text.trim();
-    parentInfo?.fatherDetails?.occupation=fatherOccupation;
-    parentInfo?.fatherDetails?.area=fatherArea;
-    parentInfo?.fatherDetails?.country=selectedFatherCountryEntity;
-    parentInfo?.fatherDetails?.state=selectedFatherStateEntity;
-    parentInfo?.fatherDetails?.city=selectedFatherCityEntity;
+  Future<void> saveParentDetails(String enquiryId) async {
+    ParentInfoEntity parentInfoEntity = ParentInfoEntity();
 
-    parentInfo?.motherDetails?.firstName=motherFirstNameController.text.trim();
-    parentInfo?.motherDetails?.lastName=motherLastNameController.text.trim();
-    parentInfo?.motherDetails?.aadharNumber=motherAdharCardController.text.trim();
-    parentInfo?.motherDetails?.panNumber=motherPanCardController.text.trim();
-    parentInfo?.motherDetails?.qualification=motherQualificationController.text.trim();
-    parentInfo?.motherDetails?.organisationName= motherOrganizationNameController.text.trim();
-    parentInfo?.motherDetails?.designationName=motherDesignationController.text.trim();
-    parentInfo?.motherDetails?.officeAddress=motherOfficeAddressController.text.trim();
-    parentInfo?.motherDetails?.pinCode=motherPinCodeController.text.trim();
-    parentInfo?.motherDetails?.emailId=motherEmailController.text.trim();
-    parentInfo?.motherDetails?.mobileNumber=motherMobileController.text.trim();
-    parentInfo?.motherDetails?.occupation=motherOccupation;
-    parentInfo?.motherDetails?.area=motherArea;
-    parentInfo?.motherDetails?.country=selectedMotherCountryEntity;
-    parentInfo?.motherDetails?.state=selectedMotherStateEntity;
-    parentInfo?.motherDetails?.city=selectedMotherCityEntity;
+    parentInfo?.fatherDetails?.firstName =
+        fatherFirstNameController.text.trim();
+    parentInfo?.fatherDetails?.lastName = fatherFirstNameController.text.trim();
+    parentInfo?.fatherDetails?.aadharNumber =
+        fatherAdharCardController.text.trim();
+    parentInfo?.fatherDetails?.panNumber = fatherPanCardController.text.trim();
+    parentInfo?.fatherDetails?.qualification =
+        fatherPanCardController.text.trim();
+    parentInfo?.fatherDetails?.organisationName =
+        organizationNameController.text.trim();
+    parentInfo?.fatherDetails?.designationName =
+        designationController.text.trim();
+    parentInfo?.fatherDetails?.pinCode = pinCodeController.text.trim();
+    parentInfo?.fatherDetails?.emailId = fatherEmailController.text.trim();
+    parentInfo?.fatherDetails?.mobileNumber =
+        fatherMobileController.text.trim();
+    parentInfo?.fatherDetails?.occupation = fatherOccupation;
+    parentInfo?.fatherDetails?.area = fatherArea;
+    parentInfo?.fatherDetails?.country = selectedFatherCountryEntity;
+    parentInfo?.fatherDetails?.state = selectedFatherStateEntity;
+    parentInfo?.fatherDetails?.city = selectedFatherCityEntity;
 
-    parentInfo?.guardianDetails?.firstName=guardianFirstNameController.text.trim();
-    parentInfo?.guardianDetails?.lastName=guardianLastNameController.text.trim();
-    parentInfo?.guardianDetails?.aadharNumber= guardianAdharCardController.text.trim();
-    parentInfo?.guardianDetails?.panNumber=guardianPanCardController.text.trim();
-    parentInfo?.guardianDetails?.relationWithChild = relationshipWithChildController.text.trim();
-    parentInfo?.guardianDetails?.qualification=guardianQualificationController.text.trim();
-    parentInfo?.guardianDetails?.organizationName=guardianOrganizationNameController.text.trim();
-    parentInfo?.guardianDetails?.designation=guardianDesignationController.text.trim();
-    parentInfo?.guardianDetails?.officeAddress=guardianOfficeAddressController.text.trim();
-    parentInfo?.guardianDetails?.pincode=guardianPinCodeController.text.trim();
-    parentInfo?.guardianDetails?.emailId=guardianEmailController.text.trim();
-    parentInfo?.guardianDetails?.mobileNumber=guardianMobileController.text.trim();
-    parentInfo?.guardianDetails?.occupation=guardianOccupation;
-    parentInfo?.guardianDetails?.country=selectedGuardianCountryEntity;
-    parentInfo?.guardianDetails?.state=selectedGuardianStateEntity;
-    parentInfo?.guardianDetails?.city=selectedGuardianCityEntity;
-    parentInfo?.childCustodyDetail?.areParentsSeparated = radioButtonController.selectedItem;
-    parentInfo?.childCustodyDetail?.childCustody = (radioButtonController.selectedItem == "No") ? "" : radioButtonController10.selectedItem;
+    parentInfo?.motherDetails?.firstName =
+        motherFirstNameController.text.trim();
+    parentInfo?.motherDetails?.lastName = motherLastNameController.text.trim();
+    parentInfo?.motherDetails?.aadharNumber =
+        motherAdharCardController.text.trim();
+    parentInfo?.motherDetails?.panNumber = motherPanCardController.text.trim();
+    parentInfo?.motherDetails?.qualification =
+        motherQualificationController.text.trim();
+    parentInfo?.motherDetails?.organisationName =
+        motherOrganizationNameController.text.trim();
+    parentInfo?.motherDetails?.designationName =
+        motherDesignationController.text.trim();
+    parentInfo?.motherDetails?.officeAddress =
+        motherOfficeAddressController.text.trim();
+    parentInfo?.motherDetails?.pinCode = motherPinCodeController.text.trim();
+    parentInfo?.motherDetails?.emailId = motherEmailController.text.trim();
+    parentInfo?.motherDetails?.mobileNumber =
+        motherMobileController.text.trim();
+    parentInfo?.motherDetails?.occupation = motherOccupation;
+    parentInfo?.motherDetails?.area = motherArea;
+    parentInfo?.motherDetails?.country = selectedMotherCountryEntity;
+    parentInfo?.motherDetails?.state = selectedMotherStateEntity;
+    parentInfo?.motherDetails?.city = selectedMotherCityEntity;
+
+    parentInfo?.guardianDetails?.firstName =
+        guardianFirstNameController.text.trim();
+    parentInfo?.guardianDetails?.lastName =
+        guardianLastNameController.text.trim();
+    parentInfo?.guardianDetails?.aadharNumber =
+        guardianAdharCardController.text.trim();
+    parentInfo?.guardianDetails?.panNumber =
+        guardianPanCardController.text.trim();
+    parentInfo?.guardianDetails?.relationWithChild =
+        relationshipWithChildController.text.trim();
+    parentInfo?.guardianDetails?.qualification =
+        guardianQualificationController.text.trim();
+    parentInfo?.guardianDetails?.organizationName =
+        guardianOrganizationNameController.text.trim();
+    parentInfo?.guardianDetails?.designation =
+        guardianDesignationController.text.trim();
+    parentInfo?.guardianDetails?.officeAddress =
+        guardianOfficeAddressController.text.trim();
+    parentInfo?.guardianDetails?.pincode =
+        guardianPinCodeController.text.trim();
+    parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
+    parentInfo?.guardianDetails?.mobileNumber =
+        guardianMobileController.text.trim();
+    parentInfo?.guardianDetails?.occupation = guardianOccupation;
+    parentInfo?.guardianDetails?.country = selectedGuardianCountryEntity;
+    parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
+    parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
+    parentInfo?.childCustodyDetail?.areParentsSeparated =
+        radioButtonController.selectedItem;
+    parentInfo?.childCustodyDetail?.childCustody =
+        (radioButtonController.selectedItem == "No")
+            ? ""
+            : radioButtonController10.selectedItem;
     parentInfo?.siblingDetails?.add(SiblingDetail(
       type: radioButtonController1.selectedItem,
-      enrollmentNumber: ((radioButtonController1.selectedItem??'') == "Vibgyor Student") ? siblingsEnrollmentController.text.trim() : "",
+      enrollmentNumber:
+          ((radioButtonController1.selectedItem ?? '') == "Vibgyor Student")
+              ? siblingsEnrollmentController.text.trim()
+              : "",
       firstName: siblingFirstNameController.text.trim(),
       lastName: siblingLastNameController.text.trim(),
       gender: siblingGender,
@@ -1394,29 +1680,55 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ));
     parentInfo?.childCustodyDetail = ChildCustodyDetail(
       areParentsSeparated: radioButtonController2.selectedItem,
-      childCustody: radioButtonController2.selectedItem == "Yes" ? radioButtonController10.selectedItem : "",
+      childCustody: radioButtonController2.selectedItem == "Yes"
+          ? radioButtonController10.selectedItem
+          : "",
     );
-    parentInfoEntity =parentInfoEntity.restore(parentInfo??ParentInfo());
+    parentInfoEntity = parentInfoEntity.restore(parentInfo ?? ParentInfo());
     await updateParentDetail(enquiryId, parentInfoEntity);
   }
-  Future<void>saveMedicalDetails(String enquiryId) async{
+
+  Future<void> saveMedicalDetails(String enquiryId) async {
     MedicalDetailsEntity medicalDetailsEntity = MedicalDetailsEntity();
-    medicalDetails?.isChildHospitalised = radioButtonController4.selectedItem == "Yes" ? true : false;
-    medicalDetails?.yearOfHospitalization = medicalDetails?.isChildHospitalised??false ? yearOfHospitalizationController.text.trim() : "";
-    medicalDetails?.reasonOfHopitalization = medicalDetails?.isChildHospitalised??false ? reasonOfHospitalizationController.text.trim() : "";
-    medicalDetails?.hasPhysicalDisability = radioButtonController5.selectedItem == "Yes" ? true : false;
-    medicalDetails?.physicalDisabilityDescription = medicalDetails?.hasPhysicalDisability??false ? specificDisabilityController.text.trim() : "";
-    medicalDetails?.hasMedicalHistory = radioButtonController7.selectedItem == "Yes" ? true : false;
-    medicalDetails?.hasAllergy = radioButtonController8.selectedItem == "Yes" ? true : false;
-    medicalDetails?.hasPersonalisedLearningNeeds = radioButtonController9.selectedItem == "Yes" ? true : false;
+    medicalDetails?.isChildHospitalised =
+        radioButtonController4.selectedItem == "Yes" ? true : false;
+    medicalDetails?.yearOfHospitalization =
+        medicalDetails?.isChildHospitalised ?? false
+            ? yearOfHospitalizationController.text.trim()
+            : "";
+    medicalDetails?.reasonOfHopitalization =
+        medicalDetails?.isChildHospitalised ?? false
+            ? reasonOfHospitalizationController.text.trim()
+            : "";
+    medicalDetails?.hasPhysicalDisability =
+        radioButtonController5.selectedItem == "Yes" ? true : false;
+    medicalDetails?.physicalDisabilityDescription =
+        medicalDetails?.hasPhysicalDisability ?? false
+            ? specificDisabilityController.text.trim()
+            : "";
+    medicalDetails?.hasMedicalHistory =
+        radioButtonController7.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasAllergy =
+        radioButtonController8.selectedItem == "Yes" ? true : false;
+    medicalDetails?.hasPersonalisedLearningNeeds =
+        radioButtonController9.selectedItem == "Yes" ? true : false;
     medicalDetails?.bloodGroup = selectedBloodGroupEntity;
-    medicalDetails?.medicalHistoryDescription = medicalDetails?.hasMedicalHistory??false ? specifyMedicalHistoryController.text.trim() : "";
-    medicalDetails?.allergyDescription = medicalDetails?.hasAllergy??false ? specifyAllergiesController.text.trim() : "";
-    medicalDetails?.personalisedLearningNeedsDescription = medicalDetails?.hasPersonalisedLearningNeeds??false ? personalisedLearningNeedsController.text.trim() : ""; 
+    medicalDetails?.medicalHistoryDescription =
+        medicalDetails?.hasMedicalHistory ?? false
+            ? specifyMedicalHistoryController.text.trim()
+            : "";
+    medicalDetails?.allergyDescription = medicalDetails?.hasAllergy ?? false
+        ? specifyAllergiesController.text.trim()
+        : "";
+    medicalDetails?.personalisedLearningNeedsDescription =
+        medicalDetails?.hasPersonalisedLearningNeeds ?? false
+            ? personalisedLearningNeedsController.text.trim()
+            : "";
     medicalDetailsEntity = medicalDetailsEntity.restore(medicalDetails!);
-    await updateMedicalDetail(enquiryId,medicalDetailsEntity);
+    await updateMedicalDetail(enquiryId, medicalDetailsEntity);
   }
-  Future<void>saveBankDetails(String enquiryId)async{
+
+  Future<void> saveBankDetails(String enquiryId) async {
     BankDetailsEntity bankDetailsEntity = BankDetailsEntity();
     bankDetails?.ifscCode = ifscCodeController.text.trim();
     bankDetails?.bankName = bankNameController.text.trim();
@@ -1425,153 +1737,217 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     bankDetails?.accountType = accountTypeController.text.trim();
     bankDetails?.accountNumber = accountNumberController.text.trim();
     bankDetails?.upiInfo = upiController.text.trim();
-    bankDetailsEntity = bankDetailsEntity.restore(bankDetails??BankDetails());
-    await updateBankDetail(enquiryId,bankDetailsEntity);
-  }
-  Future<void>saveContactDetails(String enquiryId)async{
-    ContactDetailsEntity contactDetail =ContactDetailsEntity();
-    contactDetails = ContactDetails(
-      residentialAddress: ResidentialAddress(
-        house : houseOrBuildingController.text.trim(),
-        street : streetNameController.text.trim(),
-        landmark : landMarkController.text.trim(),
-        country : residentialCountry,
-        state : residentialState,
-        city : residentialCity,
-        pinCode : residentialPinCode,
-        isPermanentAddress: radioButtonController3.selectedItem == "Yes" ? true : false
-      ),
-      emergencyContact: EmergencyContact(emergencyContact: emergencyContact),
-      pointOfContact: [
-        PointOfContactDetail(
-          parentType: contactParentTypePhone1,
-          parentContactNumber: parentMobileNumberController1.text.trim(),
-          parentEmailId: parentEmailIdController1.text.trim(),
-        ),
-        PointOfContactDetail(
-          parentType: contactParentTypePhone2,
-          parentContactNumber: parentMobileNumberController2.text.trim(),
-          parentEmailId: parentEmailIdController2.text.trim(),
-        )
-      ]
-    );
-    contactDetail=contactDetail.restore(contactDetails??ContactDetails());
-    await updateContactDetail(enquiryId,contactDetail);
+    bankDetailsEntity = bankDetailsEntity.restore(bankDetails ?? BankDetails());
+    await updateBankDetail(enquiryId, bankDetailsEntity);
   }
 
-  Future<void> saveStudentDetail() async{
-    if((enquiryDetailArgs?.enquiryType??'') == "IVT"){
+  Future<void> saveContactDetails(String enquiryId) async {
+    ContactDetailsEntity contactDetail = ContactDetailsEntity();
+    contactDetails = ContactDetails(
+        residentialAddress: ResidentialAddress(
+            house: houseOrBuildingController.text.trim(),
+            street: streetNameController.text.trim(),
+            landmark: landMarkController.text.trim(),
+            country: residentialCountry,
+            state: residentialState,
+            city: residentialCity,
+            pinCode: residentialPinCode,
+            isPermanentAddress:
+                radioButtonController3.selectedItem == "Yes" ? true : false),
+        emergencyContact: EmergencyContact(emergencyContact: emergencyContact),
+        pointOfContact: [
+          PointOfContactDetail(
+            parentType: contactParentTypePhone1,
+            parentContactNumber: parentMobileNumberController1.text.trim(),
+            parentEmailId: parentEmailIdController1.text.trim(),
+          ),
+          PointOfContactDetail(
+            parentType: contactParentTypePhone2,
+            parentContactNumber: parentMobileNumberController2.text.trim(),
+            parentEmailId: parentEmailIdController2.text.trim(),
+          )
+        ]);
+    contactDetail = contactDetail.restore(contactDetails ?? ContactDetails());
+    await updateContactDetail(enquiryId, contactDetail);
+  }
+
+  Future<void> saveStudentDetail() async {
+    if ((enquiryDetailArgs?.enquiryType ?? '') == "IVT") {
       IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
       ivtDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
-      ivtDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
-      ivtDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
-      ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.firstName =
+          studentFirstNameController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.lastName =
+          studentLastNameController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
+          .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth =
+          placeOfBirthController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.religion =
+          religionController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.caste =
+          casteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste =
+          subCasteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.nationality =
+          nationalityController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue =
+          motherTongueController.text.trim();
       ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
-      ivtDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text;
-      ivtDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity;
-      ivtDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolGradeEntity;
+      ivtDetailSubject?.value.existingSchoolDetails?.name =
+          existingSchoolNameController.text;
+      ivtDetailSubject?.value.existingSchoolDetails?.grade =
+          selectedExistingSchoolGradeEntity;
+      ivtDetailSubject?.value.existingSchoolDetails?.board =
+          selectedExistingSchoolGradeEntity;
       ivtDetailSubject?.value.board = selectedBoardEntity;
       ivtDetailSubject?.value.course = selectedCourseEntity;
       ivtDetailSubject?.value.stream = selectedStreamEntity;
       ivtDetailSubject?.value.shift = selectedShiftEntity;
       ivtDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
-      ivtDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.firstName =
+          studentsFatherFirstNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.lastName =
+          studentsFatherLastNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.mobile =
+          studentsFatherContactController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.fatherDetails?.email =
+          studentsFatherEmailController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.firstName =
+          studentsMotherFirstNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.lastName =
+          studentsMotherLastNameController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.mobile =
+          studentsMotherContactController.text.trim();
+      ivtDetailSubject?.value.parentDetails?.motherDetails?.email =
+          studentsMotherEmailController.text.trim();
       ivtDetail = ivtDetail.restore(ivtDetailSubject!.value);
-      updateIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', ivtDetail: ivtDetail);
-    }
-    else if((enquiryDetailArgs?.enquiryType??'') == "PSA"){
+      updateIvtDetails(
+          enquiryID: enquiryDetailArgs?.enquiryId ?? '', ivtDetail: ivtDetail);
+    } else if ((enquiryDetailArgs?.enquiryType ?? '') == "PSA") {
       PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
       psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
-      psaDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
-      psaDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
-      psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      psaDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
-      psaDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
-      psaDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
-      psaDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
-      psaDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
-      psaDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
+      psaDetailSubject?.value.studentDetails?.firstName =
+          studentFirstNameController.text.trim();
+      psaDetailSubject?.value.studentDetails?.lastName =
+          studentLastNameController.text.trim();
+      psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
+          .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      psaDetailSubject?.value.studentDetails?.placeOfBirth =
+          placeOfBirthController.text.trim();
+      psaDetailSubject?.value.studentDetails?.religion =
+          religionController.text.trim();
+      psaDetailSubject?.value.studentDetails?.caste =
+          casteController.text.trim();
+      psaDetailSubject?.value.studentDetails?.subCaste =
+          subCasteController.text.trim();
+      psaDetailSubject?.value.studentDetails?.nationality =
+          nationalityController.text.trim();
+      psaDetailSubject?.value.studentDetails?.motherTongue =
+          motherTongueController.text.trim();
       psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
-      psaDetailSubject?.value.existingSchoolDetails?.name =  existingSchoolNameController.text.trim();
-      psaDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity;
-      psaDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity;
+      psaDetailSubject?.value.existingSchoolDetails?.name =
+          existingSchoolNameController.text.trim();
+      psaDetailSubject?.value.existingSchoolDetails?.grade =
+          selectedExistingSchoolGradeEntity;
+      psaDetailSubject?.value.existingSchoolDetails?.board =
+          selectedExistingSchoolBoardEntity;
       psaDetailSubject?.value.psaBatch = selectedPsaBatchEntity;
       psaDetailSubject?.value.psaCategory = selectedPsaCategoryEntity;
       psaDetailSubject?.value.psaSubCategory = selectedPsaSubCategoryEntity;
       psaDetailSubject?.value.psaSubType = selectedPsaSubTypeEntity;
-      psaDetailSubject?.value.psaPeriodOfService = selectedPeriodOfServiceEntity;
+      psaDetailSubject?.value.psaPeriodOfService =
+          selectedPeriodOfServiceEntity;
       psaDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
-      psaDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
-      psaDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
-      psaDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
-      psaDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
-      psaDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.firstName =
+          studentsFatherFirstNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.lastName =
+          studentsFatherLastNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.mobile =
+          studentsFatherContactController.text.trim();
+      psaDetailSubject?.value.parentDetails?.fatherDetails?.email =
+          studentsFatherEmailController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.firstName =
+          studentsMotherFirstNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.lastName =
+          studentsMotherLastNameController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.mobile =
+          studentsMotherContactController.text.trim();
+      psaDetailSubject?.value.parentDetails?.motherDetails?.email =
+          studentsMotherEmailController.text.trim();
       psaDetail = psaDetail.restore(psaDetailSubject!.value);
-      updatePsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', psaDetail: psaDetail);
-    }
-    else{
+      updatePsaDetails(
+          enquiryID: enquiryDetailArgs?.enquiryId ?? '', psaDetail: psaDetail);
+    } else {
       NewAdmissionDetailEntity newAdmissionDetail = NewAdmissionDetailEntity();
-      newAdmissionDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity!;
-      newAdmissionDetailSubject?.value.studentDetails?.firstName = studentFirstNameController.text.trim(); 
-      newAdmissionDetailSubject?.value.studentDetails?.lastName = studentLastNameController.text.trim(); 
-      newAdmissionDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      newAdmissionDetailSubject?.value.studentDetails?.gender = selectedGenderEntity!;
-      newAdmissionDetailSubject?.value.studentDetails?.grade = selectedGradeEntity!;
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth = placeOfBirthController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.religion = religionController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.caste = casteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = subCasteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = nationalityController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = motherTongueController.text.trim();
-      newAdmissionDetailSubject?.value.existingSchoolDetails?.name = existingSchoolNameController.text.trim();
-      newAdmissionDetailSubject?.value.existingSchoolDetails?.grade = selectedExistingSchoolGradeEntity!;
-      newAdmissionDetailSubject?.value.existingSchoolDetails?.board = selectedExistingSchoolBoardEntity!;
-      newAdmissionDetailSubject?.value.enquirerParent = selectedParentTypeSubject.value;
-      if(newAdmissionDetailSubject?.value.enquirerParent == "Father"){
-        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.firstName = studentsFatherFirstNameController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.lastName = studentsFatherLastNameController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile = studentsFatherContactController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email = studentsFatherEmailController.text.trim();
+      newAdmissionDetailSubject?.value.schoolLocation =
+          selectedSchoolLocationEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.firstName =
+          studentFirstNameController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.lastName =
+          studentLastNameController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.dob =
+          DateFormat('dd-MM-yyyy')
+              .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      newAdmissionDetailSubject?.value.studentDetails?.gender =
+          selectedGenderEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.grade =
+          selectedGradeEntity!;
+      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth =
+          placeOfBirthController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.religion =
+          religionController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.caste =
+          casteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste =
+          subCasteController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.nationality =
+          nationalityController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue =
+          motherTongueController.text.trim();
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.name =
+          existingSchoolNameController.text.trim();
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.grade =
+          selectedExistingSchoolGradeEntity!;
+      newAdmissionDetailSubject?.value.existingSchoolDetails?.board =
+          selectedExistingSchoolBoardEntity!;
+      newAdmissionDetailSubject?.value.enquirerParent =
+          selectedParentTypeSubject.value;
+      if (newAdmissionDetailSubject?.value.enquirerParent == "Father") {
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails
+            ?.firstName = studentsFatherFirstNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails
+            ?.lastName = studentsFatherLastNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.mobile =
+            studentsFatherContactController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.fatherDetails?.email =
+            studentsFatherEmailController.text.trim();
+      } else {
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails
+            ?.firstName = studentsMotherFirstNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails
+            ?.lastName = studentsMotherLastNameController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile =
+            studentsMotherContactController.text.trim();
+        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email =
+            studentsMotherEmailController.text.trim();
       }
-      else{
-        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.firstName = studentsMotherFirstNameController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.lastName = studentsMotherLastNameController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.mobile = studentsMotherContactController.text.trim();
-        newAdmissionDetailSubject?.value.parentDetails?.motherDetails?.email = studentsMotherEmailController.text.trim();
-      }
-      newAdmissionDetail = newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
-      updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
+      newAdmissionDetail =
+          newAdmissionDetail.restore(newAdmissionDetailSubject!.value);
+      updateNewAdmissionDetails(
+          enquiryID: enquiryDetailArgs?.enquiryId ?? '',
+          newAdmissionDetail: newAdmissionDetail);
     }
   }
 
-  showPopUP(context){
-    Future.delayed(Duration.zero, ()
-    {
-      CommonPopups().showSuccess(
-          context,
-          'Student Registered Successfully',
-              (shouldRoute) {
-            Navigator.pop(context);
-
-          });
+  showPopUP(context) {
+    Future.delayed(Duration.zero, () {
+      CommonPopups().showSuccess(context, 'Student Registered Successfully',
+          (shouldRoute) {
+        Navigator.pop(context);
+      });
     });
   }
 }

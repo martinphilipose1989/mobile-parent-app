@@ -1,4 +1,3 @@
-
 import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return MaterialApp(
                   // key: ,
-                  navigatorKey: AppService.navigatorKey,
+                  //  navigatorKey: AppService.navigatorKey,
                   builder: (context, widget) => ResponsiveBreakpoints.builder(
                         child: widget!,
                         breakpoints: [
