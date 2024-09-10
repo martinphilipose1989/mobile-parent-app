@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
@@ -12,6 +13,7 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/parent_info.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/upload_docs.dart';
+import 'package:app/molecules/registration_details/registrations_widgets_read_only/v_a_s_details.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -20,12 +22,14 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_page.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
+import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -182,19 +186,33 @@ class RegistrationsDetailsPageView
                                 return;
                               }
                               model.showWidget.add(index);
-                              // if(index == 0){
-                              //   if(enquiryDetailArgs?.enquiryType == "IVT"){
-                              //     model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                              //   } else if(enquiryDetailArgs?.enquiryType == "PSA"){
-                              //     model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                              //   } else{
-                              //     model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                              //   }
-                              // }else if(index == 5){
-                              //   model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                              // } else{
-                              //   model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
-                              // }
+                              if (index == 0) {
+                                if (enquiryDetailArgs?.enquiryType == "IVT") {
+                                  model.getIvtDetails(
+                                      enquiryID:
+                                          enquiryDetailArgs?.enquiryId ?? '');
+                                } else if (enquiryDetailArgs?.enquiryType ==
+                                    "PSA") {
+                                  model.getPsaDetails(
+                                      enquiryID:
+                                          enquiryDetailArgs?.enquiryId ?? '');
+                                } else {
+                                  model.getNewAdmissionDetails(
+                                      enquiryID:
+                                          enquiryDetailArgs?.enquiryId ?? '');
+                                }
+                              } else if (index == 1) {
+                                // TODO: Select Subject
+                              } else if (index == 5) {
+                                model.getEnquiryDetail(
+                                    enquiryID:
+                                        enquiryDetailArgs?.enquiryId ?? '');
+                              } else {
+                                model.fetchAllDetails(
+                                    enquiryDetailArgs?.enquiryId ?? '',
+                                    model.registrationDetails[index]
+                                        ['infoType']);
+                              }
                             },
                           ),
                         );
@@ -400,20 +418,8 @@ class RegistrationsDetailsPageView
       case 0:
         return getEnquiryDetails(enquiryDetailArgs!, model);
       case 1:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CommonText(
-              text: "Select Subject",
-              style:
-                  AppTypography.subtitle1.copyWith(color: AppColors.textDark),
-            ),
-            Padding(
-              padding: REdgeInsets.symmetric(vertical: 16.0),
-              child: const Divider(color: AppColors.dividerColor),
-            ),
-          ],
-        );
+        // return const SelectSubjectDetail();
+        return VASDetails();
 
       case 2:
         return AppStreamBuilder<Resource<ParentInfo>>(

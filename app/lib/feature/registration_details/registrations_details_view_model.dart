@@ -66,11 +66,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
-    {
-      'name': "Select Subject",
-      'isSelected': false,
-      'infoType': 'Subject Infoi'
-    },
+    {'name': "Select Subject", 'isSelected': false, 'infoType': 'SubjectInfo'},
+    {'name': "VAS", 'isSelected': false, 'infoType': 'VAS'},
     {'name': 'Parent Info', 'isSelected': false, 'infoType': 'ParentInfo'},
     {'name': 'Contact Info', 'isSelected': false, 'infoType': 'ContactInfo'},
     {'name': 'Medical Details', 'isSelected': false, 'infoType': 'MedicalInfo'},
@@ -1950,4 +1947,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       });
     });
   }
+
+  // Select Subject
+
+  // VAS
+  final CommonRadioButton<String> vasOne = CommonRadioButton<String>(null);
+  final CommonRadioButton<String> vasTwo = CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> vasThree = CommonRadioButton<String>(null);
+
+  final CommonRadioButton<String> vasFour = CommonRadioButton<String>(null);
+  final CommonRadioButton<String> vasFive = CommonRadioButton<String>(null);
 }

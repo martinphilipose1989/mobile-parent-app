@@ -38,7 +38,8 @@ class CommonRadioButtonWidget<T> extends StatelessWidget {
       stream: commonRadioButton.selectedItemStream,
       builder: (context, snapshot) {
         return RadioListTile<T>(
-          contentPadding: const EdgeInsets.all(0),
+          visualDensity: const VisualDensity(horizontal: -4, vertical: -1),
+          contentPadding: EdgeInsets.zero,
           title: Text(title),
           value: value,
           activeColor: Theme.of(context).colorScheme.primary,
