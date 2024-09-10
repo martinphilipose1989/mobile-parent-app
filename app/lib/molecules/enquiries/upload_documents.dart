@@ -104,9 +104,9 @@ class UploadDocuments extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () async{
-                                if(!model.editRegistrationDetails.value || model.isDocumentUploaded[index??0].value){
-                                  return;
-                                }
+                                // if(!model.editRegistrationDetails.value || model.isDocumentUploaded[index??0].value){
+                                //   return;
+                                // }
                                 var file = await getIt.get<FileUtilityPort>().pickFile();
                                 file.fold(
                                   (l) {
@@ -124,7 +124,7 @@ class UploadDocuments extends StatelessWidget {
                               child: SvgPicture.asset(
                                 AppImages.uploadIcon,
                                 colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26, 
+                                  model.isDocumentUploaded[index??0].value? Colors.black : Colors.black26, 
                                   BlendMode.srcIn, 
                                 ),
                               )
@@ -149,7 +149,7 @@ class UploadDocuments extends StatelessWidget {
                             const SizedBox(width: 5,),
                             GestureDetector(
                               onTap: (){
-                                if(!model.editRegistrationDetails.value || !model.isDocumentUploaded[index??0].value){
+                                if(!model.isDocumentUploaded[index??0].value){
                                   return;
                                 }
                                 model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(),index: index);
@@ -158,7 +158,7 @@ class UploadDocuments extends StatelessWidget {
                               child: SvgPicture.asset(
                                 AppImages.delete,
                                 colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value && model.editRegistrationDetails.value ? Colors.black : Colors.black26,
+                                  model.isDocumentUploaded[index??0].value? Colors.black : Colors.black26,
                                   BlendMode.srcIn,
                                 ),
                               )
