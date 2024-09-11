@@ -8,11 +8,13 @@ import 'package:intl/intl.dart';
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
   final bool? showAstreik;
+  final String? intialDate;
   final String? Function(String?)? validator;
   final TextEditingController? dateController;
   const CommonDatePickerWidget(
       {super.key,
       this.labelName,
+      this.intialDate,
       this.showAstreik = false,
       this.validator,
       this.dateController});
@@ -31,7 +33,16 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
   }
 
   String formatDateToDDMMYYYY(DateTime date) {
-    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+    if (widget.intialDate != null) {
+      DateTime parsedDate =
+          DateFormat('dd/MM/yyyy').parse(widget.intialDate ?? '');
+
+      // Format the parsed date to 'YYYY-mm-dd'
+      String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+      return formattedDate;
+    } else {
+      return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    }
   }
 
   @override
@@ -49,7 +60,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     );
     if (picked != null) {
       setState(() {
-        widget.dateController?.text = DateFormat('dd/MM/yyyy').format(picked);
+        widget.dateController?.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -64,6 +75,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           controller: widget.dateController,
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
+            alignLabelWithHint: true,
             prefixIcon: IconButton(
               icon: const Icon(Icons.calendar_today_outlined),
               onPressed: () {

@@ -75,7 +75,7 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
                 const CommonText(
-                  text: 'Enter 6 digit code sent on your email address',
+                  text: 'Enter 6 digit code sent on your phone number',
                   style: AppTypography.caption,
                 )
               ],

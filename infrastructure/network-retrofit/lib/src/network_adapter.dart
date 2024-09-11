@@ -7,6 +7,11 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_transaction_type_fees_collectes_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/additional_info_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/device_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/orders_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/payment_order_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/student_fee_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
@@ -97,7 +102,8 @@ class NetworkAdapter implements NetworkPort {
                     issuerIfsc: e.issuerIfsc,
                     issuerName: e.issuerName,
                     paymentModeId: e.paymentModeId,
-                    tokenNo: e.tokenNo))
+                    tokenNo: e.tokenNo,
+                    feeId: e.feeId))
                 .toList())));
     return response.fold(
       (l) {
@@ -179,6 +185,75 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(apiService.getTransactionTypeFeesCollected(
         GetTransactionTypeFeesCollectesRequest(
             students: students, academicYear: academicYear)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
+      {required PaymentOrderModel paymentOrderModel}) async {
+    var response =
+        await safeApiCall(apiService.getPaymentOrder(PaymentOrderRequestModel(
+            orders: OrdersRequest(
+      additionalInfo: AdditionalInfoRequest(
+        customerContact:
+            paymentOrderModel.orders?.additionalInfo?.customerContact,
+        customerEmail: paymentOrderModel.orders?.additionalInfo?.customerEmail,
+        customerName: paymentOrderModel.orders?.additionalInfo?.customerName,
+      ),
+      bankWalletMerchantId: paymentOrderModel.orders?.bankWalletMerchantId,
+      currency: paymentOrderModel.orders?.currency,
+      lobId: paymentOrderModel.orders?.lobId,
+      paymentGateway: paymentOrderModel.orders?.paymentGateway,
+      paymentModeId: paymentOrderModel.orders?.paymentModeId,
+      receipt: paymentOrderModel.orders?.receipt,
+      serviceProviderId: paymentOrderModel.orders?.serviceProviderId,
+      studentFees: List.generate(
+        paymentOrderModel.orders?.studentFees?.length ?? 0,
+        (index) {
+          return StudentFeeRequest(
+              amount: paymentOrderModel.orders?.studentFees?[index].amount,
+              feeId: paymentOrderModel.orders?.studentFees?[index].feeId,
+              id: paymentOrderModel.orders?.studentFees?[index].id);
+        },
+      ),
+      transactionTypeId: paymentOrderModel.orders?.transactionTypeId,
+      device: DeviceRequest(
+          acceptHeader: paymentOrderModel.orders?.device?.acceptHeader,
+          browserColorDepth:
+              paymentOrderModel.orders?.device?.browserColorDepth,
+          browserJavaEnabled:
+              paymentOrderModel.orders?.device?.browserJavaEnabled,
+          browserJavascriptEnabled:
+              paymentOrderModel.orders?.device?.browserJavascriptEnabled,
+          browserLanguage: paymentOrderModel.orders?.device?.browserLanguage,
+          browserScreenHeight:
+              paymentOrderModel.orders?.device?.browserScreenHeight,
+          browserScreenWidth:
+              paymentOrderModel.orders?.device?.browserScreenWidth,
+          browserTz: paymentOrderModel.orders?.device?.browserTz,
+          initChannel: paymentOrderModel.orders?.device?.initChannel,
+          ip: paymentOrderModel.orders?.device?.ip,
+          userAgent: paymentOrderModel.orders?.device?.userAgent),
+      amount: paymentOrderModel.orders?.amount,
+    ))));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
+      {required file, required fileName}) async {
+    var response = await safeApiCall(
+        apiService.setStoreImage(file: file, fileName: fileName));
     return response.fold(
       (l) {
         return Left(l);

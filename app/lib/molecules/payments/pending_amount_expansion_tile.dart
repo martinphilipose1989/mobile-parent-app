@@ -48,11 +48,14 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                       children: [
                         data.data?.length == 1
                             ? const SizedBox()
-                            : Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                                child: CommonText(
-                                    text: data.data?[i].studentName ?? ""),
-                              ),
+                            : (data.data?[i].fees.isEmpty ?? false)
+                                ? const SizedBox()
+                                : Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                    child: CommonText(
+                                        text: data.data?[i].studentName ?? ""),
+                                  ),
                         Column(
                           children: List.generate(
                             data.data?[i].fees.length ?? 0,
@@ -335,19 +338,25 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                             ),
                                             CommonSizedBox.sizedBox(
                                                 height: 10, width: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text('Due Date'),
-                                                Text(DateFormatter.formatDate(
-                                                    data.data?[i].fees[index]
-                                                            .actualDueDate!
-                                                            .toIso8601String() ??
-                                                        "")),
-                                              ],
-                                            ),
+                                            data.data?[i].fees[index]
+                                                        .actualDueDate ==
+                                                    null
+                                                ? const SizedBox.shrink()
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      const Text('Due Date'),
+                                                      Text(DateFormatter
+                                                          .formatDate(data
+                                                                  .data?[i]
+                                                                  .fees[index]
+                                                                  .actualDueDate!
+                                                                  .toIso8601String() ??
+                                                              "")),
+                                                    ],
+                                                  ),
                                           ],
                                         ),
                                       )

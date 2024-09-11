@@ -23,6 +23,8 @@ class DashboardPageModel extends BasePageViewModel {
     // Add more image paths if needed
   ];
 
+  late String mobileNo;
+
   final List<String> dropdownValues = [
     'Vipul patel EN1437465346',
     'Amit patel EN1437465346'
@@ -73,15 +75,19 @@ class DashboardPageModel extends BasePageViewModel {
     }
   }
 
-  GetGuardianStudentDetailsStudentModel? selectedStudentId;
+  List<GetGuardianStudentDetailsStudentModel>? selectedStudentId;
 
-  void getSelectedStudentid(String name) {
+  void getSelectedStudentid(List<String> names) {
+    List<GetGuardianStudentDetailsStudentModel> tempList = [];
     for (var student
         in _getGuardianStudentDetailsModel.value.data!.data!.students!) {
-      if (student.studentDisplayName == name) {
-        selectedStudentId = student;
+      for (var name in names) {
+        if (student.studentDisplayName == name) {
+          tempList.add(student);
+        }
       }
     }
+    selectedStudentId = tempList;
   }
 
   // Calling students list
@@ -93,18 +99,22 @@ class DashboardPageModel extends BasePageViewModel {
       get getGuardianStudentDetailsModel =>
           _getGuardianStudentDetailsModel.stream;
 
-  Future<void> getStudentList() async {
+  Future<void> getStudentList(int mobileNo) async {
     await exceptionHandlerBinder.handle(block: () {
       GetGuardianStudentDetailsUsecaseParams params =
-          GetGuardianStudentDetailsUsecaseParams(mobileNo: 6380876483);
+          GetGuardianStudentDetailsUsecaseParams(
+              mobileNo: mobileNo); // 6380876483
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
             _getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
-          _getGuardianStudentDetailsModel.add(result);
+          List<GetGuardianStudentDetailsStudentModel> tempList = [];
+          tempList.add(result.data!.data!.students![0]);
+          selectedStudentId = tempList;
         }
+        _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

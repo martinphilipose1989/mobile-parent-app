@@ -20,16 +20,18 @@ class GetPendingFeesDataPaymentModeEntity extends BaseLayerDataTransformer<
   final dynamic isManual;
   @JsonKey(name: "fee_ids")
   final List<int>? feeIds;
+  @JsonKey(name: "service_provider_id")
+  final int? serviceProviderId;
 
-  GetPendingFeesDataPaymentModeEntity({
-    this.paymentModeId,
-    this.paymentModeName,
-    this.serviceProvider,
-    this.isTransactionChargeApplicable,
-    this.transactionCharge,
-    this.isManual,
-    this.feeIds,
-  });
+  GetPendingFeesDataPaymentModeEntity(
+      {this.paymentModeId,
+      this.paymentModeName,
+      this.serviceProvider,
+      this.isTransactionChargeApplicable,
+      this.transactionCharge,
+      this.isManual,
+      this.feeIds,
+      this.serviceProviderId});
 
   factory GetPendingFeesDataPaymentModeEntity.fromJson(
           Map<String, dynamic> json) =>
@@ -48,6 +50,7 @@ class GetPendingFeesDataPaymentModeEntity extends BaseLayerDataTransformer<
         paymentModeId: paymentModeId,
         paymentModeName: paymentModeName,
         serviceProvider: serviceProvider,
-        transactionCharge: transactionCharge);
+        transactionCharge: transactionCharge,
+        serviceproviderId: serviceProviderId);
   }
 }

@@ -24,30 +24,32 @@ class PaymentDetail
   final String tokenNo;
   @JsonKey(name: "bank_name")
   final String bankName;
+  @JsonKey(name: "fee_id")
+  final int? feeId;
 
-  PaymentDetail({
-    required this.paymentModeId,
-    required this.amount,
-    required this.chequeNo,
-    required this.chequeDate,
-    required this.issuerName,
-    required this.issuerIfsc,
-    required this.chequeImage,
-    required this.tokenNo,
-    required this.bankName,
-  });
+  PaymentDetail(
+      {required this.paymentModeId,
+      required this.amount,
+      required this.chequeNo,
+      required this.chequeDate,
+      required this.issuerName,
+      required this.issuerIfsc,
+      required this.chequeImage,
+      required this.tokenNo,
+      required this.bankName,
+      this.feeId});
 
-  PaymentDetail copyWith({
-    int? paymentModeId,
-    int? amount,
-    String? chequeNo,
-    String? chequeDate,
-    String? issuerName,
-    String? issuerIfsc,
-    dynamic chequeImage,
-    String? tokenNo,
-    String? bankName,
-  }) =>
+  PaymentDetail copyWith(
+          {int? paymentModeId,
+          int? amount,
+          String? chequeNo,
+          String? chequeDate,
+          String? issuerName,
+          String? issuerIfsc,
+          dynamic chequeImage,
+          String? tokenNo,
+          String? bankName,
+          int? feeId}) =>
       PaymentDetail(
           paymentModeId: paymentModeId ?? this.paymentModeId,
           amount: amount ?? this.amount,
@@ -57,7 +59,8 @@ class PaymentDetail
           issuerIfsc: issuerIfsc ?? this.issuerIfsc,
           chequeImage: chequeImage ?? this.chequeImage,
           tokenNo: tokenNo ?? this.tokenNo,
-          bankName: bankName ?? this.bankName);
+          bankName: bankName ?? this.bankName,
+          feeId: feeId ?? this.feeId);
 
   factory PaymentDetail.fromJson(Map<String, dynamic> json) =>
       _$PaymentDetailFromJson(json);
@@ -68,15 +71,15 @@ class PaymentDetail
   PaymentDetail restore(PaymentDetailModelRequest data) {
     // TODO: implement restore
     return PaymentDetail(
-      amount: data.amount,
-      chequeDate: data.chequeDate,
-      chequeImage: data.chequeImage,
-      chequeNo: data.chequeNo,
-      bankName: '',
-      issuerIfsc: data.issuerIfsc,
-      issuerName: data.issuerName,
-      paymentModeId: data.paymentModeId,
-      tokenNo: data.tokenNo,
-    );
+        amount: data.amount,
+        chequeDate: data.chequeDate,
+        chequeImage: data.chequeImage,
+        chequeNo: data.chequeNo,
+        bankName: '',
+        issuerIfsc: data.issuerIfsc,
+        issuerName: data.issuerName,
+        paymentModeId: data.paymentModeId,
+        tokenNo: data.tokenNo,
+        feeId: data.feeId);
   }
 }

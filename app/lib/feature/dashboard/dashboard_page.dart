@@ -26,7 +26,11 @@ class DashboardPageState
   void onModelReady(DashboardPageModel model) {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.getStudentList();
+    model.mobileNo =
+        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo;
+
+    model.getStudentList(int.parse(
+        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo));
   }
 
   @override

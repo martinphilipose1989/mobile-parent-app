@@ -17,7 +17,10 @@ class PaymentsHistoryPageState
     extends AppBasePageState<PaymentHistoryModel, PaymentHistoryPage> {
   @override
   Widget buildView(BuildContext context, PaymentHistoryModel model) {
-    return PaymentsHistoryView(provideBase());
+    return SingleChildScrollView(
+        child: PaymentsHistoryView(
+      provideBase(),
+    ));
   }
 
   @override
@@ -32,6 +35,16 @@ class PaymentsHistoryPageState
 
   @override
   void onModelReady(PaymentHistoryModel model) {
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    if (model.selectedStudent != null) {
+      List<int> temp = [];
+      for (var selectedStudent in model.selectedStudent!) {
+        temp.add(selectedStudent.id!);
+      }
+      model.studentIDs = temp;
+    }
     model.getAcademicYear();
   }
 }

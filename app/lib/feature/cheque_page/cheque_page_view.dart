@@ -1,6 +1,8 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/cheque_page/cheque_fee_type_dropdown.dart';
+import 'package:app/molecules/cheque_page/fee_type_list.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_inputformatters.dart';
@@ -16,6 +18,7 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -93,19 +96,17 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                 ),
                               ),
                         SizedBox(
-                          height: 48,
+                          height: 50,
                           child: CustomDropdownButton(
                             onMultiSelect: (selectedValues) {},
                             onSingleSelect: (selectedValue) {
-                              // model.tokenNumberControllers[index].text =
-                              //     model.getChequeId(selectedValue).toString();
                               model.addCheque(selectedValue, index);
                               model.chequeTypeControllers[index].text = model
                                   .getValueForMode(selectedValue)
                                   .toString();
                             },
                             isMutiSelect: false,
-                            width: MediaQuery.of(context).size.width - 50,
+                            width: MediaQuery.of(context).size.width - 30,
                             items: model.chequeTypes,
                             showAstreik: true,
                             showBorderColor: true,
@@ -141,7 +142,10 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                         },
                                       ),
                                       model.chequeTypeControllers[index].text ==
-                                              "8"
+                                                  "8" ||
+                                              model.chequeTypeControllers[index]
+                                                      .text ==
+                                                  "9"
                                           ? const SizedBox.shrink()
                                           : Column(
                                               children: [
@@ -150,40 +154,55 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                 SizedBox(
                                                   height: 50,
                                                   child: CustomDropdownButton(
+                                                    dropDownId: index,
                                                     onMultiSelect:
                                                         (selectedValues) {},
-                                                    onSingleSelect:
-                                                        (selectedValue) {
-                                                      model
-                                                          .feeTypeControllers[
-                                                              index]
-                                                          .text = selectedValue;
-
-                                                      model
-                                                          .amountControllers[
-                                                              index]
-                                                          .text = model
-                                                              .selectedPendingFessList
-                                                              .firstWhere((e) =>
-                                                                  e.feeDisplayName ==
-                                                                  selectedValue)
-                                                              .pending ??
-                                                          "";
+                                                    onIdSelection: (id) =>
+                                                        model.onFeeTypeSelected(
+                                                      id,
+                                                      index,
+                                                      (value) {
+                                                        if (value) {
+                                                          CommonPopups()
+                                                              .showError(
+                                                            context,
+                                                            'Fee Type already selected',
+                                                            (shouldRoute) {},
+                                                          );
+                                                        }
+                                                      },
+                                                    ),
+                                                    idValidator:
+                                                        (value, dropDownValue) {
+                                                      if (value == null ||
+                                                          value == 0) {
+                                                        return 'Fees Type cannot be empty';
+                                                      } else {
+                                                        return null;
+                                                      }
                                                     },
                                                     isMutiSelect: false,
                                                     width:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width -
-                                                            50,
-                                                    items: model.feesType,
+                                                            30,
+                                                    items: model
+                                                        .selectedPendingFessList
+                                                        .map((e) =>
+                                                            e.feeDisplayName
+                                                                as String)
+                                                        .toList(),
                                                     showAstreik: true,
+                                                    itemsWithId: model
+                                                        .selectedPendingFessList
+                                                        .map((e) => DropdownData(
+                                                            id: e.id!,
+                                                            name: e
+                                                                .feeDisplayName))
+                                                        .toList(),
+                                                    showDropDownWithId: true,
                                                     showBorderColor: true,
-                                                    validator: (value) =>
-                                                        AppValidators
-                                                            .validateNotEmpty(
-                                                                value,
-                                                                'Fees Type'),
                                                     dropdownName: 'Fees Type',
                                                   ),
                                                 ),
@@ -196,44 +215,63 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                         labelText: 'Cheque Number',
                                         controller: model
                                             .chequeNumberControllers[index],
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          AppInputformatters.mobileFormatter(),
+                                          LengthLimitingTextInputFormatter(6)
+                                        ],
                                         validator: (value) =>
-                                            AppValidators.validateNotEmpty(
+                                            AppValidators.validateChequeNo(
                                                 value, 'Cheque Number'),
                                       ),
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
-                                      SizedBox(
-                                        height: 48,
-                                        child: CommonDatePickerWidget(
-                                          validator: (value) =>
-                                              AppValidators.validateNotEmpty(
-                                                  value, 'Cheque Date'),
-                                          showAstreik: true,
-                                          dateController: model
-                                              .chequeDateControllers[index],
-                                          labelName: 'Cheque Date',
-                                        ),
+                                      CommonDatePickerWidget(
+                                        validator: (value) =>
+                                            AppValidators.validateNotEmpty(
+                                                value, 'Cheque Date'),
+                                        showAstreik: true,
+                                        dateController:
+                                            model.chequeDateControllers[index],
+                                        labelName: 'Cheque Date',
                                       ),
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
                                       InkWell(
-                                        onTap: () {
-                                          model.pickImage(
-                                              UpoladFileTypeEnum.image, index);
-                                        },
-                                        child: AbsorbPointer(
-                                          child: CommonTextFormField(
-                                            showAstreik: true,
-                                            labelText: 'Cheque Image',
-                                            readOnly: true,
-                                            controller:
-                                                model.chequeImage[index],
-                                            validator: (value) =>
-                                                AppValidators.validateNotEmpty(
-                                                    value, 'Cheque Image'),
-                                          ),
-                                        ),
-                                      ),
+                                          onTap: () {
+                                            model.pickImage(
+                                                UpoladFileTypeEnum.image,
+                                                index);
+                                          },
+                                          child: AppStreamBuilder<
+                                              Resource<GetStoreImageModel>>(
+                                            stream: model.getStoreImageModel,
+                                            initialData: Resource.none(),
+                                            dataBuilder: (context, data) {
+                                              return data!.status ==
+                                                      Status.loading
+                                                  ? const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    )
+                                                  : AbsorbPointer(
+                                                      child:
+                                                          CommonTextFormField(
+                                                        showAstreik: true,
+                                                        labelText:
+                                                            'Cheque Image',
+                                                        readOnly: true,
+                                                        controller: model
+                                                            .chequeImage[index],
+                                                        validator: (value) =>
+                                                            AppValidators
+                                                                .validateNotEmpty(
+                                                                    value,
+                                                                    'Cheque Image'),
+                                                      ),
+                                                    );
+                                            },
+                                          )),
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
                                       CommonTextFormField(
@@ -241,40 +279,53 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                         labelText: 'IFSC Code',
                                         controller:
                                             model.ifscCodeControllers[index],
+                                        inputFormatters: [
+                                          AppInputformatters
+                                              .ifscCodeFormatter(),
+                                          LengthLimitingTextInputFormatter(11)
+                                        ],
                                         validator: (value) =>
-                                            AppValidators.validateNotEmpty(
+                                            AppValidators.validateIfscCode(
                                                 value, 'IFSC Code'),
                                       ),
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
                                       CommonTextFormField(
                                         showAstreik: true,
-                                        labelText: 'Issue Name',
+                                        labelText: 'Issuer Name',
                                         controller:
                                             model.issueNameControllers[index],
                                         validator: (value) =>
                                             AppValidators.validateNotEmpty(
-                                                value, 'IFSC Code'),
+                                                value, 'Issuer Name'),
                                       ),
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
-                                      CommonTextFormField(
-                                        showAstreik: true,
-                                        labelText: 'Amount',
-                                        readOnly: model.amountControllers[index]
-                                                .text.isNotEmpty
-                                            ? true
-                                            : false,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: [
-                                          AppInputformatters.mobileFormatter()
-                                        ],
-                                        controller:
-                                            model.amountControllers[index],
-                                        validator: (value) =>
-                                            AppValidators.validateNotEmpty(
-                                                value, 'Amount'),
-                                      ),
+                                      ValueListenableBuilder<bool>(
+                                        valueListenable: model.amountIsNotEmpty,
+                                        builder: (context, value, child) {
+                                          return CommonTextFormField(
+                                            showAstreik: true,
+                                            labelText: 'Amount',
+                                            readOnly: value &&
+                                                model
+                                                        .chequeTypeControllers[
+                                                            index]
+                                                        .text ==
+                                                    "10",
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              AppInputformatters
+                                                  .mobileFormatter()
+                                            ],
+                                            controller:
+                                                model.amountControllers[index],
+                                            validator: (value) =>
+                                                AppValidators.validateNotEmpty(
+                                                    value, 'Amount'),
+                                          );
+                                        },
+                                      )
                                     ],
                                   )
                                 : const SizedBox();
@@ -324,7 +375,11 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
             if (value.status == Status.success) {
               ProviderScope.containerOf(context)
                   .read(paymentsModelProvider)
-                  .getStudentList;
+                  .getStudentList(model.phoneNo);
+              ProviderScope.containerOf(context)
+                  .read(paymentsModelProvider)
+                  .paymentsLoader
+                  .add(true);
               CommonPopups().showSuccess(
                 context,
                 'Payment\nSuccessfull!',
@@ -353,7 +408,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                           }
                         }, model);
                       },
-                      text: 'Continue',
+                      text: 'Submit',
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       textStyle: AppTypography.subtitle2.copyWith(
                           color: Theme.of(context).colorScheme.onTertiary),

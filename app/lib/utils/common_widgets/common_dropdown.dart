@@ -8,17 +8,21 @@ import 'package:rxdart/rxdart.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   final List<String?> items;
+  final List<DropdownData>? itemsWithId;
   final bool isMutiSelect;
   final bool showBorderColor;
   final String dropdownName;
   final bool showAstreik;
-
-  final String? selectedValue;
+  final int? dropDownId;
+  final bool showDropDownWithId;
+  final List<String>? selectedValue;
   final double? width;
   final bool displayZerothIndex;
   final Function(List<String> selectedValues) onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
+  final Function(int id)? onIdSelection;
   final String? Function(String?)? validator;
+  final String? Function(int?, int)? idValidator;
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -28,10 +32,15 @@ class CustomDropdownButton extends StatefulWidget {
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
+      this.showDropDownWithId = false,
       this.selectedValue,
+      this.itemsWithId,
+      this.dropDownId,
       required this.onMultiSelect,
       this.validator,
-      this.onSingleSelect});
+      this.idValidator,
+      this.onSingleSelect,
+      this.onIdSelection});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -45,27 +54,32 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       BehaviorSubject<String>.seeded('');
 
   String? selectedValue;
+  BehaviorSubject<int> valueId = BehaviorSubject<int>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.items);
     eitherDisplayZerothIndexOrSelectedName();
   }
 
   void eitherDisplayZerothIndexOrSelectedName() {
-    if (widget.displayZerothIndex) {
-      List<String> addedZerothIndex = [];
-      addedZerothIndex.add(widget.items[0] ?? '');
-      selectedItemsSubject.add(addedZerothIndex);
-    } else {
-      for (var element in widget.items) {
-        if (element == widget.selectedValue) {
-          List<String> tempList = [];
-          tempList.add(element ?? "");
-          selectedItemsSubject.add(tempList);
+    if (widget.isMutiSelect) {
+      if (widget.displayZerothIndex) {
+        List<String> addedZerothIndex = [];
+        addedZerothIndex.add(widget.items[0] ?? '');
+        selectedItemsSubject.add(addedZerothIndex);
+      } else {
+        List<String> tempList = [];
+        for (var element in widget.items) {
+          if (widget.selectedValue!.contains(element)) {
+            tempList.add(element ?? "");
+            selectedItemsSubject.add(tempList);
+          }
         }
+      }
+    } else {
+      if (widget.displayZerothIndex) {
+        singleSelectItemSubject.add(widget.items[0] ?? "");
       }
     }
   }
@@ -78,7 +92,11 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.isMutiSelect ? multiSelectDropDown() : singleSelectDropDown();
+    return widget.isMutiSelect
+        ? multiSelectDropDown()
+        : widget.showDropDownWithId
+            ? selectionbyId()
+            : singleSelectDropDown();
   }
 
   Widget singleSelectDropDown() {
@@ -128,14 +146,6 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   widget.onSingleSelect?.call(value ?? '');
                   singleSelectItemSubject.add(value ?? "");
                 },
-                buttonStyleData: ButtonStyleData(
-                  height: 48.h,
-                  width: widget.width ?? 175.w,
-                  //  padding: const EdgeInsets.only(left: 14, right: 14),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.keyboard_arrow_down_sharp,
@@ -144,6 +154,28 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   iconEnabledColor: Colors.black,
                   iconDisabledColor: Colors.grey,
                 ),
+                decoration: widget.showBorderColor
+                    ? InputDecoration(
+                        border: Theme.of(context).inputDecorationTheme.border,
+                        focusedBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .focusedBorder,
+                        errorBorder:
+                            Theme.of(context).inputDecorationTheme.errorBorder,
+                        disabledBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .disabledBorder,
+                        enabledBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .enabledBorder,
+                      )
+                    : const InputDecoration(
+                        border: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none),
                 dropdownStyleData: DropdownStyleData(
                   direction: DropdownDirection.left,
                   maxHeight: 200,
@@ -196,6 +228,105 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             ),
           ],
         );
+      },
+    );
+  }
+
+  Widget selectionbyId() {
+    return StreamBuilder<int>(
+      stream: valueId,
+      builder: (context, snapshot) {
+        return Stack(clipBehavior: Clip.none, children: [
+          DropdownButtonFormField2<int>(
+            validator: (e) => widget.idValidator?.call(e, widget.dropDownId!),
+            decoration: widget.showBorderColor
+                ? InputDecoration(
+                    border: Theme.of(context).inputDecorationTheme.border,
+                    focusedBorder:
+                        Theme.of(context).inputDecorationTheme.focusedBorder,
+                    errorBorder:
+                        Theme.of(context).inputDecorationTheme.errorBorder,
+                    disabledBorder:
+                        Theme.of(context).inputDecorationTheme.disabledBorder,
+                    enabledBorder:
+                        Theme.of(context).inputDecorationTheme.enabledBorder,
+                  )
+                : const InputDecoration(
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none),
+            value: snapshot.data,
+            iconStyleData: const IconStyleData(
+              icon: Icon(
+                Icons.keyboard_arrow_down_sharp,
+              ),
+              iconSize: 14,
+              iconEnabledColor: Colors.black,
+              iconDisabledColor: Colors.grey,
+            ),
+            dropdownStyleData: DropdownStyleData(
+              direction: DropdownDirection.left,
+              maxHeight: 200,
+              width: widget.width ?? 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: Colors.white,
+              ),
+              offset: const Offset(1, 0),
+              scrollbarTheme: ScrollbarThemeData(
+                radius: const Radius.circular(40),
+                thickness: WidgetStateProperty.all<double>(6),
+                thumbVisibility: WidgetStateProperty.all<bool>(true),
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+              height: 40,
+              padding: EdgeInsets.only(left: 14, right: 14),
+            ),
+            items: widget.itemsWithId!.map((DropdownData option) {
+              return DropdownMenuItem<int>(
+                value: option.id,
+                child: Text(option.name),
+              );
+            }).toList(),
+            onChanged: (int? newValue) {
+              valueId.add(newValue!);
+              widget.onIdSelection?.call(newValue);
+            },
+          ),
+          Positioned(
+            left: 6,
+            top: -11,
+            child: widget.dropdownName != ''
+                ? Container(
+                    color: Colors
+                        .white, // Match the background color to avoid overlap
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      children: [
+                        CommonText(
+                          text: widget.dropdownName,
+                          style: AppTypography.caption
+                              .copyWith(color: AppColors.textNeutral35),
+                        ),
+                        widget.showAstreik
+                            ? CommonText(
+                                text: ' *',
+                                style: AppTypography.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.failure,
+                                    fontSize: 12.sp),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ]);
       },
     );
   }
@@ -267,7 +398,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Text(
-                                    "AY $item",
+                                    item ?? '',
                                     style: const TextStyle(
                                       fontSize: 14,
                                     ),
@@ -284,6 +415,28 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                 //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
                 value: selectedItems.isEmpty ? null : selectedItems.last,
                 onChanged: (value) {},
+                decoration: widget.showBorderColor
+                    ? InputDecoration(
+                        border: Theme.of(context).inputDecorationTheme.border,
+                        focusedBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .focusedBorder,
+                        errorBorder:
+                            Theme.of(context).inputDecorationTheme.errorBorder,
+                        disabledBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .disabledBorder,
+                        enabledBorder: Theme.of(context)
+                            .inputDecorationTheme
+                            .enabledBorder,
+                      )
+                    : const InputDecoration(
+                        border: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none),
                 selectedItemBuilder: (context) {
                   return widget.items.map(
                     (item) {
@@ -301,13 +454,14 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     },
                   ).toList();
                 },
-                buttonStyleData: ButtonStyleData(
-                  height: 48.h,
-                  width: widget.width ?? 175.w,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                ),
+                // buttonStyleData: ButtonStyleData(
+                //   height: 48.h,
+                //   width: widget.width ?? 175.w,
+                //   padding: EdgeInsets.zero,
+                //   decoration: const BoxDecoration(
+                //     color: Colors.white,
+                //   ),
+                // ),
                 iconStyleData: const IconStyleData(
                   icon: Icon(
                     Icons.keyboard_arrow_down_sharp,

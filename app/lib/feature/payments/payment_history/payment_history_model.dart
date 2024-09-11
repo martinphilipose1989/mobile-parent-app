@@ -33,6 +33,9 @@ class PaymentHistoryModel extends BasePageViewModel {
   final BehaviorSubject<int> switchTabsPaymentHistory =
       BehaviorSubject<int>.seeded(0);
 
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
+  List<int> studentIDs = [];
+
   // Calling academic year api
 
   final PublishSubject<Resource<GetAcademicYearModel>> _getAcademicYearModel =
@@ -44,7 +47,7 @@ class PaymentHistoryModel extends BasePageViewModel {
   Future<void> getAcademicYear() async {
     await exceptionHandlerBinder.handle(block: () {
       GetAcademicYearUsecaseParams params =
-          GetAcademicYearUsecaseParams(students: [2], type: 'collected');
+          GetAcademicYearUsecaseParams(students: studentIDs, type: 'collected');
       RequestManager<GetAcademicYearModel>(
         params,
         createCall: () => _getAcademicYearUsecase.execute(params: params),
@@ -100,14 +103,12 @@ class PaymentHistoryModel extends BasePageViewModel {
     await exceptionHandlerBinder.handle(block: () {
       GetTransactionTypeFeesCollectedUsecaseParams params =
           GetTransactionTypeFeesCollectedUsecaseParams(
-              students: [2], academicYear: academicYearIds);
+              students: studentIDs, academicYear: academicYearIds);
       RequestManager<GetTransactiontypefeesCollectedModel>(
         params,
         createCall: () =>
             _getTransactionTypeFeesCollectedUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        print(
-            "098765432 --------- > ${result.data?.data?.transactions?.length}");
         _getTransactiontypefeesCollectedModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -129,7 +130,7 @@ class PaymentHistoryModel extends BasePageViewModel {
       GetPendingFeesUsecaseParams params = GetPendingFeesUsecaseParams(
           academicYear: academicYearIds,
           applicableTo: 2,
-          students: [2],
+          students: studentIDs,
           type: 'ledger_all');
       RequestManager<GetPendingFeesModel>(
         params,
@@ -156,7 +157,7 @@ class PaymentHistoryModel extends BasePageViewModel {
       GetPendingFeesUsecaseParams params = GetPendingFeesUsecaseParams(
           academicYear: academicYearIds,
           applicableTo: 2,
-          students: [1],
+          students: studentIDs,
           type: 'collected');
       RequestManager<GetPendingFeesModel>(
         params,

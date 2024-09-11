@@ -1,14 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/cheque_page/fee_type_list.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-import 'package:intl/intl.dart';
 
 @injectable
 class ChequePageModel extends BasePageViewModel {
@@ -16,8 +19,14 @@ class ChequePageModel extends BasePageViewModel {
   final GetStorePaymentUsecase _getStorePaymentUsecase;
   final GetTokenGeneratorUsecase _getTokenGeneratorUsecase;
   final ChooseFileUseCase _chooseFileUseCase;
-  ChequePageModel(this.exceptionHandlerBinder, this._getStorePaymentUsecase,
-      this._getTokenGeneratorUsecase, this._chooseFileUseCase);
+  final GetStoreImageUsecase _getStoreImageUsecase;
+  ChequePageModel(
+    this.exceptionHandlerBinder,
+    this._getStorePaymentUsecase,
+    this._getTokenGeneratorUsecase,
+    this._chooseFileUseCase,
+    this._getStoreImageUsecase,
+  );
 
   final BehaviorSubject<List<bool>> selectedChequeType =
       BehaviorSubject<List<bool>>.seeded([]);
@@ -30,6 +39,7 @@ class ChequePageModel extends BasePageViewModel {
       <TextEditingController>[];
   List<TextEditingController> chequeNumberControllers =
       <TextEditingController>[];
+  List<TextEditingController> feeId = <TextEditingController>[];
   List<TextEditingController> chequeDateControllers = <TextEditingController>[];
   List<TextEditingController> ifscCodeControllers = <TextEditingController>[];
   List<TextEditingController> issueNameControllers = <TextEditingController>[];
@@ -49,14 +59,20 @@ class ChequePageModel extends BasePageViewModel {
 
   late List<GetPendingFeesFeeModel> selectedPendingFessList;
 
+  late int phoneNo;
+
   final List<String> chequeTypes = [
     'Current Dated Cheque',
     'Post Dated Cheque',
     'Demand Draft'
   ];
 
-  List<String> feesType = [];
-  List<String> tempList = [];
+  List<String?> selectedGenders = []; // To keep track of selected genders
+  List<String> genderOptions = ['Male', 'Female', 'Other'];
+
+  List<FeeTypeList?> feesType = [];
+
+  ValueNotifier<bool> amountIsNotEmpty = ValueNotifier<bool>(false);
 
   void _addChequeControllers() {
     tokenNumberControllers.add(TextEditingController());
@@ -68,6 +84,7 @@ class ChequePageModel extends BasePageViewModel {
     chequeTypeControllers.add(TextEditingController());
     feeTypeControllers.add(TextEditingController());
     chequeImage.add(TextEditingController());
+    feeId.add(TextEditingController());
   }
 
   void addCheque(String selectedValue, int index) {
@@ -109,6 +126,15 @@ class ChequePageModel extends BasePageViewModel {
       chequeTypeControllers.removeAt(index);
       feeTypeControllers.removeAt(index);
       chequeImage.removeAt(index);
+      feeId.removeAt(index);
+    }
+  }
+
+  void makeListItemSelected(int selectedItem) {
+    for (var fee in feesType) {
+      if (selectedItem == fee?.id) {
+        fee!.selected = true;
+      }
     }
   }
 
@@ -127,15 +153,41 @@ class ChequePageModel extends BasePageViewModel {
           .listen((result) {
         if (result.status == Status.success) {
           _pickFrontFileResponse.add(result);
-          chequeImage[index].text = result.data?.filePath ?? "";
+          uploadImage(
+              file: result.data!.file!,
+              index: index,
+              fileName:
+                  "finance/${selectedPendingFessList[0].lobSegmentId}/${result.data?.filePath?.split('/').last}/${DateTime.now()}");
         }
+      }).onError((error) {});
+    }).execute();
+  }
+
+  final BehaviorSubject<Resource<GetStoreImageModel>> _getStoreImageModel =
+      BehaviorSubject<Resource<GetStoreImageModel>>();
+
+  Stream<Resource<GetStoreImageModel>> get getStoreImageModel =>
+      _getStoreImageModel.stream;
+
+  void uploadImage(
+      {required File file, required String fileName, required int index}) {
+    exceptionHandlerBinder.handle(block: () {
+      final params = GetStoreImageUsecaseParams(file: file, fileName: fileName);
+      RequestManager<GetStoreImageModel>(params,
+              createCall: () => _getStoreImageUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
+          chequeImage[index].text = result.data?.data ?? '';
+        }
+        _getStoreImageModel.add(result);
       }).onError((error) {});
     }).execute();
   }
 
   String formatDateToYYYYMMDD(String date) {
     // Assuming the input date is in 'dd/MM/yyyy' format
-    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+    DateTime parsedDate = DateTime.parse(date);
 
     // Format the parsed date to 'YYYY-mm-dd'
     String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
@@ -153,15 +205,17 @@ class ChequePageModel extends BasePageViewModel {
     List<PaymentDetailModelRequest> paymentDetails = [];
     for (var i = 0; i < noOfCheques.value; i++) {
       paymentDetails.add(PaymentDetailModelRequest(
-        paymentModeId: int.parse(chequeTypeControllers[i].text),
-        amount: int.parse(amountControllers[i].text),
-        chequeNo: chequeNumberControllers[i].text,
-        chequeDate: formatDateToYYYYMMDD(chequeDateControllers[i].text),
-        issuerName: issueNameControllers[i].text,
-        issuerIfsc: ifscCodeControllers[i].text,
-        chequeImage: chequeImage[i].text,
-        tokenNo: tokenNumberControllers[i].text,
-      ));
+          paymentModeId: int.parse(chequeTypeControllers[i].text),
+          amount: int.parse(amountControllers[i].text),
+          chequeNo: chequeNumberControllers[i].text,
+          chequeDate: formatDateToYYYYMMDD(chequeDateControllers[i].text),
+          issuerName: issueNameControllers[i].text,
+          issuerIfsc: ifscCodeControllers[i].text,
+          chequeImage: chequeImage[i].text,
+          tokenNo: tokenNumberControllers[i].text,
+          feeId: chequeTypeControllers[i].text == "10"
+              ? int.tryParse(feeId[i].text) ?? 0
+              : null));
     }
     exceptionHandlerBinder.handle(block: () {
       GetStorePaymentUsecaseParams params = GetStorePaymentUsecaseParams(
@@ -170,13 +224,13 @@ class ChequePageModel extends BasePageViewModel {
               forMobile: true,
               paymentAmount: int.parse(amount.text),
               chequeInFavour: chequeInFavourId,
-              lobId: 52,
+              lobId: selectedPendingFessList[0].lobSegmentId ?? 0,
               paymentDetails: paymentDetails,
               feeIds: List.generate(
                 selectedPendingFessList.length,
                 (index) => FeeIdModelRequest(
                     collected: int.parse(
-                        selectedPendingFessList[index].paid!.split('.')[0]),
+                        selectedPendingFessList[index].pending!.split('.')[0]),
                     feeOrder: selectedPendingFessList[index].feeOrder ?? 0,
                     studentFeeId: selectedPendingFessList[index].id ?? 0),
               )));
@@ -184,6 +238,7 @@ class ChequePageModel extends BasePageViewModel {
         params,
         createCall: () => _getStorePaymentUsecase.execute(params: params),
       ).asFlow().listen((result) {
+        if (result.status == Status.success) {}
         _getStorePaymentModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -200,8 +255,8 @@ class ChequePageModel extends BasePageViewModel {
 
   void tokenGenerator(int index) {
     exceptionHandlerBinder.handle(block: () {
-      GetTokenGeneratorUsecaseParams params =
-          GetTokenGeneratorUsecaseParams(segmentLobId: 45);
+      GetTokenGeneratorUsecaseParams params = GetTokenGeneratorUsecaseParams(
+          segmentLobId: selectedPendingFessList[0].lobSegmentId ?? 0);
       RequestManager<GetTokenGeneratorModel>(
         params,
         createCall: () => _getTokenGeneratorUsecase.execute(params: params),
@@ -226,16 +281,15 @@ class ChequePageModel extends BasePageViewModel {
 
   void checkIfAllAmountMatches(
       Function(bool value) onCallBack, ChequePageModel model) {
+    int tempAmount = 0;
     for (var i = 0; i < amountControllers.length; i++) {
-      int tempAmount = 0;
-
-      tempAmount += int.parse(amountControllers[i].text);
-
-      if (tempAmount != int.parse(amount.text)) {
-        onCallBack.call(true);
-      } else {
-        submitForm(model);
-      }
+      tempAmount += int.parse(
+          amountControllers[i].text == "" ? "0" : amountControllers[i].text);
+    }
+    if (tempAmount != int.parse(amount.text)) {
+      onCallBack.call(true);
+    } else {
+      submitForm(model);
     }
   }
 
@@ -252,13 +306,21 @@ class ChequePageModel extends BasePageViewModel {
     }
   }
 
-  void feeTypeListChanges(
-    String selectedValue,
-    int index,
-  ) {
-    feeTypeControllers[index].text = selectedValue;
-    if (tempList.contains(selectedValue)) {
-      tempList.remove(selectedValue);
+  List<int> selectedFeeType = [];
+
+  void onFeeTypeSelected(int id, int index, Function(bool value) onChange) {
+    if (!selectedFeeType.contains(id)) {
+      selectedFeeType.add(id);
+      for (var fee in selectedPendingFessList) {
+        if (fee.id == id) {
+          amountControllers[index].text = fee.pending?.split('.')[0] ?? "";
+          chequeDateControllers[index].text = fee.activityStartDate ?? '';
+          amountIsNotEmpty.value = true;
+          feeId[index].text = fee.id.toString();
+        }
+      }
+    } else {
+      onChange.call(true);
     }
   }
 
@@ -286,6 +348,9 @@ class ChequePageModel extends BasePageViewModel {
       controller.dispose();
     }
     for (var controller in feeTypeControllers) {
+      controller.dispose();
+    }
+    for (var controller in feeId) {
       controller.dispose();
     }
     noOfCheques.close();

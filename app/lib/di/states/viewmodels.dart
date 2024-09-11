@@ -59,9 +59,10 @@ final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
   (ref) => PaymentsPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetValidatePayNowUseCase>(),
-      getIt.get<GetStorePaymentUsecase>()),
+    getIt.get<FlutterExceptionHandlerBinder>(),
+    getIt.get<GetValidatePayNowUseCase>(),
+    getIt.get<GetPaymentOrderUsecase>(),
+  ),
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
@@ -159,7 +160,8 @@ final chequePageModelProvider =
             getIt.get<FlutterExceptionHandlerBinder>(),
             getIt.get<GetStorePaymentUsecase>(),
             getIt.get<GetTokenGeneratorUsecase>(),
-            getIt.get<ChooseFileUseCase>()));
+            getIt.get<ChooseFileUseCase>(),
+            getIt.get<GetStoreImageUsecase>()));
 
 final paymentHistoryProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryModel>((ref) =>

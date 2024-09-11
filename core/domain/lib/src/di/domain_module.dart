@@ -1,5 +1,6 @@
 import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/attachemnt/choose_file_usecase.dart';
+import 'package:domain/src/usecase/finance/get_payment_order_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -54,5 +55,15 @@ abstract class DomainModule {
   @lazySingleton
   ChooseFileUseCase pickFile(AttachmentRepository repository) {
     return ChooseFileUseCase(attachmentRepository: repository);
+  }
+
+  @lazySingleton
+  GetPaymentOrderUsecase getPaymentOrder(FinanceRepository repository) {
+    return GetPaymentOrderUsecase(repository);
+  }
+
+  @lazySingleton
+  GetStoreImageUsecase setStoreImage(FinanceRepository repository) {
+    return GetStoreImageUsecase(repository);
   }
 }

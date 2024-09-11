@@ -40,6 +40,14 @@ class BottomPhoneEmailSheet extends StatelessWidget {
             selectedValue: otpPageModel.selectedValue,
             firstTabTitle: 'Phone Number',
             secondTabTitle: 'Email',
+            onFirstTabChange: () {
+              FocusScope.of(context).unfocus();
+              otpPageModel.emailContoller.clear();
+            },
+            onSecondTabChange: () {
+              FocusScope.of(context).unfocus();
+              otpPageModel.mobileController.clear();
+            },
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +71,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
               dataBuilder: (context, data) {
                 return data == 1
                     ? CommonTextFormField(
-                        controller: otpPageModel.mobileOrEmailController,
+                        controller: otpPageModel.emailContoller,
                         showAstreik: false,
                         keyboardType: TextInputType.emailAddress,
                         hintText: 'Enter Email ID',
@@ -75,7 +83,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
                         ],
                       )
                     : CommonTextFormField(
-                        controller: otpPageModel.mobileOrEmailController,
+                        controller: otpPageModel.mobileController,
                         showAstreik: false,
                         keyboardType: TextInputType.phone,
                         hintText: 'Enter Phone Number',
@@ -100,7 +108,8 @@ class BottomPhoneEmailSheet extends StatelessWidget {
           ]),
           CommonElevatedButton(
             onPressed: () {
-              if (otpPageModel.mobileOrEmailController.text.isNotEmpty) {
+              if (otpPageModel.mobileController.text.isNotEmpty ||
+                  otpPageModel.emailContoller.text.isNotEmpty) {
                 otpPageModel.openBottomSheet.add(true);
               }
             },

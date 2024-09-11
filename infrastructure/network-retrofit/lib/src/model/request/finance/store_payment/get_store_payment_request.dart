@@ -62,7 +62,8 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
                 issuerIfsc: e.issuerIfsc,
                 issuerName: e.issuerName,
                 paymentModeId: e.paymentModeId,
-                tokenNo: e.tokenNo))
+                tokenNo: e.tokenNo,
+                feeId: e.feeId))
             .toList());
   }
 }

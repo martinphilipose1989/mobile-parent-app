@@ -1,6 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/payments/payments_pages/payments_view.dart';
 import 'package:app/feature/payments/payments_pages/payments_model.dart';
+import 'package:app/feature/payments/payments_pages/payments_view.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -11,15 +12,19 @@ import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
 import '../../../base/app_base_page.dart';
 
 class Payments extends BasePage<PaymentsModel> {
-  const Payments({super.key});
+  final String phoneNo;
+  const Payments({
+    super.key,
+    required this.phoneNo,
+  });
 
   @override
   PaymentsPageState createState() => PaymentsPageState();
@@ -40,9 +45,14 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
         .read(dashboardViewModelProvider)
         .selectedStudentId;
     if (model.selectedStudent != null) {
-      model.studentIDs.add(model.selectedStudent?.id ?? 0);
+      List<int> temp = [];
+      for (var selectedStudent in model.selectedStudent!) {
+        temp.add(selectedStudent.id!);
+      }
+      model.studentIDs = temp;
     }
-    model.executeTasksSequentially();
+    model.phoneNo = int.parse(widget.phoneNo);
+    model.getStudentList(model.phoneNo);
   }
 
   @override
@@ -53,7 +63,12 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   @override
   Widget? buildBottomNavigationBar(PaymentsModel model) {
     // TODO: implement buildBottomNavigationBar
-    return payNowButton(model);
+    return AppStreamBuilder<bool>(
+        stream: model.paymentsLoader,
+        initialData: model.paymentsLoader.value,
+        dataBuilder: (context, data) {
+          return data! ? const SizedBox.shrink() : payNowButton(model);
+        });
   }
 
   Widget payNowButton(PaymentsModel model) {
@@ -62,7 +77,7 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
         builder: (context, snapshot) {
           return snapshot.data == 0
               ? Container(
-                  height: 90.h,
+                  height: 100.h,
                   padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
                   decoration:
                       const BoxDecoration(color: AppColors.primaryLighter),

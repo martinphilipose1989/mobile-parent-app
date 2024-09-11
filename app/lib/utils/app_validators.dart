@@ -46,6 +46,22 @@ class AppValidators {
     return null;
   }
 
+  // Method to check if text is empty
+  static String? validateIfscCode(String? value, String fieldName) {
+    if (value == null || value.isEmpty || value.length < 11) {
+      return '$fieldName cannot be empty';
+    }
+    return null;
+  }
+
+  // Method to check if text is empty
+  static String? validateChequeNo(String? value, String fieldName) {
+    if (value == null || value.isEmpty || value.length < 6) {
+      return '$fieldName cannot be empty';
+    }
+    return null;
+  }
+
   // Method to validate dropdown selection
   static String? validateDropdown(String? value, String fieldName) {
     if (value == null || value.isEmpty) {

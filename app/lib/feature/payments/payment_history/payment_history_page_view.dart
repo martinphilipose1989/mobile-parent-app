@@ -31,10 +31,11 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
                     : Align(
                         alignment: Alignment.centerRight,
                         child: SizedBox(
-                          height: 50.h,
+                          height: 60.h,
                           width: 175.w,
                           child: CustomDropdownButton(
                             displayZerothIndex: true,
+                            width: 300,
                             onMultiSelect: (selectedValues) {
                               model.getSelectedAcademicYear(
                                   selectedValues: selectedValues,

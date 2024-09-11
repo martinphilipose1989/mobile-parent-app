@@ -23,6 +23,7 @@ class _PaymentHistoryStudentLedgerState
     extends State<PaymentHistoryStudentLedgerList> {
   @override
   Widget build(BuildContext context) {
+    List<domain.GetPendingFeesFeeModel> fees = widget.fees.reversed.toList();
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
@@ -41,9 +42,9 @@ class _PaymentHistoryStudentLedgerState
             height: MediaQuery.of(context).size.height,
             child: ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.fees.length,
+              itemCount: fees.length,
               itemBuilder: (context, index) {
-                domain.GetPendingFeesFeeModel fee = widget.fees[index];
+                domain.GetPendingFeesFeeModel fee = fees[index];
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, RoutePaths.paymentDetails,

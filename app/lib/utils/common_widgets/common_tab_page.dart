@@ -10,12 +10,16 @@ class CommonTabPage<T> extends StatelessWidget {
   final BehaviorSubject<int> selectedValue;
   final TabController tabController;
   final String? firstTabTitle;
+  final Function()? onFirstTabChange;
+  final Function()? onSecondTabChange;
   final String? secondTabTitle;
 
   const CommonTabPage(
       {super.key,
       required this.tabController,
       required this.selectedValue,
+      this.onFirstTabChange,
+      this.onSecondTabChange,
       this.firstTabTitle,
       this.secondTabTitle});
 
@@ -33,6 +37,7 @@ class CommonTabPage<T> extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   selectedValue.add(0);
+                  onFirstTabChange?.call();
                 },
                 child: Container(
                   height: 48.h,
@@ -61,6 +66,7 @@ class CommonTabPage<T> extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   selectedValue.add(1);
+                  onSecondTabChange?.call();
                 },
                 child: Container(
                   height: 48.h,

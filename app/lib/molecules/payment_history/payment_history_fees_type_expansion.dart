@@ -25,11 +25,11 @@ class _PaymentHistoryFeesTypeExpansionState
     extends State<PaymentHistoryFeesTypeExpansion> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+        height: MediaQuery.of(context).size.height / 1,
         child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemCount: widget.groupedModels.length,
-            shrinkWrap: true,
             itemBuilder: (context, i) {
               return Container(
                   width: 358.w,

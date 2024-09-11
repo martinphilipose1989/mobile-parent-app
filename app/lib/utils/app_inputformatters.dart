@@ -11,6 +11,11 @@ class AppInputformatters {
     return FilteringTextInputFormatter.digitsOnly;
   }
 
+  // Method to get an input formatter for ifsc code
+  static TextInputFormatter ifscCodeFormatter() {
+    return FilteringTextInputFormatter.allow(RegExp(r'^[A-Z0-9]*$'));
+  }
+
   // Method to get an input formatter for pin code
   static TextInputFormatter pinCodeFormatter() {
     return FilteringTextInputFormatter.digitsOnly;

@@ -18,6 +18,7 @@ class CommonTextFormField extends StatelessWidget {
   final Widget? prefix;
   final bool showAstreik;
   final bool readOnly;
+  final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
 
   const CommonTextFormField(
@@ -31,6 +32,7 @@ class CommonTextFormField extends StatelessWidget {
       this.readOnly = false,
       this.decoration,
       this.maxLines,
+      this.maxLength,
       required this.showAstreik,
       this.showSearchIcon = false,
       this.prefix,
@@ -48,6 +50,7 @@ class CommonTextFormField extends StatelessWidget {
             controller: controller,
             cursorHeight: 20,
             readOnly: readOnly,
+            maxLength: maxLength,
             style:
                 AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
             keyboardType: keyboardType,

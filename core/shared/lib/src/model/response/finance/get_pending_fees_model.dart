@@ -405,6 +405,7 @@ class GetPendingFeesFeeModel {
 
 class GetPendingFeesPaymentModeModel {
   final int? paymentModeId;
+  final int? serviceproviderId;
   final String? paymentModeName;
   final String? serviceProvider;
   final int? isTransactionChargeApplicable;
@@ -412,13 +413,13 @@ class GetPendingFeesPaymentModeModel {
   final dynamic isManual;
   final List<int>? feeIds;
 
-  GetPendingFeesPaymentModeModel({
-    this.paymentModeId,
-    this.paymentModeName,
-    this.serviceProvider,
-    this.isTransactionChargeApplicable,
-    this.transactionCharge,
-    this.isManual,
-    this.feeIds,
-  });
+  GetPendingFeesPaymentModeModel(
+      {this.paymentModeId,
+      this.paymentModeName,
+      this.serviceProvider,
+      this.isTransactionChargeApplicable,
+      this.transactionCharge,
+      this.isManual,
+      this.feeIds,
+      this.serviceproviderId});
 }

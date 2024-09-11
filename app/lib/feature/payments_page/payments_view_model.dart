@@ -12,18 +12,18 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class PaymentsPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetValidatePayNowUseCase _getValidatePayNowUseCase;
-  final GetStorePaymentUsecase _getStorePaymentUsecase;
+  final GetPaymentOrderUsecase _getPaymentOrderUsecase;
   PaymentsPageModel(
     this.exceptionHandlerBinder,
     this._getValidatePayNowUseCase,
-    this._getStorePaymentUsecase,
+    this._getPaymentOrderUsecase,
   );
 
   final BehaviorSubject<String> selectedPaymentType =
       BehaviorSubject<String>.seeded('');
 
   int selectedPaymentMode = 0;
-
+  int serviceProviderId = 0;
   List<GetPendingFeesPaymentModeModel> paymentModes = [];
 
   List<GetPendingFeesFeeModel> selectedFees = [];
@@ -36,6 +36,8 @@ class PaymentsPageModel extends BasePageViewModel {
   int chequeInFavourId = 0;
   String customerIfscCode = '';
   String customerName = '';
+
+  late int phoneNo;
 
   final List<String> feesType = [
     'Registration Fees',
@@ -66,6 +68,7 @@ class PaymentsPageModel extends BasePageViewModel {
         createCall: () => _getValidatePayNowUseCase.execute(params: params),
       ).asFlow().listen((result) {
         _getValidateOnPayModel.add(result);
+        if (result.status == Status.error) {}
         chequeInFavourId =
             result.data?.data?.chequeInFavourDetails?.chequeInFavourId ?? 0;
         inFavour.text =
@@ -77,6 +80,62 @@ class PaymentsPageModel extends BasePageViewModel {
         customerName =
             result.data?.data?.lastTransactionDetailModel?.customerBankName ??
                 "";
+      }).onError((error) {
+        print(error);
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  void setProviderIdAndServiceProvider(String text) {
+    for (var paymentMode in paymentModes) {
+      if (paymentMode.serviceProvider == text) {
+        selectedPaymentMode = paymentMode.paymentModeId ?? 0;
+        serviceProviderId = paymentMode.serviceproviderId ?? 0;
+      }
+    }
+  }
+
+  final BehaviorSubject<Resource<GetPaymentOrderResponseModel>>
+      _getPaymentOrderResponseModel =
+      BehaviorSubject<Resource<GetPaymentOrderResponseModel>>();
+
+  Stream<Resource<GetPaymentOrderResponseModel>>
+      get getPaymentOrderResponseModel => _getPaymentOrderResponseModel.stream;
+
+  void getPaymentOrder(int paymentModeId, int serviceProviderId) {
+    exceptionHandlerBinder.handle(block: () {
+      GetPaymentOrderUsecaseParams params = GetPaymentOrderUsecaseParams(
+          paymentOrderModel: PaymentOrderModel(
+              orders: Orders(
+                  amount: int.parse(amount.text),
+                  currency: "INR",
+                  paymentGateway: "razorpay",
+                  receipt: "RCPT#123",
+                  lobId: selectedFees[0].lobSegmentId,
+                  transactionTypeId: 1,
+                  serviceProviderId: serviceProviderId,
+                  bankWalletMerchantId: 2,
+                  paymentModeId: paymentModeId,
+                  studentFees: List.generate(
+                    selectedFees.length,
+                    (index) => StudentFee(
+                        feeId: selectedFees[index].feeId,
+                        id: selectedFees[index].id,
+                        amount: selectedFees[index].amount),
+                  ),
+                  additionalInfo: AdditionalInfo(
+                      customerEmail: '',
+                      customerName: '',
+                      customerContact: '6380876483'),
+                  device: null)));
+
+      RequestManager<GetPaymentOrderResponseModel>(
+        params,
+        createCall: () => _getPaymentOrderUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {}
+        _getPaymentOrderResponseModel.add(result);
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

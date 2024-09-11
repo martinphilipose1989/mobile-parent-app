@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
 import 'package:app/model/resource.dart';
@@ -12,6 +11,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -78,12 +78,16 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
   Widget chipsList(
       BuildContext context, List<Chips> chipValues, DashboardPageModel model) {
     return SizedBox(
-      height: 105.h,
+      height: 120.h,
       child: HighlightList(
         chipValues: chipValues,
         onCallBack: (routeName) {
+          print(ProviderScope.containerOf(context)
+              .read(otpPageModelProvider)
+              .phoneNo);
           var receivedRoutePath = model.returnRouteValue(routeName);
-          Navigator.pushNamed(context, receivedRoutePath);
+          Navigator.pushNamed(context, receivedRoutePath,
+              arguments: model.mobileNo);
         },
       ),
     );
@@ -135,29 +139,28 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
             dataBuilder: (context, data) {
               return data!.status == Status.loading
                   ? const SizedBox(
-                      height: 40,
-                      child: CircularProgressIndicator(),
+                      child: Center(child: CircularProgressIndicator()),
                     )
                   : data.data?.data?.students == null
                       ? const SizedBox.shrink()
                       : SizedBox(
-                          height: 50.h,
+                          height: 60.h,
                           width: 128.w,
                           child: CustomDropdownButton(
                             dropdownName: '',
                             width: 300,
                             showAstreik: false,
-                            showBorderColor: false,
-                            displayZerothIndex: false,
+                            showBorderColor: true,
+                            displayZerothIndex: true,
                             items: data.data?.data?.students!
                                     .map((e) => e.studentDisplayName)
                                     .toList() ??
                                 [],
-                            isMutiSelect: false,
-                            onMultiSelect: (selectedValues) {},
-                            onSingleSelect: (selectedValue) {
-                              model.getSelectedStudentid(selectedValue);
+                            isMutiSelect: true,
+                            onMultiSelect: (selectedValues) {
+                              model.getSelectedStudentid(selectedValues);
                             },
+                            onSingleSelect: (selectedValue) {},
                           ),
                         );
             },

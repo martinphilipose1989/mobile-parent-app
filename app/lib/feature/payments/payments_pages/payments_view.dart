@@ -42,7 +42,19 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
           initialData: model.selectedValue.value,
           dataBuilder: (context, data) {
             return data == 0
-                ? pendingAmount(cxt, model)
+                ? AppStreamBuilder<bool>(
+                    stream: model.paymentsLoader,
+                    initialData: model.paymentsLoader.value,
+                    dataBuilder: (context, data) {
+                      return data!
+                          ? SizedBox(
+                              height: MediaQuery.of(context).size.height / 1.2,
+                              child: const Center(
+                                  child: CircularProgressIndicator()),
+                            )
+                          : pendingAmount(cxt, model);
+                    },
+                  )
                 : SizedBox(
                     height: MediaQuery.of(context).size.height - 100,
                     width: MediaQuery.of(context).size.width,
@@ -163,7 +175,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         : data.data?.data?.students == null
                             ? const SizedBox.shrink()
                             : SizedBox(
-                                height: 50.h,
+                                height: 55.h,
                                 width: 128.w,
                                 child: CustomDropdownButton(
                                   dropdownName: '',
@@ -171,9 +183,9 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                   showAstreik: false,
                                   showBorderColor: false,
                                   displayZerothIndex: false,
-                                  selectedValue: model.selectedStudent
-                                          ?.studentDisplayName ??
-                                      "",
+                                  selectedValue: model.selectedStudent!
+                                      .map((e) => e.studentDisplayName ?? '')
+                                      .toList(),
                                   items: data.data?.data?.students!
                                           .map((e) => e.studentDisplayName)
                                           .toList() ??

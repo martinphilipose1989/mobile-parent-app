@@ -34,6 +34,9 @@ export 'src/model/response/finance/get_transaction_type_fees_collected.dart';
 export 'src/model/file/upload_file.dart';
 export 'src/const/file_type_enum.dart';
 export 'src/model/error/local_error.dart';
+export 'src/model/request/finance/payment_order/payment_order_request_model.dart';
+export 'src/model/response/finance/get_payment_order_response_model.dart';
+export 'src/model/response/finance/get_store_image_model.dart';
 
 //utils
 export 'src/utils/validator.dart';

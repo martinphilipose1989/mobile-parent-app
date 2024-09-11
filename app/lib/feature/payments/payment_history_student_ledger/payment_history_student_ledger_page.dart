@@ -22,7 +22,9 @@ class PaymentsHistoryPageState extends AppBasePageState<
   @override
   Widget buildView(
       BuildContext context, PaymentHistoryStudentLedgerModel model) {
-    return PaymentHistoryPageStudentLedgerView(provideBase());
+    return SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: PaymentHistoryPageStudentLedgerView(provideBase()));
   }
 
   @override

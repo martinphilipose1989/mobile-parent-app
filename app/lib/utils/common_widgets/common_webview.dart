@@ -56,8 +56,16 @@ class CommonWebViewState extends State<CommonWebView> {
           }
         },
         onLoadStop: (controller, url) async {
-          if (widget.onPageFinished != null) {
-            widget.onPageFinished!(url.toString());
+          if (url != null) {
+            if (url.toString().contains('success')) {
+              // Handle successful payment
+              print("Payment successful!");
+              Navigator.pop(context, true);
+            } else if (url.toString().contains('failure')) {
+              // Handle failed payment
+              print("Payment failed!");
+              Navigator.pop(context, false);
+            }
           }
         },
         onLoadError: (controller, url, code, message) {
@@ -93,10 +101,14 @@ class CommonWebViewState extends State<CommonWebView> {
 }
 
 class WebView extends StatelessWidget {
-  const WebView({super.key});
+  final String webViewLink;
+  const WebView({
+    super.key,
+    required this.webViewLink,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const CommonWebView(url: 'https://example.com/payment');
+    return CommonWebView(url: webViewLink);
   }
 }

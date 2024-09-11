@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -7,11 +9,14 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_transaction_type_fees_collectes_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
+import 'package:network_retrofit/src/model/request/finance/payment_order/payment_order_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
+import 'package:network_retrofit/src/model/response/finance/get_payment_order/get_payment_order_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
+import 'package:network_retrofit/src/model/response/finance/get_store_image/get_store_image_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_transaction_type/get_transaction_type_entity.dart';
@@ -81,4 +86,14 @@ abstract class RetrofitService {
           @Body()
           GetTransactionTypeFeesCollectesRequest
               getTransactionTypeFeesCollectesRequest);
+
+  @POST('${NetworkProperties.financeBaseUrl}/finance/payment/order')
+  Future<HttpResponse<GetPaymentOrderEntity>> getPaymentOrder(
+      @Body() PaymentOrderRequestModel paymentOrderRequestModel);
+
+  @POST('${NetworkProperties.financeBaseUrl}/finance/transactions/store_file')
+  @MultiPart()
+  Future<HttpResponse<GetStoreImageEntity>> setStoreImage(
+      {@Part(name: 'file') required File file,
+      @Part(name: 'fileName') required String fileName});
 }

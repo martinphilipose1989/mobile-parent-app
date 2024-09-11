@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:shared/shared.dart';
 
@@ -37,4 +39,10 @@ abstract class FinanceRepository {
   Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
       getTransactionTypeFeesCollected(
           {required List<int> students, required List<int> academicYear});
+
+  Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
+      {required PaymentOrderModel paymentOrderModel});
+
+  Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
+      {required File file, required String fileName});
 }

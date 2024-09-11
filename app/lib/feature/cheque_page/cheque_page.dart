@@ -2,6 +2,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cheque_page/cheque_page_view.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
+import 'package:app/molecules/cheque_page/fee_type_list.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,11 +36,11 @@ class ChequePageState extends AppBasePageState<ChequePageModel, ChequePage>
         .selectedPendingFessList;
     model.customerName = widget.paymentsPageModel.customerName;
     model.customerIfscCode = widget.paymentsPageModel.customerIfscCode;
-
+    model.phoneNo = widget.paymentsPageModel.phoneNo;
     model.feesType = model.selectedPendingFessList
-        .map((e) => e.feeDisplayName.toString())
+        .map((e) =>
+            FeeTypeList(id: e.id ?? 0, name: e.feeDisplayName, selected: false))
         .toList();
-    model.tempList = model.feesType;
   }
 
   @override

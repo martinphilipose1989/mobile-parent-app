@@ -10,10 +10,25 @@ class OtpPageModel extends BasePageViewModel {
   OtpPageModel(this.exceptionHandlerBinder);
   late TabController tabController;
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
-  TextEditingController mobileOrEmailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController emailContoller = TextEditingController();
   final BehaviorSubject<bool> openBottomSheet =
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> otpExpired = BehaviorSubject<bool>.seeded(false);
   late AnimationController controller;
   int levelClock = 62;
+
+  String get phoneNo => mobileController.text.isEmpty
+      ? emailContoller.text
+      : mobileController.text;
+
+  @override
+  void dispose() {
+    emailContoller.dispose();
+    selectedValue.close();
+    openBottomSheet.close();
+    otpExpired.close();
+
+    super.dispose();
+  }
 }

@@ -82,4 +82,16 @@ class FinanceRepositoryImpl extends FinanceRepository {
     return networkPort.getTransactionTypeFeesCollected(
         students: students, academicYear: academicYear);
   }
+
+  @override
+  Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
+      {required PaymentOrderModel paymentOrderModel}) {
+    return networkPort.getPaymentOrder(paymentOrderModel: paymentOrderModel);
+  }
+
+  @override
+  Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
+      {required file, required fileName}) {
+    return networkPort.setStoreImage(file: file, fileName: fileName);
+  }
 }

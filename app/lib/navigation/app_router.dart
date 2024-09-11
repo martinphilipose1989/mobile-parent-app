@@ -37,7 +37,9 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.tabbar));
       case RoutePaths.payments:
         return CupertinoPageRoute(
-            builder: (context) => const Payments(),
+            builder: (context) => Payments(
+                  phoneNo: settings.arguments as String,
+                ),
             settings: const RouteSettings(name: RoutePaths.payments));
       case RoutePaths.paymentDetails:
         return CupertinoPageRoute(
@@ -135,7 +137,9 @@ class AppRouter {
 
       case RoutePaths.webview:
         return CupertinoPageRoute(
-            builder: (context) => const WebView(),
+            builder: (context) => WebView(
+                  webViewLink: settings.arguments as String,
+                ),
             settings: const RouteSettings(name: RoutePaths.webview));
       default:
         // Replace by Empty Page

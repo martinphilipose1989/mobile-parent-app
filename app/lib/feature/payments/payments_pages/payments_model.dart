@@ -29,15 +29,11 @@ class PaymentsModel extends BasePageViewModel {
 
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
 
-  late GetGuardianStudentDetailsStudentModel? selectedStudent;
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
 
-// executing all api call sequentially
+  late int phoneNo;
 
-  Future<void> executeTasksSequentially() async {
-    getStudentList();
-  }
-
-//end
+  BehaviorSubject<bool> paymentsLoader = BehaviorSubject<bool>.seeded(true);
 
 // Calling students list
 
@@ -48,10 +44,10 @@ class PaymentsModel extends BasePageViewModel {
       get getGuardianStudentDetailsModel =>
           _getGuardianStudentDetailsModel.stream;
 
-  Future<void> getStudentList() async {
+  Future<void> getStudentList(int parentMobileNo) async {
     await exceptionHandlerBinder.handle(block: () {
       GetGuardianStudentDetailsUsecaseParams params =
-          GetGuardianStudentDetailsUsecaseParams(mobileNo: 6380876483);
+          GetGuardianStudentDetailsUsecaseParams(mobileNo: parentMobileNo);
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
@@ -62,6 +58,7 @@ class PaymentsModel extends BasePageViewModel {
           getAcademicYear();
         }
       }).onError((error) {
+        paymentsLoader.add(false);
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -71,8 +68,8 @@ class PaymentsModel extends BasePageViewModel {
 
   // Calling academic year api
 
-  final PublishSubject<Resource<GetAcademicYearModel>> _getAcademicYearModel =
-      PublishSubject();
+  final BehaviorSubject<Resource<GetAcademicYearModel>> _getAcademicYearModel =
+      BehaviorSubject();
 
   Stream<Resource<GetAcademicYearModel>> get getAcademicYearModel =>
       _getAcademicYearModel.stream;
@@ -86,15 +83,15 @@ class PaymentsModel extends BasePageViewModel {
         createCall: () => _getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
+          _getAcademicYearModel.add(result);
           if (academicYearIds.isEmpty) {
             academicYearIds.add(result.data!.data![0].id!);
           }
 
           getSchoolNames();
         }
-
-        _getAcademicYearModel.add(result);
       }).onError((error) {
+        paymentsLoader.add(false);
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -120,11 +117,16 @@ class PaymentsModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           _getSchoolNamesModel.add(result);
-          selectSchoolBrand = result.data?.data?.brandCodes?[0];
+          if (result.data?.data?.brandCodes?.isNotEmpty ?? false) {
+            selectSchoolBrand = result.data?.data?.brandCodes?[0];
+          } else {
+            selectSchoolBrand = null;
+          }
           filterPendingFeeList(
               academicYear: academicYearIds, studentIDs: studentIDs);
         }
       }).onError((error) {
+        paymentsLoader.add(false);
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -158,8 +160,9 @@ class PaymentsModel extends BasePageViewModel {
         params,
         createCall: () => _getPendingFeesUsecase.execute(params: params),
       ).asFlow().listen((result) {
+        _getPendingFeesModel.add(result.data!);
         if (result.status == Status.success) {
-          _getPendingFeesModel.add(result.data!);
+          paymentsLoader.add(false);
           int tempTotalAmount = 0;
 
           for (var i = 0; i < (result.data?.data?.fees?.length ?? 0); i++) {
@@ -170,11 +173,14 @@ class PaymentsModel extends BasePageViewModel {
                   result.data?.data?.fees?[i].pending?.split('.')[0] ?? '');
             }
           }
+
           totalAmount.add(tempTotalAmount);
+          pendingFeesFilteredById.add(Resource.success(data: []));
           createANewListAsPerStudentId(result.data!);
           calculateTotalAmount();
         }
       }).onError((error) {
+        paymentsLoader.add(false);
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
