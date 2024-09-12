@@ -14,4 +14,10 @@ class SiblingProfile {
   String? religion;
   String? bloodGroup;
   String? motherTongue;
+  int? globalId;
+  String? globalNumber;
+  bool? isVibgyorStudent;
+  String? schoolName;
+  int? gradeId;
+  int? genderId;
 }

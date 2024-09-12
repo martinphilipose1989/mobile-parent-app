@@ -1,4 +1,5 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
@@ -112,38 +113,38 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
-                          stream: model.occupation,
-                          builder: (context, snapshot) {
-                            return CustomDropdownButton(
-                              items: model.occupation.value,
-                              width: MediaQuery.of(context).size.width,
-                              isMutiSelect: false,
-                              dropdownName: 'Occupation',
-                              showAstreik: false,
-                              validator: (value) => AppValidators.validateNotEmpty(
-                                value,
-                                'Occupation',
-                                checkSpecialCharacters: false,
-                              ),
-                              onMultiSelect: (selectedValues) {},
-                              showBorderColor: true,
-                              onSingleSelect: (val) {
-                                if (model.occupation.value.contains(val)) {
-                                  var occupation = model.occupationAttribute
-                                      ?.firstWhere((element) =>
-                                          (element.attributes?.occupation ??
-                                              '')
-                                            .contains(val));
-                                  model.selectedFatherOccupation =
-                                      CommonDataClass(
-                                          id: occupation?.id,
-                                          value: occupation
-                                            ?.attributes?.occupation);
-                                }
-                              },
-                            );
-                          }
-                        ),
+                            stream: model.occupation,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.occupation.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Occupation',
+                                showAstreik: false,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  'Occupation',
+                                  checkSpecialCharacters: false,
+                                ),
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                onSingleSelect: (val) {
+                                  if (model.occupation.value.contains(val)) {
+                                    var occupation = model.occupationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.occupation ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedFatherOccupation =
+                                        CommonDataClass(
+                                            id: occupation?.id,
+                                            value: occupation
+                                                ?.attributes?.occupation);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -396,33 +397,32 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
-                          stream: model.occupation,
-                          builder: (context, snapshot) {
-                            return CustomDropdownButton(
-                              items: model.occupation.value,
-                              width: MediaQuery.of(context).size.width,
-                              isMutiSelect: false,
-                              dropdownName: 'Occupation',
-                              showAstreik: false,
-                              onMultiSelect: (selectedValues) {},
-                              showBorderColor: true,
-                              onSingleSelect: (val) {
-                                if (model.occupation.value.contains(val)) {
-                                  var occupation = model.occupationAttribute
-                                      ?.firstWhere((element) =>
-                                          (element.attributes?.occupation ??
-                                                  '')
-                                              .contains(val));
-                                  model.selectedMotherOccupation =
-                                      CommonDataClass(
-                                          id: occupation?.id,
-                                          value: occupation
-                                              ?.attributes?.occupation);
-                                }
-                              },
-                            );
-                          }
-                        ),
+                            stream: model.occupation,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.occupation.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Occupation',
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                onSingleSelect: (val) {
+                                  if (model.occupation.value.contains(val)) {
+                                    var occupation = model.occupationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.occupation ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedMotherOccupation =
+                                        CommonDataClass(
+                                            id: occupation?.id,
+                                            value: occupation
+                                                ?.attributes?.occupation);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -706,24 +706,23 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
-                          stream: model.occupation,
-                          builder: (context, snapshot) {
-                            return CustomDropdownButton(
-                              items: model.occupation.value,
-                              width: MediaQuery.of(context).size.width,
-                              isMutiSelect: false,
-                              dropdownName: 'Occupation',
-                              //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
-                              showAstreik: false,
-                              onMultiSelect: (selectedValues) {},
-                              showBorderColor: true,
+                            stream: model.occupation,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.occupation.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Occupation',
+                                //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
 
-                              onSingleSelect: (val) {
-                                model.guardianOccupation = val;
-                              },
-                            );
-                          }
-                        ),
+                                onSingleSelect: (val) {
+                                  model.guardianOccupation = val;
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -996,58 +995,101 @@ class ParentInfoEditing extends StatelessWidget {
                                           AppValidators.validateNotEmpty(
                                         value,
                                         "Sibling's Enrollment Number",
-                                        checkSpecialCharacters: true,
                                       ),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(
+                                                r'^[a-zA-Z0-9\-]+$') // Only allows alphanumeric and hyphen
+                                            )
+                                      ],
                                       textInputAction: TextInputAction.done,
                                       focusNode: model.enrollmentNode,
-                                      onFieldSubmitted: (value)=> model.onFormFieldSubmitted(value),
+                                      onFieldSubmitted: (value) =>
+                                          model.onFormFieldSubmitted(value),
                                     )
                                   : const SizedBox.shrink();
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Sibling First Name",
-                          controller: model.siblingFirstNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Sibling's First Name",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return CommonTextFormField(
+                                showAstreik: false,
+                                readOnly:
+                                    selectStudentType == "Vibgyor Student",
+                                labelText: "Sibling First Name",
+                                controller: model.siblingFirstNameController,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  "Sibling's First Name",
+                                  checkSpecialCharacters: true,
+                                ),
+                              );
+                            }),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return CommonTextFormField(
+                                showAstreik: false,
+                                labelText: "Sibling Last Name",
+                                readOnly:
+                                    selectStudentType == "Vibgyor Student",
+                                controller: model.siblingLastNameController,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  "Sibling's Last Name",
+                                  checkSpecialCharacters: true,
+                                ),
+                              );
+                            }),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        AppStreamBuilder<Resource<SiblingProfileResponse>>(
+                            stream: model.siblingDetail.stream,
+                            initialData: Resource.none(),
+                            dataBuilder: (context, data) {
+                              return CommonDatePickerWidget(
+                                  labelName: "Date of birth",
+                                  initialDate: data
+                                      ?.data?.data?.siblingProfile?.first.dob);
+                            }),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        AppStreamBuilder<String>(
+                            stream: model.siblingInitialGender.stream,
+                            initialData: model.siblingInitialGender.value,
+                            dataBuilder: (context, data) {
+                              return CustomDropdownButton(
+                                items: model.gender.value,
+                                intialValue: data,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Gender',
+                                showAstreik: false,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  "Sibling's Gender",
+                                  checkSpecialCharacters: true,
+                                ),
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                onSingleSelect: (val) {
+                                  model.siblingGender = val;
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Sibling Last Name",
-                          controller: model.siblingLastNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Sibling's Last Name",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        const CommonDatePickerWidget(),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.gender.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Gender',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Sibling's Gender",
-                            checkSpecialCharacters: true,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.siblingGender = val;
-                          },
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
+                          readOnly: model.radioButtonController1.selectedItem ==
+                              "Vibgyor Student",
                           showAstreik: false,
                           labelText: "School",
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -1058,23 +1100,30 @@ class ParentInfoEditing extends StatelessWidget {
                           controller: model.siblingsSchoolController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.grade,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Grade',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Sibling's Grade",
-                            checkSpecialCharacters: true,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.siblingGrade = val;
-                          },
-                        ),
+                        AppStreamBuilder<String>(
+                            stream: model.siblingGrades,
+                            initialData: model.siblingGrades.value,
+                            dataBuilder: (context, data) {
+                              return CustomDropdownButton(
+                                items: model.grade,
+                                intialValue: data,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Grade',
+                                showAstreik: false,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  "Sibling's Grade",
+                                  checkSpecialCharacters: true,
+                                ),
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                onSingleSelect: (val) {
+                                  model.siblingGrade = val;
+                                },
+                              );
+                            }),
                       ],
                     ),
                   )

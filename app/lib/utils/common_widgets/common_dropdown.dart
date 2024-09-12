@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -18,6 +20,7 @@ class CustomDropdownButton extends StatefulWidget {
   final Function(String selectedValue)? onSingleSelect;
   final BehaviorSubject<String>? singleSelectItemSubject;
   final FormFieldValidator<String>? validator;
+  final String? intialValue;
 
   const CustomDropdownButton(
       {super.key,
@@ -31,6 +34,7 @@ class CustomDropdownButton extends StatefulWidget {
       this.validator,
       required this.onMultiSelect,
       this.onSingleSelect,
+      this.intialValue,
       this.singleSelectItemSubject});
 
   @override
@@ -47,7 +51,6 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.displayZerothIndex) {
       List<String> addedZerothIndex = [];
@@ -55,9 +58,19 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       selectedItemsSubject.add(addedZerothIndex);
     }
     if (!widget.isMutiSelect) {
-      singleSelectItemSubject = widget.singleSelectItemSubject ??
-          BehaviorSubject<String>.seeded('');
+      singleSelectItemSubject =
+          widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomDropdownButton oldWidget) {
+    if (oldWidget.intialValue != widget.intialValue &&
+        widget.intialValue != null) {
+      log("message");
+      singleSelectItemSubject.add(widget.intialValue ?? '');
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -113,18 +126,19 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     .toList(),
                 value: singleSelectItemSubject.value == ''
                     ? null
-                    : widget.items.contains(singleSelectItemSubject.value) ? singleSelectItemSubject.value : null,
+                    : widget.items.contains(singleSelectItemSubject.value)
+                        ? singleSelectItemSubject.value
+                        : null,
                 onChanged: (value) {
                   widget.onSingleSelect!(value ?? "");
                   singleSelectItemSubject.add(value ?? "");
                 },
                 decoration: InputDecoration(
                   errorStyle: AppTypography.caption.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.failure,
-                  fontSize: 12.sp,
-                  height: 0.5.h
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.failure,
+                      fontSize: 12.sp,
+                      height: 0.5.h),
                 ),
                 // buttonStyleData: ButtonStyleData(
                 //   height: 68.h,

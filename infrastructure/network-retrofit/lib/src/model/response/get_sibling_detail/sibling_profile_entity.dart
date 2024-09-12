@@ -4,7 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'sibling_profile_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SiblingProfileEntity extends BaseLayerDataTransformer<SiblingProfileEntity,SiblingProfile>{
+class SiblingProfileEntity
+    extends BaseLayerDataTransformer<SiblingProfileEntity, SiblingProfile> {
   @JsonKey(name: 'id')
   int? id;
   @JsonKey(name: 'first_name')
@@ -35,29 +36,46 @@ class SiblingProfileEntity extends BaseLayerDataTransformer<SiblingProfileEntity
   String? bloodGroup;
   @JsonKey(name: 'mother_tongue')
   String? motherTongue;
+  @JsonKey(name: "global_id")
+  int? globalId;
+  @JsonKey(name: "global_number")
+  String? globalNumber;
+  @JsonKey(name: "is_vibgyor_student")
+  bool? isVibgyorStudent;
+  @JsonKey(name: "school_name")
+  String? schoolName;
+  @JsonKey(name: "grade_id")
+  int? gradeId;
+  @JsonKey(name: "gender_id")
+  int? genderId;
 
-  SiblingProfileEntity({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.dob,
-    this.birthPlace,
-    this.status,
-    this.gender,
-    this.nationality,
-    this.caste,
-    this.subCaste,
-    this.subCasteId,
-    this.isParentsSeperated,
-    this.religion,
-    this.bloodGroup,
-    this.motherTongue,
-  });
+  SiblingProfileEntity(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.dob,
+      this.birthPlace,
+      this.status,
+      this.gender,
+      this.nationality,
+      this.caste,
+      this.subCaste,
+      this.subCasteId,
+      this.isParentsSeperated,
+      this.religion,
+      this.bloodGroup,
+      this.motherTongue,
+      this.globalId,
+      this.globalNumber,
+      this.gradeId,
+      this.isVibgyorStudent,
+      this.schoolName,
+      this.genderId});
 
   factory SiblingProfileEntity.fromJson(Map<String, dynamic> json) =>
-    _$SiblingProfileEntityFromJson(json);
+      _$SiblingProfileEntityFromJson(json);
 
-  Map<String,dynamic> toJson () => _$SiblingProfileEntityToJson(this);
+  Map<String, dynamic> toJson() => _$SiblingProfileEntityToJson(this);
 
   @override
   SiblingProfile transform() {
@@ -77,6 +95,12 @@ class SiblingProfileEntity extends BaseLayerDataTransformer<SiblingProfileEntity
     siblingProfile.religion = religion;
     siblingProfile.bloodGroup = bloodGroup;
     siblingProfile.motherTongue = motherTongue;
+    siblingProfile.globalId = globalId;
+    siblingProfile.globalNumber = globalNumber;
+    siblingProfile.gradeId = gradeId;
+    siblingProfile.isVibgyorStudent = isVibgyorStudent;
+    siblingProfile.schoolName = schoolName;
+    siblingProfile.genderId = genderId;
     return siblingProfile;
   }
 }
