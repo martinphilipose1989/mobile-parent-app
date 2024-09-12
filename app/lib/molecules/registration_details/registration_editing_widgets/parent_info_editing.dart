@@ -998,6 +998,9 @@ class ParentInfoEditing extends StatelessWidget {
                                         "Sibling's Enrollment Number",
                                         checkSpecialCharacters: true,
                                       ),
+                                      textInputAction: TextInputAction.done,
+                                      focusNode: model.enrollmentNode,
+                                      onFieldSubmitted: (value)=> model.onFormFieldSubmitted(value),
                                     )
                                   : const SizedBox.shrink();
                             }),

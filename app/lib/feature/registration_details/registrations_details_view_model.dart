@@ -44,6 +44,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final UploadEnquiryDocumentUsecase uploadEnquiryDocumentUsecase;
   final DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   final DownloadFileUsecase downloadFileUsecase;
+  final GetSiblingDetailsUsecase getSiblingDetailsUsecase;
 
   RegistrationsDetailsViewModel(this.exceptionHandlerBinder,
       this.getRegistrationDetailUsecase, this.getNewAdmissionDetailUseCase,
@@ -51,7 +52,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.updateParentDetailsUsecase, this.updateMedicalDetailsUsecase,this.updateBankDetailsUsecase,
       this.updateContactDetailsUsecase,this.updatePsaDetailUsecase,this.updateIvtDetailUsecase,
       this.updateNewAdmissionUsecase,this.getMdmAttributeUsecase,this.downloadEnquiryDocumentUsecase,
-      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase,this.downloadFileUsecase) ;
+      this.uploadEnquiryDocumentUsecase,this.deleteEnquiryDocumentUsecase,this.downloadFileUsecase,this.getSiblingDetailsUsecase) ;
 
   final List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -115,6 +116,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final PublishSubject<Resource<MedicalDetails>> medicalDetail =
   PublishSubject();
   final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
+  final PublishSubject<Resource<SiblingProfileResponse>> siblingDetail = PublishSubject();
 
   final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetails = PublishSubject();
   Stream<Resource<NewAdmissionBase>> get newAdmissionDetails => _newAdmissionDetails.stream;
@@ -198,6 +200,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController siblingLastNameController = TextEditingController();
   TextEditingController siblingsEnrollmentController = TextEditingController();
   TextEditingController siblingsSchoolController = TextEditingController();
+  FocusNode enrollmentNode = FocusNode();
   String? siblingGender;
   String? siblingGrade;
 
@@ -674,6 +677,49 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
+  Future<void> getSiblingDetails({required String enrollmentNumber}) async {
+    exceptionHandlerBinder.handle(block: () {
+      GetSiblingDetailRequest request = GetSiblingDetailRequest(
+        enrollmentNumber: enrollmentNumber,
+      );
+      GetSiblingDetailsUsecaseParams params = GetSiblingDetailsUsecaseParams(
+        getSiblingDetailRequest: request,
+      );
+
+      RequestManager<SiblingProfileResponse>(
+        params,
+        createCall: () => getSiblingDetailsUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if(result.status == Status.success){
+          siblingDetail.add(Resource.success(data: result.data));
+          var siblingProfile = result.data?.data?.siblingProfile;
+          siblingFirstNameController.text = siblingProfile?.firstName??'';
+          siblingLastNameController.text = siblingProfile?.lastName??'';
+          // siblingGrade = siblingProfile.
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    });
+  }
+
+  void onFormFieldSubmitted(String value){
+    if(value.isNotEmpty){
+      getSiblingDetails(enrollmentNumber: value);
+    }
+  }
+
+  void addFocusNodeListener(){
+    enrollmentNode.addListener(() {
+      if (!enrollmentNode.hasFocus) {
+        if (siblingsEnrollmentController.text.trim().isNotEmpty) {
+          getSiblingDetails(
+            enrollmentNumber: siblingsEnrollmentController.text.trim());
+        }
+      }
+    });
+  }
+
   Future<void> getIvtDetails({required String enquiryID,bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
@@ -782,6 +828,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       });
     }).execute();
   }
+
+  
 
   Future<void> updateIvtDetails({required String enquiryID,required IvtDetailResponseEntity ivtDetail}) async{
     exceptionHandlerBinder.handle(block: () {
@@ -1546,7 +1594,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         pinCode : residentialPinCodeController.text.trim(),
         isPermanentAddress: radioButtonController3.selectedItem == "Yes" ? true : false
       ),
-      emergencyContact: emergencyContact.value??'',
+      emergencyContact: emergencyContact.value,
       pointOfContact: PointOfContactDetail(
         firstPreference: (parentEmailIdController1.text.isEmpty || parentMobileNumberController1.text.isEmpty || contactParentTypePhone1.value.isEmptyOrNull()|| contactParentTypeEmail1.value.isEmptyOrNull()) ? 
           null : PreferenceDetail(

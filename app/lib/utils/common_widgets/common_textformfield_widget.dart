@@ -22,6 +22,9 @@ class CommonTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
   final void Function()? onTap;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final void Function(String value)? onFieldSubmitted;
 
   const CommonTextFormField(
       {super.key,
@@ -39,7 +42,11 @@ class CommonTextFormField extends StatelessWidget {
       this.prefix,
       this.inputFormatters,
       this.maxLength,
-      this.onTap});
+      this.onTap,
+      this.focusNode,
+      this.onFieldSubmitted,
+      this.textInputAction
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +64,7 @@ class CommonTextFormField extends StatelessWidget {
           style:
               AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
           keyboardType: keyboardType,
+          textInputAction: textInputAction,
           validator: validator,
           obscureText: obscureText,
           maxLines: maxLines ?? 1,
@@ -74,6 +82,8 @@ class CommonTextFormField extends StatelessWidget {
                 ),
               ),
           onTap: onTap,
+          focusNode: focusNode,
+          onFieldSubmitted: onFieldSubmitted,
         ),
         Positioned(
           left: 6,

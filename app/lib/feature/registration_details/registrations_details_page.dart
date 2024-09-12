@@ -33,6 +33,7 @@ class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
 }
 class _RegistrationsDetailsPageState extends AppBasePageState<
     RegistrationsDetailsViewModel, RegistrationsDetailsPage> {
+      
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
     model.context = context;
@@ -229,6 +230,12 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             )) : const SizedBox.shrink();
       },
     );
+  }
+
+  @override
+  void initState() {
+    
+    super.initState();
   }
 }
 
