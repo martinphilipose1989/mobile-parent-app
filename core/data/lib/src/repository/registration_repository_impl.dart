@@ -35,4 +35,9 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail({required GetSiblingDetailRequest getSiblingDetailRequest}){
     return _networkPort.getSiblingDetail(getSiblingDetailRequest: getSiblingDetailRequest);
   }
+
+  @override
+  Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject({required List<SubjectSelectionRequest> subjectSelectionRequest,required String enquiryID}){
+    return _networkPort.selectOptionalSubject(subjectSelectionRequest: subjectSelectionRequest,enquiryID: enquiryID);
+  }
 }

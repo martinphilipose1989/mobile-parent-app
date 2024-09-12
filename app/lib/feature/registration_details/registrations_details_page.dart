@@ -33,7 +33,7 @@ class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
 }
 class _RegistrationsDetailsPageState extends AppBasePageState<
     RegistrationsDetailsViewModel, RegistrationsDetailsPage> {
-      
+
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
     model.context = context;
@@ -215,7 +215,28 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                         validator.validateMedicalDetails(context);
                       } else if (model.showWidget.value == 4) {
                         validator.validateBankDetails(context);
-                      } else {
+                      } else if (model.showWidget.value == 5) {
+                        if(widget.enquiryDetailArgs?.isFrom == "enquiry"){
+                          model.showPopUP(context);
+                        } else{
+                          if(model.editRegistrationDetails.value){
+                            ProviderScope.containerOf(context)
+                            .read(commonChipListProvider)
+                            .highlightIndex
+                            .add(ProviderScope.containerOf(context)
+                                  .read(commonChipListProvider)
+                                    .highlightIndex
+                                    .value +
+                            1);
+                            model.showWidget.add(model.showWidget.value + 1);
+                            model.controller.animateTo((model.showWidget.value + 1) * 50,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.linear);
+                          }
+                      }
+                      } else if (model.showWidget.value == 6) {
+                        model.selectOptionalSubjects(widget.enquiryDetailArgs?.enquiryId??'');
+                      } else if (model.showWidget.value == 7) {
                         model.showPopUP(context);
                       }
                     },

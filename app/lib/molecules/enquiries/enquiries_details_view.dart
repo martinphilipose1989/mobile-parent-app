@@ -126,14 +126,25 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonText(
-              text: title,
-              style: AppTypography.body2,
+            Expanded(
+              flex: 1,
+              child: CommonText(
+                text: title,
+                style: AppTypography.body2,
+              ),
             ),
-            CommonText(
-              text: subtitle,
-              style: AppTypography.button,
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: CommonText(
+                  text: subtitle,
+                  style: AppTypography.button,
+                  textAlign: TextAlign.end,
+                ),
+              ),
             ),
           ],
         ),

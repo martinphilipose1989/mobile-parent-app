@@ -57,7 +57,7 @@ class ScheduleSchoolTourPageState extends AppBasePageState<ScheduleSchoolTourPag
   PreferredSizeWidget? buildAppbar(ScheduleSchoolTourPageModel model) {
     return CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: widget.isReschedule? 'Reschedule School Visit' : 'Schedule School Visit',
+      appbarTitle: widget.isReschedule? 'Reschedule School Tour' : 'Schedule School Tour',
       showBackButton: true,
     );
   }

@@ -118,7 +118,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
     {'image': AppImages.editDetails, 'name': "Edit Details"},
-    {'image': AppImages.schoolTour, 'name': "School Visit"},
+    {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 

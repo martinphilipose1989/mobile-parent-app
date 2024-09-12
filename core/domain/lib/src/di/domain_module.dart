@@ -196,4 +196,9 @@ abstract class DomainModule {
   GetSiblingDetailsUsecase getSiblingDetailsUsecase (RegistrationRepository registrationRepository) {
     return GetSiblingDetailsUsecase(registrationRepository);
   }
+
+  @lazySingleton
+  SelectOptionalSubjectUsecase selectOptionalSubjectUsecase (RegistrationRepository registrationRepository) {
+    return SelectOptionalSubjectUsecase(registrationRepository);
+  }
 }

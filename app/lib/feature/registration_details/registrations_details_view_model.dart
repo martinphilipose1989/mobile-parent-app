@@ -45,6 +45,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   final DownloadFileUsecase downloadFileUsecase;
   final GetSiblingDetailsUsecase getSiblingDetailsUsecase;
+  final SelectOptionalSubjectUsecase selectOptionalSubjectUsecase;
 
   RegistrationsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -65,9 +66,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.uploadEnquiryDocumentUsecase,
       this.deleteEnquiryDocumentUsecase,
       this.downloadFileUsecase,
-      this.getSiblingDetailsUsecase);
+      this.getSiblingDetailsUsecase,
+      this.selectOptionalSubjectUsecase);
 
-  final List registrationDetails = [
+  List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
     {'name': 'Parent Info', 'isSelected': false, 'infoType': 'ParentInfo'},
     {'name': 'Contact Info', 'isSelected': false, 'infoType': 'ContactInfo'},
@@ -77,7 +79,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.schoolTour, 'name': "School Visit"},
+    {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.payments, 'name': "Payments"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
@@ -152,6 +154,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile =
       PublishSubject();
   PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile =
+      PublishSubject();
+
+  PublishSubject<Resource<SubjectDetailResponse>> selectOptionalSubject =
       PublishSubject();
 
   ParentInfo? parentInfo;
@@ -595,6 +600,49 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
+      });
+    }).execute();
+  }
+
+  Future<void> selectOptionalSubjects(String enquiryID,)async{
+    exceptionHandlerBinder.handle(block: () {
+      var subjectDetailResponse = [
+        SubjectSelectionRequest(
+          id: 19,
+          schoolId: 2,
+          schoolBrandId: null,
+          subjectId: 21,
+          isCompulsory: 1,
+          isOptionalCompulsory: null,
+          orderNo: null,
+          academicYearId: 25,
+          statusId: null,
+          schoolName: "VIBGYOR Kids and High - Balewadi",
+          subjectName: null,
+          acYear: "2024 - 25" ,
+        )
+      ];
+      SelectOptionalSubjectUsecaseParams params = SelectOptionalSubjectUsecaseParams(subjectSelectionRequest: subjectDetailResponse, enquiryID: enquiryID);
+      isLoading.value = true;
+      RequestManager<SubjectDetailResponse>(params, createCall: () => selectOptionalSubjectUsecase.execute(params: params)).asFlow().listen((result) {
+        if(result.status == Status.success){
+          ProviderScope.containerOf(context!)
+            .read(commonChipListProvider)
+            .highlightIndex
+            .add(ProviderScope.containerOf(context!)
+                  .read(commonChipListProvider)
+                    .highlightIndex
+                    .value +
+            1);
+            showWidget.add(showWidget.value + 1);
+            controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
+          isLoading.value = false;
+        }
+      }).onError((error) {
+        isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

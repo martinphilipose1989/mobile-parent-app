@@ -57,5 +57,6 @@ export 'src/usecase/marketing/download_enquiry_document.dart';
 export 'src/usecase/marketing/delete_enquiry_document_usecase.dart';
 export 'src/usecase/marketing/download_file_usecase.dart';
 export 'src/usecase/marketing/get_sibling_detail_usecase.dart';
+export 'src/usecase/marketing/select_optional_subject_usecase.dart';
 export 'package:shared/shared.dart';
 

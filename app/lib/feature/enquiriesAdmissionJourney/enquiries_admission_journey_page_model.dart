@@ -110,7 +110,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
     {'image': AppImages.registrationIcon, 'name': "Registration"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},
-    {'image': AppImages.schoolTour, 'name': "School Visit"},
+    {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 
