@@ -79,6 +79,7 @@ class AppRouter {
                   routeFrom: args['routeFrom'] ?? '',
                   enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
                   enquiryDetail: args["enquiryDetail"],
+                  editRegistrationDetails: args["editRegistrationDetails"],
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.registrationDetails));

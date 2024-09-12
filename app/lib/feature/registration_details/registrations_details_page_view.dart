@@ -93,9 +93,9 @@ class RegistrationsDetailsPageView
         }
         if(enquiryDetailArgs?.admissionStatus == "Approved"){
           model.registrationDetails.addAll({
-          {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
-          {'name': 'VAS', 'isSelected': false, 'infoType': ''},
-        });
+            {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
+            {'name': 'VAS', 'isSelected': false, 'infoType': ''},
+          });
         }
         model.editRegistrationDetails.add(true);
         return null;

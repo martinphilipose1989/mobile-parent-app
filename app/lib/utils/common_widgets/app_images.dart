@@ -51,4 +51,5 @@ class AppImages {
   static const String admissionIcon = 'assets/images/admission.svg';
   static const String enquiryIcon = 'assets/images/enquiry.svg';
   static const String registrationIcon = 'assets/images/registrationIcon.svg';
+  static const String subjectSelectionIcon = 'assets/images/subject_selection.svg';
 }

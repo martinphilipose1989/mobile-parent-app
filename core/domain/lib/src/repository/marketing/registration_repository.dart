@@ -9,4 +9,5 @@ abstract class RegistrationRepository {
   Future<Either<NetworkError, SingleResponse>> updateBankDetails({required String enquiryID, required  BankDetailsEntity bankDetails});
   Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail({required GetSiblingDetailRequest getSiblingDetailRequest});
   Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject({required List<SubjectSelectionRequest> subjectSelectionRequest,required String enquiryID});
+  Future<Either<NetworkError,VasOptionResponse>> addVASOption({required String enquiryID,required VasOptionRequest vasOptionRequest});
 }

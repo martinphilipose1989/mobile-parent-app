@@ -19,6 +19,7 @@ import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_p
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
@@ -422,6 +423,12 @@ abstract class RetrofitService {
   @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/subject-details')
   Future<HttpResponse<SubjectDetailResponseEntity>> selectOptionalSubject(
     {@Body() required List<SubjectSelectionRequest> subjectSelectionRequest,@Path("enquiryId") required String enquiryID}
+  );
+
+  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas-options')
+  Future<HttpResponse<VasOptionResponseEntity>> addVASOption(
+    {@Body() required VasOptionRequest vasOptionRequest,
+    @Path("enquiryId") required String enquiryID}
   );
 }
 

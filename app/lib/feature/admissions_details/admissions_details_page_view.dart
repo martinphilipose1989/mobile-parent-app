@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -14,6 +15,7 @@ import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -63,6 +65,14 @@ class AdmissionsDetailsPageView
         model.showMenuOnFloatingButton.add(false);
        return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
+      case 6:
+        model.showMenuOnFloatingButton.add(false);
+        return Navigator.of(context).pushNamed(RoutePaths.registrationDetails,
+            arguments: {
+              "routeFrom": "admission",
+              "enquiryDetailArgs": admissionDetail,
+              "editRegistrationDetails": true
+        });
       default:
         return null;
     }

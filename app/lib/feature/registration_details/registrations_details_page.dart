@@ -24,7 +24,8 @@ class RegistrationsDetailsPage extends BasePage<RegistrationsDetailsViewModel> {
   EnquiryDetailArgs? enquiryDetailArgs;
   ParentInfoEntity? parentInfoEntity;
   EnquiryDetail? enquiryDetail;
-  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs,this.enquiryDetail, this.parentInfoEntity});
+  bool editRegistrationDetails;
+  RegistrationsDetailsPage({super.key, required this.routeFrom,this.enquiryDetailArgs,this.enquiryDetail, this.parentInfoEntity, this.editRegistrationDetails = false});
 
 
   @override
@@ -59,6 +60,26 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "occupation");
     }
     if(widget.routeFrom!="enquiry"){
+      if(widget.editRegistrationDetails){
+        model.editRegistrationDetails.value = widget.editRegistrationDetails;
+        model.registrationDetails.addAll({
+          {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
+          {'name': 'VAS', 'isSelected': false, 'infoType': ''},
+        });
+        ProviderScope.containerOf(context)
+            .read(commonChipListProvider)
+            .highlightIndex
+            .add(ProviderScope.containerOf(context)
+                    .read(commonChipListProvider)
+                    .highlightIndex
+                    .value +
+                6);
+        
+        model.showWidget.add(model.showWidget.value + 6);
+        Future.delayed(Duration(milliseconds: 500)).then((val){
+          model.controller.jumpTo(500);
+        });
+      }
       model.enquiryDetails = widget.enquiryDetail;
     }
     if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
@@ -236,8 +257,23 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                       }
                       } else if (model.showWidget.value == 6) {
                         model.selectOptionalSubjects(widget.enquiryDetailArgs?.enquiryId??'');
+                        ProviderScope.containerOf(context)
+                          .read(enquiriesAdmissionsJourneyProvider(widget.enquiryDetailArgs?? EnquiryDetailArgs()))
+                          .getAdmissionJourney(
+                            enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
+                              type: widget.enquiryDetailArgs?.isFrom ?? 'enquiry');
                       } else if (model.showWidget.value == 7) {
-                        model.showPopUP(context);
+                       model.addVasOption(widget.enquiryDetailArgs?.enquiryId??'');
+                       ProviderScope.containerOf(context)
+                                .read(enquiriesAdmissionsJourneyProvider(
+                                    widget.enquiryDetailArgs ??
+                                        EnquiryDetailArgs()))
+                                .getAdmissionJourney(
+                                    enquiryID:
+                                        widget.enquiryDetailArgs?.enquiryId ??
+                                            '',
+                                    type: widget.enquiryDetailArgs?.isFrom ??
+                                        'enquiry');
                       }
                     },
                     text: 'Next',

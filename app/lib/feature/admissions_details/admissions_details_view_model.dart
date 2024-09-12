@@ -42,6 +42,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         _fetchAdmissionJourney.add(result);
         if(result.status == Status.success){
           admissionJourney.add(Resource.success(data: result.data?.data??[]));
+          menuData.add({'image': AppImages.subjectSelectionIcon, 'name': "Subject Selection"});
         }
         // activeStep.add()
       }).onError((error) {

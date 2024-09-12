@@ -713,4 +713,12 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> addVASOption({required String enquiryID,required VasOptionRequest vasOptionRequest}) async{
+    var response = await safeApiCall(apiService.addVASOption(enquiryID: enquiryID,vasOptionRequest: vasOptionRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
 }

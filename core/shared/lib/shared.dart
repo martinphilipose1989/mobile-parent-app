@@ -95,6 +95,7 @@ export 'src/model/response/get_sibling_detail/sibling_profile_response.dart';
 export 'src/model/response/subject_selection/subject_detail.dart';
 export 'src/model/response/subject_selection/subject_detail_element.dart';
 export 'src/model/response/subject_selection/subject_detail_response.dart';
+export 'src/model/response/vas_option/vas_option_response.dart';
 
 //utils
 export 'src/utils/validator.dart';

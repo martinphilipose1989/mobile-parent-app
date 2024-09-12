@@ -201,4 +201,9 @@ abstract class DomainModule {
   SelectOptionalSubjectUsecase selectOptionalSubjectUsecase (RegistrationRepository registrationRepository) {
     return SelectOptionalSubjectUsecase(registrationRepository);
   }
+
+  @lazySingleton
+  AddVasOptionUsecase addVasOptionUsecase (RegistrationRepository registrationRepository) {
+    return AddVasOptionUsecase(registrationRepository);
+  } 
 }

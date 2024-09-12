@@ -40,4 +40,9 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject({required List<SubjectSelectionRequest> subjectSelectionRequest,required String enquiryID}){
     return _networkPort.selectOptionalSubject(subjectSelectionRequest: subjectSelectionRequest,enquiryID: enquiryID);
   }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> addVASOption({required String enquiryID,required VasOptionRequest vasOptionRequest}){
+    return _networkPort.addVASOption(enquiryID: enquiryID,vasOptionRequest: vasOptionRequest);
+  }
 }

@@ -27,19 +27,19 @@ class VASDetails extends StatelessWidget {
         ),
         VasQuestions(
             question: "Would You Like To Opt For Transportation?",
-            commonRadioButton: model.vasOne),
+            commonRadioButton: model.radioButtonTransport),
         VasQuestions(
             question: "Would You Like To Opt For Cafeteria?",
-            commonRadioButton: model.vasTwo),
+            commonRadioButton: model.radioButtonCafeteria),
         VasQuestions(
             question: "Would You Like To Opt For PSA(Post School Activities)?",
-            commonRadioButton: model.vasThree),
+            commonRadioButton: model.radioButtonPsa),
         VasQuestions(
             question: "Would You Like To Opt For Hostel?",
-            commonRadioButton: model.vasFour),
+            commonRadioButton: model.radioButtonHostel),
         VasQuestions(
             question: "Would You Like To Opt For Kids Club?",
-            commonRadioButton: model.vasFive)
+            commonRadioButton: model.radioButtonKidsClub)
       ],
     );
   }

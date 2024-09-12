@@ -46,6 +46,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final DownloadFileUsecase downloadFileUsecase;
   final GetSiblingDetailsUsecase getSiblingDetailsUsecase;
   final SelectOptionalSubjectUsecase selectOptionalSubjectUsecase;
+  final AddVasOptionUsecase addVasOptionUsecase;
 
   RegistrationsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -67,7 +68,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.deleteEnquiryDocumentUsecase,
       this.downloadFileUsecase,
       this.getSiblingDetailsUsecase,
-      this.selectOptionalSubjectUsecase);
+      this.selectOptionalSubjectUsecase,
+      this.addVasOptionUsecase);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -158,6 +160,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   PublishSubject<Resource<SubjectDetailResponse>> selectOptionalSubject =
       PublishSubject();
+  PublishSubject <Resource<VasOptionResponse>> vasOptionSubject = PublishSubject();
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -646,6 +649,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       });
     }).execute();
   }
+
+  Future<void> addVasOption(String enquiryID,) async {
+    exceptionHandlerBinder.handle(block: () {
+      VasOptionRequest vasOptionRequest = VasOptionRequest(
+        transport: radioButtonTransport.selectedItem == "Yes" ? true : false, 
+        kidsClub: radioButtonKidsClub.selectedItem == "Yes" ? true : false,
+        psa: radioButtonPsa.selectedItem == "Yes" ? true : false,
+        hostel: radioButtonHostel.selectedItem == "Yes" ? true : false,
+        cafeteria: radioButtonCafeteria.selectedItem == "Yes" ? true : false,
+      );
+      AddVasOptionUsecaseParams params = AddVasOptionUsecaseParams(vasOptionRequest: vasOptionRequest, enquiryID: enquiryID);
+      isLoading.value = true;
+      RequestManager<VasOptionResponse>(params, createCall: () => addVasOptionUsecase.execute(params: params)).asFlow().listen((result) {
+        if(result.status == Status.success){
+          isLoading.value = false;
+          showPopUP(context,message: "Admission Details Submitted Successfully");
+        }
+      }).onError((error) {
+        isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  } 
 
   Future<void> updateMedicalDetail(
       String enquiryID, MedicalDetailsEntity medicalEntity) async {
@@ -1529,6 +1555,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   final CommonRadioButton<String> radioButtonController10 =
       CommonRadioButton<String>(null);
+  
+  final CommonRadioButton<String> radioButtonTransport =
+      CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonCafeteria =
+      CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonHostel =
+      CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonKidsClub =
+      CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonPsa =
+      CommonRadioButton<String>(null);
+  
 
   addParentDetails(ParentInfo parentDetails) {
     fatherFirstNameController.text =
@@ -2381,9 +2419,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedShiftEntity = null;
   }
 
-  showPopUP(context) {
+  showPopUP(context,{String? message}) {
     Future.delayed(Duration.zero, () {
-      CommonPopups().showSuccess(context, 'Student Registered Successfully',
+      CommonPopups().showSuccess(context, message ?? 'Student Registered Successfully',
           (shouldRoute) {
         Navigator.pop(context);
       });
