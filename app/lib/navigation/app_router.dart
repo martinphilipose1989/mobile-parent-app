@@ -116,7 +116,7 @@ class AppRouter {
           builder: (context) => ScheduleSchoolTourPage(
             enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
             schoolVisitDetail: args['schoolVisitDetail'],
-            isReschedule: args['isReschedule'] ?? false,      
+            isReschedule: args['isReschedule'] ?? false,
           ),
           settings: const RouteSettings(name: RoutePaths.scheduleSchoolTourPage)
         );

@@ -3,6 +3,7 @@ import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
@@ -152,7 +153,13 @@ class UploadDocuments extends StatelessWidget {
                                 if(!model.isDocumentUploaded[index??0].value){
                                   return;
                                 }
-                                model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(),index: index);
+                                CommonPopups().showAlert(
+                                  context,
+                                  "Are you sure, you want to delete?",
+                                  (shouldRoute) {
+                                    model.deleteEnquiryDocument(enquiryID: enquiryID??"", documentID: (enquiryDocument?.documentId??0).toString(),index: index);
+                                  }
+                                );
                               },
                               behavior: HitTestBehavior.opaque,
                               child: SvgPicture.asset(

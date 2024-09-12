@@ -20,6 +20,7 @@ export 'src/model/request/cancel_competency_test_request.dart';
 export 'src/model/request/school_visit_reschedule_request.dart';
 export 'src/model/request/competency_test_reschedule_request.dart';
 export 'src/model/request/parent_info_update_request.dart';
+export 'src/model/request/get_sibling_detail_request.dart';
 //models
 export 'src/model/response/get_registreation_info/parent_info_entity.dart';
 export 'src/model/response/get_registreation_info/contact_details_entity.dart';

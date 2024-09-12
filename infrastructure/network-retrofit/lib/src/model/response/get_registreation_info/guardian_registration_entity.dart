@@ -83,24 +83,39 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     }
   }
 
-    Map<String, dynamic> toJson() => {
-      "first_name": firstName,
-      "last_name": lastName,
-      "mobile": mobileNumber,
-      "email": emailId,
-      "relationship_with_child": relationWithChild,
-      "house": houseNumber,
-      "area": area,
-      "street": street,
-      "landmark": landmark,
-      "country": (country is CommonDataEntity)? country.toJson() : country,
-      "pin_code": pincode,
-      "state": (state is CommonDataEntity)? state.toJson() : state,
-      "city": (city is CommonDataEntity)? city.toJson() : city,
-      "aadhar": aadharNumber,
-      "pan": panNumber,
-      "guardian_type": guardianType
-    };
+    Map<String, dynamic> toJson(){
+      final Map<String, dynamic> json = {};
+
+      void addIfNotEmpty(String key, dynamic value) {
+        if (value != null && value != '' && value != 'N/A') {
+          json[key] = value is CommonDataEntity ? value.toJson() : value;
+        }
+      }
+
+      addIfNotEmpty("first_name", firstName);
+      addIfNotEmpty("last_name", lastName);
+      addIfNotEmpty("mobile", mobileNumber);
+      addIfNotEmpty("email", emailId);
+      addIfNotEmpty("relationship_with_child", relationWithChild);
+      addIfNotEmpty("house", houseNumber);
+      addIfNotEmpty("area", area);
+      addIfNotEmpty("street", street);
+      addIfNotEmpty("landmark", landmark);
+      addIfNotEmpty("country", country);
+      addIfNotEmpty("pin_code", pincode);
+      addIfNotEmpty("state", state);
+      addIfNotEmpty("city", city);
+      addIfNotEmpty("aadhar", aadharNumber);
+      addIfNotEmpty("pan", panNumber);
+      addIfNotEmpty("guardian_type", guardianType);
+      addIfNotEmpty("qualification", qualification);
+      addIfNotEmpty("occupation", occupation);
+      addIfNotEmpty("organization_name", organizationName);
+      addIfNotEmpty("designation", designation);
+      addIfNotEmpty("office_address", officeAddress);
+
+      return json;
+    }
 
   @override
   GuardianDetails transform() {

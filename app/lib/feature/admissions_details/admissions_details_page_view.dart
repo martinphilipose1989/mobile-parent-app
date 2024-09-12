@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,13 @@ class AdmissionsDetailsPageView
               }
             },);
       case 1:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 3:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
       case 4:
@@ -56,6 +60,7 @@ class AdmissionsDetailsPageView
             }
            });
       case 5:
+        model.showMenuOnFloatingButton.add(false);
        return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
       default:
@@ -127,23 +132,33 @@ class AdmissionsDetailsPageView
                                 (result?.data?.data??[]).length,
                                 (index) {
                                   return Step(
-                                      // subtitle: result?.data?[index].stage == ''
-                                      //     ? null
-                                      //     : CommonText(
-                                      //         text: model.stepperData[index]['subtitle']),
+                                      subtitle: (result?.data?.data?[index].comment??'').isEmptyOrNull()
+                                          ? null
+                                          : CommonText(
+                                              text: result
+                                                          ?.data
+                                                          ?.data?[index]
+                                                          .comment ??
+                                                      ''),
                                       title: CommonText(
                                         text: result?.data?.data?[index].stage??'',
                                       ),
-                                      state: result?.data?.data?[index].status == "Open" || result?.data?.data?[index].status == "In Progress"
+                                      state: result?.data?.data?[index].status != "Open" || result?.data?.data?[index].status != "In Progress"
                                           ? StepState.indexed
                                           : StepState.complete,
-                                      isActive: result?.data?.data?[index].status == "Completed",
+                                      isActive: result?.data?.data?[index].status != "Open",
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: (result?.data?.data??[]).indexWhere((element) => element.status == "Open"||element.status == "In Progress") == -1 ? 0 : (result?.data?.data??[]).indexWhere((element) => element.status == "Open"||element.status == "In Progress"));
+                              activeStep: (result?.data?.data ?? []).indexWhere(
+                                          (element) =>
+                                              (element.status != "Open")) ==
+                                      -1
+                                  ? 0
+                                  : (result?.data?.data ?? []).indexWhere(
+                                      (element) => (element.status != "Open")));
                     case Status.error:
-                      return const Center(child: Text('Enquiries not found'),);
+                      return const Center(child: Text('Admission journey not found'),);
                     default:
                       return const Center(child: CircularProgressIndicator(),);
                   }

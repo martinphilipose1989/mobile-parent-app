@@ -2,6 +2,7 @@ import 'package:app/dependencies.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart';
@@ -112,7 +113,15 @@ class UploadDocs extends StatelessWidget {
                           if(model.isDocumentUploaded[index ?? 0].value){
                             return;
                           }
-                          model.deleteEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(),index: index);
+                          CommonPopups().showAlert(
+                                context, "Are you sure, you want to delete?",
+                                (shouldRoute) {
+                              model.deleteEnquiryDocument(
+                                  enquiryID: enquiryID ?? "",
+                                  documentID: (enquiryDocument?.documentId ?? 0)
+                                      .toString(),
+                                  index: index);
+                          });
                         },
                       ),
                     ],

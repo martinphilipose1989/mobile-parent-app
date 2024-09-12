@@ -191,5 +191,9 @@ abstract class DomainModule {
   DownloadFileUsecase downloadFileUsecase (EnquiryRepository enquiryRepository) {
     return DownloadFileUsecase(enquiryRepository);  
   }
-  
+
+  @lazySingleton
+  GetSiblingDetailsUsecase getSiblingDetailsUsecase (RegistrationRepository registrationRepository) {
+    return GetSiblingDetailsUsecase(registrationRepository);
+  }
 }

@@ -62,24 +62,75 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
   static dynamic _fromJson(dynamic value) =>
       (value is Map<String,dynamic>) ? CommonDataEntity.fromJson(value) : value;
 
-  Map<String, dynamic> toJson() => {
-    "first_name": firstName,
-    "last_name": lastName,
-    "mobile": mobileNumber,
-    "email": emailId,
-    "pan": panNumber,
-    "aadhar": aadharNumber,
-    "qualification": qualification,
-    "occupation": occupation,
-    "organization_name": organisationName,
-    "designation": designationName,
-    "office_address": officeAddress,
-    "area": area,
-    "country": country?.toJson(),
-    "pin_code": pinCode,
-    "state": state?.toJson(),
-    "city": city?.toJson()
-  };
+  Map<String, dynamic> toJson(){
+    Map<String,dynamic> request = {
+      "first_name": firstName,
+      "last_name": lastName,
+      "mobile": mobileNumber,
+      "email": emailId,
+      "pan": panNumber,
+      "aadhar": aadharNumber,
+      "qualification": qualification,  
+    };
+    if(occupation != null && (occupation??'').isNotEmpty && occupation != 'N/A'){
+      request.addAll({"occupation": occupation,});
+    }
+    if(organisationName != null && (organisationName??'').isNotEmpty && organisationName != 'N/A'){
+      request.addAll({"organization_name": organisationName,});
+    }
+    if(designationName != null && (designationName??'').isNotEmpty && designationName != 'N/A'){
+      request.addAll({"designation": designationName,});
+    }
+    if(officeAddress != null && (officeAddress??'').isNotEmpty && officeAddress != 'N/A'){
+      request.addAll({"office_address": officeAddress,});
+    }
+    if(area != null && (area??'').isNotEmpty && area != 'N/A'){
+      request.addAll({"area": area,});
+    }
+    if(country != null){
+      if(country is CommonDataEntity){
+        request.addAll({
+          "country": country.toJson() 
+        });
+      }
+      else{
+        if (country is String) {
+          if (country.toString().isNotEmpty && country.toString() != 'N/A') {
+            request.addAll({"country": country.toString()});
+          }
+        }
+      }
+    }
+    if(state != null){
+      if(state is CommonDataEntity){
+        request.addAll({"state": state?.toJson(),});
+      }
+      else{
+        if (state is String) {
+          if (state.toString().isNotEmpty && state.toString() != 'N/A') {
+            request.addAll({"state": state.toString()});
+          }
+        }
+      }
+    }
+    if(city != null){
+      if(city is CommonDataEntity){
+        request.addAll({"city": city?.toJson(),});
+      }
+      else{
+        if (city is String) {
+          if (city.toString().isNotEmpty && city.toString() != 'N/A') {
+            request.addAll({"city": city.toString()});
+          }
+        }
+      }
+    }
+    if(pinCode != null && (pinCode??'').isNotEmpty && pinCode != 'N/A'){
+      request.addAll({"pin_code": pinCode,});
+    }
+
+    return request;
+  }
 
   @override
   ParentRegistrationDetail transform() {

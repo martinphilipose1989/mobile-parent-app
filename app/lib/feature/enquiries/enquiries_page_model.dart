@@ -84,7 +84,7 @@ final ValueNotifier<bool> isLoading = ValueNotifier(false);
           _getEnquiryResponse.add(event);
         }
         if(event.status == Status.success) {
-          if(!isRefresh){
+          if(!isRefresh && pageNumber != 1){
             currentEnquiries = event.data?.data?.data??[];
             var newContent = event.data?.data?.data??[];
             event.data?.data?.data = [...currentEnquiries, ...newContent];
@@ -93,6 +93,7 @@ final ValueNotifier<bool> isLoading = ValueNotifier(false);
             _getEnquiryResponse.add(event);
           }
           else{
+            isNextPage = event.data?.data?.isNextPage ?? false;
             _getEnquiryResponse.add(event);
           }
         }

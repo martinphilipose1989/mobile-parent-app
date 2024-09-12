@@ -47,13 +47,14 @@ class ContactInfoEditing extends StatelessWidget {
                     CustomDropdownButton(
                       items: model.contactRelationshipOptions,
                       width: MediaQuery.of(context).size.width,
-                      validator: (value)=> AppValidators.validateNotEmpty(value, "Contact Number",),
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Contact Person",),
                       isMutiSelect: false,
-                      dropdownName: 'Contact Number',
+                      dropdownName: 'Contact Person',
                       showAstreik: false,
                       onMultiSelect: (selectedValues) {},
+                      singleSelectItemSubject: model.emergencyContact,
                       onSingleSelect: (val){
-                        model.emergencyContact = val;
+                        model.emergencyContact.value = val;
                       },
                       showBorderColor: true,
                     ),
@@ -94,8 +95,9 @@ class ContactInfoEditing extends StatelessWidget {
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Type",),
                       showAstreik: false,
                       onMultiSelect: (selectedValues) {},
+                      singleSelectItemSubject: model.contactParentTypePhone1,
                       onSingleSelect: (val){
-                        model.contactParentTypePhone1 = val;
+                        model.contactParentTypePhone1.value = val;
                       },
                       showBorderColor: true,
                     ),
@@ -121,8 +123,9 @@ class ContactInfoEditing extends StatelessWidget {
                         ),
                         showAstreik: false,
                         onMultiSelect: (selectedValues) {},
+                        singleSelectItemSubject: model.contactParentTypeEmail1,
                         onSingleSelect: (val) {
-                          model.contactParentTypeEmail1 = val;
+                          model.contactParentTypeEmail1.value = val;
                         },
                         showBorderColor: true,
                     ),
@@ -145,8 +148,9 @@ class ContactInfoEditing extends StatelessWidget {
                       validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
                       showAstreik: false,
                       onMultiSelect: (selectedValues) {},
+                      singleSelectItemSubject: model.contactParentTypePhone2,
                       onSingleSelect: (val){
-                        model.contactParentTypePhone2 = val;
+                        model.contactParentTypePhone2.value = val;
                       },
                       showBorderColor: true,
                     ),
@@ -172,8 +176,9 @@ class ContactInfoEditing extends StatelessWidget {
                         ),
                         showAstreik: false,
                         onMultiSelect: (selectedValues) {},
+                        singleSelectItemSubject: model.contactParentTypeEmail2,
                         onSingleSelect: (val) {
-                          model.contactParentTypeEmail2 = val;
+                          model.contactParentTypeEmail2.value = val;
                         },
                         showBorderColor: true,
                     ),

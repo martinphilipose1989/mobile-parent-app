@@ -1,6 +1,7 @@
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -16,6 +17,7 @@ class CompetencyTestModel extends BasePageViewModel {
   final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
   CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase);
+  BuildContext? context;
 
   String selectedTime = "";
 
@@ -65,15 +67,8 @@ class CompetencyTestModel extends BasePageViewModel {
         if(result.status == Status.success){
           competenctTestSlots.add(result.data?.data??[]);
           if((result.data?.data??[]).isNotEmpty){
-            if(isReschedule){
-              slotID = competencyTestDetail?.slotID??'';
-              selectedTime = competencyTestDetail?.slot??'';
-              selectedTimeIndex.add((result.data?.data??[]).indexWhere((slots)=> slots.slot == selectedTime));
-            }
-            else{ 
-              slotID = result.data?.data?[0].id??'';
-              selectedTime = result.data?.data?[0].slot??'';
-            }
+            slotID = result.data?.data?[0].id ?? '';
+            selectedTime = result.data?.data?[0].slot ?? '';
           }
         }
       }).onError((error) {

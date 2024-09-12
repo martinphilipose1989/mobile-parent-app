@@ -27,6 +27,8 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     String? schoolVisitDate;
     @JsonKey(name: 'schoolVisitTime')
     String? schoolVisitTime;
+    @JsonKey(name: 'comment')
+    String? comment;
 
     EnquiryListDetailResponseEntity({
         this.enquiryType,
@@ -40,6 +42,7 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
         this.currentStage,
         this.schoolVisitDate,
         this.schoolVisitTime,
+        this.comment
     });  
 
   factory EnquiryListDetailResponseEntity.fromJson(Map<String, dynamic> json) =>
@@ -61,7 +64,7 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     enquiryListDetailModel.currentStage = currentStage;
     enquiryListDetailModel.schoolVisitDate = schoolVisitDate;
     enquiryListDetailModel.schoolVisitTime = schoolVisitTime;
-
+    enquiryListDetailModel.comment = comment;
     return enquiryListDetailModel;
   }
 }

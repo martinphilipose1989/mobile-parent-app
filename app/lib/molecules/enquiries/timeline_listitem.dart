@@ -55,7 +55,7 @@ class TimelineListitem extends StatelessWidget {
                       const SizedBox(height: 15,),
                       Row(
                         children: [
-                          SvgPicture.asset(AppImages.instagramIcon),
+                          const Icon(Icons.timer_outlined,color: AppColors.textGray,size: 18,),
                           const SizedBox(width: 5,),
                           CommonText(text: timeline.eventType??'',
                             style: AppTypography.body2.copyWith(
@@ -67,7 +67,7 @@ class TimelineListitem extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 15,),
-                      CommonText(text: DateFormat.yMd().add_jm().format(timeline.createdAt??DateTime.now()),
+                      CommonText(text: DateFormat.yMd().add_jm().format((timeline.createdAt??DateTime.now()).toLocal()),
                         style: AppTypography.body2.copyWith(
                           fontSize: 10,
                           color: AppColors.textDark

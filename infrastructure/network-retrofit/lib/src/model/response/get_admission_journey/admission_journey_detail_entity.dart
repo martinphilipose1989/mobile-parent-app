@@ -9,10 +9,13 @@ class AdmissionJourneyDetailEntity extends BaseLayerDataTransformer<AdmissionJou
     String? stage;
     @JsonKey(name: 'status')
     String? status;
+    @JsonKey(name: 'comment')
+    String? comment;
 
     AdmissionJourneyDetailEntity({
         this.stage,
         this.status,
+        this.comment
     });
 
   factory AdmissionJourneyDetailEntity.fromJson(Map<String, dynamic> json) =>
@@ -25,6 +28,7 @@ class AdmissionJourneyDetailEntity extends BaseLayerDataTransformer<AdmissionJou
     AdmissionJourneyDetail admissionJourneyDetail = AdmissionJourneyDetail();
     admissionJourneyDetail.stage = stage;
     admissionJourneyDetail.status = status;
+    admissionJourneyDetail.comment = comment;
     return admissionJourneyDetail;
   }
 }

@@ -35,7 +35,7 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "Contact No. Of", subtitle: (contactDetail?.emergencyContact is EmergencyContact)? contactDetail?.emergencyContact.emergencyContact: contactDetail?.emergencyContact),
+                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.emergencyContact??''),
                   ],
                 ),
               )
@@ -65,23 +65,64 @@ class ContactDetail extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     Column(
-                      children: List.generate((contactDetail?.pointOfContact??[]).length,
-                       (index) => Column(
-                        children: [
-                          CommonText(
-                            text: 'Preference ${index+1}',
-                            style: AppTypography.body2,
-                          ),
-                          CommonSizedBox.sizedBox(height: 10, width: 10),
-                          DetailsItem(title: "Parent Type", subtitle: contactDetail?.pointOfContact?[index].parentType??''),
-                          DetailsItem(
-                            title: "Parent Mobile Number", subtitle: contactDetail?.pointOfContact?[index].parentContactNumber??''),
-                          DetailsItem(
-                            title: "Parent Email ID", subtitle: contactDetail?.pointOfContact?[index].parentEmailId??''),
-                          CommonSizedBox.sizedBox(height: 10, width: 10),
-                        ],
-                      )
-                    ),
+                      children: [
+                        Column(
+                          children: [
+                            const CommonText(
+                              text: 'Preference 1',
+                              style: AppTypography.body2,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobileOfParent??''
+                            ),
+                            DetailsItem(
+                                title: "Parent Mobile Number",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobile ??''
+                            ),
+                            DetailsItem(
+                              title: "Parent Type",
+                              subtitle: contactDetail?.pointOfContact?.firstPreference?.emailOfParent ??''
+                            ),
+                            DetailsItem(
+                                title: "Parent Email ID",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.email ??''
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const CommonText(
+                              text: 'Preference 2',
+                              style: AppTypography.body2,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.mobileOfParent ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Mobile Number",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.mobile ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.emailOfParent ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Email ID",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.email ??
+                                    ''),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                          ],
+                        )
+                      ]
                   ),
                 ],
               ),

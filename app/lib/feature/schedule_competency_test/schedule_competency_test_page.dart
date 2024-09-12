@@ -2,10 +2,14 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_view.dart';
+import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
@@ -31,6 +35,7 @@ class ScheduleCompetencyTestPageState extends AppBasePageState<CompetencyTestMod
   void onModelReady(CompetencyTestModel model) {
     model.enquiryID = widget.enquiryDetailArgs.enquiryId??'';
     model.isReschedule == widget.isReschedule;
+    model.context = context;
 
     if(widget.isReschedule){
       model.competencyTestDetail = widget.competencyTestDetails;
@@ -66,5 +71,68 @@ class ScheduleCompetencyTestPageState extends AppBasePageState<CompetencyTestMod
   @override
   Color scaffoldBackgroundColor() {
     return Colors.white;
+  }
+
+  @override
+  Widget? buildBottomNavigationBar(CompetencyTestModel model) {
+    return Container(
+                color: Colors.white,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if(!widget.isReschedule)...[CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: 'Cancel',
+                        borderColor: Theme.of(context).primaryColor,
+                        borderWidth: 1,
+                        width: 171.w,
+                        height: 40.h,
+                        textColor: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),],
+                      CommonElevatedButton(
+                        onPressed: () {                      
+                            String data = model.validateForm();
+                            if(data.isNotEmpty){
+                              final snackBar = SnackBar(
+                                content: Text(data),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                            else {
+                              CommonPopups().showConfirm(
+                                context,
+                                widget.isReschedule? 'Confirm Reschedule Details':'Confirm Test Details',
+                                'Please Confirm the below details',
+                                'Date: ${model.dateFormat.format(DateTime.parse(model.selectedDate.split('-').reversed.join('-')))}',
+                                'Selected Time: ${model.selectedTime}',
+                                'Mode: ${model.selectedMode}',
+                                (shouldRoute) {
+                                  if(widget.isReschedule){
+                                    model.rescheduleCompetencyTest(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                                  } else {
+                                    model.scheduleCompetencyTest(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
+                                  }
+                                },
+                              );
+                            }
+                        },
+                        text: widget.isReschedule? 'Reschedule Test': 'Book Test',
+                        backgroundColor: AppColors.accent,
+                        width: 171.w,
+                        height: 40.h,
+                        textColor: AppColors.accentOn,
+                      ),
+                    ],
+                  ),
+                ),
+              );
   }
 }

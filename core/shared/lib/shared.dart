@@ -88,6 +88,10 @@ export 'src/model/response/registration_info/residential_address_contact_info.da
 export 'src/model/response/registration_info/point_of_contatc_detail.dart';
 export 'src/model/response/registration_info/sibling_detail.dart';
 export 'src/model/response/registration_info/child_custody_detail.dart';
+export 'src/model/response/registration_info/preference_detail.dart';
+export 'src/model/response/get_sibling_detail/sibling_data.dart';
+export 'src/model/response/get_sibling_detail/sibling_profile.dart';
+export 'src/model/response/get_sibling_detail/sibling_profile_response.dart';
 
 //utils
 export 'src/utils/validator.dart';

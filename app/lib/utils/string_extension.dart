@@ -9,6 +9,6 @@ extension NonNullString on String? {
   }
 
   bool isEmptyOrNull() {
-    return (this??"").isEmpty || this == null;
+    return (this??"").isEmpty || this == null || (this??'').contains('N/A');
   }
 }

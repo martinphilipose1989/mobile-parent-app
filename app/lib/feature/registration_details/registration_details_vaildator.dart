@@ -33,7 +33,16 @@ class RegistrationDetailsValidator{
 
     // Validate common text fields
     for (var field in textFields) {
-      String? validationResult = AppValidators.validateNotEmpty(field['controller']!.text.trim(), field['field'] as String);
+      String? validationResult;
+      if(field['field'].toString().contains('Date')){
+        validationResult = _validateDateOfBirth(field['controller']!.text.trim());
+      }
+      else{
+        validationResult = AppValidators.validateNotEmpty(
+          field['controller']!.text.trim(),
+          field['field'].toString(),
+        );
+      }
       if (validationResult != null) {
         errorMessage = validationResult;
         break;
@@ -102,6 +111,19 @@ class RegistrationDetailsValidator{
     model.saveStudentDetail();
     print('All fields are valid');
   }
+}
+
+String? _validateDateOfBirth(String value) {
+  if (value.isEmpty) {
+    return 'Date of Birth is required';
+  }
+  
+  final datePattern = RegExp(r'^(\d{2})[/|-](\d{2})[/|-](\d{4})$');
+  if (!datePattern.hasMatch(value)) {
+    return 'Date of Birth must be in DD/MM/YYYY or DD-MM-YYYY format';
+  }
+  
+  return null;
 }
 
   void validateParentInfoFields(BuildContext context) {
@@ -323,49 +345,87 @@ class RegistrationDetailsValidator{
       //   errorMessage = 'Please select an Emergency Contact';
       // }
 
-      // // Point of Contact
-      // List<Map<String, dynamic>> pointOfContactFields = [
-      //   {'field': 'Parent Mobile Number 1', 'controller': model.parentMobileNumberController1,},
-      //   {'field': 'Parent Email Id 1', 'controller': model.parentEmailIdController1},
-      //   {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
-      //   {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
-      // ];
+      // Point of Contact
+      List<Map<String,dynamic>> preference1 = [
+        {
+        'field': 'Parent Mobile Number 1',
+        'controller': model.parentMobileNumberController1,
+      },
+      {
+        'field': 'Parent Email Id 1',
+        'controller': model.parentEmailIdController1
+      },
+      ];
+      List<Map<String, dynamic>> preference2 = [
+        {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
+        {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
+      ];
 
-      // for (var field in pointOfContactFields) {
-      //   String? validationResult;
-      //   if(field['field'].toString().contains('Email') ){
-      //       validationResult = AppValidators.validateEmail(
-      //       field['controller']!.text.trim(),
-      //     );
-      //   }
-      //   if(field['field'].toString().contains('Mobile') ){
-      //       validationResult = AppValidators.validateMobile(
-      //       field['controller']!.text.trim(),
-      //     );
-      //   }
-      //   if (validationResult != null) {
-      //     errorMessage = validationResult;
-      //     break;
-      //   }
-      // }
+      if(model.contactParentTypeEmail1.value.isEmpty || model.contactParentTypePhone1.value.isEmpty){
+        errorMessage = "Please select Parent Type";
+      }
 
-      // // Validate email format
-      // if (errorMessage.isEmpty) {
-      //   for (var emailController in [model.parentEmailIdController1, model.parentEmailIdController2]) {
-      //     String? validationResult = AppValidators.validateEmail(emailController.text);
-      //     if (validationResult != null) {
-      //       errorMessage = validationResult;
-      //       break;
-      //     }
-      //   }
-      // }
+      if(errorMessage.isEmpty){
+        for (var field in preference1) {
+          String? validationResult;
+          if (field['field'].toString().contains('Email')) {
+            validationResult = AppValidators.validateEmail(
+              field['controller']!.text.trim(),
+            );
+          }
+          if (field['field'].toString().contains('Mobile')) {
+            validationResult = AppValidators.validateMobile(
+              field['controller']!.text.trim(),
+            );
+          }
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
+      }
+
+      if(errorMessage.isEmpty){
+        for (var field in preference2) {
+          String? validationResult;
+          if (field['field'].toString().contains('Email')) {
+            if(field['controller']!.text.trim().toString().isNotEmpty){
+              validationResult = AppValidators.validateEmail(
+                field['controller']!.text.trim(),
+              );
+            }
+          }
+          if (field['field'].toString().contains('Mobile')) {
+            if(field['controller']!.text.trim().toString().isNotEmpty){
+              validationResult = AppValidators.validateMobile(
+                field['controller']!.text.trim(),
+              );
+            }
+          }
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
+      }
+
+      // Validate email format
+      if (errorMessage.isEmpty) {
+        for (var emailController in [model.parentEmailIdController1, model.parentEmailIdController2]) {
+          String? validationResult = AppValidators.validateEmail(emailController.text);
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
+      }
 
       // Residential Details
       List<Map<String, dynamic>> residentialFields = [
         {'field': 'House No./ Building', 'controller': model.houseOrBuildingController},
         {'field': 'Street Name', 'controller': model.streetNameController},
         {'field': 'Landmark', 'controller': model.landMarkController},
-        {'field': 'Pin Code', 'value': model.residentialPinCodeController},
+        {'field': 'Pin Code', 'controller': model.residentialPinCodeController},
       ];
 
       if (errorMessage.isEmpty) {

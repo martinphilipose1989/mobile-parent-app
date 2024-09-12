@@ -1,8 +1,8 @@
 import 'package:shared/shared.dart';
 
 class ContactDetails{
-  dynamic emergencyContact;
-  List<PointOfContactDetail>? pointOfContact;
+  String? emergencyContact;
+  PointOfContactDetail? pointOfContact;
   ResidentialAddress? residentialAddress;
 
     ContactDetails({

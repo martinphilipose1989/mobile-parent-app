@@ -189,6 +189,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> occupation = BehaviorSubject<List<String>>.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -202,6 +203,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   List<MdmAttributeModel>? streamTypeAttribute;
   List<MdmAttributeModel>? courseTypeAttribute;
   List<MdmAttributeModel>? shiftTypeAttribute;
+  List<MdmAttributeModel>? occupationAttribute;
 
   CommonDataClass? selectedSchoolLocationEntity; 
   CommonDataClass? selectedGradeEntity;

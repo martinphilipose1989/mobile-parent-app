@@ -73,7 +73,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   EnquiryStage? getSchoolVisitStage() {
     return enquiryDetails.value.enquiryStage
         ?.firstWhere(
-          (element) => element.stageName?.contains('School visit') ?? false,
+          (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
           orElse: () => EnquiryStage(),
         );
   }
@@ -81,20 +81,20 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   EnquiryStage? getCompetencyStage() {
     return enquiryDetails.value.enquiryStage
         ?.firstWhere(
-          (element) => element.stageName?.contains('Competency test') ?? false,
+          (element) => element.stageName?.toLowerCase().contains('competency test') ?? false,
           orElse: () => EnquiryStage(),
         );
   }
 
   bool isDetailView(){
     final schoolVisitStage = getSchoolVisitStage();
-    return schoolVisitStage?.status == "In Progress";
+    return schoolVisitStage?.status?.toLowerCase() == "in progress";
   }
 
 
   bool isDetailViewCompetency(){
     final competencyStage =  getCompetencyStage();
-    return competencyStage?.status == "In Progress";
+    return competencyStage?.status?.toLowerCase() == "in progress";
   }
 
   final List registrationDetails = [

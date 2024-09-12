@@ -73,7 +73,7 @@ class EnquiriesDetailsPageView
         ).then((value){
           model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
         }) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs,}).then((value) {
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs}).then((value) {
               if(value!=null){
                 model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
               }

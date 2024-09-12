@@ -52,7 +52,8 @@ class AdmissionsList extends StatelessWidget {
                       academicYear: admissionList?[index].academicYear,
                       board: admissionList?[index].board,
                       grade: admissionList?[index].grade,
-                      formCompletionPercentage: admissionList?[index].formCompletionPercentage
+                      formCompletionPercentage: admissionList?[index].formCompletionPercentage,
+                      isFrom: 'admission'
                     );
                     Navigator.pushNamed(context, RoutePaths.admissionsDetails,arguments: admissionDetail);
                   },
@@ -67,7 +68,7 @@ class AdmissionsList extends StatelessWidget {
                           year: admissionList?[index].academicYear??'',
                           id: admissionList?[index].enquiryNumber??'',
                           title: admissionList?[index].school??'',
-                          subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].grade??''}",
+                          subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].board??''}",
                           buttontext: admissionList?[index].currentStage??'',
                           compeletion: "${(admissionList?[index].formCompletionPercentage??0).toString()}% Completed",
                         ),
@@ -75,7 +76,7 @@ class AdmissionsList extends StatelessWidget {
                           height: 10,
                         ),
                         CommonText(
-                          text: "School Visit scheduled on 18th July 10:30 AM",
+                          text: admissionList?[index].comment??'',
                           style: AppTypography.caption.copyWith(
                               color: AppColors.primary, letterSpacing: 0),
                         )

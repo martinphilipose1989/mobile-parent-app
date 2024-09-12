@@ -72,6 +72,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError,MdmAttributeBaseModel>> getMdmAttribute({required String infoType});
 
   Future<Either<NetworkError, Uint8List>> downloadFile({required String fileUrl});
-  
+
+  Future<Either<NetworkError,SiblingProfileResponse>> getSiblingDetail({required GetSiblingDetailRequest getSiblingDetailRequest});
 }
   

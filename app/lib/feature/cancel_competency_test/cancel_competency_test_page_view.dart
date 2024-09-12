@@ -4,19 +4,15 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/DetailsViewSchoolTour/competency_test_schedule_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
 import 'package:app/navigation/route_paths.dart';
-import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
-import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
-import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CancelCompetencyTestPageView
@@ -101,40 +97,6 @@ class CancelCompetencyTestPageView
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-                  child: CommonElevatedButton(
-                    onPressed: () {
-                      if(model.formKey.currentState!.validate()){
-                        CommonPopups().showConfirm(
-                          context,
-                          'Confirm Cancellation Details',
-                          'Please Confirm the below details',
-                          'Date: ${model.dateFormat.format(DateTime.parse(competencyTestDetail.competencyTestDate??DateTime.now().toString()))}',
-                          'Selected Time: ${competencyTestDetail.slot}',
-                          'Comments: ${model.controller.text}',
-                          (shouldRoute) {
-                            model.cancelCompetencyTest(enquiryID: enquiryDetailArgs.enquiryId??'',competencyTestID: competencyTestDetail.id??'');
-                          },
-                        );
-                      }
-                    },
-                    text: 'Cancel Test',
-                    backgroundColor: AppColors.accent,
-                    width: MediaQuery.of(context).size.width,
-                    height: 40.h,
-                    textColor: AppColors.accentOn,
                   ),
                 ),
               ),

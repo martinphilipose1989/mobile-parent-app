@@ -36,7 +36,7 @@ class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentI
       "mother_details": motherDetails?.toJson(),
       "guardian_details": guardianDetails?.toJson(),
     },
-    "sibling_details": siblingDetails??[].map((e) => e is SiblingDetailEntity ? e.toJson() : e).toList(),
+    "sibling_details": (siblingDetails??[]).map((e) => e.toJson()).toList(),
     "other_details": childCustodyDetail?.toJson()
   };
 

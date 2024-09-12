@@ -8,6 +8,7 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
+import 'package:network_retrofit/src/model/request/get_sibling_detail_request.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
@@ -15,6 +16,7 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
+import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
@@ -405,6 +407,16 @@ abstract class RetrofitService {
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.bloodGroup}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getBloodGroupAttribute(
     {@Header("Authorization") required String token}
+  );
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.occupation}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getOccupationAttribute(
+      {@Header("Authorization") required String token}
+  );
+
+  @POST(NetworkProperties.enrollmentDetail)
+  Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
+      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest}
   );
 }
 

@@ -57,7 +57,7 @@ class ListItem extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: name,
+                        text: '$name ',
                         style: AppTypography.caption.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.textDark,

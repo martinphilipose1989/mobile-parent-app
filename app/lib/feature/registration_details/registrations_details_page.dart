@@ -55,6 +55,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "state");
         model.getMdmAttribute(infoType: "city");
         model.getMdmAttribute(infoType: "bloodGroup");
+        model.getMdmAttribute(infoType: "occupation");
     }
     if(widget.routeFrom!="enquiry"){
       model.enquiryDetails = widget.enquiryDetail;
@@ -74,6 +75,10 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
       );
     }
+     model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
   }
 
   @override
@@ -171,6 +176,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 dataBuilder: (context, data) {
                  return CommonElevatedButton(
                     onPressed: () {
+                      if(model.isLoading.value){
+                        return;
+                      }
                       Navigator.pop(context);
                     },
                     text: 'Cancel',
@@ -186,6 +194,15 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                   );}),
                   CommonElevatedButton(
                     onPressed: () {
+                      if(model.isLoading.value){
+                        return;
+                      }
+                      ProviderScope.containerOf(context)
+                        .read(enquiriesAdmissionsJourneyProvider(
+                            widget.enquiryDetailArgs??EnquiryDetailArgs()))
+                        .getAdmissionJourney(
+                            enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
+                            type: widget.enquiryDetailArgs?.isFrom ?? 'enquiry');
                       RegistrationDetailsValidator validator = RegistrationDetailsValidator(model);
                       if (model.showWidget.value == 0) {
                         validator.validateStudentFields(context);

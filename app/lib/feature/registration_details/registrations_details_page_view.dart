@@ -44,18 +44,22 @@ class RegistrationsDetailsPageView
         ).then((value){
           model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
         }) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail,}).then((value) {
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail}).then((value) {
               if(value!=null){
                 model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
               }
             },);
       case 1:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 3:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 4:{
+        model.showMenuOnFloatingButton.add(false);
         model.getMdmAttribute(infoType: 'grade');
         model.getMdmAttribute(infoType: 'schoolLocation');
         model.getMdmAttribute(infoType: 'gender');
@@ -72,6 +76,7 @@ class RegistrationsDetailsPageView
         model.getMdmAttribute(infoType: "state");
         model.getMdmAttribute(infoType: "city");
         model.getMdmAttribute(infoType: "bloodGroup");
+        model.getMdmAttribute(infoType: "occupation");
         if(model.showWidget.value == 1){
           model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "ParentInfo");
         }
@@ -85,7 +90,6 @@ class RegistrationsDetailsPageView
           model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "BankInfo");
         }
         model.editRegistrationDetails.add(true);
-        model.showMenuOnFloatingButton.add(false);
         return null;
       }
       case 5:
@@ -101,6 +105,7 @@ class RegistrationsDetailsPageView
             }
            });
       case 6:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
       default:
@@ -159,7 +164,7 @@ class RegistrationsDetailsPageView
                               } else if(enquiryDetailArgs?.enquiryType == "PSA"){
                                 model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
                               } else{
-                                model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'');
+                                model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',isEdit: true);
                               }
                             }else if(index == 5){
                               model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
@@ -252,8 +257,13 @@ class RegistrationsDetailsPageView
             if(data?.status == Status.success){
               return ParentInfoEditing(model: model);
             }
-            else{
+            if(data?.status == Status.error){
               return ParentInfoEditing(model: model);
+            }
+            else{
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         );
@@ -273,8 +283,13 @@ class RegistrationsDetailsPageView
             if(data?.status == Status.success){
               return ContactInfoEditing(model: model);
             }
-            else{
+            if(data?.status == Status.error){
               return ContactInfoEditing(model: model);
+            }
+            else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         );
@@ -291,8 +306,13 @@ class RegistrationsDetailsPageView
             if(data?.status == Status.success){
               return MedicalDetailsEditing(model: model);
             }
-            else{
+            if(data?.status == Status.error){
               return MedicalDetailsEditing(model: model);
+            }
+            else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         );
@@ -312,8 +332,13 @@ class RegistrationsDetailsPageView
             if(data?.status == Status.success){
               return BankDetailsEditing(model: model);
             }
-            else{
+            if(data?.status == Status.error){
               return BankDetailsEditing(model: model);
+            }
+            else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         );
@@ -335,7 +360,7 @@ class RegistrationsDetailsPageView
           case Status.success:
           return UploadDocs(enquiryDetail: result?.data?.data,model: model,enquiryID: enquiryDetailArgs?.enquiryId,);
             case Status.error:
-              return const Center(child: Text('Enquiries not found'),);
+              return const Center(child: Text('Documents not found'),);
             default:
               return const Center(child: CircularProgressIndicator(),);
           }

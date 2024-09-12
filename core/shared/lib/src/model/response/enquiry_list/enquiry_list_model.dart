@@ -10,4 +10,5 @@ class EnquiryListDetailModel {
     String? currentStage;
     String? schoolVisitDate;
     String? schoolVisitTime;
+    String? comment;
 }

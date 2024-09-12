@@ -6,6 +6,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     {'image': AppImages.timeline, 'name': "Timeline"},
   ];
 
-  final List<String> occupation=['Government','Private','Business'];
+  // final List<String> occupation=['Government','Private','Business'];
   final List<String> area=['Metro','Urban','SubUrban','Town'];
   // final List<String> country=['India','Pakistan','Nepal','Bangladesh'];
   // final List<String> state=['Maharashtra','Gujarat','Madhya Pradesh'];
@@ -148,6 +149,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController fatherMobileController = TextEditingController();
   String? fatherOccupation;
   String? fatherArea;
+  CommonDataClass? selectedFatherOccupation;
   CommonDataClass? selectedFatherCountryEntity;
   CommonDataClass? selectedFatherStateEntity;
   CommonDataClass? selectedFatherCityEntity;
@@ -167,6 +169,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController motherMobileController = TextEditingController();
   String? motherOccupation;
   String? motherArea;
+  CommonDataClass? selectedMotherOccupation;
   CommonDataClass? selectedMotherCountryEntity;
   CommonDataClass? selectedMotherStateEntity;
   CommonDataClass? selectedMotherCityEntity;
@@ -207,11 +210,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController parentMobileNumberController1 = TextEditingController();
   TextEditingController parentEmailIdController2 = TextEditingController();
   TextEditingController parentMobileNumberController2 = TextEditingController();
-  String? contactParentTypePhone1;
-  String? contactParentTypeEmail1;
-  String? contactParentTypePhone2;
-  String? contactParentTypeEmail2;
-  String? emergencyContact;
+  BehaviorSubject<String> contactParentTypePhone1 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> contactParentTypeEmail1 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> contactParentTypePhone2 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> contactParentTypeEmail2 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> emergencyContact = BehaviorSubject<String>.seeded('');
   CommonDataClass? residentialCountry;
   CommonDataClass? residentialState;
   CommonDataClass? residentialCity;
@@ -358,6 +361,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<List<String>> state = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> city = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> bloodGroup = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> occupation =BehaviorSubject<List<String>>.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -375,6 +379,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   List<MdmAttributeModel>? stateAttribute;
   List<MdmAttributeModel>? cityAttribute;
   List<MdmAttributeModel>? bloodGroupAttribute;
+  List<MdmAttributeModel>? occupationAttribute;
 
   CommonDataClass? selectedSchoolLocationEntity; 
   CommonDataClass? selectedGradeEntity;
@@ -461,6 +466,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           }
           isLoading.value = false;
        }
+       if(result.status == Status.error){
+        if(infoType == 'ParentInfo'){
+          parentDetail.add(Resource.error());
+        }
+        else if(infoType == 'ContactInfo'){
+          contactDetail.add(Resource.error());
+        }
+        else if(infoType == 'MedicalInfo'){
+          medicalDetail.add(Resource.error());
+        }
+        else if(infoType == 'BankInfo'){
+          bankDetail.add(Resource.error());
+        }
+       }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
@@ -475,7 +494,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       final params = UpdateParentDetailsUsecaseParams(
           enquiryID: enquiryID, parentInfo: parentInfoEntity);
-      parentDetail.add(Resource.loading());
       isLoading.value = true;
       RequestManager<SingleResponse>(
           params,
@@ -501,6 +519,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
+          clearParentDetails();
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -540,6 +559,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
+        clearMedicalDetails();
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -579,6 +599,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
+        clearContactDetails();
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -617,6 +638,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
+          clearBankDetails();
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -729,16 +751,33 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         enquiryID: enquiryID,
         psaDetail: psaDetail
       );
-      
+      isLoading.value = true;
       RequestManager<PsaResponse>(
         params,
         createCall: () => updatePsaDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        psaDetailSubject?.add(result.data?.data?? PSADetail());
-        // activeStep.add()
+        if(result.status == Status.success){    
+          psaDetailSubject?.add(result.data?.data?? PSADetail());
+          isLoading.value = false;
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          fetchAllDetails(enquiryID, "ParentInfo");
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
+          clearPsaDetails();
+        }
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -751,16 +790,34 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         enquiryID: enquiryID,
         ivtDetail: ivtDetail
       );
-      
+      isLoading.value = true;
       RequestManager<IVTBase>(
         params,
         createCall: () => updateIvtDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        ivtDetailSubject?.add(result.data?.data??IVTDetail());
-        // activeStep.add()
+        if(result.status == Status.success){  
+          ivtDetailSubject?.add(result.data?.data??IVTDetail());
+          isLoading.value = false;
+          ProviderScope.containerOf(context!)
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          fetchAllDetails(enquiryID, "ParentInfo");
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear);
+          clearIvtDetails();  
+        }
+        
       }).onError((error) {
+        isLoading.value = false;
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -794,6 +851,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           fetchAllDetails(enquiryID, "ParentInfo");
           showWidget.add(showWidget.value + 1);
           controller.animateTo((showWidget.value+1)*50, duration: const Duration(milliseconds: 500), curve: Curves.linear);
+          clearNewAdmissionDetails();
         }
         
       }).onError((error) {
@@ -877,6 +935,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(infoType == "bloodGroup"){
           bloodGroupAttribute = result.data?.data;
           bloodGroup.add(result.data?.data?.map((e)=> e.attributes?.group??'').toList()??[]);
+        }
+        if (infoType == "occupation") {
+          occupationAttribute = result.data?.data;
+          occupation.add(result.data?.data?.map((e) => e.attributes?.occupation ?? '').toList() ??[]);
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -1280,9 +1342,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     houseOrBuildingController.text= contactDetails.residentialAddress?.house??"";
     streetNameController.text= contactDetails.residentialAddress?.street??"";
     landMarkController.text= contactDetails.residentialAddress?.landmark??"";
-    if(contactDetails.emergencyContact is EmergencyContact){
-      emergencyContact = contactDetails.emergencyContact.emergencyContact;
-    }
+    emergencyContact.value = contactDetails.emergencyContact??'';
     if(contactDetails.residentialAddress?.country is CommonDataClass || contactDetails.residentialAddress?.city is CommonDataClass){
       residentialCountry = contactDetails.residentialAddress?.country;
       residentialState = contactDetails.residentialAddress?.state;
@@ -1291,16 +1351,47 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       selectedResidentialState.value = contactDetails.residentialAddress?.state?.value??'';
       selectedResidentialCountry.value = contactDetails.residentialAddress?.country?.value??'';
     }
-    residentialPinCode = contactDetails.residentialAddress?.pinCode??"";
-    if(contactDetails.pointOfContact?.length == 1){
-      parentEmailIdController1.text = contactDetails.pointOfContact?[0].parentEmailId??"";
-      parentMobileNumberController1.text = contactDetails.pointOfContact?[0].parentContactNumber??"";
-      contactParentTypePhone1 = contactDetails.pointOfContact?[0].parentType??"";
+    else{
+      selectedResidentialCity.value =
+          contactDetails.residentialAddress?.city?? '';
+      selectedResidentialState.value =
+          contactDetails.residentialAddress?.state?? '';
+      selectedResidentialCountry.value =
+          contactDetails.residentialAddress?.country?? '';
+      if((countryAttribute??[]).any((element)=> element.attributes?.name == selectedResidentialCountry.value)){
+        var country = countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedResidentialCountry.value));
+        residentialCountry = CommonDataClass(
+          id: country?.id,
+          value: country?.attributes?.name
+        );
+      }
+      if((stateAttribute??[]).any((element)=> element.attributes?.name == selectedResidentialState.value)){
+        var state = stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedResidentialState.value));
+        residentialState = CommonDataClass(
+          id: state?.id,
+          value: state?.attributes?.name
+        );
+      }
+      if((cityAttribute??[]).any((element)=> element.attributes?.name == selectedResidentialCity.value)){
+        var city = cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedResidentialCity.value)); 
+        residentialCity = CommonDataClass(
+          id: city?.id,
+          value: city?.attributes?.name
+        );
+      }
     }
-    if(contactDetails.pointOfContact?.length == 2){
-      parentEmailIdController2.text = contactDetails.pointOfContact?[1].parentEmailId??"";
-      parentMobileNumberController2.text = contactDetails.pointOfContact?[1].parentContactNumber??"";
-      contactParentTypePhone2 = contactDetails.pointOfContact?[1].parentType??"";
+    residentialPinCodeController.text = contactDetails.residentialAddress?.pinCode??"";
+    if(contactDetails.pointOfContact?.firstPreference != null){
+      parentEmailIdController1.text = contactDetails.pointOfContact?.firstPreference?.email??'';
+      parentMobileNumberController1.text = contactDetails.pointOfContact?.firstPreference?.mobile??'';
+      contactParentTypePhone1.value = contactDetails.pointOfContact?.firstPreference?.mobileOfParent??'';
+      contactParentTypeEmail1.value = contactDetails.pointOfContact?.firstPreference?.emailOfParent??'';
+    }
+    if(contactDetails.pointOfContact?.secondPreference != null){
+      parentEmailIdController2.text = contactDetails.pointOfContact?.secondPreference?.email??'';
+      parentMobileNumberController2.text = contactDetails.pointOfContact?.secondPreference?.mobile??'';
+      contactParentTypePhone2.value = contactDetails.pointOfContact?.secondPreference?.mobileOfParent??'';
+      contactParentTypeEmail2.value = contactDetails.pointOfContact?.secondPreference?.emailOfParent??'';
     }
     radioButtonController3.selectItem((contactDetails.residentialAddress?.isPermanentAddress??false) ? "Yes" : "No");
   }
@@ -1311,7 +1402,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     specificDisabilityController.text=medicalDetails.physicalDisabilityDescription??"";
     specifyMedicalHistoryController.text = medicalDetails.medicalHistoryDescription??"";
     specifyAllergiesController.text = medicalDetails.allergyDescription??"";
-    selectedBloodGroup.value = ((medicalDetails.bloodGroup??"").toString() == "N/A") ? "" : (medicalDetails.bloodGroup??"").toString();
+    if(medicalDetails.bloodGroup is CommonDataClass){
+      selectedBloodGroup.add(medicalDetails.bloodGroup?.value??'');
+      selectedBloodGroupEntity= medicalDetails.bloodGroup;
+    }
+    else{
+      selectedBloodGroup.value = medicalDetails.bloodGroup;
+      if((bloodGroupAttribute??[]).any((element)=> (element.attributes?.name??'').contains(medicalDetails.bloodGroup??''))){
+        var bloodGroup = bloodGroupAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(medicalDetails.bloodGroup??''));
+        selectedBloodGroupEntity = CommonDataClass(
+          id: bloodGroup?.id,
+          value: bloodGroup?.attributes?.name
+        );
+      }
+    }
     personalisedLearningNeedsController.text = medicalDetails.personalisedLearningNeedsDescription??'';
     radioButtonController4.selectItem((medicalDetails.isChildHospitalised??false) ? "Yes": "No");
     radioButtonController5.selectItem((medicalDetails.hasPhysicalDisability??false)? "Yes": "No");
@@ -1333,7 +1437,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ParentInfoEntity parentInfoEntity=ParentInfoEntity();
 
     parentInfo?.fatherDetails?.firstName=fatherFirstNameController.text.trim();
-    parentInfo?.fatherDetails?.lastName=fatherFirstNameController.text.trim();
+    parentInfo?.fatherDetails?.lastName=fatherLastNameController.text.trim();
     parentInfo?.fatherDetails?.aadharNumber=fatherAdharCardController.text.trim();
     parentInfo?.fatherDetails?.panNumber=fatherPanCardController.text.trim();
     parentInfo?.fatherDetails?.qualification=fatherPanCardController.text.trim();
@@ -1428,6 +1532,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     bankDetailsEntity = bankDetailsEntity.restore(bankDetails??BankDetails());
     await updateBankDetail(enquiryId,bankDetailsEntity);
   }
+
   Future<void>saveContactDetails(String enquiryId)async{
     ContactDetailsEntity contactDetail =ContactDetailsEntity();
     contactDetails = ContactDetails(
@@ -1438,22 +1543,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         country : residentialCountry,
         state : residentialState,
         city : residentialCity,
-        pinCode : residentialPinCode,
+        pinCode : residentialPinCodeController.text.trim(),
         isPermanentAddress: radioButtonController3.selectedItem == "Yes" ? true : false
       ),
-      emergencyContact: EmergencyContact(emergencyContact: emergencyContact),
-      pointOfContact: [
-        PointOfContactDetail(
-          parentType: contactParentTypePhone1,
-          parentContactNumber: parentMobileNumberController1.text.trim(),
-          parentEmailId: parentEmailIdController1.text.trim(),
-        ),
-        PointOfContactDetail(
-          parentType: contactParentTypePhone2,
-          parentContactNumber: parentMobileNumberController2.text.trim(),
-          parentEmailId: parentEmailIdController2.text.trim(),
-        )
-      ]
+      emergencyContact: emergencyContact.value??'',
+      pointOfContact: PointOfContactDetail(
+        firstPreference: (parentEmailIdController1.text.isEmpty || parentMobileNumberController1.text.isEmpty || contactParentTypePhone1.value.isEmptyOrNull()|| contactParentTypeEmail1.value.isEmptyOrNull()) ? 
+          null : PreferenceDetail(
+            email: parentEmailIdController1.text.trim(),
+            emailOfParent: contactParentTypeEmail1.value,
+            mobile: parentMobileNumberController1.text.trim(),
+            mobileOfParent: contactParentTypePhone1.value,
+          ),
+        secondPreference: (parentEmailIdController2.text.isEmpty ||
+                  parentMobileNumberController2.text.isEmpty ||
+                  contactParentTypePhone2.value.isEmptyOrNull() ||
+                  contactParentTypeEmail2.value.isEmptyOrNull())
+              ? null : PreferenceDetail(
+                  email: parentEmailIdController2.text.trim(),
+                  emailOfParent: contactParentTypeEmail2.value,
+                  mobile: parentMobileNumberController2.text.trim(),
+                  mobileOfParent: contactParentTypePhone2.value,
+                ),
+      )
     );
     contactDetail=contactDetail.restore(contactDetails??ContactDetails());
     await updateContactDetail(enquiryId,contactDetail);
@@ -1561,6 +1673,208 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       updateNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
     }
   }
+
+  void clearBankDetails() {
+  ifscCodeController.clear();
+  bankNameController.clear();
+  branchNameController.clear();
+  accountHolderNameController.clear();
+  accountTypeController.clear();
+  accountNumberController.clear();
+  upiController.clear();
+}
+
+void clearMedicalDetails() {
+  yearOfHospitalizationController.clear();
+  reasonOfHospitalizationController.clear();
+  specificDisabilityController.clear();
+  specifyMedicalHistoryController.clear();
+  specifyAllergiesController.clear();
+  personalisedLearningNeedsController.clear();
+  selectedBloodGroup.add('');
+  selectedBloodGroupEntity = null;
+  radioButtonController4.selectItem(null);
+  radioButtonController5.selectItem(null);
+  radioButtonController7.selectItem(null);
+  radioButtonController8.selectItem(null);
+  radioButtonController9.selectItem(null);
+}
+
+void clearContactDetails() {
+  houseOrBuildingController.clear();
+  streetNameController.clear();
+  landMarkController.clear();
+  residentialPinCodeController.clear();
+  parentEmailIdController1.clear();
+  parentMobileNumberController1.clear();
+  parentEmailIdController2.clear();
+  parentMobileNumberController2.clear();
+  contactParentTypePhone1.value = '';
+  contactParentTypeEmail1.value = '';
+  contactParentTypePhone2.value = '';
+  contactParentTypeEmail2.value = '';
+  emergencyContact.value = '';
+  residentialCountry = null;
+  residentialState = null;
+  residentialCity = null;
+  residentialPinCode = null;
+  selectedResidentialCity.add('');
+  selectedResidentialState.add('');
+  selectedResidentialCountry.add('');
+  radioButtonController3.selectItem(null);
+}
+
+void clearParentDetails() {
+  // Father details
+  fatherFirstNameController.clear();
+  fatherLastNameController.clear();
+  fatherAdharCardController.clear();
+  fatherPanCardController.clear();
+  qualificationController.clear();
+  organizationNameController.clear();
+  designationController.clear();
+  pinCodeController.clear();
+  fatherEmailController.clear();
+  fatherMobileController.clear();
+  fatherOccupation = null;
+  fatherArea = null;
+  selectedFatherCountryEntity = null;
+  selectedFatherStateEntity = null;
+  selectedFatherCityEntity = null;
+  selectedFatherAreaSubject.add('');
+  selectedFatherOccupationSubject.add('');
+  selectedFatherCountrySubject.add('');
+  selectedFatherStateSubject.add('');
+  selectedFatherCitySubject.add('');
+
+  // Mother details
+  motherFirstNameController.clear();
+  motherLastNameController.clear();
+  motherAdharCardController.clear();
+  motherPanCardController.clear();
+  motherQualificationController.clear();
+  motherOrganizationNameController.clear();
+  motherDesignationController.clear();
+  motherOfficeAddressController.clear();
+  motherPinCodeController.clear();
+  motherEmailController.clear();
+  motherMobileController.clear();
+  motherOccupation = null;
+  motherArea = null;
+  selectedMotherCountryEntity = null;
+  selectedMotherStateEntity = null;
+  selectedMotherCityEntity = null;
+  selectedMotherAreaSubject.add('');
+  selectedMotherOccupationSubject.add('');
+  selectedMotherCountrySubject.add('');
+  selectedMotherStateSubject.add('');
+  selectedMotherCitySubject.add('');
+
+  // Guardian details
+  guardianFirstNameController.clear();
+  guardianLastNameController.clear();
+  guardianAdharCardController.clear();
+  guardianPanCardController.clear();
+  relationshipWithChildController.clear();
+  guardianQualificationController.clear();
+  guardianOrganizationNameController.clear();
+  guardianDesignationController.clear();
+  guardianOfficeAddressController.clear();
+  guardianPinCodeController.clear();
+  guardianEmailController.clear();
+  guardianMobileController.clear();
+  guardianOccupation = null;
+  guardianArea = null;
+  selectedGuardianCountryEntity = null;
+  selectedGuardianStateEntity = null;
+  selectedGuardianCityEntity = null;
+  selectedGuardianAreaSubject.add('');
+  selectedGuardianOccupationSubject.add('');
+  selectedGuardianCountrySubject.add('');
+  selectedGuardianStateSubject.add('');
+  selectedGuardianCitySubject.add('');
+
+  // Other details
+  radioButtonController.selectItem(null);
+  radioButtonController1.selectItem(null);
+  radioButtonController2.selectItem(null);
+  radioButtonController10.selectItem(null);
+  siblingFirstNameController.clear();
+  siblingLastNameController.clear();
+  siblingsEnrollmentController.clear();
+  siblingsSchoolController.clear();
+  siblingGender = null;
+  siblingGrade = null;
+}
+
+void clearNewAdmissionDetails() {
+  enquiryDateController.clear();
+  enquiryNumberController.clear();
+  enquiryTypeController.clear();
+  studentFirstNameController.clear();
+  studentLastNameController.clear();
+  dobController.clear();
+  existingSchoolNameController.clear();
+  fatherGlobalIdController.clear();
+  motherGlobalIdController.clear();
+  parentTypeController.clear();
+  studentsFatherFirstNameController.clear();
+  studentsFatherLastNameController.clear();
+  studentsFatherContactController.clear();
+  studentsFatherEmailController.clear();
+  studentsMotherFirstNameController.clear();
+  studentsMotherLastNameController.clear();
+  studentsMotherContactController.clear();
+  studentsMotherEmailController.clear();
+  religionController.clear();
+  placeOfBirthController.clear();
+  motherTongueController.clear();
+  casteController.clear();
+  subCasteController.clear();
+  nationalityController.clear();
+
+  selectedGradeSubject.add('');
+  selectedSchoolLocationSubject.add('');
+  selectedExistingSchoolGradeSubject.add('');
+  selectedExistingSchoolBoardSubject.add('');
+  selectedParentTypeSubject.add('');
+  selectedGenderSubject.add('');
+
+  selectedGradeEntity = null;
+  selectedSchoolLocationEntity = null;
+  selectedExistingSchoolGradeEntity = null;
+  selectedExistingSchoolBoardEntity = null;
+  selectedParentTypeEntity = null;
+  selectedGenderEntity = null;
+}
+
+void clearPsaDetails() {
+  clearNewAdmissionDetails(); // Clear common fields
+  psaSubTypeSubject.add('');
+  psaCategorySubject.add('');
+  psaSubCategorySubject.add('');
+  periodOfServiceSubject.add('');
+  psaBatchSubject.add('');
+
+  selectedPsaSubTypeEntity = null;
+  selectedPsaCategoryEntity = null;
+  selectedPsaSubCategoryEntity = null;
+  selectedPeriodOfServiceEntity = null;
+  selectedPsaBatchEntity = null;
+}
+
+void clearIvtDetails() {
+  clearNewAdmissionDetails(); // Clear common fields
+  ivtBoardSubject.add('');
+  ivtCourseSubject.add('');
+  ivtStreamSubject.add('');
+  ivtShiftSubject.add('');
+
+  selectedBoardEntity = null;
+  selectedCourseEntity = null;
+  selectedStreamEntity = null;
+  selectedShiftEntity = null;
+}
 
   showPopUP(context){
     Future.delayed(Duration.zero, ()

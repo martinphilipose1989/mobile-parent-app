@@ -1,5 +1,4 @@
 import 'package:data/data.dart';
-import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class RegistrationRepositoryImpl extends RegistrationRepository {
@@ -30,5 +29,10 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   @override
   Future<Either<NetworkError, SingleResponse>> updateBankDetails({required String enquiryID, required  BankDetailsEntity bankDetails}){
     return _networkPort.updateBankDetails(enquiryID: enquiryID, bankDetails: bankDetails);
+  }
+
+  @override
+  Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail({required GetSiblingDetailRequest getSiblingDetailRequest}){
+    return _networkPort.getSiblingDetail(getSiblingDetailRequest: getSiblingDetailRequest);
   }
 }

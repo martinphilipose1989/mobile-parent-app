@@ -111,22 +111,38 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.occupation,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Occupation',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            'Occupation',
-                            checkSpecialCharacters: false,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.fatherOccupation = val;
-                          },
+                        StreamBuilder<List<String>>(
+                          stream: model.occupation,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.occupation.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'Occupation',
+                              showAstreik: false,
+                              validator: (value) => AppValidators.validateNotEmpty(
+                                value,
+                                'Occupation',
+                                checkSpecialCharacters: false,
+                              ),
+                              onMultiSelect: (selectedValues) {},
+                              showBorderColor: true,
+                              onSingleSelect: (val) {
+                                if (model.occupation.value.contains(val)) {
+                                  var occupation = model.occupationAttribute
+                                      ?.firstWhere((element) =>
+                                          (element.attributes?.occupation ??
+                                              '')
+                                            .contains(val));
+                                  model.selectedFatherOccupation =
+                                      CommonDataClass(
+                                          id: occupation?.id,
+                                          value: occupation
+                                            ?.attributes?.occupation);
+                                }
+                              },
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
@@ -379,28 +395,39 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.occupation,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Occupation',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Mother's Occupation",
-                            checkSpecialCharacters: true,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.motherOccupation = val;
-                          },
+                        StreamBuilder<List<String>>(
+                          stream: model.occupation,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.occupation.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'Occupation',
+                              showAstreik: false,
+                              onMultiSelect: (selectedValues) {},
+                              showBorderColor: true,
+                              onSingleSelect: (val) {
+                                if (model.occupation.value.contains(val)) {
+                                  var occupation = model.occupationAttribute
+                                      ?.firstWhere((element) =>
+                                          (element.attributes?.occupation ??
+                                                  '')
+                                              .contains(val));
+                                  model.selectedMotherOccupation =
+                                      CommonDataClass(
+                                          id: occupation?.id,
+                                          value: occupation
+                                              ?.attributes?.occupation);
+                                }
+                              },
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
                           labelText: "Organization Name",
-                          controller: model.motherQualificationController,
+                          controller: model.motherOrganizationNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Organization Name",
@@ -678,18 +705,24 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.occupation,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Occupation',
-                          //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
-                          showAstreik: false,
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.guardianOccupation = val;
-                          },
+                        StreamBuilder<List<String>>(
+                          stream: model.occupation,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.occupation.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'Occupation',
+                              //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
+                              showAstreik: false,
+                              onMultiSelect: (selectedValues) {},
+                              showBorderColor: true,
+
+                              onSingleSelect: (val) {
+                                model.guardianOccupation = val;
+                              },
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(

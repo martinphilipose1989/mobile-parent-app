@@ -27,6 +27,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   bool isReschedule = false;
   SchoolVisitDetail? schoolVisitDetails;
   TextEditingController commentController = TextEditingController();
+  BuildContext? context;
 
   String slotId = "";
 
@@ -123,15 +124,8 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           schoolVisitTimeSlots.add(result.data?.data??[]);
           if((result.data?.data??[]).isNotEmpty){
-            if(isReschedule){
-              slotId = schoolVisitDetails?.slotId??'';
-              selectedTime = schoolVisitDetails?.slot??'';
-              selectedTimeIndex.add((result.data?.data??[]).indexWhere((slots)=> slots.slot == selectedTime));
-            }
-            else {
-              slotId = result.data?.data?[0].id??'';
-              selectedTime = result.data?.data?[0].slot??'';
-            }
+            slotId = result.data?.data?[0].id ?? '';
+            selectedTime = result.data?.data?[0].slot ?? '';
           }
         }
         // activeStep.add()

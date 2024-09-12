@@ -1,13 +1,13 @@
-class PointOfContactDetail{
-  int? id;
-  String? parentEmailId;
-  String? parentContactNumber;
-  String? parentType;
+import 'package:shared/shared.dart';
 
-   PointOfContactDetail({
-    this.id,
-    this.parentContactNumber,
-    this.parentEmailId,
-    this.parentType
-});
+class PointOfContactDetail{
+  PreferenceDetail? firstPreference;
+  PreferenceDetail? secondPreference;
+  PreferenceDetail? thirdPreference;
+
+  PointOfContactDetail({
+    this.firstPreference,
+    this.secondPreference,
+    this.thirdPreference,
+  });
 }

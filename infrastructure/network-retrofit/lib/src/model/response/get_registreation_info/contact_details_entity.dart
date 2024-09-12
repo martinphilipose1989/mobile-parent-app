@@ -8,10 +8,10 @@ part 'contact_details_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true,createToJson: false)
 class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity,ContactDetails>{
-    @JsonKey(name: 'emergencyContact',fromJson: _fromJson)
-    dynamic emergencyContact;
+    @JsonKey(name: 'emergencyContact')
+    String? emergencyContact;
     @JsonKey(name: 'pointOfContact')
-    List<PointOfContactInfoEntity>? pointOfContact;
+    PointOfContactInfoEntity? pointOfContact;
     @JsonKey(name: 'residentialAddress')
     ResidentialAddressEntity? residentialAddress;
 
@@ -24,11 +24,19 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
   factory ContactDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$ContactDetailsEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => {
-      "other_details": emergencyContact?.toJson(),
-      "contact_details": pointOfContact?.map((e)=> e.toJson()).toList(),
-      "residential_address": residentialAddress?.toJson()
-    };
+    Map<String, dynamic> toJson(){
+      Map<String,dynamic> request = {};
+      if ((emergencyContact??'').isNotEmpty && emergencyContact.toString() != 'N/A' && emergencyContact != null) {
+      request.addAll({"emergency_contact": emergencyContact??''});
+      }
+      if(pointOfContact != null){
+        request.addAll({"contact_details": pointOfContact?.toJson()});
+      }
+      if(residentialAddress != null){
+        request.addAll({"residential_address": residentialAddress?.toJson()});
+      }
+      return request;
+    }
 
   static dynamic _fromJson(dynamic data){
     if(data is Map<String,dynamic>){
@@ -42,20 +50,20 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
   @override
   ContactDetails transform() {
     ContactDetails contactDetails = ContactDetails();
-    contactDetails.emergencyContact = (emergencyContact is EmergencyContactEntity) ? emergencyContact?.transform() : emergencyContact;
-    contactDetails.pointOfContact = pointOfContact?.map((e)=> e.transform()).toList();
+    contactDetails.emergencyContact = emergencyContact;
+    contactDetails.pointOfContact = pointOfContact?.transform();
     contactDetails.residentialAddress = residentialAddress?.transform();
     return contactDetails;
   }
 
   @override
   ContactDetailsEntity restore(ContactDetails data) {
-    EmergencyContactEntity emergencyContactEntity = EmergencyContactEntity();
+    
     PointOfContactInfoEntity pointOfContactInfoEntity = PointOfContactInfoEntity();
     ResidentialAddressEntity residentialAddressContactInfo = ResidentialAddressEntity();
     ContactDetailsEntity contactDetailsEntity = ContactDetailsEntity(
-      emergencyContact: emergencyContactEntity.restore((data.emergencyContact??EmergencyContact())),
-      pointOfContact: data.pointOfContact?.map((e)=> pointOfContactInfoEntity.restore(e)).toList(),
+      emergencyContact: data.emergencyContact,
+      pointOfContact: pointOfContactInfoEntity.restore(data.pointOfContact?? PointOfContactDetail()),
       residentialAddress: residentialAddressContactInfo.restore((data.residentialAddress??ResidentialAddress()))
     );
     return contactDetailsEntity;

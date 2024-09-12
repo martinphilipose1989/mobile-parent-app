@@ -21,4 +21,6 @@ class NetworkProperties {
   static const String psaSubCategory = '/api/ac-spa-subjects?fields[1]=name&fields[2]=short_name';
   static const String periodOfService = '/api/fc-period-of-services?fields[1]=name';
   static const String bloodGroup = '/api/blood-groups?fields=group';
+  static const String occupation = '/api/co-occupations?fields[1]=Name&fields[2]=Short_Name&fields[3]=Order';
+  static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
 }

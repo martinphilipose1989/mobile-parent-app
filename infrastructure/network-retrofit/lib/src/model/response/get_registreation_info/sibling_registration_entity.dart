@@ -3,7 +3,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 
 part 'sibling_registration_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,SiblingDetail>{
   @JsonKey(name: 'type')
   String? type;
@@ -34,7 +34,26 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
   });
 
   factory SiblingDetailEntity.fromJson(Map<String, dynamic> json) => _$SiblingDetailEntityFromJson(json);
-  Map<String, dynamic> toJson() => _$SiblingDetailEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {};
+
+    void addIfNotEmpty(String key, dynamic value) {
+      if (value != null && value != '' && value != "N/A") {
+        json[key] = value;
+      }
+    }
+
+    addIfNotEmpty('type', type);
+    addIfNotEmpty('enrollment_number', enrollmentNumber);
+    addIfNotEmpty('first_name', firstName);
+    addIfNotEmpty('last_name', lastName);
+    addIfNotEmpty('dob', dob);
+    addIfNotEmpty('gender', gender);
+    addIfNotEmpty('school', school);
+    addIfNotEmpty('grade', grade);
+
+    return json;
+  }
 
   @override
   SiblingDetail transform() {

@@ -14,13 +14,13 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     String? landmark;
     @JsonKey(name: 'country',fromJson: _fromJson)
     dynamic country;
-    @JsonKey(name: 'pinCode')
+    @JsonKey(name: 'pincode')
     String? pinCode;
     @JsonKey(name: 'state',fromJson: _fromJson)
     dynamic state;
     @JsonKey(name: 'city',fromJson: _fromJson)
     dynamic city;
-    @JsonKey(name: 'is_permanent_address')
+    @JsonKey(name: 'isPermanentAddress')
     bool? isPermanentAddress;
 
     ResidentialAddressEntity({

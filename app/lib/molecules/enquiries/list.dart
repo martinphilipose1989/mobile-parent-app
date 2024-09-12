@@ -42,7 +42,7 @@ class ListV extends StatelessWidget {
                 school: enquiries?[index].school,
                 board: enquiries?[index].board,
                 grade: enquiries?[index].grade,
-                
+                isFrom: 'enquiry'
               );
               Navigator.pushNamed(
                   context, RoutePaths.enquiriesAdmissionsJourneyPage,
@@ -77,16 +77,14 @@ class ListV extends StatelessWidget {
                             title: enquiries?[index].school??'',
                             subtitle: '${enquiries?[index].grade??''} | ${enquiries?[index].board??''}',
                             buttontext: enquiries?[index].currentStage??''),
-                        if(!enquiries![index].schoolVisitDate.isEmptyOrNull() && !enquiries![index].schoolVisitTime.isEmptyOrNull())...[
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CommonText(
-                            text: "School Visit scheduled on ${enquiries?[index].schoolVisitDate??""} ${enquiries?[index].schoolVisitTime??''}",
-                            style: AppTypography.overline.copyWith(
-                              color: AppColors.primary, letterSpacing: 0),
-                          )
-                        ]
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CommonText(
+                          text: enquiries?[index].comment??'',
+                          style: AppTypography.overline.copyWith(
+                          color: AppColors.primary, letterSpacing: 0),
+                        )
                       ],
                     ),
                   ),
