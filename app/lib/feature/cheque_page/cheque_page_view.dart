@@ -47,7 +47,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
         CommonSizedBox.sizedBox(height: 20, width: 10),
         CommonTextFormField(
           showAstreik: true,
-          labelText: 'Amount',
+          labelText: 'Total Amount',
           controller: model.amount,
           readOnly: true,
         ),
@@ -260,7 +260,6 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                         showAstreik: true,
                                                         labelText:
                                                             'Cheque Image',
-                                                        readOnly: true,
                                                         controller: model
                                                             .chequeImage[index],
                                                         validator: (value) =>

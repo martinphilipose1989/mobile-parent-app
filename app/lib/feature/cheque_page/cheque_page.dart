@@ -53,7 +53,7 @@ class ChequePageState extends AppBasePageState<ChequePageModel, ChequePage>
     // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: true,
-      appbarTitle: 'Cheque Page',
+      appbarTitle: 'Cheque Details',
       showBackButton: true,
     );
   }

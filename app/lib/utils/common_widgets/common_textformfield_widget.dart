@@ -59,6 +59,10 @@ class CommonTextFormField extends StatelessWidget {
             maxLines: maxLines ?? 1,
             decoration: decoration ??
                 InputDecoration(
+                  filled: readOnly ? true : false,
+                  fillColor: readOnly
+                      ? Colors.grey.shade100
+                      : Theme.of(context).inputDecorationTheme.fillColor,
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   prefixIcon: prefix,
@@ -71,8 +75,10 @@ class CommonTextFormField extends StatelessWidget {
           top: -11,
           child: labelText != ''
               ? Container(
-                  color: Colors
-                      .white, // Match the background color to avoid overlap
+                  color: readOnly
+                      ? Colors.grey.shade100
+                      : Colors
+                          .white, // Match the background color to avoid overlap
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Row(
                     children: [

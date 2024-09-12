@@ -109,6 +109,9 @@ class WebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonWebView(url: webViewLink);
+    return CommonWebView(
+      url: webViewLink,
+      onUpdateVisitedHistory: (controller, url) {},
+    );
   }
 }
