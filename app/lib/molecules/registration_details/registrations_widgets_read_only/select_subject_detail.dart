@@ -22,58 +22,18 @@ class SelectSubjectDetail extends StatelessWidget {
           padding: REdgeInsets.symmetric(vertical: 16.0),
           child: const Divider(color: AppColors.dividerColor),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: CommonText(
-                text: "Grade",
-                style: AppTypography.body2.copyWith(color: AppColors.textGray),
-              ),
-            ),
-            Expanded(
-                child: CommonText(
-              text: "6",
-              textAlign: TextAlign.end,
-              style:
-                  AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-            )),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-            child: CommonText(
-              text: "Compulsory Subject",
-              style: AppTypography.body2.copyWith(color: AppColors.textGray),
-            ),
-          ),
-          Expanded(
-            child: CommonText(
-              text:
-                  "Computer, English Language, English Literature, Marathi 3rd Language, Social Studies, Mathematics, Science, Art",
-              style:
-                  AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-            ),
-          ),
-        ]),
-        const SizedBox(height: 16),
-        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-            child: CommonText(
-              text: "SPA",
-              style: AppTypography.body2.copyWith(color: AppColors.textGray),
-            ),
-          ),
-          Expanded(
-            child: CommonText(
-              text: "Selection of SPA will be don...",
-              style:
-                  AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-            ),
-          ),
-        ]),
+        const PreSelectedSubject(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            type: "Grade",
+            value: "6"),
+        const PreSelectedSubject(
+            type: "Compulsory Subject",
+            value:
+                "Computer, English Language, English Literature, Marathi 3rd Language, Social Studies, Mathematics, Science, Art"),
+        const PreSelectedSubject(
+            type: "SPA", value: "Selection of SPA will be done..."),
         Padding(
-          padding: REdgeInsets.symmetric(vertical: 16.0),
+          padding: REdgeInsets.only(bottom: 16.0),
           child: const Divider(color: AppColors.dividerColor),
         ),
         CommonText(
@@ -81,6 +41,41 @@ class SelectSubjectDetail extends StatelessWidget {
           style: AppTypography.subtitle2.copyWith(color: AppColors.textDark),
         ),
       ],
+    );
+  }
+}
+
+class PreSelectedSubject extends StatelessWidget {
+  const PreSelectedSubject(
+      {super.key,
+      this.crossAxisAlignment = CrossAxisAlignment.start,
+      required this.type,
+      required this.value});
+
+  final CrossAxisAlignment crossAxisAlignment;
+  final String type;
+  final String value;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: REdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: crossAxisAlignment,
+        children: [
+          Expanded(
+            child: CommonText(
+              text: type,
+              style: AppTypography.body2.copyWith(color: AppColors.textGray),
+            ),
+          ),
+          Expanded(
+              child: CommonText(
+            text: value,
+            textAlign: TextAlign.end,
+            style: AppTypography.subtitle2.copyWith(color: AppColors.textDark),
+          )),
+        ],
+      ),
     );
   }
 }
