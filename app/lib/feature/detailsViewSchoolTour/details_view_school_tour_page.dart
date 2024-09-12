@@ -36,7 +36,7 @@ class DetailsViewSchoolTourPageState extends AppBasePageState<DetailsViewSchoolT
   PreferredSizeWidget? buildAppbar(DetailsViewSchoolTourPageModel model) {
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'View School Visit',
+      appbarTitle: 'View School Tour',
       showBackButton: true,
     );
   }

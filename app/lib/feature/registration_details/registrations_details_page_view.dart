@@ -11,7 +11,9 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/medical_details.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/parent_info.dart';
+import 'package:app/molecules/registration_details/registrations_widgets_read_only/select_subject_detail.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/upload_docs.dart';
+import 'package:app/molecules/registration_details/registrations_widgets_read_only/v_a_s_details.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -89,13 +91,19 @@ class RegistrationsDetailsPageView
         if(model.showWidget.value == 4){
           model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "BankInfo");
         }
+        if(enquiryDetailArgs?.admissionStatus == "Approved"){
+          model.registrationDetails.addAll({
+          {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
+          {'name': 'VAS', 'isSelected': false, 'infoType': ''},
+        });
+        }
         model.editRegistrationDetails.add(true);
         return null;
       }
       case 5:
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
-          RoutePaths.competencyTestDetailPage,arguments: enquiryDetail
+          RoutePaths.competencyTestDetailPage,arguments: enquiryDetailArgs
         ).then((value){
           model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
         }) : Navigator.of(context)
@@ -166,9 +174,9 @@ class RegistrationsDetailsPageView
                               } else{
                                 model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',isEdit: true);
                               }
-                            }else if(index == 5){
+                            } if(index == 5){
                               model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
-                            } else{
+                            }  if (index > 0 && index < 5){
                               model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
                             }
                           },
@@ -365,6 +373,10 @@ class RegistrationsDetailsPageView
               return const Center(child: CircularProgressIndicator(),);
           }
         });
+      case 6:
+        return SelectSubjectDetail(); 
+      case 7: 
+        return VASDetails(); 
       default:
         return AppStreamBuilder<Resource<EnquiryDetailBase>>(
             stream: model.enquiryDetail,

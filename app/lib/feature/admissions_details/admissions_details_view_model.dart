@@ -2,6 +2,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:rxdart/subjects.dart';
@@ -63,6 +64,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         enquiryDetails.value = result.data?.data?? EnquiryDetail();
+        enquiryDetailArgs.admissionStatus = getAdmissionStatus();
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -84,6 +86,18 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           (element) => element.stageName?.toLowerCase().contains('competency test') ?? false,
           orElse: () => EnquiryStage(),
         );
+  }
+
+  EnquiryStage? getAdmissionStage() {
+    return enquiryDetails.value.enquiryStage?.firstWhere(
+      (element) => (element.stageName??"") == "Admission Status",
+      orElse: () => EnquiryStage(),
+    );
+  }
+
+  String? getAdmissionStatus(){
+    final schoolVisitStage = getAdmissionStage();
+    return schoolVisitStage?.status??'';
   }
 
   bool isDetailView(){
@@ -121,7 +135,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.schoolTour, 'name': "School Visit"},
+    {'image': AppImages.schoolTour, 'name': "School Tour"},
     {'image': AppImages.payments, 'name': "Payments"},
     {'image': AppImages.call, 'name': "Call"},
     {'image': AppImages.email, 'name': "Email"},

@@ -37,7 +37,7 @@ class CancelSchoolTourPageState
   PreferredSizeWidget? buildAppbar(CancelSchoolTourPageModel model) {
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Cancel School Visit',
+      appbarTitle: 'Cancel School Tour',
       showBackButton: true,
     );
   }
@@ -67,7 +67,7 @@ class CancelSchoolTourPageState
                 'Confirm Cancellation Details',
                 'Please Confirm the below details',
                 'Date: ${model.dateFormat.format(DateTime.parse((widget.schoolVisitDetail.schoolVisitDate??DateTime.now().toString())))}',
-                'Selected Time: ${model.schoolVisitDetailData?.slot??''}',
+                'Selected Time: ${widget.schoolVisitDetail.slot??''}',
                 'Comments: ${model.controller.text}',
                 (shouldRoute) {
                   model.cacnelSchoolVisit(enquiryID: widget.enquiryDetailArgs.enquiryId??'',schoolVisitID: widget.schoolVisitDetail.id??'');

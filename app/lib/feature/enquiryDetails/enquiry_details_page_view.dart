@@ -29,13 +29,17 @@ class EnquiriesDetailsPageView
       int index, BuildContext context, EnquiriesDetailsPageModel model) {
     switch (index) {
       case 0:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {"routeFrom": "enquiry", "enquiryDetailArgs": enquiryDetailArgs});
       case 1:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+1234567890', context: context);
       case 2:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
+      model.showMenuOnFloatingButton.add(false);
       if(model.selectedValue.value == 0){
         if(enquiryDetailArgs.enquiryType == "IVT"){
         model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
@@ -79,6 +83,7 @@ class EnquiriesDetailsPageView
               }
             },);
       case 5:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: enquiryDetailArgs);
       default:

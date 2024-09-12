@@ -8,7 +8,6 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
-import 'package:network_retrofit/src/model/request/get_sibling_detail_request.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
@@ -19,6 +18,7 @@ import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
+import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
@@ -417,6 +417,11 @@ abstract class RetrofitService {
   @POST(NetworkProperties.enrollmentDetail)
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
       {@Body() required GetSiblingDetailRequest getSiblingDetailRequest}
+  );
+
+  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/subject-details')
+  Future<HttpResponse<SubjectDetailResponseEntity>> selectOptionalSubject(
+    {@Body() required List<SubjectSelectionRequest> subjectSelectionRequest,@Path("enquiryId") required String enquiryID}
   );
 }
 

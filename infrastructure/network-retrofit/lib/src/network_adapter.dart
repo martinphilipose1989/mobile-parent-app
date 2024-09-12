@@ -553,4 +553,12 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   } 
+
+  @override
+  Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject({required List<SubjectSelectionRequest> subjectSelectionRequest,required String enquiryID}) async{
+    var response = await safeApiCall(apiService.selectOptionalSubject(subjectSelectionRequest: subjectSelectionRequest,enquiryID: enquiryID));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
 }

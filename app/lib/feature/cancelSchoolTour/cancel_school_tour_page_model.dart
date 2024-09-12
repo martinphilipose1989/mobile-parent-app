@@ -93,8 +93,8 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
   BehaviorSubject<bool>.seeded(false);
   String selectedReason = '';
   List<String> reasonTypes = [
-    'Reason 1',
-    'Reason 2',
-    'Reason 3'
+    'Not Available',
+    'No Show',
+    'Not Interested'
   ];
 }
