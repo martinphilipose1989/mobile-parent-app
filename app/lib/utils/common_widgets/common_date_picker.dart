@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
-  const CommonDatePickerWidget({super.key, this.labelName});
+  final DateTime? initialDate;
+  const CommonDatePickerWidget({super.key, this.labelName, this.initialDate});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
@@ -11,6 +14,27 @@ class CommonDatePickerWidget extends StatefulWidget {
 
 class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
   final TextEditingController _dateController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.initialDate != null) {
+      _dateController.text =
+          DateFormat('dd/MM/yyyy').format(widget.initialDate!);
+    }
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CommonDatePickerWidget oldWidget) {
+    if (oldWidget.initialDate != widget.initialDate &&
+        widget.initialDate != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _dateController.text =
+            DateFormat('dd/MM/yyyy').format(widget.initialDate!);
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void dispose() {
