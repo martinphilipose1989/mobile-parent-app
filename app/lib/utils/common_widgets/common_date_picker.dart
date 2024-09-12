@@ -1,12 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
   final DateTime? initialDate;
-  const CommonDatePickerWidget({super.key, this.labelName, this.initialDate});
+  final bool isDisabled;
+  const CommonDatePickerWidget(
+      {super.key, this.labelName, this.initialDate, this.isDisabled = false});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
@@ -84,7 +84,9 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           ),
           readOnly: true,
           onTap: () {
-            _selectDate(context);
+            if (!widget.isDisabled) {
+              _selectDate(context);
+            }
           },
         ),
       ],
