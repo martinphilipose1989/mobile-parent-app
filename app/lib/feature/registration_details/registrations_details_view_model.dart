@@ -130,8 +130,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final PublishSubject<Resource<MedicalDetails>> medicalDetail =
       PublishSubject();
   final PublishSubject<Resource<BankDetails>> bankDetail = PublishSubject();
-  final PublishSubject<Resource<SiblingProfileResponse>> siblingDetail =
-      PublishSubject();
+  final BehaviorSubject<Resource<SiblingProfileResponse>> siblingDetail =
+      BehaviorSubject();
 
   final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetails =
       PublishSubject();
@@ -788,30 +788,57 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getSiblingDetails({required String enrollmentNumber}) async {
-    exceptionHandlerBinder.handle(block: () {
-      GetSiblingDetailRequest request = GetSiblingDetailRequest(
-        enrollmentNumber: enrollmentNumber,
-      );
-      GetSiblingDetailsUsecaseParams params = GetSiblingDetailsUsecaseParams(
-        getSiblingDetailRequest: request,
-      );
+  BehaviorSubject<String> siblingInitialGender = BehaviorSubject.seeded('');
+  BehaviorSubject<String> siblingGrades = BehaviorSubject.seeded('');
 
-      RequestManager<SiblingProfileResponse>(
-        params,
-        createCall: () => getSiblingDetailsUsecase.execute(params: params),
-      ).asFlow().listen((result) {
-        if (result.status == Status.success) {
-          siblingDetail.add(Resource.success(data: result.data));
-          var siblingProfile = result.data?.data?.siblingProfile;
-          siblingFirstNameController.text = siblingProfile?.firstName ?? '';
-          siblingLastNameController.text = siblingProfile?.lastName ?? '';
-          // siblingGrade = siblingProfile.
-        }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-      });
-    });
+  Future<void> getSiblingDetails({required String enrollmentNumber}) async {
+    log("enrollmentNumber $enrollmentNumber");
+    GetSiblingDetailRequest request = GetSiblingDetailRequest(
+      enrollmentNumber: enrollmentNumber,
+    );
+    GetSiblingDetailsUsecaseParams params = GetSiblingDetailsUsecaseParams(
+      getSiblingDetailRequest: request,
+    );
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(params,
+          createCall: () =>
+              getSiblingDetailsUsecase.execute(params: params)).asFlow().listen(
+        (result) {
+          if (result.status == Status.success) {
+            siblingDetail.add(Resource.success(data: result.data));
+            final siblingProfile = result.data?.data?.siblingProfile;
+            if (siblingProfile?.isNotEmpty ?? false) {
+              siblingFirstNameController.text =
+                  siblingProfile?.first.firstName ?? '';
+              siblingLastNameController.text =
+                  siblingProfile?.first.lastName ?? '';
+              siblingsSchoolController.text =
+                  siblingProfile?.first.schoolName ?? "";
+              if (siblingProfile?.first.genderId != null) {
+                final gender = genderAttribute
+                    ?.firstWhere((e) => e.id == siblingProfile?.first.genderId);
+                siblingInitialGender.value = gender?.attributes?.name ?? "";
+              }
+              if (siblingProfile?.first.gradeId != null) {
+                final siblings = gradeTypesAttribute
+                    ?.firstWhere((e) => e.id == siblingProfile?.first.gradeId);
+                siblingGrades.value = siblings?.attributes?.name ?? "";
+              }
+            }
+          }
+          if (result.status == Status.error) {
+            log("${result.dealSafeAppError?.error.message}");
+          }
+        },
+        onError: (error) {
+          log("ERROR $error");
+          exceptionHandlerBinder.showError(error);
+        },
+        onDone: () {
+          log("ONDONE");
+        },
+      );
+    }).execute();
   }
 
   void onFormFieldSubmitted(String value) {

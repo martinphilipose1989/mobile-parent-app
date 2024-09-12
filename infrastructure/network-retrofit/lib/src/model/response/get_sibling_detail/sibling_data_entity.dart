@@ -5,22 +5,22 @@ import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_p
 part 'sibling_data_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SiblingDataEntity extends BaseLayerDataTransformer<SiblingDataEntity,SiblingData>{
-  @JsonKey(name: 'studentProfile')
-  SiblingProfileEntity? siblingProfileEntity;
+class SiblingDataEntity
+    extends BaseLayerDataTransformer<SiblingDataEntity, SiblingData> {
+  @JsonKey(name: 'siblings_info')
+  List<SiblingProfileEntity>? siblingProfileEntity;
 
-  SiblingDataEntity({
-    this.siblingProfileEntity,
-  });
+  SiblingDataEntity({this.siblingProfileEntity});
 
-  factory SiblingDataEntity.fromJson(Map<String, dynamic> json) => _$SiblingDataEntityFromJson(json);
+  factory SiblingDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$SiblingDataEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SiblingDataEntityToJson(this); 
+  Map<String, dynamic> toJson() => _$SiblingDataEntityToJson(this);
 
   @override
   SiblingData transform() {
-    SiblingData siblingData = SiblingData();
-    siblingData.siblingProfile = siblingProfileEntity?.transform();
-    return siblingData;
+    return SiblingData(
+        siblingProfile:
+            siblingProfileEntity?.map((e) => e.transform()).toList());
   }
 }
