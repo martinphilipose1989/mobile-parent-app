@@ -1052,77 +1052,113 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        AppStreamBuilder<Resource<SiblingProfileResponse>>(
-                            stream: model.siblingDetail.stream,
-                            initialData: Resource.none(),
-                            dataBuilder: (context, data) {
-                              return CommonDatePickerWidget(
-                                  labelName: "Date of birth",
-                                  initialDate: data
-                                      ?.data?.data?.siblingProfile?.first.dob);
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return AppStreamBuilder<
+                                      Resource<SiblingProfileResponse>>(
+                                  stream: model.siblingDetail.stream,
+                                  initialData: Resource.none(),
+                                  dataBuilder: (context, data) {
+                                    return CommonDatePickerWidget(
+                                        isDisabled: selectStudentType ==
+                                            "Vibgyor Student",
+                                        labelName: "Date of birth",
+                                        initialDate: data?.data?.data
+                                            ?.siblingProfile?.first.dob);
+                                  });
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        AppStreamBuilder<String>(
-                            stream: model.siblingInitialGender.stream,
-                            initialData: model.siblingInitialGender.value,
-                            dataBuilder: (context, data) {
-                              return CustomDropdownButton(
-                                items: model.gender.value,
-                                intialValue: data,
-                                width: MediaQuery.of(context).size.width,
-                                isMutiSelect: false,
-                                dropdownName: 'Gender',
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return AppStreamBuilder<String>(
+                                  stream: model.siblingInitialGender.stream,
+                                  initialData: model.siblingInitialGender.value,
+                                  dataBuilder: (context, data) {
+                                    return CustomDropdownButton(
+                                      items: model.gender.value,
+                                      isDisable: selectStudentType ==
+                                          "Vibgyor Student",
+                                      intialValue: data,
+                                      width: MediaQuery.of(context).size.width,
+                                      isMutiSelect: false,
+                                      dropdownName: 'Gender',
+                                      showAstreik: false,
+                                      validator: (value) =>
+                                          AppValidators.validateNotEmpty(
+                                        value,
+                                        "Sibling's Gender",
+                                        checkSpecialCharacters: true,
+                                      ),
+                                      onMultiSelect: (selectedValues) {},
+                                      showBorderColor: true,
+                                      onSingleSelect: (val) {
+                                        model.siblingGender = val;
+                                      },
+                                    );
+                                  });
+                            }),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return CommonTextFormField(
+                                readOnly:
+                                    selectStudentType == "Vibgyor Student",
                                 showAstreik: false,
+                                labelText: "School",
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
-                                  "Sibling's Gender",
+                                  "Sibling's School",
                                   checkSpecialCharacters: true,
                                 ),
-                                onMultiSelect: (selectedValues) {},
-                                showBorderColor: true,
-                                onSingleSelect: (val) {
-                                  model.siblingGender = val;
-                                },
+                                controller: model.siblingsSchoolController,
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          readOnly: model.radioButtonController1.selectedItem ==
-                              "Vibgyor Student",
-                          showAstreik: false,
-                          labelText: "School",
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Sibling's School",
-                            checkSpecialCharacters: true,
-                          ),
-                          controller: model.siblingsSchoolController,
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        AppStreamBuilder<String>(
-                            stream: model.siblingGrades,
-                            initialData: model.siblingGrades.value,
-                            dataBuilder: (context, data) {
-                              return CustomDropdownButton(
-                                items: model.grade,
-                                intialValue: data,
-                                width: MediaQuery.of(context).size.width,
-                                isMutiSelect: false,
-                                dropdownName: 'Grade',
-                                showAstreik: false,
-                                validator: (value) =>
-                                    AppValidators.validateNotEmpty(
-                                  value,
-                                  "Sibling's Grade",
-                                  checkSpecialCharacters: true,
-                                ),
-                                onMultiSelect: (selectedValues) {},
-                                showBorderColor: true,
-                                onSingleSelect: (val) {
-                                  model.siblingGrade = val;
-                                },
-                              );
+                        AppStreamBuilder<String?>(
+                            stream:
+                                model.radioButtonController1.selectedItemStream,
+                            initialData:
+                                model.radioButtonController1.selectedItem,
+                            dataBuilder: (context, selectStudentType) {
+                              return AppStreamBuilder<String>(
+                                  stream: model.siblingGrades,
+                                  initialData: model.siblingGrades.value,
+                                  dataBuilder: (context, data) {
+                                    return CustomDropdownButton(
+                                      items: model.grade,
+                                      isDisable: selectStudentType ==
+                                          "Vibgyor Student",
+                                      intialValue: data,
+                                      width: MediaQuery.of(context).size.width,
+                                      isMutiSelect: false,
+                                      dropdownName: 'Grade',
+                                      showAstreik: false,
+                                      validator: (value) =>
+                                          AppValidators.validateNotEmpty(
+                                        value,
+                                        "Sibling's Grade",
+                                        checkSpecialCharacters: true,
+                                      ),
+                                      onMultiSelect: (selectedValues) {},
+                                      showBorderColor: true,
+                                      onSingleSelect: (val) {
+                                        model.siblingGrade = val;
+                                      },
+                                    );
+                                  });
                             }),
                       ],
                     ),

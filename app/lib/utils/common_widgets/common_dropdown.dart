@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -21,6 +19,7 @@ class CustomDropdownButton extends StatefulWidget {
   final BehaviorSubject<String>? singleSelectItemSubject;
   final FormFieldValidator<String>? validator;
   final String? intialValue;
+  final bool isDisable;
 
   const CustomDropdownButton(
       {super.key,
@@ -35,7 +34,8 @@ class CustomDropdownButton extends StatefulWidget {
       required this.onMultiSelect,
       this.onSingleSelect,
       this.intialValue,
-      this.singleSelectItemSubject});
+      this.singleSelectItemSubject,
+      this.isDisable = false});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -67,7 +67,6 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   void didUpdateWidget(covariant CustomDropdownButton oldWidget) {
     if (oldWidget.intialValue != widget.intialValue &&
         widget.intialValue != null) {
-      log("message");
       singleSelectItemSubject.add(widget.intialValue ?? '');
     }
     super.didUpdateWidget(oldWidget);
@@ -91,95 +90,99 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         return Stack(
           clipBehavior: Clip.none,
           children: [
-            DropdownButtonHideUnderline(
-              child: DropdownButtonFormField2<String>(
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Select ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onTertiary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                validator: widget.validator,
-                items: widget.items
-                    .map((String? item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item ?? "",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+            AbsorbPointer(
+              absorbing: widget.isDisable,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButtonFormField2<String>(
+                  isExpanded: true,
+
+                  hint: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Select ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onTertiary,
                           ),
-                        ))
-                    .toList(),
-                value: singleSelectItemSubject.value == ''
-                    ? null
-                    : widget.items.contains(singleSelectItemSubject.value)
-                        ? singleSelectItemSubject.value
-                        : null,
-                onChanged: (value) {
-                  widget.onSingleSelect!(value ?? "");
-                  singleSelectItemSubject.add(value ?? "");
-                },
-                decoration: InputDecoration(
-                  errorStyle: AppTypography.caption.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.failure,
-                      fontSize: 12.sp,
-                      height: 0.5.h),
-                ),
-                // buttonStyleData: ButtonStyleData(
-                //   height: 68.h,
-                //   width: widget.width ?? 175.w,
-                //   padding: const EdgeInsets.only(left: 14, right: 14),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(6),
-                //     border: Border.all(
-                //         color: widget.showBorderColor
-                //             ? Colors.black26
-                //             : Colors.transparent,
-                //         width: 1),
-                //     color: Colors.white,
-                //   ),
-                // ),
-                iconStyleData: const IconStyleData(
-                  icon: Icon(
-                    Icons.keyboard_arrow_down_sharp,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                  iconSize: 14,
-                  iconEnabledColor: Colors.black,
-                  iconDisabledColor: Colors.grey,
-                ),
-                dropdownStyleData: DropdownStyleData(
-                  direction: DropdownDirection.left,
-                  maxHeight: 200,
-                  
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.white,
+                  validator: widget.validator,
+                  items: widget.items
+                      .map((String? item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item ?? "",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ))
+                      .toList(),
+                  value: singleSelectItemSubject.value == ''
+                      ? null
+                      : widget.items.contains(singleSelectItemSubject.value)
+                          ? singleSelectItemSubject.value
+                          : null,
+                  onChanged: (value) {
+                    widget.onSingleSelect!(value ?? "");
+                    singleSelectItemSubject.add(value ?? "");
+                  },
+                  decoration: InputDecoration(
+                    errorStyle: AppTypography.caption.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.failure,
+                        fontSize: 12.sp,
+                        height: 0.5.h),
                   ),
-                  offset: const Offset(1, 0),
-                  scrollbarTheme: ScrollbarThemeData(
-                    radius: const Radius.circular(40),
-                    thickness: WidgetStateProperty.all<double>(6),
-                    thumbVisibility: WidgetStateProperty.all<bool>(true),
+                  // buttonStyleData: ButtonStyleData(
+                  //   height: 68.h,
+                  //   width: widget.width ?? 175.w,
+                  //   padding: const EdgeInsets.only(left: 14, right: 14),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(6),
+                  //     border: Border.all(
+                  //         color: widget.showBorderColor
+                  //             ? Colors.black26
+                  //             : Colors.transparent,
+                  //         width: 1),
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
+                  iconStyleData: const IconStyleData(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                    ),
+                    iconSize: 14,
+                    iconEnabledColor: Colors.black,
+                    iconDisabledColor: Colors.grey,
                   ),
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                  padding: EdgeInsets.only(left: 14, right: 14),
+                  dropdownStyleData: DropdownStyleData(
+                    direction: DropdownDirection.left,
+                    maxHeight: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    offset: const Offset(1, 0),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: const Radius.circular(40),
+                      thickness: WidgetStateProperty.all<double>(6),
+                      thumbVisibility: WidgetStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
                 ),
               ),
             ),
