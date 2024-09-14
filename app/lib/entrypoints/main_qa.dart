@@ -8,6 +8,10 @@ void main() {
   FlavorConfig.initialize(
     flavor: Flavor.qa,
     values: const FlavorValues(
+      authorizationEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+      tokenEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
       apiBaseUrl: "https://api.openweathermap.org/",
       secrets: AppSecrets.appSecretsQA,
     ),

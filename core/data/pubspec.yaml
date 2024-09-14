@@ -10,6 +10,8 @@ environment:
 dependencies:
   get_it:
   injectable:
+  services:
+    path: ../../services/  
   dependency_injection:
     path: ../../dependency-injection/
   domain:
@@ -18,7 +20,7 @@ dependencies:
     path: ../shared
   network_retrofit:
     path: ../../infrastructure/network-retrofit
-
+  flutter_appauth: ^7.0.0
 
 
 dev_dependencies:

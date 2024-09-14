@@ -20,5 +20,15 @@ enum ErrorType {
   databaseError1,
   databaseUserNotFound,
 
+  imagePickerCancelled,
+  imagePickerFailed,
+  fileSizeExceed,
   filePickerFailed,
+
+  // Auth Error
+  appAuthUserCancelled,
+  appAuthPlatformException,
+
+  // Storage
+  storageError
 }
