@@ -1,6 +1,7 @@
 name: services
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
+publish_to: none
 # homepage: https://www.example.com
 
 environment:
@@ -13,12 +14,17 @@ dependencies:
   shared:
     path: ../core/shared/
     
+  flutter_secure_storage:  
+  get_it: 
+  injectable:
+  dependency_injection:
+    path: ../dependency-injection/  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: 
+  injectable_generator: ^1.5.3
 
   lints: ^2.0.0
   test: ^1.16.0
-
-flutter:

@@ -8,7 +8,11 @@ import 'package:network_retrofit/util/network_properties.dart';
 void main() {
   FlavorConfig.initialize(
     flavor: Flavor.dev,
-    values: FlavorValues(
+    values: const FlavorValues(
+      authorizationEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+      tokenEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
       apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsDev,
       logSqlStatements: true,

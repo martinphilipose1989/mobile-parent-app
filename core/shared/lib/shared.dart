@@ -98,5 +98,9 @@ export 'src/model/response/subject_selection/subject_detail_response.dart';
 export 'src/model/response/vas_option/vas_option_response.dart';
 export 'src/const/constants.dart';
 
+//login
+export 'src/model/response/login/auth_response.dart';
+
 //utils
 export 'src/utils/validator.dart';
+export 'src/model/error/local_error.dart';

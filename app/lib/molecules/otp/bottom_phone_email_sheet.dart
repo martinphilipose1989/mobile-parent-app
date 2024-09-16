@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_inputformatters.dart';
@@ -40,6 +42,9 @@ class BottomPhoneEmailSheet extends StatelessWidget {
             selectedValue: otpPageModel.selectedValue,
             firstTabTitle: 'Phone Number',
             secondTabTitle: 'Email',
+            onSecondTabTap: () {
+              otpPageModel.login();
+            },
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

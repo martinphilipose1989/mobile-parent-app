@@ -1,15 +1,15 @@
-
 import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localisation/strings.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:services/services.dart';
 
 import 'package:themes/themes.dart';
 
 import 'navigation/app_router.dart';
 import 'navigation/route_paths.dart';
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return MaterialApp(
                   // key: ,
-                  navigatorKey: AppService.navigatorKey,
+                  navigatorKey: navigatorKey,
                   builder: (context, widget) => ResponsiveBreakpoints.builder(
                         child: widget!,
                         breakpoints: [

@@ -36,6 +36,8 @@ dependencies:
   injectable:
   dependency_injection:
     path: ../dependency-injection/
+  appauth:
+    path: ../infrastructure/appauth/  
   database_floor:
     path: ../infrastructure/database-floor/
   network_retrofit:

@@ -63,7 +63,8 @@ final paymentsPageModelProvider =
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
-  (ref) => OtpPageModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => OtpPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(), getIt.get<AuthUsecase>()),
 );
 
 final admissionsProvider =
@@ -71,43 +72,71 @@ final admissionsProvider =
   (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionListUsecase>()),
 );
 
-final admissionsDetailsProvider =
-    ChangeNotifierProvider.family<AdmissionsDetailsViewModel,EnquiryDetailArgs>(
-  (ref,args) =>
-      AdmissionsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),args),
+final admissionsDetailsProvider = ChangeNotifierProvider.family<
+    AdmissionsDetailsViewModel, EnquiryDetailArgs>(
+  (ref, args) => AdmissionsDetailsViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetAdmissionJourneyUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      args),
 );
 
 final registrationsDetailsProvider =
     ChangeNotifierProvider.autoDispose<RegistrationsDetailsViewModel>(
-  (ref) =>
-      RegistrationsDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetRegistrationDetailUsecase>(),getIt.get<GetNewAdmissionDetailUseCase>(),
-        getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<UpdateParentDetailsUsecase>(),
-        getIt.get<UpdateMedicalDetailsUsecase>(),getIt.get<UpdateBankDetailsUsecase>(),getIt.get<UpdateContactDetailsUsecase>(),
-        getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<GetMdmAttributeUsecase>(),
-        getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>(),getIt.get<DownloadFileUsecase>(),
-        getIt.get<GetSiblingDetailsUsecase>(),getIt.get<SelectOptionalSubjectUsecase>(),getIt.get<AddVasOptionUsecase>()
-    ),
-
+  (ref) => RegistrationsDetailsViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetRegistrationDetailUsecase>(),
+      getIt.get<GetNewAdmissionDetailUseCase>(),
+      getIt.get<GetIvtDetailUsecase>(),
+      getIt.get<GetPsaDetailUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      getIt.get<UpdateParentDetailsUsecase>(),
+      getIt.get<UpdateMedicalDetailsUsecase>(),
+      getIt.get<UpdateBankDetailsUsecase>(),
+      getIt.get<UpdateContactDetailsUsecase>(),
+      getIt.get<UpdatePsaDetailUsecase>(),
+      getIt.get<UpdateIvtDetailUsecase>(),
+      getIt.get<UpdateNewAdmissionUsecase>(),
+      getIt.get<GetMdmAttributeUsecase>(),
+      getIt.get<DownloadEnquiryDocumentUsecase>(),
+      getIt.get<UploadEnquiryDocumentUsecase>(),
+      getIt.get<DeleteEnquiryDocumentUsecase>(),
+      getIt.get<DownloadFileUsecase>(),
+      getIt.get<GetSiblingDetailsUsecase>(),
+      getIt.get<SelectOptionalSubjectUsecase>(),
+      getIt.get<AddVasOptionUsecase>()),
 );
 
 final enquiriesPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesPageModel>(
-  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetEnquiryListUsecase>()),
+  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetEnquiryListUsecase>()),
 );
 
 final enquiriesDetailsPageModelProvider =
-    ChangeNotifierProvider.family<EnquiriesDetailsPageModel,EnquiryDetailArgs>(
-  (ref,args) =>
-      EnquiriesDetailsPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetNewAdmissionDetailUseCase>(),getIt.get<GetIvtDetailUsecase>(),getIt.get<GetPsaDetailUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),getIt.get<GetMdmAttributeUsecase>(),
-        getIt.get<UploadEnquiryDocumentUsecase>(),getIt.get<DeleteEnquiryDocumentUsecase>(),getIt.get<DownloadEnquiryDocumentUsecase>(),getIt.get<UpdatePsaDetailUsecase>(),getIt.get<UpdateIvtDetailUsecase>(),
-        getIt.get<UpdateNewAdmissionUsecase>(),getIt.get<DownloadFileUsecase>(),args
-      ),
+    ChangeNotifierProvider.family<EnquiriesDetailsPageModel, EnquiryDetailArgs>(
+  (ref, args) => EnquiriesDetailsPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetNewAdmissionDetailUseCase>(),
+      getIt.get<GetIvtDetailUsecase>(),
+      getIt.get<GetPsaDetailUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      getIt.get<GetMdmAttributeUsecase>(),
+      getIt.get<UploadEnquiryDocumentUsecase>(),
+      getIt.get<DeleteEnquiryDocumentUsecase>(),
+      getIt.get<DownloadEnquiryDocumentUsecase>(),
+      getIt.get<UpdatePsaDetailUsecase>(),
+      getIt.get<UpdateIvtDetailUsecase>(),
+      getIt.get<UpdateNewAdmissionUsecase>(),
+      getIt.get<DownloadFileUsecase>(),
+      args),
 );
 
 final enquiriesTimelinePageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesTimelinePageModel>(
-  (ref) =>
-      EnquiriesTimelinePageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetEnquiryTimeLineUseCase>()),
+  (ref) => EnquiriesTimelinePageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetEnquiryTimeLineUseCase>()),
 );
 
 final editEnquiriesDetailsPageModelProvider =
@@ -118,26 +147,33 @@ final editEnquiriesDetailsPageModelProvider =
 
 final scheduleSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<ScheduleSchoolTourPageModel>(
-  (ref) =>
-      ScheduleSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateSchoolVisitUseCase>(),getIt.get<GetSchoolVisitSlotsUsecase>(),getIt.get<RescheduleSchoolVisitUseCase>()),
+  (ref) => ScheduleSchoolTourPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<CreateSchoolVisitUseCase>(),
+      getIt.get<GetSchoolVisitSlotsUsecase>(),
+      getIt.get<RescheduleSchoolVisitUseCase>()),
 );
 
 final scheduleCompetencyTestPageModelProvider =
     ChangeNotifierProvider.autoDispose<CompetencyTestModel>(
-  (ref) =>
-      CompetencyTestModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CreateCompetencyTestUsecase>(),getIt.get<GetCompetencyTestSlotsUsecase>(),getIt.get<RescheduleCompetencyTestUseCase>()),
+  (ref) => CompetencyTestModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<CreateCompetencyTestUsecase>(),
+      getIt.get<GetCompetencyTestSlotsUsecase>(),
+      getIt.get<RescheduleCompetencyTestUseCase>()),
 );
 
-final detailsViewCompetencyTestPageModelProvider = 
-  ChangeNotifierProvider.autoDispose<DetailsViewCompetencyTestPageModel>(
-    (ref) =>
-        DetailsViewCompetencyTestPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetCompetencyTestDetailUseCase>()),
-  );
+final detailsViewCompetencyTestPageModelProvider =
+    ChangeNotifierProvider.autoDispose<DetailsViewCompetencyTestPageModel>(
+  (ref) => DetailsViewCompetencyTestPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetCompetencyTestDetailUseCase>()),
+);
 
 final cancelCompetencyTestPageModelProvider =
     ChangeNotifierProvider.autoDispose<CancelCompetencyPageModel>(
-  (ref) =>
-      CancelCompetencyPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelCompetencyTestUsecase>()),
+  (ref) => CancelCompetencyPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<CancelCompetencyTestUsecase>()),
 );
 
 final commonCalendarModelProvider =
@@ -153,13 +189,16 @@ final commonTimeModelProvider =
 final detailsViewSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<DetailsViewSchoolTourPageModel>(
   (ref) => DetailsViewSchoolTourPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetSchoolVisitDetailUseCase>()),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetSchoolVisitDetailUseCase>()),
 );
 
 final cancelSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<CancelSchoolTourPageModel>(
-  (ref) =>
-      CancelSchoolTourPageModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<CancelSchoolVisitUsecase>(),getIt.get<GetMdmAttributeUsecase>()),
+  (ref) => CancelSchoolTourPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<CancelSchoolVisitUsecase>(),
+      getIt.get<GetMdmAttributeUsecase>()),
 );
 
 // Common widgets providers
@@ -174,8 +213,11 @@ final commonChipListProvider =
   (ref) => CommonChipListViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
-final enquiriesAdmissionsJourneyProvider =
-    ChangeNotifierProvider.family<EnquiriesAdmissionsJourneyViewModel,EnquiryDetailArgs>(
-  (ref,args) => EnquiriesAdmissionsJourneyViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionJourneyUsecase>(),getIt.get<GetEnquiryDetailUseCase>(),args),
+final enquiriesAdmissionsJourneyProvider = ChangeNotifierProvider.family<
+    EnquiriesAdmissionsJourneyViewModel, EnquiryDetailArgs>(
+  (ref, args) => EnquiriesAdmissionsJourneyViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetAdmissionJourneyUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      args),
 );
