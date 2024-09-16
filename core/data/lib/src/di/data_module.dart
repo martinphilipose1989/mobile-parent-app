@@ -1,5 +1,6 @@
 import 'package:data/data.dart';
 import 'package:data/src/repository/finance_repository.dart';
+import 'package:data/src/repository/gatepass_repository.dart';
 import 'package:data/src/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -44,5 +45,10 @@ abstract class DataModule {
   @lazySingleton
   FinanceRepository financeRepositoryProvider(NetworkPort networkPort) {
     return FinanceRepositoryImpl(networkPort);
+  }
+
+  @lazySingleton
+  GatepassRepository gatepassRepositoryProvider(NetworkPort networkPort) {
+    return GatepassRepositoryImpl(networkPort: networkPort);
   }
 }

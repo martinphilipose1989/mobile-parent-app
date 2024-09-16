@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -64,11 +65,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           width: MediaQuery.of(context).size.width,
           color: Colors.purple,
         ),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.orange,
-        ),
+        const CreateQrcodePage()
       ],
     );
   }
@@ -166,11 +163,11 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.home),
+                    const Icon(Icons.school),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: 'Gate Pass',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

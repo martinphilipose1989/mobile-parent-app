@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/gatepass/request_gatepass_usecase.dart';
 import 'package:domain/src/usecase/user/auth_usecase.dart';
 import 'package:injectable/injectable.dart';
 
@@ -244,5 +245,11 @@ abstract class DomainModule {
   @lazySingleton
   AuthUsecase authUsecase(UserRepository userRepository) {
     return AuthUsecase(userRepository: userRepository);
+  }
+
+  @lazySingleton
+  RequestGatepassUsecase createGatePassUsecaseProvider(
+      GatepassRepository gatepassRepository) {
+    return RequestGatepassUsecase(gatepassRepository: gatepassRepository);
   }
 }

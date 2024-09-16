@@ -98,6 +98,9 @@ export 'src/model/response/subject_selection/subject_detail_response.dart';
 export 'src/model/response/vas_option/vas_option_response.dart';
 export 'src/const/constants.dart';
 
+export 'src/model/request/gatepass/create_qrcode_request_model.dart';
+export 'src/model/response/gatepass/create_qrcode_response_model.dart';
+
 //login
 export 'src/model/response/login/auth_response.dart';
 
