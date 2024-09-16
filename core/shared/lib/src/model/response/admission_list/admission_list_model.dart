@@ -12,5 +12,5 @@ class AdmissionListDetailModel {
     String? schoolVisitTime;
     int? formCompletionPercentage;
     String? comment;
-
+    String? status;
 }

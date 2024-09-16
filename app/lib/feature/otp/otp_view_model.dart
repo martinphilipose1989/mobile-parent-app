@@ -16,4 +16,5 @@ class OtpPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> otpExpired = BehaviorSubject<bool>.seeded(false);
   late AnimationController controller;
   int levelClock = 62;
+  final formKey = GlobalKey<FormState>();
 }

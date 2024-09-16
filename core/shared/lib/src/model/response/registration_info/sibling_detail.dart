@@ -4,9 +4,9 @@ class SiblingDetail{
   String? firstName;
   String? lastName;
   String? dob;
-  String? gender;
+  dynamic gender;
   String? school;
-  String? grade;
+  dynamic grade;
 
   SiblingDetail({
     this.enrollmentNumber,

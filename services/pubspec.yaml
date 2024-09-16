@@ -9,6 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences: any
+  shared:
+    path: ../core/shared/
+    
 
 dev_dependencies:
   flutter_test:

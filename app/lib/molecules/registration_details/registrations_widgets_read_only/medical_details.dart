@@ -27,7 +27,7 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(
-            title: 'Has the child ever been hospitalized?', subtitle: medicalDetails?.isChildHospitalised??false ? "No":"Yes"),
+            title: 'Has the child ever been hospitalized?', subtitle: medicalDetails?.isChildHospitalised??false ? "Yes" : "No"),
         DetailsItem(title: 'Year of last hospitalisation', subtitle: medicalDetails?.yearOfHospitalization??''),
         DetailsItem(
             title: 'The reason for hospitalisation', subtitle: medicalDetails?.reasonOfHopitalization??''),
@@ -38,7 +38,7 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Physical Disabilities', subtitle: medicalDetails?.hasPhysicalDisability??false ? "No":"Yes"),
+        DetailsItem(title: 'Physical Disabilities', subtitle: medicalDetails?.hasPhysicalDisability??false ? "Yes" : "No"),
         DetailsItem(title: 'Special Disability', subtitle: medicalDetails?.physicalDisabilityDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
@@ -47,7 +47,7 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Medical History', subtitle: medicalDetails?.hasMedicalHistory??false ? "No":"Yes"),
+        DetailsItem(title: 'Medical History', subtitle: medicalDetails?.hasMedicalHistory??false ? "Yes" : "No"),
         DetailsItem(title: 'Special Medical History', subtitle: medicalDetails?.medicalHistoryDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
@@ -56,7 +56,7 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Allergies', subtitle: medicalDetails?.hasAllergy??false ? "No":"Yes"),
+        DetailsItem(title: 'Allergies', subtitle: medicalDetails?.hasAllergy??false ? "Yes" : "No"),
         DetailsItem(title: 'Special Allergies', subtitle: medicalDetails?.allergyDescription??''),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const Divider(
@@ -73,7 +73,7 @@ class MedicalDetail extends StatelessWidget {
           color: AppColors.textPaleGray,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.hasPersonalisedLearningNeeds??false ? "No": "Yes"),
+        DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.hasPersonalisedLearningNeeds??false ?  "Yes" : "No"),
         DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.personalisedLearningNeedsDescription??''),
       ],
     );

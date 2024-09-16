@@ -356,10 +356,10 @@ String? _validateDateOfBirth(String value) {
         'controller': model.parentEmailIdController1
       },
       ];
-      List<Map<String, dynamic>> preference2 = [
-        {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
-        {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
-      ];
+      // List<Map<String, dynamic>> preference2 = [
+      //   {'field': 'Parent Mobile Number 2', 'controller': model.parentMobileNumberController2,},
+      //   {'field': 'Parent Email Id 2', 'controller': model.parentEmailIdController2},
+      // ];
 
       if(model.contactParentTypeEmail1.value.isEmpty || model.contactParentTypePhone1.value.isEmpty){
         errorMessage = "Please select Parent Type";
@@ -385,40 +385,30 @@ String? _validateDateOfBirth(String value) {
         }
       }
 
-      if(errorMessage.isEmpty){
-        for (var field in preference2) {
-          String? validationResult;
-          if (field['field'].toString().contains('Email')) {
-            if(field['controller']!.text.trim().toString().isNotEmpty){
-              validationResult = AppValidators.validateEmail(
-                field['controller']!.text.trim(),
-              );
-            }
-          }
-          if (field['field'].toString().contains('Mobile')) {
-            if(field['controller']!.text.trim().toString().isNotEmpty){
-              validationResult = AppValidators.validateMobile(
-                field['controller']!.text.trim(),
-              );
-            }
-          }
-          if (validationResult != null) {
-            errorMessage = validationResult;
-            break;
-          }
-        }
-      }
-
-      // Validate email format
-      if (errorMessage.isEmpty) {
-        for (var emailController in [model.parentEmailIdController1, model.parentEmailIdController2]) {
-          String? validationResult = AppValidators.validateEmail(emailController.text);
-          if (validationResult != null) {
-            errorMessage = validationResult;
-            break;
-          }
-        }
-      }
+      // if(errorMessage.isEmpty){
+      //   String? validationResult;
+      //   for (var field in preference2) {
+      //     if (field['field'].toString().contains('Email')) {
+      //       if(field['controller']!.text.trim().isNotEmpty){
+      //         print("Should not validate:${field['controller']!.text.trim().isNotEmpty}");
+      //         validationResult = AppValidators.validateEmail(
+      //           field['controller']!.text.trim(),
+      //         );
+      //       }
+      //     }
+      //     if (field['field'].toString().contains('Mobile')) {
+      //       if(field['controller']!.text.trim().isNotEmpty){
+      //         validationResult = AppValidators.validateMobile(
+      //           field['controller']!.text.trim(),
+      //         );
+      //       }
+      //     }
+      //     if (validationResult != null) {
+      //       errorMessage = validationResult;
+      //       break;
+      //     }
+      //   }
+      // }
 
       // Residential Details
       List<Map<String, dynamic>> residentialFields = [
@@ -440,7 +430,7 @@ String? _validateDateOfBirth(String value) {
             validationResult = AppValidators.validateNotEmpty(
               field['controller']!.text.trim(),
               field['field'] as String,
-              checkSpecialCharacters: true,
+              checkSpecialCharacters: false,
             );
           }
           if (validationResult != null) {
@@ -459,7 +449,7 @@ String? _validateDateOfBirth(String value) {
         ];
 
         for (var dropdown in dropdowns) {
-          String? validationResult = AppValidators.validateDropdown(dropdown['value'], dropdown['field'] as String);
+          String? validationResult = AppValidators.validateDropdown(dropdown['value'], dropdown['field']);
           if (validationResult != null) {
             errorMessage = validationResult;
             break;
@@ -468,7 +458,7 @@ String? _validateDateOfBirth(String value) {
       }
 
       // Show snackbar with error message
-      if (errorMessage.isNotEmpty) {
+    if (errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),

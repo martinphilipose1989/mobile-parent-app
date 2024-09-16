@@ -33,7 +33,8 @@ class EnquiriesTimelinePageView
               id: enquiryDetail.enquiryNumber??'',
               title: enquiryDetail.school??'',
               subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
-              buttontext: enquiryDetail.currentStage??''),
+              buttontext: enquiryDetail.currentStage??'',
+              status: enquiryDetail.status??'',),
           const SizedBox(
             height: 10,
           ),

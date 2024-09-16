@@ -48,6 +48,8 @@ dependencies:
     path: ../core/domain/
   themes:
     path: ../themes/
+  shared:
+    path: ../core/shared
   localisation:
     path: ../localisation/
   statemanagement_riverpod:

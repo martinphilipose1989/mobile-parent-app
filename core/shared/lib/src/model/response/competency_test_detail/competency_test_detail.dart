@@ -6,6 +6,7 @@ class CompetencyTestDetails {
     String? slotID;
     String? mode;
     String? status;
+    String? testResult;
     String? createdBy;
     DateTime? createdAt;
     DateTime? updatedAt;

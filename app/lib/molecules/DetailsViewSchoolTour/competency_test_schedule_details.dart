@@ -28,6 +28,10 @@ class CompetencyTestScheduledDetailsWidget extends StatelessWidget {
         _detailItem(title: "School",subtitle: competencyTestDetails.status??''),
         const SizedBox(height: 10,),
         _detailItem(title: "Mode",subtitle: competencyTestDetails.mode??''),
+        if(competencyTestDetails.testResult == "Pass" || competencyTestDetails.testResult == "Fail")...[
+          const SizedBox(height: 10,),
+        _detailItem(title: "Test Result",subtitle: competencyTestDetails.testResult??''),  
+        ],
         const SizedBox(height: 10,),
       ],
     );

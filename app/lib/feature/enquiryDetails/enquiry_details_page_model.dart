@@ -423,7 +423,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   bool isDetailViewCompetency(){
-    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status == "In Progress";
+    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status != "In Progress";
   }
 
   Future<void> getMdmAttribute({required String infoType}) async {

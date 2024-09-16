@@ -1,12 +1,13 @@
 import 'package:app/dependencies.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
-import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class UploadDocs extends StatelessWidget {
   EnquiryDetail? enquiryDetail;
@@ -87,10 +88,13 @@ class UploadDocs extends StatelessWidget {
                           );
                         },
                         behavior: HitTestBehavior.opaque,
-                        child: Icon(
-                          Icons.cloud_upload_outlined,
-                          color: model.isDocumentUploaded[index??0].value ? AppColors.primary : Colors.black26,
-                        ),
+                        child: SvgPicture.asset(
+                            AppImages.uploadIcon,
+                            colorFilter: const ColorFilter.mode(
+                            Colors.black,
+                            BlendMode.srcIn,
+                          ),
+                        )
                       ),
                        CommonSizedBox.sizedBox(height: 5, width: 8),
                       GestureDetector(
@@ -98,19 +102,27 @@ class UploadDocs extends StatelessWidget {
                           model.downloadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString());
                         },
                         behavior: HitTestBehavior.opaque,
-                        child: Icon(
-                          Icons.cloud_download_outlined,
-                           color: model.isDocumentUploaded[index??0].value ? AppColors.primary : Colors.black26,
+                        child: SvgPicture.asset(
+                          AppImages.import,
+                          colorFilter: ColorFilter.mode(
+                            model.isDocumentUploaded[index ?? 0].value
+                                ? Colors.black
+                                : Colors.black26,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                       CommonSizedBox.sizedBox(height: 5, width: 8),
                       GestureDetector(
-                        child: Icon(
-                          Icons.delete_outlined,
-                          color: model.isDocumentUploaded[index??0].value ? AppColors.primary : Colors.black26
+                        child: SvgPicture.asset(
+                          AppImages.delete,
+                          colorFilter: ColorFilter.mode(
+                            model.isDocumentUploaded[index??0].value? Colors.black : Colors.black26,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         onTap: (){
-                          if(model.isDocumentUploaded[index ?? 0].value){
+                          if(!model.isDocumentUploaded[index ?? 0].value){
                             return;
                           }
                           CommonPopups().showAlert(

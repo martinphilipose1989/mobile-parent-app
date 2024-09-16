@@ -15,12 +15,12 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
   String? lastName;
   @JsonKey(name: 'dob')
   String? dob;
-  @JsonKey(name: 'gender')
-  String? gender;
+  @JsonKey(name: 'gender',fromJson: _fromJson)
+  dynamic gender;
   @JsonKey(name: 'school')
   String? school;
-  @JsonKey(name: 'grade')
-  String? grade;
+  @JsonKey(name: 'grade',fromJson: _fromJson)
+  dynamic grade;
 
   SiblingDetailEntity({
     this.type,
@@ -34,6 +34,11 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
   });
 
   factory SiblingDetailEntity.fromJson(Map<String, dynamic> json) => _$SiblingDetailEntityFromJson(json);
+
+  static dynamic _fromJson(dynamic value) => (value is Map<String, dynamic>)
+      ? CommonDataEntity.fromJson(value)
+      : value;
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {};
 
@@ -48,9 +53,31 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
     addIfNotEmpty('first_name', firstName);
     addIfNotEmpty('last_name', lastName);
     addIfNotEmpty('dob', dob);
-    addIfNotEmpty('gender', gender);
     addIfNotEmpty('school', school);
-    addIfNotEmpty('grade', grade);
+
+    if (grade != null) {
+      if (grade is CommonDataEntity) {
+        json.addAll({"grade": grade.toJson()});
+      } else {
+        if (grade is String) {
+          if (grade.toString().isNotEmpty && grade.toString() != 'N/A') {
+            json.addAll({"grade": grade.toString()});
+          }
+        }
+      }
+    }
+
+    if (gender != null) {
+      if (gender is CommonDataEntity) {
+        json.addAll({"gender": gender.toJson()});
+      } else {
+        if (gender is String) {
+          if (gender.toString().isNotEmpty && gender.toString() != 'N/A') {
+            json.addAll({"gender": gender.toString()});
+          }
+        }
+      }
+    }
 
     return json;
   }
@@ -63,23 +90,28 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
     siblingDetail.firstName = firstName;
     siblingDetail.lastName = lastName;
     siblingDetail.dob = dob;
-    siblingDetail.gender = gender;
+    siblingDetail.gender = (gender is CommonDataEntity) ? gender?.transform() : gender;
     siblingDetail.school = school;
-    siblingDetail.grade = grade;
+    siblingDetail.grade = (grade is CommonDataEntity) ? grade?.transform() : grade;
     return siblingDetail;
   }
 
   @override
   SiblingDetailEntity restore(SiblingDetail data) {
+    CommonDataEntity commonDataEntity = CommonDataEntity();
     return SiblingDetailEntity(
       type: data.type,
       enrollmentNumber: data.enrollmentNumber,
       firstName: data.firstName,
       lastName: data.lastName,
       dob: data.dob,
-      gender: data.gender,
+      gender: (data.gender is CommonDataClass)
+          ? commonDataEntity.restore(data.gender)
+          : data.gender,
       school: data.school,
-      grade: data.grade,
+      grade: (data.grade is CommonDataClass)
+          ? commonDataEntity.restore(data.grade)
+          : data.grade,
     );
   }
 }

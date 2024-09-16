@@ -26,7 +26,6 @@ class DetailsViewCompetencyTestPageModel extends BasePageViewModel {
       GetCompetencyTestDetailUseCaseParams params = GetCompetencyTestDetailUseCaseParams(
         enquiryID: enquiryID
       );
-      competencyTestDetail.add(Resource.loading());
       RequestManager<CompetencyTestDetailBase>(
         params,
         createCall: () => getCompetencyTestDetailUseCase.execute(
@@ -35,7 +34,6 @@ class DetailsViewCompetencyTestPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _competencyTestDetailBase.add(result);
         if(result.status == Status.success){
-          competencyTestDetail.add(Resource.success(data: result.data?.data));
           competencyTestDetails.value = result.data?.data??CompetencyTestDetails();
         }
         // activeStep.add()

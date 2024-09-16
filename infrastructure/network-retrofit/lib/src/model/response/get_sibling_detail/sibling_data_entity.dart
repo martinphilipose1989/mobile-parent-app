@@ -7,8 +7,8 @@ part 'sibling_data_entity.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SiblingDataEntity
     extends BaseLayerDataTransformer<SiblingDataEntity, SiblingData> {
-  @JsonKey(name: 'siblings_info')
-  List<SiblingProfileEntity>? siblingProfileEntity;
+  @JsonKey(name: 'studentProfile')
+  SiblingProfileEntity? siblingProfileEntity;
 
   SiblingDataEntity({this.siblingProfileEntity});
 
@@ -21,6 +21,6 @@ class SiblingDataEntity
   SiblingData transform() {
     return SiblingData(
         siblingProfile:
-            siblingProfileEntity?.map((e) => e.transform()).toList());
+            siblingProfileEntity?.transform());
   }
 }

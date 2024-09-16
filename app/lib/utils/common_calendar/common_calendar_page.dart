@@ -42,6 +42,9 @@ class CommonCalendarPage extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: GestureDetector(
                               onTap: () {
+                                if(date.weekday == DateTime.sunday){
+                                  return;
+                                }
                                 model.selectedDate.add(date);
                                 onDateSelected(model.dateFormatter.format(date));
                               },
@@ -51,7 +54,7 @@ class CommonCalendarPage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? Theme.of(context).primaryColor
-                                      : Colors.white,
+                                      :(date.weekday == DateTime.sunday) ? AppColors.primary.withOpacity(0.05) :  Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 padding: const EdgeInsets.all(6),
@@ -65,7 +68,7 @@ class CommonCalendarPage extends StatelessWidget {
                                         letterSpacing: 0.25,
                                         color: isSelected
                                             ? Colors.white
-                                            : AppColors.textGray,
+                                            : (date.weekday == DateTime.sunday) ? AppColors.textGray.withOpacity(0.3) : AppColors.textGray,
                                       ),
                                     ),
                                     CommonText(
@@ -74,7 +77,7 @@ class CommonCalendarPage extends StatelessWidget {
                                         fontSize: 16,
                                         color: isSelected
                                             ? Colors.white
-                                            : AppColors.textGray,
+                                            : (date.weekday == DateTime.sunday) ? AppColors.textGray.withOpacity(0.3) : AppColors.textGray,
                                       ),
                                     ),
                                     CommonText(
@@ -85,7 +88,10 @@ class CommonCalendarPage extends StatelessWidget {
                                         letterSpacing: 0.25,
                                         color: isSelected
                                             ? Colors.white
-                                            : AppColors.textGray,
+                                            : (date.weekday == DateTime.sunday)
+                                                ? AppColors.textGray
+                                                    .withOpacity(0.3)
+                                                : AppColors.textGray,
                                       ),
                                     ),
                                     Container(
@@ -96,7 +102,7 @@ class CommonCalendarPage extends StatelessWidget {
                                             BorderRadius.circular(100),
                                         color: isSelected
                                             ? Colors.white
-                                            : Theme.of(context).primaryColor,
+                                            : (date.weekday == DateTime.sunday) ? null : AppColors.primary,
                                       ),
                                     )
                                   ],

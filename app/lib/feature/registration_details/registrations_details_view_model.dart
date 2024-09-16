@@ -6,6 +6,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -226,6 +227,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianMobileController = TextEditingController();
   String? guardianOccupation;
   String? guardianArea;
+  CommonDataClass? selectedGuardianOccupation;
   CommonDataClass? selectedGuardianCountryEntity;
   CommonDataClass? selectedGuardianStateEntity;
   CommonDataClass? selectedGuardianCityEntity;
@@ -236,8 +238,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController siblingsEnrollmentController = TextEditingController();
   TextEditingController siblingsSchoolController = TextEditingController();
   FocusNode enrollmentNode = FocusNode();
-  String? siblingGender;
-  String? siblingGrade;
+  BehaviorSubject<String> siblingGender = BehaviorSubject.seeded('');
+  BehaviorSubject<String> siblingGrade = BehaviorSubject.seeded('');
+  CommonDataClass? selectedSiblingGender;
+  CommonDataClass? selectedSiblingGrade;
+  DateTime? siblingDOB;
 
   //ResidentialDetails
   TextEditingController houseOrBuildingController = TextEditingController();
@@ -514,7 +519,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   bool isDetailViewCompetency() {
     final competencyStage = getCompetencyStage();
-    return competencyStage?.status == "In Progress";
+    return competencyStage?.status != "Open";
   }
 
   Future<void> fetchAllDetails(String enquiryID, String infoType) async {
@@ -825,6 +830,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     GetSiblingDetailsUsecaseParams params = GetSiblingDetailsUsecaseParams(
       getSiblingDetailRequest: request,
     );
+    isLoading.value = true;
     exceptionHandlerBinder.handle(block: () {
       RequestManager(params,
           createCall: () =>
@@ -833,32 +839,39 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           if (result.status == Status.success) {
             siblingDetail.add(Resource.success(data: result.data));
             final siblingProfile = result.data?.data?.siblingProfile;
-            if (siblingProfile?.isNotEmpty ?? false) {
-              siblingFirstNameController.text =
-                  siblingProfile?.first.firstName ?? '';
-              siblingLastNameController.text =
-                  siblingProfile?.first.lastName ?? '';
-              siblingsSchoolController.text =
-                  siblingProfile?.first.schoolName ?? "";
-              if (siblingProfile?.first.genderId != null) {
-                final gender = genderAttribute
-                    ?.firstWhere((e) => e.id == siblingProfile?.first.genderId);
-                siblingInitialGender.value = gender?.attributes?.name ?? "";
-              }
-              if (siblingProfile?.first.gradeId != null) {
-                final siblings = gradeTypesAttribute
-                    ?.firstWhere((e) => e.id == siblingProfile?.first.gradeId);
-                siblingGrades.value = siblings?.attributes?.name ?? "";
-              }
+            siblingFirstNameController.text =
+                siblingProfile?.firstName ?? '';
+            siblingLastNameController.text =
+                siblingProfile?.lastName ?? '';
+            siblingsSchoolController.text =
+                siblingProfile?.schoolName ?? "";
+            siblingDOB = siblingProfile?.dob??DateTime.now();
+            if (siblingProfile?.gender != null && (siblingProfile?.gender??'').isNotEmpty) {
+              final gender = genderAttribute
+                  ?.firstWhere((e) => e.attributes?.name == siblingProfile?.gender);
+              siblingInitialGender.value = gender?.attributes?.name ?? "";
+              selectedSiblingGender = CommonDataClass(
+                id: gender?.id,
+                value: gender?.attributes?.name
+              );
             }
+            if (siblingProfile?.gradeId != null) {
+              final grade = gradeTypesAttribute
+                  ?.firstWhere((e) => e.id == siblingProfile?.gradeId);
+              siblingGrades.value = grade?.attributes?.name ?? "";
+              selectedSiblingGrade = CommonDataClass(
+                id: grade?.id,
+                value: grade?.attributes?.name
+              );
+            }
+            isLoading.value = false;
           }
           if (result.status == Status.error) {
-            log("${result.dealSafeAppError?.error.message}");
+            isLoading.value = false;
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(content: CommonText(text: '${result.dealSafeAppError?.error.message}',))
+            );
           }
-        },
-        onError: (error) {
-          log("ERROR $error");
-          exceptionHandlerBinder.showError(error);
         },
         onDone: () {
           log("ONDONE");
@@ -1382,7 +1395,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherGlobalIdController.text =
         detail.parentDetails?.fatherDetails?.globalId ?? '';
     motherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
+        detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1443,7 +1456,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherGlobalIdController.text =
         detail.parentDetails?.fatherDetails?.globalId ?? '';
     motherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
+        detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1498,7 +1511,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherGlobalIdController.text =
         detail.parentDetails?.fatherDetails?.globalId ?? '';
     motherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
+        detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1587,23 +1600,44 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.fatherDetails?.mobileNumber ?? "";
     fatherOccupation = parentDetails.fatherDetails?.occupation ?? "";
     fatherArea = parentDetails.fatherDetails?.area ?? "";
-    if (parentDetails.fatherDetails?.city is CommonDataClass) {
-      selectedFatherCitySubject
-          .add(parentDetails.fatherDetails?.city?.value ?? '');
-      selectedFatherCityEntity = parentDetails.fatherDetails?.city;
-    }
-    if (parentDetails.fatherDetails?.country is CommonDataClass) {
+    if(parentDetails.fatherDetails?.country is CommonDataClass){
       selectedFatherCountrySubject
           .add(parentDetails.fatherDetails?.country?.value ?? '');
       selectedFatherCountryEntity = parentDetails.fatherDetails?.country;
+    } else {
+      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country ?? '');
+      if((countryAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.country)){
+        var country=countryAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.country);
+        selectedFatherCountryEntity=CommonDataClass(id: country?.id,value: country?.attributes?.name);
+      }
     }
-    if (parentDetails.fatherDetails?.state is CommonDataClass) {
+    if(parentDetails.fatherDetails?.state is CommonDataClass){
       selectedFatherStateSubject
           .add(parentDetails.fatherDetails?.state?.value ?? '');
       selectedFatherStateEntity =
           (parentDetails.fatherDetails?.state is CommonDataClass)
               ? parentDetails.fatherDetails?.state
               : null;
+    } else{
+      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state ?? '');
+      if((stateAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.state)){
+        var state=stateAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.state);
+        selectedFatherStateEntity=CommonDataClass(id: state?.id,value: state?.attributes?.name);
+      }
+    }
+    if(parentDetails.fatherDetails?.city is CommonDataClass){
+      selectedFatherCitySubject
+          .add(parentDetails.fatherDetails?.city?.value ?? '');
+      selectedFatherCityEntity = parentDetails.fatherDetails?.city;
+    } else {
+      selectedFatherCitySubject.add(parentDetails.fatherDetails?.city ?? '');
+        if ((cityAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.fatherDetails?.city)) {
+        var city = cityAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.fatherDetails?.city);
+        selectedFatherCityEntity = CommonDataClass(
+            id: city?.id, value: city?.attributes?.name);
+      }
     }
     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area ?? '');
     selectedFatherOccupationSubject
@@ -1628,38 +1662,53 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     motherMobileController.text =
         parentDetails.motherDetails?.mobileNumber ?? "";
     motherOccupation = parentDetails.motherDetails?.occupation ?? "";
-    motherArea = parentDetails.motherDetails?.area ?? "";
-    selectedMotherCountryEntity =
-        (parentDetails.motherDetails?.country is CommonDataClass)
-            ? parentDetails.motherDetails?.country
-            : null;
-    selectedMotherStateEntity =
-        (parentDetails.motherDetails?.state is CommonDataClass)
-            ? parentDetails.motherDetails?.state
-            : null;
-    selectedMotherCityEntity =
-        (parentDetails.motherDetails?.city is CommonDataClass)
-            ? parentDetails.motherDetails?.city
-            : null;
-    selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
-    if (parentDetails.motherDetails?.city is CommonDataClass) {
-      selectedMotherCitySubject
-          .add(parentDetails.motherDetails?.city?.value ?? '');
-      selectedMotherCityEntity = parentDetails.motherDetails?.city;
-    }
-    if (parentDetails.motherDetails?.country is CommonDataClass) {
+    motherArea = parentDetails.motherDetails?.area ?? ""; 
+    if(parentDetails.motherDetails?.country is CommonDataClass){
       selectedMotherCountrySubject
           .add(parentDetails.motherDetails?.country?.value ?? '');
       selectedMotherCountryEntity = parentDetails.motherDetails?.country;
+    } else {
+      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country ?? '');
+      if ((countryAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.motherDetails?.country)) {
+        var country = countryAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.motherDetails?.country);
+        selectedMotherCountryEntity = CommonDataClass(
+            id: country?.id, value: country?.attributes?.name);
+      }
     }
-    if (parentDetails.motherDetails?.state is CommonDataClass) {
+    if(parentDetails.motherDetails?.state is CommonDataClass){
       selectedMotherStateSubject
           .add(parentDetails.motherDetails?.state?.value ?? '');
       selectedMotherStateEntity =
           (parentDetails.motherDetails?.state is CommonDataClass)
               ? parentDetails.motherDetails?.state
               : null;
+    } else {
+      selectedMotherStateSubject.add(parentDetails.motherDetails?.state ?? '');
+      if ((stateAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.motherDetails?.state)) {
+        var state = stateAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.motherDetails?.state);
+        selectedMotherStateEntity = CommonDataClass(
+            id: state?.id, value: state?.attributes?.name);
+      }
     }
+    if(parentDetails.motherDetails?.city is CommonDataClass){
+      selectedMotherCitySubject
+          .add(parentDetails.motherDetails?.city?.value ?? '');
+      selectedMotherCityEntity = parentDetails.motherDetails?.city;
+    } else {
+      selectedMotherCitySubject.add(parentDetails.motherDetails?.city ?? '');
+      if ((cityAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.motherDetails?.city)) {
+        var city = cityAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.motherDetails?.city);
+        selectedMotherCityEntity = CommonDataClass(
+            id: city?.id, value: city?.attributes?.name);
+      }
+    }
+    selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
     selectedMotherOccupationSubject
         .add(parentDetails.motherDetails?.occupation ?? '');
 
@@ -1686,39 +1735,94 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
     guardianMobileController.text =
         parentDetails.guardianDetails?.mobileNumber ?? "";
-    selectedGuardianCountryEntity =
-        (parentDetails.guardianDetails?.country is CommonDataClass)
-            ? parentDetails.guardianDetails?.country
-            : null;
-    selectedGuardianStateEntity =
-        (parentDetails.guardianDetails?.state is CommonDataClass)
-            ? parentDetails.guardianDetails?.state
-            : null;
-    selectedGuardianCityEntity =
-        (parentDetails.guardianDetails?.city is CommonDataClass)
-            ? parentDetails.guardianDetails?.city
-            : null;
-    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area ?? '');
-    if (parentDetails.guardianDetails?.city is CommonDataClass) {
-      selectedGuardianCitySubject
-          .add(parentDetails.guardianDetails?.city?.value ?? '');
-      selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
-    }
-    if (parentDetails.guardianDetails?.country is CommonDataClass) {
+    guardianOccupation = parentDetails.guardianDetails?.occupation ?? "";
+    if(parentDetails.guardianDetails?.country is CommonDataClass){
       selectedGuardianCountrySubject
           .add(parentDetails.guardianDetails?.country?.value ?? '');
       selectedGuardianCountryEntity = parentDetails.guardianDetails?.country;
+    } else {
+      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country ?? '');
+      if ((countryAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.guardianDetails?.country)) {
+        var country = countryAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.guardianDetails?.country);
+        selectedGuardianCountryEntity = CommonDataClass(
+            id: country?.id, value: country?.attributes?.name);
+      }
     }
-    if (parentDetails.guardianDetails?.state is CommonDataClass) {
+    if(parentDetails.guardianDetails?.state is CommonDataClass){
       selectedGuardianStateSubject
           .add(parentDetails.guardianDetails?.state?.value ?? '');
       selectedGuardianStateEntity =
           (parentDetails.guardianDetails?.state is CommonDataClass)
               ? parentDetails.guardianDetails?.state
               : null;
+    } else {
+      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state ?? '');
+      if ((stateAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.guardianDetails?.state)) {
+        var state = stateAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.guardianDetails?.state);
+        selectedGuardianStateEntity = CommonDataClass(
+            id: state?.id, value: state?.attributes?.name);
+      }
     }
+    if(parentDetails.guardianDetails?.city is CommonDataClass){
+      selectedGuardianCitySubject
+          .add(parentDetails.guardianDetails?.city?.value ?? '');
+      selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
+    } else {
+      selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city ?? '');
+      if ((cityAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.guardianDetails?.city)) {
+        var city = cityAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.guardianDetails?.city);
+        selectedGuardianCityEntity = CommonDataClass(
+            id: city?.id, value: city?.attributes?.name);
+      }
+    }
+    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area ?? '');
     selectedGuardianOccupationSubject
         .add(parentDetails.guardianDetails?.occupation ?? '');
+
+    if((parentDetails.siblingDetails??[]).isNotEmpty){
+      radioButtonController1.selectItem(parentDetails.siblingDetails?[0].type);
+      siblingFirstNameController.text = parentDetails.siblingDetails?[0].firstName??'';
+      siblingLastNameController.text = parentDetails.siblingDetails?[0].lastName??'';
+      siblingsEnrollmentController.text = parentDetails.siblingDetails?[0].enrollmentNumber??'';
+      siblingsSchoolController.text = parentDetails.siblingDetails?[0].school??'';
+      siblingDOB = DateFormat('dd/MM/yyyy').parse((parentDetails.siblingDetails?[0].dob??DateTime.now().toString()).replaceAll('-', '/'));
+      if (parentDetails.siblingDetails?[0].gender is CommonDataClass) {
+        siblingGender.add(parentDetails.siblingDetails?[0].gender?.value ?? '');
+        selectedSiblingGender = parentDetails.siblingDetails?[0].gender;
+      } else {
+        siblingGender.value = parentDetails.siblingDetails?[0].gender;
+        if ((genderAttribute ?? []).any((element) =>
+            (element.attributes?.name ?? '')
+                .contains(parentDetails.siblingDetails?[0].gender ?? ''))) {
+          var gender= genderAttribute?.firstWhere((element) =>
+              (element.attributes?.name ?? '')
+                  .contains(parentDetails.siblingDetails?[0].gender ?? ''));
+          selectedSiblingGender = CommonDataClass(
+              id: gender?.id, value: gender?.attributes?.name);
+        }
+      }
+      if (parentDetails.siblingDetails?[0].grade is CommonDataClass) {
+        siblingGrade.add(parentDetails.siblingDetails?[0].grade?.value ?? '');
+        selectedSiblingGrade = parentDetails.siblingDetails?[0].grade;
+      } else {
+        siblingGrade.value = parentDetails.siblingDetails?[0].grade;
+        if ((gradeTypesAttribute ?? []).any((element) =>
+            (element.attributes?.name ?? '')
+                .contains(parentDetails.siblingDetails?[0].grade ?? ''))) {
+          var grade = gradeTypesAttribute?.firstWhere((element) =>
+              (element.attributes?.name ?? '')
+                  .contains(parentDetails.siblingDetails?[0].grade ?? ''));
+          selectedSiblingGrade = CommonDataClass(
+              id: grade?.id, value: grade?.attributes?.name);
+        }
+      }
+    }
   }
 
   addContactDetails(ContactDetails contactDetails) {
@@ -1862,6 +1966,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         organizationNameController.text.trim();
     parentInfo?.fatherDetails?.designationName =
         designationController.text.trim();
+    parentInfo?.fatherDetails?.officeAddress = officeAddressController.text.trim();
     parentInfo?.fatherDetails?.pinCode = pinCodeController.text.trim();
     parentInfo?.fatherDetails?.emailId = fatherEmailController.text.trim();
     parentInfo?.fatherDetails?.mobileNumber =
@@ -1935,10 +2040,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           ((radioButtonController1.selectedItem ?? '') == "Vibgyor Student")
               ? siblingsEnrollmentController.text.trim()
               : "",
+      dob: DateFormat('dd-MM-yyyy').format(siblingDOB??DateTime.now()),
       firstName: siblingFirstNameController.text.trim(),
       lastName: siblingLastNameController.text.trim(),
-      gender: siblingGender,
-      grade: siblingGrade,
+      gender: selectedSiblingGender,
+      grade: selectedSiblingGrade,
       school: siblingsSchoolController.text.trim(),
     ));
     parentInfo?.childCustodyDetail = ChildCustodyDetail(
@@ -2346,8 +2452,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     siblingLastNameController.clear();
     siblingsEnrollmentController.clear();
     siblingsSchoolController.clear();
-    siblingGender = null;
-    siblingGrade = null;
+    siblingGender.value = "";
+    siblingGrade.value = "";
   }
 
   void clearNewAdmissionDetails() {

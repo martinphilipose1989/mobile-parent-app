@@ -40,7 +40,10 @@ class EnquiryAndStudentDetails extends StatelessWidget {
                     ),
                     DetailsItem(
                         title: 'Enquiry Number', subtitle: enquiryDetailArgs?.enquiryNumber?? 'ENAMDMS#4402'),
-                    DetailsItem(title: 'Enquiry Date', subtitle: enquiryDetailArgs?.studentName??''),
+                    DetailsItem(title: 'Enquiry Date', subtitle: 
+                      (newAdmissionDetail != null) ? newAdmissionDetail?.enquiryDate??'' : (psaDetail != null) ? psaDetail?.enquiryDate??'':
+                        ivtDetail?.enquiryDate??''
+                    ),
                     DetailsItem(
                         title: 'Enquiry Type', subtitle: enquiryDetailArgs?.enquiryType??''),
                     DetailsItem(
@@ -74,7 +77,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    enquiryDetailArgs?.enquiryType == "New Admission"? getAdmissionDetails(newAdmissionDetail: newAdmissionDetail): enquiryDetailArgs?.enquiryType == "PSA"? getPsaDetails(psaDetail: psaDetail): getIvtDetails(ivtDetail: ivtDetail)
+                    enquiryDetailArgs?.enquiryType == "IVT"? getIvtDetails(ivtDetail: ivtDetail): enquiryDetailArgs?.enquiryType == "PSA"? getPsaDetails(psaDetail: psaDetail): getAdmissionDetails(newAdmissionDetail: newAdmissionDetail)
                   ],
                 ),
               )
@@ -102,8 +105,16 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             DetailsItem(title: "PSA sub category", subtitle: psaDetail?.psaSubCategory?.value??''),
             DetailsItem(title: "Period of service", subtitle: psaDetail?.psaPeriodOfService?.value??''),
             DetailsItem(title: "PSA batch", subtitle: psaDetail?.psaBatch?.value??''),
-            DetailsItem(title: "Parent Type", subtitle: "NA"),
-            DetailsItem(title: "Global Id", subtitle: "NA"),
+            DetailsItem(
+            title: "Parent Type",
+            subtitle: newAdmissionDetail?.enquirerParent ?? ''),
+        DetailsItem(
+            title: "Global Id",
+            subtitle: newAdmissionDetail?.enquirerParent == "Father"
+                ? newAdmissionDetail?.parentDetails?.fatherDetails?.globalId ??
+                    ''
+                : newAdmissionDetail?.parentDetails?.motherDetails?.globalId ??
+                    ''),
           ],
         );
   }
@@ -122,8 +133,11 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             DetailsItem(title: "Existing School Name", subtitle: newAdmissionDetail?.existingSchoolDetails?.name??''),
             DetailsItem(title: "Existing school board", subtitle: newAdmissionDetail?.existingSchoolDetails?.board?.value??''),
             DetailsItem(title: "Existing school Grade", subtitle: newAdmissionDetail?.existingSchoolDetails?.grade?.value??''), 
-            DetailsItem(title: "Parent Type", subtitle: "NA"),
-            DetailsItem(title: "Global Id", subtitle: "NA"),
+            DetailsItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent??''),
+            DetailsItem(title: "Global Id", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??'' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.globalId ??'' 
+            ),
           ],
         );
   }
@@ -146,8 +160,16 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             DetailsItem(title: "Course", subtitle: ivtDetail?.course?.value??''),
             DetailsItem(title: "Stream", subtitle: ivtDetail?.stream?.value??''),
             DetailsItem(title: "Shift", subtitle: ivtDetail?.shift?.value??''),
-            DetailsItem(title: "Parent Type", subtitle: "ENAMDMS#4402"),
-            DetailsItem(title: "Global Id", subtitle: "ENAMDMS#4402"),
+            DetailsItem(
+            title: "Parent Type",
+            subtitle: newAdmissionDetail?.enquirerParent ?? ''),
+        DetailsItem(
+            title: "Global Id",
+            subtitle: newAdmissionDetail?.enquirerParent == "Father"
+                ? newAdmissionDetail?.parentDetails?.fatherDetails?.globalId ??
+                    ''
+                : newAdmissionDetail?.parentDetails?.motherDetails?.globalId ??
+                    ''),
           ],
         );
   }

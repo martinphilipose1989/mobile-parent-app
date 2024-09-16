@@ -37,7 +37,8 @@ class EditEnquiriesDetailsPageView
                           id: "ENADMS#4402",
                           title: "Vibgyor Kids & High - Malad West",
                           subtitle: "Grade V | CBSE",
-                          buttontext: "School Visit"),
+                          buttontext: "School Visit",
+                          status: '',),
                       SizedBox(
                         height: 10,
                       ),

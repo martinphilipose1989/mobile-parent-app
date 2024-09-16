@@ -1,4 +1,3 @@
-
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
@@ -62,10 +61,14 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     if(widget.routeFrom!="enquiry"){
       if(widget.editRegistrationDetails){
         model.editRegistrationDetails.value = widget.editRegistrationDetails;
-        model.registrationDetails.addAll({
-          {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
-          {'name': 'VAS', 'isSelected': false, 'infoType': ''},
-        });
+        if (model.registrationDetails.any((element) =>
+            (element["name"] != "Select Subject" ||
+                element["name"] != "VAS"))) {
+          model.registrationDetails.addAll({
+            {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
+            {'name': 'VAS', 'isSelected': false, 'infoType': ''},
+          });
+        }
         ProviderScope.containerOf(context)
             .read(commonChipListProvider)
             .highlightIndex

@@ -89,6 +89,7 @@ class EnquiriesAdmissionsJourneyPageView
                 subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
                 buttontext: enquiryDetail.currentStage??'',
                 compeletion: '',
+                status: enquiryDetail.status??'',
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),
               Row(
@@ -180,7 +181,7 @@ class EnquiriesAdmissionsJourneyPageView
             dataBuilder: (context, data) {
               return Positioned(
                   right: 20,
-                  bottom: 100,
+                  bottom: 110,
                   child: data!
                       ? Menu(
                           height: 340.h,

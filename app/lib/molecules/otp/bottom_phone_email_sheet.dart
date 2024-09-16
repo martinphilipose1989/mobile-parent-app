@@ -74,18 +74,22 @@ class BottomPhoneEmailSheet extends StatelessWidget {
                           AppInputformatters.emailFormatter(),
                         ],
                       )
-                    : CommonTextFormField(
-                        controller: otpPageModel.mobileOrEmailController,
-                        showAstreik: false,
-                        keyboardType: TextInputType.phone,
-                        hintText: 'Enter Phone Number',
-                        labelText: '',
-                        validator: (value) =>
-                            AppValidators.validateMobile(value),
-                        inputFormatters: [
-                          AppInputformatters.mobileFormatter(),
-                        ],
-                      );
+                    : Form(
+                      key: otpPageModel.formKey,
+                      child: CommonTextFormField(
+                          controller: otpPageModel.mobileOrEmailController,
+                          showAstreik: false,
+                          keyboardType: TextInputType.phone,
+                          hintText: 'Enter Phone Number',
+                          maxLength: 10,
+                          labelText: '',
+                          validator: (value) =>
+                              AppValidators.validateMobile(value),
+                          inputFormatters: [
+                            AppInputformatters.mobileFormatter(),
+                          ],
+                        ),
+                    );
               },
             ),
             CommonSizedBox.sizedBox(height: 10, width: 10),
@@ -100,6 +104,10 @@ class BottomPhoneEmailSheet extends StatelessWidget {
           ]),
           CommonElevatedButton(
             onPressed: () {
+              if(otpPageModel.formKey.currentState!.validate()){
+                otpPageModel.openBottomSheet.add(true);
+                return;
+              }
               if (otpPageModel.mobileOrEmailController.text.isNotEmpty) {
                 otpPageModel.openBottomSheet.add(true);
               }

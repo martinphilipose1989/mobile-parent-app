@@ -93,7 +93,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           labelText: "Father's Pan Card No",
                           controller: model.fatherPanCardController,
-                          maxLength: 12,
+                          maxLength: 10,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Pan Card No',
                               checkSpecialCharacters: false,
@@ -184,7 +184,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: false,
                           onMultiSelect: (val) {},
                           onSingleSelect: (val) {
-                            val = model.fatherArea!;
+                            model.fatherArea = val;
                           },
                           showBorderColor: true,
                         ),
@@ -207,6 +207,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   (element) => (element.attributes?.name ?? '')
                                       .contains(val));
                               // model.selectedFatherCountryType.add(true);
+                              model.selectedFatherCountrySubject.value = val;
                               model.selectedFatherCountryEntity =
                                   CommonDataClass(
                                       id: country?.id,
@@ -377,7 +378,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           labelText: "Mother's Pan Card No",
                           controller: model.motherPanCardController,
-                          maxLength: 12,
+                          maxLength: 10,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Pan Card No",
@@ -471,7 +472,7 @@ class ParentInfoEditing extends StatelessWidget {
                             checkSpecialCharacters: true,
                           ),
                           onSingleSelect: (val) {
-                            val = model.motherArea!;
+                            model.motherArea = val;
                           },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -492,7 +493,7 @@ class ParentInfoEditing extends StatelessWidget {
                                         ?.firstWhere((element) =>
                                             (element.attributes?.name ?? '')
                                                 .contains(val));
-                                    // model.selectedFatherCountryType.add(true);
+                                    model.selectedMotherCountrySubject.value = val;
                                     model.selectedMotherCountryEntity =
                                         CommonDataClass(
                                             id: country?.id,
@@ -680,7 +681,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: false,
                           labelText: "Guardian's Pan Card No.",
                           controller: model.guardianPanCardController,
-                          maxLength: 12,
+                          maxLength: 10,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Guardian's Pan Card No",
@@ -799,6 +800,7 @@ class ParentInfoEditing extends StatelessWidget {
                                             (element.attributes?.name ?? '')
                                                 .contains(val));
                                     // model.selectedGuardianCountryType.add(true);
+                                    model.selectedGuardianCountrySubject.value = val;
                                     model.selectedGuardianCountryEntity =
                                         CommonDataClass(
                                             id: country?.id,
@@ -972,11 +974,38 @@ class ParentInfoEditing extends StatelessWidget {
                           title: 'Vibgyor Student',
                           commonRadioButton: model.radioButtonController1,
                           value: 'Vibgyor Student',
+                          onOptionSelected: (value) {
+                            model.siblingFirstNameController.text = '';
+                            model.siblingLastNameController.text = '';
+                            model.siblingsSchoolController.text = '';
+                            model.siblingGender.value = '';
+                            model.selectedSiblingGender = null;
+                            model.siblingGrade.value = '';
+                            model.selectedSiblingGrade = null;
+                            model.siblingDOB = null; 
+                          },
                         ),
                         CommonRadioButtonWidget(
                           title: 'Non-Vibgyor Student',
                           commonRadioButton: model.radioButtonController1,
                           value: 'Non-Vibgyor Studente',
+                          onOptionSelected: (value){
+                            model.siblingsEnrollmentController.text = '';
+                            model.siblingFirstNameController.text = '';
+                            model.siblingLastNameController.text = '';
+                            model.siblingsSchoolController.text = '';
+                            model.siblingGender.value = '';
+                            model.selectedSiblingGender = null;
+                            model.siblingGrade.value = '';
+                            model.selectedSiblingGrade = null;
+                            model.siblingDOB = null;
+                            if (model.siblingDetail.value.data?.data
+                                    ?.siblingProfile?.dob !=
+                                null) {
+                              model.siblingDetail.value.data?.data
+                                  ?.siblingProfile?.dob = null;
+                            }
+                          },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         AppStreamBuilder<String?>(
@@ -985,29 +1014,30 @@ class ParentInfoEditing extends StatelessWidget {
                             initialData:
                                 model.radioButtonController1.selectedItem,
                             dataBuilder: (context, data) {
-                              return ((data ?? '') == "Vibgyor Student")
-                                  ? CommonTextFormField(
-                                      showAstreik: false,
-                                      labelText: "Sibling's Enrollment Number",
-                                      controller:
-                                          model.siblingsEnrollmentController,
-                                      validator: (value) =>
-                                          AppValidators.validateNotEmpty(
-                                        value,
-                                        "Sibling's Enrollment Number",
+                              return Visibility(
+                                visible: model.radioButtonController1.selectedItem == "Vibgyor Student",
+                                child: CommonTextFormField(
+                                        showAstreik: false,
+                                        labelText: "Sibling's Enrollment Number",
+                                        controller:
+                                            model.siblingsEnrollmentController,
+                                        validator: (value) =>
+                                            AppValidators.validateNotEmpty(
+                                          value,
+                                          "Sibling's Enrollment Number",
+                                        ),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(
+                                                  r'^[a-zA-Z0-9\-]+$') // Only allows alphanumeric and hyphen
+                                              )
+                                        ],
+                                        textInputAction: TextInputAction.done,
+                                        focusNode: model.enrollmentNode,
+                                        onFieldSubmitted: (value) =>
+                                            model.onFormFieldSubmitted(value),
                                       ),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(
-                                                r'^[a-zA-Z0-9\-]+$') // Only allows alphanumeric and hyphen
-                                            )
-                                      ],
-                                      textInputAction: TextInputAction.done,
-                                      focusNode: model.enrollmentNode,
-                                      onFieldSubmitted: (value) =>
-                                          model.onFormFieldSubmitted(value),
-                                    )
-                                  : const SizedBox.shrink();
+                              );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         AppStreamBuilder<String?>(
@@ -1068,7 +1098,7 @@ class ParentInfoEditing extends StatelessWidget {
                                             "Vibgyor Student",
                                         labelName: "Date of birth",
                                         initialDate: data?.data?.data
-                                            ?.siblingProfile?.first.dob);
+                                            ?.siblingProfile?.dob?? model.siblingDOB);
                                   });
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -1099,8 +1129,22 @@ class ParentInfoEditing extends StatelessWidget {
                                       ),
                                       onMultiSelect: (selectedValues) {},
                                       showBorderColor: true,
+                                      singleSelectItemSubject: model.siblingGender,
                                       onSingleSelect: (val) {
-                                        model.siblingGender = val;
+                                        var gender = model
+                                            .genderAttribute
+                                            ?.firstWhere((element) => (element
+                                                        .attributes
+                                                        ?.name ??
+                                                    '')
+                                                .contains(val));
+                                        model.selectedSiblingGender =
+                                            CommonDataClass(
+                                                id: gender?.id,
+                                                value: gender
+                                                    ?.attributes?.name);
+                                        model.siblingGender.value = val;
+                                        
                                       },
                                     );
                                   });
@@ -1138,7 +1182,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   initialData: model.siblingGrades.value,
                                   dataBuilder: (context, data) {
                                     return CustomDropdownButton(
-                                      items: model.grade,
+                                      items: model.gradeTypes.value,
                                       isDisable: selectStudentType ==
                                           "Vibgyor Student",
                                       intialValue: data,
@@ -1154,8 +1198,18 @@ class ParentInfoEditing extends StatelessWidget {
                                       ),
                                       onMultiSelect: (selectedValues) {},
                                       showBorderColor: true,
+                                      singleSelectItemSubject: model.siblingGrade,
                                       onSingleSelect: (val) {
-                                        model.siblingGrade = val;
+                                        var grade = model.gradeTypesAttribute
+                                            ?.firstWhere((element) =>
+                                                (element.attributes?.name ?? '')
+                                                    .contains(val));
+                                        model.selectedSiblingGrade =
+                                            CommonDataClass(
+                                                id: grade?.id,
+                                                value:
+                                                    grade?.attributes?.name);
+                                        model.siblingGrade.value = val;
                                       },
                                     );
                                   });

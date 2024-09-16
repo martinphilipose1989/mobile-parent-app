@@ -1,8 +1,10 @@
 class NetworkProperties {
   static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
+  // static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in/";
   static const String financeBaseUrl =
       "https://finance-r26sp3mibq-uc.a.run.app";
   static const String marketingBaseURL = 'https://marketing-r26sp3mibq-uc.a.run.app/';
+  // static const String marketingBaseURL = 'https://marketing-backend-ndxpitoqla-el.a.run.app/';
   static const String schoolBoard = '/api/ac-boards';
   static const String grade = '/api/ac-grades';
   static const String gender = '/api/genders';
@@ -23,4 +25,5 @@ class NetworkProperties {
   static const String bloodGroup = '/api/blood-groups?fields=group';
   static const String occupation = '/api/co-occupations?fields[1]=Name&fields[2]=Short_Name&fields[3]=Order';
   static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
+  // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
 }

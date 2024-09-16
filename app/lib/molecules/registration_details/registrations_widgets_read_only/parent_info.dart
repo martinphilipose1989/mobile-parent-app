@@ -203,24 +203,24 @@ class ParentDetail extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     DetailsItem(
-                        title: "Is Sibling", subtitle: ''),
+                        title: "Is Sibling", subtitle: parentInfo?.siblingDetails?[0].type??''),
                     DetailsItem(
-                        title: "Enrolment Number", subtitle: 'EMBA1234'),
+                        title: "Enrolment Number", subtitle: parentInfo?.siblingDetails?[0].enrollmentNumber??''),
                     DetailsItem(
-                        title: "Sibling First Name", subtitle: 'Anjali'),
-                    DetailsItem(title: "Sibling Last Name", subtitle: 'Shah'),
-                    DetailsItem(title: "DOB", subtitle: '09/09/2000'),
-                    DetailsItem(title: "Gender", subtitle: 'Female'),
-                    DetailsItem(title: "School", subtitle: 'St. Dominic'),
-                    DetailsItem(title: "Grade", subtitle: 'X'),
+                        title: "Sibling First Name", subtitle: parentInfo?.siblingDetails?[0].firstName??''),
+                    DetailsItem(title: "Sibling Last Name", subtitle: parentInfo?.siblingDetails?[0].lastName??''),
+                    DetailsItem(title: "DOB", subtitle: parentInfo?.siblingDetails?[0].dob??''),
+                    DetailsItem(title: "Gender", subtitle: parentInfo?.siblingDetails?[0].gender??''),
+                    DetailsItem(title: "School", subtitle: parentInfo?.siblingDetails?[0].school??''),
+                    DetailsItem(title: "Grade", subtitle: parentInfo?.siblingDetails?[0].grade??''),
                   ],
                 ),
               )
             ]),
       ),
-      DetailsItem(title: "Are Parent's Seprated", subtitle: "Yes"),
-      DetailsItem(
-          title: "Who Haas The Custody of the Child?", subtitle: "Mother")
+      const DetailsItem(title: "Are Parent's Seprated", subtitle: "No"),
+      const DetailsItem(
+          title: "Who Haas The Custody of the Child?", subtitle: "")
     ]);
   }
 }

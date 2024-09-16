@@ -14,9 +14,9 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
   final EnquiryDetailArgs enquiryDetailArgs;
   AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs){
+    getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId?? '', type: 'admission');
-    getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
   }
   
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
@@ -42,7 +42,6 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         _fetchAdmissionJourney.add(result);
         if(result.status == Status.success){
           admissionJourney.add(Resource.success(data: result.data?.data??[]));
-          menuData.add({'image': AppImages.subjectSelectionIcon, 'name': "Subject Selection"});
         }
         // activeStep.add()
       }).onError((error) {
@@ -65,7 +64,16 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         enquiryDetails.value = result.data?.data?? EnquiryDetail();
-        enquiryDetailArgs.admissionStatus = getAdmissionStatus();
+        var admissionStatus = getAdmissionStatus();
+        if (admissionStatus == "Approved") {
+          if (menuData
+              .any((element) => element["name"] != "Subject Selection")) {
+            menuData.add({
+              'image': AppImages.subjectSelectionIcon,
+              'name': "Subject Selection"
+            });
+          }
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -109,7 +117,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
 
   bool isDetailViewCompetency(){
     final competencyStage =  getCompetencyStage();
-    return competencyStage?.status?.toLowerCase() == "in progress";
+    return competencyStage?.status != "Open";
   }
 
   final List registrationDetails = [

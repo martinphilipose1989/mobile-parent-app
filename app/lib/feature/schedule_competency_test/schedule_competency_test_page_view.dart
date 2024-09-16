@@ -32,9 +32,11 @@ class ScheduleCompetencyTestPageView
       onData: (value) {
         if (value.status == Status.success) {
           if(isReschedule){
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Competency test rescheduled successfully')),
-            );
+            ProviderScope.containerOf(context)
+                  .read(admissionsDetailsProvider(enquiryDetailArgs))
+                  .getAdmissionJourney(
+                      enquiryID: enquiryDetailArgs.enquiryId ?? '',
+                      type: 'admission');
             competencyTestDetails?.competencyTestDate = DateFormat('dd-MM-yyyy').parse(model.selectedDate).toIso8601String();
             competencyTestDetails?.slot = model.selectedTime;
             competencyTestDetails?.slotID = model.slotID;
@@ -78,7 +80,8 @@ class ScheduleCompetencyTestPageView
                               id: enquiryDetailArgs.enquiryNumber??'',
                               title: enquiryDetailArgs.studentName??'',
                               subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                              buttontext: enquiryDetailArgs.currentStage??''),
+                              buttontext: enquiryDetailArgs.currentStage??'',
+                              status: enquiryDetailArgs.status??'',),
                           const SizedBox(
                             height: 10,
                           ),

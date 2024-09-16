@@ -29,6 +29,8 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     String? schoolVisitTime;
     @JsonKey(name: 'comment')
     String? comment;
+    @JsonKey(name: 'status')
+    String? status;
 
     EnquiryListDetailResponseEntity({
         this.enquiryType,
@@ -65,6 +67,7 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     enquiryListDetailModel.schoolVisitDate = schoolVisitDate;
     enquiryListDetailModel.schoolVisitTime = schoolVisitTime;
     enquiryListDetailModel.comment = comment;
+    enquiryListDetailModel.status = status;
     return enquiryListDetailModel;
   }
 }

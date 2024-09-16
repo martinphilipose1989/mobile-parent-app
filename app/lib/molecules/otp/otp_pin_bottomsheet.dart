@@ -10,6 +10,8 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:services/services.dart';
+import 'package:shared/shared.dart';
 
 class OtpPinBottomsheet extends StatefulWidget {
   final OtpPageModel otpPageModel;
@@ -88,6 +90,7 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                       context,
                       'Otp Verified Successfully!',
                       (shouldRoute) {
+                        SharedPreferenceHelper.saveString(mobileNumber, widget.otpPageModel.mobileOrEmailController.text.trim());
                         widget.otpPageModel.controller.stop();
                         widget.otpPageModel.openBottomSheet.add(false);
                         Navigator.pushReplacementNamed(

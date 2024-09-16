@@ -61,7 +61,7 @@ final BankDetails? bankDetails;
           text: "UPI Info",
           style: AppTypography.subtitle1,
         ),
-        const DetailsItem(title: 'UPI Id', subtitle: 'shahashok@paytm')
+        DetailsItem(title: 'UPI Id', subtitle: bankDetails?.upiInfo??'')
       ],
     );
   }

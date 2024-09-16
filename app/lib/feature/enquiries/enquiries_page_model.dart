@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
@@ -25,6 +26,8 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   final ScrollController scrollController = ScrollController();
   List<EnquiryListDetailModel> currentEnquiries = [];
+
+  String phoneNumber = '';
 
   void setupScrollListener() {
     scrollController.addListener(() {
@@ -47,61 +50,84 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
-final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
-  // final PublishSubject<Resource<EnquiryListModel>> enquiryList = PublishSubject();
-
-  // Stream<Resource<EnquiryListModel>> get getEnquiryList =>
-  //   enquiryList.stream;
+  Future<void> setPhoneNumber() async{
+    phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
+  }
 
   // -------- Get Equiry List Usecase -------- //
-  
-  final PublishSubject<Resource<EnquiryListModel>> _getEnquiryResponse = PublishSubject();
+  BehaviorSubject<List<BehaviorSubject<EnquiryListDetailModel>>> enquiries = BehaviorSubject.seeded([]);
+  final BehaviorSubject<Resource<EnquiryListModel>> _getEnquiryResponse = BehaviorSubject();
 
   Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream => _getEnquiryResponse.stream;
 
 
-  void fetchEnquiries({bool isRefresh = false}) {
-    exceptionHandlerBinder.handle(block: () {
+  Future<void> fetchEnquiries({bool isRefresh = false}) async{
+    exceptionHandlerBinder.handle(block: () async {
       if(isRefresh){
         pageNumber = 1;
       }
       if(!isNextPage){
         return;
       }
+      await setPhoneNumber();
       GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
-        phone: '9000000002',
+        phone: phoneNumber,
         pageNumber: pageNumber,
         pageSize: pageSize
       );
+      if(pageNumber > 1){
+        isLoading.value = true;
+      }
       RequestManager<EnquiryListModel>(
         params,
         createCall: () => getEnquiryListUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((event) {
-        if(event.status == Status.loading && !isRefresh){
-          _getEnquiryResponse.add(event);
+        if(event.status == Status.loading){
+          if(pageNumber == 1 && !isRefresh){
+            _getEnquiryResponse.add(event);
+          }
         }
-        if(event.status == Status.success) {
-          if(!isRefresh && pageNumber != 1){
-            currentEnquiries = event.data?.data?.data??[];
-            var newContent = event.data?.data?.data??[];
-            event.data?.data?.data = [...currentEnquiries, ...newContent];
+        if(event.status == Status.success){
+          if(isLoading.value){
             isLoading.value = false;
-            isNextPage = event.data?.data?.isNextPage??false;
+          }
+          _getEnquiryResponse.add(event);
+          _handleEnquiryListing(event.data?.data?.data??[],isRefresh);
+          isNextPage = event.data?.data?.isNextPage??false;
+        }
+        if(event.status == Status.error){
+          if(pageNumber == 1){
             _getEnquiryResponse.add(event);
           }
           else{
-            isNextPage = event.data?.data?.isNextPage ?? false;
-            _getEnquiryResponse.add(event);
+            if(isNextPage){
+              isNextPage = false;
+              _getEnquiryResponse.add(event);
+            }
           }
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
         isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  void _handleEnquiryListing(List<EnquiryListDetailModel> enquiry,bool isRefresh){
+    List<BehaviorSubject<EnquiryListDetailModel>> enquiryList = enquiry.map((element){
+      return BehaviorSubject.seeded(element);
+    }).toList();
+    if(isRefresh){
+      enquiries.add(enquiryList);
+    }
+    else{
+      var currentData = enquiries.value;
+      enquiries.add(currentData + enquiryList);
+    }
   }
 
   final List<String> chequeTypes = [

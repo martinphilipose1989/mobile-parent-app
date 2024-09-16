@@ -29,11 +29,20 @@ class CancelSchoolTourPageView
       initialData: Resource.none(),
       onData: (value) {
         if (value.status == Status.success) {
-          ProviderScope.containerOf(context)
-                .read(enquiriesAdmissionsJourneyProvider(enquiryDetailArgs))
-                .getAdmissionJourney(
-                    enquiryID: enquiryDetailArgs.enquiryId ?? '',
-                    type: enquiryDetailArgs.isFrom ?? 'enquiry');
+          if(enquiryDetailArgs.isFrom == "enquiry"){
+            ProviderScope.containerOf(context)
+                  .read(enquiriesAdmissionsJourneyProvider(enquiryDetailArgs))
+                  .getAdmissionJourney(
+                      enquiryID: enquiryDetailArgs.enquiryId ?? '',
+                      type: enquiryDetailArgs.isFrom ?? 'enquiry');
+          }
+          else{
+            ProviderScope.containerOf(context)
+                  .read(admissionsDetailsProvider(enquiryDetailArgs))
+                  .getAdmissionJourney(
+                      enquiryID: enquiryDetailArgs.enquiryId ?? '',
+                      type: enquiryDetailArgs.isFrom ?? 'enquiry');
+          }
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('School tour cancelled successfully')),
           );
@@ -59,7 +68,8 @@ class CancelSchoolTourPageView
                           id: enquiryDetailArgs.enquiryNumber??'',
                           title: enquiryDetailArgs.school??'',
                           subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                          buttontext: enquiryDetailArgs.currentStage??''),
+                          buttontext: enquiryDetailArgs.currentStage??'',
+                          status: enquiryDetailArgs.status??'',),
                       const SizedBox(
                         height: 10,
                       ),

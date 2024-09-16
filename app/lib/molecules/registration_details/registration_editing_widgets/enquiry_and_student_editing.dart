@@ -319,7 +319,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               if((data??'') == "Father")...[
                                 CommonTextFormField(
                                   showAstreik: false,
-                                  labelText: 'Gloabal ID',
+                                  labelText: 'Global ID',
                                   readOnly: true,
                                   controller: model.fatherGlobalIdController,
                                 ),

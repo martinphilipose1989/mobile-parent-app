@@ -22,12 +22,11 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 25.h,horizontal: 15.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.white,
       ),
-      height: height,
       width: 250.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,6 +36,7 @@ class Menu extends StatelessWidget {
             style: AppTypography.subtitle2,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               menuData.length,
               (index) => InkWell(

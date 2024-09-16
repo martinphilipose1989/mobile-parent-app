@@ -37,7 +37,7 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
 
   String selectedDate = "";
 
-  DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  DateFormat dateFormat = DateFormat('d MMM yyyy');
   DateFormat dateFormat1 = DateFormat('yyyy-MM-dd');
 
   PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();

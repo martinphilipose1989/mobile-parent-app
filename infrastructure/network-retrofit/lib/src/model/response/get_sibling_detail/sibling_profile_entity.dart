@@ -42,9 +42,9 @@ class SiblingProfileEntity
   String? globalNumber;
   @JsonKey(name: "is_vibgyor_student")
   bool? isVibgyorStudent;
-  @JsonKey(name: "school_name")
+  @JsonKey(name: "crt_school")
   String? schoolName;
-  @JsonKey(name: "grade_id")
+  @JsonKey(name: "crt_grade_id")
   int? gradeId;
   @JsonKey(name: "gender_id")
   int? genderId;

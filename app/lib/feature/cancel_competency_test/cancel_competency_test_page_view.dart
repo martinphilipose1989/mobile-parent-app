@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -13,6 +14,7 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CancelCompetencyTestPageView
@@ -27,6 +29,11 @@ class CancelCompetencyTestPageView
       initialData: Resource.none(),
       onData: (value) {
         if (value.status == Status.success) {
+          ProviderScope.containerOf(context)
+              .read(admissionsDetailsProvider(enquiryDetailArgs))
+              .getAdmissionJourney(
+                  enquiryID: enquiryDetailArgs.enquiryId ?? '',
+                  type: enquiryDetailArgs.isFrom ?? 'enquiry');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Competency test cancelled successfully')),
           );
@@ -52,7 +59,9 @@ class CancelCompetencyTestPageView
                           id: enquiryDetailArgs.enquiryNumber??'',
                           title: enquiryDetailArgs.school??'',
                           subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
-                          buttontext: enquiryDetailArgs.currentStage??''),
+                          buttontext: enquiryDetailArgs.currentStage??'',
+                          status: enquiryDetailArgs.status ?? '',
+                        ),
                       const SizedBox(
                         height: 10,
                       ),

@@ -68,7 +68,7 @@ final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
 
 final admissionsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsViewModel>(
-  (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionListUsecase>()),
 );
 
 final admissionsDetailsProvider =

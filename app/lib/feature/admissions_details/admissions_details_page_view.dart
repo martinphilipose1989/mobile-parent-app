@@ -1,4 +1,3 @@
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -15,7 +14,6 @@ import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -99,6 +97,7 @@ class AdmissionsDetailsPageView
                   subtitle: "${admissionDetail.grade} | ${admissionDetail.board}",
                   buttontext: admissionDetail.currentStage??'',
                   compeletion: "${(admissionDetail.formCompletionPercentage??0).toString()}% Completed",
+                  status: admissionDetail.status??'',
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
                 Row(
@@ -194,7 +193,7 @@ class AdmissionsDetailsPageView
             dataBuilder: (context, data) {
               return Positioned(
                   right: 20,
-                  bottom: 100,
+                  bottom: 110,
                   child: data!
                       ? Menu(
                           height: 395.h,

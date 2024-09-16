@@ -21,6 +21,7 @@ class CommonRadioButton<T> {
 }
 
 class CommonRadioButtonWidget<T> extends StatelessWidget {
+  final Function(T?)? onOptionSelected;
   final CommonRadioButton<T> commonRadioButton;
   final T value;
   final String title;
@@ -30,6 +31,7 @@ class CommonRadioButtonWidget<T> extends StatelessWidget {
     required this.commonRadioButton,
     required this.value,
     required this.title,
+    this.onOptionSelected
   });
 
   @override
@@ -45,6 +47,7 @@ class CommonRadioButtonWidget<T> extends StatelessWidget {
           groupValue: snapshot.data,
           onChanged: (T? newValue) {
             commonRadioButton.selectItem(newValue);
+            onOptionSelected?.call(newValue);
           },
         );
       },

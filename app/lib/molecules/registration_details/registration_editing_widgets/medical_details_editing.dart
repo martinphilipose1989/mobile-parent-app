@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MedicalDetailsEditing extends StatelessWidget {
   const MedicalDetailsEditing({super.key, required this.model});
@@ -58,6 +59,8 @@ class MedicalDetailsEditing extends StatelessWidget {
                       showAstreik: false,
                       labelText: 'Year Of Hospitalization',
                       keyboardType: const TextInputType.numberWithOptions(),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      maxLength: 4,
                       controller: model.yearOfHospitalizationController,
                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Year Of Hospitalization'),
                     ),

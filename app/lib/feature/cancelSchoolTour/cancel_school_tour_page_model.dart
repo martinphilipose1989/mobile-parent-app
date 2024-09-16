@@ -21,7 +21,7 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
   Stream<Resource<SchoolVisitDetailBase>> get cacnelSchoolTour => _cancelSchoolTour.stream;
   SchoolVisitDetail? schoolVisitDetailData;
   TextEditingController controller = TextEditingController();
-  DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  DateFormat dateFormat = DateFormat('d MMM yyyy');
   final formKey = GlobalKey<FormState>();
 
   Future<void> cacnelSchoolVisit({required String enquiryID, required String schoolVisitID}) async {

@@ -52,7 +52,7 @@ class AppValidators {
     }
     if(validateLength){
       if(value.length < (minLength??3)){
-        return '$fieldName should contain more then ${minLength??3} characters';
+        return '$fieldName should contain more then ${minLength??3-1} characters';
       }
     }
     return null;

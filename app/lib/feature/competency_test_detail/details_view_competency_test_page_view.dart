@@ -20,110 +20,109 @@ class DetailsViewCompetencyTestPageView
   DetailsViewCompetencyTestPageView(super.providerBase,{required this.enquiryDetail});
   @override
   Widget build(BuildContext context, DetailsViewCompetencyTestPageModel model) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: SingleChildScrollView(
-          child:  Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 0,
+    return AppStreamBuilder<Resource<CompetencyTestDetailBase>>(
+      stream: model.competencyTestDetailBase,
+      initialData: Resource.none(),
+      dataBuilder: (context, data) {
+        if(data?.status == Status.loading){
+          return const Center(child: CircularProgressIndicator(),);
+        }
+        if(data?.status == Status.success){
+          return Stack(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                child:  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListItem(
+                                image: AppImages.personIcon,
+                                name: enquiryDetail.studentName??'',
+                                year: enquiryDetail.academicYear??'',
+                                id: enquiryDetail.enquiryNumber??'',
+                                title: enquiryDetail.school??'',
+                                subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
+                                buttontext: enquiryDetail.currentStage??'',
+                                status: enquiryDetail.status ?? '',),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CompetencyTestScheduledDetailsWidget(competencyTestDetails: model.competencyTestDetails.value),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListItem(
-                          image: AppImages.personIcon,
-                          name: enquiryDetail.studentName??'',
-                          year: enquiryDetail.academicYear??'',
-                          id: enquiryDetail.enquiryNumber??'',
-                          title: enquiryDetail.school??'',
-                          subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
-                          buttontext: enquiryDetail.currentStage??'',),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      AppStreamBuilder<Resource<CompetencyTestDetailBase>>(
-                        stream: model.competencyTestDetailBase,
-                        initialData: Resource.none(),
-                        dataBuilder: (context, result) {
-                          switch(result?.status){
-                            case Status.loading:
-                              return const Center(child: CircularProgressIndicator(),);
-                            case Status.success:
-                              return AppStreamBuilder<CompetencyTestDetails>(
-                                stream: model.competencyTestDetails,
-                                initialData: model.competencyTestDetails.value,
-                                dataBuilder: (context, data) {
-                                  return CompetencyTestScheduledDetailsWidget(competencyTestDetails: model.competencyTestDetails.value);
-                                },
-                              );
-                            default:
-                              return const Center(child: CommonText(text: 'Competency test details not found.'),);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 10,
-          left: 0,
-          right: 0,
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CommonElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(RoutePaths.cancelCompetencyTestPage,arguments: [enquiryDetail,model.competencyTestDetails.value]);
-                    },
-                    text: 'Cancel Test',
-                    borderColor: Theme.of(context).primaryColor,
-                    borderWidth: 1,
-                    width: 171.w,
-                    height: 40.h,
-                    textColor: Theme.of(context).primaryColor,
+              Visibility(
+                visible: data?.data?.data?.testResult != "Pass" && data?.data?.data?.testResult != "Fail",
+                child: Positioned(
+                  bottom: 10,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CommonElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(RoutePaths.cancelCompetencyTestPage,arguments: [enquiryDetail,model.competencyTestDetails.value]);
+                            },
+                            text: 'Cancel Test',
+                            borderColor: Theme.of(context).primaryColor,
+                            borderWidth: 1,
+                            width: 171.w,
+                            height: 40.h,
+                            textColor: Theme.of(context).primaryColor,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          CommonElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail,'competencyTestDetail': model.competencyTestDetails.value,'isReschedule': true}).then(
+                                (data){
+                                  if(data != null){
+                                    if(data is CompetencyTestDetails){
+                                      model.competencyTestDetails.value = data;
+                                    }
+                                  }
+                                }
+                               );
+                            },
+                            text: 'Reschedule Test',
+                            backgroundColor: AppColors.accent,
+                            width: 171.w,
+                            height: 40.h,
+                            textColor: AppColors.accentOn,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  CommonElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail,'competencyTestDetail': model.competencyTestDetails.value,'isReschedule': true}).then(
-                        (data){
-                          if(data != null){
-                            if(data is CompetencyTestDetails){
-                              model.competencyTestDetails.value = data;
-                            }
-                          }
-                        }
-                       );
-                    },
-                    text: 'Reschedule Test',
-                    backgroundColor: AppColors.accent,
-                    width: 171.w,
-                    height: 40.h,
-                    textColor: AppColors.accentOn,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
+            ],
+          );  
+        }
+        else{
+          return const Center(child: CommonText(text: 'Competency test details not found.'),);
+        }
+      }
     );
   }
 }

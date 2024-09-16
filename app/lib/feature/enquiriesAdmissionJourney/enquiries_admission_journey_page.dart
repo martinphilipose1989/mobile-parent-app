@@ -108,6 +108,7 @@ class EnquiryDetailArgs{
   int? formCompletionPercentage;
   String? isFrom;
   String? admissionStatus;
+  String? status;
 
   EnquiryDetailArgs({
     this.enquiryId,
@@ -123,6 +124,7 @@ class EnquiryDetailArgs{
     this.schoolVisitTime,
     this.formCompletionPercentage,
     this.isFrom,
-    this.admissionStatus
+    this.admissionStatus,
+    this.status
   });
 }

@@ -92,10 +92,12 @@ class RegistrationsDetailsPageView
           model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "BankInfo");
         }
         if(enquiryDetailArgs?.admissionStatus == "Approved"){
-          model.registrationDetails.addAll({
-            {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
-            {'name': 'VAS', 'isSelected': false, 'infoType': ''},
-          });
+          if(model.registrationDetails.any((element)=>(element["name"]!="Select Subject" || element["name"] != "VAS"))){
+            model.registrationDetails.addAll({
+              {'name': 'Select Subject', 'isSelected': false, 'infoType': ''},
+              {'name': 'VAS', 'isSelected': false, 'infoType': ''},
+            });
+          }
         }
         model.editRegistrationDetails.add(true);
         return null;
@@ -142,7 +144,8 @@ class RegistrationsDetailsPageView
                     title: enquiryDetailArgs?.school??'',
                     subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
                     buttontext: "${enquiryDetailArgs?.currentStage}",
-                    compeletion: enquiryDetailArgs?.formCompletionPercentage == null ? '': (enquiryDetailArgs?.formCompletionPercentage??0).toString(),
+                    compeletion: enquiryDetailArgs?.formCompletionPercentage == null ? '': "${enquiryDetailArgs?.formCompletionPercentage??0}% Completed",
+                    status: enquiryDetailArgs?.status??'',
                   ),
                   CommonSizedBox.sizedBox(height: 20, width: 10),
                   AppStreamBuilder<bool>(
@@ -228,7 +231,7 @@ class RegistrationsDetailsPageView
                 dataBuilder: (context, data) {
                   return Positioned(
                       right: 20,
-                      bottom: 150,
+                      bottom: 110,
                       child: data!
                           ? Menu(
                               height: 350.h,

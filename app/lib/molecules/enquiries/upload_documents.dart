@@ -124,8 +124,8 @@ class UploadDocuments extends StatelessWidget {
                               },
                               child: SvgPicture.asset(
                                 AppImages.uploadIcon,
-                                colorFilter: ColorFilter.mode(
-                                  model.isDocumentUploaded[index??0].value? Colors.black : Colors.black26, 
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.black, 
                                   BlendMode.srcIn, 
                                 ),
                               )

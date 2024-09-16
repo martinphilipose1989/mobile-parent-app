@@ -27,7 +27,7 @@ class CompetencyTestModel extends BasePageViewModel {
 
   String slotID = "";
 
-  DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  DateFormat dateFormat = DateFormat('d MMM yyyy');
 
   List<String> testMode = ["Online","Offline"];
 

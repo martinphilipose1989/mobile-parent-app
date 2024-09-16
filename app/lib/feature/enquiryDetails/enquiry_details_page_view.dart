@@ -122,6 +122,7 @@ class EnquiriesDetailsPageView
                             subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
                             buttontext: enquiryDetailArgs.currentStage??'',
                             compeletion: '',
+                            status: enquiryDetailArgs.status??'',
                           ),
                           const SizedBox(
                             height: 10,
@@ -333,7 +334,7 @@ class EnquiriesDetailsPageView
                 dataBuilder: (context, data) {
                   return Positioned(
                       right: 20,
-                      bottom: 100,
+                      bottom: 110,
                       child: data!
                           ? Menu(
                               height: 400.h,

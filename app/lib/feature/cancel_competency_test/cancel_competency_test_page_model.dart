@@ -24,7 +24,7 @@ class CancelCompetencyPageModel extends BasePageViewModel {
 
   CompetencyTestDetails? competencyTestDetailsData;
   TextEditingController controller = TextEditingController();
-  DateFormat dateFormat = DateFormat('d MMMM yyyy');
+  DateFormat dateFormat = DateFormat('d MMM yyyy');
   final formKey = GlobalKey<FormState>();
 
   Future<void> cancelCompetencyTest({required String enquiryID, required String competencyTestID}) async {
