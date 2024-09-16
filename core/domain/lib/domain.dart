@@ -60,4 +60,4 @@ export 'src/usecase/marketing/get_sibling_detail_usecase.dart';
 export 'src/usecase/marketing/select_optional_subject_usecase.dart';
 export 'src/usecase/marketing/add_vas_option_usecase.dart';
 export 'package:shared/shared.dart';
-
+export 'src/usecase/user/auth_usecase.dart';

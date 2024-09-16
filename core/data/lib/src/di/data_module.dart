@@ -18,11 +18,11 @@ abstract class DataModule {
   }
 
   @lazySingleton
-  UserRepository userRepositoryProvider(
-      DatabasePort databasePort, NetworkPort networkPort) {
-    return UserRepositoryImpl(databasePort, networkPort);
+  UserRepository userRepositoryProvider(DatabasePort databasePort,
+      NetworkPort networkPort, AppAuthPort appAuthPort) {
+    return UserRepositoryImpl(databasePort, networkPort, appAuthPort);
   }
-  
+
   @lazySingleton
   AdmissionRepository admissionRepository(
       DatabasePort databasePort, NetworkPort networkPort) {
@@ -31,14 +31,14 @@ abstract class DataModule {
 
   @lazySingleton
   CompetencyTestRepository competencyTestRepository(
-    DatabasePort databasePort, NetworkPort networkPort){
-      return CompetencyTestRepositoryImpl(networkPort);
+      DatabasePort databasePort, NetworkPort networkPort) {
+    return CompetencyTestRepositoryImpl(networkPort);
   }
 
   @lazySingleton
   RegistrationRepository registrationRepository(
-    DatabasePort databasePort, NetworkPort networkPort) {
-      return RegistrationRepositoryImpl(networkPort);
+      DatabasePort databasePort, NetworkPort networkPort) {
+    return RegistrationRepositoryImpl(networkPort);
   }
 
   @lazySingleton
