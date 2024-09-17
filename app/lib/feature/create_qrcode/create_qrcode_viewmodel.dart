@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'dart:typed_data';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -12,6 +14,7 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class CreateQrcodeViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final RequestGatepassUsecase _requestGatepassUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   final BehaviorSubject<Resource<CreateQrcodeResponseModel>> response =
       BehaviorSubject<Resource<CreateQrcodeResponseModel>>();
@@ -23,16 +26,17 @@ class CreateQrcodeViewModel extends BasePageViewModel {
 
   CreateQrcodeViewModel(
       {required this.exceptionHandlerBinder,
-      required RequestGatepassUsecase requestGatepassUsecase})
+      required RequestGatepassUsecase requestGatepassUsecase,
+      required this.flutterToastErrorPresenter})
       : _requestGatepassUsecase = requestGatepassUsecase;
 
   void requestGatePass() {
     qrCodeSubject.add(Resource.loading());
     final params = RequestGatepassUsecaseParams(
       requestBody: CreateQrcodeRequestModel(
-        email: "janedoe@example.com",
-        mobile: "+919090901235",
-        name: "John Doe",
+        email: "garykirsten@example.com",
+        mobile: "+919604024282",
+        name: "Garry Kirsten",
       ),
     );
     exceptionHandlerBinder.handle(block: () {
@@ -49,7 +53,11 @@ class CreateQrcodeViewModel extends BasePageViewModel {
           }
         }
         response.add(result);
-      }).onError((error) {});
+      }).onError((error) {
+        final err = error as NetworkError;
+        flutterToastErrorPresenter.show(
+            err.cause, navigatorKey.currentContext!, err.error.message);
+      });
     }).execute();
   }
 }
