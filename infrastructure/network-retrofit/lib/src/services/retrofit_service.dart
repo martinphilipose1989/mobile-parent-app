@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -21,6 +22,7 @@ import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_p
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/user/token_introspection_response.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -414,4 +416,12 @@ abstract class RetrofitService {
   @POST(NetworkProperties.requestGatePass)
   Future<HttpResponse<CreateQrcodeResponseEntity>> requestGatePass(
       @Body() CreateQrcodeRequestEntity requestBody);
+
+  // key cloak
+  @POST(NetworkProperties.tokenIntroSpect)
+  @FormUrlEncoded()
+  Future<HttpResponse<TokenIntrospectionResponseEntity>> introspectToken(
+      @Field("token") String token,
+      @Field("client_id") String clientId,
+      @Field("client_secret") String clientSecret);
 }

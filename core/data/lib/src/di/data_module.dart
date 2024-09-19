@@ -19,9 +19,15 @@ abstract class DataModule {
   }
 
   @lazySingleton
-  UserRepository userRepositoryProvider(DatabasePort databasePort,
-      NetworkPort networkPort, AppAuthPort appAuthPort) {
-    return UserRepositoryImpl(databasePort, networkPort, appAuthPort);
+  UserRepository userRepositoryProvider(
+    DatabasePort databasePort,
+    NetworkPort networkPort,
+    AppAuthPort appAuthPort,
+    @Named("ClientId") String clientId,
+    @Named("ClientSecret") String clientSecret,
+  ) {
+    return UserRepositoryImpl(
+        databasePort, networkPort, appAuthPort, clientId, clientSecret);
   }
 
   @lazySingleton

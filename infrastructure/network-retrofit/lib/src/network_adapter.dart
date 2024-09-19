@@ -744,4 +744,16 @@ class NetworkAdapter implements NetworkPort {
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse(
+      {required String token,
+      required String clientId,
+      required String clientSecret}) async {
+    final response = await safeApiCall(
+        apiService.introspectToken(token, clientId, clientSecret));
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
 }

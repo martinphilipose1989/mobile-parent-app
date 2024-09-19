@@ -128,4 +128,9 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, CreateQrcodeResponseModel>> requestGatePass(
       {required CreateQrcodeRequestModel requestBody});
+
+  Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse(
+      {required String token,
+      required String clientId,
+      required String clientSecret});
 }

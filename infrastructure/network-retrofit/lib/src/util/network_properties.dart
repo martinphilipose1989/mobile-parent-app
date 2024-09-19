@@ -36,4 +36,8 @@ class NetworkProperties {
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
   static const String requestGatePass =
       "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
+
+  // key cloak
+  static const String tokenIntroSpect =
+      "https://example.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
 }

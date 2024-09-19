@@ -103,6 +103,7 @@ export 'src/model/response/gatepass/create_qrcode_response_model.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';
+export 'src/model/response/user/token_introspect_reponse.dart';
 
 //utils
 export 'src/utils/validator.dart';
