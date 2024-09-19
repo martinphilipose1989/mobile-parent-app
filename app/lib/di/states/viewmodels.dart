@@ -1,3 +1,4 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
@@ -227,6 +228,7 @@ final enquiriesAdmissionsJourneyProvider = ChangeNotifierProvider.family<
 final createQrcodeViewModelProvider =
     ChangeNotifierProvider.autoDispose<CreateQrcodeViewModel>((ref) =>
         CreateQrcodeViewModel(
+            flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
             requestGatepassUsecase: getIt.get<RequestGatepassUsecase>(),
             exceptionHandlerBinder:
                 getIt.get<FlutterExceptionHandlerBinder>()));

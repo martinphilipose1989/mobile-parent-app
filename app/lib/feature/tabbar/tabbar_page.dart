@@ -34,19 +34,19 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
   }
 
-  @override
-  Future<bool> onBackPressed({param}) {
-    // TODO: implement onBackPressed
-    log("onback being called");
-    return super.onBackPressed(param: true);
-  }
+  // @override
+  // Future<bool> onBackPressed({param}) {
+  //   // TODO: implement onBackPressed
+  //   log("onback being called");
+  //   return super.onBackPressed(param: true);
+  // }
 
-  Future<bool> _onWillPop(bool showPopUp) {
-    if (showPopUp) {
-      CommonPopups().showAppClose(context, 'Are you sure you eant to exit?');
-    }
-    return Future.value(true);
-  }
+  // Future<bool> _onWillPop(bool showPopUp) {
+  //   if (showPopUp) {
+  //     CommonPopups().showAppClose(context, 'Are you sure you eant to exit?');
+  //   }
+  //   return Future.value(true);
+  // }
 
   @override
   Widget buildView(BuildContext context, TabbarViewModel model) {

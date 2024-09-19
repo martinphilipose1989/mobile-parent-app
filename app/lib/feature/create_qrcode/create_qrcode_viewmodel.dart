@@ -9,6 +9,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CreateQrcodeViewModel extends BasePageViewModel {
@@ -30,12 +31,13 @@ class CreateQrcodeViewModel extends BasePageViewModel {
       required this.flutterToastErrorPresenter})
       : _requestGatepassUsecase = requestGatepassUsecase;
 
-  void requestGatePass() {
+  void requestGatePass() async {
+    var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
     qrCodeSubject.add(Resource.loading());
     final params = RequestGatepassUsecaseParams(
       requestBody: CreateQrcodeRequestModel(
         email: "garykirsten@example.com",
-        mobile: "+919604024282",
+        mobile: phoneNumber,
         name: "Garry Kirsten",
       ),
     );
