@@ -14,6 +14,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 
 import 'services/retrofit_service.dart';
@@ -707,19 +708,53 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject({required List<SubjectSelectionRequest> subjectSelectionRequest,required String enquiryID}) async{
-    var response = await safeApiCall(apiService.selectOptionalSubject(subjectSelectionRequest: subjectSelectionRequest,enquiryID: enquiryID));
+  Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject(
+      {required List<SubjectSelectionRequest> subjectSelectionRequest,
+      required String enquiryID}) async {
+    var response = await safeApiCall(apiService.selectOptionalSubject(
+        subjectSelectionRequest: subjectSelectionRequest,
+        enquiryID: enquiryID));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
 
   @override
-  Future<Either<NetworkError, VasOptionResponse>> addVASOption({required String enquiryID,required VasOptionRequest vasOptionRequest}) async{
-    var response = await safeApiCall(apiService.addVASOption(enquiryID: enquiryID,vasOptionRequest: vasOptionRequest));
+  Future<Either<NetworkError, VasOptionResponse>> addVASOption(
+      {required String enquiryID,
+      required VasOptionRequest vasOptionRequest}) async {
+    var response = await safeApiCall(apiService.addVASOption(
+        enquiryID: enquiryID, vasOptionRequest: vasOptionRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, CreateQrcodeResponseModel>> requestGatePass(
+      {required CreateQrcodeRequestModel requestBody}) async {
+    final response = await safeApiCall(
+      apiService.requestGatePass(CreateQrcodeRequestEntity(
+          email: requestBody.email,
+          mobile: requestBody.mobile,
+          name: requestBody.name,
+          profileImage: requestBody.profileImage)),
+    );
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse(
+      {required String token,
+      required String clientId,
+      required String clientSecret}) async {
+    final response = await safeApiCall(
+        apiService.introspectToken(token, clientId, clientSecret));
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
   }
 
   @override

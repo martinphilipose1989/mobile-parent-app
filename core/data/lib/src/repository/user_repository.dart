@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
@@ -12,10 +11,14 @@ class UserRepositoryImpl extends UserRepository {
   final DatabasePort databaseProvider;
   final NetworkPort networkPort;
   final AppAuthPort appAuthPort;
+  final String clientId;
+  final String clientSecret;
+
   final SecureStorageService secureStorageService =
       GetIt.I<SecureStorageService>();
 
-  UserRepositoryImpl(this.databaseProvider, this.networkPort, this.appAuthPort);
+  UserRepositoryImpl(this.databaseProvider, this.networkPort, this.appAuthPort,
+      this.clientId, this.clientSecret);
 
   @override
   Future<Either<NetworkError, User>> loginWithEmail(
@@ -50,7 +53,6 @@ class UserRepositoryImpl extends UserRepository {
           errorType: ErrorType.unknown,
           message: "Unable to login"));
     } catch (exception) {
-      log("message $exception");
       switch (exception.runtimeType) {
         case LocalError:
           if (exception is LocalError) {
@@ -107,11 +109,20 @@ class UserRepositoryImpl extends UserRepository {
       // Log the error or handle it as needed
       return Left(
         LocalError(
-          errorType: ErrorType.storageError,
-          message: error.toString(),
-          cause: Exception(),
-        ),
+            errorType: ErrorType.storageError,
+            message: error.toString(),
+            cause: Exception()),
       );
     }
+  }
+
+  @override
+  Future<Either<NetworkError, TokenIntrospectionResponse>>
+      getTokenResponse() async {
+    final token = await secureStorageService
+        .getFromDisk(secureStorageService.accessTokenKey);
+
+    return await networkPort.getTokenResponse(
+        token: token, clientId: clientId, clientSecret: clientSecret);
   }
 }

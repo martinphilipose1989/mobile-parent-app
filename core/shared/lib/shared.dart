@@ -111,8 +111,12 @@ export 'src/model/response/kids_club_enrollment_detail/kids_club_enrollment_resp
 export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_detail.dart';
 export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response.dart';
 
+export 'src/model/request/gatepass/create_qrcode_request_model.dart';
+export 'src/model/response/gatepass/create_qrcode_response_model.dart';
+
 //login
 export 'src/model/response/login/auth_response.dart';
+export 'src/model/response/user/token_introspect_reponse.dart';
 
 //utils
 export 'src/utils/validator.dart';

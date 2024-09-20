@@ -47,8 +47,8 @@ class OtpPageModel extends BasePageViewModel {
               // Handle reloading state (if applicable)
               break;
             case Status.success:
-              Navigator.pushReplacementNamed(
-                  navigatorKey.currentContext!, RoutePaths.tabbar);
+              Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
+                  RoutePaths.tabbar, (route) => false);
               break;
             case Status.error:
               // Handle error, show error UI or messages
