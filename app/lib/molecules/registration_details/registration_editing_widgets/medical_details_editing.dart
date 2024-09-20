@@ -58,9 +58,37 @@ class MedicalDetailsEditing extends StatelessWidget {
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Year Of Hospitalization',
-                      keyboardType: const TextInputType.numberWithOptions(),
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       maxLength: 4,
+                      readOnly: true,
+                      onTap: (){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Select Year"),
+                              content: SizedBox(
+                                // Need to use container to add size constraint.
+                                width: 300,
+                                height: 300,
+                                child: YearPicker(
+                                  firstDate: DateTime(DateTime.now().year - 20, 1),
+                                  lastDate: DateTime(DateTime.now().year),
+                                  selectedDate: model.yearOfHospitalizationController.text.trim().isNotEmpty ? 
+                                    DateTime(int.parse(model
+                                          .yearOfHospitalizationController
+                                          .text)) : DateTime.now(),
+                                  onChanged: (DateTime dateTime) {
+                                    if(dateTime != null){
+                                      model.yearOfHospitalizationController.text = dateTime.year.toString();
+                                    }
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       controller: model.yearOfHospitalizationController,
                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Year Of Hospitalization'),
                     ),

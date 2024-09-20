@@ -1098,7 +1098,16 @@ class ParentInfoEditing extends StatelessWidget {
                                             "Vibgyor Student",
                                         labelName: "Date of birth",
                                         initialDate: data?.data?.data
-                                            ?.siblingProfile?.dob?? model.siblingDOB);
+                                            ?.siblingProfile?.dob?? model.siblingDOB,
+                                        onDateSelected: (newDate){
+                                          if(data!=null){
+                                            data.data?.data?.siblingProfile?.dob = newDate;
+                                          }
+                                          else{
+                                            model.siblingDOB = newDate;
+                                          }
+                                        },
+                                    );
                                   });
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),

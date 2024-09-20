@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/user/auth_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -242,6 +241,23 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetSubjectListUsecase getSubjectListUsecase(
+      RegistrationRepository registrationRepository) {
+    return GetSubjectListUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  GetPsaEnrollmentDetailUsecase getPsaEnrollmentDetailUsecase(
+      RegistrationRepository registrationRepository) {
+    return GetPsaEnrollmentDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  GetCafeteriaEnrollmentDetailUsecase getCafeteriaEnrollmentDetailUsecase(
+      RegistrationRepository registrationRepository) {
+    return GetCafeteriaEnrollmentDetailUsecase(registrationRepository);
+  }
+
   AuthUsecase authUsecase(UserRepository userRepository) {
     return AuthUsecase(userRepository: userRepository);
   }

@@ -27,6 +27,8 @@ class RoutePaths {
   static const String cancelCompetencyTestPage = '/cancelCompetencyTestPage';
   static const String enquiriesAdmissionsJourneyPage =
       '/enquiriesAdmissionsJourneyPage';
+  static const String cafeteriaDetailPage = '/cafeteriaDetailPage';
+  static const String psaDetailPage = '/psaDetailPage';
 
   // route to webview
   static const String webview = '/webview';

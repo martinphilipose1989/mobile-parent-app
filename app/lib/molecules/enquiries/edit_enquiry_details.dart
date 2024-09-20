@@ -1,11 +1,11 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class EditEnquiriesDetailsWidget extends StatelessWidget {
   EnquiriesDetailsPageModel model;
@@ -131,23 +131,31 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          CommonTextFormField(
+          // CommonTextFormField(
+          //   showAstreik: true,
+          //   labelText: "DOB",
+          //   controller: model.dobController,
+          //   readOnly: true,
+          //   onTap: ()async{
+          //     DateTime? dob = await showDatePicker(
+          //       context: context,
+          //       firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
+          //       lastDate: DateTime.now(),
+          //       barrierDismissible: true
+          //     );
+          //     if(dob!=null){
+          //       model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
+          //     }
+          //   },
+          //   validator: (value) => AppValidators.validateNotEmpty(value, "DOB", checkSpecialCharacters: false),
+          // ),
+          CommonDatePickerWidget(
+            initialDate: model.studentDob,
+            labelName: "DOB",
             showAstreik: true,
-            labelText: "DOB",
-            controller: model.dobController,
-            readOnly: true,
-            onTap: ()async{
-              DateTime? dob = await showDatePicker(
-                context: context,
-                firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
-                lastDate: DateTime.now(),
-                barrierDismissible: true
-              );
-              if(dob!=null){
-                model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
-              }
+            onDateSelected: (newDate) {
+              model.studentDob = newDate;
             },
-            validator: (value) => AppValidators.validateNotEmpty(value, "DOB", checkSpecialCharacters: false),
           ),
           const SizedBox(
             height: 20,

@@ -91,7 +91,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
    TextEditingController enquiryTypeController = TextEditingController();
    TextEditingController studentFirstNameController = TextEditingController();
    TextEditingController studentLastNameController = TextEditingController();
-   TextEditingController dobController = TextEditingController()  ;
+   TextEditingController dobController = TextEditingController();
    TextEditingController existingSchoolNameController = TextEditingController();
    TextEditingController globalIdController = TextEditingController();
    TextEditingController parentTypeController = TextEditingController();
@@ -112,6 +112,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   BehaviorSubject<bool> editRegistrationDetails =
       BehaviorSubject<bool>.seeded(false);
+
+  DateTime? studentDob;
 
   final List menuData = [
     {'image': AppImages.registrationIcon, 'name': "Registration"},
@@ -236,7 +238,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
         if(result.status == Status.success){
-          print("Location: ${result.data?.data?.toString()}");
           newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
           if(isEdit){
             addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
@@ -633,11 +634,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
+    print("Currnent Date:${DateTime.now()}");
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
+    studentDob = (detail.studentDetails?.dob??'').isNotEmpty ? DateTime.parse((detail.studentDetails?.dob??'').split('-').reversed.join('-'))
+      : DateTime.now();
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -660,6 +664,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
+    studentDob = DateTime.parse((detail.studentDetails?.dob ?? DateTime.now().toString()).replaceAll('-', '/'));
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
@@ -691,6 +696,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
+    studentDob = DateTime.parse((detail.studentDetails?.dob ?? DateTime.now().toString()).replaceAll('-', '/'));
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;

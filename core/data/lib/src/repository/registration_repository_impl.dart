@@ -45,4 +45,29 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   Future<Either<NetworkError, VasOptionResponse>> addVASOption({required String enquiryID,required VasOptionRequest vasOptionRequest}){
     return _networkPort.addVASOption(enquiryID: enquiryID,vasOptionRequest: vasOptionRequest);
   }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest}) {
+    return _networkPort.getSubjectList(subjectListingRequest: subjectListingRequest);
+  }
+
+  @override
+  Future<Either<NetworkError,PsaEnrollmentDetailResponseModel>> getPsaEnrollmentDetail({required VasDetailRequest vasDetailRequest}){
+    return _networkPort.getPsaEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
+
+  @override
+  Future<Either<NetworkError,CafeteriaEnrollmentResponseModel>> getCafeteriaEnrollmentDetail({required VasDetailRequest vasDetailRequest}){
+    return _networkPort.getCafeteriaEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
+
+  @override
+  Future<Either<NetworkError,SummerCampEnrollmentResponseModel>> getSummerCampEnrollmentDetail({required VasDetailRequest vasDetailRequest}){
+    return _networkPort.getSummerCampEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
+
+  @override
+  Future<Either<NetworkError,KidsClubEnrollmentResponseModel>> getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest}){
+    return _networkPort.getKidsClubEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
 }

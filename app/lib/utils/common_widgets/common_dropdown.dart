@@ -20,6 +20,7 @@ class CustomDropdownButton extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final String? intialValue;
   final bool isDisable;
+  final bool isSearchable;
 
   const CustomDropdownButton(
       {super.key,
@@ -35,7 +36,8 @@ class CustomDropdownButton extends StatefulWidget {
       this.onSingleSelect,
       this.intialValue,
       this.singleSelectItemSubject,
-      this.isDisable = false});
+      this.isDisable = false,
+      this.isSearchable = false});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -46,12 +48,14 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       BehaviorSubject<List<String>>.seeded([]);
 
   late BehaviorSubject<String> singleSelectItemSubject;
+  late TextEditingController textEditingController;
 
   String? selectedValue;
 
   @override
   void initState() {
     super.initState();
+    textEditingController = TextEditingController();
     if (widget.displayZerothIndex) {
       List<String> addedZerothIndex = [];
       addedZerothIndex.add(widget.items[0] ?? '');
@@ -75,6 +79,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   @override
   void dispose() {
     selectedItemsSubject.close();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -95,7 +100,6 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField2<String>(
                   isExpanded: true,
-
                   hint: Row(
                     children: [
                       Expanded(
@@ -142,20 +146,6 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                         fontSize: 12.sp,
                         height: 0.5.h),
                   ),
-                  // buttonStyleData: ButtonStyleData(
-                  //   height: 68.h,
-                  //   width: widget.width ?? 175.w,
-                  //   padding: const EdgeInsets.only(left: 14, right: 14),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(6),
-                  //     border: Border.all(
-                  //         color: widget.showBorderColor
-                  //             ? Colors.black26
-                  //             : Colors.transparent,
-                  //         width: 1),
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
                   iconStyleData: const IconStyleData(
                     icon: Icon(
                       Icons.keyboard_arrow_down_sharp,
@@ -182,6 +172,44 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     height: 40,
                     padding: EdgeInsets.only(left: 14, right: 14),
                   ),
+                  dropdownSearchData: widget.isSearchable ? DropdownSearchData(
+                    searchController: textEditingController,
+                    searchInnerWidgetHeight: 50,
+                    searchInnerWidget: Container(
+                      height: 50,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 4,
+                        right: 8,
+                        left: 8,
+                      ),
+                      child: TextFormField(
+                        expands: true,
+                        maxLines: null,
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          hintText: 'Search',
+                          hintStyle: const TextStyle(fontSize: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    searchMatchFn: (item, searchValue) {
+                      return item.value.toString().toLowerCase().contains(searchValue);
+                    },
+                  ) : null,
+                  onMenuStateChange: (isOpen) {
+                    if (!isOpen && widget.isSearchable) {
+                      textEditingController.clear();
+                    }
+                  },
                 ),
               ),
             ),

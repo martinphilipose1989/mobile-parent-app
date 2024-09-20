@@ -25,5 +25,6 @@ class NetworkProperties {
   static const String bloodGroup = '/api/blood-groups?fields=group';
   static const String occupation = '/api/co-occupations?fields[1]=Name&fields[2]=Short_Name&fields[3]=Order';
   static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
+  static const String subjetcList = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/list-school-subject';
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
 }

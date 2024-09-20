@@ -63,6 +63,15 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     String? nationality;
     @JsonKey(name: 'motherTongue')
     String? motherTongue;
+    @JsonKey(name: 'schoolId')
+    int? schoolId;
+    @JsonKey(name: 'boardId')
+    int? boardId;
+    @JsonKey(name: 'streamId')
+    int? streamId;
+    @JsonKey(name: 'academicYearId')
+    int? academicYearId;
+
 
     EnquiryDetailEntity({
         this.enquiryNumber,
@@ -93,6 +102,10 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
         this.subCaste,
         this.nationality,
         this.motherTongue,
+        this.schoolId,
+        this.academicYearId,
+        this.boardId,
+        this.streamId,
     });
   factory EnquiryDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$EnquiryDetailEntityFromJson(json);
@@ -130,6 +143,10 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     enquiryDetail.subCaste = subCaste;
     enquiryDetail.nationality = nationality;
     enquiryDetail.motherTongue = motherTongue;
+    enquiryDetail.schoolId = schoolId;
+    enquiryDetail.academicYearId = academicYearId;
+    enquiryDetail.boardId = boardId;
+    enquiryDetail.streamId = streamId;
     return enquiryDetail;
   }
 

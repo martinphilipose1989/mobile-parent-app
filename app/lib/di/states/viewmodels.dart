@@ -19,6 +19,9 @@ import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.d
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
+import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
+import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
+import 'package:app/feature/vas/psa/psa_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -72,7 +75,7 @@ final admissionsProvider =
   (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionListUsecase>()),
 );
 
-final admissionsDetailsProvider = ChangeNotifierProvider.family<
+final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
     AdmissionsDetailsViewModel, EnquiryDetailArgs>(
   (ref, args) => AdmissionsDetailsViewModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
@@ -114,8 +117,8 @@ final enquiriesPageModelProvider =
 );
 
 final enquiriesDetailsPageModelProvider =
-    ChangeNotifierProvider.family<EnquiriesDetailsPageModel, EnquiryDetailArgs>(
-  (ref, args) => EnquiriesDetailsPageModel(
+    AutoDisposeChangeNotifierProviderFamily<EnquiriesDetailsPageModel, EnquiryDetailArgs>(
+    (ref, args) => EnquiriesDetailsPageModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetNewAdmissionDetailUseCase>(),
       getIt.get<GetIvtDetailUsecase>(),
@@ -213,7 +216,7 @@ final commonChipListProvider =
   (ref) => CommonChipListViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
-final enquiriesAdmissionsJourneyProvider = ChangeNotifierProvider.family<
+final enquiriesAdmissionsJourneyProvider = AutoDisposeChangeNotifierProviderFamily<
     EnquiriesAdmissionsJourneyViewModel, EnquiryDetailArgs>(
   (ref, args) => EnquiriesAdmissionsJourneyViewModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
@@ -221,3 +224,21 @@ final enquiriesAdmissionsJourneyProvider = ChangeNotifierProvider.family<
       getIt.get<GetEnquiryDetailUseCase>(),
       args),
 );
+
+final cafeteriaPageModelProvider =
+    ChangeNotifierProvider.autoDispose<CafeteriaDetailViewModel>(
+  (ref) => CafeteriaDetailViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),)
+);
+
+final psaPageModelProvider =
+  ChangeNotifierProvider.autoDispose<PsaDetailViewModel>(
+    (ref) => PsaDetailViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+));
+
+final kidsClubPageModelProvider =
+  ChangeNotifierProvider.autoDispose<KidsClubViewModel>(
+    (ref) => KidsClubViewModel(
+        getIt.get<FlutterExceptionHandlerBinder>(),
+));

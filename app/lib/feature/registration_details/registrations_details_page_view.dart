@@ -254,7 +254,7 @@ class RegistrationsDetailsPageView
   Widget registrationsEditingWidgetAsPerIndex(int index,RegistrationsDetailsViewModel model,BuildContext context) {
     switch (index) {
       case 0:
-        return EnquiryAndStudentEditing(model: model,enquiryDetailArgs: enquiryDetailArgs??EnquiryDetailArgs(),);
+        return getEnquiryDetails(enquiryDetailArgs??EnquiryDetailArgs(), model, model.editRegistrationDetails.value);
       case 1:
         return AppStreamBuilder<Resource<ParentInfo>>(
           stream: model.parentDetail,
@@ -395,7 +395,7 @@ class RegistrationsDetailsPageView
   Widget registrationsWidgetAsPerIndex(int index, RegistrationsDetailsViewModel model) {
     switch (index) {
       case 0:
-        return getEnquiryDetails(enquiryDetailArgs!,model);
+        return getEnquiryDetails(enquiryDetailArgs!,model,model.editRegistrationDetails.value);
       case 1:
         return AppStreamBuilder<Resource<ParentInfo>>(
           stream: model.parentDetail,
@@ -494,7 +494,7 @@ class RegistrationsDetailsPageView
     }
   }
 
-  Widget getEnquiryDetails(EnquiryDetailArgs enquiryDetailArgs, RegistrationsDetailsViewModel model){
+  Widget getEnquiryDetails(EnquiryDetailArgs enquiryDetailArgs, RegistrationsDetailsViewModel model,bool isEditing){
     switch (enquiryDetailArgs.enquiryType) {
       case "IVT":
         return AppStreamBuilder<Resource<IVTDetail>>(
@@ -505,7 +505,12 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: result?.data);
+            return (isEditing)? EnquiryAndStudentEditing(
+                          model: model,
+                          enquiryDetailArgs:
+                              enquiryDetailArgs,
+                        )
+                      : EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: result?.data);
           case Status.error:
             return const Center(child: Text('Enquiries not found'),);
           default:
@@ -521,7 +526,12 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,psaDetail: result?.data);
+            return (isEditing)? EnquiryAndStudentEditing(
+                          model: model,
+                          enquiryDetailArgs:
+                              enquiryDetailArgs,
+                        )
+                      : EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,psaDetail: result?.data);
           case Status.error:
             return const Center(child: Text('Enquiries not found'),);
           default:
@@ -537,7 +547,12 @@ class RegistrationsDetailsPageView
           case Status.loading:
           return const Center(child: CircularProgressIndicator(),);
           case Status.success:
-            return EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,newAdmissionDetail: result?.data?.data);
+            return (isEditing)? EnquiryAndStudentEditing(
+                          model: model,
+                          enquiryDetailArgs:
+                              enquiryDetailArgs,
+                        )
+                      : EnquiryAndStudentDetails(enquiryDetailArgs: enquiryDetailArgs,newAdmissionDetail: result?.data?.data);
           case Status.error:
             return const Center(child: Text('Enquiries not found'),);
           default:

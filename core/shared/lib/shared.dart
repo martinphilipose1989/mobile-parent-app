@@ -97,6 +97,19 @@ export 'src/model/response/subject_selection/subject_detail_element.dart';
 export 'src/model/response/subject_selection/subject_detail_response.dart';
 export 'src/model/response/vas_option/vas_option_response.dart';
 export 'src/const/constants.dart';
+export 'src/model/response/psa_enrollment_detail/batch_model.dart';
+export 'src/model/response/psa_enrollment_detail/fee_category.dart';
+export 'src/model/response/psa_enrollment_detail/fee_sub_category.dart';
+export 'src/model/response/psa_enrollment_detail/fee_sub_type.dart';
+export 'src/model/response/psa_enrollment_detail/period_of_service.dart';
+export 'src/model/response/psa_enrollment_detail/psa_enrollment_detail.dart';
+export 'src/model/response/psa_enrollment_detail/psa_enrollment_detail_response.dart';
+export 'src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_detail.dart';
+export 'src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_responses.dart';
+export 'src/model/response/kids_club_enrollment_detail/kids_club_enrollment_detail.dart';
+export 'src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response.dart';
+export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_detail.dart';
+export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';

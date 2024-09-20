@@ -721,4 +721,45 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest}) async{
+    var response = await safeApiCall(apiService.getSubjectList(subjectListingRequest: subjectListingRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError,PsaEnrollmentDetailResponseModel>> getPsaEnrollmentDetail({required VasDetailRequest vasDetailRequest}) async{
+    var response = await safeApiCall(apiService.getPsaEnrollmentDetail(psaEnrollmentDetailRequest: vasDetailRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError,CafeteriaEnrollmentResponseModel>> getCafeteriaEnrollmentDetail({required VasDetailRequest vasDetailRequest}) async{
+    var response = await safeApiCall(apiService.getCafeteriaEnrollmentDetail(cafeteriaEnrollmentDetail: vasDetailRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError,SummerCampEnrollmentResponseModel>> getSummerCampEnrollmentDetail({required VasDetailRequest vasDetailRequest}) async{
+    var response = await safeApiCall(apiService.getSummerCampEnrollmentDetail(summerCampEnrollmentDetail: vasDetailRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  } 
+
+  @override
+  Future<Either<NetworkError,KidsClubEnrollmentResponseModel>> getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest}) async{
+    var response = await safeApiCall(apiService.getKidsClubEnrollmentDetail(kidsClubEnrollmentDetail: vasDetailRequest));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+  
 }

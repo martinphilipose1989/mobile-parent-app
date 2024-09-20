@@ -17,6 +17,8 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
+import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/molecules/payments/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/cheque_page.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
@@ -178,6 +180,12 @@ class AppRouter {
           ),
           settings: const RouteSettings(name: RoutePaths.cancelCompetencyTestPage)
         );
+
+      case RoutePaths.cafeteriaDetailPage:
+        return CupertinoPageRoute(builder: (context)=> const CafeteriaPage());
+
+      case RoutePaths.psaDetailPage:
+        return CupertinoPageRoute(builder: (context) => const PsaDetailPage());
 
       default:
         // Replace by Empty Page

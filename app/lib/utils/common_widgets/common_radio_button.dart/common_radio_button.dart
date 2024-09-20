@@ -46,8 +46,8 @@ class CommonRadioButtonWidget<T> extends StatelessWidget {
           activeColor: Theme.of(context).colorScheme.primary,
           groupValue: snapshot.data,
           onChanged: (T? newValue) {
-            commonRadioButton.selectItem(newValue);
             onOptionSelected?.call(newValue);
+            commonRadioButton.selectItem(newValue);
           },
         );
       },

@@ -29,5 +29,8 @@ class EnquiryDetail{
     String? subCaste;
     String? nationality;
     String? motherTongue;
-
+    int? schoolId;
+    int? boardId;
+    int? streamId;
+    int? academicYearId;
 }

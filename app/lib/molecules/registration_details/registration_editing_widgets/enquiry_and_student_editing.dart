@@ -2,6 +2,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -10,7 +11,6 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class EnquiryAndStudentEditing extends StatelessWidget {
   final RegistrationsDetailsViewModel model;
@@ -172,23 +172,14 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      CommonTextFormField(
+                      CommonDatePickerWidget(
+                        labelName: "DOB",
                         showAstreik: true,
-                        labelText: "DOB",
-                        controller: model.dobController,
-                        readOnly: true,
-                        onTap: ()async{
-                          DateTime? dob = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime(DateTime.now().year-20,DateTime.now().month,DateTime.now().day),
-                            lastDate: DateTime.now(),
-                            barrierDismissible: true
-                          );
-                          if(dob!=null){
-                            model.dobController.text = DateFormat('dd/MM/yyyy').format(dob);
-                          }
+                        initialDate: model.studentDob,
+                        onDateSelected: (newDate) {
+                          model.studentDob = newDate;
+                          print("###Changed Date: ${model.studentDob}");
                         },
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Date of birth',checkSpecialCharacters: false),
                       ),
                       const SizedBox(
                         height: 20,

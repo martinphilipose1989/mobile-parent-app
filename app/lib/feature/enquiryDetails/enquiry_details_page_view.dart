@@ -39,17 +39,16 @@ class EnquiriesDetailsPageView
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
-      model.showMenuOnFloatingButton.add(false);
       if(model.selectedValue.value == 0){
         if(enquiryDetailArgs.enquiryType == "IVT"){
         model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-      }
-      else if(enquiryDetailArgs.enquiryType == "PSA"){
-        model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-      }
-      else{
-        model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-      }
+        }
+        else if(enquiryDetailArgs.enquiryType == "PSA"){
+          model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
+        }
+        else{
+          model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
+        }
         model.getMdmAttribute(infoType: 'grade');
         model.getMdmAttribute(infoType: 'schoolLocation');
         model.getMdmAttribute(infoType: 'gender');
@@ -203,7 +202,7 @@ class EnquiriesDetailsPageView
                                                 if(snapshot?.status == Status.success){
                                                   return UploadDocuments(model: model,enquiryID: enquiryDetailArgs.enquiryId??'',enquiryDetail: snapshot?.data?.data,);
                                                 }
-                                                if(snapshot?.status == Status.loading){
+                                                if(snapshot?.status == Status.loading || snapshot?.status == Status.none){
                                                   return const Center(child: CircularProgressIndicator(),);
                                                 }
                                                 else{
@@ -213,7 +212,7 @@ class EnquiriesDetailsPageView
                                             )
                                             : model.editRegistrationDetails.value
                                                 ? SingleChildScrollView(
-                                                  child: (enquiryDetailArgs.enquiryType == "New Admission")? AppStreamBuilder<Resource<NewAdmissionBase>>(
+                                                  child: ((enquiryDetailArgs.enquiryType??'').contains("New Admission"))? AppStreamBuilder<Resource<NewAdmissionBase>>(
                                                   stream: model.newAdmissionDetail,
                                                   initialData: Resource.none(),
                                                   dataBuilder: (context, snapshot) {
@@ -223,8 +222,11 @@ class EnquiriesDetailsPageView
                                                     if(snapshot?.status == Status.success){
                                                       return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs, newAdmissionDetail: model.newAdmissionDetails?.value,model: model,);
                                                     }
-                                                    else{
+                                                    if(snapshot?.status == Status.error){
                                                       return const CommonText(text: "Details not found");
+                                                    }
+                                                    else{
+                                                      return const CircularProgressIndicator();
                                                     }
                                                   }
                                                 ) : (enquiryDetailArgs.enquiryType == "PSA") ? 
@@ -238,8 +240,11 @@ class EnquiriesDetailsPageView
                                                         if(snapshot?.status == Status.success){
                                                           return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,psaDetail: model.psaDetails?.value, model: model,);
                                                         }
-                                                        else{
+                                                        if (snapshot?.status == Status.error){
                                                           return const CommonText(text: "Details not found");
+                                                        }
+                                                        else{
+                                                          return const CircularProgressIndicator();
                                                         }
                                                       }
                                                     ) : AppStreamBuilder<Resource<IVTBase>>(
@@ -252,8 +257,11 @@ class EnquiriesDetailsPageView
                                                         if(snapshot?.status == Status.error){
                                                           return const CommonText(text: "Details not found");
                                                         }
-                                                        else {
+                                                        if(snapshot?.status == Status.error) {
                                                           return EditEnquiriesDetailsWidget(enquiryDetailArgs: enquiryDetailArgs,ivtDetail: model.ivtDetails?.value,model: model,);
+                                                        }
+                                                        else{
+                                                          return const CircularProgressIndicator();
                                                         }
                                                       }
                                                     )
@@ -262,7 +270,7 @@ class EnquiriesDetailsPageView
                                                       stream: model.ivtDetail,
                                                       initialData: Resource.none(),
                                                       dataBuilder: (context, snapshot) {
-                                                        if(snapshot?.status == Status.loading){
+                                                        if(snapshot?.status == Status.loading || snapshot?.status == Status.none){
                                                          return const CircularProgressIndicator();
                                                         }
                                                         if(snapshot?.status == Status.error){
@@ -276,7 +284,7 @@ class EnquiriesDetailsPageView
                                                       stream: model.psaDetail,
                                                       initialData: Resource.none(),
                                                       dataBuilder: (context, snapshot) {
-                                                        if(snapshot?.status == Status.loading){
+                                                        if(snapshot?.status == Status.loading || snapshot?.status == Status.loading || snapshot?.status == Status.none){
                                                           return const CircularProgressIndicator();
                                                         }
                                                         if(snapshot?.status == Status.error){
@@ -290,7 +298,7 @@ class EnquiriesDetailsPageView
                                                           stream: model.newAdmissionDetail,
                                                           initialData: Resource.none(),
                                                           dataBuilder: (context, snapshot) {
-                                                            if(snapshot?.status == Status.loading){
+                                                            if(snapshot?.status == Status.loading || snapshot?.status == Status.loading ||snapshot?.status ==Status.none){
                                                               return const CircularProgressIndicator();
                                                             }
                                                             if(snapshot?.status == Status.error){

@@ -314,6 +314,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController studentsMotherContactController =
       TextEditingController();
   TextEditingController studentsMotherEmailController = TextEditingController();
+  DateTime? studentDob;
 
   //PSA-specific controllers
   BehaviorSubject<String> psaSubTypeSubject =
@@ -1370,6 +1371,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+        ? DateTime.parse(
+            (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+        : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     religionController.text = detail.studentDetails?.religion ?? '';
     casteController.text = detail.studentDetails?.caste ?? '';
@@ -1422,6 +1427,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+        ? DateTime.parse(
+            (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+        : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     religionController.text = detail.studentDetails?.religion ?? '';
     casteController.text = detail.studentDetails?.caste ?? '';
@@ -1483,6 +1492,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+        ? DateTime.parse(
+            (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+        : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     religionController.text = detail.studentDetails?.religion ?? '';
     casteController.text = detail.studentDetails?.caste ?? '';
@@ -1916,7 +1929,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       selectedBloodGroup.add(medicalDetails.bloodGroup?.value ?? '');
       selectedBloodGroupEntity = medicalDetails.bloodGroup;
     } else {
-      selectedBloodGroup.value = medicalDetails.bloodGroup;
+      selectedBloodGroup.value = medicalDetails.bloodGroup??'';
       if ((bloodGroupAttribute ?? []).any((element) =>
           (element.attributes?.name ?? '')
               .contains(medicalDetails.bloodGroup ?? ''))) {

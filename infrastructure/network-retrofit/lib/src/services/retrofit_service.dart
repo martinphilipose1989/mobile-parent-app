@@ -8,6 +8,7 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
+import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
@@ -16,9 +17,12 @@ import 'package:network_retrofit/src/model/response/finance/get_store_payment/ge
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
+import 'package:network_retrofit/src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
+import 'package:network_retrofit/src/model/response/psa_enrollment_detail/psa_enrollment_detail_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -430,5 +434,30 @@ abstract class RetrofitService {
     {@Body() required VasOptionRequest vasOptionRequest,
     @Path("enquiryId") required String enquiryID}
   );
+
+  @GET(NetworkProperties.subjetcList)
+  Future<HttpResponse<VasOptionResponseEntity>> getSubjectList(
+    {@Body() required SubjectListingRequest subjectListingRequest,}
+  );
+
+  @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/psa-details')
+  Future<HttpResponse<PsaEnrollmentDetailResponseEntity>> getPsaEnrollmentDetail(
+    {@Body() required VasDetailRequest psaEnrollmentDetailRequest,}
+  ); 
+
+  @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/cafeteria-details')
+  Future<HttpResponse<CafeteriaEnrollmentResponseEntity>> getCafeteriaEnrollmentDetail({
+    @Body() required VasDetailRequest cafeteriaEnrollmentDetail
+  }); 
+
+  @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/summer-camp-details')
+  Future<HttpResponse<SummerCampEnrollmentResponseEntity>> getSummerCampEnrollmentDetail({
+    @Body() required VasDetailRequest summerCampEnrollmentDetail
+  });
+
+  @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/kids-club-details')
+  Future<HttpResponse<KidsClubEnrollmentResponseEntity>> getKidsClubEnrollmentDetail({
+    @Body() required VasDetailRequest kidsClubEnrollmentDetail
+  });
 }
 

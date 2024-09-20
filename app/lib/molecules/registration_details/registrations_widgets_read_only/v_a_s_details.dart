@@ -1,4 +1,5 @@
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
@@ -27,30 +28,41 @@ class VASDetails extends StatelessWidget {
         ),
         VasQuestions(
             question: "Would You Like To Opt For Transportation?",
-            commonRadioButton: model.radioButtonTransport),
+            commonRadioButton: model.radioButtonTransport,
+            vasOption: "Transport",
+        ),
         VasQuestions(
             question: "Would You Like To Opt For Cafeteria?",
-            commonRadioButton: model.radioButtonCafeteria),
+            commonRadioButton: model.radioButtonCafeteria,
+            vasOption: "Cafeteria",
+        ),
         VasQuestions(
             question: "Would You Like To Opt For PSA(Post School Activities)?",
-            commonRadioButton: model.radioButtonPsa),
+            commonRadioButton: model.radioButtonPsa,
+            vasOption: "PSA",
+        ),
         VasQuestions(
-            question: "Would You Like To Opt For Hostel?",
-            commonRadioButton: model.radioButtonHostel),
+            question: "Would You Like To Opt For Summer Camp?",
+            commonRadioButton: model.radioButtonHostel,
+            vasOption: "Summer Camp",
+        ),
         VasQuestions(
             question: "Would You Like To Opt For Kids Club?",
-            commonRadioButton: model.radioButtonKidsClub)
+            commonRadioButton: model.radioButtonKidsClub,
+            vasOption: "Kids Club",
+        )
       ],
     );
   }
 }
 
-class VasQuestions<T> extends StatelessWidget {
+class VasQuestions extends StatelessWidget {
   const VasQuestions(
-      {super.key, required this.question, required this.commonRadioButton});
+      {super.key, required this.question, required this.commonRadioButton,required this.vasOption});
 
   final String question;
-  final CommonRadioButton<T> commonRadioButton;
+  final CommonRadioButton<String> commonRadioButton;
+  final String vasOption;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +79,13 @@ class VasQuestions<T> extends StatelessWidget {
               child: CommonRadioButtonWidget(
                   commonRadioButton: commonRadioButton,
                   value: "Yes",
-                  title: "Yes"),
+                  title: "Yes",
+                  onOptionSelected: (value){
+                    if(vasOption == "Cafeteria"){
+                      Navigator.pushNamed(context, RoutePaths.cafeteriaDetailPage);
+                    }
+                  },
+              ),
             ),
             Flexible(
               flex: 2,

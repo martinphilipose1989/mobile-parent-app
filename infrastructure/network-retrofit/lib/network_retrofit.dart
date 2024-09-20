@@ -23,6 +23,8 @@ export 'src/model/request/parent_info_update_request.dart';
 export 'src/model/request/get_sibling_detail_request.dart';
 export 'src/model/request/subject_selection_request.dart';
 export 'src/model/request/add_vas_option_request.dart';
+export 'src/model/request/subject_listing_request.dart';
+export 'src/model/request/vas_detail_request.dart';
 //models
 export 'src/model/response/get_registreation_info/parent_info_entity.dart';
 export 'src/model/response/get_registreation_info/contact_details_entity.dart';

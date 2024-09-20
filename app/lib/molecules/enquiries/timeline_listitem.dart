@@ -1,12 +1,10 @@
 import 'package:app/molecules/enquiries/dashline.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class TimelineListitem extends StatelessWidget {
@@ -34,12 +32,18 @@ class TimelineListitem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 25.h,
-                    width: 25.w,
+                    height: 30.h,
+                    width: 30.w,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
+                      shape: BoxShape.circle,
                       color: Colors.white,
                       border: Border.all(width: 5,color: Theme.of(context).primaryColor),
+                    ),
+                    child: Center(
+                      child: CommonText(text: '${index+1}',style: AppTypography.body1.copyWith(
+                            color: AppColors.primary,
+                            fontSize: 12
+                          ),),
                     ),
                   ),
                   const SizedBox(width: 20,),
