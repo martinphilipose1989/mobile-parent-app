@@ -1,8 +1,10 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page_model.dart';
 import 'package:app/feature/competency_test_detail/details_view_competency_test_page_model.dart';
+import 'package:app/feature/create_qrcode/create_qrcode_viewmodel.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -69,7 +71,8 @@ final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
 
 final admissionsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsViewModel>(
-  (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<GetAdmissionListUsecase>()),
+  (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetAdmissionListUsecase>()),
 );
 
 final admissionsDetailsProvider = ChangeNotifierProvider.family<
@@ -221,3 +224,11 @@ final enquiriesAdmissionsJourneyProvider = ChangeNotifierProvider.family<
       getIt.get<GetEnquiryDetailUseCase>(),
       args),
 );
+
+final createQrcodeViewModelProvider =
+    ChangeNotifierProvider.autoDispose<CreateQrcodeViewModel>((ref) =>
+        CreateQrcodeViewModel(
+            flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+            requestGatepassUsecase: getIt.get<RequestGatepassUsecase>(),
+            exceptionHandlerBinder:
+                getIt.get<FlutterExceptionHandlerBinder>()));

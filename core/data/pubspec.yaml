@@ -20,6 +20,7 @@ dependencies:
     path: ../shared
   network_retrofit:
     path: ../../infrastructure/network-retrofit
+
   flutter_appauth: ^7.0.0
 
 

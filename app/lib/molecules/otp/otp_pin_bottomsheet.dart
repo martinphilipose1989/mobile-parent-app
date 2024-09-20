@@ -90,11 +90,14 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                       context,
                       'Otp Verified Successfully!',
                       (shouldRoute) {
-                        SharedPreferenceHelper.saveString(mobileNumber, widget.otpPageModel.mobileOrEmailController.text.trim());
+                        SharedPreferenceHelper.saveString(
+                            mobileNumber,
+                            widget.otpPageModel.mobileOrEmailController.text
+                                .trim());
                         widget.otpPageModel.controller.stop();
                         widget.otpPageModel.openBottomSheet.add(false);
-                        Navigator.pushReplacementNamed(
-                            context, RoutePaths.tabbar);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutePaths.tabbar, (route) => false);
                       },
                     );
                   }

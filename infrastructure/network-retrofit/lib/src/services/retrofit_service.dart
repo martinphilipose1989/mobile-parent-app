@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -8,6 +9,7 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
+import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
@@ -15,10 +17,12 @@ import 'package:network_retrofit/src/model/response/finance/get_school_names/get
 import 'package:network_retrofit/src/model/response/finance/get_store_payment/get_store_payment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
+import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/user/token_introspection_response.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -87,348 +91,337 @@ abstract class RetrofitService {
   Future<HttpResponse<SchoolNamesEntity>> getSchoolNames(
       @Body() SchoolNamesRequest schoolNamesRequest);
 
- 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/enquiry-list')
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/enquiry-list')
   Future<HttpResponse<EnquiryListResponseEntity>> getEnquiryList(
-    {@Query('phone') required String phone,
-    @Query('pageNumber') required int pageNumber,
-    @Query('pageSize') required int pageSize}
-  );
+      {@Query('phone') required String phone,
+      @Query('pageNumber') required int pageNumber,
+      @Query('pageSize') required int pageSize});
 
   @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}')
-  Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail(
-    {@Path('enquiryID') required String enquiryID,}
-  );
+  Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail({
+    @Path('enquiryID') required String enquiryID,
+  });
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/timeline')
-  Future<HttpResponse<EnquiryTimeLineResponseEntity>> getEnquiryTimeline(
-    {@Path('enquiryID') required String enquiryID,}
-  );
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/timeline')
+  Future<HttpResponse<EnquiryTimeLineResponseEntity>> getEnquiryTimeline({
+    @Path('enquiryID') required String enquiryID,
+  });
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/admission-journey') 
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/admission-journey')
   Future<HttpResponse<AdmissionJourneyBaseEntity>> getAdmissionJourney(
-    {@Path('enquiryID') required String enquiryID,
-      @Query('type') required String type
-    }
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Query('type') required String type});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/new-admission') 
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/new-admission')
   Future<HttpResponse<NewAdmissionEntity>> getNewAdmissionDetail(
-    {@Path('enquiryID') required String enquiryID}
-  );
+      {@Path('enquiryID') required String enquiryID});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/new-admission')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/new-admission')
   Future<HttpResponse<NewAdmissionEntity>> updateNewAdmissionDetail(
-    {@Path('enquiryID') required String enquiryID,
-      @Body() required NewAdmissionDetailEntity newAdmissionDetail
-    }
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body() required NewAdmissionDetailEntity newAdmissionDetail});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/psa') 
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/psa')
   Future<HttpResponse<PsaBaseResponseEntity>> getPsaDetail(
-    {@Path('enquiryID') required String enquiryID}
-  );
+      {@Path('enquiryID') required String enquiryID});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/psa')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/psa')
   Future<HttpResponse<PsaBaseResponseEntity>> updatePsaDetail(
-    {@Path('enquiryID') required String enquiryID,
-      @Body() required PsaDetailResponseEntity psaDetail
-    }
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body() required PsaDetailResponseEntity psaDetail});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
   Future<HttpResponse<IvtBaseResponseEntity>> getIvtDetail(
-    {@Path('enquiryID') required String enquiryID}
-  );
+      {@Path('enquiryID') required String enquiryID});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
   Future<HttpResponse<IvtBaseResponseEntity>> updateIvtDetail(
-    {@Path('enquiryID') required String enquiryID,
-      @Body() required IvtDetailResponseEntity ivtDetail
-    }
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body() required IvtDetailResponseEntity ivtDetail});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}')
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}')
   Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
-    {@Path('enquiryID') required String enquiryID}
-  );
+      {@Path('enquiryID') required String enquiryID});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryId}/schedule')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryId}/schedule')
   Future<HttpResponse<SchoolVisitEntity>> createSchoolVisit(
-    {@Path('enquiryId') required String enquiryID,
-    @Body() required SchoolCreationRequest schoolCreationRequest}
-  );
+      {@Path('enquiryId') required String enquiryID,
+      @Body() required SchoolCreationRequest schoolCreationRequest});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/reschedule')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/reschedule')
   Future<HttpResponse<SchoolVisitEntity>> rescheduleSchoolVisit(
-    {@Path('enquiryID') required String schoolVisitID,
-    @Body() required RescheduleSchoolVisitRequest schoolCreationRequest}
-  );
+      {@Path('enquiryID') required String schoolVisitID,
+      @Body() required RescheduleSchoolVisitRequest schoolCreationRequest});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/cancel')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/cancel')
   Future<HttpResponse<SchoolVisitEntity>> cancelSchoolVisit(
-    {@Path('enquiryID') required String enquiryID,
-    @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest}
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/admission-list')
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/admission-list')
   Future<HttpResponse<AdmissionListResponseEntity>> getAdmissionList(
-    {@Query('phone') required String phone,
-    @Query('pageNumber') required int pageNumber,
-    @Query('pageSize') required int pageSize}
-  );
+      {@Query('phone') required String phone,
+      @Query('pageNumber') required int pageNumber,
+      @Query('pageSize') required int pageSize});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryId}')
-  Future<HttpResponse<CompetencyTestDetailResponseEntity>> getCompetencyTestDetail(
-    {@Path('enquiryId') required String enquiryID,}
-  );
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryId}')
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>>
+      getCompetencyTestDetail({
+    @Path('enquiryId') required String enquiryID,
+  });
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/create')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/create')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> createCompetencyTest(
-    {@Path('enquiryID') required String enquiryID,
-    @Body() required CompetencyTestCreationRequest competencyTestCreationRequest}
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body()
+      required CompetencyTestCreationRequest competencyTestCreationRequest});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/reschedule')
-  Future<HttpResponse<CompetencyTestDetailResponseEntity>> rescheduleCompetencyTest(
-    {@Path('enquiryID') required String enquiryID,
-    @Body() required CompetencyTestRescheduleRequest competencyTestCreationRequest}
-  );
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/reschedule')
+  Future<HttpResponse<CompetencyTestDetailResponseEntity>>
+      rescheduleCompetencyTest(
+          {@Path('enquiryID') required String enquiryID,
+          @Body()
+          required CompetencyTestRescheduleRequest
+              competencyTestCreationRequest});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/cancel')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/cancel')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> cancelCompetencyTest(
-    {@Path('enquiryID') required String enquiryID,
-    @Body() required CancelCompetencyTestRequest cancelCompetencyTestRequest}
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Body()
+      required CancelCompetencyTestRequest cancelCompetencyTestRequest});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}')
-  Future<HttpResponse<DownloadEnquiryFileResponseEntity>> downloadEnquiryDocument(
-    {@Path('enquiryID') required String enquiryID,
-    @Path('documentID') required String documentID
-    }
-  );
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}')
+  Future<HttpResponse<DownloadEnquiryFileResponseEntity>>
+      downloadEnquiryDocument(
+          {@Path('enquiryID') required String enquiryID,
+          @Path('documentID') required String documentID});
 
   @GET('{file_url}')
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadFile(
-    {@Path('file_url') required String fileUrl}
-  );
+      {@Path('file_url') required String fileUrl});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}/delete')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}/delete')
   Future<HttpResponse<DeleteEnquiryFileResponseEntity>> deleteEnquiryDocument(
-    {@Path('enquiryID') required String enquiryID,
-    @Path('documentID') required String documentID
-    }
-  );
+      {@Path('enquiryID') required String enquiryID,
+      @Path('documentID') required String documentID});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/upload-document/{documentID}')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/upload-document/{documentID}')
   @MultiPart()
-  Future<HttpResponse<EnquiryFileUploadResponseEntity>> uploadEnquiryDocument(
-    {@Path('enquiryID') required String enquiryID,
-      @Path('documentID') required String documentID,
-      @Part(name: 'file') required File file,
-    }
-  );
+  Future<HttpResponse<EnquiryFileUploadResponseEntity>> uploadEnquiryDocument({
+    @Path('enquiryID') required String enquiryID,
+    @Path('documentID') required String documentID,
+    @Part(name: 'file') required File file,
+  });
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/parent-details')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/parent-details')
   Future<HttpResponse<SingleResponse>> updateParentDetails(
       {@Path('enquiryId') required String enquiryId,
-        @Body() required ParentInfoEntity parentInfo}
-      );
+      @Body() required ParentInfoEntity parentInfo});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/contact-details')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/contact-details')
   Future<HttpResponse<SingleResponse>> updateContactDetails(
       {@Path('enquiryId') required String enquiryId,
-        @Body() required ContactDetailsEntity contactDetails
-      }
-      );
+      @Body() required ContactDetailsEntity contactDetails});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/medical-details')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/medical-details')
   Future<HttpResponse<SingleResponse>> updateMedicalDetails(
       {@Path('enquiryId') required String enquiryId,
-        @Body() required MedicalDetailsEntity medicalDetails
-      }
-      );
+      @Body() required MedicalDetailsEntity medicalDetails});
 
-  @PATCH('${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/bank-details')
+  @PATCH(
+      '${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}/bank-details')
   Future<HttpResponse<SingleResponse>> updateBankDetails(
       {@Path('enquiryId') required String enquiryId,
-        @Body() required BankDetailsEntity bankDetails
-      }
-      );
+      @Body() required BankDetailsEntity bankDetails});
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}') 
-  Future<HttpResponse<SingleResponse>> getRegistrationDetail(
-    {@Path("enquiryId") required String enquiryId,
-      @Query("infoType") required String infoType,
-    }
-  );
+  @GET(
+      '${NetworkProperties.marketingBaseURL}marketing/app/registration/{enquiryId}')
+  Future<HttpResponse<SingleResponse>> getRegistrationDetail({
+    @Path("enquiryId") required String enquiryId,
+    @Query("infoType") required String infoType,
+  });
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/school-visit/slots') 
-  Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots(
-    {@Query("enquiryId") required String enquiryId,
-    @Query("date") required String date,}
-  );
+  @GET('${NetworkProperties.marketingBaseURL}marketing/school-visit/slots')
+  Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots({
+    @Query("enquiryId") required String enquiryId,
+    @Query("date") required String date,
+  });
 
-  @GET('${NetworkProperties.marketingBaseURL}marketing/competency-test/slots') 
-  Future<HttpResponse<SlotsEntity>> getCompetencyTestSlots(
-    {@Query("enquiryId") required String enquiryId,
-    @Query("date") required String date,}
-  );
+  @GET('${NetworkProperties.marketingBaseURL}marketing/competency-test/slots')
+  Future<HttpResponse<SlotsEntity>> getCompetencyTestSlots({
+    @Query("enquiryId") required String enquiryId,
+    @Query("date") required String date,
+  });
 
-  
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.schoolLocation}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolLocation(
-    {@Header("Authorization") required String token,
-    @Query("fields") List<String> field1 = const ["name","short_name"],
-    }
-  );
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolLocation({
+    @Header("Authorization") required String token,
+    @Query("fields") List<String> field1 = const ["name", "short_name"],
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.schoolBoard}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolBoard(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolBoard({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "id",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.grade}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGrades(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGrades({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "order",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.gender}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGender(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getGender({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "order",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.cources}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCourses(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCourses({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "id",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.countries}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCountries(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCountries({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "number_code",
     @Query("short") String short = "id",
     @Query("sort") String sort = "id:asc",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.states}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStates(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStates({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "Shortform",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.city}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCities(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCities({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "Shortform",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.batch}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getBatch(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getBatch({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.shifts}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getShifts(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getShifts({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "id",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.stream}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStreams(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStreams({
+    @Header("Authorization") required String token,
     @Query("fields[1]") String field1 = "name",
     @Query("fields[2]") String field2 = "short_name",
     @Query("short") String short = "id",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.cancelationReason}')
-  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCancellationReason(
-    {@Header("Authorization") required String token,
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCancellationReason({
+    @Header("Authorization") required String token,
     @Query("fields") String field1 = "reason",
     @Query("short") String short = "id",
-    }
-  );
+  });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaSubType}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaSubType(
-    {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaCategory}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaCategory(
-    {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.psaSubCategory}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getPsaSubCategory(
-    {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.periodOfService}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getPeriodOfService(
-    {@Header("Authorization") required String token}
-  );
-  
+      {@Header("Authorization") required String token});
+
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.academicYear}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getAcademicYearAttribute(
-    {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.bloodGroup}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getBloodGroupAttribute(
-    {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.occupation}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getOccupationAttribute(
-      {@Header("Authorization") required String token}
-  );
+      {@Header("Authorization") required String token});
 
   @POST(NetworkProperties.enrollmentDetail)
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
-      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest}
-  );
+      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/subject-details')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/subject-details')
   Future<HttpResponse<SubjectDetailResponseEntity>> selectOptionalSubject(
-    {@Body() required List<SubjectSelectionRequest> subjectSelectionRequest,@Path("enquiryId") required String enquiryID}
-  );
+      {@Body() required List<SubjectSelectionRequest> subjectSelectionRequest,
+      @Path("enquiryId") required String enquiryID});
 
-  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas-options')
+  @POST(
+      '${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas-options')
   Future<HttpResponse<VasOptionResponseEntity>> addVASOption(
-    {@Body() required VasOptionRequest vasOptionRequest,
-    @Path("enquiryId") required String enquiryID}
-  );
-}
+      {@Body() required VasOptionRequest vasOptionRequest,
+      @Path("enquiryId") required String enquiryID});
 
+  @POST(NetworkProperties.requestGatePass)
+  Future<HttpResponse<CreateQrcodeResponseEntity>> requestGatePass(
+      @Body() CreateQrcodeRequestEntity requestBody);
+
+  // key cloak
+  @POST(NetworkProperties.tokenIntroSpect)
+  @FormUrlEncoded()
+  Future<HttpResponse<TokenIntrospectionResponseEntity>> introspectToken(
+      @Field("token") String token,
+      @Field("client_id") String clientId,
+      @Field("client_secret") String clientSecret);
+}

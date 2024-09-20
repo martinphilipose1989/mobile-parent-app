@@ -14,6 +14,7 @@ export 'src/repository/marketing/school_visit_repository.dart';
 export 'src/repository/marketing/competency_test_repository.dart';
 export 'src/repository/marketing/admission_repository.dart';
 export 'src/repository/marketing/registration_repository.dart';
+export 'src/repository/gatepass/gatepass_repository.dart';
 
 //use-cases
 export 'src/usecase/base/params.dart';
@@ -61,3 +62,4 @@ export 'src/usecase/marketing/select_optional_subject_usecase.dart';
 export 'src/usecase/marketing/add_vas_option_usecase.dart';
 export 'package:shared/shared.dart';
 export 'src/usecase/user/auth_usecase.dart';
+export 'src/usecase/gatepass/request_gatepass_usecase.dart';

@@ -19,10 +19,6 @@ final configurators = [
   //configure themes
   ThemesDependencyConfigurator(),
 
-  ServiceDependenciesConfigurator(),
-
-  AppAuthDependenciesConfigurator(),
-
   //configure database sources
   DatabaseDependencyConfigurator(),
 
@@ -36,6 +32,11 @@ final configurators = [
   DomainDependencyConfigurator(),
 
   FileUtilityDependencyConfigurator(),
+
+  // secure storage
+  ServiceDependenciesConfigurator(),
+  // key cloak
+  AppAuthDependenciesConfigurator(),
 ];
 
 Future configureDependencies(DependencyConfigurationContext context) async {
