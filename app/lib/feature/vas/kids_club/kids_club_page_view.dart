@@ -48,17 +48,13 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           SizedBox(
             height: 16.h,
           ),
-          const CommonText(
-            text: "Select Post School Activity",
-            style: AppTypography.subtitle2,
-          ),
           SizedBox(
             height: 10.h,
           ),
           CustomDropdownButton(
             items: [],
             isMutiSelect: false,
-            dropdownName: 'PSA Sub Type',
+            dropdownName: 'Kids Club Type',
             showAstreik: false,
             showBorderColor: false,
             onMultiSelect: (List<String> selectedValues) {},
@@ -69,7 +65,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           CustomDropdownButton(
             items: [],
             isMutiSelect: false,
-            dropdownName: 'PSA Category',
+            dropdownName: 'Period of service',
             showAstreik: false,
             showBorderColor: false,
             onMultiSelect: (List<String> selectedValues) {},
@@ -80,7 +76,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           CustomDropdownButton(
             items: [],
             isMutiSelect: false,
-            dropdownName: 'PSA Sub Category',
+            dropdownName: 'Month',
             showAstreik: false,
             showBorderColor: false,
             onMultiSelect: (List<String> selectedValues) {},
@@ -102,7 +98,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           CustomDropdownButton(
             items: [],
             isMutiSelect: false,
-            dropdownName: 'PSA Batch',
+            dropdownName: 'From Cafeteria Opt For',
             showAstreik: false,
             showBorderColor: false,
             onMultiSelect: (List<String> selectedValues) {},

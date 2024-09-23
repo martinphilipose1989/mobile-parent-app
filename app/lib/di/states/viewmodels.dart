@@ -24,6 +24,9 @@ import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/feature/vas/psa/psa_view_model.dart';
+import 'package:app/feature/vas/summer_camp/summer_camp_page_view.dart';
+import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
+import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -253,3 +256,15 @@ final kidsClubPageModelProvider =
     (ref) => KidsClubViewModel(
         getIt.get<FlutterExceptionHandlerBinder>(),
 ));
+
+final summerCampPageModelProvider =
+  ChangeNotifierProvider.autoDispose<SummerCampDetailViewModel>(
+    (ref) => SummerCampDetailViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+));
+
+final transportPageModelProvider =
+  ChangeNotifierProvider.autoDispose<TransportDetailViewModel>(
+    (ref) => TransportDetailViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+  ));

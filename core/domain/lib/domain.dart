@@ -63,6 +63,7 @@ export 'src/usecase/marketing/add_vas_option_usecase.dart';
 export 'src/usecase/marketing/get_subject_list_usecase.dart';
 export 'src/usecase/marketing/get_psa_enrollment_detail_usecase.dart';
 export 'src/usecase/marketing/get_cafeteria_enrollment_detail_usecase.dart';
+export 'src/usecase/marketing/get_kids_club_enrollment_detail_usecase.dart';
 export 'package:shared/shared.dart';
 export 'src/usecase/user/auth_usecase.dart';
 export 'src/usecase/gatepass/request_gatepass_usecase.dart';

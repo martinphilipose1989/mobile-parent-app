@@ -29,6 +29,9 @@ class RoutePaths {
       '/enquiriesAdmissionsJourneyPage';
   static const String cafeteriaDetailPage = '/cafeteriaDetailPage';
   static const String psaDetailPage = '/psaDetailPage';
+  static const String kidsClubPage = '/kidsClubPage';
+  static const String summerCampPage = '/summerCampPage';
+  static const String transportPage = '/transportPage';
 
   // route to webview
   static const String webview = '/webview';

@@ -142,4 +142,11 @@ class EnquiriesPageModel extends BasePageViewModel {
     'Consolidated Fees',
     'Transport Fees'
   ];
+
+  @override
+  void dispose() {
+    _getEnquiryResponse.close();
+    enquiries.value.clear();
+    super.dispose();
+  }
 }

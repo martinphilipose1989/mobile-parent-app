@@ -24,7 +24,6 @@ class OtpPageState extends AppBasePageState<OtpPageModel, OtpPage>
 
   @override
   void onModelReady(OtpPageModel model) {
-    model.mobileOrEmailController.text = '9000000002';
     model.tabController = TabController(length: 2, vsync: this);
   }
 

@@ -104,4 +104,10 @@ class AdmissionsViewModel extends BasePageViewModel {
     }
   }
 
+  @override
+  void dispose() {
+    _getAdmissionListResponse.close();
+    admissions.value.clear();
+    super.dispose();
+  }
 }

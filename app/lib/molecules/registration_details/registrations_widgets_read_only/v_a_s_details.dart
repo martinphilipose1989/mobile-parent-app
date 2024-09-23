@@ -84,6 +84,18 @@ class VasQuestions extends StatelessWidget {
                     if(vasOption == "Cafeteria"){
                       Navigator.pushNamed(context, RoutePaths.cafeteriaDetailPage);
                     }
+                    if(vasOption == 'PSA'){
+                      Navigator.pushNamed(context, RoutePaths.psaDetailPage);
+                    }
+                    if(vasOption == 'Kids Club'){
+                      Navigator.pushNamed(context, RoutePaths.kidsClubPage);
+                    }
+                    if(vasOption == "Transport"){
+                      Navigator.pushNamed(context, RoutePaths.transportPage);
+                    }
+                    else{
+                      Navigator.pushNamed(context, RoutePaths.summerCampPage);
+                    }
                   },
               ),
             ),

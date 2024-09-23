@@ -18,7 +18,10 @@ import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
+import 'package:app/feature/vas/kids_club/kids_club_page.dart';
 import 'package:app/feature/vas/psa/psa_page.dart';
+import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
+import 'package:app/feature/vas/transport/transport_page.dart';
 import 'package:app/molecules/payments/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/cheque_page.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
@@ -186,6 +189,15 @@ class AppRouter {
 
       case RoutePaths.psaDetailPage:
         return CupertinoPageRoute(builder: (context) => const PsaDetailPage());
+
+      case RoutePaths.kidsClubPage:
+        return CupertinoPageRoute(builder: (context)=> const KidsClubDeatilDetailPage(),);
+
+      case RoutePaths.summerCampPage:
+        return CupertinoPageRoute(builder: (context)=> const SummerCampDetailPage());
+
+      case RoutePaths.transportPage:
+        return CupertinoPageRoute(builder: (context)=> const TransportPage());
 
       default:
         // Replace by Empty Page
