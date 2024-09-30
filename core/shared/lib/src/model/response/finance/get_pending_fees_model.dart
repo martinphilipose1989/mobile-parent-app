@@ -115,7 +115,13 @@ class GetPendingFeesFeeModel {
   final int? isOverdue;
   final String? paymentMode;
   final String? instrumentNumber;
+  final String? feeSubCategoryIds;
+  final String? feeCategoryIds;
   bool isSelected;
+  String? discountedAmount;
+  bool isDiscountApplied;
+  String? couponId;
+  String? differenceAmount;
 
   GetPendingFeesFeeModel(
       {this.id,
@@ -211,7 +217,13 @@ class GetPendingFeesFeeModel {
       this.isOverdue,
       this.isSelected = false,
       this.instrumentNumber,
-      this.paymentMode});
+      this.feeSubCategoryIds,
+      this.feeCategoryIds,
+      this.discountedAmount,
+      this.paymentMode,
+      this.isDiscountApplied = false,
+      this.couponId,
+      this.differenceAmount});
 
   GetPendingFeesFeeModel copyWith(
       {dynamic enquiryId,
@@ -307,7 +319,13 @@ class GetPendingFeesFeeModel {
       int? isOverdue,
       bool? isSelected,
       String? instrumentNumber,
-      String? paymentMode}) {
+      String? feeSubCategoryIds,
+      String? feeCategoryIds,
+      String? discountedAmount,
+      String? paymentMode,
+      bool? isDiscountApplied,
+      String? couponId,
+      String? differenceAmount}) {
     return GetPendingFeesFeeModel(
         acknowledgementDate: acknowledgementDate ?? this.acknowledgementDate,
         acknowledgementNo: acknowledgementNo ?? this.acknowledgementNo,
@@ -399,7 +417,13 @@ class GetPendingFeesFeeModel {
         isOverdue: isOverdue ?? this.isOverdue,
         isSelected: isSelected ?? this.isSelected,
         instrumentNumber: instrumentNumber ?? this.instrumentNumber,
-        paymentMode: paymentMode ?? this.paymentMode);
+        paymentMode: paymentMode ?? this.paymentMode,
+        feeCategoryIds: feeCategoryIds ?? this.feeCategoryIds,
+        feeSubCategoryIds: feeSubCategoryIds ?? this.feeSubCategoryIds,
+        discountedAmount: discountedAmount ?? this.discountedAmount,
+        isDiscountApplied: isDiscountApplied ?? this.isDiscountApplied,
+        couponId: couponId ?? this.couponId,
+        differenceAmount: differenceAmount ?? this.differenceAmount);
   }
 }
 

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/cheque_page/fee_type_list.dart';
+import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,8 @@ class ChequePageModel extends BasePageViewModel {
 
   late int phoneNo;
 
+  int? selectedIndexForChequeImage;
+
   final List<String> chequeTypes = [
     'Current Dated Cheque',
     'Post Dated Cheque',
@@ -73,6 +76,11 @@ class ChequePageModel extends BasePageViewModel {
   List<FeeTypeList?> feesType = [];
 
   ValueNotifier<bool> amountIsNotEmpty = ValueNotifier<bool>(false);
+
+  final BehaviorSubject<bool> showCameraAndGalleryBottomsheet =
+      BehaviorSubject<bool>.seeded(false);
+
+  final PermissionHandlerService permissionHandler = PermissionHandlerService();
 
   void _addChequeControllers() {
     tokenNumberControllers.add(TextEditingController());
@@ -153,6 +161,7 @@ class ChequePageModel extends BasePageViewModel {
           .listen((result) {
         if (result.status == Status.success) {
           _pickFrontFileResponse.add(result);
+          showCameraAndGalleryBottomsheet.add(false);
           uploadImage(
               file: result.data!.file!,
               index: index,
@@ -229,8 +238,24 @@ class ChequePageModel extends BasePageViewModel {
               feeIds: List.generate(
                 selectedPendingFessList.length,
                 (index) => FeeIdModelRequest(
-                    collected: int.parse(
-                        selectedPendingFessList[index].pending!.split('.')[0]),
+                    amountBeforeDiscount:
+                        selectedPendingFessList[index].isDiscountApplied
+                            ? int.parse(selectedPendingFessList[index]
+                                    .pending
+                                    ?.split('.')[0] ??
+                                '0')
+                            : null,
+                    couponId: selectedPendingFessList[index].isDiscountApplied
+                        ? selectedPendingFessList[index].couponId ?? ''
+                        : null,
+                    collected: selectedPendingFessList[index].isDiscountApplied
+                        ? int.parse(selectedPendingFessList[index]
+                                .discountedAmount
+                                ?.split('.')[0] ??
+                            '')
+                        : int.parse(selectedPendingFessList[index]
+                            .pending!
+                            .split('.')[0]),
                     feeOrder: selectedPendingFessList[index].feeOrder ?? 0,
                     studentFeeId: selectedPendingFessList[index].id ?? 0),
               )));

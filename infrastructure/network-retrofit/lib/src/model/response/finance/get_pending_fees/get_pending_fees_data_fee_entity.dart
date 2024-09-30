@@ -42,8 +42,8 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   final DateTime? dueDate;
   @JsonKey(name: "actual_due_date")
   final DateTime? actualDueDate;
-  @JsonKey(name: "late_charge_amount")
-  final int? lateChargeAmount;
+  // @JsonKey(name: "late_charge_amount")
+  // var lateChargeAmount;
   @JsonKey(name: "late_charge_type")
   final dynamic lateChargeType;
   @JsonKey(name: "late_charge_max_amount")
@@ -176,6 +176,12 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   final String? acknowledgementNo;
   @JsonKey(name: "instrument_number")
   final String? instrumentNumber;
+  @JsonKey(name: "fee_type_id")
+  final int? feeTypeId;
+  @JsonKey(name: "fee_category_id")
+  final int? feeCategoryId;
+  @JsonKey(name: "fee_subcategory_id")
+  final int? feeSubCategoryIds;
 
   GetPendingFeesDataFeeEntity(
       {this.id,
@@ -196,7 +202,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
       this.gracePeriod,
       this.dueDate,
       this.actualDueDate,
-      this.lateChargeAmount,
+      //this.lateChargeAmount,
       this.lateChargeType,
       this.lateChargeMaxAmount,
       this.createdOn,
@@ -262,7 +268,10 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
       this.acknowledgementNo,
       this.receiptDate,
       this.instrumentNumber,
-      this.receiptNumber});
+      this.receiptNumber,
+      this.feeCategoryId,
+      this.feeSubCategoryIds,
+      this.feeTypeId});
 
   factory GetPendingFeesDataFeeEntity.fromJson(Map<String, dynamic> json) =>
       _$GetPendingFeesDataFeeEntityFromJson(json);
@@ -313,7 +322,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
         isAdvance: isAdvance,
         isDeenrolled: isDeenrolled,
         isOverdue: isOverdue,
-        lateChargeAmount: lateChargeAmount,
+        //lateChargeAmount: lateChargeAmount,
         lateChargeDuration: lateChargeDuration,
         lateChargeMaxAmount: lateChargeMaxAmount,
         lateChargeType: lateChargeType,
@@ -351,12 +360,15 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
         tax3: tax3,
         updatedOn: updatedOn,
         wOff: wOff,
+        feeCategoryIds: feeCategoryId.toString(),
+        feeSubCategoryIds: feeSubCategoryIds.toString(),
         wOffSegmentId: wOffSegmentId,
         yearStartDate: yearStartDate,
         acknowledgementDate: acknowledgementDate,
         acknowledgementNo: acknowledgementNo,
         receiptDate: receiptDate,
         instrumentNumber: instrumentNumber,
-        receiptNumber: receiptNumber);
+        receiptNumber: receiptNumber,
+        feeTypeId: feeTypeId);
   }
 }

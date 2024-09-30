@@ -1,6 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/attachemnt/choose_file_usecase.dart';
-import 'package:domain/src/usecase/finance/get_payment_order_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -65,5 +63,15 @@ abstract class DomainModule {
   @lazySingleton
   GetStoreImageUsecase setStoreImage(FinanceRepository repository) {
     return GetStoreImageUsecase(repository);
+  }
+
+  @lazySingleton
+  GetPaymentStatusUsecase getPaymentStatus(FinanceRepository repository) {
+    return GetPaymentStatusUsecase(repository);
+  }
+
+  @lazySingleton
+  GetCouponsUsecase getCoupons(AdminRepository repository) {
+    return GetCouponsUsecase(repository);
   }
 }

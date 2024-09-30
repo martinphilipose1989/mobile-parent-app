@@ -20,6 +20,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   json_annotation: '>4.4.0'
   dartz: ^0.10.1
+  connectivity_plus: ^6.0.5
 
 dev_dependencies:
   lints: ^3.0.0

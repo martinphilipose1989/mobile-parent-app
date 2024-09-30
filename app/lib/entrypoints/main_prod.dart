@@ -4,11 +4,15 @@ import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
 
-void main() {
+void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.prod,
     values: const FlavorValues(
-      apiBaseUrl: "https://api.openweathermap.org/",
+      apiBaseUrl: '',
+      mdmBaseUrl: '',
+      adminBaseUrl: '',
+      mdmToken: '',
+      financeBaseUrl: '',
       secrets: AppSecrets.appSecretsProd,
     ),
   );

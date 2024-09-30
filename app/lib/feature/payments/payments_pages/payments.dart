@@ -115,10 +115,14 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                           width: 140.w,
                           child: CommonElevatedButton(
                             onPressed: () {
-                              model.checkWhetherfeesIdExistInPayments();
+                              bool result =
+                                  model.checkWhetherfeesIdExistInPayments();
                               if (model.finalPaymentModelList.isEmpty) {
                                 CommonPopups().showWarning(context,
                                     'Sorry the selected fee do not satisfy payment mode');
+                              } else if (result) {
+                                CommonPopups().showWarning(context,
+                                    'You need to pay fees as per Order Of Preference');
                               } else {
                                 Navigator.pushNamed(
                                     context, RoutePaths.paymentsPage,

@@ -324,13 +324,14 @@ class PaymentsModel extends BasePageViewModel {
   List<GetPendingFeesPaymentModeModel> finalPaymentModelList = [];
   List<GetPendingFeesFeeModel> selectedPendingFessList = [];
 
-  void checkWhetherfeesIdExistInPayments() {
+  bool checkWhetherfeesIdExistInPayments() {
     List<GetPendingFeesFeeModel>? fees = _getPendingFeesModel.value.data!.fees;
     List<GetPendingFeesPaymentModeModel> paymentModes =
         _getPendingFeesModel.value.data!.paymentModes ?? [];
     List<int> selectedFees = [];
     List<GetPendingFeesFeeModel> tempList = [];
     List<GetPendingFeesPaymentModeModel> tempList2 = [];
+    List<GetPendingFeesFeeModel> feesAsPerFeeTypeId = [];
     for (var i = 0; i < (fees?.length ?? 0); i++) {
       if (fees![i].isSelected) {
         selectedFees.add(fees[i].feeId ?? 0);
@@ -349,9 +350,27 @@ class PaymentsModel extends BasePageViewModel {
       }
     }
     finalPaymentModelList = tempList2;
-  }
 
-  // end
+    for (var selectedPendingFee in selectedPendingFessList) {
+      if (selectedPendingFee.feeOrder != null) {
+        feesAsPerFeeTypeId = fees!
+            .where(
+              (element) => element.feeTypeId == selectedPendingFee.feeTypeId,
+            )
+            .toList();
+
+        for (var fee in feesAsPerFeeTypeId) {
+          if (fee.feeOrder! < selectedPendingFee.feeOrder! && !fee.isSelected) {
+            return true;
+          }
+        }
+      }
+    }
+
+    // end
+
+    return false;
+  }
 
   @override
   void dispose() {

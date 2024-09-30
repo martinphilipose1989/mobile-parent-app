@@ -2,6 +2,8 @@ import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/src/network_adapter.dart';
+import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -27,8 +29,9 @@ abstract class NetworkModule {
       );
 
   @singleton
-  ApiInterceptor provideApiInterceptor(@Named("ApiKey") String apiKey) =>
-      ApiInterceptor(apiKey);
+  ApiInterceptor provideApiInterceptor(
+          @Named("ApiKey") String apiKey, @Named('mdmToken') String mdmToken) =>
+      ApiInterceptor(apiKey, mdmToken);
 
   @singleton
   List<Interceptor> providerInterceptors(
@@ -48,9 +51,33 @@ abstract class NetworkModule {
   }
 
   @lazySingleton
-  RetrofitService providerRetrofitService(Dio dio) => RetrofitService(dio);
+  RetrofitService providerRetrofitService(
+          Dio dio,
+          @Named('mdmBaseUrl') String mdmBaseUrl,
+          @Named('financeBaseUrl') String financeBaseUrl) =>
+      RetrofitService(dio,
+          financeBaseUrl: financeBaseUrl, mdmBaseUrl: mdmBaseUrl);
 
   @lazySingleton
-  NetworkPort providerNetworkService(RetrofitService retrofitService) =>
-      NetworkAdapter(retrofitService);
+  FinanceRetrofitService providerFinanceRetrofitService(
+          Dio dio, @Named('financeBaseUrl') String financeBaseUrl) =>
+      FinanceRetrofitService(
+        dio,
+        financeBaseUrl: financeBaseUrl,
+      );
+
+  @lazySingleton
+  AdminRetorfitService providerAdminFinanceRetrofitService(
+          Dio dio, @Named('adminBaseUrl') String adminBaseUrl) =>
+      AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
+
+  @lazySingleton
+  NetworkPort providerNetworkService(
+          RetrofitService retrofitService,
+          FinanceRetrofitService financeRetrofitService,
+          AdminRetorfitService adminRetorfitService) =>
+      NetworkAdapter(
+          adminRetorfitService: adminRetorfitService,
+          apiService: retrofitService,
+          financeRetrofitService: financeRetrofitService);
 }

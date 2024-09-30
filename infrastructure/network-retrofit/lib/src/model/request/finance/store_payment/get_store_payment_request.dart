@@ -50,7 +50,9 @@ class GetStorePaymentRequest extends BaseLayerDataTransformer<
             .map((e) => FeeId(
                 studentFeeId: e.studentFeeId,
                 collected: e.collected,
-                feeOrder: e.feeOrder))
+                feeOrder: e.feeOrder,
+                amountBeforeDiscount: e.amountBeforeDiscount,
+                couponId: e.couponId))
             .toList(),
         paymentDetails: data.paymentDetails
             .map((e) => PaymentDetail(

@@ -80,10 +80,13 @@ class StudentFee {
   final int? id;
   final int? feeId;
   final String? amount;
+  final int? amountBeforeDiscount;
+  final String? couponId;
 
-  StudentFee({
-    this.id,
-    this.feeId,
-    this.amount,
-  });
+  StudentFee(
+      {this.id,
+      this.feeId,
+      this.amount,
+      this.amountBeforeDiscount,
+      this.couponId});
 }

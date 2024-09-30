@@ -111,7 +111,24 @@ class WebView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonWebView(
       url: webViewLink,
-      onUpdateVisitedHistory: (controller, url) {},
+      onPageFinished: (url) {
+        print("onPageFinished - $url");
+      },
+      onWebViewCreated: (controller) {},
+      onUpdateVisitedHistory: (controller, url) {
+        print("onUpdateVisitedHistory - $url");
+        if (url != null) {
+          if (url.toString().contains('success')) {
+            // Handle successful payment
+            print("Payment successful!");
+            Navigator.pop(context, true);
+          } else if (url.toString().contains('failure')) {
+            // Handle failed payment
+            print("Payment failed!");
+            Navigator.pop(context, false);
+          }
+        }
+      },
     );
   }
 }

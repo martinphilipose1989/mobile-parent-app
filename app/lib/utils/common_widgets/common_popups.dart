@@ -20,13 +20,14 @@ class CommonPopups {
   }
 
   // Method to show a success popup
-  showSuccess(BuildContext context, String message,
+  void showSuccess(BuildContext context, String message,
       Function(bool shouldRoute) onChanged) {
     _showDialog(context,
         icon: Icons.check_circle,
         iconColor: Colors.green,
         message: message,
         buttonText: 'OK',
+        barrierDismissible: false,
         onChanged: onChanged);
   }
 
@@ -38,6 +39,7 @@ class CommonPopups {
         iconColor: Colors.red,
         message: message,
         buttonText: 'OK',
+        barrierDismissible: true,
         onChanged: onChanged);
   }
 
@@ -52,8 +54,25 @@ class CommonPopups {
       iconColor: Colors.orange,
       message: message,
       buttonText: 'OK',
+      barrierDismissible: true,
       onChanged: (shouldRoute) {},
     );
+  }
+
+  // Method to show a gallery permission popup
+  void showGallerySettingPermission(
+      BuildContext context,
+      String message,
+      bool barrierDismissible,
+      IconData icon,
+      Function(bool shouldRoute) onChanged) {
+    _showDialog(context,
+        icon: icon,
+        iconColor: Theme.of(context).primaryColor,
+        message: message,
+        buttonText: 'OK',
+        barrierDismissible: barrierDismissible,
+        onChanged: onChanged);
   }
 
   void showAppClose(BuildContext context, String message) {}
@@ -83,10 +102,11 @@ class CommonPopups {
       required Color iconColor,
       required String message,
       required String buttonText,
+      required bool barrierDismissible,
       required Function(bool shouldRoute) onChanged}) {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(

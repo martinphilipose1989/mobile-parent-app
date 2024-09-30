@@ -59,11 +59,13 @@ android {
             dimension "flavors"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
+            resValue "string", "app_name", "Hubblehox (Dev)"
         }
         qa {
             dimension "flavors"
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
+            resValue "string", "app_name", "Hubblehox (QA)"
         }
         prod {
             dimension "flavors"

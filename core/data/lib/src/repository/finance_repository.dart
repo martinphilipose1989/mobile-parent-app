@@ -94,4 +94,10 @@ class FinanceRepositoryImpl extends FinanceRepository {
       {required file, required fileName}) {
     return networkPort.setStoreImage(file: file, fileName: fileName);
   }
+
+  @override
+  Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
+      {required String orderId}) {
+    return networkPort.getPaymentStatus(orderId: orderId);
+  }
 }

@@ -2,6 +2,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
+import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -43,7 +44,8 @@ class PaymentsPageState
   void onModelReady(PaymentsPageModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.paymentModes = widget.paymentPageeArguments.finalPaymentModelList;
-    model.selectedFees = widget.paymentPageeArguments.selectedPendingFessList;
+    model.selectedFees
+        .add(widget.paymentPageeArguments.selectedPendingFessList);
     model.phoneNo =
         ProviderScope.containerOf(context).read(paymentsModelProvider).phoneNo;
     model.amount.text = ProviderScope.containerOf(context)
@@ -51,6 +53,7 @@ class PaymentsPageState
         .totalAmount
         .value
         .toString();
+    model.finalAmount.value = model.amount.text;
   }
 
   @override
@@ -80,22 +83,27 @@ class PaymentsPageState
                 text: 'Total Amount',
                 style: AppTypography.body1.copyWith(color: Colors.grey),
               ),
-              AppStreamBuilder<int>(
-                stream: ProviderScope.containerOf(context)
-                    .read(paymentsModelProvider)
-                    .totalAmount,
-                initialData: ProviderScope.containerOf(context)
-                    .read(paymentsModelProvider)
-                    .totalAmount
-                    .value,
-                dataBuilder: (context, data) {
-                  return CommonText(
-                    text: CurrencyFormatter.formatToRupee(data.toString()),
-                    style: AppTypography.h6.copyWith(
-                        color: Theme.of(context).colorScheme.onTertiary),
-                  );
-                },
-              ),
+              // AppStreamBuilder<int>(
+              //   stream: ProviderScope.containerOf(context)
+              //       .read(paymentsModelProvider)
+              //       .totalAmount,
+              //   initialData: ProviderScope.containerOf(context)
+              //       .read(paymentsModelProvider)
+              //       .totalAmount
+              //       .value,
+              //   dataBuilder: (context, data) {
+              //     return
+              //   },
+              // ),
+              ValueListenableBuilder<String>(
+                  valueListenable: model.finalAmount,
+                  builder: (context, value, child) {
+                    return CommonText(
+                      text: CurrencyFormatter.formatToRupee(value),
+                      style: AppTypography.h6.copyWith(
+                          color: Theme.of(context).colorScheme.onTertiary),
+                    );
+                  })
             ],
           ),
           AppStreamBuilder<String>(
@@ -130,12 +138,51 @@ class PaymentsPageState
                         if (stringValue !=
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
-                              arguments: value.data?.data?.paymentLink ?? "");
+                                  arguments: WebviewArguments(
+                                      value.data?.data?.paymentLink ?? '',
+                                      value.data?.data?.order?.id ?? ''))
+                              .then(
+                            (value) {
+                              if (value == true) {
+                                ProviderScope.containerOf(context)
+                                    .read(paymentsModelProvider)
+                                    .getStudentList(model.phoneNo);
+                                ProviderScope.containerOf(context)
+                                    .read(paymentsModelProvider)
+                                    .paymentsLoader
+                                    .add(true);
+                                ProviderScope.containerOf(context)
+                                    .read(webViewProvider)
+                                    .timer
+                                    .cancel();
+                                CommonPopups().showSuccess(
+                                  context,
+                                  'Payment\nSuccessfull!',
+                                  (shouldRoute) {
+                                    Navigator.popUntil(
+                                        context,
+                                        ModalRoute.withName(
+                                            RoutePaths.payments));
+                                  },
+                                );
+                              } else {
+                                ProviderScope.containerOf(context)
+                                    .read(webViewProvider)
+                                    .timer
+                                    .cancel();
+                                CommonPopups().showError(
+                                  context,
+                                  'Payment\nFailure!',
+                                  (shouldRoute) {},
+                                );
+                              }
+                            },
+                          );
                         }
                       } else if (value.status == Status.error) {
                         CommonPopups().showError(
                             context,
-                            value.dealSafeAppError?.error?.message ?? '',
+                            value.dealSafeAppError?.error.message ?? '',
                             (shouldRoute) {});
                       }
                     },
@@ -152,39 +199,57 @@ class PaymentsPageState
                                   height: 40.h,
                                   width: 140.w,
                                   child: CommonElevatedButton(
-                                    onPressed: () {
-                                      switch (stringValue) {
-                                        case 'Current Date Cheque / Post Dated Cheque / ...':
-                                          model.selectedPaymentMode = 8;
-                                          break;
-                                        case 'Paytm':
-                                          model.setProviderIdAndServiceProvider(
-                                              stringValue ?? '');
+                                    onPressed: model
+                                                .selectedPaymentType.value ==
+                                            ""
+                                        ? () {}
+                                        : () {
+                                            switch (stringValue) {
+                                              case 'Current Date Cheque / Post Dated Cheque / ...':
+                                                model.selectedPaymentMode = 8;
+                                                break;
+                                              case 'Paytm':
+                                                model
+                                                    .setProviderIdAndServiceProvider(
+                                                        stringValue ?? '');
 
-                                          break;
-                                        case 'Easebuzz':
-                                          model.setProviderIdAndServiceProvider(
-                                              stringValue ?? '');
-                                          break;
-                                        default:
-                                      }
-                                      if (stringValue ==
-                                          'Current Date Cheque / Post Dated Cheque / ...') {
-                                        model.getValidateOnPay(
-                                            model.selectedPaymentMode);
-                                      } else {
-                                        model.getPaymentOrder(
-                                            model.selectedPaymentMode,
-                                            model.serviceProviderId);
-                                      }
-                                    },
+                                                break;
+                                              case 'Easebuzz':
+                                                model
+                                                    .setProviderIdAndServiceProvider(
+                                                        stringValue ?? '');
+                                                break;
+                                              default:
+                                            }
+                                            if (stringValue ==
+                                                'Current Date Cheque / Post Dated Cheque / ...') {
+                                              model.getValidateOnPay(
+                                                  model.selectedPaymentMode);
+                                            } else {
+                                              model.getPaymentOrder(
+                                                  model.selectedPaymentMode,
+                                                  model.serviceProviderId);
+                                            }
+                                          },
                                     text: 'Pay Now',
                                     backgroundColor:
-                                        Theme.of(context).colorScheme.secondary,
+                                        model.selectedPaymentType.value == ""
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .onTertiaryContainer
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                     textStyle: AppTypography.subtitle2.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onTertiary),
+                                        color:
+                                            model.selectedPaymentType.value ==
+                                                    ""
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .primaryContainer
+                                                : Theme.of(context)
+                                                    .colorScheme
+                                                    .onTertiary),
                                   ));
                     },
                   );

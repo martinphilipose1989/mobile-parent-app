@@ -15,6 +15,7 @@ import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
 import 'package:app/utils/common_widgets/common_webview.dart';
@@ -56,7 +57,10 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.paymentsPage));
       case RoutePaths.couponList:
         return CupertinoPageRoute(
-            builder: (context) => const CouponList(),
+            builder: (context) => CouponList(
+                  getPendingFeesFeeModel:
+                      settings.arguments as GetPendingFeesFeeModel,
+                ),
             settings: const RouteSettings(name: RoutePaths.couponList));
       case RoutePaths.chequePayment:
         return CupertinoPageRoute(
@@ -137,8 +141,8 @@ class AppRouter {
 
       case RoutePaths.webview:
         return CupertinoPageRoute(
-            builder: (context) => WebView(
-                  webViewLink: settings.arguments as String,
+            builder: (context) => WebviewPage(
+                  webviewArguments: settings.arguments as WebviewArguments,
                 ),
             settings: const RouteSettings(name: RoutePaths.webview));
       default:

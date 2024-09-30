@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:data/src/repository/admin_repository.dart';
 import 'package:data/src/repository/attachment_repository.dart';
 import 'package:data/src/repository/finance_repository.dart';
 import 'package:data/src/repository/user_repository.dart';
@@ -21,5 +22,10 @@ abstract class DataModule {
   AttachmentRepository attachmentRepositoryProvider(
       AttachmentPort attachmentPort) {
     return AttachmentRepositoryImpl(attachmentPort);
+  }
+
+  @lazySingleton
+  AdminRepository adminRepositoryProvider(NetworkPort networkPort) {
+    return AdminRepositoryImpl(networkPort);
   }
 }

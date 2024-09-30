@@ -1,8 +1,6 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/model/resource.dart';
-import 'package:app/molecules/cheque_page/cheque_fee_type_dropdown.dart';
-import 'package:app/molecules/cheque_page/fee_type_list.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_inputformatters.dart';
@@ -238,10 +236,12 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
                                       InkWell(
-                                          onTap: () {
-                                            model.pickImage(
-                                                UpoladFileTypeEnum.image,
-                                                index);
+                                          onTap: () async {
+                                            model.selectedIndexForChequeImage =
+                                                index;
+                                            model
+                                                .showCameraAndGalleryBottomsheet
+                                                .add(true);
                                           },
                                           child: AppStreamBuilder<
                                               Resource<GetStoreImageModel>>(

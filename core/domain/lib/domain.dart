@@ -9,6 +9,7 @@ export 'package:dartz/dartz.dart';
 //repository contracts
 export 'src/repository/user_repository.dart';
 export 'src/repository/finance_repository.dart';
+export 'src/repository/admin_repository.dart';
 
 //use-cases
 export 'src/usecase/base/params.dart';
@@ -27,3 +28,5 @@ export 'src/repository/attachment_repository.dart';
 export 'src/usecase/attachemnt/choose_file_usecase.dart';
 export 'src/usecase/finance/get_payment_order_usecase.dart';
 export 'src/usecase/finance/get_store_image_usecase.dart';
+export 'src/usecase/finance/get_payment_status_usecase.dart';
+export 'src/usecase/admin/get_coupons_usecase.dart';

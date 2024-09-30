@@ -45,4 +45,7 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
       {required File file, required String fileName});
+
+  Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
+      {required String orderId});
 }

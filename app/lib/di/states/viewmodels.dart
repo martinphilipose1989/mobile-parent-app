@@ -20,6 +20,7 @@ import 'package:app/feature/registration_details/registrations_details_view_mode
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
+import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -59,10 +60,10 @@ final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
   (ref) => PaymentsPageModel(
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<GetValidatePayNowUseCase>(),
-    getIt.get<GetPaymentOrderUsecase>(),
-  ),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetValidatePayNowUseCase>(),
+      getIt.get<GetPaymentOrderUsecase>(),
+      getIt.get<GetCouponsUsecase>()),
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
@@ -189,3 +190,7 @@ final paymentHistoryStudentLedgerProvider =
         (ref) => PaymentHistoryStudentLedgerModel(
               getIt.get<FlutterExceptionHandlerBinder>(),
             ));
+
+final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
+    (ref) => WebviewModel(getIt.get<FlutterExceptionHandlerBinder>(),
+        getIt.get<GetPaymentStatusUsecase>()));

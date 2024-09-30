@@ -42,4 +42,13 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
       {required file, required fileName});
+
+  Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
+      {required String orderId});
+
+  Future<Either<NetworkError, FetchCouponsListModel>> getCoupons(
+      {required String studentId,
+      required String feeTypeIds,
+      required String feeCategoryIds,
+      required String feeSubCategoryIds});
 }

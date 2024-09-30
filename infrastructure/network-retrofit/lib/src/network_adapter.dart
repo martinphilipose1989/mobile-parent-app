@@ -1,6 +1,7 @@
 import 'package:data/data.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
+import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
@@ -15,13 +16,20 @@ import 'package:network_retrofit/src/model/request/finance/payment_order/student
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
+import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'services/retrofit_service.dart';
 
 class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
+  final FinanceRetrofitService financeRetrofitService;
+  final AdminRetorfitService adminRetorfitService;
 
-  NetworkAdapter(this.apiService);
+  NetworkAdapter(
+      {required this.apiService,
+      required this.financeRetrofitService,
+      required this.adminRetorfitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -39,7 +47,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
       {required String type, required List<int> students}) async {
-    var response = await safeApiCall(apiService.getAcademicYear(
+    var response = await safeApiCall(financeRetrofitService.getAcademicYear(
         GetAcademicYearRequest(students: students, type: type)));
     return response.fold(
       (l) {
@@ -65,7 +73,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
       {required int paymentMode, required List<int> studentFeeIds}) async {
-    var response = await safeApiCall(apiService.getValidatePayNow(
+    var response = await safeApiCall(financeRetrofitService.getValidatePayNow(
         GetValidatePayNowRequest(
             paymentMode: paymentMode, studentFeeIds: studentFeeIds)));
     return response.fold(
@@ -79,7 +87,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
       {required StorePaymentModelRequest storePaymentModelRequest}) async {
-    var response = await safeApiCall(apiService.getStorePayment(
+    var response = await safeApiCall(financeRetrofitService.getStorePayment(
         GetStorePaymentRequest(
             chequeInFavour: storePaymentModelRequest.chequeInFavour,
             lobID: storePaymentModelRequest.lobId,
@@ -88,6 +96,8 @@ class NetworkAdapter implements NetworkPort {
             forMobile: storePaymentModelRequest.forMobile,
             feeIds: storePaymentModelRequest.feeIds
                 .map((e) => FeeId(
+                    amountBeforeDiscount: e.amountBeforeDiscount,
+                    couponId: e.couponId,
                     studentFeeId: e.studentFeeId,
                     collected: e.collected,
                     feeOrder: e.feeOrder))
@@ -134,7 +144,7 @@ class NetworkAdapter implements NetworkPort {
       required int applicableTo,
       int? entityId,
       int? brandId}) async {
-    var response = await safeApiCall(apiService.getPendingFees(
+    var response = await safeApiCall(financeRetrofitService.getPendingFees(
         GetPendingFeesRequest(
             type: type,
             students: students,
@@ -154,7 +164,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List<int> studentIds,
       required List<int> academicYearIds}) async {
-    var response = await safeApiCall(apiService.getSchoolNames(
+    var response = await safeApiCall(financeRetrofitService.getSchoolNames(
         SchoolNamesRequest(
             academicYearIds: academicYearIds, studentIds: studentIds)));
     return response.fold(
@@ -168,7 +178,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id}) async {
-    var response = await safeApiCall(apiService.getTransactionType(id));
+    var response =
+        await safeApiCall(financeRetrofitService.getTransactionType(id));
     return response.fold(
       (l) {
         return Left(l);
@@ -182,8 +193,8 @@ class NetworkAdapter implements NetworkPort {
       getTransactionTypeFeesCollected(
           {required List<int> students,
           required List<int> academicYear}) async {
-    var response = await safeApiCall(apiService.getTransactionTypeFeesCollected(
-        GetTransactionTypeFeesCollectesRequest(
+    var response = await safeApiCall(financeRetrofitService
+        .getTransactionTypeFeesCollected(GetTransactionTypeFeesCollectesRequest(
             students: students, academicYear: academicYear)));
     return response.fold(
       (l) {
@@ -196,8 +207,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
       {required PaymentOrderModel paymentOrderModel}) async {
-    var response =
-        await safeApiCall(apiService.getPaymentOrder(PaymentOrderRequestModel(
+    var response = await safeApiCall(
+        financeRetrofitService.getPaymentOrder(PaymentOrderRequestModel(
             orders: OrdersRequest(
       additionalInfo: AdditionalInfoRequest(
         customerContact:
@@ -218,7 +229,10 @@ class NetworkAdapter implements NetworkPort {
           return StudentFeeRequest(
               amount: paymentOrderModel.orders?.studentFees?[index].amount,
               feeId: paymentOrderModel.orders?.studentFees?[index].feeId,
-              id: paymentOrderModel.orders?.studentFees?[index].id);
+              id: paymentOrderModel.orders?.studentFees?[index].id,
+              couponId: paymentOrderModel.orders?.studentFees?[index].couponId,
+              amountBeforeDiscount: paymentOrderModel
+                  .orders?.studentFees?[index].amountBeforeDiscount);
         },
       ),
       transactionTypeId: paymentOrderModel.orders?.transactionTypeId,
@@ -253,7 +267,39 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetStoreImageModel>> setStoreImage(
       {required file, required fileName}) async {
     var response = await safeApiCall(
-        apiService.setStoreImage(file: file, fileName: fileName));
+        financeRetrofitService.setStoreImage(file: file, fileName: fileName));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
+      {required String orderId}) async {
+    var response = await safeApiCall(financeRetrofitService
+        .getPaymentStatus(GetPaymentStatusRequest(orderId: orderId)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, FetchCouponsListModel>> getCoupons(
+      {required String studentId,
+      required String feeTypeIds,
+      required String feeCategoryIds,
+      required String feeSubCategoryIds}) async {
+    var response = await safeApiCall(adminRetorfitService.getCoupons(
+        studentId: studentId,
+        feeTypeIds: feeTypeIds,
+        feeCategoryIds: feeCategoryIds,
+        feeSubCategoryIds: feeSubCategoryIds));
     return response.fold(
       (l) {
         return Left(l);

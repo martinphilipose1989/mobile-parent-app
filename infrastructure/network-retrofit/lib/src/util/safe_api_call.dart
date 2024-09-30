@@ -58,7 +58,13 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
             break;
           case DioExceptionType.connectionError:
             // TODO: Handle this case.
-            break;
+            return Left(
+              NetworkError(
+                  message:
+                      "Connection to API server failed due to internet connection",
+                  httpError: 503,
+                  cause: throwable),
+            );
         }
 
         break;
