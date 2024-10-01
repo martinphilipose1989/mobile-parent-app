@@ -79,7 +79,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 6);
         
         model.showWidget.add(model.showWidget.value + 6);
-        Future.delayed(Duration(milliseconds: 500)).then((val){
+        model.fetchSubjectList();
+        Future.delayed(const Duration(milliseconds: 500)).then((val){
           model.controller.jumpTo(500);
         });
       }
@@ -266,7 +267,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
                               type: widget.enquiryDetailArgs?.isFrom ?? 'enquiry');
                       } else if (model.showWidget.value == 7) {
-                       model.addVasOption(widget.enquiryDetailArgs?.enquiryId??'');
+                      //  model.addVasOption(widget.enquiryDetailArgs?.enquiryId??'');
+                      model.makePaymentRequest(widget.enquiryDetailArgs?.enquiryId??"");
                        ProviderScope.containerOf(context)
                                 .read(enquiriesAdmissionsJourneyProvider(
                                     widget.enquiryDetailArgs ??
@@ -292,10 +294,5 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     );
   }
 
-  @override
-  void initState() {
-    
-    super.initState();
-  }
 }
 

@@ -273,4 +273,46 @@ abstract class DomainModule {
       RegistrationRepository registrationRepository) {
     return GetKidsClubEnrollmentDetailUsecase(registrationRepository);
   }
+
+  @lazySingleton
+  GetSummerCampEnrollmentDetailUsecase getSummerCampEnrollmentDetail(
+      RegistrationRepository registrationRepository) {
+    return GetSummerCampEnrollmentDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  GetTransportEnrollmentDetailUsecase getTransportEnrollmentDetailUsecase(
+    RegistrationRepository registrationRepository) {
+      return GetTransportEnrollmentDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  CalculateFeesUsecase calculateFeesUsecase(
+      RegistrationRepository registrationRepository) {
+    return CalculateFeesUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  AddVasDetailUsecase addVasDetailUsecase(
+      RegistrationRepository registrationRepository) {
+    return AddVasDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  RemoveVasDetailUsecase removeVasDetailUsecase(
+    RegistrationRepository registrationRepository) {
+      return RemoveVasDetailUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  MakePaymentRequestUsecase makePaymentRequestUsecase(
+    RegistrationRepository registrationRepository) {
+      return MakePaymentRequestUsecase(registrationRepository);
+  }
+
+  @lazySingleton
+  FetchStopsUsecase fetchStopsUsecase(
+    RegistrationRepository registrationRepository){
+      return FetchStopsUsecase(registrationRepository);
+  }
 }

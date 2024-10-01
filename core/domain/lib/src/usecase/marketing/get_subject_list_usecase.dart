@@ -3,7 +3,7 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 class GetSubjectListUsecase extends BaseUseCase<BaseError,
-    GetSubjectListUsecaseParams, VasOptionResponse> {
+    GetSubjectListUsecaseParams, SubjectListResponse> {
   final RegistrationRepository _registrationRepository;
 
   GetSubjectListUsecase(
@@ -11,7 +11,7 @@ class GetSubjectListUsecase extends BaseUseCase<BaseError,
   );
 
   @override
-  Future<Either<BaseError, VasOptionResponse>> execute({
+  Future<Either<BaseError, SubjectListResponse>> execute({
     required GetSubjectListUsecaseParams params,
   }) {
     return _registrationRepository.getSubjectList(subjectListingRequest: params.subjectListingRequest);

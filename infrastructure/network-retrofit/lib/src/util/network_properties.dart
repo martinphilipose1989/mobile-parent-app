@@ -4,6 +4,7 @@ class NetworkProperties {
   static const String financeBaseUrl = "https://finance-r26sp3mibq-uc.a.run.app";
   static const String marketingBaseURL = 'https://marketing-r26sp3mibq-uc.a.run.app/';
   // static const String marketingBaseURL = 'https://marketing-backend-ndxpitoqla-el.a.run.app/';
+  static const String transportBaseURL = 'https://transport-219111640528.us-central1.run.app/';
   static const String schoolBoard = '/api/ac-boards';
   static const String grade = '/api/ac-grades';
   static const String gender = '/api/genders';
@@ -31,11 +32,11 @@ class NetworkProperties {
   static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
   static const String subjetcList =
-      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/list-school-subject';
+      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
-  static const String requestGatePass  = 'https://gate-management-backend-869610231867.asia-south1.run.app/';
+  static const String requestGatePass  = 'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
   // key cloak
   static const String tokenIntroSpect =
       "https://example.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";

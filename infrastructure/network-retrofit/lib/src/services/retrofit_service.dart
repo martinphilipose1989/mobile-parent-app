@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/request/fetch_stop_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
@@ -11,6 +12,7 @@ import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
+import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_academic_year/get_academic_year_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
@@ -20,11 +22,13 @@ import 'package:network_retrofit/src/model/response/finance/get_token_generator/
 import 'package:network_retrofit/src/model/response/finance/get_validate_on_pay/get_validate_on_pay_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
+import 'package:network_retrofit/src/model/response/get_subject_list/subject_list_response_entity.dart';
 import 'package:network_retrofit/src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/psa_enrollment_detail/psa_enrollment_detail_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
+import 'package:network_retrofit/src/model/response/transport_enrollment_detail/transport_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/user/token_introspection_response.dart';
 import 'package:network_retrofit/src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
@@ -429,8 +433,8 @@ abstract class RetrofitService {
       @Field("client_id") String clientId,
       @Field("client_secret") String clientSecret);
 
-  @GET(NetworkProperties.subjetcList)
-  Future<HttpResponse<VasOptionResponseEntity>> getSubjectList(
+  @POST(NetworkProperties.subjetcList)
+  Future<HttpResponse<SubjectListResponseEntity>> getSubjectList(
     {@Body() required SubjectListingRequest subjectListingRequest,}
   );
 
@@ -446,12 +450,44 @@ abstract class RetrofitService {
 
   @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/summer-camp-details')
   Future<HttpResponse<SummerCampEnrollmentResponseEntity>> getSummerCampEnrollmentDetail({
+    @Header("Authorization") required String token,
     @Body() required VasDetailRequest summerCampEnrollmentDetail
   });
 
   @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/kids-club-details')
   Future<HttpResponse<KidsClubEnrollmentResponseEntity>> getKidsClubEnrollmentDetail({
     @Body() required VasDetailRequest kidsClubEnrollmentDetail
+  });
+
+  @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/transport-details')
+  Future<HttpResponse<TransportEnrollmentResponseEntity>> getTransportEnrollmentDetail({
+    @Header("Authorization") required String token,
+    @Body() required VasDetailRequest transportEnrollmentDetail
+  });
+
+  @POST('${NetworkProperties.financeBaseUrl}/finance/fee_payment/finance/calculate')
+  Future<HttpResponse<VasOptionResponseEntity>> calculateFee({
+    @Body() required VasEnrollmentFeeCalculationRequest feeCalculationRequest
+  });
+
+  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas/add')
+  Future<HttpResponse<VasOptionResponseEntity>> addVASDetail(
+      {@Body() required VasEnrollmentRequest vasEnrollmentRequest,
+      @Path("enquiryId") required String enquiryID,
+      @Query("type") required String type});
+
+  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas/remove')
+  Future<HttpResponse<VasOptionResponseEntity>> removeVasDetail(
+      {@Path("enquiryId") required String enquiryID,
+      @Query("type") required String type});
+
+  @POST('${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/payment-request')
+  Future<HttpResponse<VasOptionResponseEntity>> makePaymentRequest(
+      {@Path("enquiryId") required String enquiryID,});
+
+  @POST('${NetworkProperties.transportBaseURL}transport-service/route/fetch-stops')
+  Future<HttpResponse<FetchStopResponseEntity>> fetchStops({
+    @Body() required FetchStopRequest fetchStopRequest
   });
 }
 

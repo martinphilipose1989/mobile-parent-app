@@ -1,12 +1,17 @@
+import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_page.dart';
+import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectSubjectDetail extends StatelessWidget {
+  final RegistrationsDetailsViewModel model;
   const SelectSubjectDetail({
     super.key,
+    required this.model
   });
 
   @override
@@ -26,10 +31,9 @@ class SelectSubjectDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             type: "Grade",
             value: "6"),
-        const PreSelectedSubject(
+        PreSelectedSubject(
             type: "Compulsory Subject",
-            value:
-                "Computer, English Language, English Literature, Marathi 3rd Language, Social Studies, Mathematics, Science, Art"),
+            value: model.complusorySubjectList.value.join(',')),
         const PreSelectedSubject(
             type: "SPA", value: "Selection of SPA will be done..."),
         Padding(
@@ -40,6 +44,22 @@ class SelectSubjectDetail extends StatelessWidget {
           text: "Optional Subject",
           style: AppTypography.subtitle2.copyWith(color: AppColors.textDark),
         ),
+        SizedBox(height: 20.h,),
+        SizedBox(
+          height: 40,
+          child: CommonChipListPage(
+            controller: model.controller,
+            chipValues: List.generate(
+              model.optionalSubjects.length,
+              (index) => CommonChips(
+                isSelected: model.optionalSubjects[index]
+                    ['isSelected'],
+                name: model.optionalSubjects[index]['name'],
+              ),
+            ),
+            onCallBack: (index) {},
+          ),
+        )
       ],
     );
   }

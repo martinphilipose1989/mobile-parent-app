@@ -13,6 +13,8 @@ class PeriodOfServiceEntity extends BaseLayerDataTransformer<PeriodOfServiceEnti
   String? feeSubcategory;
   int? periodOfServiceId;
   String? periodOfService;
+  int? batchId;
+  String? batchName;
 
   PeriodOfServiceEntity({
     this.feeSubTypeId,
@@ -23,6 +25,8 @@ class PeriodOfServiceEntity extends BaseLayerDataTransformer<PeriodOfServiceEnti
     this.feeSubcategory,
     this.periodOfServiceId,
     this.periodOfService,
+    this.batchId,
+    this.batchName
   });
 
   factory PeriodOfServiceEntity.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +45,8 @@ class PeriodOfServiceEntity extends BaseLayerDataTransformer<PeriodOfServiceEnti
     periodOfServiceModel.feeSubcategory = feeSubcategory;
     periodOfServiceModel.periodOfServiceId = periodOfServiceId;
     periodOfServiceModel.periodOfService = periodOfService;
+    periodOfServiceModel.batchId = batchId;
+    periodOfServiceModel.batchName = batchName;
     return periodOfServiceModel;
   } 
 }

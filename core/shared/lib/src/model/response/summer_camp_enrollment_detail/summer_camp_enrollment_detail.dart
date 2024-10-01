@@ -4,13 +4,13 @@ class SummerCampEnrollmentDetailModel {
     List<FeeSubTypeModel>? feeSubType;
     List<BatchModel>? batches;
     List<PeriodOfServiceModel>? periodOfService;
-    List<FeeCategoryModel>? feeCategory;
+    List<FeeSubCategoryModel>? feeSubCategory;
 
     SummerCampEnrollmentDetailModel({
         this.feeSubType,
         this.batches,
         this.periodOfService,
-        this.feeCategory,
+        this.feeSubCategory,
     });
 
 }

@@ -1,5 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page_view.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class SummerCampDetailPage extends BasePage<SummerCampDetailViewModel> {
-  const SummerCampDetailPage({super.key});
+  final EnquiryDetailArgs? enquiryDetailArgs;
+  const SummerCampDetailPage({super.key, this.enquiryDetailArgs});
 
   @override
   SummerCampDetailPageState createState() => SummerCampDetailPageState();
@@ -23,8 +25,9 @@ class SummerCampDetailPageState
 
   @override
   void onModelReady(SummerCampDetailViewModel model) {
-    // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.enquiryDetailArgs = widget.enquiryDetailArgs;
+    model.getSummerCampDetail();
   }
 
   @override

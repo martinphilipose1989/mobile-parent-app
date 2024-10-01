@@ -1,5 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/vas/transport/transport_page_view.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPage extends BasePage<TransportDetailViewModel> {
-  const TransportPage({super.key});
+  final EnquiryDetailArgs enquiryDetailArgs;
+  const TransportPage({super.key,required this.enquiryDetailArgs});
 
   @override
   TransportPageState createState() => TransportPageState();
@@ -22,7 +24,8 @@ class TransportPageState extends AppBasePageState<TransportDetailViewModel, Tran
 
   @override
   void onModelReady(TransportDetailViewModel model) {
-    // bind exception handler here.
+    model.enquiryDetailArgs = widget.enquiryDetailArgs;
+    model.getTransportEnrollmentDetail();
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
   }
 

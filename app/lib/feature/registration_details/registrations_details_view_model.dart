@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
@@ -48,6 +49,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final GetSiblingDetailsUsecase getSiblingDetailsUsecase;
   final SelectOptionalSubjectUsecase selectOptionalSubjectUsecase;
   final AddVasOptionUsecase addVasOptionUsecase;
+  final RemoveVasDetailUsecase removeVasDetailUsecase;
+  final MakePaymentRequestUsecase makePaymentRequestUsecase;
+  final GetSubjectListUsecase getSubjectListUsecase;
 
   RegistrationsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -70,7 +74,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.downloadFileUsecase,
       this.getSiblingDetailsUsecase,
       this.selectOptionalSubjectUsecase,
-      this.addVasOptionUsecase);
+      this.addVasOptionUsecase,
+      this.removeVasDetailUsecase,
+      this.makePaymentRequestUsecase,
+      this.getSubjectListUsecase);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -162,6 +169,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   PublishSubject<Resource<SubjectDetailResponse>> selectOptionalSubject =
       PublishSubject();
   PublishSubject <Resource<VasOptionResponse>> vasOptionSubject = PublishSubject();
+  final PublishSubject <Resource<SubjectListResponse>> _getSubjectList = PublishSubject();
+  Stream<Resource<SubjectListResponse>> get getSubjectList => _getSubjectList.stream;
+
+  BehaviorSubject<List<String>> complusorySubjectList = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<String>> optionalSubject = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedSubject = BehaviorSubject.seeded("");
+  List optionalSubjects = [];
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -668,6 +682,80 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       AddVasOptionUsecaseParams params = AddVasOptionUsecaseParams(vasOptionRequest: vasOptionRequest, enquiryID: enquiryID);
       isLoading.value = true;
       RequestManager<VasOptionResponse>(params, createCall: () => addVasOptionUsecase.execute(params: params)).asFlow().listen((result) {
+        if(result.status == Status.success){
+          isLoading.value = false;
+          showPopUP(context,message: "Admission Details Submitted Successfully");
+        }
+      }).onError((error) {
+        isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> fetchSubjectList() async{
+    exceptionHandlerBinder.handle(block: () {
+      GetSubjectListUsecaseParams params = GetSubjectListUsecaseParams(
+        subjectListingRequest: SubjectListingRequest(
+          pageSize: 1000,
+          schoolId: 27,
+          academicYearId: 25,
+          brandId: 1,
+          boardId: 3,
+          streamId: 1,
+          termId: 1,
+          gradeID: 10
+        )
+      );
+      RequestManager<SubjectListResponse>(
+        params,
+        createCall: () => getSubjectListUsecase.execute(params: params)).asFlow().listen((result) {
+          _getSubjectList.add(result);
+          if(result.status == Status.success){
+            (result.data?.data?.data??[]).forEach((element){
+              if(element.isCompulsory == 1){
+                complusorySubjectList.value.add(element.subjectName??'');
+              }
+              if(element.isOptionalCompulsory == 1){
+                optionalSubject.value.add(element.subjectName??'');
+              }
+            });
+            optionalSubject.value.forEach((element){
+              optionalSubjects.add({"name": element,"isSelected": false});
+            });
+          }
+
+        }).onError((error) { 
+          exceptionHandlerBinder.showError(error!);
+        });
+    }).execute();
+  }
+
+  Future<void> removeVasDetail(String enquiryID,String vasOption) async {
+    exceptionHandlerBinder.handle(block: () {
+      RemoveVasDetailUsecaseParams params = RemoveVasDetailUsecaseParams(
+        enquiryID: enquiryID,
+        type: vasOption
+      );
+      isLoading.value = true;
+      RequestManager<VasOptionResponse>(params, createCall: () => removeVasDetailUsecase.execute(params: params)).asFlow().listen((result) {
+        if(result.status == Status.success){
+          isLoading.value = false;
+        }
+      }).onError((error) {
+        isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> makePaymentRequest(String enquiryID) async {
+    exceptionHandlerBinder.handle(block: () {
+      MakePaymentRequestUsecaseParams params = MakePaymentRequestUsecaseParams(
+        enquiryID: enquiryID,
+      );
+      isLoading.value = true;
+      RequestManager<VasOptionResponse>(params, createCall: () => makePaymentRequestUsecase.execute(params: params)).asFlow().listen((result) {
         if(result.status == Status.success){
           isLoading.value = false;
           showPopUP(context,message: "Admission Details Submitted Successfully");

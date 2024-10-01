@@ -6,6 +6,7 @@ class SubjectListingRequest {
   int? boardId;
   int? streamId;
   int? termId;
+  int? gradeID;
 
   SubjectListingRequest({
     this.pageSize,
@@ -15,6 +16,7 @@ class SubjectListingRequest {
     this.boardId,
     this.streamId,
     this.termId,
+    this.gradeID
   });
 
   factory SubjectListingRequest.fromJson(Map<String, dynamic> json) =>
@@ -26,6 +28,7 @@ class SubjectListingRequest {
         boardId: json["boardId"],
         streamId: json["streamId"],
         termId: json["termId"],
+        gradeID: json["gradeId"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,5 +39,6 @@ class SubjectListingRequest {
         "boardId": boardId,
         "streamId": streamId,
         "termId": termId,
+        "gradeId": gradeID
       };
 }

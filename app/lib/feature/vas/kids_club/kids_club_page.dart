@@ -1,5 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/vas/kids_club/kids_club_page_view.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class KidsClubDeatilDetailPage extends BasePage<KidsClubViewModel> {
-  const KidsClubDeatilDetailPage({super.key});
+  final EnquiryDetailArgs? enquiryDetailArgs;
+  const KidsClubDeatilDetailPage({super.key,this.enquiryDetailArgs});
 
   @override
   KidsClubDeatilDetailPageState createState() => KidsClubDeatilDetailPageState();
@@ -22,9 +24,10 @@ class KidsClubDeatilDetailPageState
   }
 
   @override
-  void onModelReady(KidsClubViewModel model) {
-    // bind exception handler here.
+  void onModelReady(KidsClubViewModel model) {    
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.enquiryDetailArgs = widget.enquiryDetailArgs;
+    model.getKidsClubDetail();
   }
 
   @override

@@ -9,12 +9,16 @@ class FeeCategoryEntity extends BaseLayerDataTransformer<FeeCategoryEntity,FeeCa
   String? feeSubType;
   int? feeCategoryId;
   String? feeCategory;
+  int? periodOfServiceId;
+  String? periodOfService;
 
   FeeCategoryEntity({
     this.feeSubTypeId,
     this.feeSubType,
     this.feeCategoryId,
     this.feeCategory,
+    this.periodOfServiceId,
+    this.periodOfService
   });
 
   factory FeeCategoryEntity.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +33,8 @@ class FeeCategoryEntity extends BaseLayerDataTransformer<FeeCategoryEntity,FeeCa
     feeCategoryModel.feeSubType = feeSubType;
     feeCategoryModel.feeCategoryId = feeCategoryId;
     feeCategoryModel.feeCategory = feeCategory;
+    feeCategoryModel.periodOfServiceId = periodOfServiceId;
+    feeCategoryModel.periodOfService = periodOfService;
     return feeCategoryModel;
   }
 }

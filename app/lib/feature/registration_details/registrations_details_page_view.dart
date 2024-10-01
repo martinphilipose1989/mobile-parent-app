@@ -21,6 +21,7 @@ import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_page.
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
@@ -181,7 +182,7 @@ class RegistrationsDetailsPageView
                               model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
                             }  if (index > 0 && index < 5){
                               model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'',model.registrationDetails[index]['infoType']);
-                            }
+                            } 
                           },
                         ),
                       );
@@ -377,7 +378,22 @@ class RegistrationsDetailsPageView
           }
         });
       case 6:
-        return SelectSubjectDetail(); 
+        return AppStreamBuilder<Resource<SubjectListResponse>>(
+          stream: model.getSubjectList,
+          initialData: Resource.none(),
+          dataBuilder: (context, data) {
+            switch (data?.status){
+              case Status.loading:
+                return const Center(child: CircularProgressIndicator(),);
+              case Status.success:
+                return SelectSubjectDetail(model: model,);
+              case Status.error:
+                return const Center(child: CommonText(text: "Subjects not found"),);
+              default:
+                return const Center(child: CircularProgressIndicator(),);  
+            }
+          },
+        ); 
       case 7: 
         return VASDetails(); 
       default:

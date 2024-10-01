@@ -7,6 +7,8 @@ class PeriodOfServiceModel{
   String? feeSubcategory;
   int? periodOfServiceId;
   String? periodOfService;
+  int? batchId;
+  String? batchName;
 
   PeriodOfServiceModel({
     this.feeSubTypeId,
@@ -17,5 +19,7 @@ class PeriodOfServiceModel{
     this.feeSubcategory,
     this.periodOfServiceId,
     this.periodOfService,
+    this.batchId,
+    this.batchName
   });
 }

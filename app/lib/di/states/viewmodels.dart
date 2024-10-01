@@ -24,7 +24,6 @@ import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/feature/vas/psa/psa_view_model.dart';
-import 'package:app/feature/vas/summer_camp/summer_camp_page_view.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
@@ -113,7 +112,10 @@ final registrationsDetailsProvider =
       getIt.get<DownloadFileUsecase>(),
       getIt.get<GetSiblingDetailsUsecase>(),
       getIt.get<SelectOptionalSubjectUsecase>(),
-      getIt.get<AddVasOptionUsecase>()),
+      getIt.get<AddVasOptionUsecase>(),
+      getIt.get<RemoveVasDetailUsecase>(),
+      getIt.get<MakePaymentRequestUsecase>(),
+      getIt.get<GetSubjectListUsecase>()),
 );
 
 final enquiriesPageModelProvider =
@@ -242,29 +244,46 @@ final createQrcodeViewModelProvider =
 final cafeteriaPageModelProvider =
     ChangeNotifierProvider.autoDispose<CafeteriaDetailViewModel>(
   (ref) => CafeteriaDetailViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),)
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetCafeteriaEnrollmentDetailUsecase>(),
+      getIt.get<CalculateFeesUsecase>(),
+      getIt.get<AddVasDetailUsecase>()
+  )
 );
 
 final psaPageModelProvider =
   ChangeNotifierProvider.autoDispose<PsaDetailViewModel>(
     (ref) => PsaDetailViewModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetPsaEnrollmentDetailUsecase>(),
+      getIt.get<CalculateFeesUsecase>(),
+      getIt.get<AddVasDetailUsecase>()
 ));
 
 final kidsClubPageModelProvider =
   ChangeNotifierProvider.autoDispose<KidsClubViewModel>(
     (ref) => KidsClubViewModel(
-        getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetKidsClubEnrollmentDetailUsecase>(),
+      getIt.get<CalculateFeesUsecase>(),
+      getIt.get<AddVasDetailUsecase>()
 ));
 
 final summerCampPageModelProvider =
   ChangeNotifierProvider.autoDispose<SummerCampDetailViewModel>(
     (ref) => SummerCampDetailViewModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetSummerCampEnrollmentDetailUsecase>(),
+      getIt.get<CalculateFeesUsecase>(),
+      getIt.get<AddVasDetailUsecase>(),
 ));
 
 final transportPageModelProvider =
   ChangeNotifierProvider.autoDispose<TransportDetailViewModel>(
     (ref) => TransportDetailViewModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetTransportEnrollmentDetailUsecase>(),
+      getIt.get<CalculateFeesUsecase>(),
+      getIt.get<AddVasDetailUsecase>(),
+      getIt.get<FetchStopsUsecase>()
   ));

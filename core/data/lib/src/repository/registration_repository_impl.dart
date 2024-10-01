@@ -47,7 +47,7 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   }
 
   @override
-  Future<Either<NetworkError, VasOptionResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest}) {
+  Future<Either<NetworkError, SubjectListResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest}) {
     return _networkPort.getSubjectList(subjectListingRequest: subjectListingRequest);
   }
 
@@ -69,5 +69,35 @@ class RegistrationRepositoryImpl extends RegistrationRepository {
   @override
   Future<Either<NetworkError,KidsClubEnrollmentResponseModel>> getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest}){
     return _networkPort.getKidsClubEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
+
+  @override
+  Future<Either<NetworkError, TransportEnrollmentResponseModel>> getTransportEnrollmentDetail({required VasDetailRequest vasDetailRequest}) {
+    return _networkPort.getTransportEnrollmentDetail(vasDetailRequest: vasDetailRequest);
+  }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> calculateFees({required VasEnrollmentFeeCalculationRequest feeCalculationRequest}) {
+    return _networkPort.calculateFees(feeCalculationRequest: feeCalculationRequest);
+  }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> addVasDeatil({required String enquiryID, required String type, required VasEnrollmentRequest vasEnrollmentRequest}) {
+    return _networkPort.addVasDeatil(enquiryID: enquiryID, type: type, vasEnrollmentRequest: vasEnrollmentRequest);
+  }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> removeVasDeatil({required String enquiryID, required String type}) {
+    return _networkPort.removeVasDeatil(enquiryID: enquiryID, type: type);
+  }
+
+  @override
+  Future<Either<NetworkError, VasOptionResponse>> makePaymentRequest({required String enquiryID}) {
+    return _networkPort.makePaymentRequest(enquiryID: enquiryID);
+  }
+
+  @override
+  Future<Either<NetworkError, FetchStopResponseModel>> fetchStops({required FetchStopRequest fetchStopRequest}) {
+    return _networkPort.fetchStops(fetchStopRequest: fetchStopRequest);
   }
 }

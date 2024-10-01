@@ -185,19 +185,34 @@ class AppRouter {
         );
 
       case RoutePaths.cafeteriaDetailPage:
-        return CupertinoPageRoute(builder: (context)=> const CafeteriaPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(builder: (context)=> CafeteriaPage(
+          enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+        ));
 
       case RoutePaths.psaDetailPage:
-        return CupertinoPageRoute(builder: (context) => const PsaDetailPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(builder: (context) => PsaDetailPage(
+          enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+        ));
 
       case RoutePaths.kidsClubPage:
-        return CupertinoPageRoute(builder: (context)=> const KidsClubDeatilDetailPage(),);
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(builder: (context)=> KidsClubDeatilDetailPage(
+          enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+        ),);
 
       case RoutePaths.summerCampPage:
-        return CupertinoPageRoute(builder: (context)=> const SummerCampDetailPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(builder: (context)=> SummerCampDetailPage(
+          enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+        ));
 
       case RoutePaths.transportPage:
-        return CupertinoPageRoute(builder: (context)=> const TransportPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(builder: (context)=> TransportPage(
+          enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+        ));
 
       default:
         // Replace by Empty Page

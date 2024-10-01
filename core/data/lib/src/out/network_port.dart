@@ -134,10 +134,18 @@ abstract class NetworkPort {
       required String clientId,
       required String clientSecret});
 
-  Future<Either<NetworkError, VasOptionResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest});
+  Future<Either<NetworkError, SubjectListResponse>> getSubjectList({required SubjectListingRequest subjectListingRequest});
 
   Future<Either<NetworkError,PsaEnrollmentDetailResponseModel>> getPsaEnrollmentDetail({required VasDetailRequest vasDetailRequest});
   Future<Either<NetworkError,CafeteriaEnrollmentResponseModel>> getCafeteriaEnrollmentDetail({required VasDetailRequest vasDetailRequest});
   Future<Either<NetworkError,SummerCampEnrollmentResponseModel>> getSummerCampEnrollmentDetail({required VasDetailRequest vasDetailRequest});
   Future<Either<NetworkError,KidsClubEnrollmentResponseModel>> getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest});
+  Future<Either<NetworkError,TransportEnrollmentResponseModel>> getTransportEnrollmentDetail({required VasDetailRequest vasDetailRequest});
+  Future<Either<NetworkError, VasOptionResponse>> calculateFees({required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
+
+  Future<Either<NetworkError, VasOptionResponse>> addVasDeatil({required String enquiryID,required String type,required VasEnrollmentRequest vasEnrollmentRequest});
+  Future<Either<NetworkError, VasOptionResponse>> removeVasDeatil({required String enquiryID,required String type});
+  Future<Either<NetworkError, VasOptionResponse>> makePaymentRequest({required String enquiryID});
+
+  Future<Either<NetworkError, FetchStopResponseModel>> fetchStops({required FetchStopRequest fetchStopRequest});
 }
