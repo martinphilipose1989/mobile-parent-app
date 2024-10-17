@@ -19,7 +19,7 @@ class AttendanceCountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(height: 48.h,
-        decoration: BoxDecoration(color: AppColors.textPaleGray),
+        decoration: const BoxDecoration(color: AppColors.textPaleGray),
         padding:
         const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,

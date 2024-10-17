@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/common_widgets/app_images.dart';
 import '../attandance_details/student_details.dart';
-import 'chip.dart';
+import 'attendance_count.dart';
 
 class AttendanceCalender extends StatelessWidget {
 
