@@ -28,7 +28,7 @@ class EnquiryDetail{
     String? caste;
     String? subCaste;
     String? nationality;
-    String? motherTongue;
+    dynamic motherTongue;
     int? schoolId;
     int? boardId;
     int? streamId;

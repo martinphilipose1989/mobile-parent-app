@@ -14,7 +14,7 @@ class DeleteEnquiryDocumentUsecase extends BaseUseCase<BaseError,
     required DeleteEnquiryDocumentUsecaseParams params,
   }) {
     return _enquiryRepository.deleteEnquiryDocument(
-      enquiryID: params.enquiryID,documentID: params.documentID
+      enquiryID: params.enquiryID,documentID: params.documentID,delete: params.delete,verify: params.verifyDoc
     );
   }
 }
@@ -22,9 +22,13 @@ class DeleteEnquiryDocumentUsecase extends BaseUseCase<BaseError,
 class DeleteEnquiryDocumentUsecaseParams extends Params {
   final String enquiryID;
   final String documentID;
+  final String delete;
+  final String verifyDoc;
   DeleteEnquiryDocumentUsecaseParams({
     required this.enquiryID,
-    required this.documentID
+    required this.documentID,
+    required this.delete,
+    required this.verifyDoc,
   });
 
   @override

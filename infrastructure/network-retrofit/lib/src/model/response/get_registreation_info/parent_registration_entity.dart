@@ -13,14 +13,14 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     String? aadharNumber;
     @JsonKey(name: 'panNumber')
     String? panNumber;
-    @JsonKey(name: 'qualification')
-    String? qualification;
-    @JsonKey(name: 'occupation')
-    String? occupation;
-    @JsonKey(name: 'organisationName')
-    String? organisationName;
-    @JsonKey(name: 'designationName')
-    String? designationName;
+    @JsonKey(name: 'qualification',fromJson: _fromJson)
+    dynamic qualification;
+    @JsonKey(name: 'occupation', fromJson: _fromJson)
+    dynamic occupation;
+    @JsonKey(name: 'organisationName', fromJson: _fromJson)
+    dynamic organisationName;
+    @JsonKey(name: 'designationName', fromJson: _fromJson)
+    dynamic designationName;
     @JsonKey(name: 'officeAddress')
     String? officeAddress;
     @JsonKey(name: 'area')
@@ -70,16 +70,54 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
       "email": emailId,
       "pan": panNumber,
       "aadhar": aadharNumber,
-      "qualification": qualification,  
     };
-    if(occupation != null && (occupation??'').isNotEmpty && occupation != 'N/A'){
-      request.addAll({"occupation": occupation,});
+    if(qualification != null){
+      if(qualification is CommonDataEntity){
+        request.addAll({"qualification": qualification?.toJson(),});
+      }
+      else{
+        if (qualification is String) {
+          if (qualification.toString().isNotEmpty && qualification.toString() != 'N/A') {
+            request.addAll({"qualification": qualification.toString()});
+          }
+        }
+      }
     }
-    if(organisationName != null && (organisationName??'').isNotEmpty && organisationName != 'N/A'){
-      request.addAll({"organization_name": organisationName,});
+    if(occupation != null){
+      if(occupation is CommonDataClass){
+        request.addAll({"occupation": occupation.toJson(),});
+      }
+      else{
+        if(occupation is String){
+          if (occupation.toString().isNotEmpty && occupation.toString() != 'N/A') {
+              request.addAll({"occupation": occupation.toString()});
+          }
+        }
+      }
+    }
+    if(organisationName){
+      if(organisationName != null){
+        request.addAll({"organization_name": organisationName.toJson(),});
+      }
+      else{
+        if(organisationName is String){
+          if (organisationName.toString().isNotEmpty && organisationName.toString() != 'N/A') {
+              request.addAll({"organization_name": organisationName.toString()});
+          }
+        }
+      }
     }
     if(designationName != null && (designationName??'').isNotEmpty && designationName != 'N/A'){
-      request.addAll({"designation": designationName,});
+      if(designationName is CommonDataClass){
+        request.addAll({"designation": designationName.toJson(),});
+      }
+      else{
+        if(designationName is String){
+          if (designationName.toString().isNotEmpty && designationName.toString() != 'N/A') {
+              request.addAll({"designation": designationName.toString()});
+          }
+        }
+      }
     }
     if(officeAddress != null && (officeAddress??'').isNotEmpty && officeAddress != 'N/A'){
       request.addAll({"office_address": officeAddress,});
@@ -139,7 +177,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
     parentRegistrationDetail.lastName=lastName;
     parentRegistrationDetail.aadharNumber=aadharNumber;
     parentRegistrationDetail.panNumber=panNumber;
-    parentRegistrationDetail.qualification=qualification;
+    parentRegistrationDetail.qualification=(qualification is CommonDataEntity)? qualification?.transform() : qualification;
     parentRegistrationDetail.occupation=occupation;
     parentRegistrationDetail.organisationName=organisationName;
     parentRegistrationDetail.designationName=designationName;
@@ -163,7 +201,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
       lastName: data.lastName,
       aadharNumber: data.aadharNumber,
       panNumber: data.panNumber,
-      qualification: data.qualification,
+      qualification: (data.qualification is CommonDataClass)? commonDataEntity.restore(data.qualification!) : data.qualification,
       occupation: data.occupation,
       organisationName: data.organisationName,
       designationName: data.designationName,

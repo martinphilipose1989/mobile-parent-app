@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,8 @@ import 'package:intl/intl.dart';
 class CancelCompetencyPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CancelCompetencyTestUsecase cancelCompetencyTestUsecase;
-  CancelCompetencyPageModel(this.exceptionHandlerBinder,this.cancelCompetencyTestUsecase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  CancelCompetencyPageModel(this.exceptionHandlerBinder,this.cancelCompetencyTestUsecase,this.flutterToastErrorPresenter);
 
 
   final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetail = PublishSubject();
@@ -49,6 +52,10 @@ class CancelCompetencyPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           competencyTestDetail.add(Resource.success(data: result.data?.data));
           competencyTestDetailsData = result.data?.data;
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {

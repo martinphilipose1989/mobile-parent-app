@@ -3,9 +3,12 @@ import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
+import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditEnquiriesDetailsWidget extends StatelessWidget {
   EnquiriesDetailsPageModel model;
@@ -152,6 +155,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           CommonDatePickerWidget(
             initialDate: model.studentDob,
             labelName: "DOB",
+            controller: model.dobController,
             showAstreik: true,
             onDateSelected: (newDate) {
               model.studentDob = newDate;
@@ -190,10 +194,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 20,),
           CommonTextFormField(
-            showAstreik: true,
+            showAstreik: false,
             labelText: 'Existing School Name',
             controller: model.existingSchoolNameController,
-            validator: (value) => AppValidators.validateNotEmpty(value, "Existing school name"),
+            // validator: (value) => AppValidators.validateNotEmpty(value, "Existing school name"),
           ),
           const SizedBox(height: 20,),
           StreamBuilder<List<String>>(
@@ -206,7 +210,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   onMultiSelect: (selectedValues) {},
                   dropdownName: 'Existing School Board',
-                  showAstreik: true,
+                  showAstreik: false,
                   showBorderColor: true,
                   items: snapshot.data??[],
                   singleSelectItemSubject: model.selectedExistingSchoolBoardSubject,
@@ -219,7 +223,6 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                     }
                   },
                   isMutiSelect: false,
-                  validator: (value) => AppValidators.validateDropdown(value, "existing school board"),
                 );
               }
             }
@@ -235,7 +238,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   onMultiSelect: (selectedValues) {},
                   dropdownName: 'Existing School Grade',
-                  showAstreik: true,
+                  showAstreik: false,
                   showBorderColor: true,
                   items: snapshot.data??[],
                   singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
@@ -248,7 +251,6 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                     }
                   },
                   isMutiSelect: false,
-                  validator: (value) => AppValidators.validateDropdown(value, "existing school grade"),
                 );
               }
             }
@@ -262,18 +264,112 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             ivtDetails()
           ],
           const SizedBox(height: 20,),
-          CommonTextFormField(
-            showAstreik: false,
-            labelText: "Parent Type",
-            readOnly: true,
-            controller: model.parentTypeController,
+          CustomDropdownButton(
+            width: MediaQuery.of(context).size.width,
+            onMultiSelect: (selectedValues) {},
+            dropdownName: 'Select Parent Type',
+            showAstreik: true,
+            showBorderColor: true,
+            items: model.parentType,
+            singleSelectItemSubject: model.selectedParentTypeSubject,
+            onSingleSelect: (selectedValue) {
+              model.selectedParentTypeSubject.value = selectedValue;
+            },
+            isMutiSelect: false,
+            validator: (value)=> AppValidators.validateDropdown(value, 'parent type'),
           ),
           const SizedBox(height: 20,),
-          CommonTextFormField(
-            showAstreik: false,
-            labelText: 'Gloabal ID',
-            readOnly: true,
-            controller: model.globalIdController,
+          AppStreamBuilder<String>(
+            stream: model.selectedParentTypeSubject,
+            initialData: model.selectedParentTypeSubject.value, 
+            dataBuilder: (context, data) {
+              return Column(
+                children: [
+                  if((data??'') == "Father")...[
+                    CommonTextFormField(
+                      showAstreik: false,
+                      labelText: 'Global ID',
+                      readOnly: true,
+                      controller: model.fatherGlobalIdController,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent First Name',
+                      controller: model.studentsFatherFirstNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent first name'),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Last Name',
+                      controller: model.studentsFatherLastNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent last name'),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Email ID',
+                      controller: model.studentsFatherEmailController,
+                      validator: (value)=> AppValidators.validateEmail(value),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Mobile Number',
+                      controller: model.studentsFatherContactController,
+                      validator: (value)=> AppValidators.validateMobile(value),
+                      maxLength: 10,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ]
+                  else...[
+                    CommonTextFormField(
+                      showAstreik: false,
+                      labelText: 'Gloabal ID',
+                      readOnly: true,
+                      controller: model.motherGlobalIdController,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent First Name',
+                      controller: model.studentsMotherFirstNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent first name'),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Last Name',
+                      controller: model.studentsMotherLastNameController,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Parent last name'),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Email ID',
+                      controller: model.studentsMotherEmailController,
+                      validator: (value)=> AppValidators.validateEmail(value),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: 'Parent Mobile Number',
+                      controller: model.studentsMotherContactController,
+                      validator: (value)=> AppValidators.validateMobile(value),
+                      maxLength: 10,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ]
+                ],
+              );
+            },
           ),
           const SizedBox(height: 50,),   
         ],

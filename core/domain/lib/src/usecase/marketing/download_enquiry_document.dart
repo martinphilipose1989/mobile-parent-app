@@ -14,7 +14,7 @@ class DownloadEnquiryDocumentUsecase extends BaseUseCase<BaseError,
     required DownloadEnquiryDocumentUsecaseParams params,
   }) {
     return _enquiryRepository.downloadEnquiryDocument(
-      enquiryID: params.enquiryID,documentID: params.documentID
+      enquiryID: params.enquiryID,documentID: params.documentID,download: params.download
     );
   }
 }
@@ -22,9 +22,11 @@ class DownloadEnquiryDocumentUsecase extends BaseUseCase<BaseError,
 class DownloadEnquiryDocumentUsecaseParams extends Params {
   final String enquiryID;
   final String documentID;
+  final String download;
   DownloadEnquiryDocumentUsecaseParams({
     required this.enquiryID,
-    required this.documentID
+    required this.documentID,
+    required this.download
   });
 
   @override

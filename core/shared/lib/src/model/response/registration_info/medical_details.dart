@@ -10,7 +10,7 @@ class MedicalDetails{
     String? allergyDescription;
     dynamic bloodGroup;
     bool? hasPersonalisedLearningNeeds;
-    String? personalisedLearningNeedsDescription;
+    dynamic personalisedLearningNeedsDescription;
 
     MedicalDetails({
         this.isChildHospitalised,

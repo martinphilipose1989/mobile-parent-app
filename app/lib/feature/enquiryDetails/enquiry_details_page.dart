@@ -191,6 +191,25 @@ class EnquiriesDetailsPageState
                                 model.newAdmissionDetails?.value.existingSchoolDetails?.name = model.existingSchoolNameController.text.trim();
                                 model.newAdmissionDetails?.value.existingSchoolDetails?.grade = model.selectedExistingSchoolGradeEntity!;
                                 model.newAdmissionDetails?.value.existingSchoolDetails?.board = model.selectedExistingSchoolBoardEntity!;
+                                if (model.newAdmissionDetails?.value.enquirerParent == "Father") {
+                                  model.newAdmissionDetails?.value.parentDetails?.fatherDetails
+                                      ?.firstName = model.studentsFatherFirstNameController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.fatherDetails
+                                      ?.lastName = model.studentsFatherLastNameController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.fatherDetails?.mobile =
+                                      model.studentsFatherContactController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.fatherDetails?.email =
+                                      model.studentsFatherEmailController.text.trim();
+                                } else {
+                                  model.newAdmissionDetails?.value.parentDetails?.motherDetails
+                                      ?.firstName = model.studentsMotherFirstNameController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.motherDetails
+                                      ?.lastName = model.studentsMotherLastNameController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.motherDetails?.mobile =
+                                      model.studentsMotherContactController.text.trim();
+                                  model.newAdmissionDetails?.value.parentDetails?.motherDetails?.email =
+                                      model.studentsMotherEmailController.text.trim();
+                                }
                                 newAdmissionDetail = newAdmissionDetail.restore(model.newAdmissionDetails!.value);
                                 model.updateNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs.enquiryId??'', newAdmissionDetail: newAdmissionDetail);
                               }

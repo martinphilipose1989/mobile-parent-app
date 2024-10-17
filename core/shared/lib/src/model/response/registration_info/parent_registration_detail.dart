@@ -3,10 +3,10 @@ class ParentRegistrationDetail {
     String? lastName;
     String? aadharNumber;
     String? panNumber;
-    String? qualification;
-    String? occupation;
-    String? organisationName;
-    String? designationName;
+    dynamic qualification;
+    dynamic occupation;
+    dynamic organisationName;
+    dynamic designationName;
     String? officeAddress;
     String? area;
     dynamic country;

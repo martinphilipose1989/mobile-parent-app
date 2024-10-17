@@ -1,5 +1,7 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
@@ -13,7 +15,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final GetAdmissionJourneyUsecase getAdmissionJourneyUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
   final EnquiryDetailArgs enquiryDetailArgs;
-  AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs){
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  AdmissionsDetailsViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs,this.flutterToastErrorPresenter){
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId?? '', type: 'admission');
@@ -43,6 +46,10 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           admissionJourney.add(Resource.success(data: result.data?.data??[]));
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -66,13 +73,17 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         enquiryDetails.value = result.data?.data?? EnquiryDetail();
         var admissionStatus = getAdmissionStatus();
         if (admissionStatus == "Approved") {
-          if (menuData
+          if (!menuData
               .any((element) => element["name"] != "Subject Selection")) {
             menuData.add({
               'image': AppImages.subjectSelectionIcon,
               'name': "Subject Selection"
             });
           }
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {

@@ -1,6 +1,6 @@
 class NetworkProperties {
   static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
-  // static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in/";
+  // static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String financeBaseUrl = "https://finance-r26sp3mibq-uc.a.run.app";
   static const String marketingBaseURL = 'https://marketing-r26sp3mibq-uc.a.run.app/';
   // static const String marketingBaseURL = 'https://marketing-backend-ndxpitoqla-el.a.run.app/';
@@ -29,10 +29,20 @@ class NetworkProperties {
       '/api/fc-period-of-services?fields[1]=name';
   static const String bloodGroup = '/api/blood-groups?fields=group';
   static const String occupation = '/api/co-occupations?fields[1]=Name&fields[2]=Short_Name&fields[3]=Order';
+  static const String qualifications = '/api/co-qualifications?fields[1]=Education&fields[2]=Description';
+  static const String religions = '/api/religions?fields[1]=name';
+  static const String castes = '/api/castes?fields[1]=name&fields[2]=short_name';
+  static const String subCastes = '/api/sub-castes?fields[1]=name';
+  static const String motherTongue = '/api/mother-tongues?fields[1]=name';
+  static const String organization = '/api/organizations?fields[1]=name';
+  static const String designation = '/api/ps-designations?fields[1]=designation';
+  static const String nationality = '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
+  static const String personalisedLearningNeedsDescription = '/api/ac-personalise-learning-needs?fields[1]=name';
   static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
   static const String subjetcList =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
+  // static const String subjetcList = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 

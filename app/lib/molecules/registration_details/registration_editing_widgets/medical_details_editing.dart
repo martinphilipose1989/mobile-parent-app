@@ -10,7 +10,6 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MedicalDetailsEditing extends StatelessWidget {
   const MedicalDetailsEditing({super.key, required this.model});
@@ -255,13 +254,31 @@ class MedicalDetailsEditing extends StatelessWidget {
                 children: [
                   if((data??'')== "Yes")...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CommonTextFormField(
-                      showAstreik: false,
-                      labelText: 'Personalised Learning Needs',
-                       controller: model.personalisedLearningNeedsController,
-                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Personalised Learning Needs'),
+                    StreamBuilder<List<String>>(
+                      stream: model.personalisedLearningNeeds,
+                      builder: (context, snapshot) {
+                        return CustomDropdownButton(
+                            items: model.personalisedLearningNeeds.value,
+                            width: MediaQuery.of(context).size.width,
+                            isMutiSelect: false,
+                            dropdownName: 'Personalised Learning',
+                            showAstreik: true,
+                            onMultiSelect: (selectedValues) {},
+                            showBorderColor: true,
+                            singleSelectItemSubject: model.selectedPersonalisedLearningNeedSubject,
+                            onSingleSelect: (val){
+                              var bloodGroup = model.personalisedLearningNeedsAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                              model.selectedPersonalisedLearningNeedSubject.value = val;
+                              CommonDataClass group = CommonDataClass();
+                              group.id = bloodGroup?.id;
+                              group.value = bloodGroup?.attributes?.name;
+                              model.selectedPersonalisedLearningNeed = group;
+                            },
+                        );
+                      }
                     ),
-                  ]
+                  ],
+                  const SizedBox(height: 50,)
                 ],
               );
             },

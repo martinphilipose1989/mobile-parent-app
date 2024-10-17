@@ -21,15 +21,15 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
     @JsonKey(name: 'place_of_birth')
     String? placeOfBirth;
     @JsonKey(name: 'religion')
-    String? religion;
+    CommonDataEntity? religion;
     @JsonKey(name: 'caste')
-    String? caste;
+    CommonDataEntity? caste;
     @JsonKey(name: 'sub_caste')
-    String? subCaste;
+    CommonDataEntity? subCaste;
     @JsonKey(name: 'nationality')
-    String? nationality;
+    CommonDataEntity? nationality;
     @JsonKey(name: 'mother_tongue')
-    String? motherTongue;
+    CommonDataEntity? motherTongue;
     @JsonKey(name: 'aadhar')
     String? aadhar;
     @JsonKey(name: 'global_id')
@@ -67,20 +67,20 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
     if(placeOfBirth!=null && (placeOfBirth??'').isNotEmpty){
       request.addAll({"place_of_birth":placeOfBirth});
     }
-    if(religion!=null && (religion??'').isNotEmpty){
-      request.addAll({"religion":religion});
+    if(religion!=null){
+      request.addAll({"religion":religion?.toJson()});
     }
-    if(caste!=null && (caste??'').isNotEmpty){
-      request.addAll({"caste":caste});
+    if(caste!=null){
+      request.addAll({"caste":caste?.toJson()});
     }
-    if(subCaste!=null && (subCaste??'').isNotEmpty){
-      request.addAll({"sub_caste":subCaste});
+    if(subCaste!=null){
+      request.addAll({"sub_caste":subCaste?.toJson()});
     }
-    if(nationality!=null && (nationality??'').isNotEmpty){
-      request.addAll({"nationality":nationality});
+    if(nationality!=null){
+      request.addAll({"nationality":nationality?.toJson()});
     }
-    if(motherTongue!=null && (motherTongue??'').isNotEmpty){
-      request.addAll({"mother_tongue":motherTongue});
+    if(motherTongue!=null){
+      request.addAll({"mother_tongue":motherTongue?.toJson()});
     } 
     if(aadhar!=null && (aadhar??'').isNotEmpty){
       request.addAll({"aadhar":aadhar});
@@ -101,11 +101,11 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
     studentDetails.gender = gender?.transform();
     studentDetails.grade = grade?.transform();
     studentDetails.placeOfBirth = placeOfBirth;
-    studentDetails.religion = religion;
-    studentDetails.caste = caste;
-    studentDetails.subCaste = subCaste;
-    studentDetails.nationality = nationality;
-    studentDetails.motherTongue = motherTongue;
+    studentDetails.religion = religion?.transform();
+    studentDetails.caste = caste?.transform();
+    studentDetails.subCaste = subCaste?.transform();
+    studentDetails.nationality = nationality?.transform();
+    studentDetails.motherTongue = motherTongue?.transform();
     studentDetails.aadhar = aadhar;
     studentDetails.globalId = globalId;
     return studentDetails;
@@ -122,11 +122,11 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
       dob : data.dob,
       eligibleGrade : data.eligibleGrade,
       placeOfBirth : data.placeOfBirth,
-      religion : data.religion,
-      caste : data.caste,
-      subCaste : data.subCaste,
-      nationality : data.nationality,
-      motherTongue : data.motherTongue,
+      religion : commonDataEntity.restore(data.religion??CommonDataClass()),
+      caste : commonDataEntity.restore(data.caste??CommonDataClass()),
+      subCaste : commonDataEntity.restore(data.subCaste??CommonDataClass()),
+      nationality : commonDataEntity.restore(data.nationality??CommonDataClass()),
+      motherTongue : commonDataEntity.restore(data.motherTongue??CommonDataClass()),
       aadhar : data.aadhar,
       globalId : data.globalId,
     );

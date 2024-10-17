@@ -19,7 +19,6 @@ class FileUtilityAdapter  extends FileUtilityPort{
               'jpg',
               'jpeg',
               'png',
-              'doc',
               'pdf',
             ]);
 

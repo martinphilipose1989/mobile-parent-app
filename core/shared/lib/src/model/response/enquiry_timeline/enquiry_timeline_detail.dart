@@ -4,7 +4,7 @@ class EnquiryTimelineDetail {
     String? eventType;
     String? eventSubType;
     String? event;
-    DateTime? createdAt;
+    String? createdAt;
 
     EnquiryTimelineDetail({
         this.id,

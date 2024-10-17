@@ -62,7 +62,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     @JsonKey(name: 'nationality')
     String? nationality;
     @JsonKey(name: 'motherTongue')
-    String? motherTongue;
+    dynamic motherTongue;
     @JsonKey(name: 'schoolId')
     int? schoolId;
     @JsonKey(name: 'boardId')

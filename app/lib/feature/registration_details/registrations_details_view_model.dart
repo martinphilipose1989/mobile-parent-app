@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
@@ -12,11 +13,13 @@ import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -52,6 +55,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final RemoveVasDetailUsecase removeVasDetailUsecase;
   final MakePaymentRequestUsecase makePaymentRequestUsecase;
   final GetSubjectListUsecase getSubjectListUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   RegistrationsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -77,7 +81,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.addVasOptionUsecase,
       this.removeVasDetailUsecase,
       this.makePaymentRequestUsecase,
-      this.getSubjectListUsecase);
+      this.getSubjectListUsecase,
+      this.flutterToastErrorPresenter);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -108,7 +113,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     'Father',
     'Mother',
     'Guardian',
-    'Other'
   ];
   final List<String> pinCodeOptions = [
     '400001',
@@ -176,6 +180,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BehaviorSubject<List<String>> optionalSubject = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedSubject = BehaviorSubject.seeded("");
   List optionalSubjects = [];
+  BehaviorSubject<String> selectedOptionalSubject = BehaviorSubject.seeded('');
 
   ParentInfo? parentInfo;
   ContactDetails? contactDetails;
@@ -192,12 +197,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController organizationNameController = TextEditingController();
   TextEditingController designationController = TextEditingController();
   TextEditingController officeAddressController = TextEditingController();
+  TextEditingController fatherOfficeAreaController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController fatherEmailController = TextEditingController();
   TextEditingController fatherMobileController = TextEditingController();
   String? fatherOccupation;
   String? fatherArea;
   CommonDataClass? selectedFatherOccupation;
+  CommonDataClass? selectedFatherQualification;
+  CommonDataClass? selectedFatherDesignation;
+  CommonDataClass? selectedFatherOrganization;
   CommonDataClass? selectedFatherCountryEntity;
   CommonDataClass? selectedFatherStateEntity;
   CommonDataClass? selectedFatherCityEntity;
@@ -212,12 +221,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       TextEditingController();
   TextEditingController motherDesignationController = TextEditingController();
   TextEditingController motherOfficeAddressController = TextEditingController();
+  TextEditingController motherOfficeAreaController = TextEditingController();
   TextEditingController motherPinCodeController = TextEditingController();
   TextEditingController motherEmailController = TextEditingController();
   TextEditingController motherMobileController = TextEditingController();
   String? motherOccupation;
   String? motherArea;
   CommonDataClass? selectedMotherOccupation;
+  CommonDataClass? selectedMotherQualification;
+  CommonDataClass? selectedMotherDesignation;
+  CommonDataClass? selectedMotherOrganization;
   CommonDataClass? selectedMotherCountryEntity;
   CommonDataClass? selectedMotherStateEntity;
   CommonDataClass? selectedMotherCityEntity;
@@ -236,12 +249,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianDesignationController = TextEditingController();
   TextEditingController guardianOfficeAddressController =
       TextEditingController();
+  TextEditingController guardianOfficeAreaController = TextEditingController();
   TextEditingController guardianPinCodeController = TextEditingController();
   TextEditingController guardianEmailController = TextEditingController();
   TextEditingController guardianMobileController = TextEditingController();
   String? guardianOccupation;
   String? guardianArea;
   CommonDataClass? selectedGuardianOccupation;
+  CommonDataClass? selectedGuardianQualification;
+  CommonDataClass? selectedGuardianDesignation;
+  CommonDataClass? selectedGuardianOrganization;
   CommonDataClass? selectedGuardianCountryEntity;
   CommonDataClass? selectedGuardianStateEntity;
   CommonDataClass? selectedGuardianCityEntity;
@@ -251,6 +268,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController siblingLastNameController = TextEditingController();
   TextEditingController siblingsEnrollmentController = TextEditingController();
   TextEditingController siblingsSchoolController = TextEditingController();
+  TextEditingController siblingDOBController = TextEditingController();
   FocusNode enrollmentNode = FocusNode();
   BehaviorSubject<String> siblingGender = BehaviorSubject.seeded('');
   BehaviorSubject<String> siblingGrade = BehaviorSubject.seeded('');
@@ -263,24 +281,38 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController streetNameController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
+  TextEditingController permanentHouseOrBuildingController = TextEditingController();
+  TextEditingController permanentStreetNameController = TextEditingController();
+  TextEditingController permanentLandMarkController = TextEditingController();
+  TextEditingController permanentResidentialPinCodeController = TextEditingController();
   TextEditingController parentEmailIdController1 = TextEditingController();
   TextEditingController parentMobileNumberController1 = TextEditingController();
   TextEditingController parentEmailIdController2 = TextEditingController();
   TextEditingController parentMobileNumberController2 = TextEditingController();
+  TextEditingController parentEmailIdController3 = TextEditingController();
+  TextEditingController parentMobileNumberController3 = TextEditingController();
   BehaviorSubject<String> contactParentTypePhone1 = BehaviorSubject.seeded('');
   BehaviorSubject<String> contactParentTypeEmail1 = BehaviorSubject.seeded('');
   BehaviorSubject<String> contactParentTypePhone2 = BehaviorSubject.seeded('');
   BehaviorSubject<String> contactParentTypeEmail2 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> contactParentTypePhone3 = BehaviorSubject.seeded('');
+  BehaviorSubject<String> contactParentTypeEmail3 = BehaviorSubject.seeded('');
   BehaviorSubject<String> emergencyContact = BehaviorSubject<String>.seeded('');
   CommonDataClass? residentialCountry;
   CommonDataClass? residentialState;
   CommonDataClass? residentialCity;
+  CommonDataClass? permanentResidentialCountry;
+  CommonDataClass? permanentResidentialState;
+  CommonDataClass? permanentResidentialCity;
   String? residentialPinCode;
   BehaviorSubject<String> selectedResidentialCity = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedResidentialState = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedResidentialCountry =
       BehaviorSubject.seeded('');
-
+  BehaviorSubject<String> selectedPermanentResidentialCity = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPermanentResidentialState = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPermanentResidentialCountry =
+      BehaviorSubject.seeded('');
   //YearOfHospitalization
   TextEditingController yearOfHospitalizationController =
       TextEditingController();
@@ -293,6 +325,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController personalisedLearningNeedsController =
       TextEditingController();
   BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPersonalisedLearningNeedSubject = BehaviorSubject.seeded('');
 
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
@@ -314,6 +347,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController fatherGlobalIdController = TextEditingController();
   TextEditingController motherGlobalIdController = TextEditingController();
   TextEditingController parentTypeController = TextEditingController();
+  TextEditingController studentEligibleGradeController = TextEditingController();
+  TextEditingController studentAadharController = TextEditingController();
+  BehaviorSubject<String> selectedReligionSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedCasteSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedSubCasteSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedMotherTongueSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedNationalitySubject = BehaviorSubject.seeded('');
+  CommonDataClass? selectedReligion;
+  CommonDataClass? selectedCaste;
+  CommonDataClass? selectedSubCaste;
+  CommonDataClass? selectedMotherTongue;  
+  CommonDataClass? selectedNationality;
   TextEditingController studentsFatherFirstNameController =
       TextEditingController();
   TextEditingController studentsFatherLastNameController =
@@ -408,6 +453,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedGuardianOccupationSubject =
       BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianQualificationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianDesignationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGuardianOrganizationSubject =
+      BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedFatherCountrySubject =
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedFatherStateSubject =
@@ -415,6 +466,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<String> selectedFatherCitySubject =
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedFatherOccupationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherQualificationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherDesignationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedFatherOrganizationSubject =
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedFatherAreaSubject =
       BehaviorSubject<String>.seeded('');
@@ -428,10 +485,26 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedMotherOccupationSubject =
       BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherQualificationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherDesignationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedMotherOrganizationSubject =
+      BehaviorSubject<String>.seeded('');
   final BehaviorSubject<bool> selectedGenerType =
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<List<String>> schoolLocationTypes =
       BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> castes =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> subCastes =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> motherTongues =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> religions =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> nationalities = 
+      BehaviorSubject.seeded([]);
 
   final List<String> parentType = ["Mother", "Father"];
 
@@ -472,6 +545,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> occupation =
       BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> qualifications = 
+      BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<String>> designations = 
+      BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<String>> organizations = 
+      BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<String>> personalisedLearningNeeds = 
+      BehaviorSubject.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -490,6 +571,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   List<MdmAttributeModel>? cityAttribute;
   List<MdmAttributeModel>? bloodGroupAttribute;
   List<MdmAttributeModel>? occupationAttribute;
+  List<MdmAttributeModel>? qualificationAttribute;
+  List<MdmAttributeModel>? casteAttribute;
+  List<MdmAttributeModel>? subCasteAttribute;
+  List<MdmAttributeModel>? religionAttribute;
+  List<MdmAttributeModel>? motherTongueAttribute;
+  List<MdmAttributeModel>? designationAttribute;
+  List<MdmAttributeModel>? organizationAttribute;
+  List<MdmAttributeModel>? nationality;
+  List<MdmAttributeModel>? personalisedLearningNeedsAttribute;
 
   CommonDataClass? selectedSchoolLocationEntity;
   CommonDataClass? selectedGradeEntity;
@@ -510,26 +600,27 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   CommonDataClass? selectedStateEntity;
   CommonDataClass? selectedCityEntity;
   CommonDataClass? selectedBloodGroupEntity;
+  CommonDataClass? selectedPersonalisedLearningNeed;
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
 
   EnquiryStage? getSchoolVisitStage() {
     return enquiryDetails?.enquiryStage?.firstWhere(
-      (element) => element.stageName?.contains('School visit') ?? false,
+      (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
       orElse: () => EnquiryStage(),
     );
   }
 
   EnquiryStage? getCompetencyStage() {
     return enquiryDetails?.enquiryStage?.firstWhere(
-      (element) => element.stageName?.contains('Competency test') ?? false,
+      (element) => element.stageName?.toLowerCase().contains('competency test') ?? false,
       orElse: () => EnquiryStage(),
     );
   }
 
   bool isDetailView() {
     final schoolVisitStage = getSchoolVisitStage();
-    return schoolVisitStage?.status == "In Progress";
+    return schoolVisitStage?.status?.toLowerCase() == "in progress";
   }
 
   bool isDetailViewCompetency() {
@@ -698,13 +789,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       GetSubjectListUsecaseParams params = GetSubjectListUsecaseParams(
         subjectListingRequest: SubjectListingRequest(
           pageSize: 1000,
-          schoolId: 27,
+          schoolId: 10,
           academicYearId: 25,
           brandId: 1,
-          boardId: 3,
-          streamId: 1,
+          boardId: 5,
           termId: 1,
-          gradeID: 10
+          gradeID: 12
         )
       );
       RequestManager<SubjectListResponse>(
@@ -1183,124 +1273,189 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if (infoType == "grade") {
-          gradeTypesAttribute = result.data?.data;
-          gradeTypes.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "schoolLocation") {
-          schoolLocationTypesAttribute = result.data?.data;
-          schoolLocationTypes.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "gender") {
-          genderAttribute = result.data?.data;
-          gender.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "board") {
-          existingSchoolBoardAttribute = result.data?.data;
-          existingSchoolBoard.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "psaCategory") {
-          psaCategoryAttribute = result.data?.data;
-          psaCategory.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "psaSubCategory") {
-          psaSubCategoryAttribute = result.data?.data;
-          psaSubCategory.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "psaSubType") {
-          psaSubTypeAttribute = result.data?.data;
-          psaSubType.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "periodOfService") {
-          periodOfServiceAttribute = result.data?.data;
-          periodOfService.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "batch") {
-          psaBatchAttribute = result.data?.data;
-          psaBatch.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "stream") {
-          streamTypeAttribute = result.data?.data;
-          stream.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "course") {
-          courseTypeAttribute = result.data?.data;
-          course.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "shift") {
-          shiftTypeAttribute = result.data?.data;
-          shift.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "country") {
-          countryAttribute = result.data?.data;
-          country.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "state") {
-          stateAttribute = result.data?.data;
-          state.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "city") {
-          cityAttribute = result.data?.data;
-          city.add(result.data?.data
-                  ?.map((e) => e.attributes?.name ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "bloodGroup") {
-          bloodGroupAttribute = result.data?.data;
-          bloodGroup.add(result.data?.data
-                  ?.map((e) => e.attributes?.group ?? '')
-                  .toList() ??
-              []);
-        }
-        if (infoType == "occupation") {
-          occupationAttribute = result.data?.data;
-          occupation.add(result.data?.data
-                  ?.map((e) => e.attributes?.occupation ?? '')
-                  .toList() ??
-              []);
+        if (result.status == Status.success) {
+          if (infoType == "grade") {
+            gradeTypesAttribute = result.data?.data;
+            gradeTypes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "schoolLocation") {
+            schoolLocationTypesAttribute = result.data?.data;
+            schoolLocationTypes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "gender") {
+            genderAttribute = result.data?.data;
+            gender.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "board") {
+            existingSchoolBoardAttribute = result.data?.data;
+            existingSchoolBoard.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "psaCategory") {
+            psaCategoryAttribute = result.data?.data;
+            psaCategory.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "psaSubCategory") {
+            psaSubCategoryAttribute = result.data?.data;
+            psaSubCategory.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "psaSubType") {
+            psaSubTypeAttribute = result.data?.data;
+            psaSubType.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "periodOfService") {
+            periodOfServiceAttribute = result.data?.data;
+            periodOfService.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "batch") {
+            psaBatchAttribute = result.data?.data;
+            psaBatch.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "stream") {
+            streamTypeAttribute = result.data?.data;
+            stream.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "course") {
+            courseTypeAttribute = result.data?.data;
+            course.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "shift") {
+            shiftTypeAttribute = result.data?.data;
+            shift.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "country") {
+            countryAttribute = result.data?.data;
+            country.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "state") {
+            stateAttribute = result.data?.data;
+            state.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "city") {
+            cityAttribute = result.data?.data;
+            city.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "bloodGroup") {
+            bloodGroupAttribute = result.data?.data;
+            bloodGroup.add(result.data?.data
+                    ?.map((e) => e.attributes?.group ?? '')
+                    .toList() ??
+                []);
+          }
+          if (infoType == "occupation") {
+            occupationAttribute = result.data?.data;
+            occupation.add(result.data?.data
+                    ?.map((e) => e.attributes?.occupation ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == "qualification") {
+            qualificationAttribute = result.data?.data;
+            qualifications.add(result.data?.data
+                    ?.map((e) => e.attributes?.education ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == "religion") {
+            religionAttribute = result.data?.data;
+            religions.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == "caste") {
+            casteAttribute = result.data?.data;
+            castes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == "subcaste") {
+            subCasteAttribute = result.data?.data;
+            subCastes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == "mother_tongue") {
+            motherTongueAttribute = result.data?.data;
+            motherTongues.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == 'nationality'){
+            nationality = result.data?.data;
+            nationalities.add(result.data?.data?.
+                    map((e)=> e.attributes?.nationality??'')
+                    .toList() ??
+                []);
+          }
+          if(infoType == 'designation'){
+            designationAttribute = result.data?.data;
+            designations.add(result.data?.data
+                    ?.map((e) => e.attributes?.designation ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == 'organization'){
+            organizationAttribute = result.data?.data;
+            organizations.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
+          if(infoType == 'personalise_learning_needs'){
+            personalisedLearningNeedsAttribute = result.data?.data;
+            personalisedLearningNeeds.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -1347,6 +1502,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           DeleteEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
+        delete: 'true',
+        verifyDoc: 'false'
       );
       isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
@@ -1376,6 +1533,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           DownloadEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
+        download: 'true'
       );
       isLoading.value = true;
       RequestManager<DownloadEnquiryFileBase>(
@@ -1419,8 +1577,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             final fileName =
                 '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
+            log("File Path: ${file.path}");
             await file.writeAsBytes(result.data ?? Uint8List(0));
             isLoading.value = false;
+            OpenFilex.open(file.path);
             ScaffoldMessenger.of(context!).showSnackBar(
               SnackBar(
                   content:
@@ -1463,12 +1623,24 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
+    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
+    studentAadharController.text = detail.studentDetails?.aadhar??'';
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
-    religionController.text = detail.studentDetails?.religion ?? '';
-    casteController.text = detail.studentDetails?.caste ?? '';
-    subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    nationalityController.text = detail.studentDetails?.nationality ?? '';
-    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    // religionController.text = detail.studentDetails?.religion ?? '';
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligion = detail.studentDetails?.religion;
+    // casteController.text = detail.studentDetails?.caste ?? '';
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCaste = detail.studentDetails?.caste;
+    // subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCaste = detail.studentDetails?.subCaste;
+    // nationalityController.text = detail.studentDetails?.nationality ?? '';
+    selectedNationalitySubject.add(detail.studentDetails?.nationality?.value??'');
+    selectedNationality = detail.studentDetails?.nationality;
+    // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
@@ -1515,16 +1687,28 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
+    studentAadharController.text = detail.studentDetails?.aadhar??'';
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
-    religionController.text = detail.studentDetails?.religion ?? '';
-    casteController.text = detail.studentDetails?.caste ?? '';
-    subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    nationalityController.text = detail.studentDetails?.nationality ?? '';
-    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    // religionController.text = detail.studentDetails?.religion ?? '';
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligion = detail.studentDetails?.religion;
+    // casteController.text = detail.studentDetails?.caste ?? '';
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCaste = detail.studentDetails?.caste;
+    // subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCaste = detail.studentDetails?.subCaste;
+    // nationalityController.text = detail.studentDetails?.nationality ?? '';
+    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongue = detail.studentDetails?.motherTongue;
+    // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
@@ -1552,8 +1736,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     fatherGlobalIdController.text =
         detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1580,16 +1764,28 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
+    studentAadharController.text = detail.studentDetails?.aadhar??'';
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
-    religionController.text = detail.studentDetails?.religion ?? '';
-    casteController.text = detail.studentDetails?.caste ?? '';
-    subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    nationalityController.text = detail.studentDetails?.nationality ?? '';
-    motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    // religionController.text = detail.studentDetails?.religion ?? '';
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligion = detail.studentDetails?.religion;
+    // casteController.text = detail.studentDetails?.caste ?? '';
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCaste = detail.studentDetails?.caste;
+    // subCasteController.text = detail.studentDetails?.subCaste ?? '';
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCaste = detail.studentDetails?.subCaste;
+    // nationalityController.text = detail.studentDetails?.nationality ?? '';
+    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongue = detail.studentDetails?.motherTongue;
+    // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
+    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
@@ -1689,18 +1885,43 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherAdharCardController.text =
         parentDetails.fatherDetails?.aadharNumber ?? "";
     fatherPanCardController.text = parentDetails.fatherDetails?.panNumber ?? "";
-    qualificationController.text =
-        parentDetails.fatherDetails?.qualification ?? "";
-    organizationNameController.text =
-        parentDetails.fatherDetails?.organisationName ?? "";
-    designationController.text =
-        parentDetails.fatherDetails?.designationName ?? "";
+    // qualificationController.text =
+    //     parentDetails.fatherDetails?.qualification ?? "";
+    if(parentDetails.fatherDetails?.qualification is CommonDataClass){
+      selectedFatherQualification = parentDetails.fatherDetails?.qualification;
+      selectedFatherQualificationSubject.add(
+        parentDetails.fatherDetails?.qualification?.value??''
+      );
+    }
+    if(parentDetails.fatherDetails?.organisationName is CommonDataClass){
+      selectedFatherOrganization = parentDetails.fatherDetails?.organisationName;
+      selectedFatherOrganizationSubject.add(
+        parentDetails.fatherDetails?.organisationName?.value??''
+      );
+    }
+    // organizationNameController.text =
+    //     parentDetails.fatherDetails?.organisationName ?? "";
+    // designationController.text =
+    //     parentDetails.fatherDetails?.designationName ?? "";
+    if(parentDetails.fatherDetails?.designationName is CommonDataClass){
+      selectedFatherDesignation = parentDetails.fatherDetails?.designationName;
+      selectedFatherDesignationSubject.add(
+        parentDetails.fatherDetails?.designationName?.value??''
+      );
+    }
     pinCodeController.text = parentDetails.fatherDetails?.pinCode ?? "";
     fatherEmailController.text = parentDetails.fatherDetails?.emailId ?? "";
     fatherMobileController.text =
         parentDetails.fatherDetails?.mobileNumber ?? "";
-    fatherOccupation = parentDetails.fatherDetails?.occupation ?? "";
-    fatherArea = parentDetails.fatherDetails?.area ?? "";
+    // fatherOccupation = parentDetails.fatherDetails?.occupation ?? "";
+    if(parentDetails.fatherDetails?.occupation is CommonDataClass){
+      selectedFatherOccupation = parentDetails.fatherDetails?.occupation;
+      selectedFatherOccupationSubject.add(
+        parentDetails.fatherDetails?.occupation?.value??''
+      );
+    }
+    // fatherArea = parentDetails.fatherDetails?.area ?? "";
+    fatherOfficeAreaController.text = parentDetails.fatherDetails?.area ?? "";
     if(parentDetails.fatherDetails?.country is CommonDataClass){
       selectedFatherCountrySubject
           .add(parentDetails.fatherDetails?.country?.value ?? '');
@@ -1740,6 +1961,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: city?.id, value: city?.attributes?.name);
       }
     }
+    // if(parentDetails.fatherDetails?.qualification is CommonDataClass){
+    //   selectedFatherQualificationSubject
+    //       .add(parentDetails.fatherDetails?.qualification?.value ?? '');
+    //   selectedFatherQualification = parentDetails.fatherDetails?.qualification;
+    // } else {
+    //   selectedFatherQualificationSubject.add(parentDetails.fatherDetails?.qualification ?? '');
+    //     if ((qualificationAttribute ?? []).any((element) =>
+    //       element.attributes?.education == parentDetails.fatherDetails?.qualification)) {
+    //     var qualification = qualificationAttribute?.firstWhere((element) =>
+    //         element.attributes?.education == parentDetails.fatherDetails?.qualification);
+    //     selectedFatherQualification = CommonDataClass(
+    //         id: qualification?.id, value: qualification?.attributes?.education);
+    //   }
+    // }
     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area ?? '');
     selectedFatherOccupationSubject
         .add(parentDetails.fatherDetails?.occupation ?? '');
@@ -1750,20 +1985,39 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     motherAdharCardController.text =
         parentDetails.motherDetails?.aadharNumber ?? "";
     motherPanCardController.text = parentDetails.motherDetails?.panNumber ?? "";
-    motherQualificationController.text =
-        parentDetails.motherDetails?.qualification ?? "";
-    motherOrganizationNameController.text =
-        parentDetails.motherDetails?.organisationName ?? "";
-    motherDesignationController.text =
-        parentDetails.motherDetails?.designationName ?? "";
+    // motherQualificationController.text =
+    //     parentDetails.motherDetails?.qualification ?? "";
+    // motherOrganizationNameController.text =
+    //     parentDetails.motherDetails?.organisationName ?? "";
+    // motherDesignationController.text =
+    //     parentDetails.motherDetails?.designationName ?? "";
     motherOfficeAddressController.text =
         parentDetails.motherDetails?.officeAddress ?? "";
     motherPinCodeController.text = parentDetails.motherDetails?.pinCode ?? "";
     motherEmailController.text = parentDetails.motherDetails?.emailId ?? "";
     motherMobileController.text =
         parentDetails.motherDetails?.mobileNumber ?? "";
-    motherOccupation = parentDetails.motherDetails?.occupation ?? "";
+    // motherOccupation = parentDetails.motherDetails?.occupation ?? "";
+    if(parentDetails.motherDetails?.organisationName is CommonDataClass){
+      selectedMotherOrganization = parentDetails.motherDetails?.organisationName;
+      selectedMotherOrganizationSubject.add(
+        parentDetails.motherDetails?.organisationName?.value??''
+      );
+    }
+    if(parentDetails.motherDetails?.designationName is CommonDataClass){
+      selectedMotherDesignation = parentDetails.motherDetails?.designationName;
+      selectedMotherDesignationSubject.add(
+        parentDetails.motherDetails?.designationName?.value??''
+      );
+    }
+    if(parentDetails.motherDetails?.occupation is CommonDataClass){
+      selectedMotherOccupation = parentDetails.motherDetails?.occupation;
+      selectedMotherOccupationSubject.add(
+        parentDetails.motherDetails?.occupation?.value??''
+      );
+    }
     motherArea = parentDetails.motherDetails?.area ?? ""; 
+    motherOfficeAreaController.text = parentDetails.motherDetails?.area??"";
     if(parentDetails.motherDetails?.country is CommonDataClass){
       selectedMotherCountrySubject
           .add(parentDetails.motherDetails?.country?.value ?? '');
@@ -1809,6 +2063,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: city?.id, value: city?.attributes?.name);
       }
     }
+    if(parentDetails.motherDetails?.qualification is CommonDataClass){
+      selectedMotherQualificationSubject
+          .add(parentDetails.motherDetails?.qualification?.value ?? '');
+      selectedMotherQualification = parentDetails.motherDetails?.qualification;
+    } else {
+      selectedMotherQualificationSubject.add(parentDetails.motherDetails?.qualification ?? '');
+        if ((qualificationAttribute ?? []).any((element) =>
+          element.attributes?.education == parentDetails.motherDetails?.qualification)) {
+        var qualification = qualificationAttribute?.firstWhere((element) =>
+            element.attributes?.education == parentDetails.motherDetails?.qualification);
+        selectedMotherOccupation = CommonDataClass(
+            id: qualification?.id, value: qualification?.attributes?.description);
+      }
+    }
     selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
     selectedMotherOccupationSubject
         .add(parentDetails.motherDetails?.occupation ?? '');
@@ -1831,6 +2099,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.designationName ?? "";
     guardianOfficeAddressController.text =
         parentDetails.guardianDetails?.officeAddress ?? "";
+    guardianOfficeAreaController.text = parentDetails.guardianDetails?.area ?? "";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
     guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
@@ -1927,29 +2196,29 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
 
   addContactDetails(ContactDetails contactDetails) {
-    houseOrBuildingController.text =
-        contactDetails.residentialAddress?.house ?? "";
-    streetNameController.text = contactDetails.residentialAddress?.street ?? "";
-    landMarkController.text = contactDetails.residentialAddress?.landmark ?? "";
     emergencyContact.value = contactDetails.emergencyContact ?? '';
-    if (contactDetails.residentialAddress?.country is CommonDataClass ||
-        contactDetails.residentialAddress?.city is CommonDataClass) {
-      residentialCountry = contactDetails.residentialAddress?.country;
-      residentialState = contactDetails.residentialAddress?.state;
-      residentialCity = contactDetails.residentialAddress?.city;
+    houseOrBuildingController.text =
+        contactDetails.residentialAddress?.currentAddress?.house ?? "";
+    streetNameController.text = contactDetails.residentialAddress?.currentAddress?.street ?? "";
+    landMarkController.text = contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
+    if (contactDetails.residentialAddress?.currentAddress?.country is CommonDataClass ||
+        contactDetails.residentialAddress?.currentAddress?.city is CommonDataClass) {
+      residentialCountry = contactDetails.residentialAddress?.currentAddress?.country;
+      residentialState = contactDetails.residentialAddress?.currentAddress?.state;
+      residentialCity = contactDetails.residentialAddress?.currentAddress?.city;
       selectedResidentialCity.value =
-          contactDetails.residentialAddress?.country?.value ?? '';
+          contactDetails.residentialAddress?.currentAddress?.country?.value ?? '';
       selectedResidentialState.value =
-          contactDetails.residentialAddress?.state?.value ?? '';
+          contactDetails.residentialAddress?.currentAddress?.state?.value ?? '';
       selectedResidentialCountry.value =
-          contactDetails.residentialAddress?.country?.value ?? '';
+          contactDetails.residentialAddress?.currentAddress?.country?.value ?? '';
     } else {
       selectedResidentialCity.value =
-          contactDetails.residentialAddress?.city ?? '';
+          contactDetails.residentialAddress?.currentAddress?.city ?? '';
       selectedResidentialState.value =
-          contactDetails.residentialAddress?.state ?? '';
+          contactDetails.residentialAddress?.currentAddress?.state ?? '';
       selectedResidentialCountry.value =
-          contactDetails.residentialAddress?.country ?? '';
+          contactDetails.residentialAddress?.currentAddress?.country ?? '';
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == selectedResidentialCountry.value)) {
         var country = countryAttribute?.firstWhere((element) =>
@@ -1976,7 +2245,58 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       }
     }
     residentialPinCodeController.text =
-        contactDetails.residentialAddress?.pinCode ?? "";
+        contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
+    if(contactDetails.residentialAddress?.permanentAddress != null){
+      permanentHouseOrBuildingController.text =
+        contactDetails.residentialAddress?.permanentAddress?.house ?? "";
+      permanentStreetNameController.text = contactDetails.residentialAddress?.permanentAddress?.street ?? "";
+      permanentLandMarkController.text = contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
+      if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
+          contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
+        permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
+        permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
+        permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
+        selectedPermanentResidentialCity.value =
+            contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
+        selectedPermanentResidentialState.value =
+            contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
+        selectedPermanentResidentialCountry.value =
+            contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
+      } else {
+        selectedPermanentResidentialCity.value =
+            contactDetails.residentialAddress?.permanentAddress?.city ?? '';
+        selectedPermanentResidentialState.value =
+            contactDetails.residentialAddress?.permanentAddress?.state ?? '';
+        selectedPermanentResidentialCountry.value =
+            contactDetails.residentialAddress?.permanentAddress?.country ?? '';
+        if ((countryAttribute ?? []).any((element) =>
+            element.attributes?.name == selectedPermanentResidentialCountry.value)) {
+          var country = countryAttribute?.firstWhere((element) =>
+              (element.attributes?.name ?? '')
+                  .contains(selectedResidentialCountry.value));
+          permanentResidentialCountry =
+              CommonDataClass(id: country?.id, value: country?.attributes?.name);
+        }
+        if ((stateAttribute ?? []).any((element) =>
+            element.attributes?.name == selectedPermanentResidentialState.value)) {
+          var state = stateAttribute?.firstWhere((element) =>
+              (element.attributes?.name ?? '')
+                  .contains(selectedPermanentResidentialState.value));
+          permanentResidentialState =
+              CommonDataClass(id: state?.id, value: state?.attributes?.name);
+        }
+        if ((cityAttribute ?? []).any((element) =>
+            element.attributes?.name == selectedPermanentResidentialCity.value)) {
+          var city = cityAttribute?.firstWhere((element) =>
+              (element.attributes?.name ?? '')
+                  .contains(selectedPermanentResidentialCity.value));
+          permanentResidentialCity =
+              CommonDataClass(id: city?.id, value: city?.attributes?.name);
+        }
+      }
+      permanentResidentialPinCodeController.text =
+          contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
+    }
     if (contactDetails.pointOfContact?.firstPreference != null) {
       parentEmailIdController1.text =
           contactDetails.pointOfContact?.firstPreference?.email ?? '';
@@ -1997,10 +2317,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       contactParentTypeEmail2.value =
           contactDetails.pointOfContact?.secondPreference?.emailOfParent ?? '';
     }
-    radioButtonController3.selectItem(
-        (contactDetails.residentialAddress?.isPermanentAddress ?? false)
-            ? "Yes"
-            : "No");
+    if (contactDetails.pointOfContact?.thirdPreference != null) {
+      parentEmailIdController3.text =
+          contactDetails.pointOfContact?.thirdPreference?.email ?? '';
+      parentMobileNumberController3.text =
+          contactDetails.pointOfContact?.thirdPreference?.mobile ?? '';
+      contactParentTypePhone3.value =
+          contactDetails.pointOfContact?.thirdPreference?.mobileOfParent ?? '';
+      contactParentTypeEmail3.value =
+          contactDetails.pointOfContact?.thirdPreference?.emailOfParent ?? '';
+    }
+    // radioButtonController3.selectItem(
+    //     ((contactDetails.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes')
+    //         ? "Yes"
+    //         : "No");
   }
 
   addMedicalDetails(MedicalDetails medicalDetails) {
@@ -2028,8 +2358,23 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: bloodGroup?.id, value: bloodGroup?.attributes?.name);
       }
     }
-    personalisedLearningNeedsController.text =
-        medicalDetails.personalisedLearningNeedsDescription ?? '';
+    if (medicalDetails.personalisedLearningNeedsDescription is CommonDataClass) {
+      selectedPersonalisedLearningNeedSubject.add(medicalDetails.personalisedLearningNeedsDescription?.value ?? '');
+      selectedPersonalisedLearningNeed = medicalDetails.personalisedLearningNeedsDescription;
+    } else {
+      selectedPersonalisedLearningNeedSubject.value = medicalDetails.personalisedLearningNeedsDescription??'';
+      if ((personalisedLearningNeedsAttribute ?? []).any((element) =>
+          (element.attributes?.name ?? '')
+              .contains(medicalDetails.personalisedLearningNeedsDescription ?? ''))) {
+        var personalisedLearningNeeds = personalisedLearningNeedsAttribute?.firstWhere((element) =>
+            (element.attributes?.name ?? '')
+                .contains(medicalDetails.personalisedLearningNeedsDescription ?? ''));
+        selectedPersonalisedLearningNeed = CommonDataClass(
+            id: personalisedLearningNeeds?.id, value: personalisedLearningNeeds?.attributes?.name);
+      }
+    }
+    // personalisedLearningNeedsController.text =
+    //     medicalDetails.personalisedLearningNeedsDescription ?? '';
     radioButtonController4.selectItem(
         (medicalDetails.isChildHospitalised ?? false) ? "Yes" : "No");
     radioButtonController5.selectItem(
@@ -2061,19 +2406,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.fatherDetails?.aadharNumber =
         fatherAdharCardController.text.trim();
     parentInfo?.fatherDetails?.panNumber = fatherPanCardController.text.trim();
-    parentInfo?.fatherDetails?.qualification =
-        fatherPanCardController.text.trim();
-    parentInfo?.fatherDetails?.organisationName =
-        organizationNameController.text.trim();
-    parentInfo?.fatherDetails?.designationName =
-        designationController.text.trim();
+    parentInfo?.fatherDetails?.qualification = selectedFatherQualification;
+    parentInfo?.fatherDetails?.organisationName = selectedFatherOrganization;
+    parentInfo?.fatherDetails?.designationName = selectedFatherDesignation;
     parentInfo?.fatherDetails?.officeAddress = officeAddressController.text.trim();
     parentInfo?.fatherDetails?.pinCode = pinCodeController.text.trim();
     parentInfo?.fatherDetails?.emailId = fatherEmailController.text.trim();
     parentInfo?.fatherDetails?.mobileNumber =
         fatherMobileController.text.trim();
-    parentInfo?.fatherDetails?.occupation = fatherOccupation;
-    parentInfo?.fatherDetails?.area = fatherArea;
+    parentInfo?.fatherDetails?.occupation = selectedFatherOccupation;
+    parentInfo?.fatherDetails?.area = fatherOfficeAreaController.text.trim();
     parentInfo?.fatherDetails?.country = selectedFatherCountryEntity;
     parentInfo?.fatherDetails?.state = selectedFatherStateEntity;
     parentInfo?.fatherDetails?.city = selectedFatherCityEntity;
@@ -2084,20 +2426,17 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.motherDetails?.aadharNumber =
         motherAdharCardController.text.trim();
     parentInfo?.motherDetails?.panNumber = motherPanCardController.text.trim();
-    parentInfo?.motherDetails?.qualification =
-        motherQualificationController.text.trim();
-    parentInfo?.motherDetails?.organisationName =
-        motherOrganizationNameController.text.trim();
-    parentInfo?.motherDetails?.designationName =
-        motherDesignationController.text.trim();
+    parentInfo?.motherDetails?.qualification = selectedMotherQualification;
+    parentInfo?.motherDetails?.organisationName = selectedMotherOrganization;
+    parentInfo?.motherDetails?.designationName = selectedMotherDesignation;
     parentInfo?.motherDetails?.officeAddress =
         motherOfficeAddressController.text.trim();
     parentInfo?.motherDetails?.pinCode = motherPinCodeController.text.trim();
     parentInfo?.motherDetails?.emailId = motherEmailController.text.trim();
     parentInfo?.motherDetails?.mobileNumber =
         motherMobileController.text.trim();
-    parentInfo?.motherDetails?.occupation = motherOccupation;
-    parentInfo?.motherDetails?.area = motherArea;
+    parentInfo?.motherDetails?.occupation = selectedMotherOccupation;
+    parentInfo?.motherDetails?.area = motherOfficeAreaController.text.trim();
     parentInfo?.motherDetails?.country = selectedMotherCountryEntity;
     parentInfo?.motherDetails?.state = selectedMotherStateEntity;
     parentInfo?.motherDetails?.city = selectedMotherCityEntity;
@@ -2120,6 +2459,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         guardianDesignationController.text.trim();
     parentInfo?.guardianDetails?.officeAddress =
         guardianOfficeAddressController.text.trim();
+    parentInfo?.guardianDetails?.area = guardianOfficeAreaController.text.trim();
     parentInfo?.guardianDetails?.pincode =
         guardianPinCodeController.text.trim();
     parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
@@ -2192,8 +2532,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         : "";
     medicalDetails?.personalisedLearningNeedsDescription =
         medicalDetails?.hasPersonalisedLearningNeeds ?? false
-            ? personalisedLearningNeedsController.text.trim()
-            : "";
+            ? selectedPersonalisedLearningNeed
+            : null;
     medicalDetailsEntity = medicalDetailsEntity.restore(medicalDetails!);
     await updateMedicalDetail(enquiryId, medicalDetailsEntity);
   }
@@ -2214,7 +2554,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Future<void> saveContactDetails(String enquiryId) async {
     ContactDetailsEntity contactDetail = ContactDetailsEntity();
     contactDetails = ContactDetails(
-        residentialAddress: ResidentialAddress(
+        residentialAddress: ResidentialAddressDetail(
+          currentAddress: ResidentialAddress(
             house: houseOrBuildingController.text.trim(),
             street: streetNameController.text.trim(),
             landmark: landMarkController.text.trim(),
@@ -2224,6 +2565,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             pinCode: residentialPinCodeController.text.trim(),
             isPermanentAddress:
                 radioButtonController3.selectedItem == "Yes" ? true : false),
+            permanentAddress: radioButtonController3.selectedItem == "No" ? ResidentialAddress(
+            house: permanentHouseOrBuildingController.text.trim(),
+            street: permanentStreetNameController.text.trim(),
+            landmark: permanentLandMarkController.text.trim(),
+            country: permanentResidentialCountry,
+            state: permanentResidentialState,
+            city: permanentResidentialCity,
+            pinCode: permanentResidentialPinCodeController.text.trim(),
+            isPermanentAddress: true) : null
+        ),
         emergencyContact: emergencyContact.value,
         pointOfContact: PointOfContactDetail(
           firstPreference: (parentEmailIdController1.text.isEmpty ||
@@ -2263,18 +2614,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           studentLastNameController.text.trim();
       ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
           .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
-      newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth =
+      ivtDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.religion =
-          religionController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.caste =
-          casteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste =
-          subCasteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.nationality =
-          nationalityController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue =
-          motherTongueController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.religion = selectedReligion;
+      ivtDetailSubject?.value.studentDetails?.caste = selectedCaste;
+      ivtDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
+      ivtDetailSubject?.value.studentDetails?.nationality = selectedNationality;
+      ivtDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
       ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       ivtDetailSubject?.value.existingSchoolDetails?.name =
@@ -2316,18 +2664,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           studentLastNameController.text.trim();
       psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
           .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      psaDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
+      psaDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
       psaDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
-      psaDetailSubject?.value.studentDetails?.religion =
-          religionController.text.trim();
-      psaDetailSubject?.value.studentDetails?.caste =
-          casteController.text.trim();
-      psaDetailSubject?.value.studentDetails?.subCaste =
-          subCasteController.text.trim();
-      psaDetailSubject?.value.studentDetails?.nationality =
-          nationalityController.text.trim();
-      psaDetailSubject?.value.studentDetails?.motherTongue =
-          motherTongueController.text.trim();
+      psaDetailSubject?.value.studentDetails?.religion = selectedReligion;
+      psaDetailSubject?.value.studentDetails?.caste = selectedCaste;
+      psaDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
+      psaDetailSubject?.value.studentDetails?.nationality = selectedNationality;
+      psaDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
       psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       psaDetailSubject?.value.existingSchoolDetails?.name =
@@ -2373,22 +2718,19 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetailSubject?.value.studentDetails?.dob =
           DateFormat('dd-MM-yyyy')
               .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+      newAdmissionDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.gender =
           selectedGenderEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.grade =
           selectedGradeEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.religion =
-          religionController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.caste =
-          casteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste =
-          subCasteController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.nationality =
-          nationalityController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue =
-          motherTongueController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.religion = selectedReligion;
+      newAdmissionDetailSubject?.value.studentDetails?.caste = selectedCaste;
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
+      newAdmissionDetailSubject?.value.studentDetails?.nationality = selectedNationality;
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.name =
           existingSchoolNameController.text.trim();
       newAdmissionDetailSubject?.value.existingSchoolDetails?.grade =

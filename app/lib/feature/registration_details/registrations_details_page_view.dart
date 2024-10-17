@@ -43,11 +43,11 @@ class RegistrationsDetailsPageView
       case 0:
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())? Navigator.of(context).pushNamed(
-          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetail
+          RoutePaths.detailsViewSchoolTourPage,arguments: enquiryDetailArgs
         ).then((value){
           model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
         }) : Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetail}).then((value) {
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': enquiryDetailArgs}).then((value) {
               if(value!=null){
                 model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
               }
@@ -57,7 +57,7 @@ class RegistrationsDetailsPageView
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
         model.showMenuOnFloatingButton.add(false);
-        return UrlLauncher.launchPhone('+1234567890', context: context);
+        return UrlLauncher.launchPhone('+91 6003000700', context: context);
       case 3:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
@@ -80,6 +80,35 @@ class RegistrationsDetailsPageView
         model.getMdmAttribute(infoType: "city");
         model.getMdmAttribute(infoType: "bloodGroup");
         model.getMdmAttribute(infoType: "occupation");
+        model.getMdmAttribute(infoType: "qualification");
+        model.getMdmAttribute(infoType: "religion");
+        model.getMdmAttribute(infoType: "caste");
+        model.getMdmAttribute(infoType: "subcaste");
+        model.getMdmAttribute(infoType: "mother_tongue");
+        model.getMdmAttribute(infoType: "organization");
+        model.getMdmAttribute(infoType: "designation");
+        model.getMdmAttribute(infoType: "nationality");
+        model.getMdmAttribute(infoType: "designation");
+        model.getMdmAttribute(infoType: "organization");
+        model.getMdmAttribute(infoType: "personalise_learning_needs");
+
+        if(model.showWidget.value == 0){
+          if(enquiryDetailArgs?.enquiryType == "IVT"){
+            model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
+              isEdit: true
+            );
+          }
+          else if(enquiryDetailArgs?.enquiryType == "PSA"){
+            model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
+              isEdit: true
+            );
+          }
+          else{
+            model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
+              isEdit: true
+            );
+          }
+        }
         if(model.showWidget.value == 1){
           model.fetchAllDetails(enquiryDetailArgs?.enquiryId??'', "ParentInfo");
         }
@@ -110,7 +139,7 @@ class RegistrationsDetailsPageView
         ).then((value){
           model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
         }) : Navigator.of(context)
-           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetail}).then((value){
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': enquiryDetailArgs}).then((value){
             if(value!=null){
               model.getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId??'');
             }

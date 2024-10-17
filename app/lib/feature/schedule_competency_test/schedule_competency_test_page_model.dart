@@ -1,4 +1,6 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,8 @@ class CompetencyTestModel extends BasePageViewModel {
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
   final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
-  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase,this.flutterToastErrorPresenter);
   BuildContext? context;
 
   String selectedTime = "";
@@ -71,6 +74,10 @@ class CompetencyTestModel extends BasePageViewModel {
             selectedTime = result.data?.data?[0].slot ?? '';
           }
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
@@ -98,6 +105,10 @@ class CompetencyTestModel extends BasePageViewModel {
         _createCompetencyTest.add(result);
         if(result.status == Status.success){
           competencyTestDetails.add(Resource.success(data: result.data?.data));
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {
@@ -127,6 +138,10 @@ class CompetencyTestModel extends BasePageViewModel {
         _createCompetencyTest.add(result);
         if(result.status == Status.success){
           competencyTestDetails.add(Resource.success(data: result.data?.data));
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {

@@ -62,7 +62,7 @@ class UploadDocuments extends StatelessWidget {
               ),
             ),
             Column(
-              children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index)),
+              children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> (enquiryDetail?.enquiryDocuments?[index].stage == "Registration") ? _uploadItem(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index) : const SizedBox.shrink()),
             ),
             const SizedBox(height: 100,),
           ],
@@ -90,11 +90,21 @@ class UploadDocuments extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: CommonText(text: title,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: AppTypography.button.copyWith(
-                            color: AppColors.textDark
+                        child: Text.rich(
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.fade,
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '$title ',
+                                style: AppTypography.subtitle2,
+                              ),
+                              TextSpan(
+                                text: enquiryDocument?.isMandatory == 1 ? '*' : '',
+                                style: AppTypography.subtitle2.copyWith(color: Colors.red),
+                              ),
+                            ],
                           ),
                         ),
                       ),

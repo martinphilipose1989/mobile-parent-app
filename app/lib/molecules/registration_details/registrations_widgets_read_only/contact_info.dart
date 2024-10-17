@@ -151,18 +151,18 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.house??''),
+                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.currentAddress?.house??''),
                     DetailsItem(
-                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.street??''),
+                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.currentAddress?.street??''),
                     DetailsItem(
-                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.country is String) ? contactDetail?.residentialAddress?.country : contactDetail?.residentialAddress?.country?.value??''),
-                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.state is String) ? contactDetail?.residentialAddress?.state : contactDetail?.residentialAddress?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.city is String) ? contactDetail?.residentialAddress?.city : contactDetail?.residentialAddress?.city?.value??''),
-                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.pinCode??''),
-                    DetailsItem(
-                        title: "Is Permanent Address Same As Present?",
-                        subtitle: contactDetail?.residentialAddress?.isPermanentAddress??false ? "Yes":"No"),
+                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.currentAddress?.landmark??''),
+                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.currentAddress?.country is String) ? contactDetail?.residentialAddress?.currentAddress?.country : contactDetail?.residentialAddress?.currentAddress?.country?.value??''),
+                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.currentAddress?.state is String) ? contactDetail?.residentialAddress?.currentAddress?.state : contactDetail?.residentialAddress?.currentAddress?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.currentAddress?.city is String) ? contactDetail?.residentialAddress?.currentAddress?.city : contactDetail?.residentialAddress?.currentAddress?.city?.value??''),
+                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.currentAddress?.pinCode??''),
+                    // DetailsItem(
+                    //     title: "Is Permanent Address Same As Present?",
+                    //     subtitle: (contactDetail?.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes' ? "Yes":"No"),
                   ],
                 ),
               )

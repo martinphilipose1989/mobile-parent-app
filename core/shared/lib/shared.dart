@@ -53,6 +53,7 @@ export 'src/model/response/registration_info/parent_registration_detail.dart';
 export 'src/model/response/registration_info/bank_detail.dart';
 export 'src/model/response/registration_info/medical_details.dart';
 export 'src/model/response/registration_info/contact_details.dart';
+export 'src/model/response/registration_info/residential_address_detail.dart';
 export 'src/model/response/registration_info/emergency_contact.dart';
 export 'src/model/response/competency_book/competency_test_creation_model.dart';
 export 'src/model/response/competency_book/competency_test_data_model.dart';

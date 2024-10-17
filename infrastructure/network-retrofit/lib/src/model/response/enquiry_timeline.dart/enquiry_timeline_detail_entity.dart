@@ -16,7 +16,7 @@ class EnquiryTimelineDetailEntity extends BaseLayerDataTransformer<EnquiryTimeli
     @JsonKey(name: 'event')
     String? event;
     @JsonKey(name: 'created_at')
-    DateTime? createdAt;
+    String? createdAt;
 
     EnquiryTimelineDetailEntity({
         this.id,

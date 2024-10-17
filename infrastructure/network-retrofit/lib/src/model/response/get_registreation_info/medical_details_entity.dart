@@ -28,8 +28,8 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     dynamic bloodGroup;
     @JsonKey(name: 'hasPersonalisedLearningNeeds')
     bool? hasPersonalisedLearningNeeds;
-    @JsonKey(name: 'personalisedLearningNeedsDescription')
-    String? personalisedLearningNeedsDescription;
+    @JsonKey(name: 'personalisedLearningNeedsDescription',fromJson: _fromJson)
+    dynamic personalisedLearningNeedsDescription;
 
     MedicalDetailsEntity({
         this.isChildHospitalised,
@@ -69,7 +69,7 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
         "has_allergy": hasAllergy,
         "allergy_description": allergyDescription,
         "has_learning_needs": hasPersonalisedLearningNeeds,
-        "personalised_learning_needs": personalisedLearningNeedsDescription,
+        // "personalised_learning_needs": personalisedLearningNeedsDescription,
       };
       if(bloodGroup is CommonDataEntity){
         CommonDataEntity group = bloodGroup;
@@ -79,6 +79,14 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
       }
       else{
         request.addAll({"blood_group": bloodGroup});
+      }
+      if(personalisedLearningNeedsDescription is CommonDataEntity){
+        request.addAll(
+          {"personalised_learning_needs": personalisedLearningNeedsDescription?.toJson()}
+        );
+      }
+      else{
+        request.addAll({"personalised_learning_needs": personalisedLearningNeedsDescription});
       }
       return request;
     }
@@ -97,7 +105,7 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
     medicalDetails.allergyDescription = allergyDescription;
     medicalDetails.bloodGroup = (bloodGroup is CommonDataEntity) ? bloodGroup.transform() : bloodGroup;
     medicalDetails.hasPersonalisedLearningNeeds = hasPersonalisedLearningNeeds;
-    medicalDetails.personalisedLearningNeedsDescription = personalisedLearningNeedsDescription;
+    medicalDetails.personalisedLearningNeedsDescription = (personalisedLearningNeedsDescription is CommonDataEntity)? personalisedLearningNeedsDescription?.transform() : personalisedLearningNeedsDescription;
     return medicalDetails;
   }
 
@@ -116,7 +124,8 @@ class MedicalDetailsEntity extends BaseLayerDataTransformer<MedicalDetailsEntity
       allergyDescription: data.allergyDescription,
       bloodGroup: (data.bloodGroup is CommonDataClass) ? commonDataEntity.restore(data.bloodGroup) : data.bloodGroup,
       hasPersonalisedLearningNeeds: data.hasPersonalisedLearningNeeds,
-      personalisedLearningNeedsDescription: data.personalisedLearningNeedsDescription,
+      personalisedLearningNeedsDescription: (data.personalisedLearningNeedsDescription is CommonDataClass) ? 
+        commonDataEntity.restore(data.personalisedLearningNeedsDescription??CommonDataClass()) : data.personalisedLearningNeedsDescription,
     );
     return medicalDetailsEntity;
   }

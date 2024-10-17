@@ -34,7 +34,7 @@ class EnquiriesAdmissionsJourneyPageView
             .pushNamed(RoutePaths.registrationDetails, arguments: {"routeFrom": "enquiry", "enquiryDetailArgs": enquiryDetail});
       case 1:
         model.showMenuOnFloatingButton.add(false);
-        return UrlLauncher.launchPhone('+1234567890', context: context);
+        return UrlLauncher.launchPhone('+91 6003000700', context: context);
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);

@@ -57,6 +57,17 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "city");
         model.getMdmAttribute(infoType: "bloodGroup");
         model.getMdmAttribute(infoType: "occupation");
+        model.getMdmAttribute(infoType: "qualification");
+        model.getMdmAttribute(infoType: "religion");
+        model.getMdmAttribute(infoType: "caste");
+        model.getMdmAttribute(infoType: "subcaste");
+        model.getMdmAttribute(infoType: "mother_tongue");
+        model.getMdmAttribute(infoType: "organization");
+        model.getMdmAttribute(infoType: "designation");
+        model.getMdmAttribute(infoType: "nationality");
+        model.getMdmAttribute(infoType: "designation");
+        model.getMdmAttribute(infoType: "organization");
+        model.getMdmAttribute(infoType: "personalise_learning_needs");
     }
     if(widget.routeFrom!="enquiry"){
       if(widget.editRegistrationDetails){
@@ -101,6 +112,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
       );
     }
+    model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
      model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

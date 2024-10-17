@@ -1,4 +1,5 @@
 import 'package:shared/shared.dart';
+import 'package:shared/src/model/response/new_admission/common_data_class.dart';
 
 class StudentDetails {
     String? firstName;
@@ -8,11 +9,11 @@ class StudentDetails {
     String? dob;
     String? eligibleGrade;
     String? placeOfBirth;
-    String? religion;
-    String? caste;
-    String? subCaste;
-    String? nationality;
-    String? motherTongue;
+    CommonDataClass? religion;
+    CommonDataClass? caste;
+    CommonDataClass? subCaste;
+    CommonDataClass? nationality;
+    CommonDataClass? motherTongue;
     String? aadhar;
     String? globalId;
 

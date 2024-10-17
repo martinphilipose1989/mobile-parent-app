@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -14,7 +16,8 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   final GetAdmissionJourneyUsecase getAdmissionJourneyUsecase;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
   final EnquiryDetailArgs enquiryDetailArgs;
-  EnquiriesAdmissionsJourneyViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs){
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  EnquiriesAdmissionsJourneyViewModel(this.exceptionHandlerBinder,this.getAdmissionJourneyUsecase,this.getEnquiryDetailUseCase,this.enquiryDetailArgs,this.flutterToastErrorPresenter){
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId ?? '', type: 'enquiry');
@@ -43,6 +46,10 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           admissionJourney.add(Resource.success(data: result.data?.data??[]));
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -63,7 +70,13 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryDetail = result.data?.data;
+        if(result.status == Status.success){
+          enquiryDetail = result.data?.data;
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

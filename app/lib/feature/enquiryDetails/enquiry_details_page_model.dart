@@ -2,8 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/request_manager.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -33,6 +36,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   DownloadFileUsecase downloadFileUsecase;
   EnquiryDetailArgs enquiryDetails;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   EnquiriesDetailsPageModel(
@@ -49,7 +53,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     this.updateIvtDetailUsecase,
     this.updateNewAdmissionUsecase,
     this.downloadFileUsecase,
-    this.enquiryDetails
+    this.enquiryDetails,
+    this.flutterToastErrorPresenter
   ){
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
@@ -174,7 +179,23 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
 
-  final List<String> parentType = ["Mother","Father","Guardian"];
+  final List<String> parentType = ["Mother","Father"];
+  TextEditingController fatherGlobalIdController = TextEditingController();
+  TextEditingController motherGlobalIdController = TextEditingController();
+  TextEditingController studentsFatherFirstNameController =
+      TextEditingController();
+  TextEditingController studentsFatherLastNameController =
+      TextEditingController();
+  TextEditingController studentsFatherContactController =
+      TextEditingController();
+  TextEditingController studentsFatherEmailController = TextEditingController();
+  TextEditingController studentsMotherFirstNameController =
+      TextEditingController();
+  TextEditingController studentsMotherLastNameController =
+      TextEditingController();
+  TextEditingController studentsMotherContactController =
+      TextEditingController();
+  TextEditingController studentsMotherEmailController = TextEditingController();
 
   final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
@@ -413,14 +434,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   EnquiryStage? getSchoolVisitStage() {
     return enquiryDetail.value.enquiryStage
         ?.firstWhere(
-          (element) => element.stageName?.contains('School Visit') ?? false,
+          (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
           orElse: () => EnquiryStage(),
         );
   }
 
   bool isDetailView(){
     final schoolVisitStage = getSchoolVisitStage();
-    return schoolVisitStage?.status == "In Progress";
+    return schoolVisitStage?.status?.toLowerCase() == "in progress";
   }
 
   bool isDetailViewCompetency(){
@@ -530,6 +551,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       DeleteEnquiryDocumentUsecaseParams params = DeleteEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
+        delete: 'true',
+        verifyDoc: 'false'
       );
 
       isLoading.value = true;
@@ -542,9 +565,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           isDocumentUploaded[index??0].value = false;
           isLoading.value = false;
-          ScaffoldMessenger.of(context!).showSnackBar(
+          ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
             const SnackBar(content: Text('File deleted successfully')),
           );
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {
@@ -559,6 +586,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       DownloadEnquiryDocumentUsecaseParams params = DownloadEnquiryDocumentUsecaseParams(
         documentID: documentID,
         enquiryID: enquiryID,
+        download: 'true'
       );
       isLoading.value = true;
       
@@ -570,6 +598,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) async{
         if(result.status == Status.success){
           await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
       }).onError((error) {
         isLoading.value = false;
@@ -606,6 +638,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             log('$fullPath/$fileName');
             log("File Downloaded");
             isLoading.value = false;
+            OpenFilex.open(file.path);
             ScaffoldMessenger.of(context!).showSnackBar(
               SnackBar(content: Text('File downloaded successfully at: ${file.path}')),
             );
@@ -651,11 +684,30 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
     selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedParentTypeSubject.add("Father");
+    selectedParentTypeSubject.add(detail.enquirerParent??'');
     selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     parentTypeController.text = detail.enquirerParent??'';
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.motherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
 
   addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){

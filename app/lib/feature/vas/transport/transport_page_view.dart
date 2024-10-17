@@ -9,6 +9,8 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:app/utils/string_extension.dart';
+import 'package:collection/collection.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,27 +41,36 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.textDark.withOpacity(0.22),
-                                  blurRadius: 10,
-                                  spreadRadius: 0,
-                                  offset: const Offset(0, 2)
+                          AppStreamBuilder<String>(
+                            stream: model.fee,
+                            initialData: model.fee.value,
+                            dataBuilder: (context, data) {
+                              return Visibility(
+                                visible: model.fee.value.isNotEmpty,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.textDark.withOpacity(0.22),
+                                        blurRadius: 10,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 2)
+                                      ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const CommonText(text: "Calculated Amount",style: AppTypography.body2,),
+                                      CommonText(text: model.fee.value,style: AppTypography.h6.copyWith(color: AppColors.primary),)
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const CommonText(text: "Calculated Amount",style: AppTypography.body2,),
-                                CommonText(text: "10,000",style: AppTypography.h6.copyWith(color: AppColors.primary),)
-                              ],
-                            ),
+                              );
+                            }
                           ),
                           SizedBox(height: 16.h,),
                           const CommonText(text: "Select Bus Type",style: AppTypography.subtitle2,),
@@ -79,6 +90,9 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                                         options.add(element.feeCategory??'');
                                       }
                                     });
+                                    model.feeSubTypeID = model.transportEnrollmentDetail.value.data?.feeSubType?.firstWhereOrNull(
+                                      (element)=> element.feeSubType == model.radioButtonBusType.selectedItem
+                                    )?.feeSubTypeId??0;
                                     model.serviceType.add(options);
                                   },
                                 );
@@ -105,6 +119,19 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                                       commonRadioButton: model.radioButtonServiceType,
                                       value: model.serviceType.value[index],
                                       title: model.serviceType.value[index],
+                                      onOptionSelected: (value){
+                                        if((model.radioButtonServiceType.selectedItem??'').toLowerCase() == "both way"){
+                                          model.fetchStop(forBothWay: true,routeType: "1");
+                                          model.fetchStop(forBothWay: true,routeType: "2");
+                                          if(!model.feeSubCategoryStart.isEmptyOrNull() || !model.feeSubCategoryEnd.isEmptyOrNull()){
+                                            model.feeSubCategoryStart = null;
+                                            model.feeSubCategoryEnd = null;
+                                          }
+                                        }
+                                        model.feeCategoryID = model.transportEnrollmentDetail.value.data?.feeCategory?.firstWhereOrNull(
+                                          (element)=>element.feeCategory == model.radioButtonServiceType.selectedItem
+                                        )?.feeCategoryId??0;
+                                      },
                                     );
                                   },
                                 ),
@@ -161,7 +188,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
               
                                                 },
                                                 onSingleSelect: (selectedValue) {
-              
+                                                  model.feeSubCategoryStart = selectedValue;
                                                 },
                                               );  
                                             },
@@ -186,7 +213,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                                             initialData: model.oneWayPickupPoint.value,
                                             dataBuilder: (context, data) {
                                               return CustomDropdownButton(
-                                                items: model.oneWayPickupPoint.value,
+                                                items: model.oneWayDropPoint.value,
                                                 isMutiSelect: false, 
                                                 dropdownName: "Drop Point", 
                                                 showAstreik: true, 
@@ -195,7 +222,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
               
                                                 },
                                                 onSingleSelect: (selectedValue) {
-              
+                                                  model.feeSubCategoryEnd = selectedValue;
                                                 },
                                               );  
                                             },
@@ -214,24 +241,25 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                                         return CustomDropdownButton(
                                           items: model.oneWayPickupPoint.value,
                                           isMutiSelect: false, 
-                                          dropdownName: "Drop Point", 
+                                          dropdownName: "Pickup Point", 
                                           showAstreik: true, 
                                           showBorderColor: true, 
                                           onMultiSelect: (selectedValues) {
               
                                           },
                                           onSingleSelect: (selectedValue) {
-              
+                                            model.feeSubCategoryStart = selectedValue;
                                           },
                                         );  
                                       },
                                   ),
+                                  SizedBox(height: 15.h,),
                                   AppStreamBuilder<List<String>>(
                                       stream: model.oneWayPickupPoint,
                                       initialData: model.oneWayPickupPoint.value,
                                       dataBuilder: (context, data) {
                                         return CustomDropdownButton(
-                                          items: model.oneWayPickupPoint.value,
+                                          items: model.oneWayDropPoint.value,
                                           isMutiSelect: false, 
                                           dropdownName: "Drop Point", 
                                           showAstreik: true, 
@@ -240,7 +268,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
               
                                           },
                                           onSingleSelect: (selectedValue) {
-              
+                                            model.feeSubCategoryStart = selectedValue;
                                           },
                                         );  
                                       },
@@ -251,14 +279,59 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                           ),
                           
                           const SizedBox(height: 100,),
-                          Center(
-                            child: CommonElevatedButton(
-                              onPressed: (){},
-                              text: "Enroll Now",
-                              backgroundColor: AppColors.accent,
-                              width: double.infinity,
-                              textStyle: AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-                            ),
+                          AppStreamBuilder<String>(
+                            stream: model.fee,
+                            initialData: model.fee.value,
+                            dataBuilder: (context, snapshot) {
+                              return model.fee.value.isEmpty ? Center(
+                                child: CommonElevatedButton(
+                                  onPressed: () {
+                                    model.calculateFees();
+                                  },
+                                  text: "Calculate",
+                                  backgroundColor: AppColors.accent,
+                                  width: double.infinity,
+                                  textStyle: AppTypography.subtitle2
+                                      .copyWith(color: AppColors.textDark),
+                                ),
+                              ) : Row(  
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CommonElevatedButton(
+                                      onPressed: () {
+                                        model.enrollTransport();
+                                      },
+                                      text: "Enroll Now",
+                                      backgroundColor: AppColors.accent,
+                                      textStyle: AppTypography.subtitle2
+                                        .copyWith(color: AppColors.textDark),
+                                    ),
+                                  ),
+                                  SizedBox(width: 15.w,),
+                                  Expanded(
+                                    flex: 1,
+                                    child: CommonElevatedButton(
+                                      onPressed: () {
+                                        model.fee.value = '';
+                                        model.radioButtonBusType.selectItem(null);
+                                        model.radioButtonServiceType.selectItem(null);
+                                        model.radioButtonOneWayRouteType.selectItem(null);
+                                        model.feeSubTypeID = 0;
+                                        model.feeCategoryID = 0;
+                                        model.feeSubCategoryStart = null;
+                                        model.feeSubCategoryEnd = null;
+                                      },
+                                      text: "Reset",
+                                      backgroundColor: AppColors.primaryOn,
+                                      textStyle: AppTypography.subtitle2
+                                        .copyWith(color: AppColors.primary),
+                                    ),
+                                  )
+                                ],
+                              );
+                            }
                           ),
                         ],
                       ),

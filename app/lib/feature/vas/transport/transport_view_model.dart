@@ -1,9 +1,11 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/request_manager.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -20,13 +22,15 @@ class TransportDetailViewModel extends BasePageViewModel {
   final CalculateFeesUsecase calculateFeesUsecase;
   final AddVasDetailUsecase addVasDetailUsecase;
   final FetchStopsUsecase fetchStopsUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   TransportDetailViewModel(
     this.exceptionHandlerBinder,
     this.getTransportEnrollmentDetailUsecase,
     this.calculateFeesUsecase,
     this.addVasDetailUsecase,
-    this.fetchStopsUsecase
+    this.fetchStopsUsecase,
+    this.flutterToastErrorPresenter
   );
 
   BehaviorSubject<List<String>> busType = BehaviorSubject.seeded([]);
@@ -70,7 +74,9 @@ class TransportDetailViewModel extends BasePageViewModel {
   int batchID = 0;
   int periodOfServiceID = 0;
   int feeSubTypeID = 0;
-  int feeSubCategoryID = 0;
+  int feeCategoryID = 0;
+  String? feeSubCategoryStart;
+  String? feeSubCategoryEnd;
 
   Future<void> getTransportEnrollmentDetail() async {
     exceptionHandlerBinder.handle(block: () {
@@ -100,13 +106,13 @@ class TransportDetailViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> fetchStop() async {
+  Future<void> fetchStop({bool forBothWay = false,String? routeType}) async {
     exceptionHandlerBinder.handle(block: () {
       FetchStopsUsecaseParams params = FetchStopsUsecaseParams(
         fetchStopRequest: FetchStopRequest(
           schoolId: 10,
           busType: radioButtonBusType.selectedItem == "Non AC" ? "2" : "1",
-          routeType: radioButtonOneWayRouteType.selectedItem == "Pickup Point To School" ? "1":"2",
+          routeType: forBothWay? routeType : radioButtonOneWayRouteType.selectedItem == "Pickup Point To School" ? "1":"2",
       ));
       showLoader.value = true;
       RequestManager<FetchStopResponseModel>(
@@ -117,14 +123,24 @@ class TransportDetailViewModel extends BasePageViewModel {
         if (event.status == Status.success) {
           showLoader.value = false;
           List<String> routes = [];
-          (event.data?.data??[]).forEach((element){routes.add(element.zoneName??'');});
-          if(radioButtonOneWayRouteType.selectedItem == "Pickup Point To School"){
-            dropPointOneWay.text = "School";
-            oneWayPickupPoint.add(routes);
+          (event.data?.data??[]).forEach((element){routes.add(element.stopName??'');});
+          if(!forBothWay){
+            if(radioButtonOneWayRouteType.selectedItem == "Pickup Point To School"){
+              dropPointOneWay.text = "School";
+              oneWayPickupPoint.add(routes);
+            }
+            else{
+              pickupPointOneWay.text = "School";
+              oneWayDropPoint.add(routes);
+            }
           }
           else{
-            pickupPointOneWay.text = "School";
-            oneWayDropPoint.add(routes);
+            if(routeType == "1"){
+              oneWayPickupPoint.add(routes);
+            }
+            else{
+              oneWayDropPoint.add(routes);
+            }
           }
         } if(event.status == Status.error) {
           print("Error");
@@ -147,14 +163,15 @@ class TransportDetailViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: (){
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
         feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-          schoolId: 2,
+          schoolId: 1,
           boardId: 3,
-          gradeId: 3,
-          feeTypeId: 2,
-          feeSubTypeId: 25,
-          feeCategoryId: 2,
-          periodOfServiceId: 7,
+          gradeId: 5,
+          courseId: 1,
           academicYearId: 25,
+          feeSubTypeId: feeSubTypeID,
+          feeCategoryId: feeCategoryID,
+          feeSubCategoryEnd: (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
+          feeSubCategoryStart: (!feeSubCategoryStart.isEmptyOrNull()) ? "Zone1" : null
         )
       );
       showLoader.add(true);
@@ -186,11 +203,12 @@ class TransportDetailViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: (){
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
         vasEnrollmentRequest: VasEnrollmentRequest(
-          summerCampAmount: int.parse(fee.value),
-          summerCampPeriodOfService: periodOfServiceID,
-          summerCampBatch: batchID,
-          summerCampSubType: feeSubTypeID,
-          summerCampCategory: feeSubCategoryID
+          transportAmount: int.parse(fee.value),
+          transportBusType: feeSubTypeID,
+          transportServiceType: feeCategoryID,
+          transportRouteType: radioButtonOneWayRouteType.selectedItem == "Pickup Point To School" ? "1":"2",
+          transportDropPoint: (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
+          transportPickupPoint: (!feeSubCategoryStart.isEmptyOrNull()) ? "Zone1" : null
         ),
          enquiryID: enquiryDetailArgs?.enquiryId??'',
         type: "Transport"
@@ -209,7 +227,8 @@ class TransportDetailViewModel extends BasePageViewModel {
         }
         else{
           showLoader.value = false;
-          print("Error");
+          flutterToastErrorPresenter.show(
+            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
         }
       }).onError((error){
         showLoader.value = false;

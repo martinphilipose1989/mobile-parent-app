@@ -108,9 +108,9 @@ abstract class NetworkPort {
       required String documentID,
       required File file});
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
-      {required String enquiryID, required String documentID});
+      {required String enquiryID, required String documentID, required String download});
   Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument(
-      {required String enquiryID, required String documentID});
+      {required String enquiryID, required String documentID,required String delete,required String verify});
 
   Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute(
       {required String infoType});

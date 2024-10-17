@@ -19,6 +19,14 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
     String? reason;
     @JsonKey(name: 'Name')
     String? occupation;
+    @JsonKey(name: 'Education')
+    String? education;
+    @JsonKey(name: 'Description')
+    String? description;
+    @JsonKey(name: 'Designation')
+    String? designation;
+    @JsonKey(name: 'nationality')
+    String? nationality;
 
     AttributesDetailsEntity({
         this.name,
@@ -27,7 +35,11 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
         this.shortNameTwoDigit,
         this.group,
         this.reason,
-        this.occupation
+        this.occupation,
+        this.education,
+        this.description,
+        this.designation,
+        this.nationality
     });
 
     factory AttributesDetailsEntity.fromJson(Map<String, dynamic> json) => _$AttributesDetailsEntityFromJson(json);
@@ -43,6 +55,10 @@ class AttributesDetailsEntity extends BaseLayerDataTransformer<AttributesDetails
     model.group = group;
     model.reason = reason;
     model.occupation = occupation;
+    model.education = education;
+    model.description = description;
+    model.nationality = nationality;
+    model.designation = designation;
     return model;
   }
 }

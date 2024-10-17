@@ -402,9 +402,9 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
-      {required String enquiryID, required String documentID}) async {
+      {required String enquiryID, required String documentID, required String download}) async {
     var response = await safeApiCall(apiService.downloadEnquiryDocument(
-        enquiryID: enquiryID, documentID: documentID));
+        enquiryID: enquiryID, documentID: documentID, download: download));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -421,9 +421,9 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument(
-      {required String enquiryID, required String documentID}) async {
+      {required String enquiryID, required String documentID, required String delete, required String verify}) async {
     var response = await safeApiCall(apiService.deleteEnquiryDocument(
-        enquiryID: enquiryID, documentID: documentID));
+        enquiryID: enquiryID, documentID: documentID, delete: delete, verify: verify));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -680,6 +680,69 @@ class NetworkAdapter implements NetworkPort {
         }, (r) => Right(r.data.transform()));
       case "occupation":
         var response = await safeApiCall(apiService.getOccupationAttribute(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "qualification":
+        var response = await safeApiCall(apiService.getQualifications(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "religion":
+        var response = await safeApiCall(apiService.getReligions(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "caste":
+        var response = await safeApiCall(apiService.getCastes(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "subcaste":
+        var response = await safeApiCall(apiService.getSubCastes(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "mother_tongue":
+        var response = await safeApiCall(apiService.getMotherTongue(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "organization":
+        var response = await safeApiCall(apiService.getOrganizations(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "designation":
+        var response = await safeApiCall(apiService.getDesignation(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "nationality":
+        var response = await safeApiCall(apiService.getNationality(
+            token:
+                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        return response.fold((l) {
+          return Left(l);
+        }, (r) => Right(r.data.transform()));
+      case "personalise_learning_needs":
+        var response = await safeApiCall(apiService.getPersonalizedLearningNeeds(
             token:
                 "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
         return response.fold((l) {

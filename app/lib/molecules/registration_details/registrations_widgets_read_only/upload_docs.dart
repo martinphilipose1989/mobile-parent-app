@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class UploadDocs extends StatelessWidget {
-  EnquiryDetail? enquiryDetail;
-  RegistrationsDetailsViewModel model;
-  String? enquiryID;
-  UploadDocs({super.key, this.enquiryDetail, required this.model, this.enquiryID});
+  final EnquiryDetail? enquiryDetail;
+  final RegistrationsDetailsViewModel model;
+  final String? enquiryID;
+  const UploadDocs({super.key, this.enquiryDetail, required this.model, this.enquiryID});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,11 @@ class UploadDocs extends StatelessWidget {
             ],
           ),
         ),
-        Column(
-          children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> documentsNameAndIcons(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index)),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            children: List.generate((enquiryDetail?.enquiryDocuments??[]).length, (index)=> (enquiryDetail?.enquiryDocuments?[index].stage == "Registration") ?  documentsNameAndIcons(context,title: enquiryDetail?.enquiryDocuments?[index].documentName??'',enquiryDocument: enquiryDetail?.enquiryDocuments?[index],isUploaded: model.isDocumentUploaded[index],index: index) : const SizedBox.shrink()),
+          ),
         ),
       ],
     );
@@ -56,11 +59,22 @@ class UploadDocs extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: CommonText(
-                    text: title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.subtitle2,
+                  child: Text.rich(
+                    softWrap: true,
+                    maxLines: 3,
+                    overflow: TextOverflow.fade,
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$title ',
+                          style: AppTypography.subtitle2,
+                        ),
+                        TextSpan(
+                          text: enquiryDocument?.isMandatory == 1 ? '*' : '',
+                          style: AppTypography.subtitle2.copyWith(color: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const Spacer(),

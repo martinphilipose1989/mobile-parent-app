@@ -1,5 +1,6 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/utils/app_inputformatters.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
@@ -78,7 +79,7 @@ class ParentInfoEditing extends StatelessWidget {
                           labelText: "Father's Aadhar Card No",
                           controller: model.fatherAdharCardController,
                           keyboardType: TextInputType.number,
-                          maxLength: 14,
+                          maxLength: 12,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
@@ -93,6 +94,9 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           labelText: "Father's Pan Card No",
                           controller: model.fatherPanCardController,
+                          inputFormatters: [
+                            AppInputformatters.upperCaseFormatter()
+                          ],
                           maxLength: 10,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Pan Card No',
@@ -101,16 +105,50 @@ class ParentInfoEditing extends StatelessWidget {
                               minLength: 10),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: true,
-                          labelText: "Qualification",
-                          controller: model.qualificationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            'Qualification',
-                            checkSpecialCharacters: false,
-                          ),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: true,
+                        //   labelText: "Qualification",
+                        //   controller: model.qualificationController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     'Qualification',
+                        //     checkSpecialCharacters: false,
+                        //   ),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.qualifications,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.qualifications.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Qualification',
+                                showAstreik: true,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  'Qualification',
+                                  checkSpecialCharacters: false,
+                                ),
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedFatherQualificationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.qualifications.value.contains(val)) {
+                                    var qualification = model.qualificationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.education ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedFatherQualification =
+                                        CommonDataClass(
+                                            id: qualification?.id,
+                                            value: qualification
+                                                ?.attributes?.education);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
                             stream: model.occupation,
@@ -146,23 +184,79 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Organization Name",
-                          controller: model.organizationNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                              value, 'Organization Name',
-                              checkSpecialCharacters: false),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Organization Name",
+                        //   controller: model.organizationNameController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //       value, 'Organization Name',
+                        //       checkSpecialCharacters: false),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.organizations,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.organizations.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Organization Name',
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedFatherOrganizationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.organizations.value.contains(val)) {
+                                    var organization = model.organizationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.name ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedFatherOrganization =
+                                        CommonDataClass(
+                                            id: organization?.id,
+                                            value: organization
+                                                ?.attributes?.name);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Designation",
-                          controller: model.designationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                              value, 'Designation',
-                              checkSpecialCharacters: false),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Designation",
+                        //   controller: model.designationController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //       value, 'Designation',
+                        //       checkSpecialCharacters: false),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.designations,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.designations.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Designation',
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedFatherDesignationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.designations.value.contains(val)) {
+                                    var designation = model.designationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.designation ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedFatherDesignation =
+                                        CommonDataClass(
+                                            id: designation?.id,
+                                            value: designation
+                                                ?.attributes?.name);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -173,48 +267,61 @@ class ParentInfoEditing extends StatelessWidget {
                               checkSpecialCharacters: false),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.area,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Area',
-                          validator: (value) => AppValidators.validateNotEmpty(
-                              value, 'Father Area',
-                              checkSpecialCharacters: false),
+                        // CustomDropdownButton(
+                        //   items: model.area,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   isMutiSelect: false,
+                        //   dropdownName: 'Area',
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //       value, 'Father Area',
+                        //       checkSpecialCharacters: false),
+                        //   showAstreik: false,
+                        //   onMultiSelect: (val) {},
+                        //   onSingleSelect: (val) {
+                        //     model.fatherArea = val;
+                        //   },
+                        //   showBorderColor: true,
+                        // ),
+                        CommonTextFormField(
                           showAstreik: false,
-                          onMultiSelect: (val) {},
-                          onSingleSelect: (val) {
-                            model.fatherArea = val;
-                          },
-                          showBorderColor: true,
+                          labelText: "Area",
+                          controller: model.fatherOfficeAreaController,
+                          validator: (value) => AppValidators.validateNotEmpty(
+                              value, 'Office Address',
+                              checkSpecialCharacters: false),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.country.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Country',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            'Country',
-                            checkSpecialCharacters: false,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          onSingleSelect: (val) {
-                            if (model.country.value.contains(val)) {
-                              var country = model.countryAttribute?.firstWhere(
-                                  (element) => (element.attributes?.name ?? '')
-                                      .contains(val));
-                              // model.selectedFatherCountryType.add(true);
-                              model.selectedFatherCountrySubject.value = val;
-                              model.selectedFatherCountryEntity =
-                                  CommonDataClass(
-                                      id: country?.id,
-                                      value: country?.attributes?.name);
-                            }
-                          },
-                          showBorderColor: true,
+                        StreamBuilder<List<String>>(
+                          stream: model.country,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.country.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'Country',
+                              showAstreik: false,
+                              validator: (value) => AppValidators.validateNotEmpty(
+                                value,
+                                'Country',
+                                checkSpecialCharacters: false,
+                              ),
+                              onMultiSelect: (selectedValues) {},
+                              onSingleSelect: (val) {
+                                if (model.country.value.contains(val)) {
+                                  var country = model.countryAttribute?.firstWhere(
+                                      (element) => (element.attributes?.name ?? '')
+                                          .contains(val));
+                                  // model.selectedFatherCountryType.add(true);
+                                  model.selectedFatherCountrySubject.value = val;
+                                  model.selectedFatherCountryEntity =
+                                      CommonDataClass(
+                                          id: country?.id,
+                                          value: country?.attributes?.name);
+                                }
+                              },
+                              showBorderColor: true,
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
@@ -231,55 +338,65 @@ class ParentInfoEditing extends StatelessWidget {
                               checkSpecialCharacters: false),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.state.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'State',
-                          showAstreik: false,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            'State',
-                            checkSpecialCharacters: false,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          onSingleSelect: (val) {
-                            if (model.state.value.contains(val)) {
-                              var state = model.stateAttribute?.firstWhere(
-                                  (element) => (element.attributes?.name ?? '')
-                                      .contains(val));
-                              // model.selectedFatherStateType.add(true);
-                              model.selectedFatherStateEntity = CommonDataClass(
-                                  id: state?.id,
-                                  value: state?.attributes?.name);
-                            }
-                          },
-                          showBorderColor: true,
+                        StreamBuilder<List<String>>(
+                          stream: model.state,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.state.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'State',
+                              showAstreik: false,
+                              validator: (value) => AppValidators.validateNotEmpty(
+                                value,
+                                'State',
+                                checkSpecialCharacters: false,
+                              ),
+                              onMultiSelect: (selectedValues) {},
+                              onSingleSelect: (val) {
+                                if (model.state.value.contains(val)) {
+                                  var state = model.stateAttribute?.firstWhere(
+                                      (element) => (element.attributes?.name ?? '')
+                                          .contains(val));
+                                  // model.selectedFatherStateType.add(true);
+                                  model.selectedFatherStateEntity = CommonDataClass(
+                                      id: state?.id,
+                                      value: state?.attributes?.name);
+                                }
+                              },
+                              showBorderColor: true,
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.city.value,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'City',
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            'City',
-                            checkSpecialCharacters: false,
-                          ),
-                          showAstreik: false,
-                          onMultiSelect: (selectedValues) {},
-                          onSingleSelect: (val) {
-                            if (model.city.value.contains(val)) {
-                              var city = model.cityAttribute?.firstWhere(
-                                  (element) => (element.attributes?.name ?? '')
-                                      .contains(val));
-                              // model.selectedFatherCityType.add(true);
-                              model.selectedFatherCityEntity = CommonDataClass(
-                                  id: city?.id, value: city?.attributes?.name);
-                            }
-                          },
-                          showBorderColor: true,
+                        StreamBuilder<List<String>>(
+                          stream: model.city,
+                          builder: (context, snapshot) {
+                            return CustomDropdownButton(
+                              items: model.city.value,
+                              width: MediaQuery.of(context).size.width,
+                              isMutiSelect: false,
+                              dropdownName: 'City',
+                              validator: (value) => AppValidators.validateNotEmpty(
+                                value,
+                                'City',
+                                checkSpecialCharacters: false,
+                              ),
+                              showAstreik: false,
+                              onMultiSelect: (selectedValues) {},
+                              onSingleSelect: (val) {
+                                if (model.city.value.contains(val)) {
+                                  var city = model.cityAttribute?.firstWhere(
+                                      (element) => (element.attributes?.name ?? '')
+                                          .contains(val));
+                                  // model.selectedFatherCityType.add(true);
+                                  model.selectedFatherCityEntity = CommonDataClass(
+                                      id: city?.id, value: city?.attributes?.name);
+                                }
+                              },
+                              showBorderColor: true,
+                            );
+                          }
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
@@ -366,7 +483,7 @@ class ParentInfoEditing extends StatelessWidget {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          maxLength: 14,
+                          maxLength: 12,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Aadhar Card No",
@@ -379,6 +496,7 @@ class ParentInfoEditing extends StatelessWidget {
                           labelText: "Mother's Pan Card No",
                           controller: model.motherPanCardController,
                           maxLength: 10,
+                          inputFormatters: [AppInputformatters.upperCaseFormatter()],
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Pan Card No",
@@ -386,16 +504,50 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: true,
-                          labelText: "Qualification",
-                          controller: model.motherQualificationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Mother's Qualification",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: true,
+                        //   labelText: "Qualification",
+                        //   controller: model.motherQualificationController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     "Mother's Qualification",
+                        //     checkSpecialCharacters: true,
+                        //   ),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.qualifications,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.qualifications.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Qualification',
+                                showAstreik: true,
+                                validator: (value) =>
+                                    AppValidators.validateNotEmpty(
+                                  value,
+                                  'Qualification',
+                                  checkSpecialCharacters: false,
+                                ),
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherQualificationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.qualifications.value.contains(val)) {
+                                    var qualification = model.qualificationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.education ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedMotherQualification =
+                                        CommonDataClass(
+                                            id: qualification?.id,
+                                            value: qualification
+                                                ?.attributes?.education);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
                             stream: model.occupation,
@@ -425,27 +577,83 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Organization Name",
-                          controller: model.motherOrganizationNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Mother's Organization Name",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Organization Name",
+                        //   controller: model.motherOrganizationNameController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     "Mother's Organization Name",
+                        //     checkSpecialCharacters: true,
+                        //   ),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.organizations,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.organizations.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Organization Name',
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherOrganizationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.organizations.value.contains(val)) {
+                                    var organization = model.organizationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.name ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedMotherOrganization =
+                                        CommonDataClass(
+                                            id: organization?.id,
+                                            value: organization
+                                                ?.attributes?.name);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Designation",
-                          controller: model.motherDesignationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Mother's Designation",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Designation",
+                        //   controller: model.motherDesignationController,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     "Mother's Designation",
+                        //     checkSpecialCharacters: true,
+                        //   ),
+                        // ),
+                        StreamBuilder<List<String>>(
+                            stream: model.designations,
+                            builder: (context, snapshot) {
+                              return CustomDropdownButton(
+                                items: model.designations.value,
+                                width: MediaQuery.of(context).size.width,
+                                isMutiSelect: false,
+                                dropdownName: 'Designation',
+                                showAstreik: false,
+                                onMultiSelect: (selectedValues) {},
+                                showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherDesignationSubject,
+                                onSingleSelect: (val) {
+                                  if (model.designations.value.contains(val)) {
+                                    var designation = model.designationAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.designation ??
+                                                    '')
+                                                .contains(val));
+                                    model.selectedMotherDesignation =
+                                        CommonDataClass(
+                                            id: designation?.id,
+                                            value: designation
+                                                ?.attributes?.name);
+                                  }
+                                },
+                              );
+                            }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -458,22 +666,30 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.area,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Area',
+                        // CustomDropdownButton(
+                        //   items: model.area,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   isMutiSelect: false,
+                        //   dropdownName: 'Area',
+                        //   showAstreik: false,
+                        //   onMultiSelect: (selectedValues) {},
+                        //   showBorderColor: true,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     "Mother's Area",
+                        //     checkSpecialCharacters: true,
+                        //   ),
+                        //   onSingleSelect: (val) {
+                        //     model.motherArea = val;
+                        //   },
+                        // ),
+                        CommonTextFormField(
                           showAstreik: false,
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
+                          labelText: "Area",
+                          controller: model.motherOfficeAreaController,
                           validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Mother's Area",
-                            checkSpecialCharacters: true,
-                          ),
-                          onSingleSelect: (val) {
-                            model.motherArea = val;
-                          },
+                              value, 'Area',
+                              checkSpecialCharacters: false),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
@@ -600,7 +816,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: true,
                           labelText: "Mother's Mobile Number",
                           controller: model.motherMobileController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           maxLength: 10,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -718,7 +934,6 @@ class ParentInfoEditing extends StatelessWidget {
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
-
                                 onSingleSelect: (val) {
                                   model.guardianOccupation = val;
                                 },
@@ -758,22 +973,30 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CustomDropdownButton(
-                          items: model.area,
-                          width: MediaQuery.of(context).size.width,
-                          isMutiSelect: false,
-                          dropdownName: 'Area',
+                        // CustomDropdownButton(
+                        //   items: model.area,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   isMutiSelect: false,
+                        //   dropdownName: 'Area',
+                        //   showAstreik: false,
+                        //   validator: (value) => AppValidators.validateNotEmpty(
+                        //     value,
+                        //     "Guardian's Area",
+                        //     checkSpecialCharacters: true,
+                        //   ),
+                        //   onMultiSelect: (selectedValues) {},
+                        //   showBorderColor: true,
+                        //   onSingleSelect: (val) {
+                        //     model.guardianArea = val;
+                        //   },
+                        // ),
+                        CommonTextFormField(
                           showAstreik: false,
+                          labelText: "Area",
+                          controller: model.guardianOfficeAreaController,
                           validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Area",
-                            checkSpecialCharacters: true,
-                          ),
-                          onMultiSelect: (selectedValues) {},
-                          showBorderColor: true,
-                          onSingleSelect: (val) {
-                            model.guardianArea = val;
-                          },
+                              value, 'Office Address',
+                              checkSpecialCharacters: false),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
@@ -1094,6 +1317,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   initialData: Resource.none(),
                                   dataBuilder: (context, data) {
                                     return CommonDatePickerWidget(
+                                        controller: model.siblingDOBController,
                                         isDisabled: selectStudentType ==
                                             "Vibgyor Student",
                                         labelName: "Date of birth",

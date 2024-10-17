@@ -46,7 +46,12 @@ class CancelSchoolTourPageView
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('School tour cancelled successfully')),
           );
-          Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.enquiriesAdmissionsJourneyPage));
+          if((enquiryDetailArgs.isFrom ?? 'enquiry') == 'enquiry'){
+            Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.enquiriesAdmissionsJourneyPage));
+          }
+          else{
+            Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.admissionsDetails));
+          }
         }
       },
       dataBuilder: (context, snapshot) {

@@ -12,6 +12,9 @@ class VasEnrollmentFeeCalculationRequest {
   int? feeSubcategoryId;
   int? periodOfServiceId;
   int? academicYearId;
+  String? feeSubCategoryStart;
+  String? feeSubCategoryEnd;
+  
 
   VasEnrollmentFeeCalculationRequest(
       {this.boardId,
@@ -26,7 +29,9 @@ class VasEnrollmentFeeCalculationRequest {
       this.feeCategoryId,
       this.feeSubcategoryId,
       this.periodOfServiceId,
-      this.academicYearId});
+      this.academicYearId,
+      this.feeSubCategoryStart,
+      this.feeSubCategoryEnd});
 
   VasEnrollmentFeeCalculationRequest.fromJson(Map<String, dynamic> json) {
     boardId = json['board_id'];
@@ -42,6 +47,8 @@ class VasEnrollmentFeeCalculationRequest {
     feeSubcategoryId = json['fee_subcategory_id'];
     periodOfServiceId = json['period_of_service_id'];
     academicYearId = json['academic_year_id'];
+    feeSubCategoryStart = json['fee_subcategory_start'];
+    feeSubCategoryEnd = json['fee_subcategory_end'];
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +66,8 @@ class VasEnrollmentFeeCalculationRequest {
     data['fee_subcategory_id'] = feeSubcategoryId;
     data['period_of_service_id'] = periodOfServiceId;
     data['academic_year_id'] = academicYearId;
+    data['fee_subcategory_start'] = feeSubCategoryStart;
+    data['fee_subcategory_end'] = feeSubCategoryEnd;
     return data;
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:network_retrofit/src/model/request/fetch_stop_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
@@ -221,7 +220,8 @@ abstract class RetrofitService {
   Future<HttpResponse<DownloadEnquiryFileResponseEntity>>
       downloadEnquiryDocument(
           {@Path('enquiryID') required String enquiryID,
-          @Path('documentID') required String documentID});
+          @Path('documentID') required String documentID,
+          @Query('download') required String download});
 
   @GET('{file_url}')
   @DioResponseType(ResponseType.bytes)
@@ -229,10 +229,12 @@ abstract class RetrofitService {
       {@Path('file_url') required String fileUrl});
 
   @PATCH(
-      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}/delete')
+      '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}')
   Future<HttpResponse<DeleteEnquiryFileResponseEntity>> deleteEnquiryDocument(
       {@Path('enquiryID') required String enquiryID,
-      @Path('documentID') required String documentID});
+      @Path('documentID') required String documentID,
+      @Query('delete') required String delete,
+      @Query('verify') required String verify});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/upload-document/{documentID}')
@@ -403,6 +405,42 @@ abstract class RetrofitService {
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.occupation}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getOccupationAttribute(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.qualifications}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getQualifications(
+      {@Header("Authorization") required String token});
+  
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.religions}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getReligions(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.castes}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getCastes(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.subCastes}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getSubCastes(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.motherTongue}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getMotherTongue(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.organization}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getOrganizations(
+      {@Header("Authorization") required String token});
+  
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.designation}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getDesignation(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.nationality}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getNationality(
+      {@Header("Authorization") required String token});
+
+  @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.personalisedLearningNeedsDescription}')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getPersonalizedLearningNeeds(
       {@Header("Authorization") required String token});
 
   @POST(NetworkProperties.enrollmentDetail)

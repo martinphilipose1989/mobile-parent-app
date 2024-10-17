@@ -7,15 +7,7 @@ import 'package:retrofit/retrofit.dart';
 
 Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
   try {
-    final originalResponse = await apiCall.catchError(
-      (exception){
-        throw NetworkError(
-          cause: Exception("Server Response Error"),
-          httpError: 1000,
-          message: "Something went wrong"
-        );
-      }
-    );
+    final originalResponse = await apiCall;
     final eitherResponse = originalResponse as HttpResponse<dynamic>;
     if (!eitherResponse.isSuccessful()) {
       return Left(getError(apiResponse: eitherResponse.response));
@@ -76,10 +68,8 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
             message: throwable.toString(), httpError: 502, cause: throwable));
 
       case HttpException:
-        return Left(NetworkError(
-            message: (throwable as HttpException).message,
-            httpError: 502,
-            cause: throwable));
+        final eitherResponse = (throwable as DioException).response as HttpResponse<dynamic>;
+        return Left(getError(apiResponse: eitherResponse.response));
 
       default:
         return Left(NetworkError(

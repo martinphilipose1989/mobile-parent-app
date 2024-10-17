@@ -1,4 +1,6 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class AdmissionsViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetAdmissionListUsecase getAdmissionListUsecase;
-  AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,this.flutterToastErrorPresenter);
 
   final ScrollController scrollController = ScrollController();
 
@@ -78,7 +81,9 @@ class AdmissionsViewModel extends BasePageViewModel {
         }
         if (event.status == Status.error) {
           if (pageNumber == 1) {
-            _getAdmissionListResponse.add(event);
+            _getAdmissionListResponse.add(event); 
+            flutterToastErrorPresenter.show(
+            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
           } else {
             if (isNextPage) {
               isNextPage = false;

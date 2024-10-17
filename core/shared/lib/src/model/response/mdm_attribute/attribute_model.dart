@@ -6,6 +6,10 @@ class AttributesDetailsModel {
     String? group;
     String? reason;
     String? occupation;
+    String? education;
+    String? description;
+    String? designation;
+    String? nationality;
 
     AttributesDetailsModel({
         this.name,
@@ -14,7 +18,11 @@ class AttributesDetailsModel {
         this.shortNameTwoDigit,
         this.group,
         this.reason,
-        this.occupation
+        this.occupation,
+        this.education,
+        this.description,
+        this.designation,
+        this.nationality
     });
 
 }

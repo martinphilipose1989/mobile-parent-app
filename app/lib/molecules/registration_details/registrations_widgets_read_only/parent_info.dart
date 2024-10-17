@@ -42,7 +42,7 @@ class ParentDetail extends StatelessWidget {
                         subtitle: parentInfo?.fatherDetails?.aadharNumber??''),
                     DetailsItem(
                         title: "Father's Pan Card No", subtitle: parentInfo?.fatherDetails?.panNumber??''),
-                    DetailsItem(title: "Qualification", subtitle: parentInfo?.fatherDetails?.qualification??''),
+                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.fatherDetails?.qualification is CommonDataClass) ? parentInfo?.fatherDetails?.qualification?.value??'' : parentInfo?.fatherDetails?.qualification??''),
                     DetailsItem(title: "occupation", subtitle: parentInfo?.fatherDetails?.occupation??''),
                     DetailsItem(
                         title: "Organisation Name",
@@ -96,7 +96,7 @@ class ParentDetail extends StatelessWidget {
                         subtitle: parentInfo?.motherDetails?.aadharNumber??''),
                     DetailsItem(
                         title: "Mother's Pan Card No", subtitle: parentInfo?.motherDetails?.panNumber??''),
-                    DetailsItem(title: "Qualification", subtitle: parentInfo?.motherDetails?.qualification??''),
+                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.motherDetails?.qualification is CommonDataClass)? parentInfo?.motherDetails?.qualification?.value??'' : parentInfo?.motherDetails?.qualification??''),
                     DetailsItem(title: "occupation", subtitle: parentInfo?.motherDetails?.occupation??''),
                     DetailsItem(
                         title: "Organisation Name",
@@ -197,22 +197,22 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
-                    CommonText(
+                    const CommonText(
                       text: 'For Sibling 1',
                       style: AppTypography.subtitle2,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     DetailsItem(
-                        title: "Is Sibling", subtitle: parentInfo?.siblingDetails?[0].type??''),
+                        title: "Is Sibling", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].type??''),
                     DetailsItem(
-                        title: "Enrolment Number", subtitle: parentInfo?.siblingDetails?[0].enrollmentNumber??''),
+                        title: "Enrolment Number", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].enrollmentNumber??''),
                     DetailsItem(
-                        title: "Sibling First Name", subtitle: parentInfo?.siblingDetails?[0].firstName??''),
-                    DetailsItem(title: "Sibling Last Name", subtitle: parentInfo?.siblingDetails?[0].lastName??''),
-                    DetailsItem(title: "DOB", subtitle: parentInfo?.siblingDetails?[0].dob??''),
-                    DetailsItem(title: "Gender", subtitle: parentInfo?.siblingDetails?[0].gender??''),
-                    DetailsItem(title: "School", subtitle: parentInfo?.siblingDetails?[0].school??''),
-                    DetailsItem(title: "Grade", subtitle: parentInfo?.siblingDetails?[0].grade??''),
+                        title: "Sibling First Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].firstName??''),
+                    DetailsItem(title: "Sibling Last Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].lastName??''),
+                    DetailsItem(title: "DOB", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].dob??''),
+                    DetailsItem(title: "Gender", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].gender??''),
+                    DetailsItem(title: "School", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].school??''),
+                    DetailsItem(title: "Grade", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].grade??''),
                   ],
                 ),
               )

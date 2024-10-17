@@ -1,3 +1,4 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -18,8 +19,9 @@ class PsaDetailViewModel extends BasePageViewModel {
   final GetPsaEnrollmentDetailUsecase getPsaEnrollmentDetailUsecase;
   final CalculateFeesUsecase calculateFeesUsecase;
   final AddVasDetailUsecase addVasDetailUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
-  PsaDetailViewModel(this.exceptionHandlerBinder,this.getPsaEnrollmentDetailUsecase,this.calculateFeesUsecase,this.addVasDetailUsecase);
+  PsaDetailViewModel(this.exceptionHandlerBinder,this.getPsaEnrollmentDetailUsecase,this.calculateFeesUsecase,this.addVasDetailUsecase,this.flutterToastErrorPresenter);
 
   EnquiryDetailArgs? enquiryDetailArgs;
 
@@ -81,8 +83,9 @@ class PsaDetailViewModel extends BasePageViewModel {
         if (event.status == Status.success) {
           psaEnrollmentDetail.add(event.data ?? PsaEnrollmentDetailResponseModel());
           setData(psaEnrollmentDetail.value);
-        } else {
-          print("Error");
+        } if(event.status == Status.error){
+          flutterToastErrorPresenter.show(
+            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error);
@@ -136,7 +139,8 @@ class PsaDetailViewModel extends BasePageViewModel {
         }
         if(event.status == Status.error){
           showLoader.value = false;
-          print("Error");
+          flutterToastErrorPresenter.show(
+            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
         }
       }).onError((error){
         showLoader.value = false;
@@ -173,7 +177,8 @@ class PsaDetailViewModel extends BasePageViewModel {
         }
         if(event.status == Status.error){
           showLoader.value = false;
-          print("Error");
+          flutterToastErrorPresenter.show(
+            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
         }
       }).onError((error){
         showLoader.value = false;

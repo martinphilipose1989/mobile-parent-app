@@ -77,7 +77,9 @@ final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
 final admissionsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsViewModel>(
   (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetAdmissionListUsecase>()),
+      getIt.get<GetAdmissionListUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
+    ),
 );
 
 final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
@@ -86,7 +88,8 @@ final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetAdmissionJourneyUsecase>(),
       getIt.get<GetEnquiryDetailUseCase>(),
-      args),
+      args,
+      getIt.get<FlutterToastErrorPresenter>()),
 );
 
 final registrationsDetailsProvider =
@@ -115,7 +118,8 @@ final registrationsDetailsProvider =
       getIt.get<AddVasOptionUsecase>(),
       getIt.get<RemoveVasDetailUsecase>(),
       getIt.get<MakePaymentRequestUsecase>(),
-      getIt.get<GetSubjectListUsecase>()),
+      getIt.get<GetSubjectListUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final enquiriesPageModelProvider =
@@ -140,14 +144,16 @@ final enquiriesDetailsPageModelProvider =
       getIt.get<UpdateIvtDetailUsecase>(),
       getIt.get<UpdateNewAdmissionUsecase>(),
       getIt.get<DownloadFileUsecase>(),
-      args),
+      args,
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final enquiriesTimelinePageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesTimelinePageModel>(
   (ref) => EnquiriesTimelinePageModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetEnquiryTimeLineUseCase>()),
+      getIt.get<GetEnquiryTimeLineUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final editEnquiriesDetailsPageModelProvider =
@@ -162,7 +168,8 @@ final scheduleSchoolTourPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<CreateSchoolVisitUseCase>(),
       getIt.get<GetSchoolVisitSlotsUsecase>(),
-      getIt.get<RescheduleSchoolVisitUseCase>()),
+      getIt.get<RescheduleSchoolVisitUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final scheduleCompetencyTestPageModelProvider =
@@ -171,20 +178,23 @@ final scheduleCompetencyTestPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<CreateCompetencyTestUsecase>(),
       getIt.get<GetCompetencyTestSlotsUsecase>(),
-      getIt.get<RescheduleCompetencyTestUseCase>()),
+      getIt.get<RescheduleCompetencyTestUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final detailsViewCompetencyTestPageModelProvider =
     ChangeNotifierProvider.autoDispose<DetailsViewCompetencyTestPageModel>(
   (ref) => DetailsViewCompetencyTestPageModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetCompetencyTestDetailUseCase>()),
+      getIt.get<GetCompetencyTestDetailUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final cancelCompetencyTestPageModelProvider =
     ChangeNotifierProvider.autoDispose<CancelCompetencyPageModel>(
   (ref) => CancelCompetencyPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<CancelCompetencyTestUsecase>()),
+      getIt.get<CancelCompetencyTestUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final commonCalendarModelProvider =
@@ -201,7 +211,8 @@ final detailsViewSchoolTourPageModelProvider =
     ChangeNotifierProvider.autoDispose<DetailsViewSchoolTourPageModel>(
   (ref) => DetailsViewSchoolTourPageModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetSchoolVisitDetailUseCase>()),
+      getIt.get<GetSchoolVisitDetailUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final cancelSchoolTourPageModelProvider =
@@ -209,7 +220,8 @@ final cancelSchoolTourPageModelProvider =
   (ref) => CancelSchoolTourPageModel(
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<CancelSchoolVisitUsecase>(),
-      getIt.get<GetMdmAttributeUsecase>()),
+      getIt.get<GetMdmAttributeUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>()),
 );
 
 // Common widgets providers
@@ -230,7 +242,8 @@ final enquiriesAdmissionsJourneyProvider = AutoDisposeChangeNotifierProviderFami
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetAdmissionJourneyUsecase>(),
       getIt.get<GetEnquiryDetailUseCase>(),
-      args),
+      args,
+      getIt.get<FlutterToastErrorPresenter>(),),
 );
 
 final createQrcodeViewModelProvider =
@@ -247,7 +260,8 @@ final cafeteriaPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetCafeteriaEnrollmentDetailUsecase>(),
       getIt.get<CalculateFeesUsecase>(),
-      getIt.get<AddVasDetailUsecase>()
+      getIt.get<AddVasDetailUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
   )
 );
 
@@ -257,7 +271,8 @@ final psaPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetPsaEnrollmentDetailUsecase>(),
       getIt.get<CalculateFeesUsecase>(),
-      getIt.get<AddVasDetailUsecase>()
+      getIt.get<AddVasDetailUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
 ));
 
 final kidsClubPageModelProvider =
@@ -266,7 +281,8 @@ final kidsClubPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetKidsClubEnrollmentDetailUsecase>(),
       getIt.get<CalculateFeesUsecase>(),
-      getIt.get<AddVasDetailUsecase>()
+      getIt.get<AddVasDetailUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
 ));
 
 final summerCampPageModelProvider =
@@ -276,6 +292,7 @@ final summerCampPageModelProvider =
       getIt.get<GetSummerCampEnrollmentDetailUsecase>(),
       getIt.get<CalculateFeesUsecase>(),
       getIt.get<AddVasDetailUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
 ));
 
 final transportPageModelProvider =
@@ -285,5 +302,6 @@ final transportPageModelProvider =
       getIt.get<GetTransportEnrollmentDetailUsecase>(),
       getIt.get<CalculateFeesUsecase>(),
       getIt.get<AddVasDetailUsecase>(),
-      getIt.get<FetchStopsUsecase>()
+      getIt.get<FetchStopsUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
   ));

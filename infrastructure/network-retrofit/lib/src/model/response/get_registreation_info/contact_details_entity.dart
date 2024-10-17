@@ -1,8 +1,8 @@
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:network_retrofit/src/model/response/get_new_admission/residential_address_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/emergency_contact_entity.dart';
 import 'package:network_retrofit/src/model/response/get_registreation_info/point_of_contact_entity.dart';
+import 'package:network_retrofit/src/model/response/get_registreation_info/residential_address_detail_entity.dart';
 
 part 'contact_details_entity.g.dart';
 
@@ -13,7 +13,7 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
     @JsonKey(name: 'pointOfContact')
     PointOfContactInfoEntity? pointOfContact;
     @JsonKey(name: 'residentialAddress')
-    ResidentialAddressEntity? residentialAddress;
+    ResidentialAddressDetailEntity? residentialAddress;
 
     ContactDetailsEntity({
         this.emergencyContact,
@@ -60,11 +60,11 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
   ContactDetailsEntity restore(ContactDetails data) {
     
     PointOfContactInfoEntity pointOfContactInfoEntity = PointOfContactInfoEntity();
-    ResidentialAddressEntity residentialAddressContactInfo = ResidentialAddressEntity();
+    ResidentialAddressDetailEntity residentialAddressContactInfo = ResidentialAddressDetailEntity();
     ContactDetailsEntity contactDetailsEntity = ContactDetailsEntity(
       emergencyContact: data.emergencyContact,
       pointOfContact: pointOfContactInfoEntity.restore(data.pointOfContact?? PointOfContactDetail()),
-      residentialAddress: residentialAddressContactInfo.restore((data.residentialAddress??ResidentialAddress()))
+      residentialAddress: residentialAddressContactInfo.restore((data.residentialAddress??ResidentialAddressDetail()))
     );
     return contactDetailsEntity;
   }

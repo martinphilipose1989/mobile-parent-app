@@ -71,7 +71,7 @@ class TimelineListitem extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 15,),
-                      CommonText(text: DateFormat.yMd().add_jm().format((timeline.createdAt??DateTime.now()).toLocal()),
+                      CommonText(text: DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.parse(timeline.createdAt??'').toLocal()),
                         style: AppTypography.body2.copyWith(
                           fontSize: 10,
                           color: AppColors.textDark

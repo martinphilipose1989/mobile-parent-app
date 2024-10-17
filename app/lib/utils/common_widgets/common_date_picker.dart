@@ -13,20 +13,20 @@ class CommonDatePickerWidget extends StatefulWidget {
   final bool isDisabled;
   final bool showAstreik;
   final Function(DateTime?) onDateSelected;
+  final TextEditingController controller;
   CommonDatePickerWidget(
-      {super.key, this.labelName, this.initialDate, this.isDisabled = false, this.showAstreik = false,required this.onDateSelected});
+      {super.key, this.labelName, this.initialDate, this.isDisabled = false, this.showAstreik = false,required this.onDateSelected, required this.controller});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
 }
 
 class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
-  final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
     if (widget.initialDate != null) {
-      _dateController.text =
+      widget.controller.text =
           DateFormat('dd/MM/yyyy').format(widget.initialDate!);
     }
     super.initState();
@@ -37,18 +37,18 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     if (oldWidget.initialDate != widget.initialDate &&
         widget.initialDate != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _dateController.text =
+        widget.controller.text =
             DateFormat('dd/MM/yyyy').format(widget.initialDate!);
       });
     }
     super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  void dispose() {
-    _dateController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.controller.dispose();
+  //   super.dispose();
+  // }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -61,7 +61,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
       setState(() {
         widget.onDateSelected(picked);
         widget.initialDate = picked;
-        _dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+        widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
   }
@@ -72,7 +72,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
       clipBehavior: Clip.none,
       children: [
         TextFormField(
-          controller: _dateController,
+          controller: widget.controller,
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
             suffixIcon: IconButton(

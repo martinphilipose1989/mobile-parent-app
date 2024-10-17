@@ -122,7 +122,14 @@ class VasQuestions extends StatelessWidget {
                       );
                     }
                     else if(vasOption == "Transport"){
-                      Navigator.pushNamed(context, RoutePaths.transportPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs});
+                      Navigator.pushNamed(context, RoutePaths.transportPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
+                        (value){
+                          data = value;
+                          if(data == null){
+                            commonRadioButton.selectItem("");
+                          }
+                        }
+                      );
                     }
                     else{
                       Navigator.pushNamed(context, RoutePaths.summerCampPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(

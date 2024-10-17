@@ -1,9 +1,8 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_page.dart';
-import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -45,21 +44,30 @@ class SelectSubjectDetail extends StatelessWidget {
           style: AppTypography.subtitle2.copyWith(color: AppColors.textDark),
         ),
         SizedBox(height: 20.h,),
-        SizedBox(
-          height: 40,
-          child: CommonChipListPage(
-            controller: model.controller,
-            chipValues: List.generate(
-              model.optionalSubjects.length,
-              (index) => CommonChips(
-                isSelected: model.optionalSubjects[index]
-                    ['isSelected'],
-                name: model.optionalSubjects[index]['name'],
+        AppStreamBuilder<String>(
+          stream: model.selectedOptionalSubject,
+          initialData: model.selectedOptionalSubject.value,
+          dataBuilder: (context, data) {
+            return SizedBox(
+              height: 40,
+              child: SingleChildScrollView(
+                child: Row(
+                  children: List.generate(model.optionalSubjects.length,
+                   (index){
+                    return ChoiceChip(
+                        label: Text('${model.optionalSubjects[index]['name']}'),
+                        selected: model.optionalSubjects[index] == model.selectedOptionalSubject.value,
+                        onSelected: (bool selected) {
+                          model.selectedOptionalSubject.add(model.optionalSubjects[index]['name']);
+                        },
+
+                      );
+                   }),
+                ),
               ),
-            ),
-            onCallBack: (index) {},
-          ),
-        )
+            );
+          }
+        ),
       ],
     );
   }

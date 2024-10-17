@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
@@ -13,7 +15,9 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class DetailsViewSchoolTourPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetSchoolVisitDetailUseCase getSchoolVisitDetailUsecase;
-  DetailsViewSchoolTourPageModel(this.exceptionHandlerBinder,this.getSchoolVisitDetailUsecase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  DetailsViewSchoolTourPageModel(this.exceptionHandlerBinder,this.getSchoolVisitDetailUsecase,this.flutterToastErrorPresenter);
+  
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
   final PublishSubject<Resource<SchoolVisitDetailBase>> _schoolVisitDetailResponse = PublishSubject();
   Stream<Resource<SchoolVisitDetailBase>> get schoolVisitDetailResponse => _schoolVisitDetailResponse.stream;
@@ -36,6 +40,10 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
           schoolVisitDetailData.value = result.data?.data??SchoolVisitDetail();
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {

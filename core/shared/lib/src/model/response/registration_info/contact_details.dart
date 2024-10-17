@@ -3,7 +3,7 @@ import 'package:shared/shared.dart';
 class ContactDetails{
   String? emergencyContact;
   PointOfContactDetail? pointOfContact;
-  ResidentialAddress? residentialAddress;
+  ResidentialAddressDetail? residentialAddress;
 
     ContactDetails({
         this.emergencyContact,

@@ -176,10 +176,33 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         labelName: "DOB",
                         showAstreik: true,
                         initialDate: model.studentDob,
+                        controller: model.dobController,
                         onDateSelected: (newDate) {
                           model.studentDob = newDate;
                           print("###Changed Date: ${model.studentDob}");
                         },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonTextFormField(
+                        showAstreik: false,
+                        readOnly: true,
+                        labelText: "Eligible Grade",
+                        controller: model.studentEligibleGradeController,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CommonTextFormField(
+                        showAstreik: true,
+                        labelText: "Student Aadhar No",
+                        controller: model.studentAadharController,
+                        keyboardType: TextInputType.number,
+                        maxLength: 12,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                       const SizedBox(
                         height: 20,
@@ -243,7 +266,34 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 }
                               },
                               isMutiSelect: false,
-                              validator: (value)=> AppValidators.validateDropdown(value, 'existing school board'),
+                            );
+                          }
+                        }
+                      ),
+                      const SizedBox(height: 20,),
+                      StreamBuilder<List<String>>(
+                        stream: model.gradeTypes,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Existing School Grade',
+                              showAstreik: false,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.existingSchoolGrade.value.contains(selectedValue)) {
+                                  var grade = model.gradeTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedExistingSchoolGrade.add(true);
+                                  model.selectedExistingSchoolGradeEntity?.id = grade?.id;
+                                  model.selectedExistingSchoolGradeEntity?.value = grade?.attributes?.name;
+                                }
+                              },
+                              isMutiSelect: false,
                             );
                           }
                         }
@@ -394,11 +444,38 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20,),
-                      CommonTextFormField(
-                        labelText: 'Religion',
-                        showAstreik: false,
-                        controller: model.religionController,
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'religion'),
+                      // CommonTextFormField(
+                      //   labelText: 'Religion',
+                      //   showAstreik: false,
+                      //   controller: model.religionController,
+                      //   validator: (value)=> AppValidators.validateNotEmpty(value, 'religion'),
+                      // ),
+                      StreamBuilder<List<String>>(
+                        stream: model.religions,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Religion',
+                              showAstreik: false,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedReligionSubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.religions.value.contains(selectedValue)) {
+                                  var religion = model.religionAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedSubCaste?.id = religion?.id;
+                                  model.selectedSubCaste?.value = religion?.attributes?.name;
+                                  model.selectedReligionSubject.add(selectedValue);
+                                }
+                              },
+                              isMutiSelect: false,
+                            );
+                          }
+                        }
                       ),
                       const SizedBox(height: 20,),
                       CommonTextFormField(
@@ -408,32 +485,142 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         validator: (value)=> AppValidators.validateNotEmpty(value, 'place of birth'),
                       ),
                       const SizedBox(height: 20),
-                      CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Caste',
-                        controller: model.casteController,
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'caste'),
+                      // CommonTextFormField(
+                      //   showAstreik: false,
+                      //   labelText: 'Caste',
+                      //   controller: model.casteController,
+                      //   validator: (value)=> AppValidators.validateNotEmpty(value, 'caste'),
+                      // ),
+                      StreamBuilder<List<String>>(
+                        stream: model.castes,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Caste',
+                              showAstreik: false,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedCasteSubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.castes.value.contains(selectedValue)) {
+                                  var caste = model.casteAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedCaste?.id = caste?.id;
+                                  model.selectedCaste?.value = caste?.attributes?.name;
+                                  model.selectedCasteSubject.add(selectedValue);
+                                }
+                              },
+                              isMutiSelect: false,
+                            );
+                          }
+                        }
                       ),
                       const SizedBox(height: 20,),
-                      CommonTextFormField(
-                        labelText: 'Sub Caste',
-                        showAstreik: false,
-                        controller: model.subCasteController,
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'sub caste'),
+                      // CommonTextFormField(
+                      //   labelText: 'Sub Caste',
+                      //   showAstreik: false,
+                      //   controller: model.subCasteController,
+                      //   validator: (value)=> AppValidators.validateNotEmpty(value, 'sub caste'),
+                      // ),
+                      StreamBuilder<List<String>>(
+                        stream: model.subCastes,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Sub Caste',
+                              showAstreik: false,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedSubCasteSubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.subCastes.value.contains(selectedValue)) {
+                                  var subCaste = model.subCasteAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedSubCaste?.id = subCaste?.id;
+                                  model.selectedSubCaste?.value = subCaste?.attributes?.name;
+                                  model.selectedSubCasteSubject.add(selectedValue);
+                                }
+                              },
+                              isMutiSelect: false,
+                            );
+                          }
+                        }
                       ),
                       const SizedBox(height: 20,),
-                      CommonTextFormField(
-                        labelText: 'Nationality',
-                        showAstreik: false,
-                        controller: model.nationalityController,
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'nationality'),
+                      // CommonTextFormField(
+                      //   labelText: 'Nationality',
+                      //   showAstreik: false,
+                      //   controller: model.nationalityController,
+                      //   validator: (value)=> AppValidators.validateNotEmpty(value, 'nationality'),
+                      // ),
+                      StreamBuilder<List<String>>(
+                        stream: model.nationalities,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Nationality',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedNationalitySubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.nationalities.value.contains(selectedValue)) {
+                                  var nationality = model.nationality?.firstWhere((element)=> (element.attributes?.nationality??'').contains(selectedValue));
+                                  model.selectedNationality?.id = nationality?.id;
+                                  model.selectedNationality?.value = nationality?.attributes?.name;
+                                  model.selectedNationalitySubject.add(selectedValue);
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value)=> AppValidators.validateDropdown(value, 'existing school board'),
+                            );
+                          }
+                        }
                       ),
                       const SizedBox(height: 20,),
-                      CommonTextFormField(
-                        labelText: 'Mother Tongue',
-                        showAstreik: true,
-                        controller: model.motherTongueController,
-                        validator: (value)=> AppValidators.validateNotEmpty(value, 'mother tounge'),
+                      // CommonTextFormField(
+                      //   labelText: 'Mother Tongue',
+                      //   showAstreik: true,
+                      //   controller: model.motherTongueController,
+                      //   validator: (value)=> AppValidators.validateNotEmpty(value, 'mother tounge'),
+                      // ),
+                      StreamBuilder<List<String>>(
+                        stream: model.motherTongues,
+                        builder: (context, snapshot) {
+                          if(!snapshot.hasData){
+                            return const CircularProgressIndicator();
+                          } else {
+                            return CustomDropdownButton(
+                              width: MediaQuery.of(context).size.width,
+                              onMultiSelect: (selectedValues) {},
+                              dropdownName: 'Mother Tongue',
+                              showAstreik: true,
+                              showBorderColor: true,
+                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedMotherTongueSubject,
+                              onSingleSelect: (selectedValue) {
+                                if (model.motherTongues.value.contains(selectedValue)) {
+                                  var board = model.motherTongueAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                  model.selectedMotherTongue?.id = board?.id;
+                                  model.selectedMotherTongue?.value = board?.attributes?.name;
+                                  model.selectedMotherTongueSubject.add(selectedValue);
+                                }
+                              },
+                              isMutiSelect: false,
+                              validator: (value)=> AppValidators.validateDropdown(value, 'existing school board'),
+                            );
+                          }
+                        }
                       ),
                     ],
                   ),

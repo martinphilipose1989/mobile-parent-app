@@ -42,7 +42,7 @@ class AdmissionsDetailsPageView
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
         model.showMenuOnFloatingButton.add(false);
-        return UrlLauncher.launchPhone('+1234567890', context: context);
+        return UrlLauncher.launchPhone('+91 6003000700', context: context);
       case 3:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);

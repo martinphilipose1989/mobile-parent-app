@@ -1,4 +1,6 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +16,8 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetMdmAttributeUsecase getMdmAttributeUsecase;
   final CancelSchoolVisitUsecase cancelSchoolVisitUsecase;
-  CancelSchoolTourPageModel(this.exceptionHandlerBinder,this.cancelSchoolVisitUsecase,this.getMdmAttributeUsecase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  CancelSchoolTourPageModel(this.exceptionHandlerBinder,this.cancelSchoolVisitUsecase,this.getMdmAttributeUsecase,this.flutterToastErrorPresenter);
 
   final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
   final PublishSubject<Resource<SchoolVisitDetailBase>> _cancelSchoolTour = PublishSubject();
@@ -47,6 +50,10 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
           schoolVisitDetailData = result.data?.data;
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
@@ -68,6 +75,10 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           reasonTypes.removeRange(0, reasonTypes.length);
           result.data?.data?.forEach((element)=> reasonTypes.add(element.attributes?.reason??''));
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

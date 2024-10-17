@@ -15,12 +15,12 @@ class RegistrationDetailsValidator{
       {'field': 'Student First Name', 'controller': model.studentFirstNameController},
       {'field': 'Student Last Name', 'controller': model.studentLastNameController},
       {'field': 'Date of Birth', 'controller': model.dobController},
+      {'field': 'Student Aadhar No', 'controller': model.studentAadharController},
       {'field': 'Parent First Name', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherFirstNameController : model.studentsMotherFirstNameController},
       {'field': 'Parent Last Name', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherLastNameController : model.studentsMotherLastNameController},
       {'field': 'Parent Email ID', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherEmailController : model.studentsMotherEmailController},
       {'field': 'Parent Mobile Number', 'controller': model.selectedParentTypeSubject.value == "Father" ? model.studentsFatherContactController : model.studentsMotherContactController},
       {'field': 'Place of Birth', 'controller': model.placeOfBirthController},      
-      {'field': 'Mother Tongue', 'controller': model.motherTongueController},
     ];
 
     // Common dropdown fields
@@ -36,6 +36,9 @@ class RegistrationDetailsValidator{
       String? validationResult;
       if(field['field'].toString().contains('Date')){
         validationResult = _validateDateOfBirth(field['controller']!.text.trim());
+      }
+      if(field['field'].toString().contains('Aadhar')){
+        validationResult = AppValidators.validateAadhar(field['controller']!.text.trim());
       }
       else{
         validationResult = AppValidators.validateNotEmpty(
@@ -135,7 +138,6 @@ String? _validateDateOfBirth(String value) {
         {'field': "Father's Last Name", 'controller': model.fatherLastNameController},
         {'field': "Father's Aadhar Card No", 'controller': model.fatherAdharCardController},
         {'field': "Father's Pan Card No", 'controller': model.fatherPanCardController},
-        {'field': "Father's Qualification", 'controller': model.qualificationController},
         {'field': "Father's Email ID", 'controller': model.fatherEmailController},
         {'field': "Father's Mobile Number", 'controller': model.fatherMobileController},
       ];
@@ -146,7 +148,6 @@ String? _validateDateOfBirth(String value) {
         {'field': "Mother's Last Name", 'controller': model.motherLastNameController},
         {'field': "Mother's Aadhar Card No", 'controller': model.motherAdharCardController},
         {'field': "Mother's Pan Card No", 'controller': model.motherPanCardController},
-        {'field': "Mother's Qualification", 'controller': model.motherQualificationController},
         {'field': "Mother's Email ID", 'controller': model.motherEmailController},
         {'field': "Mother's Mobile Number", 'controller': model.motherMobileController},
       ];
@@ -186,32 +187,26 @@ String? _validateDateOfBirth(String value) {
               field['controller']!.text.trim(),
             );
           }
-          if(field['field'].toString().contains('Mobile')){
+          else if(field['field'].toString().contains('Mobile')){
             validationResult = AppValidators.validateMobile(
               field['controller']!.text.trim(),
             );
           }
-          // if(field['field'].toString().contains('Pin')){
-          //   validationResult = AppValidators.validatePinCode(
-          //     field['controller']!.text.trim(),
-          //   );
-          // }
-          if(field['field'].toString().contains('Aadhar')){
-            validationResult = AppValidators.validateNotEmpty(
+          else if(field['field'].toString().contains('Aadhar')){
+            validationResult = AppValidators.validateAadhar(
               field['controller']!.text.trim(),
-              field['field'].toString(),
-              validateLength: true,
-              minLength: 10,
-              checkSpecialCharacters: false,
             );
           }
-          if(field['field'].toString().contains('Pan')){
+          else if(field['field'].toString().contains('Pan')){
+            validationResult = AppValidators.validatePanCardNo(
+              field['controller']!.text.trim()
+            );
+          }
+          else if(field['field'].toString().contains('Name')){
             validationResult = AppValidators.validateNotEmpty(
               field['controller']!.text.trim(),
               field['field'].toString(),
-              validateLength: true,
-              minLength: 10,
-              checkSpecialCharacters: false,
+              checkSpecialCharacters: true
             );
           }
           else {
@@ -554,8 +549,8 @@ String? _validateDateOfBirth(String value) {
         }
 
         if (errorMessage.isEmpty && model.radioButtonController9.selectedItem == 'Yes') {
-          String? validationResult = AppValidators.validateNotEmpty(
-            model.personalisedLearningNeedsController.text,
+          String? validationResult = AppValidators.validateDropdown(
+            model.selectedPersonalisedLearningNeedSubject.value,
             'Personalised Learning Needs',
           );
           if (validationResult != null) {

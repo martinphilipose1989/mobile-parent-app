@@ -54,6 +54,11 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
             ),
             _detailItem(title: "Parent Type", subtitle: psaDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: psaDetail?.enquirerParent == "Father" ? psaDetail?.parentDetails?.fatherDetails?.globalId??"":psaDetail?.parentDetails?.motherDetails?.globalId??""),
+            _detailItem(title: "Parent First Name", subtitle: psaDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.firstName??"":newAdmissionDetail?.parentDetails?.motherDetails?.firstName??""),
+            _detailItem(title: "Parent Last Name", subtitle: psaDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.lastName??"":newAdmissionDetail?.parentDetails?.motherDetails?.lastName??""),
+            _detailItem(title: "Parent Email ID", subtitle: psaDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.email??"":newAdmissionDetail?.parentDetails?.motherDetails?.email??""),
+            _detailItem(title: "Parent Contact Number", subtitle: psaDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.mobile??"":newAdmissionDetail?.parentDetails?.motherDetails?.mobile??""),
+            const SizedBox(height: 100,)
           ],
         );
   }
@@ -61,7 +66,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
   Widget getAdmissionDetails({NewAdmissionDetail? newAdmissionDetail}){
     return Column(
           children: [
-           _detailItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
+            _detailItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
             _detailItem(title: "Enquiry Type", subtitle: enquiryDetailArgs?.enquiryType??''),
             _detailItem(title: "School Location", subtitle: newAdmissionDetail?.schoolLocation?.value??''),
             _detailItem(title: "Student First Name", subtitle: newAdmissionDetail?.studentDetails?.firstName??''),
@@ -82,6 +87,11 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
             ),
             _detailItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??"":newAdmissionDetail?.parentDetails?.motherDetails?.globalId??""),
+            _detailItem(title: "Parent First Name", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.firstName??"":newAdmissionDetail?.parentDetails?.motherDetails?.firstName??""),
+            _detailItem(title: "Parent Last Name", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.lastName??"":newAdmissionDetail?.parentDetails?.motherDetails?.lastName??""),
+            _detailItem(title: "Parent Email ID", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.email??"":newAdmissionDetail?.parentDetails?.motherDetails?.email??""),
+            _detailItem(title: "Parent Contact Number", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.mobile??"":newAdmissionDetail?.parentDetails?.motherDetails?.mobile??""),
+            const SizedBox(height: 100,)
           ],
         );
   }
@@ -114,6 +124,11 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
             ),
             _detailItem(title: "Parent Type", subtitle: ivtDetail?.enquirerParent??''),
             _detailItem(title: "Global Id", subtitle: ivtDetail?.enquirerParent == "Father" ? ivtDetail?.parentDetails?.fatherDetails?.globalId??"": ivtDetail?.parentDetails?.motherDetails?.globalId??""),
+            _detailItem(title: "Parent First Name", subtitle: ivtDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.firstName??"":newAdmissionDetail?.parentDetails?.motherDetails?.firstName??""),
+            _detailItem(title: "Parent Last Name", subtitle: ivtDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.lastName??"":newAdmissionDetail?.parentDetails?.motherDetails?.lastName??""),
+            _detailItem(title: "Parent Email ID", subtitle: ivtDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.email??"":newAdmissionDetail?.parentDetails?.motherDetails?.email??""),
+            _detailItem(title: "Parent Contact Number", subtitle: ivtDetail?.enquirerParent == "Father" ? newAdmissionDetail?.parentDetails?.fatherDetails?.mobile??"":newAdmissionDetail?.parentDetails?.motherDetails?.mobile??""),
+            const SizedBox(height: 100,)
           ],
         );
   }

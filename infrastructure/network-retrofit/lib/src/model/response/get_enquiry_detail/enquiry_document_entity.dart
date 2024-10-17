@@ -15,6 +15,10 @@ class EnquiryDocumentEntity extends BaseLayerDataTransformer<EnquiryDocumentEnti
     bool? isVerified;
     @JsonKey(name: 'is_deleted')
     bool? isDeleted;
+    @JsonKey(name:'stage')
+    String? stage;
+    @JsonKey(name:'is_mandatory')
+    int? isMandatory;
 
     EnquiryDocumentEntity({
         this.documentId,
@@ -22,6 +26,8 @@ class EnquiryDocumentEntity extends BaseLayerDataTransformer<EnquiryDocumentEnti
         this.file,
         this.isVerified,
         this.isDeleted,
+        this.stage,
+        this.isMandatory,
     });
 
   factory EnquiryDocumentEntity.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +43,8 @@ class EnquiryDocumentEntity extends BaseLayerDataTransformer<EnquiryDocumentEnti
     enquiryDocument.file = file;
     enquiryDocument.isVerified = isVerified;
     enquiryDocument.isDeleted = isDeleted;
+    enquiryDocument.isMandatory = isMandatory;
+    enquiryDocument.stage = stage;
     return enquiryDocument;
   }
 

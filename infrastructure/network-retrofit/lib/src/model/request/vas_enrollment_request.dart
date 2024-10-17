@@ -1,9 +1,9 @@
 class VasEnrollmentRequest {
   int? transportBusType;
   int? transportServiceType;
-  int? transportRouteType;
-  int? transportPickupPoint;
-  int? transportDropPoint;
+  String? transportRouteType;
+  String? transportPickupPoint;
+  String? transportDropPoint;
   int? transportAmount;
   int? cafeteriaOptFor;
   int? cafeteriaPeriodOfService;
@@ -24,6 +24,8 @@ class VasEnrollmentRequest {
   int? summerCampPeriodOfService;
   int? summerCampBatch;
   int? summerCampAmount;
+  String? feeSubCategoryStart;
+  String? feeSubCategoryEnd;
 
   VasEnrollmentRequest(
       {this.transportBusType,
@@ -50,7 +52,9 @@ class VasEnrollmentRequest {
       this.summerCampCategory,
       this.summerCampPeriodOfService,
       this.summerCampBatch,
-      this.summerCampAmount});
+      this.summerCampAmount,
+      this.feeSubCategoryStart,
+      this.feeSubCategoryEnd});
 
   VasEnrollmentRequest.fromJson(Map<String, dynamic> json) {
     transportBusType = json['transportBusType'];
@@ -78,6 +82,8 @@ class VasEnrollmentRequest {
     summerCampPeriodOfService = json['summerCampPeriodOfService'];
     summerCampBatch = json['summerCampBatch'];
     summerCampAmount = json['summerCampAmount'];
+    feeSubCategoryStart = json['fee_subcategory_start'];
+    feeSubCategoryEnd = json['fee_subcategory_end'];
   }
 
   Map<String, dynamic> toJson() {
@@ -107,6 +113,8 @@ class VasEnrollmentRequest {
     data['summerCampPeriodOfService'] = summerCampPeriodOfService;
     data['summerCampBatch'] = summerCampBatch;
     data['summerCampAmount'] = summerCampAmount;
+    data['fee_subcategory_start'] = feeSubCategoryStart;
+    data['fee_subcategory_end'] = feeSubCategoryEnd;
     return data;
   }
 }

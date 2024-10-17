@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,7 @@ class ContactInfoEditing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: model.contactInfoFormKey,
-        child:Column(children: [
+      child:Column(children: [
       Container(
         width: 358.w,
         margin: const EdgeInsets.only(bottom: 15),
@@ -189,6 +190,58 @@ class ContactInfoEditing extends StatelessWidget {
                         controller:model.parentEmailIdController2,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
                     ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    const CommonText(text:'Preference 3'),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CustomDropdownButton(
+                      items: model.contactRelationshipOptions,
+                      width: MediaQuery.of(context).size.width,
+                      isMutiSelect: false,
+                      dropdownName: 'Parent Type',
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
+                      showAstreik: false,
+                      onMultiSelect: (selectedValues) {},
+                      singleSelectItemSubject: model.contactParentTypePhone3,
+                      onSingleSelect: (val){
+                        model.contactParentTypePhone2.value = val;
+                      },
+                      showBorderColor: true,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                        showAstreik: false,
+                        labelText: 'Parent Mobile Number',
+                        controller:model.parentMobileNumberController3,
+                      keyboardType: TextInputType.number,
+                      maxLength: 10,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Mobile Number",checkSpecialCharacters: true,minLength: 10),
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                      CustomDropdownButton(
+                        items: model.contactRelationshipOptions,
+                        width: MediaQuery.of(context).size.width,
+                        isMutiSelect: false,
+                        dropdownName: 'Parent Type',
+                        validator: (value) => AppValidators.validateNotEmpty(
+                          value,
+                          "Parent Type",
+                        ),
+                        showAstreik: false,
+                        onMultiSelect: (selectedValues) {},
+                        singleSelectItemSubject: model.contactParentTypeEmail3,
+                        onSingleSelect: (val) {
+                          model.contactParentTypeEmail2.value = val;
+                        },
+                        showBorderColor: true,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    CommonTextFormField(
+                        showAstreik: false,
+                        labelText: 'Parent Email Id',
+                        controller:model.parentEmailIdController3,
+                      validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
+                    ),
                   ],
                 ),
               )
@@ -331,12 +384,161 @@ class ContactInfoEditing extends StatelessWidget {
                       title: 'Yes',
                       commonRadioButton: model.radioButtonController3,
                       value: 'Yes',
+                      onOptionSelected: (newValue){
+                        model.permanentHouseOrBuildingController.text = model.houseOrBuildingController.text;
+                        model.permanentStreetNameController.text = model.streetNameController.text;
+                        model.permanentLandMarkController.text = model.landMarkController.text;
+                        model.permanentResidentialPinCodeController.text = model.residentialPinCodeController.text;
+                        model.selectedPermanentResidentialCountry.value = model.selectedResidentialCountry.value;
+                        model.selectedPermanentResidentialState.value = model.selectedResidentialState.value;
+                        model.selectedPermanentResidentialCity.value = model.selectedResidentialCity.value;
+                        model.permanentResidentialCountry = model.residentialCountry;
+                        model.permanentResidentialState = model.residentialState;
+                        model.permanentResidentialCity = model.residentialCity;
+                      },
                     ),
                     CommonRadioButtonWidget(
                       title: 'No',
                       commonRadioButton: model.radioButtonController3,
                       value: 'No',
+                      onOptionSelected: (newValue){
+                        model.permanentHouseOrBuildingController.clear();
+                        model.permanentStreetNameController.clear();
+                        model.permanentLandMarkController.clear();
+                        model.permanentResidentialPinCodeController.clear();
+                        model.selectedPermanentResidentialCountry.value = '';
+                        model.selectedPermanentResidentialState.value = '';
+                        model.selectedPermanentResidentialCity.value = '';
+                        model.permanentResidentialCountry = null;
+                        model.permanentResidentialState = null;
+                        model.permanentResidentialCity = null;
+                      },
                     ),
+                    AppStreamBuilder<String?>(
+                      stream: model.radioButtonController3.selectedItemStream,
+                      initialData: model.radioButtonController3.selectedItem,
+                      dataBuilder: (context, data) {
+                        return Visibility(
+                          visible: (model.radioButtonController3.selectedItem??'').isNotEmpty,
+                          child: Column(
+                            children: [
+                              CommonSizedBox.sizedBox(height: 20, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                readOnly: model.radioButtonController3.selectedItem == "Yes",
+                                labelText: 'House No./ Building',
+                                controller: model.permanentHouseOrBuildingController,
+                                validator: (value)=> AppValidators.validateNotEmpty(value, "House No/ Building",checkSpecialCharacters: true,),
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                readOnly: model.radioButtonController3.selectedItem == "Yes",
+                                labelText: 'Street Name',
+                                controller:model.permanentStreetNameController,
+                                validator: (value)=> AppValidators.validateNotEmpty(value, "Street Name",checkSpecialCharacters: true,),
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                labelText: 'Landmark',
+                                readOnly: model.radioButtonController3.selectedItem == "Yes",
+                                controller:model.permanentLandMarkController,
+                                  validator: (value)=> AppValidators.validateNotEmpty(value, "Landmark",checkSpecialCharacters: true,),
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              StreamBuilder<List<String>>(
+                                stream: model.country,
+                                builder: (context, snapshot) {
+                                  return CustomDropdownButton(
+                                    items: model.country.value,
+                                    isDisable: model.radioButtonController3.selectedItem == "Yes",
+                                    width: MediaQuery.of(context).size.width,
+                                    validator: (value)=> AppValidators.validateNotEmpty(value, "Country",),
+                                    isMutiSelect: false,
+                                    dropdownName: 'Country',
+                                    showAstreik: true,
+                                    singleSelectItemSubject: model.selectedPermanentResidentialCountry,
+                                    onSingleSelect: (val){
+                                      var country = model.countryAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                                      model.permanentResidentialCountry = CommonDataClass(
+                                        id: country?.id,
+                                        value: country?.attributes?.name
+                                      );
+                                    },
+                                    onMultiSelect: (selectedValues) {},
+                                    showBorderColor: true,
+                                  
+                                  );
+                                }
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              StreamBuilder<List<String>>(
+                                stream: model.state,
+                                builder: (context, snapshot) {
+                                  return CustomDropdownButton(
+                                    items: model.state.value,
+                                    width: MediaQuery.of(context).size.width,
+                                    isMutiSelect: false,
+                                    isDisable: model.radioButtonController3.selectedItem == "Yes",
+                                    dropdownName: 'State',
+                                    validator: (value)=> AppValidators.validateNotEmpty(value, "State",),
+                                    showAstreik: true,
+                                    onMultiSelect: (selectedValues) {},
+                                    showBorderColor: true,
+                                    singleSelectItemSubject: model.selectedPermanentResidentialState,
+                                    onSingleSelect: (val){
+                                      var state = model.stateAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                                      model.permanentResidentialState = CommonDataClass(
+                                        id : state?.id,
+                                        value : state?.attributes?.name
+                                      );
+                                    },
+                                  );
+                                }
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              StreamBuilder<List<String>>(
+                                stream: model.city,
+                                builder: (context, snapshot) {
+                                  return CustomDropdownButton(
+                                    items: model.city.value,
+                                    width: MediaQuery.of(context).size.width,
+                                    isMutiSelect: false,
+                                    isDisable: model.radioButtonController3.selectedItem == "Yes",
+                                    dropdownName: 'City',
+                                    validator: (value)=> AppValidators.validateNotEmpty(value, "City",),
+                                    showAstreik: true,
+                                    onMultiSelect: (selectedValues) {},
+                                    showBorderColor: true,
+                                    singleSelectItemSubject: model.selectedPermanentResidentialCity,
+                                    onSingleSelect: (val){
+                                      var city = model.cityAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
+                                      model.permanentResidentialCity = CommonDataClass(
+                                        id: city?.id,
+                                        value: city?.attributes?.name
+                                      );
+                                    },
+                                  );
+                                }
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              CommonTextFormField(
+                                showAstreik: true,
+                                readOnly: model.radioButtonController3.selectedItem == "Yes",
+                                labelText: "Pin Code",
+                                controller: model.permanentResidentialPinCodeController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 6,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
               )

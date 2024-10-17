@@ -1,6 +1,6 @@
-import 'dart:developer';
-
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,8 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final CreateSchoolVisitUseCase createSchoolVisitUseCase;
   final RescheduleSchoolVisitUseCase rescheduleSchoolVisitUseCase;
   final GetSchoolVisitSlotsUsecase getSchoolVisitSlotsUseCase;
-  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase);
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase,this.flutterToastErrorPresenter);
   
   final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
 
@@ -71,9 +72,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
-      }).onError((error) {
-        log("${error.runtimeType}");
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -100,7 +102,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
-
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
 
@@ -127,6 +132,10 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
             slotId = result.data?.data?[0].id ?? '';
             selectedTime = result.data?.data?[0].slot ?? '';
           }
+        }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
       }).onError((error) {

@@ -78,8 +78,8 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   }
 
   @override
-  Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID, required String documentID}) {
-    return _networkPort.downloadEnquiryDocument(enquiryID: enquiryID, documentID: documentID);
+  Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument({required String enquiryID, required String documentID, required String download}) {
+    return _networkPort.downloadEnquiryDocument(enquiryID: enquiryID, documentID: documentID,download: download);
   }
 
   @override
@@ -88,8 +88,8 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   }
 
   @override
-  Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID, required String documentID}) {
-    return _networkPort.deleteEnquiryDocument(enquiryID: enquiryID, documentID: documentID);
+  Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID, required String documentID, required String delete, required String verify}) {
+    return _networkPort.deleteEnquiryDocument(enquiryID: enquiryID, documentID: documentID,delete: delete,verify: verify);
   }
 
   @override
