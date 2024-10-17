@@ -8,6 +8,7 @@ class AppColors {
   static const Color primaryLight = Color(0xFF4B4DD4);
   static const Color primaryLighter = Color(0xFFEBEBFA);
 
+
   // On Primary Colors
   static const Color primaryOn = Color(0xFFFFFFFF);
 
@@ -34,6 +35,7 @@ class AppColors {
 
   // Additional Text Colors
   static const Color textDark = Color(0xFF212121);
+
   static const Color textGray = Color(0xFF666666);
   static const Color textLightGray = Color(0xFFA3A3A3);
   static const Color textLighterGray = Color(0xFFBDBDBD);
@@ -41,6 +43,9 @@ class AppColors {
   static const Color textPalerGray = Color(0xFFEBEBEB);
 
   static const Color listItem = Color(0xFFF7F7FF);
+  static const Color orange = Color(0xFFFF9500);
+  static const Color yellow = Color(0xFFCCA000
+  );
 }
 
 List<ThemeData> getThemes(BuildContext context) {

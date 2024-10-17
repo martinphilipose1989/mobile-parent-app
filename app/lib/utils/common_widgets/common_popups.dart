@@ -7,6 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io' show Platform, exit;
 
+import 'package:flutter_svg/svg.dart';
+
+import 'app_images.dart';
+
 class CommonPopups {
   // Private constructor
   CommonPopups._();
@@ -148,6 +152,33 @@ class CommonPopups {
     );
   }
 
+//
+  //showinfo
+  void showInfo(
+    BuildContext context, {
+      required Widget title,
+      required Widget child,
+    required bool barrierDismissible,
+  }) {
+    showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: title,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content:child
+
+
+
+
+        );
+      },
+    );
+  }
+
   // Private method to show a dialog
   void _showAppClosingAlert(
     BuildContext context, {
@@ -216,6 +247,21 @@ class CommonPopups {
           ),
         );
       },
+    );
+  }
+
+  Widget infoRow(BuildContext context, Color color, String text) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          AppImages.date,
+          color: color,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        CommonText(text: text),
+      ],
     );
   }
 

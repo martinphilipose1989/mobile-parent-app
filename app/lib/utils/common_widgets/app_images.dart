@@ -15,10 +15,14 @@ class AppImages {
   static const String icon5 = 'assets/images/icon-5.svg';
   static const String icon6 = 'assets/images/icon-6.svg';
   static const String icon7 = 'assets/images/icon-7.svg';
+  static const String calender = 'assets/images/icons/calender.svg';
   static const String icon8 = 'assets/images/icon-8.svg';
   static const String icon9 = 'assets/images/icon-9.svg';
   static const String icon10 = 'assets/images/icon-10.svg';
   static const String icon = 'assets/images/icon.svg';
+  static const String slip = 'assets/images/icons/slip.svg';
+  static const String date = 'assets/images/icons/date.svg';
+
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';
   static const String activity = 'assets/images/activity.svg';

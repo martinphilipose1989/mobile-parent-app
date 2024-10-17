@@ -61,15 +61,16 @@ class DashboardPageModel extends BasePageViewModel {
       case 'order':
         return '';
       case 'transport':
-        return '';
+        return  RoutePaths.attendanceCalender;
       case 'enquires':
         return '';
       case 'application':
-        return '';
+        return RoutePaths.disciplinarySlipPage;
       case 'payments':
         return RoutePaths.payments;
       case 'new enrollments':
-        return '';
+        return ""
+            ;
       default:
         return '';
     }

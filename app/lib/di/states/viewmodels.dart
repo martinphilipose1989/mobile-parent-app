@@ -1,5 +1,6 @@
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
+import 'package:app/feature/attendance/attendance_list1/attendance_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -30,6 +31,8 @@ import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dependencies.dart';
+import '../../feature/attendance/attendance_calender/attendance_calender_view_model.dart';
+import '../../feature/disciplinarySlip/disciplinary_details_view_model.dart';
 
 final splashViewModelProvider =
     ChangeNotifierProvider.autoDispose<SplashViewModel>(
@@ -73,6 +76,22 @@ final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
 final admissionsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsViewModel>(
   (ref) => AdmissionsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
+final attendanceDetailsProvider =
+ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
+      (ref) => AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
+
+final attendanceCalenderProvider =
+ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
+      (ref) => AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
+final disciplinarySlipProvider =
+ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
+      (ref) => DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
 final admissionsDetailsProvider =

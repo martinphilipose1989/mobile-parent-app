@@ -1,5 +1,7 @@
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
+import 'package:app/feature/attendance/attendance_calender/attendence_calender_page.dart';
+import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
@@ -16,12 +18,14 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
+import 'package:app/molecules/disciplinarySlip/disciplinary_details.dart';
 import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
 import 'package:app/utils/common_widgets/common_webview.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../feature/disciplinarySlip/disciplinary_detail_page.dart';
 import '../feature/splash/splash_page.dart';
 import 'route_paths.dart';
 
@@ -102,12 +106,29 @@ class AppRouter {
             builder: (context) => const EnquiriesDetailsPage(),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesDetailsPage));
+      case RoutePaths.attendanceDetailspage:
+        return CupertinoPageRoute(
+            builder: (context) => const AttendanceDetailsPage(),
+            settings:
+            const RouteSettings(name: RoutePaths.attendanceDetailspage));
 
       case RoutePaths.enquiriesTimelinePage:
         return CupertinoPageRoute(
             builder: (context) => const EnquiriesTimelinePage(),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesTimelinePage));
+
+      case RoutePaths.disciplinarySlipPage:
+        return CupertinoPageRoute(
+            builder: (context) => const DisplinaryDetailsPage(),
+            settings:
+            const RouteSettings(name: RoutePaths.disciplinarySlipPage));
+
+      case RoutePaths.attendanceCalender:
+        return CupertinoPageRoute(
+            builder: (context) => const AttendanceCalenderPage(),
+            settings:
+            const RouteSettings(name: RoutePaths.attendanceCalender));
 
       case RoutePaths.editEnquiriesDetailsPage:
         return CupertinoPageRoute(

@@ -12,6 +12,7 @@ class RoutePaths {
   static const String trackerAdmissions = '/admissions';
   static const String admissionsDetails = '/admissionsDetails';
   static const String registrationDetails = '/registrationDetails';
+  static const String attendanceCalender = '/attendanceCalender';
 
 // Related to enquireies from dashboard
   static const String enquiriesPage = '/enquiriesPage';
@@ -22,8 +23,11 @@ class RoutePaths {
   static const String scheduleSchoolTourPage = '/scheduleSchoolTourPage';
   static const String detailsViewSchoolTourPage = '/detailsViewSchoolTourPage';
   static const String cancelSchoolTourPage = '/cancelSchoolTourPage';
+  static const String disciplinarySlipPage = '/disciplinarySlipPage';
   static const String enquiriesAdmissionsJourneyPage =
       '/enquiriesAdmissionsJourneyPage';
+  static const String attendanceDetailspage =
+      '/attendanceDetails';
 
   // route to webview
   static const String webview = '/webview';
