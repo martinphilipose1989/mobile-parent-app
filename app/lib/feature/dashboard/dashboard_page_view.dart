@@ -43,6 +43,18 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                     isSelected: model.trackerTemp[i]['isSelected']),
               ),
               model),
+          title('Child Progress/Academic Progress'),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          chipsList(
+              context,
+              List.generate(
+                model.progress.length,
+                (i) => Chips(
+                    name: model.progress[i]['name'],
+                    image: model.progress[i]['image'],
+                    isSelected: model.progress[i]['isSelected']),
+              ),
+              model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           title('Enquiry & Admission'),
           CommonSizedBox.sizedBox(height: 10, width: 10),

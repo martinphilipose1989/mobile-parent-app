@@ -8,11 +8,17 @@ class DisciplinarySlipList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(itemBuilder: (BuildContext context,int index){
-      return DisciplinarySlipListItem();
-
-    }, separatorBuilder: (BuildContext context, int index) {
-      return SizedBox(height: 16.h,);
-    }, itemCount: 10,);
+    return Expanded(
+        child: ListView.separated(
+      itemBuilder: (BuildContext context, int index) {
+        return const DisciplinarySlipListItem();
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(
+          height: 16.h,
+        );
+      },
+      itemCount: 10,
+    ));
   }
 }

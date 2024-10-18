@@ -1,20 +1,38 @@
+import 'package:app/navigation/route_paths.dart';
 import 'package:flutter/material.dart';
 
-class Calender extends StatefulWidget {
-  const Calender({super.key});
+extension DateTimeExt on DateTime {
+  DateTime get monthStart => DateTime(year, month);
+  DateTime get dayStart => DateTime(year, month, day);
 
-  @override
-  State<Calender> createState() => _MyAppState();
+  DateTime addMonth(int count) {
+    return DateTime(year, month + count, day);
+  }
+
+  bool isSameDate(DateTime date) {
+    return year == date.year && month == date.month && day == date.day;
+  }
+
+  bool get isToday {
+    return isSameDate(DateTime.now());
+  }
 }
 
-class _MyAppState extends State<Calender> {
+class Calendar extends StatefulWidget {
+  const Calendar({super.key});
+
+  @override
+  State<Calendar> createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
   late DateTime selectedMonth;
 
-  DateTime? selectedDate;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
-    selectedMonth = DateTime.now();
+    selectedMonth = DateTime.now().monthStart;
     super.initState();
   }
 
@@ -22,11 +40,7 @@ class _MyAppState extends State<Calender> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-          ),
+        child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -41,10 +55,11 @@ class _MyAppState extends State<Calender> {
                   selectedMonth: selectedMonth,
                   selectDate: (DateTime value) => setState(() {
                     selectedDate = value;
+                    Navigator.pushNamed(
+                        context, RoutePaths.attendanceDetailspage);
                   }),
                 ),
               ),
-
             ],
           ),
         ),
@@ -74,9 +89,9 @@ class _Body extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
+          children: [
             Text('M'),
             Text('T'),
             Text('W'),
@@ -90,10 +105,6 @@ class _Body extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 1,
-              color: Colors.pink[200],
-            ),
             for (var week in data.weeks)
               Row(
                 children: week.map((d) {
@@ -104,7 +115,7 @@ class _Body extends StatelessWidget {
                       isActiveMonth: d.isActiveMonth,
                       onTap: () => selectDate(d.date),
                       isSelected: selectedDate != null &&
-                          selectedDate!.isAtSameMomentAs(d.date),
+                          selectedDate!.isSameDate(d.date),
                     ),
                   );
                 }).toList(),
@@ -134,29 +145,26 @@ class _RowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int number = date.day;
-   // final isToday = date.is;
-    final bool isPassed = date.isBefore(DateTime.now());
+    final isToday = date.isToday;
+    final bool isPassed = date.isAfter(DateTime.now());
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: isPassed ? null : onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
         alignment: Alignment.center,
         height: 35,
-        decoration: 
-        
-        isSelected
-            ? const BoxDecoration(color: Colors.pink, shape: BoxShape.circle)
-            
-            // : 
-            // isToday
-            //     ? BoxDecoration(
-            //         borderRadius: BorderRadius.circular(35),
-            //         border: Border.all(
-            //           color: Colors.pink,
-            //         ),
-            //       )
-
+        decoration: isSelected
+            ? BoxDecoration(
+                color: Theme.of(context).primaryColor, shape: BoxShape.circle)
+            : isToday
+                ? BoxDecoration(
+                    shape: BoxShape.circle,
+                    //borderRadius: BorderRadius.circular(35),
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
                 : null,
         child: Text(
           number.toString(),
@@ -193,27 +201,23 @@ class _Header extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Text(
-              'Selected date: ${selectedDate == null ? 'non' : "${selectedDate!.day}.${selectedDate!.month}.${selectedDate!.year}"}'),
           Row(
             children: [
               Expanded(
                 child: Text(
                   'Month: ${selectedMonth.month + 1}/${selectedMonth.year}',
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                 ),
               ),
               IconButton(
                 onPressed: () {
-
-                  // DateTime a = selectedMonth.add()
-                  // onChange();
+                  onChange(selectedMonth.addMonth(-1));
                 },
                 icon: const Icon(Icons.arrow_left_sharp),
               ),
               IconButton(
                 onPressed: () {
-                  // onChange(selectedMonth.addMonth(1));
+                  onChange(selectedMonth.addMonth(1));
                 },
                 icon: const Icon(Icons.arrow_right_sharp),
               ),
@@ -224,8 +228,6 @@ class _Header extends StatelessWidget {
     );
   }
 }
-
-
 
 class CalendarMonthData {
   final int year;
@@ -263,7 +265,7 @@ class CalendarMonthData {
           return CalendarDayData(
             date: date,
             isActiveMonth: isActiveMonth,
-            isActiveDate: date.isAtSameMomentAs(date),
+            isActiveDate: date.isToday,
           );
         },
       );
@@ -285,4 +287,3 @@ class CalendarDayData {
     required this.isActiveDate,
   });
 }
-

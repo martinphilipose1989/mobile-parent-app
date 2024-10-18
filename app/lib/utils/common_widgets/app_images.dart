@@ -22,6 +22,9 @@ class AppImages {
   static const String icon = 'assets/images/icon.svg';
   static const String slip = 'assets/images/icons/slip.svg';
   static const String date = 'assets/images/icons/date.svg';
+  static const String document = 'assets/images/document.svg';
+  static const String documentNormal = 'assets/images/document-normal.svg';
+  static const String attendance = 'assets/images/bookmark-2.svg';
 
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';

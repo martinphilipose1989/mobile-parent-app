@@ -18,23 +18,24 @@ class DisciplinarySlipListItem extends StatefulWidget {
 }
 
 class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
-  late bool visible=false;
+  late bool visible = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         setState(() {
-          visible=  !visible;
+          visible = !visible;
         });
       },
       child: Container(
         //  height: 150,
         decoration: BoxDecoration(
-      border: Border(
-      left: BorderSide(
-      color: AppColors.failure, // Change this to your desired color
-      width: 5.0, // Width of the colored border
-      ),),
+          border: Border(
+            left: BorderSide(
+              color: AppColors.failure, // Change this to your desired color
+              width: 5.0, // Width of the colored border
+            ),
+          ),
           borderRadius: const BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -92,14 +93,18 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                     SizedBox(
                       width: 5.h,
                     ),
-                    SvgPicture.asset(AppImages.date,color: Colors.red,),
+                    SvgPicture.asset(
+                      AppImages.date,
+                      color: Colors.red,
+                    ),
                     SizedBox(
                       width: 5.h,
                     ),
                     CommonText(
                       text: "Red",
-                      style: AppTypography.caption
-                          .copyWith(color: AppColors.titleNeutral5,),
+                      style: AppTypography.caption.copyWith(
+                        color: AppColors.titleNeutral5,
+                      ),
                     ),
                   ],
                 ),
@@ -119,7 +124,8 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Visibility(visible: visible,
+                Visibility(
+                  visible: visible,
                   child: Column(
                     children: [
                       Row(
@@ -150,7 +156,6 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                     ],
                   ),
                 )
-
               ],
             ),
           ),

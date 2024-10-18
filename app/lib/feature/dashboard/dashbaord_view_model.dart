@@ -36,6 +36,21 @@ class DashboardPageModel extends BasePageViewModel {
     {'name': 'Transport', 'image': AppImages.bus, 'isSelected': false}
   ];
 
+  final List progress = [
+    {'name': 'Attendance', 'image': AppImages.attendance, 'isSelected': false},
+    {
+      'name': 'Discipline Slips',
+      'image': AppImages.document,
+      'isSelected': false
+    },
+    {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
+    {
+      'name': 'Marksheet',
+      'image': AppImages.documentNormal,
+      'isSelected': false
+    }
+  ];
+
   final List enquiryAndAdmissionTemp = [
     {
       'name': 'Enquiries',
@@ -61,16 +76,19 @@ class DashboardPageModel extends BasePageViewModel {
       case 'order':
         return '';
       case 'transport':
-        return  RoutePaths.attendanceCalender;
+        return '';
       case 'enquires':
         return '';
       case 'application':
-        return RoutePaths.disciplinarySlipPage;
+        return '';
       case 'payments':
         return RoutePaths.payments;
-      case 'new enrollments':
-        return ""
-            ;
+      case '':
+        return RoutePaths.payments;
+      case 'attendance':
+        return RoutePaths.attendanceCalender;
+      case 'discipline slips':
+        return RoutePaths.disciplinarySlipPage;
       default:
         return '';
     }

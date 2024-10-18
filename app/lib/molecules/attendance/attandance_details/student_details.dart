@@ -14,72 +14,75 @@ class StudentDetails extends StatelessWidget {
   final String subtitle;
   final String subtitle2;
 
-  const StudentDetails({super.key, required this.image, required this.name,  required this.title, required this.subtitle, required this.subtitle2});
+  const StudentDetails(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.title,
+      required this.subtitle,
+      required this.subtitle2});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 100.h,
+        height: 98.h,
         decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-    color: AppColors.listItem,
-    boxShadow: const [
-    BoxShadow(
-    blurRadius: 2,
-    color: AppColors.disableNeutral80,
-    offset: Offset(0, 1))
-    ]),
-child:  Padding(
-  padding: const EdgeInsets.all(10.0),
-  child: Row(
-
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Container(
-    height: 32.h,
-    width: 32.w,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(100),
-      border: Border.all(width: 1, color: AppColors.textGray),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: SvgPicture.asset(image),
-    ),
-  ),
-        SizedBox(width: 20,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-  mainAxisSize: MainAxisSize.min,
-          children: [
-            CommonText(
-              text: name,
-              style: AppTypography.caption.copyWith(
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark,
+            borderRadius: BorderRadius.circular(8),
+            color: AppColors.listItem,
+            boxShadow: const [
+              BoxShadow(
+                  blurRadius: 2,
+                  color: AppColors.disableNeutral80,
+                  offset: Offset(0, 1))
+            ]),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Container(
+              height: 32.h,
+              width: 32.w,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(width: 1, color: AppColors.textGray),
               ),
-
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: SvgPicture.asset(image),
+              ),
             ),
-            CommonText(
-                text: title,
-                style: AppTypography.smallCaption.copyWith(
-                    color: AppColors.textGray, letterSpacing: 0.25)),
-            CommonSizedBox.sizedBox(height: 2, width: 5),
-            CommonText(
-                text: subtitle,
-                style: AppTypography.smallCaption.copyWith(
-                    color: AppColors.textGray, letterSpacing: 0.25)),
-            CommonSizedBox.sizedBox(height: 2, width: 5),
-            CommonText(
-                text: subtitle2,
-                style: AppTypography.smallCaption.copyWith(
-                    color: AppColors.textGray, letterSpacing: 0.25)),
-            CommonSizedBox.sizedBox(height: 2, width: 5),
-          ],),
-      ]),
-)
-
-    );
+            const SizedBox(
+              width: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CommonText(
+                  text: name,
+                  style: AppTypography.caption.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textDark,
+                  ),
+                ),
+                CommonText(
+                    text: title,
+                    style: AppTypography.smallCaption.copyWith(
+                        color: AppColors.textGray, letterSpacing: 0.25)),
+                CommonSizedBox.sizedBox(height: 2, width: 5),
+                CommonText(
+                    text: subtitle,
+                    style: AppTypography.smallCaption.copyWith(
+                        color: AppColors.textGray, letterSpacing: 0.25)),
+                CommonSizedBox.sizedBox(height: 2, width: 5),
+                CommonText(
+                    text: subtitle2,
+                    style: AppTypography.smallCaption.copyWith(
+                        color: AppColors.textGray, letterSpacing: 0.25)),
+                CommonSizedBox.sizedBox(height: 2, width: 5),
+              ],
+            ),
+          ]),
+        ));
   }
 }
