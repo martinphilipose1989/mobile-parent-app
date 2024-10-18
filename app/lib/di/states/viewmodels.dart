@@ -33,6 +33,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../dependencies.dart';
 import '../../feature/attendance/attendance_calender/attendance_calender_view_model.dart';
 import '../../feature/disciplinarySlip/disciplinary_details_view_model.dart';
+import '../../feature/tickets/ticket_list_view_model.dart';
 
 final splashViewModelProvider =
     ChangeNotifierProvider.autoDispose<SplashViewModel>(
@@ -93,6 +94,12 @@ final disciplinarySlipProvider =
 ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
       (ref) => DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
+
+final ticketListProvider =
+ChangeNotifierProvider.autoDispose<TicketListViewModel>(
+      (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
+
 
 final admissionsDetailsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsDetailsViewModel>(

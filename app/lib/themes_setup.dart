@@ -44,8 +44,11 @@ class AppColors {
 
   static const Color listItem = Color(0xFFF7F7FF);
   static const Color orange = Color(0xFFFF9500);
-  static const Color yellow = Color(0xFFCCA000
-  );
+  static const Color yellow = Color(0xFFCCA000);
+  static const Color closeTile = Color(0xFFF4F0EF);
+
+
+  static const Color divider = Color(0xFFE0E0E0);
 }
 
 List<ThemeData> getThemes(BuildContext context) {

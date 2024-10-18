@@ -77,8 +77,8 @@ class DashboardPageModel extends BasePageViewModel {
         return '';
       case 'transport':
         return '';
-      case 'enquires':
-        return '';
+      case 'enquiries':
+        return RoutePaths.ticketListPage;
       case 'application':
         return '';
       case 'payments':

@@ -24,10 +24,12 @@ class RoutePaths {
   static const String detailsViewSchoolTourPage = '/detailsViewSchoolTourPage';
   static const String cancelSchoolTourPage = '/cancelSchoolTourPage';
   static const String disciplinarySlipPage = '/disciplinarySlipPage';
+  static const String ticketListPage = '/ticketListPage';
   static const String enquiriesAdmissionsJourneyPage =
       '/enquiriesAdmissionsJourneyPage';
   static const String attendanceDetailspage =
       '/attendanceDetails';
+  static const String createTicketPage = '/createTicketPage';
 
   // route to webview
   static const String webview = '/webview';

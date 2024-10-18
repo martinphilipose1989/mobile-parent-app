@@ -12,6 +12,9 @@ class AppImages {
   static const String bookmarkLogo = 'assets/images/icon-2.svg';
   static const String bookLogo = 'assets/images/icon-3.svg';
   static const String chartLogo = 'assets/images/icon-4.svg';
+  static const String ticket = 'assets/images/icons/ticket.svg';
+  static const String status_open = 'assets/images/icons/status.svg';
+  static const String avatar = 'assets/images/icons/avatar.svg';
   static const String icon5 = 'assets/images/icon-5.svg';
   static const String icon6 = 'assets/images/icon-6.svg';
   static const String icon7 = 'assets/images/icon-7.svg';
@@ -25,6 +28,7 @@ class AppImages {
   static const String document = 'assets/images/document.svg';
   static const String documentNormal = 'assets/images/document-normal.svg';
   static const String attendance = 'assets/images/bookmark-2.svg';
+  static const String messages = 'assets/images/icons/message.svg';
 
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';
@@ -36,6 +40,9 @@ class AppImages {
   static const String cube = 'assets/images/3dcube.svg';
   static const String studentIcon = 'assets/images/Vector 2.svg';
   static const String eyeIcon = 'assets/images/eye.svg';
+  static const String close = 'assets/images/icons/close.svg';
+  static const String stop = 'assets/images/icons/stop.svg';
+  static const String refresh = 'assets/images/icons/refresh.svg';
   static const String downloadIcon = 'assets/images/download.svg';
   static const String sbiBankIcon = 'assets/images/image 2.png';
   static const String otpCenterImage =

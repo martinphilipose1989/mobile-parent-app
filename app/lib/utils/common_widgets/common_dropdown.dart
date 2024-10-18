@@ -23,6 +23,7 @@ class CustomDropdownButton extends StatefulWidget {
   final Function(int id)? onIdSelection;
   final String? Function(String?)? validator;
   final String? Function(int?, int)? idValidator;
+  final String? hint;
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -40,7 +41,8 @@ class CustomDropdownButton extends StatefulWidget {
       this.validator,
       this.idValidator,
       this.onSingleSelect,
-      this.onIdSelection});
+      this.onIdSelection,
+      this.hint});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -114,10 +116,11 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Select ',
+                        widget.hint ?? 'Select ',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
+
                           color: Theme.of(context).colorScheme.onTertiary,
                         ),
                         overflow: TextOverflow.ellipsis,

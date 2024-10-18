@@ -4,6 +4,7 @@ import 'package:app/feature/attendance/attendance_calender/attendence_calender_p
 import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/create_ticket/create_ticket_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiries/enquiries_page.dart';
@@ -17,11 +18,12 @@ import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/tickets/ticket_list_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
-import 'package:app/molecules/disciplinarySlip/disciplinary_details.dart';
+
 import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
-import 'package:app/utils/common_widgets/common_webview.dart';
+
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -129,6 +131,19 @@ class AppRouter {
             builder: (context) => const AttendanceCalenderPage(),
             settings:
             const RouteSettings(name: RoutePaths.attendanceCalender));
+
+      case RoutePaths.ticketListPage:
+        return CupertinoPageRoute(
+            builder: (context) => const TicketListPage(),
+            settings:
+            const RouteSettings(name: RoutePaths.ticketListPage));
+
+      case RoutePaths.createTicketPage:
+        return CupertinoPageRoute(
+            builder: (context) => const CreateTicketPage(),
+            settings:
+            const RouteSettings(name: RoutePaths.createTicketPage));
+
 
       case RoutePaths.editEnquiriesDetailsPage:
         return CupertinoPageRoute(
