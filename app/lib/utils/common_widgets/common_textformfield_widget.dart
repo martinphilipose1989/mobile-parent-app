@@ -16,6 +16,7 @@ class CommonTextFormField extends StatelessWidget {
   final int? maxLines;
   final bool showSearchIcon;
   final Widget? prefix;
+  final Widget? suffix;
   final bool showAstreik;
   final bool readOnly;
   final int? maxLength;
@@ -36,6 +37,7 @@ class CommonTextFormField extends StatelessWidget {
       required this.showAstreik,
       this.showSearchIcon = false,
       this.prefix,
+      this.suffix,
       this.inputFormatters});
 
   @override
@@ -66,6 +68,7 @@ class CommonTextFormField extends StatelessWidget {
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   prefixIcon: prefix,
+                  suffixIcon: suffix,
                   hintText: hintText ?? '',
                 ),
           ),

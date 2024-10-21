@@ -3,6 +3,7 @@ import 'package:app/feature/admissions_details/admissions_details_view_model.dar
 import 'package:app/feature/attendance/attendance_list1/attendance_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
+import 'package:app/feature/communication/communication_view_model.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -18,6 +19,8 @@ import 'package:app/feature/payments/payment_history_transaction_type/payment_hi
 import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/feature/review_page/rate_page_view.dart';
+import 'package:app/feature/review_page/rate_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
@@ -80,19 +83,21 @@ final admissionsProvider =
 );
 
 final attendanceDetailsProvider =
-ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
-      (ref) => AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+    ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
+  (ref) =>
+      AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
-
 final attendanceCalenderProvider =
-ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
-      (ref) => AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+    ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
+  (ref) =>
+      AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
 final disciplinarySlipProvider =
-ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
-      (ref) => DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+    ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
+  (ref) =>
+      DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
 
 final ticketListProvider =
@@ -220,3 +225,14 @@ final paymentHistoryStudentLedgerProvider =
 final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
     (ref) => WebviewModel(getIt.get<FlutterExceptionHandlerBinder>(),
         getIt.get<GetPaymentStatusUsecase>()));
+
+final ratePageModelProvider =
+    ChangeNotifierProvider.autoDispose<RatePageModel>((ref) => RatePageModel(
+          getIt.get<FlutterExceptionHandlerBinder>(),
+        ));
+
+final communicationPageModelProvider =
+    ChangeNotifierProvider.autoDispose<CommunicationPageModel>(
+        (ref) => CommunicationPageModel(
+              getIt.get<FlutterExceptionHandlerBinder>(),
+            ));

@@ -18,6 +18,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/get_sto
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'services/retrofit_service.dart';
 
@@ -25,11 +26,13 @@ class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final TicketRetrofitService ticketRetrofitService;
 
   NetworkAdapter(
       {required this.apiService,
       required this.financeRetrofitService,
-      required this.adminRetorfitService});
+      required this.adminRetorfitService,
+      required this.ticketRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -300,6 +303,19 @@ class NetworkAdapter implements NetworkPort {
         feeTypeIds: feeTypeIds,
         feeCategoryIds: feeCategoryIds,
         feeSubCategoryIds: feeSubCategoryIds));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
+      {required int pageSize, required int page}) async {
+    var response = await safeApiCall(
+        ticketRetrofitService.getTicketsList(pageSize: pageSize, page: page));
     return response.fold(
       (l) {
         return Left(l);

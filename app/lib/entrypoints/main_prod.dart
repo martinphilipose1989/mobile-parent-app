@@ -13,6 +13,7 @@ void main() async {
       adminBaseUrl: '',
       mdmToken: '',
       financeBaseUrl: '',
+      ticketingBaseUrl: '',
       secrets: AppSecrets.appSecretsProd,
     ),
   );

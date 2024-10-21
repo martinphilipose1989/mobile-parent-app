@@ -14,6 +14,7 @@ void main() async {
       mdmBaseUrl: EnvDev.mdmBaseUrl,
       adminBaseUrl: EnvDev.adminBaseUrl,
       mdmToken: EnvDev.mdmToken,
+      ticketingBaseUrl: EnvDev.ticketingBaseUrl,
       secrets: AppSecrets.appSecretsDev,
       logSqlStatements: true,
       showLogs: true,

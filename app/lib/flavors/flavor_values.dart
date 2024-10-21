@@ -5,6 +5,7 @@ class FlavorValues {
   final String mdmBaseUrl;
   final String financeBaseUrl;
   final String adminBaseUrl;
+  final String ticketingBaseUrl;
   final String mdmToken;
   final AppSecrets secrets;
   final bool useFakeData;
@@ -17,6 +18,7 @@ class FlavorValues {
     required this.financeBaseUrl,
     required this.adminBaseUrl,
     required this.mdmToken,
+    required this.ticketingBaseUrl,
     required this.secrets,
     logSqlStatements = false,
     this.showLogs = false,

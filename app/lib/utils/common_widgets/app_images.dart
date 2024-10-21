@@ -48,6 +48,9 @@ class AppImages {
   static const String otpCenterImage =
       'assets/images/Two factor authentication-pana 1.svg';
   static const String personIcon = "assets/images/person.svg";
+  static const String attach = "assets/images/attach.svg";
+  static const String avatar1 = "assets/images/Avatar (1).svg";
+  static const String avatar2 = "assets/images/Avatar.png";
 
   //admissions menu images
   static const String schoolTour = "assets/images/container.svg";
@@ -65,4 +68,21 @@ class AppImages {
   static const String admissionIcon = 'assets/images/admission.svg';
   static const String enquiryIcon = 'assets/images/enquiry.svg';
   static const String registrationIcon = 'assets/images/registrationIcon.svg';
+
+  //rating
+  static const String ratingActive1 = 'assets/rating/active1.svg';
+  static const String ratingActive2 = 'assets/rating/active2.svg';
+  static const String ratingActive3 = 'assets/rating/active3.svg';
+  static const String ratingActive4 = 'assets/rating/active4.svg';
+  static const String ratingActive5 = 'assets/rating/active5.svg';
+  static const String ratingDeactive1 = 'assets/rating/deactivate1.svg';
+  static const String ratingDeactive2 = 'assets/rating/deactivate2.svg';
+  static const String ratingDeactive3 = 'assets/rating/deactivate3.svg';
+  static const String ratingDeactive4 = 'assets/rating/deactivate4.svg';
+  static const String ratingDeactive5 = 'assets/rating/deactivate5.svg';
+  static const String rate1 = 'assets/rating/rate1.svg';
+  static const String rate2 = 'assets/rating/rate2.svg';
+  static const String rate3 = 'assets/rating/rate3.svg';
+  static const String rate4 = 'assets/rating/rate4.svg';
+  static const String rate5 = 'assets/rating/rate5.svg';
 }

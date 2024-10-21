@@ -40,5 +40,8 @@ export 'src/model/response/finance/get_store_image_model.dart';
 export 'src/model/response/finance/get_payment_status_model.dart';
 export 'src/model/response/admin/get_coupons_model.dart';
 
+//communication
+export 'src/model/response/communication/communication_list_model.dart';
+
 //utils
 export 'src/utils/validator.dart';

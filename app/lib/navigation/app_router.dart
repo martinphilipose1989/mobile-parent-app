@@ -5,6 +5,7 @@ import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.d
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
 import 'package:app/feature/create_ticket/create_ticket_page.dart';
+import 'package:app/feature/communication/communication_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiries/enquiries_page.dart';
@@ -16,6 +17,7 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
+import 'package:app/feature/review_page/rate_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/tickets/ticket_list_page.dart';
@@ -112,7 +114,7 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const AttendanceDetailsPage(),
             settings:
-            const RouteSettings(name: RoutePaths.attendanceDetailspage));
+                const RouteSettings(name: RoutePaths.attendanceDetailspage));
 
       case RoutePaths.enquiriesTimelinePage:
         return CupertinoPageRoute(
@@ -124,26 +126,22 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const DisplinaryDetailsPage(),
             settings:
-            const RouteSettings(name: RoutePaths.disciplinarySlipPage));
+                const RouteSettings(name: RoutePaths.disciplinarySlipPage));
 
       case RoutePaths.attendanceCalender:
         return CupertinoPageRoute(
             builder: (context) => const AttendanceCalenderPage(),
-            settings:
-            const RouteSettings(name: RoutePaths.attendanceCalender));
+            settings: const RouteSettings(name: RoutePaths.attendanceCalender));
 
       case RoutePaths.ticketListPage:
         return CupertinoPageRoute(
             builder: (context) => const TicketListPage(),
-            settings:
-            const RouteSettings(name: RoutePaths.ticketListPage));
+            settings: const RouteSettings(name: RoutePaths.ticketListPage));
 
       case RoutePaths.createTicketPage:
         return CupertinoPageRoute(
             builder: (context) => const CreateTicketPage(),
-            settings:
-            const RouteSettings(name: RoutePaths.createTicketPage));
-
+            settings: const RouteSettings(name: RoutePaths.createTicketPage));
 
       case RoutePaths.editEnquiriesDetailsPage:
         return CupertinoPageRoute(
@@ -181,6 +179,15 @@ class AppRouter {
                   webviewArguments: settings.arguments as WebviewArguments,
                 ),
             settings: const RouteSettings(name: RoutePaths.webview));
+
+      case RoutePaths.ratePage:
+        return CupertinoPageRoute(
+            builder: (context) => const RatePage(),
+            settings: const RouteSettings(name: RoutePaths.ratePage));
+      case RoutePaths.communicationPage:
+        return CupertinoPageRoute(
+            builder: (context) => const CommunicationPage(),
+            settings: const RouteSettings(name: RoutePaths.communicationPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

@@ -134,7 +134,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_inappwebview: 3d32228f1304635e7c028b0d4252937730bbc6cf
   flutter_statusbarcolor_ns: 68a360889d88d7915ae524e422aeab62e4063804
-  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
+  fluttertoast: 9f2f8e81bb5ce18facb9748d7855bf5a756fe3db
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46

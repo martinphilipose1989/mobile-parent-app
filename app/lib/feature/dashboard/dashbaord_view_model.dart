@@ -52,11 +52,7 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List enquiryAndAdmissionTemp = [
-    {
-      'name': 'Enquiries',
-      'image': AppImages.receiptSearch,
-      'isSelected': false
-    },
+    {'name': 'Tickets', 'image': AppImages.receiptSearch, 'isSelected': false},
     {'name': 'Application', 'image': AppImages.cube, 'isSelected': false}
   ];
 
@@ -77,7 +73,7 @@ class DashboardPageModel extends BasePageViewModel {
         return '';
       case 'transport':
         return '';
-      case 'enquiries':
+      case 'tickets':
         return RoutePaths.ticketListPage;
       case 'application':
         return '';

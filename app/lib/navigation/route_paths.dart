@@ -27,9 +27,10 @@ class RoutePaths {
   static const String ticketListPage = '/ticketListPage';
   static const String enquiriesAdmissionsJourneyPage =
       '/enquiriesAdmissionsJourneyPage';
-  static const String attendanceDetailspage =
-      '/attendanceDetails';
+  static const String attendanceDetailspage = '/attendanceDetails';
   static const String createTicketPage = '/createTicketPage';
+  static const String ratePage = '/ratePage';
+  static const String communicationPage = '/communicationPage';
 
   // route to webview
   static const String webview = '/webview';

@@ -15,4 +15,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'ADMIN_BASE_URL')
   static const String adminBaseUrl = _EnvDev.adminBaseUrl;
+
+  @EnviedField(varName: 'TICKETING_BASE_URL')
+  static const String ticketingBaseUrl = _EnvDev.ticketingBaseUrl;
 }
