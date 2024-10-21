@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io' show Platform, exit;
 
 class CommonPopups {
+
   // Private constructor
   CommonPopups._();
 
@@ -92,6 +93,17 @@ class CommonPopups {
       message2: message2,
       message3: message3,
       message4: message4,
+      onChanged: onChanged,
+    );
+  }
+
+  showAlert(
+      BuildContext context,
+      String message,
+      Function(bool shouldRoute) onChanged) {
+    _showAlertDialog(
+      context,
+      message: message,
       onChanged: onChanged,
     );
   }
@@ -219,7 +231,7 @@ class CommonPopups {
     );
   }
 
-  void _showConfirmDialog(BuildContext context,
+  _showConfirmDialog(BuildContext context,
       {required String message,
       required String message1,
       required String message2,
@@ -279,7 +291,71 @@ class CommonPopups {
                       child: CommonElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          // onChanged(true);
+                        },
+                        text: 'Cancel',
+                        backgroundColor: Colors.white,
+                        borderColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
+                      )),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                           onChanged(true);
+                        },
+                        text: 'Confirm',
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      )),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _showAlertDialog(
+    BuildContext context, {required String message,
+      required Function(bool shouldRoute) onChanged}
+  ){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(25),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CommonText(
+                text: message,
+                style:
+                    AppTypography.subtitle1.copyWith(color: AppColors.textDark),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // onChanged(true);
                         },
                         text: 'Cancel',
                         backgroundColor: Colors.white,

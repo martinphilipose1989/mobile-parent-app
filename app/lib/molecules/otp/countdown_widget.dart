@@ -2,6 +2,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CountdownWidget extends AnimatedWidget {
   CountdownWidget({
     super.key,

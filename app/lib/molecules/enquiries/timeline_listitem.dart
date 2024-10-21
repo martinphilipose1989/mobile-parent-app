@@ -1,16 +1,18 @@
 import 'package:app/molecules/enquiries/dashline.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class TimelineListitem extends StatelessWidget {
 
   final int index;
-  const TimelineListitem(this.index, {super.key});
+  final int length;
+  final EnquiryTimelineDetail timeline;
+  const TimelineListitem({super.key,required this.index,required this.length,required this.timeline});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +32,18 @@ class TimelineListitem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 25.h,
-                    width: 25.w,
+                    height: 30.h,
+                    width: 30.w,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
+                      shape: BoxShape.circle,
                       color: Colors.white,
                       border: Border.all(width: 5,color: Theme.of(context).primaryColor),
+                    ),
+                    child: Center(
+                      child: CommonText(text: '${index+1}',style: AppTypography.body1.copyWith(
+                            color: AppColors.primary,
+                            fontSize: 12
+                          ),),
                     ),
                   ),
                   const SizedBox(width: 20,),
@@ -43,7 +51,7 @@ class TimelineListitem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonText(
-                        text: "Enquiry Received",
+                        text: timeline.event??'',
                         style: AppTypography.body2.copyWith(
                           color: AppColors.textDark
                         ),
@@ -51,9 +59,9 @@ class TimelineListitem extends StatelessWidget {
                       const SizedBox(height: 15,),
                       Row(
                         children: [
-                          SvgPicture.asset(AppImages.instagramIcon),
+                          const Icon(Icons.timer_outlined,color: AppColors.textGray,size: 18,),
                           const SizedBox(width: 5,),
-                          CommonText(text: "New Admission",
+                          CommonText(text: timeline.eventType??'',
                             style: AppTypography.body2.copyWith(
                               color: AppColors.textGray,
                               fontSize: 12,
@@ -63,7 +71,7 @@ class TimelineListitem extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 15,),
-                      CommonText(text: "01/05/2024 10:30 Am",
+                      CommonText(text: DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.parse(timeline.createdAt??'').toLocal()),
                         style: AppTypography.body2.copyWith(
                           fontSize: 10,
                           color: AppColors.textDark
@@ -76,7 +84,7 @@ class TimelineListitem extends StatelessWidget {
             ),
           ),
         ),
-        index==4?
+        index== length-1?
             const SizedBox()
         :Positioned(
           left: 29,

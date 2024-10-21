@@ -8,6 +8,10 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.prod,
     values: const FlavorValues(
+      authorizationEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+      tokenEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
       apiBaseUrl: '',
       mdmBaseUrl: '',
       adminBaseUrl: '',

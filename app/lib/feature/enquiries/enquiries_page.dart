@@ -15,18 +15,23 @@ class EnquiriesPage extends BasePage<EnquiriesPageModel> {
 }
 
 class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<EnquiriesPageModel> provideBase() {
     return enquiriesPageModelProvider;
   }
 
   @override
-  void onModelReady(EnquiriesPageModel model) {}
+  void onModelReady(EnquiriesPageModel model) {
+    model.controller = TabController(length: 2, vsync: this);
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesPageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
       appbarTitle: 'Enquiries',
@@ -36,7 +41,7 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
 
   @override
   Widget buildView(BuildContext context, EnquiriesPageModel model) {
-    return EnquiriesPageView(provideBase());
+    return EnquiriesPageView(provideBase(),);
   }
 
   @override

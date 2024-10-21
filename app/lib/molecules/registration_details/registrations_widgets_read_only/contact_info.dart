@@ -2,11 +2,14 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ContactInfo extends StatelessWidget {
-  const ContactInfo({super.key});
+
+class ContactDetail extends StatelessWidget {
+  ContactDetails? contactDetail;
+  ContactDetail({super.key , this.contactDetail});
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -32,7 +35,7 @@ class ContactInfo extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "Contact No. Of", subtitle: 'Mother'),
+                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.emergencyContact??''),
                   ],
                 ),
               )
@@ -61,34 +64,70 @@ class ContactInfo extends StatelessWidget {
                       thickness: 1,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
-                    const CommonText(
-                      text: 'Preference 1',
-                      style: AppTypography.body2,
-                    ),
-                    CommonSizedBox.sizedBox(height: 10, width: 10),
-                    DetailsItem(title: "Parent Type", subtitle: 'Mother'),
-                    DetailsItem(
-                        title: "Parent Mobile Number", subtitle: '9876543212'),
-                    DetailsItem(title: "Parent Type", subtitle: 'Mother'),
-                    DetailsItem(
-                        title: "Parent Email ID", subtitle: 'milu@gmail.com'),
-                    CommonSizedBox.sizedBox(height: 10, width: 10),
-                    const CommonText(
-                      text: 'Preference 2',
-                      style: AppTypography.body2,
-                    ),
-                    CommonSizedBox.sizedBox(height: 10, width: 10),
-                    DetailsItem(title: "Parent Type", subtitle: 'Mother'),
-                    DetailsItem(
-                        title: "Parent Mobile Number", subtitle: '9876543212'),
-                    DetailsItem(title: "Parent Type", subtitle: 'Father'),
-                    DetailsItem(
-                        title: "Parent Email ID",
-                        subtitle: 'Shahashok@gmail.com'),
-                  ],
-                ),
-              )
-            ]),
+                    Column(
+                      children: [
+                        Column(
+                          children: [
+                            const CommonText(
+                              text: 'Preference 1',
+                              style: AppTypography.body2,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobileOfParent??''
+                            ),
+                            DetailsItem(
+                                title: "Parent Mobile Number",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobile ??''
+                            ),
+                            DetailsItem(
+                              title: "Parent Type",
+                              subtitle: contactDetail?.pointOfContact?.firstPreference?.emailOfParent ??''
+                            ),
+                            DetailsItem(
+                                title: "Parent Email ID",
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.email ??''
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const CommonText(
+                              text: 'Preference 2',
+                              style: AppTypography.body2,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.mobileOfParent ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Mobile Number",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.mobile ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Type",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.emailOfParent ??
+                                    ''),
+                            DetailsItem(
+                                title: "Parent Email ID",
+                                subtitle: contactDetail?.pointOfContact
+                                        ?.secondPreference?.email ??
+                                    ''),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                          ],
+                        )
+                      ]
+                  ),
+                ],
+              ),
+            )
+        ]),
       ),
       Container(
         width: 358.w,
@@ -112,18 +151,18 @@ class ContactInfo extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "House No./Building", subtitle: '35'),
+                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.currentAddress?.house??''),
                     DetailsItem(
-                        title: "Street Name", subtitle: 'JhunJhun Gali'),
+                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.currentAddress?.street??''),
                     DetailsItem(
-                        title: "Landmark", subtitle: 'Near Post Office'),
-                    DetailsItem(title: "Country", subtitle: 'India'),
-                    DetailsItem(title: "State", subtitle: 'Maharashtra'),
-                    DetailsItem(title: "City", subtitle: 'Mumbai'),
-                    DetailsItem(title: "Pin Code", subtitle: '12321'),
-                    DetailsItem(
-                        title: "Is Permanent Address Same As Present?",
-                        subtitle: 'Yes'),
+                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.currentAddress?.landmark??''),
+                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.currentAddress?.country is String) ? contactDetail?.residentialAddress?.currentAddress?.country : contactDetail?.residentialAddress?.currentAddress?.country?.value??''),
+                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.currentAddress?.state is String) ? contactDetail?.residentialAddress?.currentAddress?.state : contactDetail?.residentialAddress?.currentAddress?.state?.value??''),
+                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.currentAddress?.city is String) ? contactDetail?.residentialAddress?.currentAddress?.city : contactDetail?.residentialAddress?.currentAddress?.city?.value??''),
+                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.currentAddress?.pinCode??''),
+                    // DetailsItem(
+                    //     title: "Is Permanent Address Same As Present?",
+                    //     subtitle: (contactDetail?.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes' ? "Yes":"No"),
                   ],
                 ),
               )

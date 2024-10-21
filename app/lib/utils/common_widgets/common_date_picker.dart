@@ -1,14 +1,18 @@
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
   final bool? showAstreik;
   final String? intialDate;
+  final bool isDisabled;
+  final Function(DateTime?)? onDateSelected;
   final String? Function(String?)? validator;
   final TextEditingController? dateController;
   const CommonDatePickerWidget(
@@ -16,6 +20,8 @@ class CommonDatePickerWidget extends StatefulWidget {
       this.labelName,
       this.intialDate,
       this.showAstreik = false,
+      this.isDisabled = false,
+      this.onDateSelected,
       this.validator,
       this.dateController});
 
@@ -54,12 +60,15 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.parse((widget.intialDate??DateTime.now()).toString()),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
     if (picked != null) {
       setState(() {
+        if(widget.onDateSelected != null){
+          widget.onDateSelected!(picked).call();
+        }
         widget.dateController?.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
@@ -76,8 +85,8 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
             alignLabelWithHint: true,
-            prefixIcon: IconButton(
-              icon: const Icon(Icons.calendar_today_outlined),
+            suffixIcon: IconButton(
+              icon: SvgPicture.asset(AppImages.calendarIcon),
               onPressed: () {
                 _selectDate(context);
               },
@@ -88,7 +97,9 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           ),
           readOnly: true,
           onTap: () {
-            _selectDate(context);
+            if (!widget.isDisabled) {
+              _selectDate(context);
+            }
           },
         ),
         Positioned(

@@ -10,6 +10,12 @@ class FlutterAlertErrorPresenter<T extends AlertTexts>
 
   @override
   void show(Exception throwable, BuildContext context, AlertTexts data) {
-    // your alert provider
+    final snackBar = SnackBar(
+      content: Text(data.message),
+      // duration: super.duration.toFlutter(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
+
+

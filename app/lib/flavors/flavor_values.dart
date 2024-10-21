@@ -10,6 +10,9 @@ class FlavorValues {
   final bool useFakeData;
   final bool showLogs;
   final bool _logSqlStatements;
+  final String authorizationEndpoint;
+  final String tokenEndpoint;
+  final String? logoutEndpoint;
 
   const FlavorValues({
     required this.apiBaseUrl,
@@ -18,6 +21,9 @@ class FlavorValues {
     required this.adminBaseUrl,
     required this.mdmToken,
     required this.secrets,
+    required this.authorizationEndpoint,
+    required this.tokenEndpoint,
+    this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,
     this.useFakeData = false,

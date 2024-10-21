@@ -21,7 +21,7 @@ class CommonTabPage<T> extends StatelessWidget {
       this.onFirstTabChange,
       this.onSecondTabChange,
       this.firstTabTitle,
-      this.secondTabTitle});
+      this.secondTabTitle,});
 
   @override
   Widget build(BuildContext context) {

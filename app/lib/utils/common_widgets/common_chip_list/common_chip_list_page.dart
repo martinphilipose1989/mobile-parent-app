@@ -12,14 +12,17 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class CommonChipListPage extends StatelessWidget {
   final List<CommonChips> chipValues;
   final Function(int index) onCallBack;
+  final bool isEdit;
+  final ScrollController? controller;
   const CommonChipListPage(
-      {super.key, required this.chipValues, required this.onCallBack});
+      {super.key, required this.chipValues, required this.onCallBack,this.isEdit = false, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<CommonChipListViewModel>(
         builder: (context, model, child) {
           return ListView.builder(
+            controller: controller,
             scrollDirection: Axis.horizontal,
             itemCount: chipValues.length,
             itemBuilder: (context, index) {
@@ -30,9 +33,13 @@ class CommonChipListPage extends StatelessWidget {
                   final isSelected = data == index;
                   return GestureDetector(
                     onTap: () {
-                      print(index);
-                      onCallBack.call(index);
-                      model.highlightIndex.add(index);
+                      if(isEdit){
+                        return;
+                      }
+                      else{
+                        onCallBack.call(index);
+                        model.highlightIndex.add(index);
+                      }
                     },
                     child: Container(
                       height: 38.h,

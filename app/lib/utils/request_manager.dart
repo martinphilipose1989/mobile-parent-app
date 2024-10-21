@@ -1,8 +1,6 @@
 import 'dart:async';
-
+import 'package:app/model/resource.dart';
 import 'package:domain/domain.dart';
-
-import '../model/resource.dart';
 
 class RequestManager<T> {
   final StreamController<Resource<T>> _resource =
@@ -20,6 +18,7 @@ class RequestManager<T> {
         _resource.sink.add(
           Resource.error<T>(error: l, data: null),
         );
+        _resource.addError(l);
         dispose();
       },
       (r) async {
@@ -30,6 +29,7 @@ class RequestManager<T> {
               error: l.transform(),
             ),
           );
+          _resource.addError(l);
           dispose();
         }, (r) {
           _resource.sink.add(

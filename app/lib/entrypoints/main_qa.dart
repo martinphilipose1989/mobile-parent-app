@@ -9,6 +9,10 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.qa,
     values: const FlavorValues(
+      authorizationEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+      tokenEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
       apiBaseUrl: '',
       financeBaseUrl: EnvQA.financeBaseUrl,
       adminBaseUrl: EnvQA.adminBaseUrl,

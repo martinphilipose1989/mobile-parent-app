@@ -13,6 +13,7 @@ class CommonCalendarModel extends BasePageViewModel {
   final DateFormat dayFormat = DateFormat('EEE');
   final DateFormat dateFormat = DateFormat('dd');
   final DateFormat monthFormat = DateFormat('MMM');
+  final DateFormat dateFormatter = DateFormat('dd-MM-yyyy');
 
   List<DateTime> nextSevenDays = List.generate(8, (index) {
     return DateTime.now().add(Duration(days: index));

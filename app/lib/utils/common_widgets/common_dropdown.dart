@@ -23,6 +23,11 @@ class CustomDropdownButton extends StatefulWidget {
   final Function(int id)? onIdSelection;
   final String? Function(String?)? validator;
   final String? Function(int?, int)? idValidator;
+  final BehaviorSubject<String>? singleSelectItemSubject;
+  final String? intialValue;
+  final bool isDisable;
+  final bool isSearchable;
+
   const CustomDropdownButton(
       {super.key,
       required this.items,
@@ -36,11 +41,15 @@ class CustomDropdownButton extends StatefulWidget {
       this.selectedValue,
       this.itemsWithId,
       this.dropDownId,
-      required this.onMultiSelect,
       this.validator,
+      required this.onMultiSelect,
       this.idValidator,
       this.onSingleSelect,
-      this.onIdSelection});
+      this.onIdSelection,
+      this.intialValue,
+      this.singleSelectItemSubject,
+      this.isDisable = false,
+      this.isSearchable = false});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -50,8 +59,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   BehaviorSubject<List<String>> selectedItemsSubject =
       BehaviorSubject<List<String>>.seeded([]);
 
-  BehaviorSubject<String> singleSelectItemSubject =
-      BehaviorSubject<String>.seeded('');
+  late BehaviorSubject<String> singleSelectItemSubject;
+  late TextEditingController textEditingController;
 
   String? selectedValue;
   BehaviorSubject<int> valueId = BehaviorSubject<int>();
@@ -64,7 +73,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   void eitherDisplayZerothIndexOrSelectedName() {
     if (widget.isMutiSelect) {
-      if (widget.displayZerothIndex) {
+      textEditingController = TextEditingController();
+    if (widget.displayZerothIndex) {
         List<String> addedZerothIndex = [];
         addedZerothIndex.add(widget.items[0] ?? '');
         selectedItemsSubject.add(addedZerothIndex);
@@ -82,11 +92,25 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         singleSelectItemSubject.add(widget.items[0] ?? "");
       }
     }
+    if (!widget.isMutiSelect) {
+      singleSelectItemSubject =
+          widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomDropdownButton oldWidget) {
+    if (oldWidget.intialValue != widget.intialValue &&
+        widget.intialValue != null) {
+      singleSelectItemSubject.add(widget.intialValue ?? '');
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
     selectedItemsSubject.close();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -195,6 +219,44 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   height: 40,
                   padding: EdgeInsets.only(left: 14, right: 14),
                 ),
+                dropdownSearchData: widget.isSearchable ? DropdownSearchData(
+                    searchController: textEditingController,
+                    searchInnerWidgetHeight: 50,
+                    searchInnerWidget: Container(
+                      height: 50,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 4,
+                        right: 8,
+                        left: 8,
+                      ),
+                      child: TextFormField(
+                        expands: true,
+                        maxLines: null,
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          hintText: 'Search',
+                          hintStyle: const TextStyle(fontSize: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    searchMatchFn: (item, searchValue) {
+                      return item.value.toString().toLowerCase().contains(searchValue);
+                    },
+                  ) : null,
+                  onMenuStateChange: (isOpen) {
+                    if (!isOpen && widget.isSearchable) {
+                      textEditingController.clear();
+                    }
+                  },
               ),
             ),
             Positioned(
