@@ -1,0 +1,31 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
+import 'package:network_retrofit/src/model/response/disciplinarySlip/acknowledge_response_entity.dart';
+import 'package:network_retrofit/src/model/response/disciplinarySlip/disciplinary_list_response.dart';
+import 'package:retrofit/retrofit.dart';
+part 'disciplinary_retrofit_services.g.dart';
+
+@RestApi()
+abstract class DisciplinaryRetorfitService {
+  factory DisciplinaryRetorfitService(Dio dio,
+      {String? baseUrl, String? mdmBaseUrl, String? disciplinaryBaseUrl}) {
+    return _DisciplinaryRetorfitService(
+      dio,
+      baseUrl: disciplinaryBaseUrl,
+    );
+  }
+  @POST('/academics/warning/get-warning-acknowledgement-list')
+  Future<HttpResponse<DisciplinaryListEntity>> getDisciplinaryList(
+      @Body() DisciplinaryListRequest disciplinaryListRequest);
+
+
+
+  @POST('academics/warning/create-acknowledgement')
+  Future<HttpResponse<AcknowlegementResponseEntity>> postAcknowledge(
+      @Body() AcknowlegementRequestEntity acknowledgeRequestEntity);
+
+
+}

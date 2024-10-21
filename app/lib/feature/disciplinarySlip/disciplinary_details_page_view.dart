@@ -5,19 +5,20 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/disciplinarySlip/disciplinary_details.dart';
 import '../../molecules/disciplinarySlip/disciplinary_slip_list.dart';
+import 'disciplinary_details_view_model.dart';
 
-class DisplinaryDetailsPageView extends BasePageViewWidget {
+class DisplinaryDetailsPageView extends BasePageViewWidget<DisplinaryDetailsViewModel> {
   DisplinaryDetailsPageView(
     super.providerBase,
   );
 
   @override
-  Widget build(BuildContext context, BasePageViewModel model) {
+  Widget build(BuildContext context, DisplinaryDetailsViewModel model) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: Column(
         children: [
-          CommonSizedBox.sizedBox(height: 10.h, width: double.infinity),
+          SizedBox(height: 10.h, ),
           const DisciplinaryDetails(),
           const DisciplinarySlipList()
         ],

@@ -13,7 +13,7 @@ void main() async {
       adminBaseUrl: '',
       mdmToken: '',
       financeBaseUrl: '',
-      secrets: AppSecrets.appSecretsProd,
+      secrets: AppSecrets.appSecretsProd, disciplinarySlip: '',
     ),
   );
   startApp();

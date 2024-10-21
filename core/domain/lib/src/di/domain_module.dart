@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/repository/disciplinary_slip_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -73,5 +74,10 @@ abstract class DomainModule {
   @lazySingleton
   GetCouponsUsecase getCoupons(AdminRepository repository) {
     return GetCouponsUsecase(repository);
+  }
+
+  DisciplinarySlipListUsecase getDisciplinaryList(DisciplinarySlipRepository repo){
+
+    return  DisciplinarySlipListUsecase(repo);
   }
 }

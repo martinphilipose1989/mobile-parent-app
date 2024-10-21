@@ -20,4 +20,8 @@ abstract class AppModule {
 
   @Named("adminBaseUrl")
   String get adminBaseUrl => FlavorConfig.instance.values.adminBaseUrl;
+
+  @Named("disciplinarySlip")
+  String get disciplinarySlip => FlavorConfig.instance.values.disciplinarySlip;
+
 }

@@ -20,21 +20,26 @@ class AttendanceCalender extends StatelessWidget {
         StudentDetails(
             image: AppImages.personIcon,
             name: "Khevna Shah",
-            title: "vibgyor Schools|cbse",
-            subtitle: "regular| shift| Grade V",
+            title: "Vibgyor Schools|CBSE",
+            subtitle: "Regular| Shift| Grade V",
             subtitle2: "Stream|NA"),
         SizedBox(height: 20, width: double.infinity),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CommonText(
-              text: "Attendance",
-              style: AppTypography.subtitle1,
+            Padding(
+              padding: const EdgeInsets.only(left:5),
+              child: const CommonText(
+                text: "Attendance",
+                style: AppTypography.subtitle1,
+              ),
             ),
+            SizedBox(height: 20, width: double.infinity),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AttendanceCountTile(
+
                   count: 28,
                   countType: 'Total Days',
                   textColor: Theme.of(context).colorScheme.primary,

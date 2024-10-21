@@ -10,8 +10,10 @@ class FlavorValues {
   final bool useFakeData;
   final bool showLogs;
   final bool _logSqlStatements;
+  final String disciplinarySlip;
 
-  const FlavorValues({
+  const FlavorValues( {
+    required this.disciplinarySlip,
     required this.apiBaseUrl,
     required this.mdmBaseUrl,
     required this.financeBaseUrl,

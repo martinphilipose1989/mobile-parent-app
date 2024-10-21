@@ -43,4 +43,5 @@ class DetailsViewSchoolTourPageState extends AppBasePageState<DetailsViewSchoolT
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
+
 }

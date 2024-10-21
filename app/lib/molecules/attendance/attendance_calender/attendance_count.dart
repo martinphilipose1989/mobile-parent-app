@@ -19,14 +19,15 @@ class AttendanceCountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-        height: 48.h,
+        height: 50.h,
         decoration: BoxDecoration(
-            color: AppColors.textPaleGray,
+            color: AppColors.lightgrey,
             borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 2.h,),
             CommonText(
                 text: "$count",
                 style: AppTypography.subtitle2.copyWith(color: textColor)),

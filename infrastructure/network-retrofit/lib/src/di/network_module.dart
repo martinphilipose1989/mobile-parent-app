@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
@@ -72,11 +73,20 @@ abstract class NetworkModule {
       AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
 
   @lazySingleton
+  DisciplinaryRetorfitService providerDisciplinaryeRetrofitService(
+      Dio dio, @Named('disciplinarySlip') String disciplinaryBaseUrl) =>
+      DisciplinaryRetorfitService(dio,disciplinaryBaseUrl:disciplinaryBaseUrl );
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
-          AdminRetorfitService adminRetorfitService) =>
+          AdminRetorfitService adminRetorfitService,
+
+      DisciplinaryRetorfitService disciplinaryRetrofitService
+      ) =>
       NetworkAdapter(
+        disciplinaryRetorfitService: disciplinaryRetrofitService,
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
           financeRetrofitService: financeRetrofitService);

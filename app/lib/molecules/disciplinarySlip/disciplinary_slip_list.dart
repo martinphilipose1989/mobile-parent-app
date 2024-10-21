@@ -11,7 +11,7 @@ class DisciplinarySlipList extends StatelessWidget {
     return Expanded(
         child: ListView.separated(
       itemBuilder: (BuildContext context, int index) {
-        return const DisciplinarySlipListItem();
+        return DisciplinarySlipListItem();
       },
       separatorBuilder: (BuildContext context, int index) {
         return SizedBox(

@@ -25,7 +25,7 @@ class StudentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 98.h,
+        height: 90.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: AppColors.listItem,
@@ -51,8 +51,8 @@ class StudentDetails extends StatelessWidget {
                 child: SvgPicture.asset(image),
               ),
             ),
-            const SizedBox(
-              width: 20,
+           SizedBox(
+              width: 15.w,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,17 +68,17 @@ class StudentDetails extends StatelessWidget {
                 CommonText(
                     text: title,
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25)),
+                        color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
                     text: subtitle,
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25)),
+                        color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
                     text: subtitle2,
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25)),
+                        color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
               ],
             ),

@@ -1,4 +1,6 @@
 import 'package:data/data.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -17,6 +19,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'services/retrofit_service.dart';
@@ -25,9 +28,11 @@ class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final DisciplinaryRetorfitService disciplinaryRetorfitService;
 
   NetworkAdapter(
       {required this.apiService,
+      required this.disciplinaryRetorfitService,
       required this.financeRetrofitService,
       required this.adminRetorfitService});
 
@@ -307,4 +312,44 @@ class NetworkAdapter implements NetworkPort {
       (r) => Right(r.data.transform()),
     );
   }
+
+  @override
+  Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+      {required int studentId,
+      required int academicYearID,
+      required DateTime time}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.getDisciplinaryList(DisciplinaryListRequest(
+            academicYearId: academicYearID, studentId: studentId, date: time)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
+      {required AcknowlegementRequestModel acknowledgementRequestModel}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.postAcknowledge(AcknowlegementRequestEntity(
+            studentWarningId: acknowledgementRequestModel.studentWarningId,
+            userId: acknowledgementRequestModel.userId,
+            acknowledgementRole:
+                acknowledgementRequestModel.acknowledgementRole,
+            acknowledgementDate:
+                acknowledgementRequestModel.acknowledgementDate)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
 }
+
+//disciplinary
+
+// Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+//     {required int studentId, required int academicYearId,required DateTime date}) async {

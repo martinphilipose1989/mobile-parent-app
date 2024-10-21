@@ -21,8 +21,8 @@ class DisciplinaryDetails extends StatelessWidget {
         const StudentDetails(
             image: AppImages.personIcon,
             name: "Khevna Shah",
-            title: "vibgyor Schools|cbse",
-            subtitle: "regular| shift| Grade V",
+            title: "Vibgyor Schools|CBSE",
+            subtitle: "Regular| Shift| Grade V",
             subtitle2: "Stream|NA"),
         SizedBox(
           height: 20.h,
@@ -68,6 +68,7 @@ class DisciplinaryDetails extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               CommonElevatedButton(
+
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 onPressed: () {
@@ -89,9 +90,11 @@ class DisciplinaryDetails extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Icon(
-                    CupertinoIcons.info,
-                    size: 20,
+                  child:  Container(width: 40.w,height: 40.h,
+                    child: Icon(
+                      CupertinoIcons.info,
+                      size: 24,
+                    ),
                   )),
             ],
           ),
