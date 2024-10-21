@@ -21,6 +21,10 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     String? board;
     @JsonKey(name: 'grade')
     String? grade;
+    @JsonKey(name: 'stream')
+    String? stream;
+    @JsonKey(name: 'shift')
+    String? shift;
     @JsonKey(name: 'currentStage')
     String? currentStage;
     @JsonKey(name: 'schoolVisitDate')
@@ -41,6 +45,8 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
         this.school,
         this.board,
         this.grade,
+        this.shift,
+        this.stream,
         this.currentStage,
         this.schoolVisitDate,
         this.schoolVisitTime,
@@ -63,6 +69,8 @@ class EnquiryListDetailResponseEntity extends BaseLayerDataTransformer <EnquiryL
     enquiryListDetailModel.school = school;
     enquiryListDetailModel.board = board;
     enquiryListDetailModel.grade = grade;
+    enquiryListDetailModel.shift = shift;
+    enquiryListDetailModel.stream = stream;
     enquiryListDetailModel.currentStage = currentStage;
     enquiryListDetailModel.schoolVisitDate = schoolVisitDate;
     enquiryListDetailModel.schoolVisitTime = schoolVisitTime;

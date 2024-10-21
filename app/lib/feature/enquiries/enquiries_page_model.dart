@@ -28,6 +28,8 @@ class EnquiriesPageModel extends BasePageViewModel {
   List<EnquiryListDetailModel> currentEnquiries = [];
 
   String phoneNumber = '';
+  late TabController controller;
+  BehaviorSubject<int> selectedTab = BehaviorSubject<int>.seeded(0);
 
   void setupScrollListener() {
     scrollController.addListener(() {

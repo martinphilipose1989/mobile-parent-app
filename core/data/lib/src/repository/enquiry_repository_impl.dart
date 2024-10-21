@@ -97,4 +97,9 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
     return _networkPort.getMdmAttribute(infoType: infoType);
   }
 
+  @override
+  Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode({required String pincode}) {
+    return _networkPort.getCityAndStateByPincode(pincode: pincode);
+  }
+
 }

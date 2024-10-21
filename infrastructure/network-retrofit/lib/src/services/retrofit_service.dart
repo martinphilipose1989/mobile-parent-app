@@ -23,6 +23,7 @@ import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_respo
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_subject_list/subject_list_response_entity.dart';
 import 'package:network_retrofit/src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response_entity.dart';
+import 'package:network_retrofit/src/model/response/mdm_response/city_and_state_response_entity.dart';
 import 'package:network_retrofit/src/model/response/mdm_response/mdm_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/psa_enrollment_detail/psa_enrollment_detail_response_entity.dart';
 import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.dart';
@@ -442,6 +443,13 @@ abstract class RetrofitService {
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.personalisedLearningNeedsDescription}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getPersonalizedLearningNeeds(
       {@Header("Authorization") required String token});
+
+  @GET("${NetworkProperties.mdmBaseUrl}${NetworkProperties.cityAndState}")
+  Future<HttpResponse<CityAndStateResponseEntity>> getCityAndStateByPincode({
+      @Header("Authorization") required String token,
+      @Query('filters[Pincode][\$eq]') required String pincode,
+    }
+  );
 
   @POST(NetworkProperties.enrollmentDetail)
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(

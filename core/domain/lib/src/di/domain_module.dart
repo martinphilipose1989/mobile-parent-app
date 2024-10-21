@@ -194,6 +194,12 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetCityStateByPincodeUsecase getCityStateByPincodeUsecase(
+      EnquiryRepository enquiryRepository) {
+    return GetCityStateByPincodeUsecase(enquiryRepository);
+  }
+
+  @lazySingleton
   UpdateParentDetailsUsecase updateParentDetailsUsecase(
       RegistrationRepository registrationRepository) {
     return UpdateParentDetailsUsecase(registrationRepository);

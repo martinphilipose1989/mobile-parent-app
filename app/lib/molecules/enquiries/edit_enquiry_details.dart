@@ -1,6 +1,7 @@
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/common_widgets/app_dropdown.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
@@ -59,25 +60,28 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
               if(!snapshot.hasData){
                 return const CircularProgressIndicator();
               }else {
-                return CustomDropdownButton(
+                return CustomAppDropdownButton<MdmAttributeModel>(
                   width: MediaQuery.of(context).size.width,
+                  itemAsString: (mdmAttribute) {
+                    return mdmAttribute.attributes?.name??'';
+                  },
                   onMultiSelect: (selectedValues) {},
                   dropdownName: 'School Location',
                   showAstreik: true,
                   showBorderColor: true,
-                  singleSelectItemSubject: model.selectedSchoolLocationSubject,
-                  items: snapshot.data??[],
+                  singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
+                  items: model.schoolLocationTypesAttribute ?? [],
                   onSingleSelect: (selectedValue) {
-                    if (model.schoolLocationTypes.value.contains(selectedValue)) {
-                      var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                    if ((model.schoolLocationTypesAttribute ?? []).any((element) => selectedValue.id == element.id)) {
+                      var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element) => element.id == selectedValue.id);
                       model.selectedSchoolLocationType.add(true);
                       model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
                       model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
                     }
                   },
                   isMutiSelect: false,
-                  validator: (value) => AppValidators.validateDropdown(value, "School location"),
-                  );
+                  validator: (value) => AppValidators.validateDropdown(value?.attributes?.name, "School location"),
+                );
               }
             }
           ),

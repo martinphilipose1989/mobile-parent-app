@@ -15,7 +15,7 @@ class EnquiriesPage extends BasePage<EnquiriesPageModel> {
 }
 
 class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   ProviderBase<EnquiriesPageModel> provideBase() {
     return enquiriesPageModelProvider;
@@ -23,6 +23,7 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
 
   @override
   void onModelReady(EnquiriesPageModel model) {
+    model.controller = TabController(length: 2, vsync: this);
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

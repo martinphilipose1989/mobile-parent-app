@@ -20,4 +20,5 @@ abstract class EnquiryRepository{
   Future<Either<NetworkError,Uint8List>> downloadFile({required String fileUrl});
   Future<Either<NetworkError,DeleteEnquiryFileBase>> deleteEnquiryDocument({required String enquiryID,required String documentID, required String delete, required String verify});
   Future<Either<NetworkError,MdmAttributeBaseModel>> getMdmAttribute({required String infoType});
+  Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode({required String pincode});
 }

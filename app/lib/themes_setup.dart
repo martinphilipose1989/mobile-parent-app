@@ -42,6 +42,7 @@ class AppColors {
 
   static const Color listItem = Color(0xFFF7F7FF);
   static const Color dividerColor = Color(0xFFE0E0E0);
+  static const Color roseWhite = Color(0xFFF4F0EF);
 }
 
 List<ThemeData> getThemes(BuildContext context) {

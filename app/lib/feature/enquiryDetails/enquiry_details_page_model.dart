@@ -171,6 +171,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<MdmAttributeModel?> selectedSchoolLocationSubjectAttribute = BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
   final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
@@ -679,6 +680,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubjectAttribute.add(
+      schoolLocationTypesAttribute?.firstWhere((element)=> element.id == detail.schoolLocation?.id)
+    );
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;

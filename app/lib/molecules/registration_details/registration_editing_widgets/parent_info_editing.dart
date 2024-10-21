@@ -328,6 +328,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.pinCodeController,
+                          focusNode: model.pinCodeFocusNode,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -352,6 +353,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 'State',
                                 checkSpecialCharacters: false,
                               ),
+                              singleSelectItemSubject: model.selectedFatherStateSubject,
                               onMultiSelect: (selectedValues) {},
                               onSingleSelect: (val) {
                                 if (model.state.value.contains(val)) {
@@ -384,6 +386,7 @@ class ParentInfoEditing extends StatelessWidget {
                               ),
                               showAstreik: false,
                               onMultiSelect: (selectedValues) {},
+                              singleSelectItemSubject: model.selectedFatherCitySubject,
                               onSingleSelect: (val) {
                                 if (model.city.value.contains(val)) {
                                   var city = model.cityAttribute?.firstWhere(
@@ -723,6 +726,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.motherPinCodeController,
+                          focusNode: model.motherPinCodeFocusNode,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -743,6 +747,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'State',
+                                singleSelectItemSubject: model.selectedMotherStateSubject,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -785,6 +790,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 ),
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherCitySubject,
                                 onSingleSelect: (val) {
                                   if (model.city.value.contains(val)) {
                                     var city = model.cityAttribute?.firstWhere(
@@ -1037,6 +1043,7 @@ class ParentInfoEditing extends StatelessWidget {
                           showAstreik: false,
                           labelText: "Pin Code",
                           controller: model.guardianPinCodeController,
+                          focusNode: model.guardianPinCodeFocusNode,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -1066,6 +1073,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 ),
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedGuardianStateSubject,
                                 onSingleSelect: (val) {
                                   if (model.state.value.contains(val)) {
                                     var state = model.stateAttribute
@@ -1099,6 +1107,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedGuardianCitySubject,
                                 onSingleSelect: (val) {
                                   if (model.city.value.contains(val)) {
                                     var city = model.cityAttribute?.firstWhere(

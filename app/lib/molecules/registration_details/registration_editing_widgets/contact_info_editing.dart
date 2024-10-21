@@ -56,6 +56,8 @@ class ContactInfoEditing extends StatelessWidget {
                       singleSelectItemSubject: model.emergencyContact,
                       onSingleSelect: (val){
                         model.emergencyContact.value = val;
+                        model.contactParentTypeEmail1.value = val;
+                        model.contactParentTypePhone1.value = val;
                       },
                       showBorderColor: true,
                     ),
@@ -93,6 +95,7 @@ class ContactInfoEditing extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
                       dropdownName: 'Parent Type',
+                      isDisable: true,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Type",),
                       showAstreik: false,
                       onMultiSelect: (selectedValues) {},
@@ -118,6 +121,7 @@ class ContactInfoEditing extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         isMutiSelect: false,
                         dropdownName: 'Parent Type',
+                        isDisable: true,
                         validator: (value) => AppValidators.validateNotEmpty(
                           value,
                           "Parent Type",
@@ -370,6 +374,7 @@ class ContactInfoEditing extends StatelessWidget {
                       showAstreik: true,
                       labelText: "Pin Code",
                       controller: model.residentialPinCodeController,
+                      focusNode: model.residentialPinCodeFocusNode,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly
@@ -385,16 +390,16 @@ class ContactInfoEditing extends StatelessWidget {
                       commonRadioButton: model.radioButtonController3,
                       value: 'Yes',
                       onOptionSelected: (newValue){
-                        model.permanentHouseOrBuildingController.text = model.houseOrBuildingController.text;
-                        model.permanentStreetNameController.text = model.streetNameController.text;
-                        model.permanentLandMarkController.text = model.landMarkController.text;
-                        model.permanentResidentialPinCodeController.text = model.residentialPinCodeController.text;
-                        model.selectedPermanentResidentialCountry.value = model.selectedResidentialCountry.value;
-                        model.selectedPermanentResidentialState.value = model.selectedResidentialState.value;
-                        model.selectedPermanentResidentialCity.value = model.selectedResidentialCity.value;
-                        model.permanentResidentialCountry = model.residentialCountry;
-                        model.permanentResidentialState = model.residentialState;
-                        model.permanentResidentialCity = model.residentialCity;
+                        // model.permanentHouseOrBuildingController.text = model.houseOrBuildingController.text;
+                        // model.permanentStreetNameController.text = model.streetNameController.text;
+                        // model.permanentLandMarkController.text = model.landMarkController.text;
+                        // model.permanentResidentialPinCodeController.text = model.residentialPinCodeController.text;
+                        // model.selectedPermanentResidentialCountry.value = model.selectedResidentialCountry.value;
+                        // model.selectedPermanentResidentialState.value = model.selectedResidentialState.value;
+                        // model.selectedPermanentResidentialCity.value = model.selectedResidentialCity.value;
+                        // model.permanentResidentialCountry = model.residentialCountry;
+                        // model.permanentResidentialState = model.residentialState;
+                        // model.permanentResidentialCity = model.residentialCity;
                       },
                     ),
                     CommonRadioButtonWidget(
@@ -419,7 +424,7 @@ class ContactInfoEditing extends StatelessWidget {
                       initialData: model.radioButtonController3.selectedItem,
                       dataBuilder: (context, data) {
                         return Visibility(
-                          visible: (model.radioButtonController3.selectedItem??'').isNotEmpty,
+                          visible: (model.radioButtonController3.selectedItem??'') == "No",
                           child: Column(
                             children: [
                               CommonSizedBox.sizedBox(height: 20, width: 10),
@@ -528,6 +533,7 @@ class ContactInfoEditing extends StatelessWidget {
                                 readOnly: model.radioButtonController3.selectedItem == "Yes",
                                 labelText: "Pin Code",
                                 controller: model.permanentResidentialPinCodeController,
+                                focusNode: model.permanentPinCodeFocusNode,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

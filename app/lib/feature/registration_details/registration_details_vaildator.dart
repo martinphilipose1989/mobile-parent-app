@@ -284,52 +284,52 @@ String? _validateDateOfBirth(String value) {
   }
 
   void validateBankDetails(BuildContext context) {
-    model.saveBankDetails(model.enquiryDetailArgs?.enquiryId ?? '');
+    // model.saveBankDetails(model.enquiryDetailArgs?.enquiryId ?? '');
     
-    // String errorMessage = '';
+    String errorMessage = '';
       
-    //   List<Map<String, dynamic>> bankFields = [
-    //     {'field': 'IFSC Code', 'controller': model.ifscCodeController, 'minLength': 9},
-    //     {'field': 'Bank Name', 'controller': model.bankNameController},
-    //     {'field': 'Branch Name', 'controller': model.branchNameController},
-    //     {'field': 'Account Holder Name', 'controller': model.accountHolderNameController},
-    //     {'field': 'Account Type', 'controller': model.accountTypeController},
-    //     {'field': 'Account Number', 'controller': model.accountNumberController, 'minLength': 10},
-    //     {'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
-    //   ];
+      List<Map<String, dynamic>> bankFields = [
+        {'field': 'IFSC Code', 'controller': model.ifscCodeController, 'minLength': 9},
+        {'field': 'Bank Name', 'controller': model.bankNameController},
+        {'field': 'Branch Name', 'controller': model.branchNameController},
+        {'field': 'Account Holder Name', 'controller': model.accountHolderNameController},
+        {'field': 'Account Type', 'controller': model.accountTypeController},
+        {'field': 'Account Number', 'controller': model.accountNumberController, 'minLength': 10},
+        {'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
+      ];
 
-    //   for (var field in bankFields) {
-    //     String? validationResult = AppValidators.validateNotEmpty(
-    //       field['controller']!.text.trim(),
-    //       field['field'] as String,
-    //       checkSpecialCharacters: false,
-    //       validateLength: field.containsKey('minLength'),
-    //       minLength: field['minLength'] as int?,
-    //     );
-    //     if (validationResult != null) {
-    //       errorMessage = validationResult;
-    //       break;
-    //     }
-    //   }
+      for (var field in bankFields) {
+        String? validationResult = AppValidators.validateNotEmpty(
+          field['controller']!.text.trim(),
+          field['field'] as String,
+          checkSpecialCharacters: false,
+          validateLength: field.containsKey('minLength'),
+          minLength: field['minLength'] as int?,
+        );
+        if (validationResult != null) {
+          errorMessage = validationResult;
+          break;
+        }
+      }
     
 
-    // // Validate terms and conditions acceptance
-    // if (model.radioButtonController6.selectedItem != 'I accept the terms & conditions') {
-    //   errorMessage = 'Please accept the terms and conditions';
-    // }
+    // Validate terms and conditions acceptance
+    if (model.radioButtonController6.selectedItem != 'I accept the terms & conditions') {
+      errorMessage = 'Please accept the terms and conditions';
+    }
 
-    // if (errorMessage.isNotEmpty) {
-    //   // Show snackbar with error message
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text(errorMessage),
+    if (errorMessage.isNotEmpty) {
+      // Show snackbar with error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
           
-    //     ),
-    //   );
-    // } else {
-    //   // All validations passed
-    //   model.saveBankDetails(model.enquiryDetailArgs?.enquiryId??'');
-    // }
+        ),
+      );
+    } else {
+      // All validations passed
+      model.saveBankDetails(model.enquiryDetailArgs?.enquiryId??'');
+    }
   }
 
   void validateContactDetails(BuildContext context) {

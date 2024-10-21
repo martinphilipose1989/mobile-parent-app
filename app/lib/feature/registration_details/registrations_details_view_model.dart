@@ -13,7 +13,6 @@ import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
@@ -55,6 +54,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final RemoveVasDetailUsecase removeVasDetailUsecase;
   final MakePaymentRequestUsecase makePaymentRequestUsecase;
   final GetSubjectListUsecase getSubjectListUsecase;
+  final GetCityStateByPincodeUsecase getCityStateByPincodeUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   RegistrationsDetailsViewModel(
@@ -82,7 +82,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.removeVasDetailUsecase,
       this.makePaymentRequestUsecase,
       this.getSubjectListUsecase,
-      this.flutterToastErrorPresenter);
+      this.getCityStateByPincodeUsecase,
+      this.flutterToastErrorPresenter,);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -113,6 +114,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     'Father',
     'Mother',
     'Guardian',
+    'Other',
   ];
   final List<String> pinCodeOptions = [
     '400001',
@@ -199,6 +201,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController officeAddressController = TextEditingController();
   TextEditingController fatherOfficeAreaController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
+  FocusNode pinCodeFocusNode = FocusNode();
   TextEditingController fatherEmailController = TextEditingController();
   TextEditingController fatherMobileController = TextEditingController();
   String? fatherOccupation;
@@ -223,6 +226,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController motherOfficeAddressController = TextEditingController();
   TextEditingController motherOfficeAreaController = TextEditingController();
   TextEditingController motherPinCodeController = TextEditingController();
+  FocusNode motherPinCodeFocusNode = FocusNode();
   TextEditingController motherEmailController = TextEditingController();
   TextEditingController motherMobileController = TextEditingController();
   String? motherOccupation;
@@ -251,6 +255,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       TextEditingController();
   TextEditingController guardianOfficeAreaController = TextEditingController();
   TextEditingController guardianPinCodeController = TextEditingController();
+  FocusNode guardianPinCodeFocusNode = FocusNode();
   TextEditingController guardianEmailController = TextEditingController();
   TextEditingController guardianMobileController = TextEditingController();
   String? guardianOccupation;
@@ -281,10 +286,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController streetNameController = TextEditingController();
   TextEditingController landMarkController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
+  FocusNode residentialPinCodeFocusNode = FocusNode();
   TextEditingController permanentHouseOrBuildingController = TextEditingController();
   TextEditingController permanentStreetNameController = TextEditingController();
   TextEditingController permanentLandMarkController = TextEditingController();
   TextEditingController permanentResidentialPinCodeController = TextEditingController();
+  FocusNode permanentPinCodeFocusNode = FocusNode();
   TextEditingController parentEmailIdController1 = TextEditingController();
   TextEditingController parentMobileNumberController1 = TextEditingController();
   TextEditingController parentEmailIdController2 = TextEditingController();
@@ -435,6 +442,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedSchoolLocationSubject =
       BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<MdmAttributeModel?> selectedSchoolLocationSubjectAttribute = BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
   final BehaviorSubject<String> selectedExistingSchoolGradeSubject =
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolBoardSubject =
@@ -1463,6 +1471,100 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
+  Future<void> getCityAndStateByPincode({
+    required String pincode,
+    required String infoType
+  }) async{
+    exceptionHandlerBinder.handle(block: () {
+      GetCityStateByPincodeUsecaseParams params = GetCityStateByPincodeUsecaseParams(
+        pincode: pincode,
+      );
+      RequestManager<CityAndStateResponse>(
+        params,
+        createCall: () => getCityStateByPincodeUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        if(result.status == Status.success){
+          if(infoType == "fatherInfo"){
+            selectedFatherCitySubject
+              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+            selectedFatherCityEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
+            );
+            selectedFatherStateSubject
+              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+            selectedFatherStateEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.state?.data?.id,
+              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
+            );
+          }
+          if(infoType == "motherInfo"){
+            selectedMotherCitySubject
+              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+            selectedMotherCityEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
+            );
+            selectedMotherStateSubject
+              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+            selectedMotherStateEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.state?.data?.id,
+              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
+            );
+          }
+          if(infoType == "guardianInfo"){
+            selectedGuardianCitySubject
+              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+            selectedGuardianCityEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
+            );
+            selectedGuardianStateSubject
+              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+            selectedGuardianStateEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.state?.data?.id,
+              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
+            );
+          }
+          if(infoType == "currentAddress"){
+            selectedResidentialCity
+              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+            selectedCityEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
+            );
+            selectedResidentialState
+              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+            selectedStateEntity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.state?.data?.id,
+              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
+            );
+          }
+          if(infoType == "permanentAddress"){
+            selectedPermanentResidentialCity
+              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+            permanentResidentialCity = CommonDataClass(
+              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
+            );
+            selectedPermanentResidentialState
+              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+            permanentResidentialState = CommonDataClass(
+              id: result.data?.data?[0].attributes?.state?.data?.id,
+              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
+            );
+          }
+        }
+        
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
   Future<void> uploadEnquiryDocument(
       {required String enquiryID,
       required String documentID,
@@ -1646,6 +1748,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
+    selectedSchoolLocationSubjectAttribute.add(
+      schoolLocationTypesAttribute?.firstWhere((element)=> element.id == detail.schoolLocation?.id)
+    );
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject
         .add(detail.existingSchoolDetails?.grade?.value ?? '');
@@ -2081,6 +2186,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedMotherOccupationSubject
         .add(parentDetails.motherDetails?.occupation ?? '');
 
+    radioButtonController2.selectItem(parentDetails.childCustodyDetail?.areParentsSeparated??"No");
+    if(radioButtonController.selectedItem == "Yes"){
+      radioButtonController10.selectItem(parentDetails.childCustodyDetail?.childCustody??"");
+    }
+
     guardianFirstNameController.text =
         parentDetails.guardianDetails?.firstName ?? "";
     guardianLastNameController.text =
@@ -2470,9 +2580,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
     parentInfo?.childCustodyDetail?.areParentsSeparated =
-        radioButtonController.selectedItem;
+        radioButtonController2.selectedItem??"No";
     parentInfo?.childCustodyDetail?.childCustody =
-        (radioButtonController.selectedItem == "No")
+        (radioButtonController2.selectedItem == "No")
             ? ""
             : radioButtonController10.selectedItem;
     parentInfo?.siblingDetails?.add(SiblingDetail(

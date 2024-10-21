@@ -117,6 +117,41 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
       context,
       super.stateObserver,
     );
+    model.pinCodeFocusNode.addListener((){
+      if(!model.pinCodeFocusNode.hasFocus){
+        if(model.pinCodeController.text.isNotEmpty){
+          model.getCityAndStateByPincode(pincode: model.pinCodeController.text.trim(), infoType: "fatherInfo");
+        }
+      }
+    });
+    model.motherPinCodeFocusNode.addListener((){
+      if(!model.motherPinCodeFocusNode.hasFocus){
+        if(model.motherPinCodeController.text.isNotEmpty){
+          model.getCityAndStateByPincode(pincode: model.motherPinCodeController.text.trim(), infoType: "motherInfo");
+        }
+      }
+    });
+    model.guardianPinCodeFocusNode.addListener((){
+      if(!model.guardianPinCodeFocusNode.hasFocus){
+        if(model.guardianPinCodeController.text.isNotEmpty){
+          model.getCityAndStateByPincode(pincode: model.guardianPinCodeController.text.trim(), infoType: "guardianInfo");
+        }
+      }
+    });
+    model.residentialPinCodeFocusNode.addListener((){
+      if(!model.residentialPinCodeFocusNode.hasFocus){
+        if(model.residentialPinCodeController.text.isNotEmpty){
+          model.getCityAndStateByPincode(pincode: model.residentialPinCodeController.text.trim(), infoType: "currentAddress");
+        }
+      }
+    });
+    model.permanentPinCodeFocusNode.addListener((){
+      if(!model.permanentPinCodeFocusNode.hasFocus){
+        if(model.permanentResidentialPinCodeController.text.isNotEmpty){
+          model.getCityAndStateByPincode(pincode: model.permanentResidentialPinCodeController.text.trim(), infoType: "permanentAddress");
+        }
+      }
+    });
   }
 
   @override

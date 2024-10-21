@@ -115,6 +115,10 @@ abstract class NetworkPort {
   Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute(
       {required String infoType});
 
+  Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode({
+    required String pincode
+  });
+
   Future<Either<NetworkError, Uint8List>> downloadFile(
       {required String fileUrl});
 

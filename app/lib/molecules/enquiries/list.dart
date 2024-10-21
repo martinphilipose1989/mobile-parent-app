@@ -16,9 +16,10 @@ import 'package:rxdart/rxdart.dart';
 class ListV extends StatelessWidget {
   final List<BehaviorSubject<EnquiryListDetailModel>>? enquiries;
   ScrollController scrollController;
+  final bool isClosed;
   Future<void> Function() onRefresh;
 
-  ListV({super.key, required this.enquiries, required this.scrollController,required this.onRefresh});
+  ListV({super.key, required this.enquiries, required this.scrollController,required this.onRefresh, this.isClosed = false});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class ListV extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppColors.listItem,
+                        color: isClosed ? AppColors.roseWhite : AppColors.listItem,
                         boxShadow: const [
                           BoxShadow(
                               blurRadius: 2,

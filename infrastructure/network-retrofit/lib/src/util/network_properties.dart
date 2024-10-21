@@ -38,6 +38,8 @@ class NetworkProperties {
   static const String designation = '/api/ps-designations?fields[1]=designation';
   static const String nationality = '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
   static const String personalisedLearningNeedsDescription = '/api/ac-personalise-learning-needs?fields[1]=name';
+  static const String cityAndState = '/api/co-pincodes?populate[0]=District_Or_City&populate[1]=State';
+
   static const String enrollmentDetail = 'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
   static const String subjetcList =

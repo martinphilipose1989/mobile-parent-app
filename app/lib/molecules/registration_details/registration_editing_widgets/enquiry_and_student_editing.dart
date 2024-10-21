@@ -2,12 +2,14 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/common_widgets/app_dropdown.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,25 +74,28 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                           if(!snapshot.hasData){
                             return const CircularProgressIndicator();
                           }else {
-                            return CustomDropdownButton(
+                            return CustomAppDropdownButton<MdmAttributeModel>(
                               width: MediaQuery.of(context).size.width,
+                              itemAsString: (mdmAttribute) {
+                                return mdmAttribute.attributes?.name??'';
+                              },
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'School Location',
                               showAstreik: true,
                               showBorderColor: true,
-                              singleSelectItemSubject: model.selectedSchoolLocationSubject,
-                              items: snapshot.data??[],
+                              singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
+                              items: model.schoolLocationTypesAttribute ?? [],
                               onSingleSelect: (selectedValue) {
-                                if (model.schoolLocationTypes.value.contains(selectedValue)) {
-                                  var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
+                                if ((model.schoolLocationTypesAttribute ?? []).any((element) => selectedValue.id == element.id)) {
+                                  var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element) => element.id == selectedValue.id);
                                   model.selectedSchoolLocationType.add(true);
                                   model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
                                   model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
                                 }
                               },
                               isMutiSelect: false,
-                              validator: (value)=> AppValidators.validateDropdown(value, 'school location'),
-                              );
+                              validator: (value) => AppValidators.validateDropdown(value?.attributes?.name, "School location"),
+                            );
                           }
                         }
                       ),

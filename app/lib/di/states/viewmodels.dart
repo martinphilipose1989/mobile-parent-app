@@ -119,7 +119,8 @@ final registrationsDetailsProvider =
       getIt.get<RemoveVasDetailUsecase>(),
       getIt.get<MakePaymentRequestUsecase>(),
       getIt.get<GetSubjectListUsecase>(),
-      getIt.get<FlutterToastErrorPresenter>(),),
+      getIt.get<GetCityStateByPincodeUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>()),
 );
 
 final enquiriesPageModelProvider =
