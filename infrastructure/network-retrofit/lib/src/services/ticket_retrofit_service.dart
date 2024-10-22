@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:network_retrofit/src/model/response/communication/communication_entity.dart';
-import 'package:retrofit/dio.dart';
-import 'package:retrofit/http.dart';
 
 part 'ticket_retrofit_service.g.dart';
 
