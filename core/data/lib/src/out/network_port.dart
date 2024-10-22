@@ -14,6 +14,8 @@ abstract class NetworkPort {
   Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
       {required AcknowlegementRequestModel acknowledgementRequestModel});
 
+  Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons();
+
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
       {required int paymentMode, required List<int> studentFeeIds});
 
@@ -21,7 +23,7 @@ abstract class NetworkPort {
       {required StorePaymentModelRequest storePaymentModelRequest});
 
   Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
-      {required int studentId,required int academicYearID,required DateTime time});
+      {required int studentId,int? academicYearID, DateTime? time});
 
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>

@@ -75,9 +75,23 @@ abstract class DomainModule {
   GetCouponsUsecase getCoupons(AdminRepository repository) {
     return GetCouponsUsecase(repository);
   }
-
+  @lazySingleton
   DisciplinarySlipListUsecase getDisciplinaryList(DisciplinarySlipRepository repo){
 
     return  DisciplinarySlipListUsecase(repo);
   }
+
+  @lazySingleton
+ CreateAcknowledgementUsecase createAcknowledge(DisciplinarySlipRepository repo){
+
+    return   CreateAcknowledgementUsecase( disciplinarySlipRepository: repo);
+  }
+
+  @lazySingleton
+ CoReasonsListUsecase coReasons(DisciplinarySlipRepository repo){
+
+    return  CoReasonsListUsecase ( disciplinarySlipRepository: repo);
+  }
+
+
 }

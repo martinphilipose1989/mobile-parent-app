@@ -19,4 +19,6 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'DISCIPLINARY_BASE_URL')
   static const String disciplinarySlip = _EnvDev.disciplinarySlip;
+
+
 }

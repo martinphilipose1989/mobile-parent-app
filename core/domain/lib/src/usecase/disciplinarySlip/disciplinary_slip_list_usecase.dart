@@ -19,13 +19,13 @@ class DisciplinarySlipListUsecase extends BaseUseCase<BaseError,
 }
 
 class DisciplinarySlipListUsecaseParams extends Params {
-  int academicYearId;
+  int ?academicYearId;
   int studentId;
-  DateTime date;
+  DateTime ?date;
 
   DisciplinarySlipListUsecaseParams(
-      {required this.date,
-      required this.academicYearId,
+      { this.date,
+   this.academicYearId,
       required this.studentId});
 
   @override

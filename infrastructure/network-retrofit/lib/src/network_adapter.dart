@@ -316,16 +316,17 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
       {required int studentId,
-      required int academicYearID,
-      required DateTime time}) async {
+    int? academicYearID,
+ DateTime? time}) async {
     var response = await safeApiCall(
         disciplinaryRetorfitService.getDisciplinaryList(DisciplinaryListRequest(
-            academicYearId: academicYearID, studentId: studentId, date: time)));
+         studentId: studentId,)));
     return response.fold(
       (l) {
         return Left(l);
       },
-      (r) => Right(r.data.transform()),
+      (r) => Right(r.data.transform()
+        ),
     );
   }
 
@@ -347,7 +348,19 @@ class NetworkAdapter implements NetworkPort {
       (r) => Right(r.data.transform()),
     );
   }
-}
+
+  @override
+  Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons() async {
+    var response = await safeApiCall(disciplinaryRetorfitService.getCoReasonsList());
+    return response.fold(
+          (l) {
+        return Left(l);
+      },
+          (r) => Right(r.data.transform()),
+    );
+  }
+  }
+
 
 //disciplinary
 

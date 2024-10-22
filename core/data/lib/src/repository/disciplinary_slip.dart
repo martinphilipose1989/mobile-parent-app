@@ -7,7 +7,7 @@ class DisciplinarySlipRepositoryImpl extends DisciplinarySlipRepository {
   DisciplinarySlipRepositoryImpl(this.networkPort);
 
   @override
-  Future<Either<NetworkError, DisciplinaryListModel>> getdiscplinarySlipList({required int studentId, required int academicYearId, required DateTime date}) {
+  Future<Either<NetworkError, DisciplinaryListModel>> getdiscplinarySlipList({required int studentId, int? academicYearId,  DateTime? date}) {
     return networkPort.getDisciplinaryList(studentId: studentId, academicYearID: academicYearId, time: date);
     //
   }
@@ -16,6 +16,13 @@ class DisciplinarySlipRepositoryImpl extends DisciplinarySlipRepository {
   Future<Either<NetworkError, AcknowlegementResponseModel>> createAcknowledgeMent({required AcknowlegementRequestModel model}) {
    return networkPort.acknowledge(acknowledgementRequestModel: model);
   }
+
+  @override
+  Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons() {
+  return networkPort.getCoReasons();
+  }
+
+
 
 
 }

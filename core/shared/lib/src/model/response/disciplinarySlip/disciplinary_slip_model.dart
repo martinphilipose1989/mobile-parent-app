@@ -1,6 +1,6 @@
 class DisciplinaryListModel {
   int status;
-  Data data;
+  DisciplinaryData data;
   String message;
   bool success;
 
@@ -13,26 +13,64 @@ class DisciplinaryListModel {
 
 }
 
-class Data {
-  List<dynamic> data;
-  DisciplinarySlipMeta meta;
+class DisciplinaryData {
+  List<SlipInfo> data;
 
-  Data({
+
+  DisciplinaryData({
     required this.data,
-    required this.meta,
+
   });
 
 }
 
-class DisciplinarySlipMeta {
-  int total;
-  int pageSize;
-  int numOfPages;
+class SlipInfo {
+  int id;
+  int academicYearId;
+  int studentId;
+  int disciplinarySlipId;
+  int infractionId;
+  int disciplinaryActionId;
+  DateTime? date;
+  String time;
+  String description;
+  DateTime createdAt;
+  DateTime updatedAt;
+  List<AcknowledgementDetail> acknowledgementDetails;
 
-  DisciplinarySlipMeta({
-    required this.total,
-    required this.pageSize,
-    required this.numOfPages,
+  SlipInfo({
+    required this.id,
+    required this.academicYearId,
+    required this.studentId,
+    required this.disciplinarySlipId,
+    required this.infractionId,
+    required this.disciplinaryActionId,
+    required this.date,
+    required this.time,
+    required this.description,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.acknowledgementDetails,
   });
 
 }
+
+class AcknowledgementDetail {
+  int id;
+  int studentWarningId;
+  int userId;
+  String acknowledgementRole;
+  DateTime acknowledgementDate;
+
+  AcknowledgementDetail({
+    required this.id,
+    required this.studentWarningId,
+    required this.userId,
+    required this.acknowledgementRole,
+    required this.acknowledgementDate,
+  });
+
+}
+
+
+

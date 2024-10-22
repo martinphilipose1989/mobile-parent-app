@@ -38,4 +38,5 @@ export 'src/usecase/admin/get_coupons_usecase.dart';
 //disciplinarySlip
 export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';
 
-
+export 'src/usecase/disciplinarySlip/co_resons_list_usecase.dart';
+export 'src/usecase/disciplinarySlip/create_acknowledgement_usecase.dart';

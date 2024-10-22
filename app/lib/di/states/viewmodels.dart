@@ -92,7 +92,9 @@ ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
 
 final disciplinarySlipProvider =
 ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
-      (ref) => DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      (ref) => DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),   getIt.get<DisciplinarySlipListUsecase>(),
+        getIt.get<CreateAcknowledgementUsecase>(),  getIt.get<CoReasonsListUsecase>()
+      ),
 );
 
 final ticketListProvider =

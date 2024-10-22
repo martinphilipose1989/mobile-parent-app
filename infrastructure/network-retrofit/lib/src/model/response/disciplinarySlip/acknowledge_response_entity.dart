@@ -42,7 +42,7 @@ class AcknowlegementResponseEntity implements BaseLayerDataTransformer<Acknowleg
 }
 
 @JsonSerializable()
-class AcknowledgeDataEntity {
+class AcknowledgeDataEntity implements BaseLayerDataTransformer<AcknowledgeDataEntity, AcknowledgeData>{
   @JsonKey(name: "student_warning_id")
   int studentWarningId;
   @JsonKey(name: "user_id")
@@ -72,4 +72,15 @@ class AcknowledgeDataEntity {
   factory AcknowledgeDataEntity.fromJson(Map<String, dynamic> json) => _$AcknowledgeDataEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AcknowledgeDataEntityToJson(this);
+
+  @override
+  AcknowledgeDataEntity restore(AcknowledgeData data) {
+    // TODO: implement restore
+    throw UnimplementedError();
+  }
+
+  @override
+  AcknowledgeData transform() {
+ return AcknowledgeData(studentWarningId: studentWarningId, userId: userId, acknowledgementRole: acknowledgementRole, acknowledgementDate: acknowledgementDate, id: id, createdAt: createdAt, updatedAt: updatedAt);
+  }
 }

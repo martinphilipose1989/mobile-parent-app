@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import 'package:network_retrofit/src/model/response/disciplinarySlip/co_reasons_list_response_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/response/disciplinarySlip/acknowledge_response_entity.dart';
 import 'package:network_retrofit/src/model/response/disciplinarySlip/disciplinary_list_response.dart';
@@ -27,5 +28,8 @@ abstract class DisciplinaryRetorfitService {
   Future<HttpResponse<AcknowlegementResponseEntity>> postAcknowledge(
       @Body() AcknowlegementRequestEntity acknowledgeRequestEntity);
 
+
+  @GET('https://ampersand-r26sp3mibq-uc.a.run.app/api/co-reasons?filters%5Bslug%5D=academic_remark_disciplinary_slip')
+  Future<HttpResponse<CoReasonsListResponseEntity>> getCoReasonsList();
 
 }
