@@ -1,6 +1,9 @@
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CustomAppDropdownButton<T> extends StatefulWidget {
@@ -119,18 +122,120 @@ class _CustomAppDropdownButtonState<T> extends State<CustomAppDropdownButton<T>>
                             ),
                           ))
                       .toList(),
-                  value: singleSelectItemSubject.value,
+                  value: singleSelectItemSubject.value == ''
+                      ? null
+                      : widget.items.contains(singleSelectItemSubject.value)
+                          ? singleSelectItemSubject.value
+                          : null,
                   onChanged: (value) {
                     if (value != null) {
                       widget.onSingleSelect!(value);
                       singleSelectItemSubject.add(value);
                     }
                   },
-                  // ... rest of the existing properties ...
+                  decoration: InputDecoration(
+                    errorStyle: AppTypography.caption.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.failure,
+                        fontSize: 12.sp,
+                        height: 0.5.h),
+                  ),
+                  iconStyleData: const IconStyleData(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                    ),
+                    iconSize: 14,
+                    iconEnabledColor: Colors.black,
+                    iconDisabledColor: Colors.grey,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    direction: DropdownDirection.left,
+                    maxHeight: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    offset: const Offset(1, 0),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: const Radius.circular(40),
+                      thickness: WidgetStateProperty.all<double>(6),
+                      thumbVisibility: WidgetStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                  dropdownSearchData: widget.isSearchable ? DropdownSearchData(
+                    searchController: textEditingController,
+                    searchInnerWidgetHeight: 50,
+                    searchInnerWidget: Container(
+                      height: 50,
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        bottom: 4,
+                        right: 8,
+                        left: 8,
+                      ),
+                      child: TextFormField(
+                        expands: true,
+                        maxLines: null,
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          hintText: 'Search',
+                          hintStyle: const TextStyle(fontSize: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    searchMatchFn: (item, searchValue) {
+                      return item.value.toString().toLowerCase().contains(searchValue);
+                    },
+                  ) : null,
+                  onMenuStateChange: (isOpen) {
+                    if (!isOpen && widget.isSearchable) {
+                      textEditingController.clear();
+                    }
+                  },
                 ),
               ),
             ),
-            // ... existing Positioned widget for dropdown name ...
+            Positioned(
+              left: 6,
+              top: -11,
+              child: widget.dropdownName != ''
+                  ? Container(
+                      color: Colors
+                          .white, // Match the background color to avoid overlap
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Row(
+                        children: [
+                          CommonText(
+                            text: widget.dropdownName,
+                            style: AppTypography.caption
+                                .copyWith(color: AppColors.textNeutral35),
+                          ),
+                          widget.showAstreik
+                              ? CommonText(
+                                  text: ' *',
+                                  style: AppTypography.caption.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.failure,
+                                      fontSize: 12.sp),
+                                )
+                              : const SizedBox.shrink(),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ],
         );
       },
@@ -233,10 +338,78 @@ class _CustomAppDropdownButtonState<T> extends State<CustomAppDropdownButton<T>>
                     },
                   ).toList();
                 },
-                // ... rest of the existing properties ...
+                buttonStyleData: ButtonStyleData(
+                  height: 48.h,
+                  width: widget.width ?? 175.w,
+                  padding: const EdgeInsets.only(left: 14, right: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                        color: widget.showBorderColor
+                            ? Colors.black
+                            : Colors.transparent,
+                        width: 1),
+                    color: Colors.white,
+                  ),
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: Icon(
+                    Icons.keyboard_arrow_down_sharp,
+                  ),
+                  iconSize: 14,
+                  iconEnabledColor: Colors.black,
+                  iconDisabledColor: Colors.grey,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  direction: DropdownDirection.left,
+                  maxHeight: 200,
+                  width: widget.width ?? 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.white,
+                  ),
+                  offset: const Offset(1, 0),
+                  scrollbarTheme: ScrollbarThemeData(
+                    radius: const Radius.circular(40),
+                    thickness: WidgetStateProperty.all<double>(6),
+                    thumbVisibility: WidgetStateProperty.all<bool>(true),
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                  padding: EdgeInsets.only(left: 14, right: 14),
+                ),
               ),
             ),
-            // ... existing Positioned widget for dropdown name ...
+            Positioned(
+              left: 6,
+              top: -11,
+              child: widget.dropdownName != ''
+                ? Container(
+                    color: Colors
+                        .white, // Match the background color to avoid overlap
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      children: [
+                        CommonText(
+                          text: widget.dropdownName,
+                          style: AppTypography.caption
+                              .copyWith(color: AppColors.textNeutral35),
+                        ),
+                        widget.showAstreik
+                            ? CommonText(
+                                text: ' *',
+                                style: AppTypography.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.failure,
+                                    fontSize: 12.sp),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            )
           ],
         );
       },

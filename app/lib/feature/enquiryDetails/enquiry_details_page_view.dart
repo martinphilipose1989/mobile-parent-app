@@ -40,27 +40,29 @@ class EnquiriesDetailsPageView
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 3:
       if(model.selectedValue.value == 0){
-        if(enquiryDetailArgs.enquiryType == "IVT"){
-        model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-        }
-        else if(enquiryDetailArgs.enquiryType == "PSA"){
-          model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-        }
-        else{
-          model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
-        }
-        model.getMdmAttribute(infoType: 'grade');
-        model.getMdmAttribute(infoType: 'schoolLocation');
-        model.getMdmAttribute(infoType: 'gender');
-        model.getMdmAttribute(infoType: 'board');
-        model.getMdmAttribute(infoType: 'course');
-        model.getMdmAttribute(infoType: 'stream');
-        model.getMdmAttribute(infoType: 'shift');
-        model.getMdmAttribute(infoType: 'batch');
-        model.getMdmAttribute(infoType: 'psaSubType');
-        model.getMdmAttribute(infoType: 'psaCategory');
-        model.getMdmAttribute(infoType: 'psaSubCategory');
-        model.getMdmAttribute(infoType: 'periodOfService');
+        List<Future> mdmAttributes = [model.getMdmAttribute(infoType: 'grade'),
+        model.getMdmAttribute(infoType: 'schoolLocation'),
+        model.getMdmAttribute(infoType: 'gender'),
+        model.getMdmAttribute(infoType: 'board'),
+        model.getMdmAttribute(infoType: 'course'),
+        model.getMdmAttribute(infoType: 'stream'),
+        model.getMdmAttribute(infoType: 'shift'),
+        model.getMdmAttribute(infoType: 'batch'),
+        model.getMdmAttribute(infoType: 'psaSubType'),
+        model.getMdmAttribute(infoType: 'psaCategory'),
+        model.getMdmAttribute(infoType: 'psaSubCategory'),
+        model.getMdmAttribute(infoType: 'periodOfService')];
+        Future.wait(mdmAttributes).then((_){
+          if(enquiryDetailArgs.enquiryType == "IVT"){
+            model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
+          }
+          else if(enquiryDetailArgs.enquiryType == "PSA"){
+            model.getPsaDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
+          }
+          else{
+            model.getNewAdmissionDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: true);
+          }
+        });
         model.editRegistrationDetails.add(true);
         model.showMenuOnFloatingButton.add(false);
       } else{
@@ -118,7 +120,7 @@ class EnquiriesDetailsPageView
                             year: enquiryDetailArgs.academicYear??'',
                             id: enquiryDetailArgs.enquiryNumber??'',
                             title: enquiryDetailArgs.school??'',
-                            subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                            subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
                             buttontext: enquiryDetailArgs.currentStage??'',
                             compeletion: '',
                             status: enquiryDetailArgs.status??'',

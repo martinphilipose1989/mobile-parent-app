@@ -40,34 +40,52 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
-        model.getMdmAttribute(infoType: 'grade');
-        model.getMdmAttribute(infoType: 'schoolLocation');
-        model.getMdmAttribute(infoType: 'gender');
-        model.getMdmAttribute(infoType: 'board');
-        model.getMdmAttribute(infoType: 'course');
-        model.getMdmAttribute(infoType: 'stream');
-        model.getMdmAttribute(infoType: 'shift');
-        model.getMdmAttribute(infoType: 'batch');
-        model.getMdmAttribute(infoType: 'psaSubType');
-        model.getMdmAttribute(infoType: 'psaCategory');
-        model.getMdmAttribute(infoType: 'psaSubCategory');
-        model.getMdmAttribute(infoType: 'periodOfService');
-        model.getMdmAttribute(infoType: "country");
-        model.getMdmAttribute(infoType: "state");
-        model.getMdmAttribute(infoType: "city");
-        model.getMdmAttribute(infoType: "bloodGroup");
-        model.getMdmAttribute(infoType: "occupation");
-        model.getMdmAttribute(infoType: "qualification");
-        model.getMdmAttribute(infoType: "religion");
-        model.getMdmAttribute(infoType: "caste");
-        model.getMdmAttribute(infoType: "subcaste");
-        model.getMdmAttribute(infoType: "mother_tongue");
-        model.getMdmAttribute(infoType: "organization");
-        model.getMdmAttribute(infoType: "designation");
-        model.getMdmAttribute(infoType: "nationality");
-        model.getMdmAttribute(infoType: "designation");
-        model.getMdmAttribute(infoType: "organization");
-        model.getMdmAttribute(infoType: "personalise_learning_needs");
+      List<Future> mdmAttributes = [
+      model.getMdmAttribute(infoType: 'grade'),
+      model.getMdmAttribute(infoType: 'schoolLocation'),
+      model.getMdmAttribute(infoType: 'gender'),
+      model.getMdmAttribute(infoType: 'board'),
+      model.getMdmAttribute(infoType: 'course'),
+      model.getMdmAttribute(infoType: 'stream'),
+      model.getMdmAttribute(infoType: 'shift'),
+      model.getMdmAttribute(infoType: 'batch'),
+      model.getMdmAttribute(infoType: 'psaSubType'),
+      model.getMdmAttribute(infoType: 'psaCategory'),
+      model.getMdmAttribute(infoType: 'psaSubCategory'),
+      model.getMdmAttribute(infoType: 'periodOfService'),
+      model.getMdmAttribute(infoType: "country"),
+      model.getMdmAttribute(infoType: "state"),
+      model.getMdmAttribute(infoType: "city"),
+      model.getMdmAttribute(infoType: "bloodGroup"),
+      model.getMdmAttribute(infoType: "occupation"),
+      model.getMdmAttribute(infoType: "qualification"),
+      model.getMdmAttribute(infoType: "religion"),
+      model.getMdmAttribute(infoType: "caste"),
+      model.getMdmAttribute(infoType: "subcaste"),
+      model.getMdmAttribute(infoType: "mother_tongue"),
+      model.getMdmAttribute(infoType: "organization"),
+      model.getMdmAttribute(infoType: "designation"),
+      model.getMdmAttribute(infoType: "nationality"),
+      model.getMdmAttribute(infoType: "designation"),
+      model.getMdmAttribute(infoType: "organization"),
+      model.getMdmAttribute(infoType: "personalise_learning_needs")];
+      Future.wait(mdmAttributes).then((_){
+        if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
+          model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+            isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+          );
+        }
+        else if(widget.enquiryDetailArgs?.enquiryType == "PSA"){
+          model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+            isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+          );
+        }
+        else{
+          model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+            isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+          );
+        }
+      });
     }
     if(widget.routeFrom!="enquiry"){
       if(widget.editRegistrationDetails){
@@ -119,35 +137,35 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
     );
     model.pinCodeFocusNode.addListener((){
       if(!model.pinCodeFocusNode.hasFocus){
-        if(model.pinCodeController.text.isNotEmpty){
+        if(model.pinCodeController.text.isNotEmpty && model.pinCodeController.text.trim().length == 6){
           model.getCityAndStateByPincode(pincode: model.pinCodeController.text.trim(), infoType: "fatherInfo");
         }
       }
     });
     model.motherPinCodeFocusNode.addListener((){
       if(!model.motherPinCodeFocusNode.hasFocus){
-        if(model.motherPinCodeController.text.isNotEmpty){
+        if(model.motherPinCodeController.text.isNotEmpty && model.pinCodeController.text.trim().length == 6){
           model.getCityAndStateByPincode(pincode: model.motherPinCodeController.text.trim(), infoType: "motherInfo");
         }
       }
     });
     model.guardianPinCodeFocusNode.addListener((){
       if(!model.guardianPinCodeFocusNode.hasFocus){
-        if(model.guardianPinCodeController.text.isNotEmpty){
+        if(model.guardianPinCodeController.text.isNotEmpty && model.pinCodeController.text.length == 6){
           model.getCityAndStateByPincode(pincode: model.guardianPinCodeController.text.trim(), infoType: "guardianInfo");
         }
       }
     });
     model.residentialPinCodeFocusNode.addListener((){
       if(!model.residentialPinCodeFocusNode.hasFocus){
-        if(model.residentialPinCodeController.text.isNotEmpty){
+        if(model.residentialPinCodeController.text.isNotEmpty && model.pinCodeController.text.trim().length == 6){
           model.getCityAndStateByPincode(pincode: model.residentialPinCodeController.text.trim(), infoType: "currentAddress");
         }
       }
     });
     model.permanentPinCodeFocusNode.addListener((){
       if(!model.permanentPinCodeFocusNode.hasFocus){
-        if(model.permanentResidentialPinCodeController.text.isNotEmpty){
+        if(model.permanentResidentialPinCodeController.text.isNotEmpty && model.pinCodeController.text.trim().length == 6){
           model.getCityAndStateByPincode(pincode: model.permanentResidentialPinCodeController.text.trim(), infoType: "permanentAddress");
         }
       }

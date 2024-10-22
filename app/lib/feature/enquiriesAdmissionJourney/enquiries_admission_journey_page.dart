@@ -102,6 +102,8 @@ class EnquiryDetailArgs{
   String? school;
   String? board;
   String? grade;
+  String? stream;
+  String? shift;
   String? currentStage;
   String? schoolVisitDate;
   String? schoolVisitTime;
@@ -120,6 +122,8 @@ class EnquiryDetailArgs{
     this.school,
     this.board,
     this.grade,
+    this.stream,
+    this.shift,
     this.schoolVisitDate,
     this.schoolVisitTime,
     this.formCompletionPercentage,

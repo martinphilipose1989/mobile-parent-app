@@ -5,7 +5,7 @@ import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 abstract class EnquiryRepository{
-  Future<Either<NetworkError, EnquiryListModel>> getEnquiryList({required String phone, required int pageNumber, int pageSize = 10});
+  Future<Either<NetworkError, EnquiryListModel>> getEnquiryList({required String phone, required int pageNumber, int pageSize = 10, required String status});
   Future<Either<NetworkError, EnquiryDetailBase>> getEnquiryDetail({required String enquiryID});
   Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline({required String enquiryID});
   Future<Either<NetworkError, AdmissionJourneyBase>> getAdmissionJourney({required String enquiryID,required String type});

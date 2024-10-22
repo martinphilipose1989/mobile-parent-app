@@ -299,34 +299,6 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 }
                               },
                               isMutiSelect: false,
-                            );
-                          }
-                        }
-                      ),
-                      const SizedBox(height: 20,),
-                      StreamBuilder<List<String>>(
-                        stream: model.gradeTypes,
-                        builder: (context, snapshot) {
-                          if(!snapshot.hasData){
-                            return const CircularProgressIndicator();
-                          } else {
-                            return CustomDropdownButton(
-                              width: MediaQuery.of(context).size.width,
-                              onMultiSelect: (selectedValues) {},
-                              dropdownName: 'Existing School Grade',
-                              showAstreik: false,
-                              showBorderColor: true,
-                              items: snapshot.data??[],
-                              singleSelectItemSubject: model.selectedExistingSchoolGradeSubject,
-                              onSingleSelect: (selectedValue) {
-                                if (model.existingSchoolGrade.value.contains(selectedValue)) {
-                                  var grade = model.gradeTypesAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                  model.selectedExistingSchoolGrade.add(true);
-                                  model.selectedExistingSchoolGradeEntity?.id = grade?.id;
-                                  model.selectedExistingSchoolGradeEntity?.value = grade?.attributes?.name;
-                                }
-                              },
-                              isMutiSelect: false,
                               validator: (value)=> AppValidators.validateDropdown(value, 'existing school grade'),
                             );
                           }
@@ -574,7 +546,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
                               dropdownName: 'Nationality',
-                              showAstreik: true,
+                              showAstreik: false,
                               showBorderColor: true,
                               items: snapshot.data??[],
                               singleSelectItemSubject: model.selectedNationalitySubject,

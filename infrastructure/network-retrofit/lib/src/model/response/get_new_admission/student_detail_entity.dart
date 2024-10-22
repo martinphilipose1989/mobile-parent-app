@@ -68,19 +68,29 @@ class StudentDetailsEntity extends BaseLayerDataTransformer<StudentDetailsEntity
       request.addAll({"place_of_birth":placeOfBirth});
     }
     if(religion!=null){
-      request.addAll({"religion":religion?.toJson()});
+      if(religion!.isValid()){
+        request.addAll({"religion":religion?.toJson()});
+      }
     }
     if(caste!=null){
-      request.addAll({"caste":caste?.toJson()});
+      if(caste!.isValid()){
+        request.addAll({"caste":caste?.toJson()});
+      }
     }
     if(subCaste!=null){
-      request.addAll({"sub_caste":subCaste?.toJson()});
+      if(subCaste!.isValid()){
+        request.addAll({"sub_caste":subCaste?.toJson()});
+      }
     }
     if(nationality!=null){
-      request.addAll({"nationality":nationality?.toJson()});
+      if(nationality!.isValid()){
+        request.addAll({"nationality":nationality?.toJson()});
+      }
     }
     if(motherTongue!=null){
-      request.addAll({"mother_tongue":motherTongue?.toJson()});
+      if(motherTongue!.isValid()){
+        request.addAll({"mother_tongue":motherTongue?.toJson()});
+      }
     } 
     if(aadhar!=null && (aadhar??'').isNotEmpty){
       request.addAll({"aadhar":aadhar});

@@ -50,6 +50,8 @@ class AdmissionsList extends StatelessWidget {
                     academicYear: admissionList?[index].academicYear,
                     board: admissionList?[index].board,
                     grade: admissionList?[index].grade,
+                    shift: admissionList?[index].shift,
+                    stream: admissionList?[index].stream,
                     formCompletionPercentage: admissionList?[index].formCompletionPercentage,
                     isFrom: 'admission',
                     status: admissionList?[index].status 
@@ -67,7 +69,7 @@ class AdmissionsList extends StatelessWidget {
                         year: admissionList?[index].academicYear??'',
                         id: admissionList?[index].enquiryNumber??'',
                         title: admissionList?[index].school??'',
-                        subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].board??''}",
+                        subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].board??''} | ${admissionList?[index].shift} | Stream-${admissionList?[index].stream}",
                         buttontext: admissionList?[index].currentStage??'',
                         compeletion: "${(admissionList?[index].formCompletionPercentage??0).toString()}% Completed",
                         status: admissionList?[index].status??'',

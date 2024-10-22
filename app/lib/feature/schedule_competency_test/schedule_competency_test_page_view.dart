@@ -79,7 +79,7 @@ class ScheduleCompetencyTestPageView
                               year: enquiryDetailArgs.academicYear??'',
                               id: enquiryDetailArgs.enquiryNumber??'',
                               title: enquiryDetailArgs.studentName??'',
-                              subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                              subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
                               buttontext: enquiryDetailArgs.currentStage??'',
                               status: enquiryDetailArgs.status??'',),
                           const SizedBox(

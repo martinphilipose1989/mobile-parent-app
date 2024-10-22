@@ -63,43 +63,44 @@ class RegistrationsDetailsPageView
         return UrlLauncher.launchEmail('example@example.com', context: context);
       case 4:{
         model.showMenuOnFloatingButton.add(false);
-        model.getMdmAttribute(infoType: 'grade');
-        model.getMdmAttribute(infoType: 'schoolLocation');
-        model.getMdmAttribute(infoType: 'gender');
-        model.getMdmAttribute(infoType: 'board');
-        model.getMdmAttribute(infoType: 'course');
-        model.getMdmAttribute(infoType: 'stream');
-        model.getMdmAttribute(infoType: 'shift');
-        model.getMdmAttribute(infoType: 'batch');
-        model.getMdmAttribute(infoType: 'psaSubType');
-        model.getMdmAttribute(infoType: 'psaCategory');
-        model.getMdmAttribute(infoType: 'psaSubCategory');
-        model.getMdmAttribute(infoType: 'periodOfService');
-        model.getMdmAttribute(infoType: "country");
-        model.getMdmAttribute(infoType: "state");
-        model.getMdmAttribute(infoType: "city");
-        model.getMdmAttribute(infoType: "bloodGroup");
-        model.getMdmAttribute(infoType: "occupation");
-        model.getMdmAttribute(infoType: "qualification");
-        model.getMdmAttribute(infoType: "religion");
-        model.getMdmAttribute(infoType: "caste");
-        model.getMdmAttribute(infoType: "subcaste");
-        model.getMdmAttribute(infoType: "mother_tongue");
-        model.getMdmAttribute(infoType: "organization");
-        model.getMdmAttribute(infoType: "designation");
-        model.getMdmAttribute(infoType: "nationality");
-        model.getMdmAttribute(infoType: "designation");
-        model.getMdmAttribute(infoType: "organization");
-        model.getMdmAttribute(infoType: "personalise_learning_needs");
+        List<Future> mdmAttributeList = [model.getMdmAttribute(infoType: 'grade'),
+        model.getMdmAttribute(infoType: 'schoolLocation'),
+        model.getMdmAttribute(infoType: 'gender'),
+        model.getMdmAttribute(infoType: 'board'),
+        model.getMdmAttribute(infoType: 'course'),
+        model.getMdmAttribute(infoType: 'stream'),
+        model.getMdmAttribute(infoType: 'shift'),
+        model.getMdmAttribute(infoType: 'batch'),
+        model.getMdmAttribute(infoType: 'psaSubType'),
+        model.getMdmAttribute(infoType: 'psaCategory'),
+        model.getMdmAttribute(infoType: 'psaSubCategory'),
+        model.getMdmAttribute(infoType: 'periodOfService'),
+        model.getMdmAttribute(infoType: "country"),
+        model.getMdmAttribute(infoType: "state"),
+        model.getMdmAttribute(infoType: "city"),
+        model.getMdmAttribute(infoType: "bloodGroup"),
+        model.getMdmAttribute(infoType: "occupation"),
+        model.getMdmAttribute(infoType: "qualification"),
+        model.getMdmAttribute(infoType: "religion"),
+        model.getMdmAttribute(infoType: "caste"),
+        model.getMdmAttribute(infoType: "subcaste"),
+        model.getMdmAttribute(infoType: "mother_tongue"),
+        model.getMdmAttribute(infoType: "organization"),
+        model.getMdmAttribute(infoType: "designation"),
+        model.getMdmAttribute(infoType: "nationality"),
+        model.getMdmAttribute(infoType: "designation"),
+        model.getMdmAttribute(infoType: "organization"),
+        model.getMdmAttribute(infoType: "personalise_learning_needs")];
 
-        if(model.showWidget.value == 0){
+        Future.wait(mdmAttributeList).then((_) {
+          if(model.showWidget.value == 0){
           if(enquiryDetailArgs?.enquiryType == "IVT"){
             model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
               isEdit: true
             );
           }
           else if(enquiryDetailArgs?.enquiryType == "PSA"){
-            model.getPsaDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
+            model.getIvtDetails(enquiryID: enquiryDetailArgs?.enquiryId??'',
               isEdit: true
             );
           }
@@ -130,6 +131,7 @@ class RegistrationsDetailsPageView
           }
         }
         model.editRegistrationDetails.add(true);
+        });
         return null;
       }
       case 5:
@@ -172,7 +174,7 @@ class RegistrationsDetailsPageView
                     year: enquiryDetailArgs?.academicYear??'',
                     id: enquiryDetailArgs?.enquiryNumber??'',
                     title: enquiryDetailArgs?.school??'',
-                    subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board}",
+                    subtitle: "${enquiryDetailArgs?.grade} | ${enquiryDetailArgs?.board} | ${enquiryDetailArgs?.shift} | Stream-${enquiryDetailArgs?.stream}",
                     buttontext: "${enquiryDetailArgs?.currentStage}",
                     compeletion: enquiryDetailArgs?.formCompletionPercentage == null ? '': "${enquiryDetailArgs?.formCompletionPercentage??0}% Completed",
                     status: enquiryDetailArgs?.status??'',

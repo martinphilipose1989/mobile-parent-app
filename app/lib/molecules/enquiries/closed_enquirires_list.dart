@@ -14,7 +14,7 @@ class ClosedEnquiriesListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<Resource<EnquiryListModel>>(
-      stream: model.getEnquiryResponseStream,
+      stream: model.getClosedEnquiryResponseStream,
       initialData: Resource.none(),
       dataBuilder: (context, result) {
         if(result?.status == Status.loading){
@@ -22,14 +22,14 @@ class ClosedEnquiriesListPage extends StatelessWidget {
         }
         if(result?.status == Status.success){ 
           return AppStreamBuilder<List<BehaviorSubject<EnquiryListDetailModel>>>(
-            stream: model.enquiries,
-            initialData: model.enquiries.value,
+            stream: model.closedEnquiries,
+            initialData: model.closedEnquiries.value,
             dataBuilder: (context, data) {
-              return ListV(enquiries: data, scrollController: model.scrollController, onRefresh:()=> model.fetchEnquiries(isRefresh: true),);
+              return ListV(enquiries: data, scrollController: model.closedEnquiryController, onRefresh:()=> model.fetchClosedEnquiries(isRefresh: true),);
             },
           );
         }
-        if(result?.status == Status.error && model.pageNumber == 1){
+        if(result?.status == Status.error && model.closedEnquiryPageNumber == 1){
           return const Center(child: CommonText(text: 'Enquiries not found'),);
         }
         else{

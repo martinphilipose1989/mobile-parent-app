@@ -67,6 +67,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   },
                   onMultiSelect: (selectedValues) {},
                   dropdownName: 'School Location',
+                  isDisable: true,
                   showAstreik: true,
                   showBorderColor: true,
                   singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
@@ -161,6 +162,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             labelName: "DOB",
             controller: model.dobController,
             showAstreik: true,
+            isDisabled: true,
             onDateSelected: (newDate) {
               model.studentDob = newDate;
             },

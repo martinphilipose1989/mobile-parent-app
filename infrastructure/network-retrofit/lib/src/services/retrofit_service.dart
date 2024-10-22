@@ -104,7 +104,8 @@ abstract class RetrofitService {
   Future<HttpResponse<EnquiryListResponseEntity>> getEnquiryList(
       {@Query('phone') required String phone,
       @Query('pageNumber') required int pageNumber,
-      @Query('pageSize') required int pageSize});
+      @Query('pageSize') required int pageSize,
+      @Query('status') required String status});
 
   @GET('${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}')
   Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail({
@@ -184,7 +185,9 @@ abstract class RetrofitService {
   Future<HttpResponse<AdmissionListResponseEntity>> getAdmissionList(
       {@Query('phone') required String phone,
       @Query('pageNumber') required int pageNumber,
-      @Query('pageSize') required int pageSize});
+      @Query('pageSize') required int pageSize,
+      @Query('status') required String status}
+  );
 
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryId}')

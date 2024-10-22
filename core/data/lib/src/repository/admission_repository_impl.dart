@@ -6,7 +6,7 @@ class AdmissionRepositoryImpl extends AdmissionRepository{
   AdmissionRepositoryImpl(this._networkPort);
 
   @override
-  Future<Either<NetworkError,AdmissionListBaseModel>> getAdmissionList({required String phone,required int pageNumber,int pageSize = 10}){
-    return _networkPort.getAdmissionList(phone: phone, pageNumber: pageNumber,pageSize: pageSize);
+  Future<Either<NetworkError,AdmissionListBaseModel>> getAdmissionList({required String phone,required int pageNumber,int pageSize = 10,required String status}){
+    return _networkPort.getAdmissionList(phone: phone, pageNumber: pageNumber,pageSize: pageSize,status: status);
   }
 }

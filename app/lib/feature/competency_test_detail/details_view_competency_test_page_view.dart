@@ -50,7 +50,7 @@ class DetailsViewCompetencyTestPageView
                                 year: enquiryDetail.academicYear??'',
                                 id: enquiryDetail.enquiryNumber??'',
                                 title: enquiryDetail.school??'',
-                                subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board}",
+                                subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
                                 buttontext: enquiryDetail.currentStage??'',
                                 status: enquiryDetail.status ?? '',),
                             const SizedBox(

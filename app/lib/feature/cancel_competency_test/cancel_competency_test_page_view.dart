@@ -58,7 +58,7 @@ class CancelCompetencyTestPageView
                           year: enquiryDetailArgs.academicYear??'',
                           id: enquiryDetailArgs.enquiryNumber??'',
                           title: enquiryDetailArgs.school??'',
-                          subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board}",
+                          subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
                           buttontext: enquiryDetailArgs.currentStage??'',
                           status: enquiryDetailArgs.status ?? '',
                         ),

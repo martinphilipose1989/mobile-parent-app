@@ -30,3 +30,9 @@ class CommonDataEntity extends BaseLayerDataTransformer<CommonDataEntity,CommonD
     return CommonDataEntity(id: data.id, value: data.value);
   }
 }
+
+extension CommonDataEntityExtension on CommonDataEntity {
+  bool isValid() {
+    return this.id != null && this.value != null && (this.value??'').isNotEmpty;
+  }
+}

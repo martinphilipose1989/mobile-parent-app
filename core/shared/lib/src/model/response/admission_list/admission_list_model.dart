@@ -6,6 +6,8 @@ class AdmissionListDetailModel {
     String? school;
     String? board;
     String? grade;
+    String? stream;
+    String? shift;
     String? enquiryNumber;
     String? currentStage;
     String? schoolVisitDate;

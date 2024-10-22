@@ -167,9 +167,10 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList(
       {required String phone,
       required int pageNumber,
-      int pageSize = 10}) async {
+      int pageSize = 10,
+      required String status}) async {
     var response = await safeApiCall(apiService.getEnquiryList(
-        phone: phone, pageNumber: pageNumber, pageSize: pageSize));
+        phone: phone, pageNumber: pageNumber, pageSize: pageSize,status: status));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -323,9 +324,10 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, AdmissionListBaseModel>> getAdmissionList(
       {required String phone,
       required int pageNumber,
-      int pageSize = 10}) async {
+      int pageSize = 10,
+      required String status}) async {
     var response = await safeApiCall(apiService.getAdmissionList(
-        phone: phone, pageNumber: pageNumber, pageSize: pageSize));
+        phone: phone, pageNumber: pageNumber, pageSize: pageSize, status: status));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

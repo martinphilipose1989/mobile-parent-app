@@ -94,7 +94,7 @@ class AdmissionsDetailsPageView
                   year: admissionDetail.academicYear??'',
                   id: admissionDetail.enquiryNumber??'',
                   title: admissionDetail.school??'',
-                  subtitle: "${admissionDetail.grade} | ${admissionDetail.board}",
+                  subtitle: "${admissionDetail.grade} | ${admissionDetail.board} | ${admissionDetail.shift} | Stream-${admissionDetail.stream} ",
                   buttontext: admissionDetail.currentStage??'',
                   compeletion: "${(admissionDetail.formCompletionPercentage??0).toString()}% Completed",
                   status: admissionDetail.status??'',

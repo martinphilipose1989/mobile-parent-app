@@ -16,17 +16,19 @@ class GetAdmissionListUsecase extends BaseUseCase<BaseError,
     return _admissionRepository.getAdmissionList(
       pageNumber: params.pageNumber,
       pageSize: params.pageSize??10,
-      phone: params.phone
+      phone: params.phone,
+      status: params.status
     );
   }
 }
 
 class GetAdmissionListUsecaseParams extends Params {
-  final String phone; final int pageNumber; final int? pageSize;
+  final String phone,status; final int pageNumber; final int? pageSize;
   GetAdmissionListUsecaseParams({
     required this.phone,
     required this.pageNumber,
-    this.pageSize
+    this.pageSize,
+    required  this.status
   });
 
   @override

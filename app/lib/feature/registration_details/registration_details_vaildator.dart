@@ -295,20 +295,47 @@ String? _validateDateOfBirth(String value) {
         {'field': 'Account Holder Name', 'controller': model.accountHolderNameController},
         {'field': 'Account Type', 'controller': model.accountTypeController},
         {'field': 'Account Number', 'controller': model.accountNumberController, 'minLength': 10},
-        {'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
       ];
 
       for (var field in bankFields) {
-        String? validationResult = AppValidators.validateNotEmpty(
-          field['controller']!.text.trim(),
-          field['field'] as String,
-          checkSpecialCharacters: false,
-          validateLength: field.containsKey('minLength'),
-          minLength: field['minLength'] as int?,
-        );
+        String? validationResult;
+        if(field['field'] == "Account Holder Name" || field['field'] == "Account Type"){
+          validationResult = AppValidators.validateNotEmpty(
+            field['controller']!.text.trim(),
+            field['field'] as String,
+            checkSpecialCharacters: true,
+            validateLength: field.containsKey('minLength'),
+            minLength: field['minLength'] as int?,
+          );
+        }
+        else{
+          validationResult = AppValidators.validateNotEmpty(
+            field['controller']!.text.trim(),
+            field['field'] as String,
+            checkSpecialCharacters: false,
+            validateLength: field.containsKey('minLength'),
+            minLength: field['minLength'] as int?,
+          );
+        }
         if (validationResult != null) {
           errorMessage = validationResult;
           break;
+        }
+      }
+
+//{'field': 'UPI Number', 'controller': model.upiController, 'minLength': 5},
+      if(errorMessage.isEmpty){
+        if(model.upiController.text.isNotEmpty){
+          String? validationResult = AppValidators.validateNotEmpty(
+            model.upiController.text.trim(),
+            "UPI Number",
+            checkSpecialCharacters: false,
+            validateLength: true,
+            minLength: 5,
+          );
+          if(validationResult != null){
+            errorMessage = validationResult;
+          }
         }
       }
     

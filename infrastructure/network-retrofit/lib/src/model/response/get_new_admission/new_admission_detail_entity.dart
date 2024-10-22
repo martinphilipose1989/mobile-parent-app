@@ -10,7 +10,7 @@ import 'package:network_retrofit/src/model/response/get_new_admission/student_de
 
 part 'new_admission_detail_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true,createToJson: false)
 class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDetailEntity,NewAdmissionDetail>{
     @JsonKey(name: 'enquiry_date',includeToJson: false)
     String? enquiryDate;
@@ -61,7 +61,25 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<NewAdmissionDeta
   factory NewAdmissionDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$NewAdmissionDetailEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NewAdmissionDetailEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    
+    if (academicYear != null) data['academic_year'] = academicYear!.toJson();
+    if (schoolLocation != null) data['school_location'] = schoolLocation!.toJson();
+    if (isGuestStudent != null) data['is_guest_student'] = isGuestStudent;
+    if (parentDetails != null) data['parent_details'] = parentDetails!.toJson();
+    if (existingSchoolDetails != null) data['existing_school_details'] = existingSchoolDetails!.toJson();
+    if (enquirerParent != null) data['enquirer_parent'] = enquirerParent;
+    if (studentDetails != null) data['student_details'] = studentDetails!.toJson();
+    
+    // Only include these fields if they are not null and their properties are not null
+    if (board != null && board!.isValid()) data['board'] = board!.toJson();
+    if (course != null && course!.isValid()) data['course'] = course!.toJson();
+    if (stream != null && stream!.isValid()) data['stream'] = stream!.toJson();
+    if (shift != null && shift!.isValid()) data['shift'] = shift!.toJson();
+    
+    return data;
+  }
 
   @override
   NewAdmissionDetail transform() {

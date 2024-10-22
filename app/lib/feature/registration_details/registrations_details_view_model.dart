@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -681,10 +682,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           } else if (infoType == 'BankInfo') {
             bankDetail.add(Resource.error());
           }
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        isLoading.value = false;
       });
     }).execute();
   }
@@ -719,9 +719,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearParentDetails();
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        isLoading.value = false;
+        if(result.status == Status.error){
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -762,9 +763,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           isLoading.value = false;
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -785,9 +787,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isLoading.value = false;
           showPopUP(context,message: "Admission Details Submitted Successfully");
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -822,9 +825,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               optionalSubjects.add({"name": element,"isSelected": false});
             });
           }
+          if(result.status == Status.error){
+            flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          }
 
-        }).onError((error) { 
-          exceptionHandlerBinder.showError(error!);
         });
     }).execute();
   }
@@ -840,9 +844,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if(result.status == Status.success){
           isLoading.value = false;
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -858,9 +863,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isLoading.value = false;
           showPopUP(context,message: "Admission Details Submitted Successfully");
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   } 
@@ -895,9 +901,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearMedicalDetails();
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        isLoading.value = false;
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -932,9 +939,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearContactDetails();
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        isLoading.value = false;
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -969,9 +977,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearBankDetails();
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        isLoading.value = false;
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -999,9 +1008,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                 enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1103,9 +1114,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           addIvtDetails(result.data?.data ?? IVTDetail(),
               enquiryDetailArgs ?? EnquiryDetailArgs());
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1129,9 +1141,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           addPsaDetails(result.data?.data ?? PSADetail(),
               enquiryDetailArgs ?? EnquiryDetailArgs());
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1148,9 +1161,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _enquiryDetail.add(result);
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1186,9 +1200,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearPsaDetails();
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1224,9 +1239,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearIvtDetails();
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1263,9 +1279,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearNewAdmissionDetails();
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1465,8 +1482,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                 []);
           }
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1479,6 +1497,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       GetCityStateByPincodeUsecaseParams params = GetCityStateByPincodeUsecaseParams(
         pincode: pincode,
       );
+      isLoading.add(true);
       RequestManager<CityAndStateResponse>(
         params,
         createCall: () => getCityStateByPincodeUsecase.execute(
@@ -1486,6 +1505,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         if(result.status == Status.success){
+          isLoading.add(false);
           if(infoType == "fatherInfo"){
             selectedFatherCitySubject
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
@@ -1557,10 +1577,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
         }
-        
+       if(result.status == Status.error){
+          isLoading.add(false);  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        } 
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1587,10 +1608,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isDocumentUploaded[index ?? 0].value = true;
           isLoading.value = false;
         }
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1620,10 +1642,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isDocumentUploaded[index ?? 0].value = false;
           isLoading.value = false;
         }
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -1649,9 +1672,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               Resource.success(data: result.data ?? DownloadEnquiryFileBase()));
           downloadDocument(fileUrl: result.data?.data?['url'] ?? '');
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1696,9 +1720,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;  
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -1719,12 +1744,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text =
-        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    if(!(detail.studentDetails?.dob ?? '').toLowerCase().contains("invalid date")){
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
+    }
     studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
     studentAadharController.text = detail.studentDetails?.aadhar??'';
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
@@ -2081,8 +2106,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     //   }
     // }
     selectedFatherAreaSubject.add(parentDetails.fatherDetails?.area ?? '');
-    selectedFatherOccupationSubject
-        .add(parentDetails.fatherDetails?.occupation ?? '');
+    // selectedFatherOccupationSubject
+    //     .add(parentDetails.fatherDetails?.occupation ?? '');
 
     motherFirstNameController.text =
         parentDetails.motherDetails?.firstName ?? "";
@@ -2183,8 +2208,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       }
     }
     selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
-    selectedMotherOccupationSubject
-        .add(parentDetails.motherDetails?.occupation ?? '');
+    // selectedMotherOccupationSubject
+    //     .add(parentDetails.motherDetails?.occupation ?? '');
 
     radioButtonController2.selectItem(parentDetails.childCustodyDetail?.areParentsSeparated??"No");
     if(radioButtonController.selectedItem == "Yes"){
@@ -2216,6 +2241,30 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianMobileController.text =
         parentDetails.guardianDetails?.mobileNumber ?? "";
     guardianOccupation = parentDetails.guardianDetails?.occupation ?? "";
+    // if(parentDetails.guardianDetails?.qualification is CommonDataClass){
+    //   selectedGuardianQualification = parentDetails.guardianDetails?.qualification;
+    //   selectedGuardianQualificationSubject.add(
+    //     parentDetails.guardianDetails?.qualification?.value??''
+    //   );
+    // }
+    // if(parentDetails.guardianDetails?.organisationName is CommonDataClass){
+    //   selectedGuardianOrganization = parentDetails.guardianDetails?.organisationName;
+    //   selectedGuardianOrganizationSubject.add(
+    //     parentDetails.guardianDetails?.organisationName?.value??''
+    //   );
+    // }
+    // if(parentDetails.guardianDetails?.designationName is CommonDataClass){
+    //   selectedGuardianDesignation = parentDetails.guardianDetails?.designationName;
+    //   selectedGuardianDesignationSubject.add(
+    //     parentDetails.guardianDetails?.designationName?.value??''
+    //   );
+    // }
+    // if(parentDetails.guardianDetails?.occupation is CommonDataClass){
+    //   selectedGuardianOccupation = parentDetails.guardianDetails?.occupation;
+    //   selectedGuardianOccupationSubject.add(
+    //     parentDetails.guardianDetails?.occupation?.value??''
+    //   );
+    // }
     if(parentDetails.guardianDetails?.country is CommonDataClass){
       selectedGuardianCountrySubject
           .add(parentDetails.guardianDetails?.country?.value ?? '');
@@ -2723,7 +2772,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ivtDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
       ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
-          .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+          .format((studentDob??DateTime.now()));
       ivtDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
       ivtDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
       ivtDetailSubject?.value.studentDetails?.placeOfBirth =
@@ -2773,7 +2822,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       psaDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
       psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
-          .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+          .format((studentDob??DateTime.now()));
       psaDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
       psaDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
       psaDetailSubject?.value.studentDetails?.placeOfBirth =
@@ -2827,7 +2876,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           studentLastNameController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.dob =
           DateFormat('dd-MM-yyyy')
-              .format(DateFormat("dd/MM/yyyy").parse(dobController.text));
+              .format((studentDob??DateTime.now()));
       newAdmissionDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.gender =

@@ -148,7 +148,7 @@ class EnquiriesDetailsPageState
                                 model.ivtDetails?.value.schoolLocation = model.selectedSchoolLocationEntity;
                                 model.ivtDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
                                 model.ivtDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
-                                model.ivtDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.ivtDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format((model.studentDob??DateTime.now())); 
                                 model.ivtDetails?.value.studentDetails?.gender = model.selectedGenderEntity;
                                 model.ivtDetails?.value.studentDetails?.grade = model.selectedGradeEntity;
                                 model.ivtDetails?.value.existingSchoolDetails?.name =  model.existingSchoolNameController.text.trim();
@@ -166,7 +166,7 @@ class EnquiriesDetailsPageState
                                 model.psaDetails?.value.schoolLocation = model.selectedSchoolLocationEntity;
                                 model.psaDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
                                 model.psaDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
-                                model.psaDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.psaDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format((model.studentDob??DateTime.now())); 
                                 model.psaDetails?.value.studentDetails?.gender = model.selectedGenderEntity;
                                 model.psaDetails?.value.studentDetails?.grade = model.selectedGradeEntity;
                                 model.psaDetails?.value.existingSchoolDetails?.name =  model.existingSchoolNameController.text.trim();
@@ -185,7 +185,7 @@ class EnquiriesDetailsPageState
                                 model.newAdmissionDetails?.value.schoolLocation = model.selectedSchoolLocationEntity!;
                                 model.newAdmissionDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
                                 model.newAdmissionDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
-                                model.newAdmissionDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format(DateFormat("dd/MM/yyyy").parse(model.dobController.text)); 
+                                model.newAdmissionDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format((model.studentDob??DateTime.now())); 
                                 model.newAdmissionDetails?.value.studentDetails?.gender = model.selectedGenderEntity!;
                                 model.newAdmissionDetails?.value.studentDetails?.grade = model.selectedGradeEntity!;
                                 model.newAdmissionDetails?.value.existingSchoolDetails?.name = model.existingSchoolNameController.text.trim();

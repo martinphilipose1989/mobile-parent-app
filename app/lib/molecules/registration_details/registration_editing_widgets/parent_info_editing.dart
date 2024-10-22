@@ -167,6 +167,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 ),
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedFatherOccupationSubject,
                                 onSingleSelect: (val) {
                                   if (model.occupation.value.contains(val)) {
                                     var occupation = model.occupationAttribute
@@ -179,6 +180,7 @@ class ParentInfoEditing extends StatelessWidget {
                                             id: occupation?.id,
                                             value: occupation
                                                 ?.attributes?.occupation);
+                                    model.selectedFatherOccupationSubject.value = occupation?.attributes?.occupation??'';
                                   }
                                 },
                               );
@@ -252,7 +254,7 @@ class ParentInfoEditing extends StatelessWidget {
                                         CommonDataClass(
                                             id: designation?.id,
                                             value: designation
-                                                ?.attributes?.name);
+                                                ?.attributes?.designation);
                                   }
                                 },
                               );
@@ -306,6 +308,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 checkSpecialCharacters: false,
                               ),
                               onMultiSelect: (selectedValues) {},
+                              singleSelectItemSubject: model.selectedFatherCountrySubject,
                               onSingleSelect: (val) {
                                 if (model.country.value.contains(val)) {
                                   var country = model.countryAttribute?.firstWhere(
@@ -563,6 +566,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherOccupationSubject,
                                 onSingleSelect: (val) {
                                   if (model.occupation.value.contains(val)) {
                                     var occupation = model.occupationAttribute
@@ -575,6 +579,7 @@ class ParentInfoEditing extends StatelessWidget {
                                             id: occupation?.id,
                                             value: occupation
                                                 ?.attributes?.occupation);
+                                    model.selectedMotherOccupationSubject.value = occupation?.attributes?.occupation??'';
                                   }
                                 },
                               );
@@ -652,7 +657,7 @@ class ParentInfoEditing extends StatelessWidget {
                                         CommonDataClass(
                                             id: designation?.id,
                                             value: designation
-                                                ?.attributes?.name);
+                                                ?.attributes?.designation);
                                   }
                                 },
                               );
@@ -706,6 +711,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedMotherCountrySubject,
                                 onSingleSelect: (val) {
                                   if (model.country.value.contains(val)) {
                                     var country = model.countryAttribute

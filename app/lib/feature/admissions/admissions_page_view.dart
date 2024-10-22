@@ -1,10 +1,11 @@
 import 'package:app/feature/admissions/admissions_view_model.dart';
-import 'package:app/model/resource.dart';
-import 'package:app/molecules/tracker/admissions/admissions_list.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/molecules/tracker/admissions/closed_admissions.dart';
+import 'package:app/molecules/tracker/admissions/open_admissions.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
@@ -12,38 +13,104 @@ class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
 
   @override
   Widget build(BuildContext context, AdmissionsViewModel model) {
-    return StreamBuilder<bool>(
-      stream: model.isLoading,
-      builder: (context, isLoadingSnapshot) {
-        return AppStreamBuilder<Resource<AdmissionListBaseModel>>(
-          stream: model.getAdmissionListResponse,
-          initialData: Resource.none(),
-          dataBuilder: (context, result) {
-            if (result?.status == Status.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+    return Column(
+      children: [
+        SizedBox(height: 15.h,),
+        AppStreamBuilder<int>(
+          stream: model.selectedTab,
+          initialData: model.selectedTab.value,
+          dataBuilder: (context, data) {
+            return TabBar(
+              dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.label,
+              controller: model.controller,
+              onTap: (index) {
+                model.selectedTab.add(index);
+                if(index == 0){
+                  if(model.admissions.value.isEmpty){
+                    model.fetchAdmissionList();
+                  }
                 }
-                if (result?.status == Status.success) {
-                  return AppStreamBuilder<
-                    List<AdmissionListDetailModel>>(
-                      stream: model.admissions,
-                      initialData: model.admissions.value,
-                      dataBuilder: (context, data) {
-                        return AdmissionsList(admissionList: model.admissions.value,scrollController: model.scrollController,onRefresh: ()=> model.fetchAdmissionList(isRefresh: true),);
-                      },
-                  );
+                if(index == 1){
+                  if(model.closedAdmissions.value.isEmpty){
+                    model.fetchClosedAdmissionList();
+                  }
                 }
-                if (result?.status == Status.error && model.pageNumber == 1) {
-                  return const Center(
-                    child: CommonText(text: 'Admissions not found'),
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
+              },
+              indicator: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              tabs: [
+                Tab(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: model.selectedTab.value == 0
+                            ? Theme.of(context).colorScheme.primary
+                            : AppColors.textNeutral35,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      color: model.selectedTab.value == 0
+                        ? Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.2)
+                        : Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Open Enquiries',
+                        style: AppTypography.subtitle2.copyWith(
+                          color: model.selectedTab.value == 0
+                              ? Theme.of(context).colorScheme.primary
+                              : AppColors.textNeutral35,
+                        ),
+                      ),
+                    ),  
+                  ),
+                ),
+                Tab(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: model.selectedTab.value == 1
+                            ? Theme.of(context).colorScheme.primary
+                            : AppColors.textNeutral35,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      color: model.selectedTab.value == 1
+                          ? Theme.of(context)
+                              .colorScheme
+                                .primary
+                              .withOpacity(0.2)
+                          : Colors.white,
+                    ),
+                    child: Center(
+                        child: Text(
+                          'Closed Enquiries',
+                          style: AppTypography.subtitle2.copyWith(
+                            color: model.selectedTab.value == 1
+                                ? Theme.of(context).colorScheme.primary
+                                : AppColors.textNeutral35,
+                          ),
+                        ),
+                        ),
+                  ),
+                ),
+              ],
+            );
           }
-        );
-      }
+        ),
+        SizedBox(height: 5.h,),
+        Expanded(child: TabBarView(
+          controller: model.controller,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            OpenAdmissionsPage(model: model,),
+            ClosedAdmissionsPage(model: model,),
+          ],
+        ),)
+      ],
     );
   }
 }

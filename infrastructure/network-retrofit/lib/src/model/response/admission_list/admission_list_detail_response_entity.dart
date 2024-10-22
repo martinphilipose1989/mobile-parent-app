@@ -19,6 +19,10 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
     String? board;
     @JsonKey(name: 'grade')
     String? grade;
+    @JsonKey(name: 'stream')
+    String? stream;
+    @JsonKey(name: 'shift')
+    String? shift;
     @JsonKey(name: 'enquiryNumber')
     String? enquiryNumber;
     @JsonKey(name: 'currentStage')
@@ -42,6 +46,8 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
         this.school,
         this.board,
         this.grade,
+        this.stream,
+        this.shift,
         this.enquiryNumber,
         this.currentStage,
         this.schoolVisitDate,
@@ -67,6 +73,8 @@ class AdmissionListDetailResponseEntity extends BaseLayerDataTransformer <Admiss
     admissionListDetailModel.school = school;
     admissionListDetailModel.board = board;
     admissionListDetailModel.grade = grade;
+    admissionListDetailModel.stream = stream;
+    admissionListDetailModel.shift = shift;
     admissionListDetailModel.currentStage = currentStage;
     admissionListDetailModel.schoolVisitDate = schoolVisitDate;
     admissionListDetailModel.schoolVisitTime = schoolVisitTime;

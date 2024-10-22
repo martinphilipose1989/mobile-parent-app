@@ -265,8 +265,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
           }
         }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -291,9 +292,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             addIvtDetails(result.data?.data??IVTDetail(), enquiryDetailArgs??EnquiryDetailArgs());
           }
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -318,9 +320,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             addPsaDetails(result.data?.data??PSADetail(), enquiryDetailArgs??EnquiryDetailArgs());
           }
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -345,10 +348,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           psaDetails?.add(result.data?.data?? PSADetail());
           isLoading.value = false;
         }
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -371,10 +374,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           ivtDetails?.add(result.data?.data??IVTDetail());
           isLoading.value = false;
         }
+        if(result.status == Status.error){
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -402,10 +406,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           isLoading.value = false;
           getEnquiryDetail(enquiryID: enquiryID);
         }
+        if(result.status == Status.error){
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -425,9 +430,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         if(result.status == Status.success){
           enquiryDetail.add(result.data?.data?? EnquiryDetail());
         }
+        if(result.status == Status.error){
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -460,56 +467,59 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(infoType == "grade"){
-          gradeTypesAttribute = result.data?.data;
-          gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        if(result.status == Status.success){
+          if(infoType == "grade"){
+            gradeTypesAttribute = result.data?.data;
+            gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "schoolLocation"){
+            schoolLocationTypesAttribute = result.data?.data;
+            schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "gender"){
+            genderAttribute = result.data?.data;
+            gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "board"){
+            existingSchoolBoardAttribute = result.data?.data;
+            existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "psaCategory"){
+            psaCategoryAttribute = result.data?.data;
+            psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "psaSubCategory"){
+            psaSubCategoryAttribute = result.data?.data;
+            psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "psaSubType"){
+            psaSubTypeAttribute = result.data?.data;
+            psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "periodOfService"){
+            periodOfServiceAttribute = result.data?.data;
+            periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "batch"){
+            psaBatchAttribute = result.data?.data;
+            psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+          }
+          if(infoType == "stream"){
+            streamTypeAttribute = result.data?.data;
+            stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          }
+          if(infoType == "course"){
+            courseTypeAttribute = result.data?.data;
+            course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          }
+          if(infoType == "shift"){
+            shiftTypeAttribute = result.data?.data;
+            shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+          }
         }
-        if(infoType == "schoolLocation"){
-          schoolLocationTypesAttribute = result.data?.data;
-          schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
-        if(infoType == "gender"){
-          genderAttribute = result.data?.data;
-          gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "board"){
-          existingSchoolBoardAttribute = result.data?.data;
-          existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "psaCategory"){
-          psaCategoryAttribute = result.data?.data;
-          psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "psaSubCategory"){
-          psaSubCategoryAttribute = result.data?.data;
-          psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "psaSubType"){
-          psaSubTypeAttribute = result.data?.data;
-          psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "periodOfService"){
-          periodOfServiceAttribute = result.data?.data;
-          periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "batch"){
-          psaBatchAttribute = result.data?.data;
-          psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
-        }
-        if(infoType == "stream"){
-          streamTypeAttribute = result.data?.data;
-          stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
-        }
-        if(infoType == "course"){
-          courseTypeAttribute = result.data?.data;
-          course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
-        }
-        if(infoType == "shift"){
-          shiftTypeAttribute = result.data?.data;
-          shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
-        }
-      }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -538,10 +548,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             const SnackBar(content: Text('File uploaded successfully')),
           );
         }
+        if(result.status == Status.error){
+          
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -571,13 +582,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           );
         }
         if(result.status == Status.error){
+          isLoading.value = false;
           flutterToastErrorPresenter.show(
             result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
         // activeStep.add()
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -601,12 +610,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
         }
         if(result.status == Status.error){
+          isLoading.value = false;
           flutterToastErrorPresenter.show(
             result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -651,9 +658,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             );
           }
         }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        if(result.status == Status.error){
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
       });
     }).execute();
   }
@@ -673,9 +681,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
-    studentDob = (detail.studentDetails?.dob??'').isNotEmpty ? DateTime.parse((detail.studentDetails?.dob??'').split('-').reversed.join('-'))
-      : DateTime.now();
+    if(!(detail.studentDetails?.dob??'').toLowerCase().contains("invalid date")){
+      studentDob = (detail.studentDetails?.dob??'').isNotEmpty ? DateTime.parse((detail.studentDetails?.dob??'').split('-').reversed.join('-'))
+        : DateTime.now();
+    }
     existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;

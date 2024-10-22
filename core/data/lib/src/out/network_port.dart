@@ -34,7 +34,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List<int> studentIds, required List<int> academicYearIds});
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList(
-      {required String phone, required int pageNumber, int pageSize = 10});
+      {required String phone, required int pageNumber, int pageSize = 10, required String status});
   Future<Either<NetworkError, EnquiryDetailBase>> getEnquiryDetail(
       {required String enquiryID});
   Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline(
@@ -83,7 +83,7 @@ abstract class NetworkPort {
       required SchoolVisitCancelRequest cancelSchoolRequest});
 
   Future<Either<NetworkError, AdmissionListBaseModel>> getAdmissionList(
-      {required String phone, required int pageNumber, int pageSize = 10});
+      {required String phone, required int pageNumber, int pageSize = 10,required String status});
 
   Future<Either<NetworkError, Slots>> getCompetencyTestSlots(
       {required String enquiryID, required date});

@@ -47,6 +47,8 @@ class ListV extends StatelessWidget {
                     school: data?.school,
                     board: data?.board,
                     grade: data?.grade,
+                    stream: data?.shift,
+                    shift: data?.shift,
                     isFrom: 'enquiry',
                     status: data?.status
                   );
@@ -80,7 +82,7 @@ class ListV extends StatelessWidget {
                               year: data?.academicYear??'',
                               id: data?.enquiryNumber??'',
                               title: data?.school??'',
-                              subtitle: '${data?.grade??''} | ${data?.board??''}',
+                              subtitle: '${data?.grade??''} | ${data?.board??''} | ${data?.shift} | Stream-${data?.stream}',
                               buttontext: data?.currentStage??'',
                               status: data?.status??'',
                             ),
