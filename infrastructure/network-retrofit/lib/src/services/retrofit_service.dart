@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
+import 'package:network_retrofit/src/model/response/communication/msg_category_entity.dart';
+import 'package:network_retrofit/src/model/response/communication/msg_sub_category_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
@@ -34,4 +36,12 @@ abstract class RetrofitService {
       getGuardianStudentDetails(
           @Body()
           GetGuardianStudentDetailsRequest getGuardianStudentDetailsRequest);
+
+  @GET('/api/msg-categories')
+  Future<HttpResponse<MsgCategoryEntity>>
+  createCategory();
+
+  @GET('/api/msg-sub-categories')
+  Future<HttpResponse<MsgSubCategoryEntity>>
+  createSubCategory();
 }

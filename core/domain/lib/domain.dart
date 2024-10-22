@@ -11,6 +11,7 @@ export 'src/repository/user_repository.dart';
 export 'src/repository/finance_repository.dart';
 export 'src/repository/admin_repository.dart';
 export 'src/repository/ticketing_repository.dart';
+export 'src/repository/mdm_repository.dart';
 
 //use-cases
 export 'src/usecase/base/params.dart';

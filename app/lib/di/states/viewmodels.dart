@@ -4,6 +4,7 @@ import 'package:app/feature/attendance/attendance_list1/attendance_details_view_
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
 import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/communication/communication_view_model.dart';
+import 'package:app/feature/create_ticket/create_ticket_view_model.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page_model.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
@@ -30,6 +31,7 @@ import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_model.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -104,6 +106,11 @@ final ticketListProvider =
 ChangeNotifierProvider.autoDispose<TicketListViewModel>(
       (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
 );
+
+final createTicketProvider =
+    ChangeNotifierProvider.autoDispose<CreateTicketViewModel>(
+        (ref) => CreateTicketViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+    );
 
 
 final admissionsDetailsProvider =

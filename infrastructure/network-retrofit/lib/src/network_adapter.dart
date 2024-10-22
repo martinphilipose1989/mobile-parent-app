@@ -323,4 +323,27 @@ class NetworkAdapter implements NetworkPort {
       (r) => Right(r.data.transform()),
     );
   }
+
+  @override
+  Future<Either<NetworkError, MsgCategoryModel>> createCategory() async{
+   var response = await safeApiCall(apiService.createCategory());
+   return response.fold(
+       (l){
+         return Left(l);
+       },
+       (r) => Right(r.data.transform()),
+   );
+  }
+
+  @override
+  Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory() async {
+    var response = await safeApiCall(apiService.createSubCategory());
+    return response.fold(
+          (l){
+        return Left(l);
+      },
+          (r) => Right(r.data.transform()),
+    );
+  }
+
 }

@@ -1,3 +1,4 @@
+import 'package:app/feature/create_ticket/create_ticket_view_model.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,12 @@ import '../../utils/common_widgets/common_elevated_button.dart';
 import '../../utils/common_widgets/common_text_widget.dart';
 import '../tickets/ticket_list_view_model.dart';
 
-class CreateTicketPageView extends BasePageViewWidget<TicketListViewModel> {
-  final TicketListViewModel ticketListViewModel;
-  CreateTicketPageView(super.providerBase, this.ticketListViewModel);
+class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
+  final CreateTicketViewModel createTicketViewModel;
+  CreateTicketPageView(super.providerBase, this.createTicketViewModel);
 
   @override
-  Widget build(BuildContext context, TicketListViewModel model) {
+  Widget build(BuildContext context, CreateTicketViewModel model) {
     return Padding(
         padding:  EdgeInsets.all(16),
         child:

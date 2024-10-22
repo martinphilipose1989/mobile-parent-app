@@ -54,4 +54,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
       {required int pageSize, required int page});
+
+  Future<Either<NetworkError, MsgCategoryModel>> createCategory();
+  Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory();
 }

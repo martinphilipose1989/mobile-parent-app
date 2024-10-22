@@ -5,10 +5,9 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../tickets/ticket_list_view_model.dart';
 import 'create_ticket_page_view.dart';
-class CreateTicketPage extends BasePage<TicketListViewModel> {
+import 'create_ticket_view_model.dart';
+class CreateTicketPage extends BasePage<CreateTicketViewModel> {
   const CreateTicketPage({super.key});
 
   @override
@@ -16,13 +15,13 @@ class CreateTicketPage extends BasePage<TicketListViewModel> {
 }
 
 class _CreateTicketPageState
-    extends AppBasePageState<TicketListViewModel, CreateTicketPage>  with TickerProviderStateMixin{
+    extends AppBasePageState<CreateTicketViewModel, CreateTicketPage>  with TickerProviderStateMixin{
   @override
-  void onModelReady(TicketListViewModel model) {
+  void onModelReady(CreateTicketViewModel model) {
   }
 
   @override
-  PreferredSizeWidget? buildAppbar(TicketListViewModel model) {
+  PreferredSizeWidget? buildAppbar(CreateTicketViewModel model) {
     // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Edu Tickets',
@@ -41,13 +40,13 @@ class _CreateTicketPageState
 
 
   @override
-  Widget buildView(BuildContext context, TicketListViewModel model) {
+  Widget buildView(BuildContext context, CreateTicketViewModel model) {
     // TODO: implement buildView
     return CreateTicketPageView(provideBase(),model);
   }
 
   @override
-  ProviderBase<TicketListViewModel> provideBase() {
-    return ticketListProvider;
+  ProviderBase<CreateTicketViewModel> provideBase() {
+    return createTicketProvider;
   }
 }
