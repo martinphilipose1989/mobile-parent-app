@@ -38,10 +38,8 @@ abstract class RetrofitService {
           GetGuardianStudentDetailsRequest getGuardianStudentDetailsRequest);
 
   @GET('/api/msg-categories')
-  Future<HttpResponse<MsgCategoryEntity>>
-  createCategory();
+  Future<HttpResponse<MsgCategoryEntity>> createCategory();
 
   @GET('/api/msg-sub-categories')
-  Future<HttpResponse<MsgSubCategoryEntity>>
-  createSubCategory();
+  Future<HttpResponse<MsgSubCategoryEntity>> createSubCategory();
 }

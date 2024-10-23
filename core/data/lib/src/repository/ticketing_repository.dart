@@ -10,4 +10,26 @@ class TicketingRepositoryImpl extends TicketingRepository {
       {required int pageSize, required int page}) {
     return networkPort.getTicketsList(pageSize: pageSize, page: page);
   }
+
+  @override
+  Future<Either<NetworkError, CreateCommunicationModel>> createCommunication() {
+    return networkPort.createCommunication();
+  }
+
+  @override
+  Future<Either<NetworkError, FindByCategorySubCategoryModel>>
+      findByCategorySubCategory(
+          {required int categoryId, required int subCategoryId}) {
+    return networkPort.findByCategorySubCategory(
+        categoryId: categoryId, subCategoryId: subCategoryId);
+  }
+
+  @override
+  Future<Either<NetworkError, CreateCommunicationLogModel>>
+      createCommunicationLog(
+          {required CreateCommunicationLogRequest
+              createCommunicationLogRequest}) {
+    return networkPort.createCommunicationLog(
+        createCommunicationLogRequest: createCommunicationLogRequest);
+  }
 }

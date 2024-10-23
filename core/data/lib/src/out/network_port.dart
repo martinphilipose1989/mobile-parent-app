@@ -57,4 +57,15 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, MsgCategoryModel>> createCategory();
   Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory();
+
+  Future<Either<NetworkError, CreateCommunicationModel>> createCommunication();
+
+  Future<Either<NetworkError, FindByCategorySubCategoryModel>>
+      findByCategorySubCategory(
+          {required int categoryId, required int subCategoryId});
+
+  Future<Either<NetworkError, CreateCommunicationLogModel>>
+      createCommunicationLog(
+          {required CreateCommunicationLogRequest
+              createCommunicationLogRequest});
 }

@@ -3,7 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'msg_sub_category_entity.g.dart';
 
 @JsonSerializable()
-class MsgSubCategoryEntity extends BaseLayerDataTransformer<MsgSubCategoryEntity, MsgSubCategoryModel>{
+class MsgSubCategoryEntity extends BaseLayerDataTransformer<
+    MsgSubCategoryEntity, MsgSubCategoryModel> {
   @JsonKey(name: "data")
   List<MsgSubCategoryModelDatum> data;
   @JsonKey(name: "meta")
@@ -14,23 +15,27 @@ class MsgSubCategoryEntity extends BaseLayerDataTransformer<MsgSubCategoryEntity
     required this.meta,
   });
 
-  factory MsgSubCategoryEntity.fromJson(Map<String, dynamic> json) => _$MsgSubCategoryEntityFromJson(json);
+  factory MsgSubCategoryEntity.fromJson(Map<String, dynamic> json) =>
+      _$MsgSubCategoryEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$MsgSubCategoryEntityToJson(this);
+
   @override
   MsgSubCategoryModel transform() {
     // TODO: implement transform
     return MsgSubCategoryModel(
-        data: data!.map(
+        data: data
+            .map(
               (e) => e.transform(),
-        )
+            )
             .toList(),
-        meta: meta!.transform());
+        meta: meta.transform());
   }
 }
 
 @JsonSerializable()
-class MsgSubCategoryModelDatum {
+class MsgSubCategoryModelDatum extends BaseLayerDataTransformer<
+    MsgSubCategoryModelDatum, MsgSubCategoryDatumModel> {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "attributes")
@@ -41,18 +46,21 @@ class MsgSubCategoryModelDatum {
     required this.attributes,
   });
 
-  factory MsgSubCategoryModelDatum.fromJson(Map<String, dynamic> json) => _$MsgSubCategoryModelDatumFromJson(json);
+  factory MsgSubCategoryModelDatum.fromJson(Map<String, dynamic> json) =>
+      _$MsgSubCategoryModelDatumFromJson(json);
 
   Map<String, dynamic> toJson() => _$MsgSubCategoryModelDatumToJson(this);
+
   @override
-  MsgSubCategoryDatum transform() {
+  MsgSubCategoryDatumModel transform() {
     // TODO: implement transform
-    return MsgSubCategoryDatum(attributes: attributes!.transform(), id: id);
+    return MsgSubCategoryDatumModel(attributes: attributes.transform(), id: id);
   }
 }
 
 @JsonSerializable()
-class Attributes {
+class Attributes
+    extends BaseLayerDataTransformer<Attributes, MsgSubModelAttributesModel> {
   @JsonKey(name: "category_id")
   int categoryId;
   @JsonKey(name: "name")
@@ -78,13 +86,14 @@ class Attributes {
     required this.updatedAt,
   });
 
-  factory Attributes.fromJson(Map<String, dynamic> json) => _$AttributesFromJson(json);
+  factory Attributes.fromJson(Map<String, dynamic> json) =>
+      _$AttributesFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttributesToJson(this);
   @override
-  MsgSubModelAttributes transform() {
+  MsgSubModelAttributesModel transform() {
     // TODO: implement transform
-    return MsgSubModelAttributes(
+    return MsgSubModelAttributesModel(
         createdAt: createdAt,
         name: name,
         updatedAt: updatedAt,
@@ -96,7 +105,7 @@ class Attributes {
 }
 
 @JsonSerializable()
-class Meta {
+class Meta extends BaseLayerDataTransformer<Meta, MsgSubCategoryMetaModel> {
   @JsonKey(name: "pagination")
   MsgSubCategoryPagination pagination;
 
@@ -108,14 +117,15 @@ class Meta {
 
   Map<String, dynamic> toJson() => _$MetaToJson(this);
   @override
-  MsgSubCategoryMeta transform() {
+  MsgSubCategoryMetaModel transform() {
     // TODO: implement transform
-    return MsgSubCategoryMeta(pagination: pagination!.transform());
+    return MsgSubCategoryMetaModel(pagination: pagination.transform());
   }
 }
 
 @JsonSerializable()
-class MsgSubCategoryPagination {
+class MsgSubCategoryPagination extends BaseLayerDataTransformer<
+    MsgSubCategoryPagination, MsgSubCategoryModelPaginationModel> {
   @JsonKey(name: "page")
   int page;
   @JsonKey(name: "pageSize")
@@ -132,13 +142,14 @@ class MsgSubCategoryPagination {
     required this.total,
   });
 
-  factory MsgSubCategoryPagination.fromJson(Map<String, dynamic> json) => _$MsgSubCategoryPaginationFromJson(json);
+  factory MsgSubCategoryPagination.fromJson(Map<String, dynamic> json) =>
+      _$MsgSubCategoryPaginationFromJson(json);
 
   Map<String, dynamic> toJson() => _$MsgSubCategoryPaginationToJson(this);
   @override
-  MsgSubCategoryModelPagination transform() {
+  MsgSubCategoryModelPaginationModel transform() {
     // TODO: implement transform
-    return MsgSubCategoryModelPagination(
+    return MsgSubCategoryModelPaginationModel(
         page: page, pageCount: pageCount, pageSize: pageSize, total: total);
   }
 }

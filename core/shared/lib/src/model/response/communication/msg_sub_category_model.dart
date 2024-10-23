@@ -1,26 +1,24 @@
 class MsgSubCategoryModel {
-  List<MsgSubCategoryDatum> data;
-  MsgSubCategoryMeta meta;
+  List<MsgSubCategoryDatumModel> data;
+  MsgSubCategoryMetaModel meta;
 
   MsgSubCategoryModel({
     required this.data,
     required this.meta,
   });
-
 }
 
-class MsgSubCategoryDatum {
+class MsgSubCategoryDatumModel {
   int id;
-  MsgSubModelAttributes attributes;
+  MsgSubModelAttributesModel attributes;
 
-  MsgSubCategoryDatum({
+  MsgSubCategoryDatumModel({
     required this.id,
     required this.attributes,
   });
-
 }
 
-class MsgSubModelAttributes {
+class MsgSubModelAttributesModel {
   int categoryId;
   String name;
   String notice;
@@ -29,7 +27,7 @@ class MsgSubModelAttributes {
   DateTime createdAt;
   DateTime updatedAt;
 
-  MsgSubModelAttributes({
+  MsgSubModelAttributesModel({
     required this.categoryId,
     required this.name,
     required this.notice,
@@ -38,29 +36,26 @@ class MsgSubModelAttributes {
     required this.createdAt,
     required this.updatedAt,
   });
-
 }
 
-class MsgSubCategoryMeta {
-  MsgSubCategoryModelPagination pagination;
+class MsgSubCategoryMetaModel {
+  MsgSubCategoryModelPaginationModel pagination;
 
-  MsgSubCategoryMeta({
+  MsgSubCategoryMetaModel({
     required this.pagination,
   });
-
 }
 
-class MsgSubCategoryModelPagination {
+class MsgSubCategoryModelPaginationModel {
   int page;
   int pageSize;
   int pageCount;
   int total;
 
-  MsgSubCategoryModelPagination({
+  MsgSubCategoryModelPaginationModel({
     required this.page,
     required this.pageSize,
     required this.pageCount,
     required this.total,
   });
-
 }

@@ -1,4 +1,10 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/communication/create_category_usecase.dart';
+import 'package:domain/src/usecase/communication/create_communication_log_usecase.dart';
+import 'package:domain/src/usecase/communication/create_new_communication.dart';
+import 'package:domain/src/usecase/communication/create_sub_category_usecase.dart';
+import 'package:domain/src/usecase/communication/find_by_category_sub_category_usecase.dart';
+import 'package:domain/src/usecase/communication/ticket_listing_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -73,5 +79,38 @@ abstract class DomainModule {
   @lazySingleton
   GetCouponsUsecase getCoupons(AdminRepository repository) {
     return GetCouponsUsecase(repository);
+  }
+
+  @lazySingleton
+  TicketListingUsecase getTicketsList(TicketingRepository repository) {
+    return TicketListingUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateCategoryUseCase createCategory(MDMRepository repository) {
+    return CreateCategoryUseCase(repository);
+  }
+
+  @lazySingleton
+  CreateSubCategoryUseCase createSubCategory(MDMRepository repository) {
+    return CreateSubCategoryUseCase(repository);
+  }
+
+  @lazySingleton
+  CreateNewCommunicationUsecase createCommunication(
+      TicketingRepository repository) {
+    return CreateNewCommunicationUsecase(repository);
+  }
+
+  @lazySingleton
+  FindByCategorySubCategoryUsecase findByCategorySubCategory(
+      TicketingRepository repository) {
+    return FindByCategorySubCategoryUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateCommunicationLogUsecase createCommunicationLog(
+      TicketingRepository repository) {
+    return CreateCommunicationLogUsecase(repository);
   }
 }

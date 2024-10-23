@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/mdm_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class CreateCategoryUseCase extends BaseUseCase<BaseError,
@@ -7,18 +6,18 @@ class CreateCategoryUseCase extends BaseUseCase<BaseError,
   final MDMRepository _repository;
 
   CreateCategoryUseCase(
-      this._repository,
-      );
+    this._repository,
+  );
 
   @override
-  Future<Either<BaseError, MsgCategoryModel>> execute({required CreateCategoryUseCaseParams params}) async {
+  Future<Either<BaseError, MsgCategoryModel>> execute(
+      {required CreateCategoryUseCaseParams params}) async {
     return await _repository.createCategory();
   }
 }
 
 class CreateCategoryUseCaseParams extends Params {
-
-  CreateCategoryUseCaseParams(){}
+  CreateCategoryUseCaseParams();
 
   @override
   Either<AppError, bool> verify() {

@@ -1,4 +1,6 @@
 import 'package:data/data.dart';
+import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
+import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -325,25 +327,74 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, MsgCategoryModel>> createCategory() async{
-   var response = await safeApiCall(apiService.createCategory());
-   return response.fold(
-       (l){
-         return Left(l);
-       },
-       (r) => Right(r.data.transform()),
-   );
+  Future<Either<NetworkError, MsgCategoryModel>> createCategory() async {
+    var response = await safeApiCall(apiService.createCategory());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
   }
 
   @override
   Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory() async {
     var response = await safeApiCall(apiService.createSubCategory());
     return response.fold(
-          (l){
+      (l) {
         return Left(l);
       },
-          (r) => Right(r.data.transform()),
+      (r) => Right(r.data.transform()),
     );
   }
 
+  @override
+  Future<Either<NetworkError, CreateCommunicationModel>>
+      createCommunication() async {
+    var response =
+        await safeApiCall(ticketRetrofitService.createCommunication());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, FindByCategorySubCategoryModel>>
+      findByCategorySubCategory(
+          {required int categoryId, required int subCategoryId}) async {
+    FindByCategorySubCategoryRequest findByCategorySubCategoryRequest =
+        FindByCategorySubCategoryRequest(
+            categoryId: categoryId, subCategoryId: subCategoryId);
+    var response = await safeApiCall(
+        ticketRetrofitService.findByCategorySubCategory(
+            findByCategorySubCategoryRequest:
+                findByCategorySubCategoryRequest));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CreateCommunicationLogModel>>
+      createCommunicationLog(
+          {required CreateCommunicationLogRequest
+              createCommunicationLogRequest}) async {
+    CreateCommunicationLogRequestEntity createCommunicationLogRequest =
+        CreateCommunicationLogRequestEntity();
+    var response = await safeApiCall(
+        ticketRetrofitService.createCommunicationLog(
+            createCommunicationLogRequest: createCommunicationLogRequest));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
 }
