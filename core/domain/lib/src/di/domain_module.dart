@@ -113,4 +113,6 @@ abstract class DomainModule {
       TicketingRepository repository) {
     return CreateCommunicationLogUsecase(repository);
   }
+
+
 }

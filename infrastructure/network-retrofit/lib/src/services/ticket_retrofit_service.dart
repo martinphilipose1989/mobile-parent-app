@@ -29,8 +29,8 @@ abstract class TicketRetrofitService {
   @POST('communication-master/find-by-category-subcategory')
   Future<HttpResponse<FindByCategorySubCategoryEntity>>
       findByCategorySubCategory(
-          {required FindByCategorySubCategoryRequest
-              findByCategorySubCategoryRequest});
+  @Body() FindByCategorySubCategoryRequest
+              findByCategorySubCategoryRequest);
 
   @POST('communication-log')
   Future<HttpResponse<CreateCommunicationLogEntity>> createCommunicationLog(

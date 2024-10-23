@@ -2,6 +2,7 @@ import 'package:data/data.dart';
 import 'package:data/src/repository/admin_repository.dart';
 import 'package:data/src/repository/attachment_repository.dart';
 import 'package:data/src/repository/finance_repository.dart';
+import 'package:data/src/repository/mdm_repository.dart';
 import 'package:data/src/repository/ticketing_repository.dart';
 import 'package:data/src/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -33,5 +34,10 @@ abstract class DataModule {
   @lazySingleton
   TicketingRepository ticketingRepository(NetworkPort networkPort) {
     return TicketingRepositoryImpl(networkPort);
+  }
+
+  @lazySingleton
+  MDMRepository mdmRepository(NetworkPort networkPort){
+    return MDMRepositoryImpl(networkPort);
   }
 }

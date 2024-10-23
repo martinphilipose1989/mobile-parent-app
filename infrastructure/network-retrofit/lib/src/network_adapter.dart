@@ -370,7 +370,6 @@ class NetworkAdapter implements NetworkPort {
             categoryId: categoryId, subCategoryId: subCategoryId);
     var response = await safeApiCall(
         ticketRetrofitService.findByCategorySubCategory(
-            findByCategorySubCategoryRequest:
                 findByCategorySubCategoryRequest));
     return response.fold(
       (l) {
@@ -385,11 +384,20 @@ class NetworkAdapter implements NetworkPort {
       createCommunicationLog(
           {required CreateCommunicationLogRequest
               createCommunicationLogRequest}) async {
-    CreateCommunicationLogRequestEntity createCommunicationLogRequest =
-        CreateCommunicationLogRequestEntity();
+    CreateCommunicationLogRequestEntity createCommunicationLogRequestEntity =
+        CreateCommunicationLogRequestEntity(communicationId: createCommunicationLogRequest.communicationId,
+        comment: createCommunicationLogRequest.comment,
+        attachmentDetails: createCommunicationLogRequest.attachmentDetails,
+        userId: createCommunicationLogRequest.userId,
+        status: createCommunicationLogRequest.status,
+          rating: createCommunicationLogRequest.rating,
+          createdAt: createCommunicationLogRequest.createdAt,
+          updatedAt: createCommunicationLogRequest.updatedAt,
+          isDraft: createCommunicationLogRequest.isDraft
+        );
     var response = await safeApiCall(
         ticketRetrofitService.createCommunicationLog(
-            createCommunicationLogRequest: createCommunicationLogRequest));
+            createCommunicationLogRequest: createCommunicationLogRequestEntity));
     return response.fold(
       (l) {
         return Left(l);
