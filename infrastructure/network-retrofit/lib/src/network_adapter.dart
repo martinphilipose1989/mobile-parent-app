@@ -1,4 +1,6 @@
 import 'package:data/data.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_count_request_entity.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_details_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
@@ -18,7 +20,9 @@ import 'package:network_retrofit/src/model/request/finance/payment_order/student
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
+import 'package:network_retrofit/src/model/response/attendance/attendance_count_response_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/attendance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
@@ -29,10 +33,12 @@ class NetworkAdapter implements NetworkPort {
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
   final DisciplinaryRetorfitService disciplinaryRetorfitService;
+  final AttendanceRetorfitService attendanceRetorfitService;
 
   NetworkAdapter(
       {required this.apiService,
-      required this.disciplinaryRetorfitService,
+      required  this.attendanceRetorfitService,
+        required this.disciplinaryRetorfitService,
       required this.financeRetrofitService,
       required this.adminRetorfitService});
 
@@ -352,6 +358,30 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons() async {
     var response = await safeApiCall(disciplinaryRetorfitService.getCoReasonsList());
+    return response.fold(
+          (l) {
+        return Left(l);
+      },
+          (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount({required AttendanceCountRequestModel attendanceRequestModel}) async {
+    var response = await safeApiCall(attendanceRetorfitService.getattendanceCount(AttendanceCountRequestEntity(studentId: attendanceRequestModel.studentId, attendanceDate: attendanceRequestModel.attendanceDate, academicYearId:attendanceRequestModel. academicYearId, pageSize: attendanceRequestModel.pageSize, page: attendanceRequestModel.page)));
+    return response.fold(
+          (l) {
+        return Left(l);
+      },
+          (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>> getAttendancedetail({required AttendanceDetailsRequestModel attendanceRequestModel})async {
+  //  var response = await safeApiCall(attendanceRetorfitService.getattendanceCount(AttendanceCountRequestEntity(studentId: attendanceRequestModel.studentId, attendanceDate: attendanceRequestModel.attendanceDate, academicYearId:attendanceRequestModel. academicYearId, pageSize: attendanceRequestModel.pageSize, page: attendanceRequestModel.page)));
+
+ var response=await safeApiCall(attendanceRetorfitService.getattendanceDetail(AttendanceDetailsRequestEntity(studentId: [1], pageSize: 1000, page: 1)));
     return response.fold(
           (l) {
         return Left(l);

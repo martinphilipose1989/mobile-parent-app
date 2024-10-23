@@ -7,7 +7,7 @@ class AppImages {
   static const String youtubeLogo = 'assets/images/003-youtube.svg';
   static const String globalLogo = 'assets/images/global.svg';
   static const String notificationLogo = 'assets/images/Icon button-1.svg';
-  static const String menuHamburgerLogo = 'assets/images/Icon button.svg';
+  static const String menuHamburgerLogo = 'assets/images/collapsed.svg';
   static const String addPerson = 'assets/images/icon-1.svg';
   static const String bookmarkLogo = 'assets/images/icon-2.svg';
   static const String bookLogo = 'assets/images/icon-3.svg';
@@ -30,6 +30,7 @@ class AppImages {
   static const String attendance = 'assets/images/bookmark-2.svg';
   static const String messages = 'assets/images/icons/message.svg';
   static const String expand = 'assets/images/icons/expand.svg';
+  static const String collapsed = 'assets/images/icons/collapsed.svg';
 
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';

@@ -11,7 +11,7 @@ class AttendanceCountTile extends StatelessWidget {
       required this.countType,
       required this.textColor});
 
-  final int count;
+  final String? count;
   final String countType;
   final Color textColor;
 

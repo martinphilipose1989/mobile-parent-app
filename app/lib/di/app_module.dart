@@ -24,4 +24,8 @@ abstract class AppModule {
   @Named("disciplinarySlip")
   String get disciplinarySlip => FlavorConfig.instance.values.disciplinarySlip;
 
+  @Named("attendance")
+  String get attendance => FlavorConfig.instance.values.attendance;
+
+
 }

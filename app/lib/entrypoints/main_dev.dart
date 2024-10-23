@@ -17,7 +17,7 @@ void main() async {
       secrets: AppSecrets.appSecretsDev,
       logSqlStatements: true,
       showLogs: true,
-      useFakeData: false, disciplinarySlip: EnvDev.disciplinarySlip,
+      useFakeData: false, disciplinarySlip: EnvDev.disciplinarySlip,attendance: EnvDev.attendance
     ),
   );
   startApp();

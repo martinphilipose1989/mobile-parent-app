@@ -12,6 +12,7 @@ void main() async {
       mdmBaseUrl: '',
       adminBaseUrl: '',
       mdmToken: '',
+      attendance: '',
       financeBaseUrl: '',
       secrets: AppSecrets.appSecretsProd, disciplinarySlip: '',
     ),

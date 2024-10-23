@@ -87,7 +87,7 @@ ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
 
 final attendanceCalenderProvider =
 ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
-      (ref) => AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      (ref) => AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<AttendanceCountUsecase>()),
 );
 
 final disciplinarySlipProvider =

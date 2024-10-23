@@ -1,3 +1,4 @@
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:shared/shared.dart';
 
@@ -13,6 +14,12 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
       {required AcknowlegementRequestModel acknowledgementRequestModel});
+
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
+      {required AttendanceCountRequestModel attendanceRequestModel});
+
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>> getAttendancedetail(
+      {required AttendanceDetailsRequestModel attendanceRequestModel});
 
   Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons();
 

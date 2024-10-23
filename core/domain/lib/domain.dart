@@ -11,6 +11,8 @@ export 'src/repository/user_repository.dart';
 export 'src/repository/finance_repository.dart';
 export 'src/repository/admin_repository.dart';
 export 'src/repository/disciplinary_slip_repository.dart';
+export 'src/repository/attendance_repository.dart';
+
 
 //use-cases
 export 'src/usecase/base/params.dart';
@@ -40,3 +42,7 @@ export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';
 
 export 'src/usecase/disciplinarySlip/co_resons_list_usecase.dart';
 export 'src/usecase/disciplinarySlip/create_acknowledgement_usecase.dart';
+
+
+//attendance
+export 'src/usecase/attendance/attendance_count_usecase.dart';

@@ -14,7 +14,7 @@ void main() async {
       adminBaseUrl: EnvQA.adminBaseUrl,
       mdmBaseUrl: EnvQA.mdmBaseUrl,
       mdmToken: EnvQA.mdmToken,
-      secrets: AppSecrets.appSecretsQA, disciplinarySlip: EnvQA.disciplinarySlip,
+      secrets: AppSecrets.appSecretsQA, disciplinarySlip: EnvQA.disciplinarySlip,attendance: EnvQA.attendance
     ),
   );
   startApp();

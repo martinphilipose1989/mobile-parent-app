@@ -6,6 +6,8 @@ import 'package:data/src/repository/finance_repository.dart';
 import 'package:data/src/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
+import '../repository/attendance_repository.dart';
+
 @module
 abstract class DataModule {
   @lazySingleton
@@ -23,6 +25,11 @@ abstract class DataModule {
   AttachmentRepository attachmentRepositoryProvider(
       AttachmentPort attachmentPort) {
     return AttachmentRepositoryImpl(attachmentPort);
+  }
+  @lazySingleton
+ AttendanceRepository attendanceRepositoryProvider(
+    NetworkPort network) {
+    return AttendanceRepositoryImpl(network);
   }
 
   @lazySingleton

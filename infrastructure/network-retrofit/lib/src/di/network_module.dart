@@ -9,6 +9,8 @@ import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../services/attendance_retrofit_service.dart';
+
 @module
 abstract class NetworkModule {
   @singleton
@@ -78,16 +80,21 @@ abstract class NetworkModule {
       DisciplinaryRetorfitService(dio,disciplinaryBaseUrl:disciplinaryBaseUrl );
 
   @lazySingleton
+  AttendanceRetorfitService providerAttendanceRetrofitService(
+      Dio dio, @Named('attendance') String attendancebaseUrl) =>
+      AttendanceRetorfitService(dio,attendanceBaseUrl: attendancebaseUrl);
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
           AdminRetorfitService adminRetorfitService,
-
+AttendanceRetorfitService attendanceRetrofitService,
       DisciplinaryRetorfitService disciplinaryRetrofitService
       ) =>
       NetworkAdapter(
         disciplinaryRetorfitService: disciplinaryRetrofitService,
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
-          financeRetrofitService: financeRetrofitService);
+          financeRetrofitService: financeRetrofitService, attendanceRetorfitService: attendanceRetrofitService);
 }

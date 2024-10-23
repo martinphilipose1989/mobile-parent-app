@@ -1,5 +1,6 @@
 import 'package:domain/domain.dart';
 import 'package:domain/src/repository/disciplinary_slip_repository.dart';
+import 'package:domain/src/usecase/attendance/attendanceDetailsUsecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -22,6 +23,16 @@ abstract class DomainModule {
   @lazySingleton
   GetStorePaymentUsecase getStorePayment(FinanceRepository repository) {
     return GetStorePaymentUsecase(repository);
+  }
+
+  @lazySingleton
+  AttendanceDetailUsecase getAttendanceDetails(AttendanceRepository repository) {
+    return  AttendanceDetailUsecase( attendanceRepository: repository,);
+  }
+
+  @lazySingleton
+  AttendanceCountUsecase getAttendanceList(AttendanceRepository repository) {
+    return   AttendanceCountUsecase( attendanceRepository: repository,);
   }
 
   @lazySingleton
