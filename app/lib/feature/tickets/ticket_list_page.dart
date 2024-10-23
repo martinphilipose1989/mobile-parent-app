@@ -21,6 +21,7 @@ class _TicketListPageState
   @override
   void onModelReady(TicketListViewModel model) {
     model.tabController = TabController(length: 3, vsync: this);
+    //model.getTicketStatus();
   }
 
   @override
