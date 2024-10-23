@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart';
@@ -101,7 +102,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                       ),
                       CommonText(
                         text:
-                        widget.date??"",
+                        dateFormatToDDMMYYYhhmma  (widget.date??""),
                         style: AppTypography.caption
                             .copyWith(color: AppColors.titleNeutral5),
                       ),
@@ -225,3 +226,10 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
 
   }
 
+String dateFormatToDDMMYYYhhmma(String time) {
+  try {
+    DateTime dateTime = DateTime.parse(time);
+    return DateFormat('dd/MM/yyyy  hh:mma').format(dateTime);
+  } catch (e) {
+    return '';
+  }}
