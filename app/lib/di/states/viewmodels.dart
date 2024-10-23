@@ -104,7 +104,7 @@ final disciplinarySlipProvider =
 
 final ticketListProvider =
 ChangeNotifierProvider.autoDispose<TicketListViewModel>(
-      (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>(), getIt.get<TicketListingUsecase>()),
 );
 
 final createTicketProvider =
