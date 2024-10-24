@@ -45,4 +45,5 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
       BehaviorSubject<bool>.seeded(false);
+
 }

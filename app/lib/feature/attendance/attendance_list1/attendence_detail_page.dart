@@ -1,10 +1,13 @@
+import 'dart:ffi';
+
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/admissions/admissions_page_view.dart';
-import 'package:app/feature/admissions/admissions_view_model.dart';
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:data/data.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'attendance_details_page_view.dart';
@@ -12,16 +15,32 @@ import 'attendance_details_page_view.dart';
 import 'attendance_details_view_model.dart';
 
 class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
-  const AttendanceDetailsPage({super.key});
+  AttendanceDetailPageParameter attendanceDetailPageParameter;
+
+  AttendanceDetailsPage({required this.attendanceDetailPageParameter});
 
   @override
   State<AttendanceDetailsPage> createState() => _AttendanceDetailsPageState();
 }
 
-class _AttendanceDetailsPageState
-    extends AppBasePageState<AttendanceDetailsViewModel, AttendanceDetailsPage> {
+class _AttendanceDetailsPageState extends AppBasePageState<
+    AttendanceDetailsViewModel, AttendanceDetailsPage> {
   @override
-  void onModelReady(AttendanceDetailsViewModel model) {}
+  void onModelReady(AttendanceDetailsViewModel model) {
+//widget.attendanceDetailPageParameter.studentId??
+//widget.attendanceDetailPageParameter.fromDate??DateTime.now()
+    //widget.attendanceDetailPageParameter.toDate??DateTime.now()
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    model.getAttendance(
+        model: AttendanceDetailsRequestModel(
+            studentId: [model.selectedStudent?.first.id.toString() ?? ""],
+            attendanceStartDate:
+                widget.attendanceDetailPageParameter.fromDate.toString(),
+            attendanceEndDate:
+                widget.attendanceDetailPageParameter.fromDate.toString()));
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceDetailsViewModel model) {
@@ -30,7 +49,6 @@ class _AttendanceDetailsPageState
       appbarTitle: 'Student Attendance',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
-
     );
   }
 
@@ -49,5 +67,33 @@ class _AttendanceDetailsPageState
   @override
   ProviderBase<AttendanceDetailsViewModel> provideBase() {
     return attendanceDetailsProvider;
+  }
+}
+
+class AttendanceDetailPageParameter {
+  List<String>? studentId;
+  String? toDate;
+  String? fromDate;
+
+  AttendanceDetailPageParameter(
+      {this.studentId, this.toDate, this.fromDate}); // toJson method
+  Map<String, dynamic> toJson() {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return {
+      'studentId': studentId,
+      'toDate': toDate,
+      'fromDate': fromDate,
+    };
+  }
+
+  // fromJson method
+  factory AttendanceDetailPageParameter.fromJson(Map<String, dynamic> json) {
+    return AttendanceDetailPageParameter(
+      studentId: (json['studentId'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      toDate: json['toDate'],
+      fromDate: json['fromDate'],
+    );
   }
 }

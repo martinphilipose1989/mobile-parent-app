@@ -84,21 +84,26 @@ final admissionsProvider =
 
 final attendanceDetailsProvider =
     ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
-  (ref) =>
-      AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => AttendanceDetailsViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<AttendanceDetailUsecase>()),
 );
 
 final attendanceCalenderProvider =
     ChangeNotifierProvider.autoDispose<AttendanceCalenderViewModel>(
-  (ref) =>
-      AttendanceCalenderViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => AttendanceCalenderViewModel(
+    getIt.get<FlutterExceptionHandlerBinder>(),
+    getIt.get<AttendanceCountUsecase>(),
+  ),
 );
 
 final disciplinarySlipProvider =
-    ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>(
-  (ref) =>
-      DisplinaryDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
-);
+    ChangeNotifierProvider.autoDispose<DisplinaryDetailsViewModel>((ref) =>
+        DisplinaryDetailsViewModel(
+            getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<DisciplinarySlipListUsecase>(),
+            getIt.get<CreateAcknowledgementUsecase>(),
+            getIt.get<CoReasonsListUsecase>()));
 
 final ticketListProvider =
     ChangeNotifierProvider.autoDispose<TicketListViewModel>(

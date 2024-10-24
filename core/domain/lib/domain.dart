@@ -13,6 +13,9 @@ export 'src/repository/admin_repository.dart';
 export 'src/repository/ticketing_repository.dart';
 export 'src/repository/mdm_repository.dart';
 
+export 'src/repository/disciplinary_slip_repository.dart';
+export 'src/repository/attendance_repository.dart';
+
 //use-cases
 export 'src/usecase/base/params.dart';
 export 'src/usecase/user/login_usecase.dart';
@@ -40,3 +43,13 @@ export 'src/usecase/communication/create_sub_category_usecase.dart';
 export 'src/usecase/communication/find_by_category_sub_category_usecase.dart';
 export 'src/usecase/communication/send_communication_usecase.dart';
 export 'src/usecase/communication/create_ticket_usecase.dart';
+
+//disciplinarySlip
+export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';
+
+export 'src/usecase/disciplinarySlip/co_resons_list_usecase.dart';
+export 'src/usecase/disciplinarySlip/create_acknowledgement_usecase.dart';
+
+//attendance
+export 'src/usecase/attendance/attendance_count_usecase.dart';
+export 'src/usecase/attendance/attendanceDetailsUsecase.dart';

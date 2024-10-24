@@ -12,9 +12,11 @@ void main() async {
       mdmBaseUrl: '',
       adminBaseUrl: '',
       mdmToken: '',
+      attendance: '',
       financeBaseUrl: '',
       ticketingBaseUrl: '',
       secrets: AppSecrets.appSecretsProd,
+      disciplinarySlip: '',
     ),
   );
   startApp();

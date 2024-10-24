@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/communication/create_ticket_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -22,6 +21,21 @@ abstract class DomainModule {
   @lazySingleton
   GetStorePaymentUsecase getStorePayment(FinanceRepository repository) {
     return GetStorePaymentUsecase(repository);
+  }
+
+  @lazySingleton
+  AttendanceDetailUsecase getAttendanceDetails(
+      AttendanceRepository repository) {
+    return AttendanceDetailUsecase(
+      attendanceRepository: repository,
+    );
+  }
+
+  @lazySingleton
+  AttendanceCountUsecase getAttendanceList(AttendanceRepository repository) {
+    return AttendanceCountUsecase(
+      attendanceRepository: repository,
+    );
   }
 
   @lazySingleton
@@ -117,5 +131,22 @@ abstract class DomainModule {
   @lazySingleton
   CreateTicketUsecase createTicket(TicketingRepository repository) {
     return CreateTicketUsecase(repository);
+  }
+
+  @lazySingleton
+  DisciplinarySlipListUsecase getDisciplinaryList(
+      DisciplinarySlipRepository repo) {
+    return DisciplinarySlipListUsecase(repo);
+  }
+
+  @lazySingleton
+  CreateAcknowledgementUsecase createAcknowledge(
+      DisciplinarySlipRepository repo) {
+    return CreateAcknowledgementUsecase(disciplinarySlipRepository: repo);
+  }
+
+  @lazySingleton
+  CoReasonsListUsecase coReasons(DisciplinarySlipRepository repo) {
+    return CoReasonsListUsecase(disciplinarySlipRepository: repo);
   }
 }

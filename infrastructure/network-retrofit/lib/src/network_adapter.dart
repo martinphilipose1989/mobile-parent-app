@@ -1,8 +1,11 @@
 import 'package:data/data.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_count_request_entity.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_details_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/create_ticket_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
-import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -21,19 +24,26 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/attendance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
+import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'services/retrofit_service.dart';
 
 class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final DisciplinaryRetorfitService disciplinaryRetorfitService;
+  final AttendanceRetorfitService attendanceRetorfitService;
   final TicketRetrofitService ticketRetrofitService;
 
   NetworkAdapter(
       {required this.apiService,
+      required this.attendanceRetorfitService,
+      required this.disciplinaryRetorfitService,
       required this.financeRetrofitService,
       required this.adminRetorfitService,
       required this.ticketRetrofitService});
@@ -385,10 +395,57 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
+  Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+      {required int studentId, int? academicYearID, DateTime? time}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.getDisciplinaryList(DisciplinaryListRequest(
+      studentId: studentId,
+    )));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
+      {required AcknowlegementRequestModel acknowledgementRequestModel}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.postAcknowledge(AcknowlegementRequestEntity(
+            studentWarningId: acknowledgementRequestModel.studentWarningId,
+            userId: acknowledgementRequestModel.userId,
+            acknowledgementRole:
+                acknowledgementRequestModel.acknowledgementRole,
+            acknowledgementDate:
+                acknowledgementRequestModel.acknowledgementDate)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
   Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
       {required String communocationId}) async {
     var response = await safeApiCall(ticketRetrofitService
         .createCommunicationLog(communocationId: communocationId));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CoReasonsListResponseModel>>
+      getCoReasons() async {
+    var response =
+        await safeApiCall(disciplinaryRetorfitService.getCoReasonsList());
     return response.fold(
       (l) {
         return Left(l);
@@ -437,6 +494,44 @@ class NetworkAdapter implements NetworkPort {
             ticketTitle: createTicketRequest.ticketTitle);
     var response = await safeApiCall(ticketRetrofitService.createTicket(
         createTicketRequestEntity: createTicketRequestEntity));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
+      {required AttendanceCountRequestModel attendanceRequestModel}) async {
+    var response = await safeApiCall(attendanceRetorfitService
+        .getattendanceCount(AttendanceCountRequestEntity(
+            studentId: attendanceRequestModel.studentId,
+            attendanceDate: attendanceRequestModel.attendanceDate,
+            academicYearId: attendanceRequestModel.academicYearId,
+            pageSize: attendanceRequestModel.pageSize,
+            page: attendanceRequestModel.page)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>>
+      getAttendancedetail(
+          {required AttendanceDetailsRequestModel
+              attendanceRequestModel}) async {
+    //  var response = await safeApiCall(attendanceRetorfitService.getattendanceCount(AttendanceCountRequestEntity(studentId: attendanceRequestModel.studentId, attendanceDate: attendanceRequestModel.attendanceDate, academicYearId:attendanceRequestModel. academicYearId, pageSize: attendanceRequestModel.pageSize, page: attendanceRequestModel.page)));
+
+    var response = await safeApiCall(attendanceRetorfitService
+        .getattendanceDetail(AttendanceDetailsRequestEntity(
+            studentId: attendanceRequestModel.studentId,
+            attendanceStartDate: attendanceRequestModel.attendanceEndDate,
+            attendanceEndDate: attendanceRequestModel.attendanceStartDate)));
     return response.fold(
       (l) {
         return Left(l);

@@ -1,8 +1,12 @@
 import 'package:app/base/app_base_page.dart';
-import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/attendance/attendance_list1/attendance_details_page_view.dart';
+import 'package:app/di/states/viewmodels.dart' ;
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:data/data.dart' hide State;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -19,7 +23,14 @@ class AttendanceCalenderPage extends BasePage<AttendanceCalenderViewModel> {
 class _AttendanceCalenderPageState
     extends AppBasePageState<AttendanceCalenderViewModel, AttendanceCalenderPage> {
   @override
-  void onModelReady(AttendanceCalenderViewModel model) {}
+  void onModelReady(AttendanceCalenderViewModel model) {
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+model.getAttendanceList(model: AttendanceCountRequestModel(studentId: model.selectedStudent?.first.id??0, attendanceDate: "2024-10", academicYearId: 25,));
+
+
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceCalenderViewModel model) {

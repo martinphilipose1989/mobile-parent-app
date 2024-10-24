@@ -1,26 +1,36 @@
+import 'dart:convert';
+
+import 'package:app/di/states/viewmodels.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../feature/disciplinarySlip/disciplinary_details_view_model.dart';
 import '../../utils/common_widgets/app_images.dart';
 import '../../utils/common_widgets/common_elevated_button.dart';
+import '../../utils/stream_builder/app_stream_builder.dart';
 
 class DisciplinaryDetails extends StatelessWidget {
-  const DisciplinaryDetails({super.key});
+  final String name;
+
+DisciplinaryDetails({super.key, required this.name });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const StudentDetails(
+        StudentDetails(
             image: AppImages.personIcon,
-            name: "Khevna Shah",
+            name: name,
             title: "vibgyor Schools|cbse",
             subtitle: "regular| shift| Grade V",
             subtitle2: "Stream|NA"),
@@ -36,63 +46,112 @@ class DisciplinaryDetails extends StatelessWidget {
                 text: "Disciplinary Slip",
                 style: AppTypography.subtitle1,
               ),
-              InkWell(
-                  onTap: () {
-                    // showDialog(context: context, builder: (BuildContext context){
-                    CommonPopups().showInfo(
-                      context,
-                      barrierDismissible: true,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          infoRow(context, AppColors.failure, " Red Slip"),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          infoRow(context, AppColors.yellow, "Yellow Slip"),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          infoRow(context, AppColors.orange, "Orange Slip"),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          infoRow(
+              BaseWidget(
+                builder: (BuildContext context,
+                    DisplinaryDetailsViewModel? model, Widget? child) {
+                  return AppStreamBuilder<Resource<CoReasonsListResponseModel>>(
+                    stream: model!.coReasonsListModel,
+                    dataBuilder: (context, snapshot) {
+                      return snapshot?.status==Status.loading?
+                          Center(child: CircularProgressIndicator(),)
+                        :
+                        InkWell(
+                          onTap: () {
+                            CommonPopups().showInfo(
                               context,
-                              Theme.of(context).colorScheme.secondary,
-                              "Warning Slip"),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CommonElevatedButton(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                text: "close",
-                                textColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                width: MediaQuery.of(context).size.width * 0.3,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      title: const Text(
-                        "Slip Information",
-                        style: AppTypography.h6,
-                      ),
-                    );
-                  },
-                  child: const Icon(
-                    CupertinoIcons.info,
-                    size: 20,
-                  )),
+                              barrierDismissible: true,
+                              child: Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Column(
+                                      children: List.generate(snapshot?.data?.data.length ?? 0, (index) {
+                                        return infoRow(
+                                                          context,
+                                                          getColorFromJson(snapshot!
+                                                              .data!
+                                                              .data[index]
+                                                              .attributes
+                                                              .description),
+                                                          snapshot.data!.data[index]
+                                                              .attributes.name);
+                                      },),
+                                    ),
+
+
+
+                                // Flexible(
+                                // fit:FlexFit.loose,
+                                //   child: ListView.separated(
+                                //       itemBuilder:
+                                //           (BuildContext context, int index) {
+                                //         if (snapshot?.data?.data != null) {
+                                //           return infoRow(
+                                //               context,
+                                //               getColorFromJson(snapshot!
+                                //                   .data!
+                                //                   .data[index]
+                                //                   .attributes
+                                //                   .description),
+                                //               snapshot.data!.data[index]
+                                //                   .attributes.name);
+                                //         }
+                                //       },
+                                //       shrinkWrap: true,
+                                //       separatorBuilder:
+                                //           (BuildContext context, int index) {
+                                //         return SizedBox(
+                                //           height: 10.h,
+                                //         );
+                                //       },
+                                //       itemCount: snapshot?.data?.data.length ?? 0),
+                                // ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        CommonElevatedButton(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          text: "close",
+                                          textColor: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer,
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.3,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              title: const Text(
+                                "Slip Information",
+                                style: AppTypography.h6,
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 40.w,
+                            height: 40.h,
+                            child: Icon(
+                              CupertinoIcons.info,
+                              size: 24,
+                            ),
+                          ));
+                    },
+                    initialData: Resource.none(),
+                  );
+                },
+                providerBase: disciplinarySlipProvider,
+              ),
             ],
           ),
         ),
@@ -122,4 +181,10 @@ Widget infoRow(BuildContext context, Color color, String text) {
       ),
     ],
   );
+}
+
+Color getColorFromJson(String jsonString) {
+  Map<String, dynamic> parsedJson = json.decode(jsonString);
+  String colorCode = parsedJson['color_code'];
+  return Color(int.parse(colorCode.replaceFirst('#', '0xFF')));
 }

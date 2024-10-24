@@ -9,14 +9,15 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.qa,
     values: const FlavorValues(
-      apiBaseUrl: '',
-      financeBaseUrl: EnvQA.financeBaseUrl,
-      adminBaseUrl: EnvQA.adminBaseUrl,
-      mdmBaseUrl: EnvQA.mdmBaseUrl,
-      mdmToken: EnvQA.mdmToken,
-      ticketingBaseUrl: EnvQA.ticketingBaseUrl,
-      secrets: AppSecrets.appSecretsQA,
-    ),
+        apiBaseUrl: '',
+        financeBaseUrl: EnvQA.financeBaseUrl,
+        adminBaseUrl: EnvQA.adminBaseUrl,
+        mdmBaseUrl: EnvQA.mdmBaseUrl,
+        mdmToken: EnvQA.mdmToken,
+        ticketingBaseUrl: EnvQA.ticketingBaseUrl,
+        secrets: AppSecrets.appSecretsQA,
+        disciplinarySlip: EnvQA.disciplinarySlip,
+        attendance: EnvQA.attendance),
   );
   startApp();
 }

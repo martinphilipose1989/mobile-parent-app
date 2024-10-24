@@ -18,4 +18,10 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'TICKETING_BASE_URL')
   static const String ticketingBaseUrl = _EnvQA.ticketingBaseUrl;
+
+  @EnviedField(varName: 'DISCIPLINARY_BASE_URL')
+  static const String disciplinarySlip = _EnvQA.disciplinarySlip;
+
+  @EnviedField(varName: 'ATTENDANCE_BASE_URL')
+  static const String attendance = _EnvQA.attendance;
 }

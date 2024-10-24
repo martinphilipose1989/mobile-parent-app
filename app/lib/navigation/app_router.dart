@@ -112,7 +112,7 @@ class AppRouter {
                 const RouteSettings(name: RoutePaths.enquiriesDetailsPage));
       case RoutePaths.attendanceDetailspage:
         return CupertinoPageRoute(
-            builder: (context) => const AttendanceDetailsPage(),
+            builder: (context) =>  AttendanceDetailsPage(attendanceDetailPageParameter: settings.arguments as AttendanceDetailPageParameter,),
             settings:
                 const RouteSettings(name: RoutePaths.attendanceDetailspage));
 

@@ -22,6 +22,8 @@ class GetStorePaymentUsecase extends BaseUseCase<BaseError,
   }
 }
 
+
+
 class GetStorePaymentUsecaseParams extends Params {
   final StorePaymentModelRequest storePaymentModelRequest;
 

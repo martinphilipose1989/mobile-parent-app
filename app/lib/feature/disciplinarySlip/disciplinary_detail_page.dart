@@ -20,7 +20,14 @@ class DisplinaryDetailsPage extends BasePage<DisplinaryDetailsViewModel> {
 class _DisplinaryDetailsPageState
     extends AppBasePageState<DisplinaryDetailsViewModel, DisplinaryDetailsPage> {
   @override
-  void onModelReady(DisplinaryDetailsViewModel model) {}
+  void onModelReady(DisplinaryDetailsViewModel model) {
+
+    model.getCoReasonList();
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    model.getSlipList(studentId: model.selectedStudent?.first.id??0, );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(DisplinaryDetailsViewModel model) {

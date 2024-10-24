@@ -1,4 +1,6 @@
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
+import 'package:shared/shared.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -10,11 +12,26 @@ abstract class NetworkPort {
   Future<Either<NetworkError, GetTokenGeneratorModel>> getTokenGenerator(
       {required int segmentLobId});
 
+  Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
+      {required AcknowlegementRequestModel acknowledgementRequestModel});
+
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
+      {required AttendanceCountRequestModel attendanceRequestModel});
+
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>> getAttendancedetail(
+      {required AttendanceDetailsRequestModel attendanceRequestModel});
+
+  Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons();
+
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
       {required int paymentMode, required List<int> studentFeeIds});
 
   Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
       {required StorePaymentModelRequest storePaymentModelRequest});
+
+  Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+      {required int studentId,int? academicYearID, DateTime? time});
+
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo});
