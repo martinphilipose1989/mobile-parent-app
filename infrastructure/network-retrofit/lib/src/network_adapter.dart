@@ -1,5 +1,6 @@
 import 'package:data/data.dart';
 import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
+import 'package:network_retrofit/src/model/request/communication/create_ticket_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
 import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
@@ -414,6 +415,28 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(ticketRetrofitService.sendCommunication(
         createCommunicationLogRequestEntity:
             createCommunicationLogRequestEntity));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CreateTicketModel>> createTicket(
+      {required CreateTicketRequest createTicketRequest}) async {
+    CreateTicketRequestEntity createTicketRequestEntity =
+        CreateTicketRequestEntity(
+            attachment: createTicketRequest.attachment,
+            categoryId: createTicketRequest.categoryId,
+            communication: createTicketRequest.communication,
+            parentId: createTicketRequest.parentId,
+            studentId: createTicketRequest.studentId,
+            subcategoryId: createTicketRequest.subcategoryId,
+            ticketTitle: createTicketRequest.ticketTitle);
+    var response = await safeApiCall(ticketRetrofitService.createTicket(
+        createTicketRequestEntity: createTicketRequestEntity));
     return response.fold(
       (l) {
         return Left(l);

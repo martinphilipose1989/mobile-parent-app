@@ -1,6 +1,5 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/attendance/attendance_list1/attendance_details_page_view.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +16,11 @@ class TicketListPage extends BasePage<TicketListViewModel> {
 }
 
 class _TicketListPageState
-    extends AppBasePageState<TicketListViewModel, TicketListPage>  with TickerProviderStateMixin{
+    extends AppBasePageState<TicketListViewModel, TicketListPage>
+    with TickerProviderStateMixin {
   @override
   void onModelReady(TicketListViewModel model) {
     model.tabController = TabController(length: 3, vsync: this);
-    //model.getTicketStatus();
   }
 
   @override
@@ -31,10 +30,8 @@ class _TicketListPageState
       appbarTitle: 'Student Attendance',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
-
     );
   }
-
 
   @override
   Color scaffoldBackgroundColor() {
@@ -42,11 +39,10 @@ class _TicketListPageState
     return Colors.white;
   }
 
-
   @override
   Widget buildView(BuildContext context, TicketListViewModel model) {
     // TODO: implement buildView
-    return TicketListPageView(provideBase(),model);
+    return TicketListPageView(provideBase(), model);
   }
 
   @override

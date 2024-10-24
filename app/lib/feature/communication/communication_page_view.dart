@@ -252,113 +252,148 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                           model.userId
                                       ? Align(
                                           alignment: Alignment.centerRight,
-                                          child: Container(
-                                            width: 255.11.w,
-                                            decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryContainer,
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(8.0),
-                                                  bottomRight:
-                                                      Radius.circular(8.0),
-                                                  topLeft: Radius.circular(8.0),
-                                                )),
-                                            margin: const EdgeInsets.all(8.0),
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CommonText(
-                                                    softWrap: true,
-                                                    style: AppTypography.body2,
-                                                    text: getCommunicationDetailsdata
-                                                            .data
-                                                            ?.data
-                                                            ?.communicationLogs?[
-                                                                index]
-                                                            .comment ??
-                                                        ""),
-                                                const SizedBox(
-                                                  height: 10,
+                                          child: getCommunicationDetailsdata
+                                                      .data
+                                                      ?.data
+                                                      ?.communicationLogs?[
+                                                          index]
+                                                      .rating !=
+                                                  null
+                                              ? const SizedBox.shrink()
+                                              : Container(
+                                                  width: 255.11.w,
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primaryContainer,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomLeft:
+                                                            Radius.circular(
+                                                                8.0),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                8.0),
+                                                        topLeft:
+                                                            Radius.circular(
+                                                                8.0),
+                                                      )),
+                                                  margin:
+                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      CommonText(
+                                                          softWrap: true,
+                                                          style: AppTypography
+                                                              .body2,
+                                                          text: getCommunicationDetailsdata
+                                                                  .data
+                                                                  ?.data
+                                                                  ?.communicationLogs?[
+                                                                      index]
+                                                                  .comment ??
+                                                              ""),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      CommonText(
+                                                          text: model.formatIsoDateTime(
+                                                              getCommunicationDetailsdata
+                                                                      .data
+                                                                      ?.data
+                                                                      ?.communicationLogs?[
+                                                                          index]
+                                                                      .createdAt
+                                                                      .toString() ??
+                                                                  ''))
+                                                    ],
+                                                  ),
                                                 ),
-                                                CommonText(
-                                                    text: model.formatIsoDateTime(
-                                                        getCommunicationDetailsdata
-                                                                .data
-                                                                ?.data
-                                                                ?.communicationLogs?[
-                                                                    index]
-                                                                .createdAt
-                                                                .toString() ??
-                                                            ''))
-                                              ],
-                                            ),
-                                          ),
                                         )
                                       : Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Container(
-                                            width: 255.11.w,
-                                            decoration: const BoxDecoration(
-                                                color: AppColors.closeTile,
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(8.0),
-                                                  bottomRight:
-                                                      Radius.circular(8.0),
-                                                  topRight:
-                                                      Radius.circular(8.0),
-                                                )),
-                                            margin: const EdgeInsets.all(8.0),
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CommonText(
-                                                    softWrap: true,
-                                                    style:
-                                                        AppTypography.subtitle2,
-                                                    text: getCommunicationDetailsdata
-                                                            .data
-                                                            ?.data
-                                                            ?.communicationLogs?[
-                                                                index]
-                                                            .user ??
-                                                        ""),
-                                                const SizedBox(
-                                                  height: 10,
+                                          child: getCommunicationDetailsdata
+                                                      .data
+                                                      ?.data
+                                                      ?.communicationLogs?[
+                                                          index]
+                                                      .rating !=
+                                                  null
+                                              ? const SizedBox.shrink()
+                                              : Container(
+                                                  width: 255.11.w,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color: AppColors
+                                                              .closeTile,
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    8.0),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    8.0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8.0),
+                                                          )),
+                                                  margin:
+                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      CommonText(
+                                                          softWrap: true,
+                                                          style: AppTypography
+                                                              .subtitle2,
+                                                          text: getCommunicationDetailsdata
+                                                                  .data
+                                                                  ?.data
+                                                                  ?.communicationLogs?[
+                                                                      index]
+                                                                  .user ??
+                                                              ""),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      CommonText(
+                                                          softWrap: true,
+                                                          style: AppTypography
+                                                              .body2,
+                                                          text: getCommunicationDetailsdata
+                                                                  .data
+                                                                  ?.data
+                                                                  ?.communicationLogs?[
+                                                                      index]
+                                                                  .comment ??
+                                                              ""),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      CommonText(
+                                                          text: model.formatIsoDateTime(
+                                                              getCommunicationDetailsdata
+                                                                      .data
+                                                                      ?.data
+                                                                      ?.communicationLogs?[
+                                                                          index]
+                                                                      .createdAt
+                                                                      .toString() ??
+                                                                  ''))
+                                                    ],
+                                                  ),
                                                 ),
-                                                CommonText(
-                                                    softWrap: true,
-                                                    style: AppTypography.body2,
-                                                    text: getCommunicationDetailsdata
-                                                            .data
-                                                            ?.data
-                                                            ?.communicationLogs?[
-                                                                index]
-                                                            .comment ??
-                                                        ""),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                CommonText(
-                                                    text: model.formatIsoDateTime(
-                                                        getCommunicationDetailsdata
-                                                                .data
-                                                                ?.data
-                                                                ?.communicationLogs?[
-                                                                    index]
-                                                                .createdAt
-                                                                .toString() ??
-                                                            ''))
-                                              ],
-                                            ),
-                                          ),
                                         );
                                 },
                               ),

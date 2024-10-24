@@ -24,9 +24,11 @@ class CommonTicketContainer extends StatelessWidget {
   final String? image;
   final String name;
   final String? id;
+  final int? index;
   final int? communicationCount;
   const CommonTicketContainer(
       {super.key,
+      required this.index,
       required this.ticketNo,
       required this.status,
       required this.statusIcon,

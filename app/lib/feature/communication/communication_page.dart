@@ -49,20 +49,6 @@ class CommunicationPageState
     );
   }
 
-  // @override
-  // Widget? buildBottomNavigationBar(CommunicationPageModel model) {
-  //   // TODO: implement buildBottomNavigationBar
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: CommonElevatedButton(
-  //       onPressed: () {},
-  //       backgroundColor: Theme.of(context).colorScheme.secondary,
-  //       text: "Submit",
-  //       textColor: Colors.black,
-  //     ),
-  //   );
-  // }
-
   @override
   Color scaffoldBackgroundColor() {
     return Colors.white;

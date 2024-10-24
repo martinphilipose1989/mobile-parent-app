@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/communication/create_ticket_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -111,5 +112,10 @@ abstract class DomainModule {
   @lazySingleton
   SendCommunicationUsecase sendCommunication(TicketingRepository repository) {
     return SendCommunicationUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateTicketUsecase createTicket(TicketingRepository repository) {
+    return CreateTicketUsecase(repository);
   }
 }

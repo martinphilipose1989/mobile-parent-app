@@ -36,4 +36,10 @@ class TicketingRepositoryImpl extends TicketingRepository {
     return networkPort.sendCommunication(
         createCommunicationLogRequest: createCommunicationLogRequest);
   }
+
+  @override
+  Future<Either<NetworkError, CreateTicketModel>> createTicket(
+      {required CreateTicketRequest createTicketRequest}) {
+    return networkPort.createTicket(createTicketRequest: createTicketRequest);
+  }
 }

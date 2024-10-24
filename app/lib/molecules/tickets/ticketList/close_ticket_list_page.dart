@@ -19,15 +19,17 @@ class CloseTicketListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return list.isEmpty
         ? const Center(
-            child: CommonText(text: 'No Open tickets available'),
+            child: CommonText(text: 'No Closed tickets available'),
           )
         : ListView.builder(
             shrinkWrap: true,
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
               return CommonTicketCloseContainer(
+                showTextField: list[index].isReOpenedClicked,
+                index: index,
                 id: list[index].id ?? "",
-                communicationCount: list[index].communicationLogsCount,
+                communicationCount: list[index].communicationLogsCount ?? 0,
                 ticketNo: list[index].ticketNumber ?? '',
                 status: list[index].status,
                 time: list[index].formattedDateAndTime ?? '',

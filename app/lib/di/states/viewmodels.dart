@@ -103,17 +103,17 @@ final disciplinarySlipProvider =
 final ticketListProvider =
     ChangeNotifierProvider.autoDispose<TicketListViewModel>(
   (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<TicketListingUsecase>()),
+      getIt.get<TicketListingUsecase>(), getIt.get<SendCommunicationUsecase>()),
 );
 
 final createTicketProvider =
     ChangeNotifierProvider.autoDispose<CreateTicketViewModel>(
   (ref) => CreateTicketViewModel(
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<CreateCategoryUseCase>(),
-    getIt.get<CreateSubCategoryUseCase>(),
-    getIt.get<FindByCategorySubCategoryUsecase>(),
-  ),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<CreateCategoryUseCase>(),
+      getIt.get<CreateSubCategoryUseCase>(),
+      getIt.get<FindByCategorySubCategoryUsecase>(),
+      getIt.get<CreateTicketUsecase>()),
 );
 
 final admissionsDetailsProvider =

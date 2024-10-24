@@ -69,4 +69,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
       {required CreateCommunicationLogRequest createCommunicationLogRequest});
+
+  Future<Either<NetworkError, CreateTicketModel>> createTicket(
+      {required CreateTicketRequest createTicketRequest});
 }

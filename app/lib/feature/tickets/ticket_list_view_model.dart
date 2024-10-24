@@ -10,9 +10,14 @@ import '../../utils/request_manager.dart';
 class TicketListViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final TicketListingUsecase _ticketListingUsecase;
-  TicketListViewModel(this.exceptionHandlerBinder, this._ticketListingUsecase) {
+  final SendCommunicationUsecase _sendCommunicationUsecase;
+  TicketListViewModel(this.exceptionHandlerBinder, this._ticketListingUsecase,
+      this._sendCommunicationUsecase) {
     getTicketStatus();
   }
+
+  TextEditingController closeCommentController = TextEditingController();
+  TextEditingController reopenCommentController = TextEditingController();
 
   late TabController tabController;
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
@@ -89,6 +94,53 @@ class TicketListViewModel extends BasePageViewModel {
         DateFormat('hh:mm a dd MMM yyyy').format(combinedDateTime);
 
     return formattedDate;
+  }
+
+  void isReopenedCliked(int index) {
+    List<DataValue> tempList = _getTicketStatusModel.value.data ?? [];
+    tempList[index].isReOpenedClicked = !tempList[index].isReOpenedClicked;
+    _getTicketStatusModel.add(Resource.success(data: tempList));
+  }
+
+  void isMarkAsClosedCliked(int index) {
+    List<DataValue> tempList = _getTicketStatusModel.value.data ?? [];
+    tempList[index].isMarkAsClosedCliked =
+        !tempList[index].isMarkAsClosedCliked;
+    _getTicketStatusModel.add(Resource.success(data: tempList));
+  }
+
+  final BehaviorSubject<Resource<SendCommunicationModel>>
+      _sendCommunicationModelSubject =
+      BehaviorSubject<Resource<SendCommunicationModel>>();
+
+  Stream<Resource<SendCommunicationModel>> get sendCommunicationModelStream =>
+      _sendCommunicationModelSubject.stream;
+
+  void sendCommunication(
+      String communocationId, String comment, String status) {
+    _sendCommunicationModelSubject.add(Resource.loading(data: null));
+    exceptionHandlerBinder.handle(block: () {
+      SendCommunicationUsecaseParams params = SendCommunicationUsecaseParams(
+          createCommunicationLogRequest: CreateCommunicationLogRequest(
+              comment: comment,
+              communicationId: communocationId,
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              status: status,
+              userId: "1"));
+      RequestManager<SendCommunicationModel>(
+        params,
+        createCall: () => _sendCommunicationUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {
+          _sendCommunicationModelSubject
+              .add(Resource.success(data: result.data));
+          getTicketStatus();
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
   }
 
   @override

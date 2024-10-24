@@ -40,7 +40,7 @@ export 'src/model/response/finance/get_store_image_model.dart';
 export 'src/model/response/finance/get_payment_status_model.dart';
 export 'src/model/response/admin/get_coupons_model.dart';
 
-//communication
+//Communication start
 export 'src/model/response/communication/communication_list_model.dart';
 export 'src/model/response/communication/msg_categorymodel.dart';
 export 'src/model/response/communication/msg_sub_category_model.dart';
@@ -48,10 +48,14 @@ export 'src/model/response/communication/create_communication_model.dart';
 export 'src/model/response/communication/find_by_category_sub_category_model.dart';
 export 'src/model/response/communication/create_communication_log_model.dart';
 export 'src/model/response/communication/send_communication_model.dart';
+export 'src/model/response/communication/create_ticket_model.dart';
 
 //request
 
 export 'src/model/request/communication/create_communication_log_model.dart';
+export 'src/model/request/communication/create_ticket_request.dart';
+
+// Communication end
 
 //utils
 export 'src/utils/validator.dart';

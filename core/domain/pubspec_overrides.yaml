@@ -1,6 +1,0 @@
-# melos_managed_dependency_overrides: dependency_injection,shared
-dependency_overrides:
-  dependency_injection:
-    path: ../../dependency-injection
-  shared:
-    path: ../shared

@@ -21,8 +21,10 @@ class ReviewTicketListPage extends StatelessWidget {
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
               return CommonTicketReviewContainer(
+                showTextField: list[index].isMarkAsClosedCliked,
+                index: index,
                 id: list[index].id ?? "",
-                communicationCount: list[index].communicationLogsCount,
+                communicationCount: list[index].communicationLogsCount ?? 0,
                 ticketNo: list[index].ticketNumber ?? '',
                 status: list[index].status,
                 time: list[index].formattedDateAndTime ?? '',

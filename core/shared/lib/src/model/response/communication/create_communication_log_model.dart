@@ -83,6 +83,8 @@ class CommunicationLogData {
   DateTime? updatedAt;
   int? v;
   String? user;
+  String? status;
+  int? rating;
 
   CommunicationLogData({
     this.id,
@@ -95,6 +97,8 @@ class CommunicationLogData {
     this.updatedAt,
     this.v,
     this.user,
+    this.rating,
+    this.status,
   });
 }
 

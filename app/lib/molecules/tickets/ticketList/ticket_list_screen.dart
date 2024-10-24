@@ -66,7 +66,7 @@ class TicketListScreen extends StatelessWidget {
                                 ? ReviewTicketListPage(
                                     list: listData?.data
                                             ?.where(
-                                              (e) => e.status == "pending",
+                                              (e) => e.status != "closed",
                                             )
                                             .toList() ??
                                         [],

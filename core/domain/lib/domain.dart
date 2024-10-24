@@ -39,3 +39,4 @@ export 'src/usecase/communication/create_new_communication.dart';
 export 'src/usecase/communication/create_sub_category_usecase.dart';
 export 'src/usecase/communication/find_by_category_sub_category_usecase.dart';
 export 'src/usecase/communication/send_communication_usecase.dart';
+export 'src/usecase/communication/create_ticket_usecase.dart';

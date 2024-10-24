@@ -49,6 +49,8 @@ class DataValue {
   String? dataValueId;
   String? formattedDateAndTime;
   int? communicationLogsCount;
+  bool isReOpenedClicked;
+  bool isMarkAsClosedCliked;
 
   DataValue(
       {this.id,
@@ -76,6 +78,8 @@ class DataValue {
       this.updatedAt,
       this.v,
       this.communicationMaster,
+      this.isReOpenedClicked = false,
+      this.isMarkAsClosedCliked = false,
       this.dataValueId,
       this.communicationLogsCount,
       this.formattedDateAndTime});

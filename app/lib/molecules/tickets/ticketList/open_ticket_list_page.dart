@@ -26,6 +26,7 @@ class OpenTicketListPage extends StatelessWidget {
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
               return CommonTicketContainer(
+                index: index,
                 id: list[index].id ?? '',
                 communicationCount: list[index].communicationLogsCount,
                 ticketNo: list[index].ticketNumber ?? '',

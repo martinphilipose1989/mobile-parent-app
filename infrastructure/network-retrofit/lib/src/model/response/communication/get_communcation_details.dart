@@ -192,18 +192,25 @@ class CommunicationLog
   int? v;
   @JsonKey(name: "user")
   String? user;
+  @JsonKey(name: "status")
+  String? status;
+  @JsonKey(name: "rating")
+  int? rating;
 
-  CommunicationLog(
-      {this.id,
-      this.communicationId,
-      this.comment,
-      this.attachmentDetails,
-      this.userId,
-      this.isDraft,
-      this.createdAt,
-      this.updatedAt,
-      this.v,
-      this.user});
+  CommunicationLog({
+    this.id,
+    this.communicationId,
+    this.comment,
+    this.attachmentDetails,
+    this.userId,
+    this.isDraft,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.user,
+    this.status,
+    this.rating,
+  });
 
   factory CommunicationLog.fromJson(Map<String, dynamic> json) =>
       _$CommunicationLogFromJson(json);
@@ -223,6 +230,8 @@ class CommunicationLog
         isDraft: isDraft,
         updatedAt: updatedAt,
         userId: userId,
+        rating: rating,
+        status: status,
         v: v);
   }
 }
