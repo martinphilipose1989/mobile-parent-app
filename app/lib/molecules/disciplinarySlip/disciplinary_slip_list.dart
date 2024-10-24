@@ -1,4 +1,5 @@
 import 'package:app/model/resource.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,36 +18,52 @@ class DisciplinarySlipList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: BaseWidget(
-          providerBase: disciplinarySlipProvider,
-          builder: (BuildContext context, DisplinaryDetailsViewModel? model, Widget? child) {
-
-
-            return
-
-              AppStreamBuilder<Resource<DisciplinaryListModel>>(
-              stream: model!.getDisciplinarySlipModel,
-              initialData: Resource.none(),
-              dataBuilder: (BuildContext context, Resource<DisciplinaryListModel>? data) {
-                return
-                  data?.status==Status.loading?const Center(child: CircularProgressIndicator(),):
-                  ListView.separated(
-                  itemBuilder: (BuildContext context, int index) {
-                    if(data.data!=null)
-                    return DisciplinarySlipListItem(date: data.data!.data.data[index].date.toString(), discription:data?.data!.data.data[index].description, id: data?.data!.data.data[index].disciplinarySlipId, color: data?.data!.data.data[index].disciplinarySlipDescription??"", slip: data?.data!.data.data[index].disciplinarySlip??"Warning Slip", action: data?.data!.data.data[index].disciplinaryAction??"" ,);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 16.h,
-                    );
-                  },
-                  itemCount: data!.data!.data.data.length,
-                );
-
-              },
-
-            );
+      providerBase: disciplinarySlipProvider,
+      builder: (BuildContext context, DisplinaryDetailsViewModel? model,
+          Widget? child) {
+        return AppStreamBuilder<Resource<DisciplinaryListModel>>(
+          stream: model!.getDisciplinarySlipModel,
+          initialData: Resource.none(),
+          dataBuilder:
+              (BuildContext context, Resource<DisciplinaryListModel>? data) {
+            return data?.status == Status.loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : data?.data?.data.data.isNotEmpty == true
+                    ? ListView.separated(
+                        itemBuilder: (BuildContext context, int index) {
+                          if (data.data != null) {
+                            return DisciplinarySlipListItem(
+                              date: data.data!.data.data[index].date.toString(),
+                              discription:
+                                  data?.data!.data.data[index].description,
+                              id: data
+                                  ?.data!.data.data[index].disciplinarySlipId,
+                              color: data?.data!.data.data[index]
+                                      .disciplinarySlipDescription ??
+                                  "",
+                              slip: data?.data!.data.data[index]
+                                      .disciplinarySlip ??
+                                  "Warning Slip",
+                              action: data?.data!.data.data[index]
+                                      .disciplinaryAction ??
+                                  "",
+                            );
+                          }
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 16.h,
+                          );
+                        },
+                        itemCount: data!.data!.data.data.length,
+                      )
+                    : const Center(
+                        child: CommonText(text: "No data Available"));
           },
-
-        ));
+        );
+      },
+    ));
   }
 }

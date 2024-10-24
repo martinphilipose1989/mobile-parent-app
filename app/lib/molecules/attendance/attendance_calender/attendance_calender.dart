@@ -36,7 +36,7 @@ class AttendanceCalender extends StatelessWidget {
             title: "vibgyor Schools|cbse",
             subtitle: "regular| shift| Grade V",
             subtitle2: "Stream|NA"),
-        SizedBox(height: 20, width: double.infinity),
+        const SizedBox(height: 20, width: double.infinity),
         BaseWidget(
           builder: (BuildContext context, AttendanceCalenderViewModel? model, Widget? child) {
          return   AppStreamBuilder<Resource<AttendanceCountResponseModel>>(
@@ -45,15 +45,15 @@ class AttendanceCalender extends StatelessWidget {
              return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left:5),
-                      child: const CommonText(
+                    const Padding(
+                      padding: EdgeInsets.only(left:5),
+                      child: CommonText(
                         text: "Attendance",
                         style: AppTypography.subtitle1,
                       ),
                     ),
-                    SizedBox(height: 20, width: double.infinity),
-                  snapshot?.status==Status.loading?CircularProgressIndicator():  Row(
+                    SizedBox(height: 20.h, width: double.infinity),
+                  snapshot?.status==Status.loading?const CircularProgressIndicator(): snapshot?.data?.data!=null? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AttendanceCountTile(
@@ -73,7 +73,7 @@ class AttendanceCalender extends StatelessWidget {
                           textColor: AppColors.failure,
                         )
                       ],
-                    ),
+                    ):CommonText(text: "No data Available"),
                     SizedBox(height: 10.h, width: double.infinity)
                   ],
                 );

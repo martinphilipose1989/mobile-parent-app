@@ -8,7 +8,8 @@ import '../../molecules/disciplinarySlip/disciplinary_details.dart';
 import '../../molecules/disciplinarySlip/disciplinary_slip_list.dart';
 import 'disciplinary_details_view_model.dart';
 
-class DisplinaryDetailsPageView extends BasePageViewWidget<DisplinaryDetailsViewModel> {
+class DisplinaryDetailsPageView
+    extends BasePageViewWidget<DisplinaryDetailsViewModel> {
   DisplinaryDetailsPageView(
     super.providerBase,
   );
@@ -18,16 +19,21 @@ class DisplinaryDetailsPageView extends BasePageViewWidget<DisplinaryDetailsView
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: BaseWidget(
-       builder:  (BuildContext context, DisplinaryDetailsViewModel? model, Widget? child){
-
-         return Column(
-    children: [
-    SizedBox(height: 10.h, ),
-    DisciplinaryDetails(name: model?.selectedStudent?.first.studentDisplayName??"",),
-    const DisciplinarySlipList()
-    ],
-    );
-    }, providerBase: disciplinarySlipProvider,
+        builder: (BuildContext context, DisplinaryDetailsViewModel? model,
+            Widget? child) {
+          return Column(
+            children: [
+              SizedBox(
+                height: 10.h,
+              ),
+              DisciplinaryDetails(
+                name: model?.selectedStudent?.first.studentDisplayName ?? "",
+              ),
+              const DisciplinarySlipList()
+            ],
+          );
+        },
+        providerBase: disciplinarySlipProvider,
       ),
     );
   }
