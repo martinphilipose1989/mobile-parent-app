@@ -53,7 +53,7 @@ class AttendanceCalender extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h, width: double.infinity),
-                  snapshot?.status==Status.loading?const CircularProgressIndicator(): snapshot?.data?.data!=null? Row(
+                  snapshot?.status==Status.loading?Center(child: const CircularProgressIndicator()): snapshot?.data?.data!=null? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AttendanceCountTile(
