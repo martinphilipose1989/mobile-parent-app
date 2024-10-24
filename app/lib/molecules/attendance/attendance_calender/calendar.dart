@@ -1,5 +1,8 @@
 import 'package:app/navigation/route_paths.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../../feature/attendance/attendance_list1/attendence_detail_page.dart';
 
 extension DateTimeExt on DateTime {
   DateTime get monthStart => DateTime(year, month);
@@ -35,6 +38,10 @@ class _CalendarState extends State<Calendar> {
     selectedMonth = DateTime.now().monthStart;
     super.initState();
   }
+String converter(DateTime date){
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+return formatter.format(date);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,7 @@ class _CalendarState extends State<Calendar> {
                   selectDate: (DateTime value) => setState(() {
                     selectedDate = value;
                     Navigator.pushNamed(
-                        context, RoutePaths.attendanceDetailspage);
+                        context, RoutePaths.attendanceDetailspage,arguments: AttendanceDetailPageParameter(studentId: ["1"],toDate: converter(selectedDate),fromDate: converter(selectedDate)));
                   }),
                 ),
               ),
@@ -176,7 +183,7 @@ class _RowItem extends StatelessWidget {
                       : Colors.transparent
                   : isActiveMonth
                       ? Colors.black
-                      : Colors.grey[300]),
+                      : Colors.white),
         ),
       ),
     );
@@ -205,7 +212,7 @@ class _Header extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Month: ${selectedMonth.month + 1}/${selectedMonth.year}',
+                  'Month: ${selectedMonth.month }/${selectedMonth.year}',
                   textAlign: TextAlign.left,
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:data/data.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'attendance_details_page_view.dart';
@@ -27,9 +28,13 @@ class _AttendanceDetailsPageState
     extends AppBasePageState<AttendanceDetailsViewModel, AttendanceDetailsPage> {
   @override
   void onModelReady(AttendanceDetailsViewModel model) {
+//widget.attendanceDetailPageParameter.studentId??
+//widget.attendanceDetailPageParameter.fromDate??DateTime.now()
+  //widget.attendanceDetailPageParameter.toDate??DateTime.now()
 
-
-    model.getAttendance(model: AttendanceDetailsRequestModel(studentId: widget.attendanceDetailPageParameter.studentId??["1"], attendanceStartDate: widget.attendanceDetailPageParameter.fromDate??DateTime.now(), attendanceEndDate: widget.attendanceDetailPageParameter.toDate??DateTime.now()));
+    model.getAttendance(model: AttendanceDetailsRequestModel(studentId: ["1"],
+        attendanceStartDate: widget.attendanceDetailPageParameter.fromDate.toString(),
+        attendanceEndDate:widget.attendanceDetailPageParameter.fromDate.toString() ));
 
 
   }
@@ -63,9 +68,29 @@ class _AttendanceDetailsPageState
   }
 }
 class AttendanceDetailPageParameter {
-List<String>? studentId;
-   DateTime? toDate;
-   DateTime? fromDate;
+  List<String>? studentId;
+String? toDate;
+ String? fromDate;
 
-   AttendanceDetailPageParameter(this.studentId, this.toDate, this.fromDate);
+
+  AttendanceDetailPageParameter(
+      { this.studentId, this.toDate, this.fromDate}); // toJson method
+  Map<String, dynamic> toJson() {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return {
+      'studentId': studentId,
+      'toDate': toDate ,
+      'fromDate': fromDate ,
+    };
+  }
+
+
+  // fromJson method
+  factory AttendanceDetailPageParameter.fromJson(Map<String, dynamic> json) {
+    return AttendanceDetailPageParameter(
+      studentId: (json['studentId'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      toDate: json['toDate'] ,
+      fromDate: json['fromDate'],
+    );
+  }
 }

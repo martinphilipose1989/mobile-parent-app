@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -6,7 +8,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' hide State;
 
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,13 +24,17 @@ import '../../utils/common_widgets/app_images.dart';
 class DisciplinarySlipListItem extends StatefulWidget {
   final String? date;
   final String? discription;
+  final String action;
   final int? id;
+  final String color;
+  final String slip;
+
 
   DisciplinarySlipListItem({
     super.key,
     required this.date,
     required this.discription,
-    required this.id,
+    required this.id, required this.color, required this.slip, required this.action,
   });
 
   @override
@@ -46,21 +52,21 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
         return InkWell(
           onTap: () {
             setState(() {
-              model?.showExpansion.value = !(model.showExpansion.value);
+              model.showExpansion.value = !(model.showExpansion.value);
             });
           },
           child: Container(
             //  height: 150,
             padding: EdgeInsets.zero,
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               boxShadow: [],
               border: Border(
                 left: BorderSide(
-                  color: AppColors.failure, // Change this to your desired color
+                  color: getColorFromJson(widget.color), // Change this to your desired color
                   width: 5.0, // Width of the colored border
                 ),
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(20.0),
               ),
             ),
@@ -121,13 +127,13 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                         ),
                         SvgPicture.asset(
                           AppImages.date,
-                          color: Colors.red,
+                          color: getColorFromJson(widget.color),
                         ),
                         SizedBox(
                           width: 5.h,
                         ),
                         CommonText(
-                          text: "Red",
+                          text: widget.slip,
                           style: AppTypography.caption.copyWith(
                             color: AppColors.titleNeutral5,
                           ),
@@ -148,7 +154,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: CommonText(
                               maxLines: 3,
@@ -171,23 +177,27 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                           DisplinaryDetailsViewModel? model, Widget? child) {
                         return AppStreamBuilder<bool>(
                           stream: model!.showExpansion,
-                          initialData: model!.showExpansion.value,
+                          initialData: model.showExpansion.value,
                           dataBuilder: (BuildContext context, bool? data) {
                             return Visibility(
-                              visible: model!.showExpansion.value,
+                              visible: model.showExpansion.value,
                               child: Column(
                                 children: [
-                                  Row(
+                                  Row(crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       CommonText(
                                         text: "Disciplinary Action : ",
                                         style: AppTypography.body2.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      CommonText(
-                                        text: "Visit School On 22 August",
-                                        style: AppTypography.body2.copyWith(
-                                            fontWeight: FontWeight.w400),
+                                      SizedBox(width:MediaQuery.of(context).size.width * 0.5 ,
+                                        child: CommonText(
+                                          text: widget.action,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTypography.body2.copyWith(
+                                              fontWeight: FontWeight.w400),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -212,7 +222,12 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                                                   Resource<
                                                           AcknowlegementResponseModel>?
                                                       data) {
-                                                return CommonElevatedButton(
+                                                return data?.data?.data.acknowledgementRole=="Parent"?
+
+                                                CommonElevatedButton(onPressed: (){}, text: "Acknowledge",
+                                                  backgroundColor: AppColors.disable,
+                                                  textColor: AppColors.textGray,):
+                                                CommonElevatedButton(
                                                   onPressed: () {
                                                     model.acknowledgeSlip(
                                                         model: AcknowlegementRequestModel(
@@ -270,3 +285,7 @@ String dateFormatToDDMMYYYhhmma(String time) {
     return '';
   }
 }
+Color getColorFromJson(String jsonString) {
+  Map<String, dynamic> parsedJson = json.decode(jsonString);
+  String colorCode = parsedJson['color_code'];
+  return Color(int.parse(colorCode.replaceFirst('#', '0xFF')));}

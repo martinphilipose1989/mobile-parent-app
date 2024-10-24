@@ -31,8 +31,8 @@ class DisciplinarySlipList extends StatelessWidget {
                   data?.status==Status.loading?const Center(child: CircularProgressIndicator(),):
                   ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
-                    if(data?.data!=null)
-                    return DisciplinarySlipListItem(date: data?.data!.data.data[index].date.toString(), discription:data?.data!.data.data[index].description, id: data?.data!.data.data[index].disciplinarySlipId ,);
+                    if(data.data!=null)
+                    return DisciplinarySlipListItem(date: data.data!.data.data[index].date.toString(), discription:data?.data!.data.data[index].description, id: data?.data!.data.data[index].disciplinarySlipId, color: data?.data!.data.data[index].disciplinarySlipDescription??"", slip: data?.data!.data.data[index].disciplinarySlip??"Warning Slip", action: data?.data!.data.data[index].disciplinaryAction??"" ,);
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(

@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../../feature/attendance/attendance_list1/attendance_details_view_model.dart';
@@ -50,20 +51,21 @@ class AttendanceList extends StatelessWidget {
     shrinkWrap: true,
 
     itemBuilder: (context,int index ){
-
-    return Container(padding: EdgeInsets.only(right: 70,left: 10,),child:Row(
+print( "-----------"+snapshot!.data!.data.data[index].attendanceDetails.toString());
+    return snapshot.status==Status.loading?CircularProgressIndicator():Container(padding: EdgeInsets.only(right: 70,left: 10,),child:Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
 
     CommonText(text: "period"),
-    CommonText(text: snapshot!.data!.data.data[index].attendanceDetails[index].attendanceRemark,
+
+    CommonText(text: snapshot!.data!.data.data[index].attendanceDetails?[index].attendanceRemark??"",
         style: AppTypography.caption.copyWith(color: AppColors.success))
     ],
     ));
     }, separatorBuilder: (BuildContext context, int index) {
       return SizedBox(height: 20,); }, itemCount: snapshot!.data!.data.data
         .map((attendanceData) => attendanceData.attendanceDetails)
-        .expand((details) => details)
+        .expand((details) => details??[])
         .length,),
     ),
     );

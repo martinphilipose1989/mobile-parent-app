@@ -47,6 +47,7 @@ class AppColors {
   static const Color yellow = Color(0xFFCCA000);
   static const Color closeTile = Color(0xFFF4F0EF);
   static const Color lightgrey = Color(0xFFF5F5F7);
+  static const Color disable = Color(0xFFEBEBEB);
 
 
   static const Color divider = Color(0xFFE0E0E0);

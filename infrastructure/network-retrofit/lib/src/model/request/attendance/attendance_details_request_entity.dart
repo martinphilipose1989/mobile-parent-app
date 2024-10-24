@@ -8,9 +8,9 @@ class AttendanceDetailsRequestEntity {
   @JsonKey(name: "student_id")
   List<String> studentId;
   @JsonKey(name: "attendance_start_date")
-  DateTime attendanceStartDate;
+  String attendanceStartDate;
   @JsonKey(name: "attendance_end_date")
-  DateTime attendanceEndDate;
+  String attendanceEndDate;
   @JsonKey(name: "pageSize")
   int? pageSize;
   @JsonKey(name: "page")

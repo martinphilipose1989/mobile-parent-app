@@ -1,7 +1,7 @@
 class AttendanceDetailsRequestModel {
   List<String> studentId;
-  DateTime attendanceStartDate;
-  DateTime attendanceEndDate;
+  String attendanceStartDate;
+String attendanceEndDate;
   int? pageSize;
   int? page;
 

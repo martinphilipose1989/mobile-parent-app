@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
-import 'package:network_retrofit/src/model/response/disciplinarySlip/co_reasons_list_response_entity.dart';
-import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
-import 'package:network_retrofit/src/model/response/disciplinarySlip/acknowledge_response_entity.dart';
-import 'package:network_retrofit/src/model/response/disciplinarySlip/disciplinary_list_response.dart';
+import '../model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import '../model/response/disciplinarySlip/co_reasons_list_response_entity.dart';
+import '../model/request/disciplinary_slip/disciplinary_list_request.dart';
+import '../model/response/disciplinarySlip/acknowledge_response_entity.dart';
+import '../model/response/disciplinarySlip/disciplinary_list_response.dart';
 import 'package:retrofit/retrofit.dart';
 part 'disciplinary_retrofit_services.g.dart';
 
@@ -24,7 +24,7 @@ abstract class DisciplinaryRetorfitService {
 
 
 
-  @POST('academics/warning/create-acknowledgement')
+  @POST('/academics/warning/create-acknowledgement')
   Future<HttpResponse<AcknowlegementResponseEntity>> postAcknowledge(
       @Body() AcknowlegementRequestEntity acknowledgeRequestEntity);
 

@@ -25,13 +25,15 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
      return   AppStreamBuilder<Resource<AttendanceDetailsResponseModel>>(
           stream: model!.getAttendanceDetail,
           dataBuilder: (context, snapshot) {
-            return Column(
+            return
+
+              snapshot?.data!.data.data.isNotEmpty==true?Column(
               children: [
                 CommonSizedBox.sizedBox(height: 20, width: 10),
-                AttendanceDetails(date: dateFormatToDDMMYYYhhmma(snapshot!.data!.data.data.first.attendanceDate as String)),
-                SizedBox(height:MediaQuery.of(context).size.height*0.6,child: const AttendanceList())
+                AttendanceDetails(date: dateFormatToDDMMYYYhhmma(snapshot!.data!.data.data.first.attendanceDate.toString())),
+                SizedBox(height:MediaQuery.of(context).size.height*0.6,child:  const AttendanceList())
               ],
-            );
+            ):const CircularProgressIndicator();
           }, initialData:Resource.none(),
         );
       }, providerBase: attendanceDetailsProvider,

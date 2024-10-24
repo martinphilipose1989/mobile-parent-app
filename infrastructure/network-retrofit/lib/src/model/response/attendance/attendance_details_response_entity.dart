@@ -66,43 +66,43 @@ return AttendanceResponseData(data: data.map((e)=>e.transform()).toList());
 @JsonSerializable()
 class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceDetailDataEntity,AttendanceDetailsData>{
   @JsonKey(name: "id")
-  int id;
+  int? id;
   @JsonKey(name: "academic_year_id")
-  int academicYearId;
+  int? academicYearId;
   @JsonKey(name: "school_id")
   int schoolId;
   @JsonKey(name: "brand_id")
-  int brandId;
+  int? brandId;
   @JsonKey(name: "board_id")
-  int boardId;
+  int? boardId;
   @JsonKey(name: "grade_id")
-  int gradeId;
+  int? gradeId;
   @JsonKey(name: "shift_id")
-  int shiftId;
+  int? shiftId;
   @JsonKey(name: "division_id")
-  int divisionId;
+  int? divisionId;
   @JsonKey(name: "attendance_date")
-  DateTime attendanceDate;
+  DateTime? attendanceDate;
   @JsonKey(name: "global_student_id")
-  int globalStudentId;
+  int? globalStudentId;
   @JsonKey(name: "attendance_details")
-  List<AttendanceDetailEntity> attendanceDetails;
+  List<AttendanceDetailEntity>? attendanceDetails;
   @JsonKey(name: "intimations_details")
-  List<IntimationsDetailEntity> intimationsDetails;
+  List<IntimationsDetailEntity>? intimationsDetails;
   @JsonKey(name: "board_name")
-  String boardName;
+  String? boardName;
   @JsonKey(name: "brand_name")
-  String brandName;
+  String? brandName;
   @JsonKey(name: "grade_name")
-  String gradeName;
+  String? gradeName;
   @JsonKey(name: "division_name")
-  String divisionName;
+  String? divisionName;
   @JsonKey(name: "shift_name")
-  String shiftName;
+  String? shiftName;
   @JsonKey(name: "school_name")
-  String schoolName;
+  String? schoolName;
   @JsonKey(name: "academic_year_name")
-  String academicYearName;
+  String? academicYearName;
 
   AttendanceDetailDataEntity({
     required this.id,
@@ -139,7 +139,7 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
   @override
   AttendanceDetailsData transform() {
 return AttendanceDetailsData(id: id, academicYearId: academicYearId, schoolId: schoolId, brandId: brandId, boardId: boardId, gradeId: gradeId, shiftId: shiftId, divisionId: divisionId, attendanceDate: attendanceDate, globalStudentId: globalStudentId,
-    attendanceDetails: attendanceDetails.map((e)=>e.transform()).toList(), intimationsDetails: intimationsDetails.map((e)=>e.transform()).toList(), boardName: boardName, brandName: brandName, gradeName: gradeName, divisionName: divisionName, shiftName: shiftName, schoolName: schoolName, academicYearName: academicYearName);
+    attendanceDetails: attendanceDetails?.map((e)=>e.transform()).toList(), intimationsDetails: intimationsDetails?.map((e)=>e.transform()).toList(), boardName: boardName, brandName: brandName, gradeName: gradeName, divisionName: divisionName, shiftName: shiftName, schoolName: schoolName, academicYearName: academicYearName);
   }
 }
 
@@ -152,29 +152,29 @@ class AttendanceDetailEntity implements BaseLayerDataTransformer<AttendanceDetai
   @JsonKey(name: "attendance_id")
   int attendanceId;
   @JsonKey(name: "attendance_type")
-  int attendanceType;
+  int? attendanceType;
   @JsonKey(name: "subject_id")
-  int subjectId;
+  int? subjectId;
   @JsonKey(name: "timetable_id")
-  int timetableId;
+  int? timetableId;
   @JsonKey(name: "global_student_id")
-  int globalStudentId;
+  int? globalStudentId;
   @JsonKey(name: "attendance_remark")
-  String attendanceRemark;
+  String? attendanceRemark;
   @JsonKey(name: "start_time")
-  String startTime;
+  String? startTime;
   @JsonKey(name: "end_time")
-  String endTime;
+  String? endTime;
   @JsonKey(name: "subject_name")
-  String subjectName;
+  String? subjectName;
   @JsonKey(name: "first_name")
-  String firstName;
+  String? firstName;
   @JsonKey(name: "middle_name")
-  String middleName;
+  String? middleName;
   @JsonKey(name: "last_name")
-  String lastName;
+  String? lastName;
   @JsonKey(name: "enr_on")
-  String enrOn;
+  String? enrOn;
 
   AttendanceDetailEntity({
     required this.id,
