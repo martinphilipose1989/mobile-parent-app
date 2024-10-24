@@ -20,7 +20,7 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
 
   Stream<Resource<AttendanceCountResponseModel>> get   getAttendancelist =>
       _getAttendancelist;
-
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
 
   void getAttendanceList(
       {required AttendanceCountRequestModel model}

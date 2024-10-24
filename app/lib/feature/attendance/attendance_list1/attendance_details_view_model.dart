@@ -23,6 +23,7 @@ class AttendanceDetailsViewModel extends BasePageViewModel {
   Stream<Resource<AttendanceDetailsResponseModel>> get getAttendanceDetail =>
       _getAttendanceDetail;
 
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
 
   void getAttendance(
       {required AttendanceDetailsRequestModel model}

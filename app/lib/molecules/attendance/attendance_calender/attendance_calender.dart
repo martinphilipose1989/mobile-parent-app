@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/attendance/attendance_calender/attendance_calender_view_model.dart';
 import 'package:app/model/resource.dart';
@@ -15,8 +17,13 @@ import '../attandance_details/student_details.dart';
 import 'attendance_count.dart';
 
 class AttendanceCalender extends StatelessWidget {
-  const AttendanceCalender({
-    super.key,
+ String? name;
+ String? schoolName;
+  String? boardName;
+ String? grade;
+ String? shift;
+ AttendanceCalender({
+    super.key, this.name, this.schoolName,  this.boardName, this.grade,  this.shift,
   });
 
   @override
@@ -25,9 +32,9 @@ class AttendanceCalender extends StatelessWidget {
       children: [
         StudentDetails(
             image: AppImages.personIcon,
-            name: "Khevna Shah",
-            title: "Vibgyor Schools|CBSE",
-            subtitle: "Regular| Shift| Grade V",
+            name: name??"",
+            title: "vibgyor Schools|cbse",
+            subtitle: "regular| shift| Grade V",
             subtitle2: "Stream|NA"),
         SizedBox(height: 20, width: double.infinity),
         BaseWidget(

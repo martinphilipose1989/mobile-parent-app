@@ -10,17 +10,17 @@ import '../../../utils/common_widgets/common_sizedbox.dart';
 class StudentDetails extends StatelessWidget {
   final String image;
   final String name;
-  final String title;
-  final String subtitle;
-  final String subtitle2;
+  final String? title;
+ final String? subtitle;
+ final String? subtitle2;
 
-  const StudentDetails(
+ StudentDetails(
       {super.key,
       required this.image,
       required this.name,
-      required this.title,
-      required this.subtitle,
-      required this.subtitle2});
+ this.title,
+ this.subtitle,
+this.subtitle2});
 
   @override
   Widget build(BuildContext context) {
@@ -66,17 +66,17 @@ class StudentDetails extends StatelessWidget {
                   ),
                 ),
                 CommonText(
-                    text: title,
+                    text: title??"",
                     style: AppTypography.smallCaption.copyWith(
                         color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
-                    text: subtitle,
+                    text: subtitle??"",
                     style: AppTypography.smallCaption.copyWith(
                         color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
-                    text: subtitle2,
+                    text: subtitle??"",
                     style: AppTypography.smallCaption.copyWith(
                         color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),

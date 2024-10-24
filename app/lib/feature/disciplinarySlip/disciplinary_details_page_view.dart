@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,12 +17,17 @@ class DisplinaryDetailsPageView extends BasePageViewWidget<DisplinaryDetailsView
   Widget build(BuildContext context, DisplinaryDetailsViewModel model) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-      child: Column(
-        children: [
-          SizedBox(height: 10.h, ),
-          const DisciplinaryDetails(),
-          const DisciplinarySlipList()
-        ],
+      child: BaseWidget(
+       builder:  (BuildContext context, DisplinaryDetailsViewModel? model, Widget? child){
+
+         return Column(
+    children: [
+    SizedBox(height: 10.h, ),
+    DisciplinaryDetails(name: model?.selectedStudent?.first.studentDisplayName??"",),
+    const DisciplinarySlipList()
+    ],
+    );
+    }, providerBase: disciplinarySlipProvider,
       ),
     );
   }

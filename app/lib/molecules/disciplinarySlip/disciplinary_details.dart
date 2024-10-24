@@ -20,17 +20,19 @@ import '../../utils/common_widgets/common_elevated_button.dart';
 import '../../utils/stream_builder/app_stream_builder.dart';
 
 class DisciplinaryDetails extends StatelessWidget {
-  const DisciplinaryDetails({super.key});
+  final String name;
+
+DisciplinaryDetails({super.key, required this.name });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const StudentDetails(
+        StudentDetails(
             image: AppImages.personIcon,
-            name: "Khevna Shah",
-            title: "Vibgyor Schools|CBSE",
-            subtitle: "Regular| Shift| Grade V",
+            name: name,
+            title: "vibgyor Schools|cbse",
+            subtitle: "regular| shift| Grade V",
             subtitle2: "Stream|NA"),
         SizedBox(
           height: 20.h,

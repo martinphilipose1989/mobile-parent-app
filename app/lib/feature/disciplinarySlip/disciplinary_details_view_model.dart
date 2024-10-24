@@ -34,7 +34,7 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
   Stream<Resource<AcknowlegementResponseModel>> get  acknowledgeSlipModel  =>
       _acknowledgeSlipModel.stream;
 
-
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
   final BehaviorSubject<Resource<CoReasonsListResponseModel>>
   _coReasonsListModel =
   BehaviorSubject<Resource<CoReasonsListResponseModel>>();

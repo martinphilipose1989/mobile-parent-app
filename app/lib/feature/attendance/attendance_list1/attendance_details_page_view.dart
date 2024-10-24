@@ -30,7 +30,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
               snapshot?.data!.data.data.isNotEmpty==true?Column(
               children: [
                 CommonSizedBox.sizedBox(height: 20, width: 10),
-                AttendanceDetails(date: dateFormatToDDMMYYYhhmma(snapshot!.data!.data.data.first.attendanceDate.toString())),
+                AttendanceDetails(date: dateFormatToDDMMYYYhhmma(snapshot!.data!.data.data.first.attendanceDate.toString()), name: model.selectedStudent?.first.studentDisplayName??"",),
                 SizedBox(height:MediaQuery.of(context).size.height*0.6,child:  const AttendanceList())
               ],
             ):const CircularProgressIndicator();

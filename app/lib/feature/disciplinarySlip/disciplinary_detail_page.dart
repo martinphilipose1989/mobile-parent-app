@@ -21,8 +21,12 @@ class _DisplinaryDetailsPageState
     extends AppBasePageState<DisplinaryDetailsViewModel, DisplinaryDetailsPage> {
   @override
   void onModelReady(DisplinaryDetailsViewModel model) {
-    model.getSlipList(studentId: 1, );
+
     model.getCoReasonList();
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    model.getSlipList(studentId: model.selectedStudent?.first.id??0, );
   }
 
   @override

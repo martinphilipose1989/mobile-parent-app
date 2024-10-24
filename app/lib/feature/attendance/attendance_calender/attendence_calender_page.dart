@@ -24,7 +24,10 @@ class _AttendanceCalenderPageState
     extends AppBasePageState<AttendanceCalenderViewModel, AttendanceCalenderPage> {
   @override
   void onModelReady(AttendanceCalenderViewModel model) {
-model.getAttendanceList(model: AttendanceCountRequestModel(studentId: 1, attendanceDate: "2024-10", academicYearId: 25,));
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+model.getAttendanceList(model: AttendanceCountRequestModel(studentId: model.selectedStudent?.first.id??0, attendanceDate: "2024-10", academicYearId: 25,));
 
 
   }

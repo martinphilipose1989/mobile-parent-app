@@ -9,19 +9,20 @@ import '../../../utils/common_widgets/app_images.dart';
 
 class AttendanceDetails extends StatelessWidget {
   final String date;
-  const AttendanceDetails({super.key, required this.date});
+final String name;
+  const AttendanceDetails({super.key, required this.date, required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const StudentDetails(
+     StudentDetails(
             image: AppImages.personIcon,
-            name: "Khevna Shah",
+            name: name,
             title: "vibgyor Schools|cbse",
             subtitle: "regular| shift| Grade V",
             subtitle2: "Stream|NA"),
-        SizedBox(height: 20, width: double.infinity),
+        const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(

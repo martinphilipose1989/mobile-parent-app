@@ -31,8 +31,10 @@ class _AttendanceDetailsPageState
 //widget.attendanceDetailPageParameter.studentId??
 //widget.attendanceDetailPageParameter.fromDate??DateTime.now()
   //widget.attendanceDetailPageParameter.toDate??DateTime.now()
-
-    model.getAttendance(model: AttendanceDetailsRequestModel(studentId: ["1"],
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    model.getAttendance(model: AttendanceDetailsRequestModel(studentId: [model.selectedStudent?.first.id.toString()??""],
         attendanceStartDate: widget.attendanceDetailPageParameter.fromDate.toString(),
         attendanceEndDate:widget.attendanceDetailPageParameter.fromDate.toString() ));
 
