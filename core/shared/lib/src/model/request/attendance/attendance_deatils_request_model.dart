@@ -1,12 +1,16 @@
 class AttendanceDetailsRequestModel {
-  List<int> studentId;
-  int pageSize;
-  int page;
+  List<String> studentId;
+  DateTime attendanceStartDate;
+  DateTime attendanceEndDate;
+  int? pageSize;
+  int? page;
 
   AttendanceDetailsRequestModel({
     required this.studentId,
-    required this.pageSize,
-    required this.page,
+    required this.attendanceStartDate,
+    required this.attendanceEndDate,
+this.pageSize,
+ this.page,
   });
 
 }

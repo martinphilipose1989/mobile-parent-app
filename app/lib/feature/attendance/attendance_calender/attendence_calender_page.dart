@@ -25,6 +25,8 @@ class _AttendanceCalenderPageState
   @override
   void onModelReady(AttendanceCalenderViewModel model) {
 model.getAttendanceList(model: AttendanceCountRequestModel(studentId: 1, attendanceDate: "2024-10", academicYearId: 25,));
+
+
   }
 
   @override

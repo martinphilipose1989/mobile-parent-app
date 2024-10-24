@@ -84,7 +84,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                           width: 5.h,
                         ),
                         CommonText(
-                          text: "Slip 0${widget.id}",
+                          text: "Slip ${widget.id}",
                           style: AppTypography.caption
                               .copyWith(color: AppColors.titleNeutral5),
                         ),

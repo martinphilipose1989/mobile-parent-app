@@ -81,7 +81,7 @@ final admissionsProvider =
 
 final attendanceDetailsProvider =
 ChangeNotifierProvider.autoDispose<AttendanceDetailsViewModel>(
-      (ref) => AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+      (ref) => AttendanceDetailsViewModel(getIt.get<FlutterExceptionHandlerBinder>(),getIt.get<AttendanceDetailUsecase>()),
 );
 
 

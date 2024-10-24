@@ -381,7 +381,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, AttendanceDetailsResponseModel>> getAttendancedetail({required AttendanceDetailsRequestModel attendanceRequestModel})async {
   //  var response = await safeApiCall(attendanceRetorfitService.getattendanceCount(AttendanceCountRequestEntity(studentId: attendanceRequestModel.studentId, attendanceDate: attendanceRequestModel.attendanceDate, academicYearId:attendanceRequestModel. academicYearId, pageSize: attendanceRequestModel.pageSize, page: attendanceRequestModel.page)));
 
- var response=await safeApiCall(attendanceRetorfitService.getattendanceDetail(AttendanceDetailsRequestEntity(studentId: [1], pageSize: 1000, page: 1)));
+ var response=await safeApiCall(attendanceRetorfitService.getattendanceDetail(AttendanceDetailsRequestEntity(studentId: attendanceRequestModel.studentId,  attendanceStartDate: attendanceRequestModel.attendanceEndDate, attendanceEndDate: attendanceRequestModel.attendanceStartDate)));
     return response.fold(
           (l) {
         return Left(l);

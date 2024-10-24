@@ -21,7 +21,7 @@ class AttendanceDetailUsecaseParams extends Params {
   AttendanceDetailsRequestModel attendanceDetailsRequestModel;
 
 
-  AttendanceDetailUsecaseParams(this.attendanceDetailsRequestModel);
+  AttendanceDetailUsecaseParams( this.attendanceDetailsRequestModel);
 
   @override
   Either<AppError, bool> verify() {

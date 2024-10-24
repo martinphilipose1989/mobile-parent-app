@@ -46,3 +46,4 @@ export 'src/usecase/disciplinarySlip/create_acknowledgement_usecase.dart';
 
 //attendance
 export 'src/usecase/attendance/attendance_count_usecase.dart';
+export 'src/usecase/attendance/attendanceDetailsUsecase.dart';

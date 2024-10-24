@@ -6,16 +6,22 @@ part 'attendance_details_request_entity.g.dart';
 @JsonSerializable()
 class AttendanceDetailsRequestEntity {
   @JsonKey(name: "student_id")
-  List<int> studentId;
+  List<String> studentId;
+  @JsonKey(name: "attendance_start_date")
+  DateTime attendanceStartDate;
+  @JsonKey(name: "attendance_end_date")
+  DateTime attendanceEndDate;
   @JsonKey(name: "pageSize")
-  int pageSize;
+  int? pageSize;
   @JsonKey(name: "page")
-  int page;
+  int? page;
 
   AttendanceDetailsRequestEntity({
     required this.studentId,
-    required this.pageSize,
-    required this.page,
+    required this.attendanceStartDate,
+    required this.attendanceEndDate,
+ this.pageSize,
+     this.page,
   });
 
   factory AttendanceDetailsRequestEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailsRequestEntityFromJson(json);

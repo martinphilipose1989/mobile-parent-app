@@ -1,8 +1,10 @@
+import 'dart:ffi';
+
 import 'package:app/base/app_base_page.dart';
-import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/admissions/admissions_page_view.dart';
-import 'package:app/feature/admissions/admissions_view_model.dart';
+import 'package:app/di/states/viewmodels.dart' ;
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:data/data.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -12,7 +14,10 @@ import 'attendance_details_page_view.dart';
 import 'attendance_details_view_model.dart';
 
 class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
-  const AttendanceDetailsPage({super.key});
+AttendanceDetailPageParameter attendanceDetailPageParameter;
+
+
+AttendanceDetailsPage({required this.attendanceDetailPageParameter});
 
   @override
   State<AttendanceDetailsPage> createState() => _AttendanceDetailsPageState();
@@ -21,7 +26,13 @@ class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
 class _AttendanceDetailsPageState
     extends AppBasePageState<AttendanceDetailsViewModel, AttendanceDetailsPage> {
   @override
-  void onModelReady(AttendanceDetailsViewModel model) {}
+  void onModelReady(AttendanceDetailsViewModel model) {
+
+
+    model.getAttendance(model: AttendanceDetailsRequestModel(studentId: widget.attendanceDetailPageParameter.studentId??["1"], attendanceStartDate: widget.attendanceDetailPageParameter.fromDate??DateTime.now(), attendanceEndDate: widget.attendanceDetailPageParameter.toDate??DateTime.now()));
+
+
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceDetailsViewModel model) {
@@ -50,4 +61,11 @@ class _AttendanceDetailsPageState
   ProviderBase<AttendanceDetailsViewModel> provideBase() {
     return attendanceDetailsProvider;
   }
+}
+class AttendanceDetailPageParameter {
+List<String>? studentId;
+   DateTime? toDate;
+   DateTime? fromDate;
+
+   AttendanceDetailPageParameter(this.studentId, this.toDate, this.fromDate);
 }
