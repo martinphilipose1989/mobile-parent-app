@@ -108,7 +108,12 @@ final ticketListProvider =
 
 final createTicketProvider =
     ChangeNotifierProvider.autoDispose<CreateTicketViewModel>(
-  (ref) => CreateTicketViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+  (ref) => CreateTicketViewModel(
+    getIt.get<FlutterExceptionHandlerBinder>(),
+    getIt.get<CreateCategoryUseCase>(),
+    getIt.get<CreateSubCategoryUseCase>(),
+    getIt.get<FindByCategorySubCategoryUsecase>(),
+  ),
 );
 
 final admissionsDetailsProvider =

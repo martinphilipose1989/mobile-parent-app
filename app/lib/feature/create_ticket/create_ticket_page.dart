@@ -18,6 +18,8 @@ class _CreateTicketPageState
     extends AppBasePageState<CreateTicketViewModel, CreateTicketPage>  with TickerProviderStateMixin{
   @override
   void onModelReady(CreateTicketViewModel model) {
+    model.getCategories();
+    model.getSubCategories();
   }
 
   @override
