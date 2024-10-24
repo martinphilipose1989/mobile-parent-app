@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:network_retrofit/src/model/response/admin/get_couponse_list/get_coupons_response_entity.dart';
+import '../model/response/admin/get_couponse_list/get_coupons_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'admin_retorfit_service.g.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
+import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
