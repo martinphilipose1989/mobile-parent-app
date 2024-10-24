@@ -1,71 +1,39 @@
 import 'package:data/data.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
-part 'communication_entity.g.dart';
+part 'get_communcation_details.g.dart';
 
 @JsonSerializable()
-class CommunicationEntity extends BaseLayerDataTransformer<CommunicationEntity,
-    CommunicationListModel> {
+class GetCommunicationEntity extends BaseLayerDataTransformer<
+    GetCommunicationEntity, GetCommunicationDetails> {
   @JsonKey(name: "status")
   int? status;
   @JsonKey(name: "data")
-  CommunicationEntityData? data;
+  Data? data;
   @JsonKey(name: "message")
   String? message;
 
-  CommunicationEntity({
+  GetCommunicationEntity({
     this.status,
     this.data,
     this.message,
   });
 
-  factory CommunicationEntity.fromJson(Map<String, dynamic> json) =>
-      _$CommunicationEntityFromJson(json);
+  factory GetCommunicationEntity.fromJson(Map<String, dynamic> json) =>
+      _$GetCommunicationEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CommunicationEntityToJson(this);
+  Map<String, dynamic> toJson() => _$GetCommunicationEntityToJson(this);
 
   @override
-  CommunicationListModel transform() {
+  GetCommunicationDetails transform() {
     // TODO: implement transform
-    return CommunicationListModel(
+    return GetCommunicationDetails(
         message: message, status: status, data: data?.transform());
   }
 }
 
 @JsonSerializable()
-class CommunicationEntityData extends BaseLayerDataTransformer<
-    CommunicationEntityData, CommunicationListData> {
-  @JsonKey(name: "data")
-  List<CommunicationEntityDatum>? data;
-  @JsonKey(name: "meta")
-  CommunicationEntityMeta? meta;
-
-  CommunicationEntityData({
-    this.data,
-    this.meta,
-  });
-
-  factory CommunicationEntityData.fromJson(Map<String, dynamic> json) =>
-      _$CommunicationEntityDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CommunicationEntityDataToJson(this);
-
-  @override
-  CommunicationListData transform() {
-    // TODO: implement transform
-    return CommunicationListData(
-        meta: meta?.transform(),
-        data: data
-            ?.map(
-              (e) => e.transform(),
-            )
-            .toList());
-  }
-}
-
-@JsonSerializable()
-class CommunicationEntityDatum
-    extends BaseLayerDataTransformer<CommunicationEntityDatum, DataValue> {
+class Data extends BaseLayerDataTransformer<Data, GetCommunicationDetailsData> {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "communication_master_id")
@@ -107,62 +75,69 @@ class CommunicationEntityDatum
   @JsonKey(name: "to_type")
   String? toType;
   @JsonKey(name: "created_at")
-  DateTime? datumCreatedAt;
+  DateTime? dataCreatedAt;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
   DateTime? updatedAt;
   @JsonKey(name: "__v")
   int? v;
+  @JsonKey(name: "communication_logs")
+  List<CommunicationLog>? communicationLogs;
   @JsonKey(name: "communication_master")
   List<CommunicationMaster>? communicationMaster;
-  @JsonKey(name: "communication_logs_count")
-  int? communicationLogsCount;
   @JsonKey(name: "id")
-  String? datumId;
+  String? dataId;
+  @JsonKey(name: "priority")
+  String? priority;
 
-  CommunicationEntityDatum(
-      {this.id,
-      this.communicationMasterId,
-      this.parentId,
-      this.communication,
-      this.assignTo,
-      this.reviewerId,
-      this.date,
-      this.time,
-      this.priorityId,
-      this.tat,
-      this.status,
-      this.isPublished,
-      this.createdBy,
-      this.ticketNumber,
-      this.ticketTitle,
-      this.attachment,
-      this.lobs,
-      this.modeIds,
-      this.isResponseRequired,
-      this.toType,
-      this.datumCreatedAt,
-      this.createdAt,
-      this.updatedAt,
-      this.v,
-      this.communicationMaster,
-      this.datumId,
-      this.communicationLogsCount});
+  Data({
+    this.id,
+    this.communicationMasterId,
+    this.parentId,
+    this.communication,
+    this.assignTo,
+    this.reviewerId,
+    this.date,
+    this.time,
+    this.priorityId,
+    this.tat,
+    this.status,
+    this.isPublished,
+    this.createdBy,
+    this.ticketNumber,
+    this.ticketTitle,
+    this.attachment,
+    this.lobs,
+    this.modeIds,
+    this.isResponseRequired,
+    this.toType,
+    this.dataCreatedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.communicationLogs,
+    this.communicationMaster,
+    this.dataId,
+    this.priority,
+  });
 
-  factory CommunicationEntityDatum.fromJson(Map<String, dynamic> json) =>
-      _$CommunicationEntityDatumFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CommunicationEntityDatumToJson(this);
+  Map<String, dynamic> toJson() => _$DataToJson(this);
 
   @override
-  DataValue transform() {
+  GetCommunicationDetailsData transform() {
     // TODO: implement transform
-    return DataValue(
-        communicationLogsCount: communicationLogsCount,
+    return GetCommunicationDetailsData(
         assignTo: assignTo,
         attachment: attachment,
         communication: communication,
+        communicationLogs: communicationLogs
+            ?.map(
+              (e) => e.transform(),
+            )
+            .toList(),
         communicationMaster: communicationMaster
             ?.map(
               (e) => e.transform(),
@@ -171,7 +146,8 @@ class CommunicationEntityDatum
         communicationMasterId: communicationMasterId,
         createdAt: createdAt,
         createdBy: createdBy,
-        dataValueCreatedAt: datumCreatedAt,
+        dataCreatedAt: dataCreatedAt,
+        dataId: dataId,
         date: date,
         id: id,
         isPublished: isPublished,
@@ -188,13 +164,72 @@ class CommunicationEntityDatum
         time: time,
         toType: toType,
         updatedAt: updatedAt,
+        priority: priority,
+        v: v);
+  }
+}
+
+@JsonSerializable()
+class CommunicationLog
+    extends BaseLayerDataTransformer<CommunicationLog, CommunicationLogData> {
+  @JsonKey(name: "_id")
+  String? id;
+  @JsonKey(name: "communication_id")
+  String? communicationId;
+  @JsonKey(name: "comment")
+  String? comment;
+  @JsonKey(name: "attachment_details")
+  String? attachmentDetails;
+  @JsonKey(name: "user_id")
+  String? userId;
+  @JsonKey(name: "is_draft")
+  bool? isDraft;
+  @JsonKey(name: "createdAt")
+  DateTime? createdAt;
+  @JsonKey(name: "updatedAt")
+  DateTime? updatedAt;
+  @JsonKey(name: "__v")
+  int? v;
+  @JsonKey(name: "user")
+  String? user;
+
+  CommunicationLog(
+      {this.id,
+      this.communicationId,
+      this.comment,
+      this.attachmentDetails,
+      this.userId,
+      this.isDraft,
+      this.createdAt,
+      this.updatedAt,
+      this.v,
+      this.user});
+
+  factory CommunicationLog.fromJson(Map<String, dynamic> json) =>
+      _$CommunicationLogFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommunicationLogToJson(this);
+
+  @override
+  CommunicationLogData transform() {
+    // TODO: implement transform
+    return CommunicationLogData(
+        user: user,
+        attachmentDetails: attachmentDetails,
+        comment: comment,
+        communicationId: communicationId,
+        createdAt: createdAt,
+        id: id,
+        isDraft: isDraft,
+        updatedAt: updatedAt,
+        userId: userId,
         v: v);
   }
 }
 
 @JsonSerializable()
 class CommunicationMaster extends BaseLayerDataTransformer<CommunicationMaster,
-    CommunicationMasterModel> {
+    CommunicationMasterData> {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "slug")
@@ -247,6 +282,10 @@ class CommunicationMaster extends BaseLayerDataTransformer<CommunicationMaster,
   int? v;
   @JsonKey(name: "id")
   String? communicationMasterId;
+  @JsonKey(name: "category")
+  String? category;
+  @JsonKey(name: "sub_category")
+  String? subCategory;
 
   CommunicationMaster({
     this.id,
@@ -275,16 +314,21 @@ class CommunicationMaster extends BaseLayerDataTransformer<CommunicationMaster,
     this.updatedAt,
     this.v,
     this.communicationMasterId,
+    this.category,
+    this.subCategory,
   });
 
   factory CommunicationMaster.fromJson(Map<String, dynamic> json) =>
       _$CommunicationMasterFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommunicationMasterToJson(this);
+
   @override
-  CommunicationMasterModel transform() {
+  CommunicationMasterData transform() {
     // TODO: implement transform
-    return CommunicationMasterModel(
+    return CommunicationMasterData(
+        category: category,
+        subCategory: subCategory,
         categoryId: categoryId,
         communicationMasterId: communicationMasterId,
         createdAt: createdAt,
@@ -292,17 +336,17 @@ class CommunicationMaster extends BaseLayerDataTransformer<CommunicationMaster,
         fromType: fromType,
         groupId: groupId,
         hris: hris,
+        id: id,
         isDraft: isDraft,
         navigationInstruction: navigationInstruction,
-        priorityId: priorityId,
         navigationLink: navigationLink,
+        priorityId: priorityId,
         response: response,
         reviewerHris: reviewerHris,
         slug: slug,
         subCategoryId: subCategoryId,
         subSubTypeId: subSubTypeId,
         subTypeId: subTypeId,
-        id: id,
         subject: subject,
         tatType: tatType,
         tatValue: tatValue,
@@ -311,59 +355,5 @@ class CommunicationMaster extends BaseLayerDataTransformer<CommunicationMaster,
         updatedAt: updatedAt,
         v: v,
         workflowId: workflowId);
-  }
-}
-
-@JsonSerializable()
-class CommunicationEntityMeta
-    extends BaseLayerDataTransformer<CommunicationEntityMeta, Extra> {
-  @JsonKey(name: "pagination")
-  PaginationEntity? pagination;
-
-  CommunicationEntityMeta({
-    this.pagination,
-  });
-
-  factory CommunicationEntityMeta.fromJson(Map<String, dynamic> json) =>
-      _$CommunicationEntityMetaFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CommunicationEntityMetaToJson(this);
-
-  @override
-  Extra transform() {
-    // TODO: implement transform
-    return Extra(pagination: pagination?.transform());
-  }
-}
-
-@JsonSerializable()
-class PaginationEntity
-    extends BaseLayerDataTransformer<PaginationEntity, Pagination> {
-  @JsonKey(name: "page")
-  int? page;
-  @JsonKey(name: "pageSize")
-  int? pageSize;
-  @JsonKey(name: "pageCount")
-  int? pageCount;
-  @JsonKey(name: "total")
-  int? total;
-
-  PaginationEntity({
-    this.page,
-    this.pageSize,
-    this.pageCount,
-    this.total,
-  });
-
-  factory PaginationEntity.fromJson(Map<String, dynamic> json) =>
-      _$PaginationEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PaginationEntityToJson(this);
-
-  @override
-  Pagination transform() {
-    // TODO: implement transform
-    return Pagination(
-        page: page, pageCount: pageCount, pageSize: pageSize, total: total);
   }
 }

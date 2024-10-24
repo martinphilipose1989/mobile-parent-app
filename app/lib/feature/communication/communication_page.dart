@@ -4,16 +4,16 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/communication/communication_page_view.dart';
 import 'package:app/feature/communication/communication_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
-import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
 import '../../base/app_base_page.dart';
 
 class CommunicationPage extends BasePage<CommunicationPageModel> {
+  final String id;
   const CommunicationPage({
     super.key,
+    required this.id,
   });
 
   @override
@@ -30,6 +30,8 @@ class CommunicationPageState
   @override
   void onModelReady(CommunicationPageModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.chatId = widget.id;
+    model.getCommunicationDetails(widget.id);
   }
 
   @override

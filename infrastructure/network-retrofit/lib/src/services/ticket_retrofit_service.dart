@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
+import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/response/communication/create_commincation_entity.dart';
-import 'package:network_retrofit/src/model/response/communication/create_communication_log_entity.dart';
+import 'package:network_retrofit/src/model/response/communication/get_communcation_details.dart';
 import 'package:network_retrofit/src/model/response/communication/find_by_category_sub_category_entity.dart';
+import 'package:network_retrofit/src/model/response/communication/send_communication_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:network_retrofit/src/model/response/communication/communication_entity.dart';
 
@@ -21,7 +23,7 @@ abstract class TicketRetrofitService {
 
   @POST('communication/list')
   Future<HttpResponse<CommunicationEntity>> getTicketsList(
-      {required int pageSize, required int page});
+      {@Body() required GetTicketListRequest getTicketListRequest});
 
   @POST('communication')
   Future<HttpResponse<CreateCommunicationEntity>> createCommunication();
@@ -29,11 +31,17 @@ abstract class TicketRetrofitService {
   @POST('communication-master/find-by-category-subcategory')
   Future<HttpResponse<FindByCategorySubCategoryEntity>>
       findByCategorySubCategory(
-          {required FindByCategorySubCategoryRequest
+          {@Body()
+          required FindByCategorySubCategoryRequest
               findByCategorySubCategoryRequest});
 
+  @GET('communication/detalis/{communocationId}')
+  Future<HttpResponse<GetCommunicationEntity>> createCommunicationLog(
+      {@Path() required String communocationId});
+
   @POST('communication-log')
-  Future<HttpResponse<CreateCommunicationLogEntity>> createCommunicationLog(
-      {required CreateCommunicationLogRequestEntity
-          createCommunicationLogRequest});
+  Future<HttpResponse<SendCommunicationEntity>> sendCommunication(
+      {@Body()
+      required CreateCommunicationLogRequestEntity
+          createCommunicationLogRequestEntity});
 }

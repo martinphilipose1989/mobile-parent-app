@@ -1,6 +1,7 @@
 import 'package:data/data.dart';
 import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
 import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
+import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -316,8 +317,10 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
       {required int pageSize, required int page}) async {
-    var response = await safeApiCall(
-        ticketRetrofitService.getTicketsList(pageSize: pageSize, page: page));
+    GetTicketListRequest getTicketListRequest =
+        GetTicketListRequest(page: page, pageSize: pageSize);
+    var response = await safeApiCall(ticketRetrofitService.getTicketsList(
+        getTicketListRequest: getTicketListRequest));
     return response.fold(
       (l) {
         return Left(l);
@@ -381,15 +384,36 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, CreateCommunicationLogModel>>
-      createCommunicationLog(
-          {required CreateCommunicationLogRequest
-              createCommunicationLogRequest}) async {
-    CreateCommunicationLogRequestEntity createCommunicationLogRequest =
-        CreateCommunicationLogRequestEntity();
-    var response = await safeApiCall(
-        ticketRetrofitService.createCommunicationLog(
-            createCommunicationLogRequest: createCommunicationLogRequest));
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+      {required String communocationId}) async {
+    var response = await safeApiCall(ticketRetrofitService
+        .createCommunicationLog(communocationId: communocationId));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
+      {required CreateCommunicationLogRequest
+          createCommunicationLogRequest}) async {
+    CreateCommunicationLogRequestEntity createCommunicationLogRequestEntity =
+        CreateCommunicationLogRequestEntity(
+            attachmentDetails: createCommunicationLogRequest.attachmentDetails,
+            comment: createCommunicationLogRequest.comment,
+            communicationId: createCommunicationLogRequest.communicationId,
+            createdAt: createCommunicationLogRequest.createdAt,
+            isDraft: createCommunicationLogRequest.isDraft,
+            rating: createCommunicationLogRequest.rating,
+            status: createCommunicationLogRequest.status,
+            updatedAt: createCommunicationLogRequest.updatedAt,
+            userId: createCommunicationLogRequest.userId);
+    var response = await safeApiCall(ticketRetrofitService.sendCommunication(
+        createCommunicationLogRequestEntity:
+            createCommunicationLogRequestEntity));
     return response.fold(
       (l) {
         return Left(l);

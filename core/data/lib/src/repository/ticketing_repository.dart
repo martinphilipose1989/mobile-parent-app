@@ -25,11 +25,15 @@ class TicketingRepositoryImpl extends TicketingRepository {
   }
 
   @override
-  Future<Either<NetworkError, CreateCommunicationLogModel>>
-      createCommunicationLog(
-          {required CreateCommunicationLogRequest
-              createCommunicationLogRequest}) {
-    return networkPort.createCommunicationLog(
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+      {required String communocationId}) {
+    return networkPort.createCommunicationLog(communocationId: communocationId);
+  }
+
+  @override
+  Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
+      {required CreateCommunicationLogRequest createCommunicationLogRequest}) {
+    return networkPort.sendCommunication(
         createCommunicationLogRequest: createCommunicationLogRequest);
   }
 }

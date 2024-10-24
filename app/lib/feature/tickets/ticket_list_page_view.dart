@@ -1,43 +1,34 @@
 //import 'package:app/molecules/tracker/TicketList/TicketList_list.dart';
-import 'dart:convert';
 
 import 'package:app/feature/tickets/ticket_list_view_model.dart';
-import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-import '../../../molecules/attendance/attendance_calender/attendance_calender.dart';
 import '../../model/resource.dart';
 import '../../molecules/tickets/ticketList/ticket_list_screen.dart';
 import '../../utils/stream_builder/app_stream_builder.dart';
 
 class TicketListPageView extends BasePageViewWidget<TicketListViewModel> {
   final TicketListViewModel ticketListViewModel;
-  TicketListPageView(super.providerBase, this.ticketListViewModel);
+  TicketListPageView(
+    super.providerBase,
+    this.ticketListViewModel,
+  );
 
   @override
   Widget build(BuildContext context, TicketListViewModel model) {
-    return AppStreamBuilder<Resource<CommunicationListModel>>(
+    return AppStreamBuilder<Resource<List<DataValue>>>(
       stream: model.getTicketStatusModel,
       initialData: Resource.none(),
-      onData: (value) {
-        print('data ------- ${jsonEncode(value.data?.data)}');
-      },
+      onData: (value) {},
       dataBuilder: (context, data) {
-        return Padding(
-          padding:  EdgeInsets.all(16),
-          child:
-             TicketListScreen(ticketListViewModel: ticketListViewModel,)
-
-        );
+        return data?.status == Status.loading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : const Padding(
+                padding: EdgeInsets.all(16), child: TicketListScreen());
       },
     );
-    // return Padding(
-    //   padding:  EdgeInsets.all(16),
-    //   child:
-    //      TicketListScreen(ticketListViewModel: ticketListViewModel,)
-    //
-    // );
   }
 }

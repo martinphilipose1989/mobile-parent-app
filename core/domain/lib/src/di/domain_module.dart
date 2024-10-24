@@ -4,6 +4,7 @@ import 'package:domain/src/usecase/communication/create_communication_log_usecas
 import 'package:domain/src/usecase/communication/create_new_communication.dart';
 import 'package:domain/src/usecase/communication/create_sub_category_usecase.dart';
 import 'package:domain/src/usecase/communication/find_by_category_sub_category_usecase.dart';
+import 'package:domain/src/usecase/communication/send_communication_usecase.dart';
 import 'package:domain/src/usecase/communication/ticket_listing_usecase.dart';
 import 'package:injectable/injectable.dart';
 
@@ -112,5 +113,10 @@ abstract class DomainModule {
   CreateCommunicationLogUsecase createCommunicationLog(
       TicketingRepository repository) {
     return CreateCommunicationLogUsecase(repository);
+  }
+
+  @lazySingleton
+  SendCommunicationUsecase sendCommunication(TicketingRepository repository) {
+    return SendCommunicationUsecase(repository);
   }
 }

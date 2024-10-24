@@ -181,12 +181,14 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.webview));
 
       case RoutePaths.ratePage:
+        String id = settings.arguments as String;
         return CupertinoPageRoute(
-            builder: (context) => const RatePage(),
+            builder: (context) => RatePage(id: id),
             settings: const RouteSettings(name: RoutePaths.ratePage));
       case RoutePaths.communicationPage:
+        String id = settings.arguments as String;
         return CupertinoPageRoute(
-            builder: (context) => const CommunicationPage(),
+            builder: (context) => CommunicationPage(id: id),
             settings: const RouteSettings(name: RoutePaths.communicationPage));
       default:
         // Replace by Empty Page

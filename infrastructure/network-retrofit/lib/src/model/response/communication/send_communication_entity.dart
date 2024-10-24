@@ -1,11 +1,11 @@
 import 'package:data/data.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
-part 'create_communication_log_entity.g.dart';
+part 'send_communication_entity.g.dart';
 
 @JsonSerializable()
-class CreateCommunicationLogEntity extends BaseLayerDataTransformer<
-    CreateCommunicationLogEntity, CreateCommunicationLogModel> {
+class SendCommunicationEntity extends BaseLayerDataTransformer<
+    SendCommunicationEntity, SendCommunicationModel> {
   @JsonKey(name: "status")
   int? status;
   @JsonKey(name: "data")
@@ -13,28 +13,27 @@ class CreateCommunicationLogEntity extends BaseLayerDataTransformer<
   @JsonKey(name: "message")
   String? message;
 
-  CreateCommunicationLogEntity({
+  SendCommunicationEntity({
     this.status,
     this.data,
     this.message,
   });
 
-  factory CreateCommunicationLogEntity.fromJson(Map<String, dynamic> json) =>
-      _$CreateCommunicationLogEntityFromJson(json);
+  factory SendCommunicationEntity.fromJson(Map<String, dynamic> json) =>
+      _$SendCommunicationEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreateCommunicationLogEntityToJson(this);
+  Map<String, dynamic> toJson() => _$SendCommunicationEntityToJson(this);
 
   @override
-  CreateCommunicationLogModel transform() {
+  SendCommunicationModel transform() {
     // TODO: implement transform
-    return CreateCommunicationLogModel(
-        data: data?.transform(), status: status, message: message);
+    return SendCommunicationModel(
+        message: message, data: data?.transform(), status: status);
   }
 }
 
 @JsonSerializable()
-class Data
-    extends BaseLayerDataTransformer<Data, CreateCommunicationDataModel> {
+class Data extends BaseLayerDataTransformer<Data, SendCommunicationData> {
   @JsonKey(name: "communication_id")
   String? communicationId;
   @JsonKey(name: "comment")
@@ -77,19 +76,19 @@ class Data
   Map<String, dynamic> toJson() => _$DataToJson(this);
 
   @override
-  CreateCommunicationDataModel transform() {
-    return CreateCommunicationDataModel(
-      communicationId: communicationId,
-      comment: comment,
-      attachmentDetails: attachmentDetails,
-      userId: userId,
-      status: status,
-      rating: rating,
-      isDraft: isDraft,
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      v: v,
-    );
+  SendCommunicationData transform() {
+    // TODO: implement transform
+    return SendCommunicationData(
+        attachmentDetails: attachmentDetails,
+        comment: comment,
+        communicationId: communicationId,
+        createdAt: createdAt,
+        id: id,
+        isDraft: isDraft,
+        rating: rating,
+        status: status,
+        updatedAt: updatedAt,
+        userId: userId,
+        v: v);
   }
 }

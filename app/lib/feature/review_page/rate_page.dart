@@ -12,9 +12,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
 class RatePage extends BasePage<RatePageModel> {
-  const RatePage({
-    super.key,
-  });
+  final String id;
+  const RatePage({super.key, required this.id});
 
   @override
   RatePageState createState() => RatePageState();
@@ -29,6 +28,7 @@ class RatePageState extends AppBasePageState<RatePageModel, RatePage> {
   @override
   void onModelReady(RatePageModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.chatId = widget.id;
   }
 
   @override
@@ -52,7 +52,9 @@ class RatePageState extends AppBasePageState<RatePageModel, RatePage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CommonElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          model.sendCommunication(widget.id);
+        },
         backgroundColor: Theme.of(context).colorScheme.secondary,
         text: "Submit",
         textColor: Colors.black,

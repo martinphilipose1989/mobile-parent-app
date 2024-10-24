@@ -47,35 +47,38 @@ class DataValue {
   int? v;
   List<CommunicationMasterModel>? communicationMaster;
   String? dataValueId;
+  String? formattedDateAndTime;
+  int? communicationLogsCount;
 
-  DataValue({
-    this.id,
-    this.communicationMasterId,
-    this.parentId,
-    this.communication,
-    this.assignTo,
-    this.reviewerId,
-    this.date,
-    this.time,
-    this.priorityId,
-    this.tat,
-    this.status,
-    this.isPublished,
-    this.createdBy,
-    this.ticketNumber,
-    this.ticketTitle,
-    this.attachment,
-    this.lobs,
-    this.modeIds,
-    this.isResponseRequired,
-    this.toType,
-    this.dataValueCreatedAt,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-    this.communicationMaster,
-    this.dataValueId,
-  });
+  DataValue(
+      {this.id,
+      this.communicationMasterId,
+      this.parentId,
+      this.communication,
+      this.assignTo,
+      this.reviewerId,
+      this.date,
+      this.time,
+      this.priorityId,
+      this.tat,
+      this.status,
+      this.isPublished,
+      this.createdBy,
+      this.ticketNumber,
+      this.ticketTitle,
+      this.attachment,
+      this.lobs,
+      this.modeIds,
+      this.isResponseRequired,
+      this.toType,
+      this.dataValueCreatedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.v,
+      this.communicationMaster,
+      this.dataValueId,
+      this.communicationLogsCount,
+      this.formattedDateAndTime});
 }
 
 class CommunicationMasterModel {

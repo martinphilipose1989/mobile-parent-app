@@ -20,7 +20,6 @@ import 'package:app/feature/payments/payment_history_transaction_type/payment_hi
 import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
-import 'package:app/feature/review_page/rate_page_view.dart';
 import 'package:app/feature/review_page/rate_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
@@ -31,7 +30,6 @@ import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_model.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -103,15 +101,15 @@ final disciplinarySlipProvider =
 );
 
 final ticketListProvider =
-ChangeNotifierProvider.autoDispose<TicketListViewModel>(
-      (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>(), getIt.get<TicketListingUsecase>()),
+    ChangeNotifierProvider.autoDispose<TicketListViewModel>(
+  (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<TicketListingUsecase>()),
 );
 
 final createTicketProvider =
     ChangeNotifierProvider.autoDispose<CreateTicketViewModel>(
-        (ref) => CreateTicketViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
-    );
-
+  (ref) => CreateTicketViewModel(getIt.get<FlutterExceptionHandlerBinder>()),
+);
 
 final admissionsDetailsProvider =
     ChangeNotifierProvider.autoDispose<AdmissionsDetailsViewModel>(
@@ -233,13 +231,13 @@ final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
     (ref) => WebviewModel(getIt.get<FlutterExceptionHandlerBinder>(),
         getIt.get<GetPaymentStatusUsecase>()));
 
-final ratePageModelProvider =
-    ChangeNotifierProvider.autoDispose<RatePageModel>((ref) => RatePageModel(
-          getIt.get<FlutterExceptionHandlerBinder>(),
-        ));
+final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
+    (ref) => RatePageModel(getIt.get<FlutterExceptionHandlerBinder>(),
+        getIt.get<SendCommunicationUsecase>()));
 
 final communicationPageModelProvider =
-    ChangeNotifierProvider.autoDispose<CommunicationPageModel>(
-        (ref) => CommunicationPageModel(
-              getIt.get<FlutterExceptionHandlerBinder>(),
-            ));
+    ChangeNotifierProvider.autoDispose<CommunicationPageModel>((ref) =>
+        CommunicationPageModel(
+            getIt.get<FlutterExceptionHandlerBinder>(),
+            getIt.get<CreateCommunicationLogUsecase>(),
+            getIt.get<SendCommunicationUsecase>()));

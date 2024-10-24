@@ -1,3 +1,5 @@
+import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../utils/common_widgets/app_images.dart';
@@ -5,18 +7,30 @@ import '../../../utils/common_widgets/app_images.dart';
 import 'common_ticket_review_container.dart';
 
 class ReviewTicketListPage extends StatelessWidget {
-  const ReviewTicketListPage({super.key});
+  const ReviewTicketListPage({super.key, required this.list});
+  final List<DataValue> list;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: 5,
-        itemBuilder: (BuildContext context,int index){
-          return CommonTicketReviewContainer(ticketNo: 'abc', status: 'open',
-            time: '11:03 Am 12 july 2024', title: 'Academic Related', subtitle: 'request for Progress Report', name: 'elvin nadar', statusIcon: AppImages.status_open,);
-
-        });
+    return list.isEmpty
+        ? const Center(
+            child: CommonText(text: 'No Review tickets available'),
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CommonTicketReviewContainer(
+                id: list[index].id ?? "",
+                communicationCount: list[index].communicationLogsCount,
+                ticketNo: list[index].ticketNumber ?? '',
+                status: list[index].status,
+                time: list[index].formattedDateAndTime ?? '',
+                title: list[index].ticketTitle ?? '',
+                subtitle: '',
+                name: list[index].createdBy ?? '',
+                statusIcon: AppImages.status_open,
+              );
+            });
   }
 }
-

@@ -47,6 +47,7 @@ export 'src/model/response/communication/msg_sub_category_model.dart';
 export 'src/model/response/communication/create_communication_model.dart';
 export 'src/model/response/communication/find_by_category_sub_category_model.dart';
 export 'src/model/response/communication/create_communication_log_model.dart';
+export 'src/model/response/communication/send_communication_model.dart';
 
 //request
 

@@ -1,5 +1,4 @@
-import 'package:dartz/dartz.dart';
-import 'package:shared/shared.dart';
+import 'package:domain/domain.dart';
 
 abstract class TicketingRepository {
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
@@ -11,8 +10,9 @@ abstract class TicketingRepository {
       findByCategorySubCategory(
           {required int categoryId, required int subCategoryId});
 
-  Future<Either<NetworkError, CreateCommunicationLogModel>>
-      createCommunicationLog(
-          {required CreateCommunicationLogRequest
-              createCommunicationLogRequest});
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+      {required String communocationId});
+
+  Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
+      {required CreateCommunicationLogRequest createCommunicationLogRequest});
 }
