@@ -1,6 +1,6 @@
 class FindByCategorySubCategoryModel {
   int? status;
-  List<Datum>? data;
+  List<FindByCategorySubCategoryDatumModel>? data;
   String? message;
 
   FindByCategorySubCategoryModel({
@@ -10,7 +10,7 @@ class FindByCategorySubCategoryModel {
   });
 }
 
-class Datum {
+class FindByCategorySubCategoryDatumModel {
   String? id;
   String? slug;
   int? categoryId;
@@ -38,7 +38,7 @@ class Datum {
   int? v;
   String? datumId;
 
-  Datum({
+  FindByCategorySubCategoryDatumModel({
     this.id,
     this.slug,
     this.categoryId,

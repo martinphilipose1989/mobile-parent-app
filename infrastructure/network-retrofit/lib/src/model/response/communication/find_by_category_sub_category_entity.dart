@@ -40,8 +40,8 @@ class FindByCategorySubCategoryEntity extends BaseLayerDataTransformer<
 }
 
 @JsonSerializable()
-class FindByCategorySubCategoryDatum
-    extends BaseLayerDataTransformer<FindByCategorySubCategoryDatum, Datum> {
+class FindByCategorySubCategoryDatum extends BaseLayerDataTransformer<
+    FindByCategorySubCategoryDatum, FindByCategorySubCategoryDatumModel> {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "slug")
@@ -130,8 +130,8 @@ class FindByCategorySubCategoryDatum
   Map<String, dynamic> toJson() => _$FindByCategorySubCategoryDatumToJson(this);
 
   @override
-  Datum transform() {
-    return Datum(
+  FindByCategorySubCategoryDatumModel transform() {
+    return FindByCategorySubCategoryDatumModel(
       id: id,
       slug: slug,
       categoryId: categoryId,
