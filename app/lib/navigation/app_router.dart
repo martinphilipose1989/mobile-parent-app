@@ -14,16 +14,22 @@ import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
+import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
-import 'package:app/utils/common_widgets/common_webview.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
+import 'package:app/feature/vas/kids_club/kids_club_page.dart';
+import 'package:app/feature/vas/psa/psa_page.dart';
+import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
+import 'package:app/feature/vas/transport/transport_page.dart';
 import '../feature/splash/splash_page.dart';
 import 'route_paths.dart';
+import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
+import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -78,14 +84,22 @@ class AppRouter {
             settings: const RouteSettings(name: RoutePaths.trackerAdmissions));
       case RoutePaths.admissionsDetails:
         return CupertinoPageRoute(
-            builder: (context) => const AdmissionsDetailsPage(),
+            builder: (context) => AdmissionsDetailsPage(
+                  admissionDetail: settings.arguments == null
+                      ? EnquiryDetailArgs()
+                      : settings.arguments as EnquiryDetailArgs,
+                ),
             settings: const RouteSettings(name: RoutePaths.admissionsDetails));
       case RoutePaths.registrationDetails:
+        final args = settings.arguments as Map<String, dynamic>;
         return CupertinoPageRoute(
             builder: (context) => RegistrationsDetailsPage(
-                  routeFrom: settings.arguments == null
-                      ? ''
-                      : settings.arguments as String,
+                  routeFrom: args['routeFrom'] ?? '',
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                  enquiryDetail: args["enquiryDetail"],
+                  editRegistrationDetails:
+                      args["editRegistrationDetails"] ?? false,
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.registrationDetails));
@@ -99,13 +113,21 @@ class AppRouter {
 
       case RoutePaths.enquiriesDetailsPage:
         return CupertinoPageRoute(
-            builder: (context) => const EnquiriesDetailsPage(),
+            builder: (context) => EnquiriesDetailsPage(
+                  enquiryDetailArgs: settings.arguments == null
+                      ? EnquiryDetailArgs()
+                      : settings.arguments as EnquiryDetailArgs,
+                ),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesDetailsPage));
 
       case RoutePaths.enquiriesTimelinePage:
         return CupertinoPageRoute(
-            builder: (context) => const EnquiriesTimelinePage(),
+            builder: (context) => EnquiriesTimelinePage(
+                  enquiryDetail: settings.arguments == null
+                      ? EnquiryDetailArgs()
+                      : settings.arguments as EnquiryDetailArgs,
+                ),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesTimelinePage));
 
@@ -116,26 +138,43 @@ class AppRouter {
                 const RouteSettings(name: RoutePaths.editEnquiriesDetailsPage));
 
       case RoutePaths.scheduleSchoolTourPage:
+        final args = settings.arguments as Map<String, dynamic>;
         return CupertinoPageRoute(
-            builder: (context) => const ScheduleSchoolTourPage(),
+            builder: (context) => ScheduleSchoolTourPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                  schoolVisitDetail: args['schoolVisitDetail'],
+                  isReschedule: args['isReschedule'] ?? false,
+                ),
             settings:
                 const RouteSettings(name: RoutePaths.scheduleSchoolTourPage));
 
       case RoutePaths.detailsViewSchoolTourPage:
         return CupertinoPageRoute(
-            builder: (context) => const DetailsViewSchoolTourPage(),
+            builder: (context) => DetailsViewSchoolTourPage(
+                  enquiryDetail: settings.arguments == null
+                      ? EnquiryDetailArgs()
+                      : settings.arguments as EnquiryDetailArgs,
+                ),
             settings: const RouteSettings(
                 name: RoutePaths.detailsViewSchoolTourPage));
 
       case RoutePaths.cancelSchoolTourPage:
+        final args = settings.arguments as List<dynamic>;
         return CupertinoPageRoute(
-            builder: (context) => const CancelSchoolTourPage(),
+            builder: (context) => CancelSchoolTourPage(
+                  enquiryDetailArgs: args[0] as EnquiryDetailArgs,
+                  schoolVisitDetail: args[1] as SchoolVisitDetail,
+                ),
             settings:
                 const RouteSettings(name: RoutePaths.cancelSchoolTourPage));
 
       case RoutePaths.enquiriesAdmissionsJourneyPage:
+        final args = settings.arguments as Map<String, dynamic>;
         return CupertinoPageRoute(
-            builder: (context) => const EnquiriesAdmissionsJourneyPage(),
+            builder: (context) => EnquiriesAdmissionsJourneyPage(
+                  enquiryDetail: args["enquiryDetailArgs"],
+                ),
             settings: const RouteSettings(
                 name: RoutePaths.enquiriesAdmissionsJourneyPage));
 
@@ -145,6 +184,79 @@ class AppRouter {
                   webviewArguments: settings.arguments as WebviewArguments,
                 ),
             settings: const RouteSettings(name: RoutePaths.webview));
+
+      case RoutePaths.scheduleCompetencyTest:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => ScheduleCompetencyTestPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                  competencyTestDetails: args['competencyTestDetail'],
+                  isReschedule: args['isReschedule'] ?? false,
+                ),
+            settings:
+                const RouteSettings(name: RoutePaths.scheduleCompetencyTest));
+
+      case RoutePaths.competencyTestDetailPage:
+        return CupertinoPageRoute(
+            builder: (context) => DetailsViewCompetencyTestPage(
+                  enquiryDetail: settings.arguments == null
+                      ? EnquiryDetailArgs()
+                      : settings.arguments as EnquiryDetailArgs,
+                ),
+            settings:
+                const RouteSettings(name: RoutePaths.competencyTestDetailPage));
+
+      case RoutePaths.cancelCompetencyTestPage:
+        final args = settings.arguments as List<dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => CancelCompetencyTestPage(
+                  enquiryDetailArgs: args[0] as EnquiryDetailArgs,
+                  competencyTestDetail: args[1] as CompetencyTestDetails,
+                ),
+            settings:
+                const RouteSettings(name: RoutePaths.cancelCompetencyTestPage));
+
+      case RoutePaths.cafeteriaDetailPage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => CafeteriaPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                ));
+
+      case RoutePaths.psaDetailPage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => PsaDetailPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                ));
+
+      case RoutePaths.kidsClubPage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+          builder: (context) => KidsClubDeatilDetailPage(
+            enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+          ),
+        );
+
+      case RoutePaths.summerCampPage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => SummerCampDetailPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                ));
+
+      case RoutePaths.transportPage:
+        final args = settings.arguments as Map<String, dynamic>;
+        return CupertinoPageRoute(
+            builder: (context) => TransportPage(
+                  enquiryDetailArgs:
+                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                ));
+
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

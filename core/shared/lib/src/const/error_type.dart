@@ -12,6 +12,7 @@ enum ErrorType {
   uiEmptyEmail,
   uiInvalidEmail,
   uiEmptyPassword,
+  uiEmptyField,
 
   //DB ERROR
   database,
@@ -24,5 +25,12 @@ enum ErrorType {
   filePickerFailed,
   imagePickerFailed,
   imagePickerCancelled,
-  uiInvalidAmount
+  uiInvalidAmoun,
+
+  // Auth Error
+  appAuthUserCancelled,
+  appAuthPlatformException,
+
+  // Storage
+  storageError
 }

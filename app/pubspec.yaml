@@ -37,18 +37,24 @@ dependencies:
   injectable:
   dependency_injection:
     path: ../dependency-injection/
+  appauth:
+    path: ../infrastructure/appauth/  
   database_floor:
     path: ../infrastructure/database-floor/
   network_retrofit:
     path: ../infrastructure/network-retrofit/
   attachment:
     path: ../infrastructure/attachment/ 
+  file_utility:
+    path: ../infrastructure/file_utility
   data:
     path: ../core/data/
   domain:
     path: ../core/domain/
   themes:
     path: ../themes/
+  shared:
+    path: ../core/shared
   localisation:
     path: ../localisation/
   statemanagement_riverpod:
@@ -75,7 +81,12 @@ dependencies:
   envied:
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.2
-
+  dropdown_search: ^5.0.6
+  flutter_typeahead: ^5.2.0
+  path_provider: ^2.1.4
+  open_filex: ^4.5.0
+  intl: any
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

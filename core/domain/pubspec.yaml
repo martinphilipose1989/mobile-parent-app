@@ -15,7 +15,9 @@ dependencies:
   dartz: ^0.10.1
   shared:
     path: ../shared
-
+  network_retrofit:
+    path: ../../infrastructure/network-retrofit
+    
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.16.0

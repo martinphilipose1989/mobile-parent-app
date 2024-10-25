@@ -1,7 +1,5 @@
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page_model.dart';
-import 'package:app/molecules/enquiries/edit_enquiry_details.dart';
 import 'package:app/molecules/enquiries/list_item.dart';
-import 'package:app/molecules/enquiries/upload_documents.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -39,7 +37,8 @@ class EditEnquiriesDetailsPageView
                           id: "ENADMS#4402",
                           title: "Vibgyor Kids & High - Malad West",
                           subtitle: "Grade V | CBSE",
-                          buttontext: "School Visit"),
+                          buttontext: "School Visit",
+                          status: '',),
                       SizedBox(
                         height: 10,
                       ),

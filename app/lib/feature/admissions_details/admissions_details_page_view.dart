@@ -1,4 +1,6 @@
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -8,7 +10,9 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,26 +20,57 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsDetailsPageView
     extends BasePageViewWidget<AdmissionsDetailsViewModel> {
-  AdmissionsDetailsPageView(super.providerBase);
+  final EnquiryDetailArgs admissionDetail;
+  AdmissionsDetailsPageView(super.providerBase,{required this.admissionDetail});
 
-  actionOnMenu(int index, BuildContext context) {
+  actionOnMenu(int index, BuildContext context, AdmissionsDetailsViewModel model) {
     switch (index) {
       case 0:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        model.showMenuOnFloatingButton.add(false);
+        return (model.isDetailView())? Navigator.of(context).pushNamed(
+          RoutePaths.detailsViewSchoolTourPage,arguments: admissionDetail
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+        }) : Navigator.of(context)
+            .pushNamed(RoutePaths.scheduleSchoolTourPage,arguments: {'enquiryDetailArgs': admissionDetail,}).then((value) {
+              if(value!=null){
+                model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+              }
+            },);
       case 1:
+        model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.payments);
       case 2:
-        return UrlLauncher.launchPhone('+1234567890', context: context);
+        model.showMenuOnFloatingButton.add(false);
+        return UrlLauncher.launchPhone('+91 6003000700', context: context);
       case 3:
+        model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
       case 4:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.scheduleSchoolTourPage);
+        model.showMenuOnFloatingButton.add(false);
+        return (model.isDetailViewCompetency())? Navigator.of(context).pushNamed(
+          RoutePaths.competencyTestDetailPage,arguments: admissionDetail
+        ).then((value){
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+        }) : Navigator.of(context)
+           .pushNamed(RoutePaths.scheduleCompetencyTest,arguments: {'enquiryDetailArgs': admissionDetail}).then((value){
+            if(value!=null){
+              model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId??'');
+            }
+           });
       case 5:
-        return Navigator.of(context)
-            .pushNamed(RoutePaths.enquiriesTimelinePage);
+        model.showMenuOnFloatingButton.add(false);
+       return Navigator.of(context)
+            .pushNamed(RoutePaths.enquiriesTimelinePage,arguments: admissionDetail);
+      case 6:
+        model.showMenuOnFloatingButton.add(false);
+        return Navigator.of(context).pushNamed(RoutePaths.registrationDetails,
+            arguments: {
+              "routeFrom": "admission",
+              "enquiryDetailArgs": admissionDetail,
+              "editRegistrationDetails": true
+        });
       default:
         return null;
     }
@@ -53,15 +88,16 @@ class AdmissionsDetailsPageView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ListItem(
+                ListItem(
                   image: AppImages.personIcon,
-                  name: "Khevna Shah ",
-                  year: "(AY 2024-2025)",
-                  id: "ENADMS#4402",
-                  title: "Vibgyor Kids & High - Malad West",
-                  subtitle: "Grade V | CBSE",
-                  buttontext: "School Visit",
-                  compeletion: '25% Completed',
+                  name: "${admissionDetail.studentName} ",
+                  year: admissionDetail.academicYear??'',
+                  id: admissionDetail.enquiryNumber??'',
+                  title: admissionDetail.school??'',
+                  subtitle: "${admissionDetail.grade} | ${admissionDetail.board} | ${admissionDetail.shift} | Stream-${admissionDetail.stream} ",
+                  buttontext: admissionDetail.currentStage??'',
+                  compeletion: "${(admissionDetail.formCompletionPercentage??0).toString()}% Completed",
+                  status: admissionDetail.status??'',
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
                 Row(
@@ -73,7 +109,7 @@ class AdmissionsDetailsPageView
                     ),
                     InkWell(
                       onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails),
+                          context, RoutePaths.registrationDetails,arguments: { "routeFrom": "admission", "enquiryDetailArgs": admissionDetail,"enquiryDetail": model.enquiryDetails.value}),
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -92,26 +128,51 @@ class AdmissionsDetailsPageView
                   ],
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
-                CommonStepperPage(
-                    stepperList: List.generate(
-                      model.stepperData.length,
-                      (index) {
-                        return Step(
-                            subtitle: model.stepperData[index]['subtitle'] == ''
-                                ? null
-                                : CommonText(
-                                    text: model.stepperData[index]['subtitle']),
-                            title: CommonText(
-                              text: model.stepperData[index]['name'],
-                            ),
-                            state: model.activeStep.value > index
-                                ? StepState.complete
-                                : StepState.indexed,
-                            isActive: model.activeStep.value >= index,
-                            content: const SizedBox.shrink());
-                      },
-                    ),
-                    activeStep: model.activeStep.value)
+                AppStreamBuilder<Resource<AdmissionJourneyBase>>(
+                stream: model.fetchAdmissionJourney,
+                initialData: Resource.none(),
+                dataBuilder: (context, result) {
+                  switch(result?.status){
+                    case Status.loading:
+                      return const Center(child: CircularProgressIndicator(),);
+                    case Status.success:
+                      return CommonStepperPage(
+                              stepperList: List.generate(
+                                (result?.data?.data??[]).length,
+                                (index) {
+                                  return Step(
+                                      subtitle: (result?.data?.data?[index].comment??'').isEmptyOrNull()
+                                          ? null
+                                          : CommonText(
+                                              text: result
+                                                          ?.data
+                                                          ?.data?[index]
+                                                          .comment ??
+                                                      ''),
+                                      title: CommonText(
+                                        text: result?.data?.data?[index].stage??'',
+                                      ),
+                                      state: result?.data?.data?[index].status != "Open" || result?.data?.data?[index].status != "In Progress"
+                                          ? StepState.indexed
+                                          : StepState.complete,
+                                      isActive: result?.data?.data?[index].status != "Open",
+                                      content: const SizedBox.shrink());
+                                },
+                              ) ,
+                              activeStep: (result?.data?.data ?? []).indexWhere(
+                                          (element) =>
+                                              (element.status != "Open")) ==
+                                      -1
+                                  ? 0
+                                  : (result?.data?.data ?? []).indexWhere(
+                                      (element) => (element.status != "Open")));
+                    case Status.error:
+                      return const Center(child: Text('Admission journey not found'),);
+                    default:
+                      return const Center(child: CircularProgressIndicator(),);
+                  }
+                }
+              ),
               ],
             ),
           ),
@@ -132,12 +193,12 @@ class AdmissionsDetailsPageView
             dataBuilder: (context, data) {
               return Positioned(
                   right: 20,
-                  bottom: 100,
+                  bottom: 110,
                   child: data!
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
-                            actionOnMenu(index, context);
+                            actionOnMenu(index, context, model);
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,

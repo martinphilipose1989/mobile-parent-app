@@ -6,4 +6,10 @@ abstract class UserRepository {
       {required String email, required String password});
 
   Future<Either<DatabaseError, User>> saveUser(User user);
+
+  Future<Either<BaseError, AuthResponse>> login();
+
+  Future<Either<BaseError, bool>> storeAccessToken(AuthResponse authResponse);
+
+  Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse();
 }

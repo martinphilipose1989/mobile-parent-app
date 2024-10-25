@@ -1,3 +1,4 @@
+import 'package:app/utils/constants/constants.dart';
 import 'package:flutter/services.dart';
 
 class AppInputformatters {
@@ -48,5 +49,18 @@ class AppInputformatters {
   // Method to get an input formatter for custom pattern
   static TextInputFormatter customPatternFormatter(String pattern) {
     return FilteringTextInputFormatter.allow(RegExp(pattern));
+  }
+}
+
+class RemoveEmojiInputFormatter extends TextInputFormatter {
+  
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    var text = newValue.text.replaceAll(emojiRegExp, '');
+    var selection = newValue.selection;
+    if (oldValue.text == text) {
+      selection = oldValue.selection;
+    }
+    return TextEditingValue(text: text, selection: selection);
   }
 }

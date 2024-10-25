@@ -23,12 +23,23 @@ class CustomDropdownButton extends StatefulWidget {
   final Function(int id)? onIdSelection;
   final String? Function(String?)? validator;
   final String? Function(int?, int)? idValidator;
+  final BehaviorSubject<String>? singleSelectItemSubject;
+  final String? intialValue;
+  final bool isDisable;
+  final bool isSearchable;
+
   const CustomDropdownButton(
       {super.key,
       required this.items,
       required this.isMutiSelect,
       required this.dropdownName,
       required this.showAstreik,
+      this.idValidator,
+      this.intialValue,
+      this.isSearchable = false,
+      this.isDisable = false,
+      this.onIdSelection,
+      this.singleSelectItemSubject,
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
@@ -36,11 +47,9 @@ class CustomDropdownButton extends StatefulWidget {
       this.selectedValue,
       this.itemsWithId,
       this.dropDownId,
-      required this.onMultiSelect,
       this.validator,
-      this.idValidator,
-      this.onSingleSelect,
-      this.onIdSelection});
+      required this.onMultiSelect,
+      this.onSingleSelect});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -50,8 +59,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   BehaviorSubject<List<String>> selectedItemsSubject =
       BehaviorSubject<List<String>>.seeded([]);
 
-  BehaviorSubject<String> singleSelectItemSubject =
-      BehaviorSubject<String>.seeded('');
+  late BehaviorSubject<String> singleSelectItemSubject;
+  late TextEditingController textEditingController;
 
   String? selectedValue;
   BehaviorSubject<int> valueId = BehaviorSubject<int>();
@@ -82,11 +91,25 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         singleSelectItemSubject.add(widget.items[0] ?? "");
       }
     }
+    if (!widget.isMutiSelect) {
+      singleSelectItemSubject =
+          widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomDropdownButton oldWidget) {
+    if (oldWidget.intialValue != widget.intialValue &&
+        widget.intialValue != null) {
+      singleSelectItemSubject.add(widget.intialValue ?? '');
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
     selectedItemsSubject.close();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -106,94 +129,126 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         return Stack(
           clipBehavior: Clip.none,
           children: [
-            DropdownButtonHideUnderline(
-              child: DropdownButtonFormField2<String>(
-                isExpanded: true,
-                validator: widget.validator,
-                hint: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Select ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onTertiary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                items: widget.items
-                    .map((String? item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item ?? "",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+            AbsorbPointer(
+              absorbing: widget.isDisable,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButtonFormField2<String>(
+                  isExpanded: true,
+                  hint: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Select ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onTertiary,
                           ),
-                        ))
-                    .toList(),
-                value: singleSelectItemSubject.value == ''
-                    ? null
-                    : singleSelectItemSubject.value,
-                onChanged: (value) {
-                  widget.onSingleSelect?.call(value ?? '');
-                  singleSelectItemSubject.add(value ?? "");
-                },
-                iconStyleData: const IconStyleData(
-                  icon: Icon(
-                    Icons.keyboard_arrow_down_sharp,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                  iconSize: 14,
-                  iconEnabledColor: Colors.black,
-                  iconDisabledColor: Colors.grey,
-                ),
-                decoration: widget.showBorderColor
-                    ? InputDecoration(
-                        border: Theme.of(context).inputDecorationTheme.border,
-                        focusedBorder: Theme.of(context)
-                            .inputDecorationTheme
-                            .focusedBorder,
-                        errorBorder:
-                            Theme.of(context).inputDecorationTheme.errorBorder,
-                        disabledBorder: Theme.of(context)
-                            .inputDecorationTheme
-                            .disabledBorder,
-                        enabledBorder: Theme.of(context)
-                            .inputDecorationTheme
-                            .enabledBorder,
-                      )
-                    : const InputDecoration(
-                        border: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        focusedErrorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none),
-                dropdownStyleData: DropdownStyleData(
-                  direction: DropdownDirection.left,
-                  maxHeight: 200,
-                  width: widget.width ?? 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.white,
+                  validator: widget.validator,
+                  items: widget.items
+                      .map((String? item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item ?? "",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ))
+                      .toList(),
+                  value: singleSelectItemSubject.value == ''
+                      ? null
+                      : widget.items.contains(singleSelectItemSubject.value)
+                          ? singleSelectItemSubject.value
+                          : null,
+                  onChanged: (value) {
+                    widget.onSingleSelect!(value ?? "");
+                    singleSelectItemSubject.add(value ?? "");
+                  },
+                  decoration: InputDecoration(
+                    errorStyle: AppTypography.caption.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.failure,
+                        fontSize: 12.sp,
+                        height: 0.5.h),
                   ),
-                  offset: const Offset(1, 0),
-                  scrollbarTheme: ScrollbarThemeData(
-                    radius: const Radius.circular(40),
-                    thickness: WidgetStateProperty.all<double>(6),
-                    thumbVisibility: WidgetStateProperty.all<bool>(true),
+                  iconStyleData: const IconStyleData(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                    ),
+                    iconSize: 14,
+                    iconEnabledColor: Colors.black,
+                    iconDisabledColor: Colors.grey,
                   ),
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                  padding: EdgeInsets.only(left: 14, right: 14),
+                  dropdownStyleData: DropdownStyleData(
+                    direction: DropdownDirection.left,
+                    maxHeight: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    offset: const Offset(1, 0),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: const Radius.circular(40),
+                      thickness: WidgetStateProperty.all<double>(6),
+                      thumbVisibility: WidgetStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                  dropdownSearchData: widget.isSearchable
+                      ? DropdownSearchData(
+                          searchController: textEditingController,
+                          searchInnerWidgetHeight: 50,
+                          searchInnerWidget: Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              bottom: 4,
+                              right: 8,
+                              left: 8,
+                            ),
+                            child: TextFormField(
+                              expands: true,
+                              maxLines: null,
+                              controller: textEditingController,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 8,
+                                ),
+                                hintText: 'Search',
+                                hintStyle: const TextStyle(fontSize: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                          ),
+                          searchMatchFn: (item, searchValue) {
+                            return item.value
+                                .toString()
+                                .toLowerCase()
+                                .contains(searchValue);
+                          },
+                        )
+                      : null,
+                  onMenuStateChange: (isOpen) {
+                    if (!isOpen && widget.isSearchable) {
+                      textEditingController.clear();
+                    }
+                  },
                 ),
               ),
             ),

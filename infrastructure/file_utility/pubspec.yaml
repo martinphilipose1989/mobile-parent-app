@@ -1,0 +1,29 @@
+name: file_utility
+description: "A new Flutter package project."
+version: 0.0.1
+
+publish_to: none
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get_it:
+  injectable:
+  dependency_injection:
+    path: ../../dependency-injection/
+  data:
+    path: ../../core/data/
+  file_picker: ^8.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  injectable_generator: ^1.5.3
+  build_runner: ^2.2.0
+
+

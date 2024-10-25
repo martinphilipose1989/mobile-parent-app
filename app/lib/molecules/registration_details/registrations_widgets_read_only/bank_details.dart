@@ -2,11 +2,13 @@ import 'package:app/molecules/registration_details/registrations_widgets_read_on
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BankDetails extends StatelessWidget {
-  const BankDetails({super.key});
+class BankDetail extends StatelessWidget {
+final BankDetails? bankDetails;
+  BankDetail({super.key,required this.bankDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +23,29 @@ class BankDetails extends StatelessWidget {
               border: Border.all(
                 width: 1,
               )),
-          child: const ExpansionTile(
-              title: CommonText(
+          child: ExpansionTile(
+              title: const CommonText(
                 text: "Bank Details",
                 style: AppTypography.subtitle2,
               ),
               children: [
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Divider(
+                      const Divider(
                         height: 1,
                         thickness: 1,
                       ),
-                      DetailsItem(title: "IFSC COde", subtitle: '000UTIN123'),
+                      DetailsItem(title: "IFSC Code", subtitle:bankDetails?.ifscCode??""),
                       DetailsItem(
-                          title: "Bank Name", subtitle: 'United Bank of india'),
-                      DetailsItem(title: "Branch Name", subtitle: 'Parel'),
+                          title: "Bank Name", subtitle: bankDetails?.bankName??''),
+                      DetailsItem(title: "Branch Name", subtitle: bankDetails?.branchName??''),
                       DetailsItem(
-                          title: "Account Holder name", subtitle: 'Ashok Shah'),
-                      DetailsItem(title: "Account Type", subtitle: 'Saving'),
+                          title: "Account Holder name", subtitle: bankDetails?.accountHolderName??''),
+                      DetailsItem(title: "Account Type", subtitle: bankDetails?.accountType??''),
                       DetailsItem(
-                          title: "Account Number", subtitle: '09876543211232'),
+                          title: "Account Number", subtitle: bankDetails?.accountNumber??''),
                     ],
                   ),
                 )
@@ -59,7 +61,7 @@ class BankDetails extends StatelessWidget {
           text: "UPI Info",
           style: AppTypography.subtitle1,
         ),
-        const DetailsItem(title: 'UPI Id', subtitle: 'shahashok@paytm')
+        DetailsItem(title: 'UPI Id', subtitle: bankDetails?.upiInfo??'')
       ],
     );
   }

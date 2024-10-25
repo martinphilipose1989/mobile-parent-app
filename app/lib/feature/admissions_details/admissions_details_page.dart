@@ -2,6 +2,7 @@ import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/admissions_details/admissions_details_page_view.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsDetailsPage extends BasePage<AdmissionsDetailsViewModel> {
-  const AdmissionsDetailsPage({super.key});
+  final EnquiryDetailArgs admissionDetail;
+  const AdmissionsDetailsPage({super.key, required this.admissionDetail});
 
   @override
   State<AdmissionsDetailsPage> createState() => _AdmissionsPageState();
@@ -22,7 +24,13 @@ class AdmissionsDetailsPage extends BasePage<AdmissionsDetailsViewModel> {
 class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
     AdmissionsDetailsPage> {
   @override
-  void onModelReady(AdmissionsDetailsViewModel model) {}
+  void onModelReady(AdmissionsDetailsViewModel model) {
+    model.enquiryId = widget.admissionDetail.enquiryId??'';
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AdmissionsDetailsViewModel model) {
@@ -43,12 +51,12 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
   @override
   Widget buildView(BuildContext context, AdmissionsDetailsViewModel model) {
     // TODO: implement buildView
-    return AdmissionsDetailsPageView(provideBase());
+    return AdmissionsDetailsPageView(provideBase(),admissionDetail: widget.admissionDetail,);
   }
 
   @override
   ProviderBase<AdmissionsDetailsViewModel> provideBase() {
-    return admissionsDetailsProvider;
+    return admissionsDetailsProvider.call(widget.admissionDetail);
   }
 
   @override

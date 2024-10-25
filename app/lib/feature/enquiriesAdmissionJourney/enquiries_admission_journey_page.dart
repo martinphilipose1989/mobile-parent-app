@@ -14,7 +14,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesAdmissionsJourneyPage
     extends BasePage<EnquiriesAdmissionsJourneyViewModel> {
-  const EnquiriesAdmissionsJourneyPage({super.key});
+    final EnquiryDetailArgs? enquiryDetail;
+  const EnquiriesAdmissionsJourneyPage({super.key,this.enquiryDetail});
 
   @override
   State<EnquiriesAdmissionsJourneyPage> createState() => _AdmissionsPageState();
@@ -23,7 +24,12 @@ class EnquiriesAdmissionsJourneyPage
 class _AdmissionsPageState extends AppBasePageState<
     EnquiriesAdmissionsJourneyViewModel, EnquiriesAdmissionsJourneyPage> {
   @override
-  void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {}
+  void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
@@ -45,12 +51,12 @@ class _AdmissionsPageState extends AppBasePageState<
   Widget buildView(
       BuildContext context, EnquiriesAdmissionsJourneyViewModel model) {
     // TODO: implement buildView
-    return EnquiriesAdmissionsJourneyPageView(provideBase());
+    return EnquiriesAdmissionsJourneyPageView(provideBase(),enquiryDetail: widget.enquiryDetail??EnquiryDetailArgs(),);
   }
 
   @override
   ProviderBase<EnquiriesAdmissionsJourneyViewModel> provideBase() {
-    return enquiriesAdmissionsJourneyProvider;
+    return enquiriesAdmissionsJourneyProvider.call(widget.enquiryDetail??EnquiryDetailArgs());
   }
 
   @override
@@ -62,7 +68,7 @@ class _AdmissionsPageState extends AppBasePageState<
         return Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: SizedBox(
-              height: 56.h,
+              height: 65.h,
               width: 130.w,
               child: CommonElevatedButton(
                 onPressed: () {
@@ -84,4 +90,45 @@ class _AdmissionsPageState extends AppBasePageState<
       },
     );
   }
+}
+
+
+class EnquiryDetailArgs{
+  String? enquiryType;
+  String? enquiryId;
+  String? enquiryNumber;
+  String? studentName;
+  String? academicYear;
+  String? school;
+  String? board;
+  String? grade;
+  String? stream;
+  String? shift;
+  String? currentStage;
+  String? schoolVisitDate;
+  String? schoolVisitTime;
+  int? formCompletionPercentage;
+  String? isFrom;
+  String? admissionStatus;
+  String? status;
+
+  EnquiryDetailArgs({
+    this.enquiryId,
+    this.enquiryNumber,
+    this.enquiryType,
+    this.currentStage,
+    this.studentName,
+    this.academicYear,
+    this.school,
+    this.board,
+    this.grade,
+    this.stream,
+    this.shift,
+    this.schoolVisitDate,
+    this.schoolVisitTime,
+    this.formCompletionPercentage,
+    this.isFrom,
+    this.admissionStatus,
+    this.status
+  });
 }

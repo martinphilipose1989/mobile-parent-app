@@ -15,6 +15,7 @@ class ListItem extends StatelessWidget {
   final String subtitle;
   final String buttontext;
   final String compeletion;
+  final String status;
   const ListItem(
       {super.key,
       required this.image,
@@ -24,7 +25,9 @@ class ListItem extends StatelessWidget {
       required this.title,
       required this.subtitle,
       required this.buttontext,
-      required this.compeletion});
+      required this.compeletion,
+      required this.status
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -35,86 +38,116 @@ class ListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 32.h,
-              width: 32.w,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(width: 1, color: AppColors.textGray),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: SvgPicture.asset(image),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: name,
-                        style: AppTypography.caption.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textDark,
+            Expanded(
+              flex: 2,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 32.h,
+                    width: 32.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(width: 1, color: AppColors.textGray),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: SvgPicture.asset(image),
+                    ),
+                  ),
+                  SizedBox(width: 8.w,),
+                  SizedBox(
+                    width: 0.4.sw,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text.rich(
+                          softWrap: true,
+                          maxLines: 2,
+                          overflow: TextOverflow.fade,
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '$name ',
+                                style: AppTypography.caption.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textDark,
+                                ),
+                              ),
+                              TextSpan(
+                                text: year,
+                                style: AppTypography.overline
+                                    .copyWith(color: AppColors.textGray),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: year,
-                        style: AppTypography.overline
-                            .copyWith(color: AppColors.textGray),
-                      ),
-                    ],
+                        CommonSizedBox.sizedBox(height: 2, width: 5),
+                        CommonText(
+                            text: id,
+                            softWrap: true,
+                            style: AppTypography.smallCaption.copyWith(
+                                color: AppColors.textGray, letterSpacing: 0.25)),
+                        CommonSizedBox.sizedBox(height: 2, width: 5),
+                       CommonText(
+                           text: title,
+                           maxLines: 2,
+                           softWrap: true,
+                           overflow: TextOverflow.clip,
+                           style: AppTypography.smallCaption.copyWith(
+                               color: AppColors.textGray, letterSpacing: 0.25)),
+                        CommonSizedBox.sizedBox(height: 2, width: 5),
+                        CommonText(
+                            text: subtitle,
+                            style: AppTypography.smallCaption.copyWith(
+                              color: AppColors.textGray,
+                              letterSpacing: 0.25,
+                            )),
+                        CommonText(
+                            text: "Status: $status",
+                            style: AppTypography.smallCaption.copyWith(
+                              color: AppColors.textGray,
+                              letterSpacing: 0.25,
+                            )),
+                      ],
+                    ),
                   ),
-                ),
-                CommonSizedBox.sizedBox(height: 2, width: 5),
-                CommonText(
-                    text: id,
-                    style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25)),
-                CommonSizedBox.sizedBox(height: 2, width: 5),
-                CommonText(
-                    text: title,
-                    style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25)),
-                CommonSizedBox.sizedBox(height: 2, width: 5),
-                CommonText(
-                    text: subtitle,
-                    style: AppTypography.smallCaption.copyWith(
-                      color: AppColors.textGray,
-                      letterSpacing: 0.25,
-                    )),
-              ],
+                ],
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                  height: 36,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: AppColors.primaryLighter,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: CommonText(
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.primaryLighter,
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                    child:  CommonText(
                         text: buttontext,
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                         style: AppTypography.body2.copyWith(
                           color: Theme.of(context).primaryColor,
-                        )),
+                      )),
                   ),
-                ),
-                CommonSizedBox.sizedBox(height: 8, width: 10),
-                CommonText(
-                  text: compeletion,
-                  style: AppTypography.smallCaption
-                      .copyWith(color: AppColors.success),
-                )
-              ],
+                  CommonSizedBox.sizedBox(height: 8, width: 10),
+                  CommonText(
+                    text: compeletion,
+                    style: AppTypography.smallCaption
+                        .copyWith(color: AppColors.success),
+                  )
+                ],
+              ),
             ),
           ],
         ),

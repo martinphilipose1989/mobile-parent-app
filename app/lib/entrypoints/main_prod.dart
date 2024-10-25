@@ -8,11 +8,16 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.prod,
     values: const FlavorValues(
-      apiBaseUrl: '',
+      //   apiBaseUrl: '',
       mdmBaseUrl: '',
       adminBaseUrl: '',
       mdmToken: '',
       financeBaseUrl: '',
+      authorizationEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+      tokenEndpoint:
+          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
+      apiBaseUrl: "https://api.openweathermap.org/",
       secrets: AppSecrets.appSecretsProd,
     ),
   );

@@ -8,8 +8,8 @@ NetworkError getError({required Response apiResponse}) {
       final ErrorEntity errorResponseEntity =
           ErrorEntity.fromJson(apiResponse.data);
       return NetworkError(
-        httpError: apiResponse.statusCode ?? 1000,
-        message: errorResponseEntity.message ?? '',
+        httpError: errorResponseEntity.errorCode?? 1000,
+        message: errorResponseEntity.error??errorResponseEntity.errorMessage??'',
         cause: Exception("Server Response Error"),
       );
     } catch (exception) {

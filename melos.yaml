@@ -20,10 +20,17 @@ scripts:
     exec: flutter clean
 
   build-clean:
+<<<<<<< HEAD
     run: melos exec --scope="app,data,domain,database_floor,network_retrofit,themes,attachment" flutter pub run build_runner clean
 
   generate:
     run: melos exec --scope="app,data,domain,database_floor,network_retrofit,themes,attachment" -- flutter pub run build_runner build --delete-conflicting-outputs
+=======
+    run: melos exec --scope="app,data,domain,database_floor,network_retrofit,file_utility,themes,appauth,services" flutter pub run build_runner clean
+
+  generate:
+    run: melos exec --scope="app,data,domain,database_floor,network_retrofit,file_utility,themes,appauth,services" -- flutter pub run build_runner build --delete-conflicting-outputs
+>>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 
   get:
     exec: flutter pub get

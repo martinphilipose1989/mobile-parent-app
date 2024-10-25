@@ -2,6 +2,39 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "QA (Release)",
+            "request": "launch",
+            "type": "dart",
+            "program": "app/lib/entrypoints/main_qa.dart",
+            "args": [
+                "--flavor",
+                "qa",
+                "--release"
+            ]
+        },
+        {
+            "name": "Dev (Release)",
+            "request": "launch",
+            "type": "dart",
+            "program": "app/lib/entrypoints/main_dev.dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--release"
+            ]
+        },
+        {
+            "name": "Prod (Release)",
+            "request": "launch",
+            "type": "dart",
+            "program": "app/lib/entrypoints/main_prod.dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--release"
+            ]
+        },
+        {
             "name": "QA",
             "request": "launch",
             "type": "dart",
