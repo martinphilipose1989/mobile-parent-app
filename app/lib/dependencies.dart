@@ -1,4 +1,5 @@
 import 'package:app/di/app_dependency_configurator.dart';
+import 'package:appauth/appauth.dart';
 import 'package:attachment/attachment.dart';
 import 'package:data/data.dart';
 import 'package:database_floor/floor.dart';
