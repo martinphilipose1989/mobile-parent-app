@@ -1,4 +1,5 @@
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -38,10 +39,11 @@ class _CalendarState extends State<Calendar> {
     selectedMonth = DateTime.now().monthStart;
     super.initState();
   }
-String converter(DateTime date){
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
-return formatter.format(date);
-}
+
+  String converter(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,11 @@ return formatter.format(date);
                   selectDate: (DateTime value) => setState(() {
                     selectedDate = value;
                     Navigator.pushNamed(
-                        context, RoutePaths.attendanceDetailspage,arguments: AttendanceDetailPageParameter(studentId: ["1"],toDate: converter(selectedDate),fromDate: converter(selectedDate)));
+                        context, RoutePaths.attendanceDetailspage,
+                        arguments: AttendanceDetailPageParameter(
+                            studentId: ["1"],
+                            toDate: converter(selectedDate),
+                            fromDate: converter(selectedDate)));
                   }),
                 ),
               ),
@@ -207,12 +213,14 @@ class _Header extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const CommonText(text: "Select date"),
           Row(
             children: [
               Expanded(
                 child: Text(
-                  'Month: ${selectedMonth.month }/${selectedMonth.year}',
+                  '${intToDay(selectedDate!.weekday)} ${intToMonth(selectedMonth.month)} ${selectedDate!.day}',
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -293,4 +301,57 @@ class CalendarDayData {
     required this.isActiveMonth,
     required this.isActiveDate,
   });
+}
+
+
+
+String intToMonth(int month) {
+  switch (month) {
+    case 1:
+      return "Jan";
+    case 2:
+      return "Feb";
+    case 3:
+      return "Mar";
+    case 4:
+      return "Apr";
+    case 5:
+      return "May";
+    case 6:
+      return "Jun";
+    case 7:
+      return "Jul";
+    case 8:
+      return "Aug";
+    case 9:
+      return "Sep";
+    case 10:
+      return "Oct";
+    case 11:
+      return "Nov";
+    case 12:
+      return "Dec";
+    default:
+      return "Invalid month";
+  }
+}
+String intToDay(int day) {
+  switch (day) {
+    case 1:
+      return "Mon";
+    case 2:
+      return "Tue";
+    case 3:
+      return "Wed";
+    case 4:
+      return "Thu";
+    case 5:
+      return "Fri";
+    case 6:
+      return "Sat";
+    case 7:
+      return "Sun";
+    default:
+      return "Invalid day";
+  }
 }

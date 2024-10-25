@@ -71,7 +71,7 @@ class AttendanceDetailsData {
 
 class AttendanceDetail {
   int id;
-  int? attendanceId;
+  int attendanceId;
   int? attendanceType;
   int? subjectId;
   int? timetableId;
@@ -79,10 +79,12 @@ class AttendanceDetail {
   String? attendanceRemark;
   String? startTime;
   String? endTime;
-  String?  subjectName;
-  String?  firstName;
+  int? dayId;
+  int? period;
+  String? subjectName;
+  String? firstName;
   String? middleName;
-  String?  lastName;
+  String? lastName;
   String? enrOn;
 
   AttendanceDetail({
@@ -95,6 +97,8 @@ class AttendanceDetail {
     required this.attendanceRemark,
     required this.startTime,
     required this.endTime,
+    required this.dayId,
+    required this.period,
     required this.subjectName,
     required this.firstName,
     required this.middleName,

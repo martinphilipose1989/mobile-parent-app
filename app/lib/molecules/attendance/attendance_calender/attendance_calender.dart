@@ -53,22 +53,22 @@ class AttendanceCalender extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h, width: double.infinity),
-                  snapshot?.status==Status.loading?Center(child: const CircularProgressIndicator()): snapshot?.data?.data!=null? Row(
+                  snapshot?.status==Status.loading?const Center(child: CircularProgressIndicator()): snapshot?.data?.data.attendanceSummary!=[]? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AttendanceCountTile(
 
-                          count: snapshot?.data?.data.totalDays,
+                          count: snapshot?.data?.data.totalDays??"0",
                           countType: 'Total Days',
                           textColor: Theme.of(context).colorScheme.primary,
                         ),
                   AttendanceCountTile(
-                          count: snapshot?.data?.data.presentDaysCount,
+                          count: snapshot?.data?.data.presentDaysCount??"0",
                           countType: 'Present Days',
                           textColor: AppColors.success,
                         ),
           AttendanceCountTile(
-                          count: snapshot?.data?.data.absentDaysCount,
+                          count: snapshot?.data?.data.absentDaysCount??"0",
                           countType: 'Absent Days',
                           textColor: AppColors.failure,
                         )

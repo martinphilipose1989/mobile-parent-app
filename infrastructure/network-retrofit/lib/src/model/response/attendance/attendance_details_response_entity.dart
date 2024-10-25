@@ -146,7 +146,7 @@ return AttendanceDetailsData(id: id, academicYearId: academicYearId, schoolId: s
 
 
 @JsonSerializable()
-class AttendanceDetailEntity implements BaseLayerDataTransformer<AttendanceDetailEntity,AttendanceDetail>{
+class AttendanceDetailEntity {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "attendance_id")
@@ -165,6 +165,10 @@ class AttendanceDetailEntity implements BaseLayerDataTransformer<AttendanceDetai
   String? startTime;
   @JsonKey(name: "end_time")
   String? endTime;
+  @JsonKey(name: "day_id")
+  int? dayId;
+  @JsonKey(name: "period")
+  int? period;
   @JsonKey(name: "subject_name")
   String? subjectName;
   @JsonKey(name: "first_name")
@@ -186,6 +190,8 @@ class AttendanceDetailEntity implements BaseLayerDataTransformer<AttendanceDetai
     required this.attendanceRemark,
     required this.startTime,
     required this.endTime,
+    required this.dayId,
+    required this.period,
     required this.subjectName,
     required this.firstName,
     required this.middleName,
@@ -210,7 +216,7 @@ return AttendanceDetail(id: id, attendanceId: attendanceId,
     timetableId: timetableId, globalStudentId: globalStudentId,
     attendanceRemark: attendanceRemark, startTime: startTime,
     endTime: endTime, subjectName: subjectName, firstName: firstName,
-    middleName: middleName, lastName: lastName, enrOn: enrOn);
+    middleName: middleName, lastName: lastName, enrOn: enrOn, dayId: dayId, period: period);
   }
 }
 

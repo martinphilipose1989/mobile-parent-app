@@ -14,10 +14,10 @@ class AttendanceCountResponseModel {
 }
 
 class  AttendanceData {
-  int studentId;
-  String totalDays;
-  String presentDaysCount;
-  String absentDaysCount;
+  int? studentId;
+  String? totalDays;
+  String? presentDaysCount;
+  String? absentDaysCount;
   List<AttendanceSummary> attendanceSummary;
 
   AttendanceData({

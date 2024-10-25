@@ -14,6 +14,7 @@ import 'attendance_details_page_view.dart';
 
 import 'attendance_details_view_model.dart';
 
+
 class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
   AttendanceDetailPageParameter attendanceDetailPageParameter;
 
@@ -21,7 +22,8 @@ class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
 
   @override
   State<AttendanceDetailsPage> createState() => _AttendanceDetailsPageState();
-}
+
+ }
 
 class _AttendanceDetailsPageState extends AppBasePageState<
     AttendanceDetailsViewModel, AttendanceDetailsPage> {
@@ -33,9 +35,10 @@ class _AttendanceDetailsPageState extends AppBasePageState<
     model.selectedStudent = ProviderScope.containerOf(context)
         .read(dashboardViewModelProvider)
         .selectedStudentId;
+    print(model.selectedStudent?.first.id.toString() );
     model.getAttendance(
         model: AttendanceDetailsRequestModel(
-            studentId: [model.selectedStudent?.first.id.toString() ?? ""],
+            studentId: [model.selectedStudent?.first.id.toString() ?? "10"],
             attendanceStartDate:
                 widget.attendanceDetailPageParameter.fromDate.toString(),
             attendanceEndDate:
@@ -75,8 +78,7 @@ class AttendanceDetailPageParameter {
   String? toDate;
   String? fromDate;
 
-  AttendanceDetailPageParameter(
-      {this.studentId, this.toDate, this.fromDate}); // toJson method
+  AttendanceDetailPageParameter({this.studentId, this.toDate, this.fromDate}); // toJson method
   Map<String, dynamic> toJson() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return {
@@ -84,6 +86,7 @@ class AttendanceDetailPageParameter {
       'toDate': toDate,
       'fromDate': fromDate,
     };
+
   }
 
   // fromJson method

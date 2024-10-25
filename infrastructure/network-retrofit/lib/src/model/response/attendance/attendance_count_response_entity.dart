@@ -41,13 +41,13 @@ class AttendanceCountResponseEntity implements BaseLayerDataTransformer<Attendan
 @JsonSerializable()
 class   AttendanceDataEntity implements BaseLayerDataTransformer<AttendanceDataEntity, AttendanceData> {
   @JsonKey(name: "student_id")
-  int studentId;
+  int? studentId;
   @JsonKey(name: "total_days")
-  String totalDays;
+  String? totalDays;
   @JsonKey(name: "present_days_count")
-  String presentDaysCount;
+  String? presentDaysCount;
   @JsonKey(name: "absent_days_count")
-  String absentDaysCount;
+  String? absentDaysCount;
   @JsonKey(name: "attendance_summary")
   List<AttendanceSummaryEntity> attendanceSummary;
 

@@ -32,8 +32,8 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
 //
 
                   snapshot?.status == Status.loading
-                      ? snapshot?.data!.data.data.isNotEmpty == true
-                          ? Column(
+                      ? const Center(child: CircularProgressIndicator())
+                        : Column(
                               children: [
                                 CommonSizedBox.sizedBox(height: 20, width: 10),
                                 AttendanceDetails(
@@ -47,15 +47,15 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.6,
-                                    child: const AttendanceList())
+                                    child:  const AttendanceList())
                               ],
-                            )
-                          : Center(
-                              child: CommonText(
-                                text: "No data Available",
-                              ),
-                            )
-                      : CircularProgressIndicator();
+                            );
+                      //     : Center(
+                      //         child: CommonText(
+                      //           text: "No data Available",
+                      //         ),
+                      //       )
+                      // : CircularProgressIndicator();
             },
             initialData: Resource.none(),
           );
