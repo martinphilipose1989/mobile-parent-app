@@ -27,7 +27,7 @@ class _TicketListPageState
   PreferredSizeWidget? buildAppbar(TicketListViewModel model) {
     // TODO: implement buildAppbar
     return const CommonAppBar(
-      appbarTitle: 'Student Attendance',
+      appbarTitle: 'Tickets',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
     );
