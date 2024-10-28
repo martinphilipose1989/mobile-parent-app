@@ -1,6 +1,9 @@
+
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:shared/shared.dart';
+
+import '../../data.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -89,4 +92,9 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, CreateTicketModel>> createTicket(
       {required CreateTicketRequest createTicketRequest});
+
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
+      {required int id});
+
+
 }

@@ -38,11 +38,15 @@ class _AttendanceDetailsPageState extends AppBasePageState<
     print(model.selectedStudent?.first.id.toString() );
     model.getAttendance(
         model: AttendanceDetailsRequestModel(
-            studentId: [model.selectedStudent?.first.id.toString() ?? "10"],
+            studentId: [
+              model.selectedStudent?.first.id.toString() ?? "10"],
             attendanceStartDate:
                 widget.attendanceDetailPageParameter.fromDate.toString(),
             attendanceEndDate:
                 widget.attendanceDetailPageParameter.fromDate.toString()));
+
+
+    model.getStudentDetail(id: model.selectedStudent?.first.id);
   }
 
   @override

@@ -7,4 +7,10 @@ abstract class AdminRepository {
       required String feeTypeIds,
       required String feeCategoryIds,
       required String feeSubCategoryIds});
+
+
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({required int id});
+
+
+
 }

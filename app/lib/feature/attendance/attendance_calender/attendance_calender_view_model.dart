@@ -9,41 +9,55 @@ import '../../../utils/request_manager.dart';
 
 class AttendanceCalenderViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
- final  AttendanceCountUsecase attendanceCountUsecase;
-  AttendanceCalenderViewModel(this.exceptionHandlerBinder, this.attendanceCountUsecase);
-
-
+  final AttendanceCountUsecase attendanceCountUsecase;
+  final StudentDetailUseCase studentDetailsUsecase;
+  AttendanceCalenderViewModel(this.exceptionHandlerBinder,
+      this.attendanceCountUsecase, this.studentDetailsUsecase);
 
   final BehaviorSubject<Resource<AttendanceCountResponseModel>>
-  _getAttendancelist =
-  BehaviorSubject<Resource<AttendanceCountResponseModel>>();
+      _getAttendancelist =
+      BehaviorSubject<Resource<AttendanceCountResponseModel>>();
 
-  Stream<Resource<AttendanceCountResponseModel>> get   getAttendancelist =>
+  Stream<Resource<AttendanceCountResponseModel>> get getAttendancelist =>
       _getAttendancelist;
+
   late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
 
-  void getAttendanceList(
-      {required AttendanceCountRequestModel model}
-      ){
+  void getAttendanceList({required AttendanceCountRequestModel model}) {
     exceptionHandlerBinder.handle(block: () {
-
-      AttendanceCountUsecaseParams params=  AttendanceCountUsecaseParams( attendanceCountRequestModel: model,);
+      AttendanceCountUsecaseParams params = AttendanceCountUsecaseParams(
+        attendanceCountRequestModel: model,
+      );
       RequestManager<AttendanceCountResponseModel>(
         params,
         createCall: () => attendanceCountUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _getAttendancelist.add(result);
         if (result.status == Status.error) {}
-
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
-
-
-
   }
 
+  final BehaviorSubject<Resource<StudentDetailsResponseModel>> _studentDetails =
+      BehaviorSubject<Resource<StudentDetailsResponseModel>>();
 
+  Stream<Resource<StudentDetailsResponseModel>> get studentDetails =>
+      _studentDetails;
 
+  void getStudentDetail({required int? id}) {
+    exceptionHandlerBinder.handle(block: () {
+      StudentDetailUseCaseParams params = StudentDetailUseCaseParams(id!);
+      RequestManager<StudentDetailsResponseModel>(
+        params,
+        createCall: () => studentDetailsUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        _studentDetails.add(result);
+        if (result.status == Status.error) {}
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
 }

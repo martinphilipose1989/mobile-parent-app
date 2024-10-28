@@ -22,8 +22,13 @@ class AttendanceCalender extends StatelessWidget {
   String? boardName;
  String? grade;
  String? shift;
+ String? division;
+ String? stream;
+ String? course;
+ String? house;
+
  AttendanceCalender({
-    super.key, this.name, this.schoolName,  this.boardName, this.grade,  this.shift,
+    super.key, this.name,this.course,this.house, this.division,this.schoolName,this.stream  ,this.boardName, this.grade,  this.shift,
   });
 
   @override
@@ -33,11 +38,11 @@ class AttendanceCalender extends StatelessWidget {
         StudentDetails(
             image: AppImages.personIcon,
             name: name??"",
-            title: "vibgyor Schools|cbse",
-            subtitle: "regular| shift| Grade V",
-            subtitle2: "Stream|NA"),
-        const SizedBox(height: 20, width: double.infinity),
-        BaseWidget(
+            title: "$schoolName|$boardName",
+            subtitle: "$course| $shift| $division| $house",
+            subtitle2: "$stream|NA"),
+          SizedBox(height: 20.h, width: double.infinity),
+          BaseWidget(
           builder: (BuildContext context, AttendanceCalenderViewModel? model, Widget? child) {
          return   AppStreamBuilder<Resource<AttendanceCountResponseModel>>(
            stream: model!.getAttendancelist,
@@ -84,7 +89,7 @@ class AttendanceCalender extends StatelessWidget {
           providerBase: attendanceCalenderProvider,
 
         ),
-        const SizedBox(height: 20, width: double.infinity),
+  SizedBox(height: 20.h, width: double.infinity),
         SizedBox(height: 350.h, child: const Calendar())
       ],
     );

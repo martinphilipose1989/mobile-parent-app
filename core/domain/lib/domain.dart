@@ -43,6 +43,7 @@ export 'src/usecase/communication/create_sub_category_usecase.dart';
 export 'src/usecase/communication/find_by_category_sub_category_usecase.dart';
 export 'src/usecase/communication/send_communication_usecase.dart';
 export 'src/usecase/communication/create_ticket_usecase.dart';
+export 'src/usecase/student_detail/student_detail_usecase.dart';
 
 //disciplinarySlip
 export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';

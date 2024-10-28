@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/response/admin/student_detail/student_detail_response_entity.dart';
 import '../model/response/admin/get_couponse_list/get_coupons_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -21,4 +22,11 @@ abstract class AdminRetorfitService {
       @Path('fee_type_ids') required String feeTypeIds,
       @Path('fee_category_ids') required String feeCategoryIds,
       @Path('fee_sub_category_ids') required String feeSubCategoryIds});
+
+  @GET(
+      '/studentProfile/{id}')
+  Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails(
+      {@Path('id') required int studentId,
+        });
+
 }

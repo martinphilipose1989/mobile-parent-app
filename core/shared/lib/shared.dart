@@ -42,6 +42,7 @@ export 'src/model/response/attendance/attendanceResponseModel.dart';
 export 'src/model/response/finance/get_store_image_model.dart';
 export 'src/model/response/finance/get_payment_status_model.dart';
 export 'src/model/response/admin/get_coupons_model.dart';
+export 'src/model/response/admin/student_details/student_details_response_model.dart';
 export 'src/model/response/disciplinarySlip/disciplinary_slip_model.dart';
 export 'src/model/response/disciplinarySlip/acknowledgeResponseModel.dart';
 export 'src/model/response/disciplinarySlip/co_reasons_list_response_model.dart';

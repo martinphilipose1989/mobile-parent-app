@@ -10,7 +10,17 @@ import '../../../utils/common_widgets/app_images.dart';
 class AttendanceDetails extends StatelessWidget {
   final String date;
 final String name;
-  const AttendanceDetails({super.key, required this.date, required this.name});
+  String? schoolName;
+  String? boardName;
+  String? grade;
+  String? shift;
+  String? division;
+  String? stream;
+  String? course;
+  String? house;
+
+ AttendanceDetails({super.key, required this.date, required this.name,this.stream,this.division,
+    this.shift,this.boardName,this.schoolName,this.course,this.grade,this.house});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +29,9 @@ final String name;
      StudentDetails(
             image: AppImages.personIcon,
             name: name,
-            title: "vibgyor Schools|cbse",
-            subtitle: "regular| shift| Grade V",
-            subtitle2: "Stream|NA"),
+         title: "$schoolName|$boardName",
+         subtitle: "$course| $shift| $division| $house",
+         subtitle2: "$stream|NA"),
         const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),

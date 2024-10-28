@@ -539,4 +539,15 @@ class NetworkAdapter implements NetworkPort {
       (r) => Right(r.data.transform()),
     );
   }
+
+  @override
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({required int id}) async{
+    var response=await safeApiCall(adminRetorfitService.getStudentDetails(studentId: id));
+    return response.fold(
+          (l) {
+        return Left(l);
+      },
+          (r) => Right(r.data.transform()),
+    );
+  }
 }

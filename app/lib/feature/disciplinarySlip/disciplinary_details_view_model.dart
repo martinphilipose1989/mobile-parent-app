@@ -12,7 +12,9 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
  final DisciplinarySlipListUsecase disciplinarySlipListUsecase;
  final CreateAcknowledgementUsecase  createAcknowledgementUsecase;
  final CoReasonsListUsecase coReasonsListUsecase;
-  DisplinaryDetailsViewModel(this.exceptionHandlerBinder, this.disciplinarySlipListUsecase, this.createAcknowledgementUsecase, this.coReasonsListUsecase);
+ final StudentDetailUseCase studentDetailUsecase;
+
+  DisplinaryDetailsViewModel(this.exceptionHandlerBinder, this.disciplinarySlipListUsecase, this.createAcknowledgementUsecase, this.coReasonsListUsecase, this.studentDetailUsecase);
 
 
   BehaviorSubject<bool> showExpansion =
@@ -86,15 +88,7 @@ void getCoReasonList() {
  );
 }
 
-
-
-
-
-
-
-
-
-  void getSlipList({required int studentId, int? academicYearId, DateTime? date}){
+void getSlipList({required int studentId, int? academicYearId, DateTime? date}){
    exceptionHandlerBinder.handle(block: () {
 
  DisciplinarySlipListUsecaseParams params =  DisciplinarySlipListUsecaseParams(  studentId: studentId);
@@ -118,4 +112,28 @@ void getCoReasonList() {
   }
 
 
+
+  final BehaviorSubject<Resource<StudentDetailsResponseModel>> _studentDetails =
+  BehaviorSubject<Resource<StudentDetailsResponseModel>>();
+
+  Stream<Resource<StudentDetailsResponseModel>> get studentDetails =>
+      _studentDetails;
+
+  void getStudentDetail({required int? id}) {
+   exceptionHandlerBinder.handle(block: () {
+    StudentDetailUseCaseParams params = StudentDetailUseCaseParams(id!);
+    RequestManager<StudentDetailsResponseModel>(
+     params,
+     createCall: () => studentDetailUsecase.execute(params: params),
+    ).asFlow().listen((result) {
+     _studentDetails.add(result);
+     if (result.status == Status.error) {}
+    }).onError((error) {
+     exceptionHandlerBinder.showError(error!);
+    });
+   }).execute();
+  }
 }
+
+
+

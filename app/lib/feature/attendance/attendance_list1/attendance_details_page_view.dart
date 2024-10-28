@@ -26,7 +26,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
         builder: (BuildContext context, AttendanceDetailsViewModel? model,
             Widget? child) {
           return AppStreamBuilder<Resource<AttendanceDetailsResponseModel>>(
-            stream: model!.getAttendanceDetail,
+            stream: model!.getAttendanceDetail ,
             dataBuilder: (context, snapshot) {
               return
 //
@@ -36,13 +36,26 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                         : Column(
                               children: [
                                 CommonSizedBox.sizedBox(height: 20, width: 10),
-                                AttendanceDetails(
-                                  date: dateFormatToDDMMYYYhhmma(snapshot!
-                                      .data!.data.data.first.attendanceDate
-                                      .toString()),
-                                  name: model.selectedStudent?.first
+                                AppStreamBuilder<Resource<StudentDetailsResponseModel>>(
+                                  dataBuilder: (context,data){
+                               return     AttendanceDetails(
+                                 schoolName: data?.data?.data?.profile?.crtSchool,
+                                 boardName:data?.data?.data?.profile?.crtBoard ,stream: data?.data?.data?.profile?.streamName,
+                                 grade: data?.data?.data?.profile?.crtGrade,
+                                 course: data?.data?.data?.profile?.courseName,
+                                 shift: data?.data?.data?.profile?.crtShift,
+                                 division: data?.data?.data?.profile?.crtDivision,house: data?.data?.data?.profile?.crtHouse,
+
+                                 date: dateFormatToDDMMYYYhhmma(snapshot!
+                                          .data!.data.data.first.attendanceDate
+                                          .toString()),
+                                      name: model.selectedStudent?.first
                                           .studentDisplayName ??
-                                      "",
+                                          "",
+                                    );
+                                  }
+                        ,
+              stream: model.studentDetails, initialData: Resource.none(),
                                 ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *

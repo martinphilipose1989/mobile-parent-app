@@ -39,6 +39,12 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  StudentDetailUseCase getStudentDetails(AdminRepository repo) {
+    return StudentDetailUseCase(
+    repo
+    );
+  }
+  @lazySingleton
   GetGuardianStudentDetailsUsecase getGuardianStudentDetails(
       FinanceRepository repository) {
     return GetGuardianStudentDetailsUsecase(repository);

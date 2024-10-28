@@ -21,8 +21,19 @@ import '../../utils/stream_builder/app_stream_builder.dart';
 
 class DisciplinaryDetails extends StatelessWidget {
   final String name;
+  String? schoolName;
+  String? boardName;
+  String? grade;
+  String? shift;
+  String? division;
+  String? stream;
+  String? course;
+  String? house;
 
-DisciplinaryDetails({super.key, required this.name });
+DisciplinaryDetails({super.key, required this.name ,this.house,this.grade,
+  this.course,this.schoolName,this.boardName,
+  this.shift,this.division,this.stream
+});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +42,9 @@ DisciplinaryDetails({super.key, required this.name });
         StudentDetails(
             image: AppImages.personIcon,
             name: name,
-            title: "vibgyor Schools|cbse",
-            subtitle: "regular| shift| Grade V",
-            subtitle2: "Stream|NA"),
+            title: "$schoolName|$boardName",
+            subtitle: "$course| $shift| $division| $house",
+            subtitle2: "$stream"),
         SizedBox(
           height: 20.h,
         ),
