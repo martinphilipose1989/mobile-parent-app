@@ -8,6 +8,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
+import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -36,6 +37,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   DeleteEnquiryDocumentUsecase deleteEnquiryDocumentUsecase;
   DownloadFileUsecase downloadFileUsecase;
   EnquiryDetailArgs enquiryDetails;
+  final ChooseFileUseCase chooseFileUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
@@ -54,6 +56,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     this.updateNewAdmissionUsecase,
     this.downloadFileUsecase,
     this.enquiryDetails,
+    this.chooseFileUseCase,
     this.flutterToastErrorPresenter
   ){
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -71,6 +74,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final formKey = GlobalKey<FormState>();
   BuildContext? context;
 
+  final PermissionHandlerService permissionHandler = PermissionHandlerService();
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
   BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
   BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
@@ -588,6 +592,20 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         }
         // activeStep.add()
       });
+    }).execute();
+  }
+
+  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID, String enquiryID,int index) {
+    exceptionHandlerBinder.handle(block: () {
+      final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
+      RequestManager<UploadFile>(params,
+              createCall: () => chooseFileUseCase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
+          uploadEnquiryDocument(enquiryID: enquiryID, documentID: documentID, file: result.data!.file!,index: index);
+        }
+      }).onError((error) {});
     }).execute();
   }
 

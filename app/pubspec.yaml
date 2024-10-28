@@ -45,8 +45,6 @@ dependencies:
     path: ../infrastructure/network-retrofit/
   attachment:
     path: ../infrastructure/attachment/ 
-  file_utility:
-    path: ../infrastructure/file_utility
   data:
     path: ../core/data/
   domain:

@@ -4,7 +4,6 @@ import 'package:attachment/attachment.dart';
 import 'package:data/data.dart';
 import 'package:database_floor/floor.dart';
 import 'package:dependency_injection/dependency_injection.dart';
-import 'package:file_utility/file_utility.dart';
 import 'package:get_it/get_it.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:services/services.dart';
@@ -34,8 +33,6 @@ final configurators = [
 
   //configure attachment sources
   AttachmentDependenciesConfigurator(),
-
-  FileUtilityDependencyConfigurator(),
 
   // secure storage
   ServiceDependenciesConfigurator(),

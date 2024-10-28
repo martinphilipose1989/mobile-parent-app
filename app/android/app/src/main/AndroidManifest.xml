@@ -23,7 +23,6 @@
    
    <application
         android:label="Hubblehox - Parent App"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">
         <activity

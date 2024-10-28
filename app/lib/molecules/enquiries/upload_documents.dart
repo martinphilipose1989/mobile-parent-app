@@ -1,5 +1,5 @@
-import 'package:app/dependencies.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
+import 'package:app/myapp.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -9,6 +9,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UploadDocuments extends StatelessWidget {
   EnquiriesDetailsPageModel model;
@@ -118,19 +119,7 @@ class UploadDocuments extends StatelessWidget {
                                 // if(!model.editRegistrationDetails.value || model.isDocumentUploaded[index??0].value){
                                 //   return;
                                 // }
-                                var file = await getIt.get<FileUtilityPort>().pickFile();
-                                file.fold(
-                                  (l) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: CommonText(text: l.error.message))
-                                    );
-                                  },
-                                  (r) {
-                                    if(r!=null){
-                                      model.uploadEnquiryDocument(enquiryID: enquiryID??'', documentID: (enquiryDocument?.documentId??0).toString(), file: r,index: index);
-                                    }
-                                  }
-                                );
+                                showImagePickerBottomSheet(enquiryDocument: enquiryDocument,enquiryID: enquiryID,index: index);
                               },
                               child: SvgPicture.asset(
                                 AppImages.uploadIcon,
@@ -190,6 +179,97 @@ class UploadDocuments extends StatelessWidget {
             );
           }
         );
+      }
+    );
+  }
+
+  void showImagePickerBottomSheet({String? enquiryID,EnquiryDocument? enquiryDocument,int? index}){
+    showModalBottomSheet(
+      context: navigatorKey.currentContext!,
+      isDismissible: false,
+      backgroundColor: Colors.transparent,
+      builder: (context){
+        return Container(
+          height: 150,
+          decoration: const BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2.0)],
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10))),
+          width: MediaQuery.of(navigatorKey.currentContext!).size.width,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(navigatorKey.currentContext!);
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    bool cameraPermissionGranted = await model
+                        .permissionHandler
+                        .checkCameraPermission(
+                      (value) {
+                        if (value) {
+                          CommonPopups().showGallerySettingPermission(
+                            navigatorKey.currentContext!,
+                            'To continue, please allow access to your camera. These permissions are necessary for capturing and selecting images. You can enable them in your device settings.',
+                            true,
+                            Icons.camera_alt,
+                            (shouldRoute) {
+                              openAppSettings();
+                            },
+                          );
+                        }
+                      },
+                    );
+                    if (cameraPermissionGranted) {
+                      model.pickFile(UpoladFileTypeEnum.camera,(enquiryDocument?.documentId??0).toString(),enquiryID??'',index??0);
+                      Navigator.pop(navigatorKey.currentContext!);
+                    }
+                  },
+                  child: const CommonText(text: "Take A Photo"),
+                ),
+                const Divider(),
+                InkWell(
+                  onTap: () async {
+                    bool galleryPermissionGranted = await model
+                        .permissionHandler
+                        .checkGalleryPermission(
+                      (value) {
+                        if (value) {
+                          CommonPopups().showGallerySettingPermission(
+                            navigatorKey.currentContext!,
+                            'To continue, please allow access to your gallery. These permissions are necessary for capturing and selecting images. You can enable them in your device settings.',
+                            true,
+                            Icons.photo,
+                            (shouldRoute) {
+                              openAppSettings();
+                            },
+                          );
+                        }
+                      },
+                    );
+                    if (galleryPermissionGranted) {
+                      model.pickFile(UpoladFileTypeEnum.image,(enquiryDocument?.documentId??0).toString(),enquiryID??'',index??0);
+                      Navigator.pop(navigatorKey.currentContext!);
+                    }
+                  },
+                  child: const CommonText(text: "Choose From Gallery"),
+                ),
+              ],
+            ),
+          ),
+        );  
       }
     );
   }

@@ -129,6 +129,7 @@ final registrationsDetailsProvider =
       getIt.get<MakePaymentRequestUsecase>(),
       getIt.get<GetSubjectListUsecase>(),
       getIt.get<GetCityStateByPincodeUsecase>(),
+      getIt.get<ChooseFileUseCase>(),
       getIt.get<FlutterToastErrorPresenter>()),
 );
 
@@ -156,6 +157,7 @@ final enquiriesDetailsPageModelProvider =
     getIt.get<UpdateNewAdmissionUsecase>(),
     getIt.get<DownloadFileUsecase>(),
     args,
+    getIt.get<ChooseFileUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
   ),
 );

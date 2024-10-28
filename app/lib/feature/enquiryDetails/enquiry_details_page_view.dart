@@ -168,10 +168,10 @@ class EnquiriesDetailsPageView
                               secondTabTitle: "Upload Documents",
                               tabController: model.tabController,
                               selectedValue: model.selectedValue,
-                              onSecondTabTap: (){
+                              onSecondTabChange: (){
                                 model.getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
                               },
-                              onFirstTabTap: () {
+                              onFirstTabChange: () {
                                 if(enquiryDetailArgs.enquiryType == "IVT"){
                                   model.getIvtDetails(enquiryID: enquiryDetailArgs.enquiryId??'',isEdit: model.editRegistrationDetails.value);
                                 }

@@ -10,6 +10,7 @@ import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -56,6 +57,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final MakePaymentRequestUsecase makePaymentRequestUsecase;
   final GetSubjectListUsecase getSubjectListUsecase;
   final GetCityStateByPincodeUsecase getCityStateByPincodeUsecase;
+  final ChooseFileUseCase chooseFileUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   RegistrationsDetailsViewModel(
@@ -84,6 +86,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.makePaymentRequestUsecase,
       this.getSubjectListUsecase,
       this.getCityStateByPincodeUsecase,
+      this.chooseFileUseCase,
       this.flutterToastErrorPresenter,);
 
   List registrationDetails = [
@@ -126,6 +129,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BuildContext? context;
 
   ScrollController controller = ScrollController();
+
+  final PermissionHandlerService permissionHandler = PermissionHandlerService();
 
   final studenFormKey = GlobalKey<FormState>();
   final enquiryFormKey = GlobalKey<FormState>();
@@ -1583,6 +1588,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         } 
         // activeStep.add()
       });
+    }).execute();
+  }
+
+  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID, String enquiryID,int index) {
+    exceptionHandlerBinder.handle(block: () {
+      final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
+      RequestManager<UploadFile>(params,
+              createCall: () => chooseFileUseCase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
+          uploadEnquiryDocument(enquiryID: enquiryID, documentID: documentID, file: result.data!.file!,index: index);
+        }
+      }).onError((error) {});
     }).execute();
   }
 
