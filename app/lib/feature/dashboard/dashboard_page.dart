@@ -26,11 +26,11 @@ class DashboardPageState
   void onModelReady(DashboardPageModel model) {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.mobileNo =
-        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo;
+    // model.mobileNo =
+    //     ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo;
 
-    model.getStudentList(int.parse(
-        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo));
+    // model.getStudentList(int.parse(
+    //     ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo));
   }
 
   @override
@@ -40,7 +40,6 @@ class DashboardPageState
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 }

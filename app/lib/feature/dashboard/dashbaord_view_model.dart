@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -6,15 +8,23 @@ import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final TokenresponseUsecase tokenresponseUsecase;
+  final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
 
   DashboardPageModel(
-      this.exceptionHandlerBinder, this._getGuardianStudentDetailsUsecase);
+      this.exceptionHandlerBinder,
+      this._getGuardianStudentDetailsUsecase,
+      this.tokenresponseUsecase,
+      this.getUserRoleBasePermissionUsecase) {
+    getUserRoleBaseDetails();
+  }
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -121,7 +131,45 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  // end
+  Future<void> getUserRoleBaseDetails() async {
+    await exceptionHandlerBinder.handle(block: () {
+      TokenresponseUsecaseParams params = TokenresponseUsecaseParams();
+      RequestManager<TokenIntrospectionResponse>(
+        params,
+        createCall: () => tokenresponseUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {
+          log("tokenresponseUsecase ${result.data.toString()}");
+          getUserProfile(
+              request: UserRolePermissionRequest(
+                  email: result.data?.email, service: "mobile_app"));
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getUserProfile(
+      {required UserRolePermissionRequest request}) async {
+    await exceptionHandlerBinder.handle(block: () {
+      GetUserRoleBasePermissionParams params =
+          GetUserRoleBasePermissionParams(request: request);
+      RequestManager<UserRolePermissionResponse>(
+        params,
+        createCall: () =>
+            getUserRoleBasePermissionUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {
+          log("getUserRoleBasePermissionUsecase ${result.data}");
+          SharedPreferenceHelper.saveString(
+              mobileNumber, "${result.data?.data?.user?.mobileNo}");
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
 }
 
 class Chips {

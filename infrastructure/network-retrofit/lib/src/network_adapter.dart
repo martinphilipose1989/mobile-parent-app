@@ -22,6 +22,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/get_sto
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
@@ -1121,5 +1122,22 @@ class NetworkAdapter implements NetworkPort {
       },
       (r) => Right(r.data.transform()),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, UserRolePermissionResponse>>
+      getUserRolePermissions({
+    required UserRolePermissionRequest request,
+  }) async {
+    var response = await safeApiCall(
+      apiService.getUserRolePermissions(
+        UserRolePermissionRequestEntity(
+            email: request.email, service: request.service),
+      ),
+    );
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:services/services.dart';
@@ -124,5 +123,44 @@ class UserRepositoryImpl extends UserRepository {
 
     return await networkPort.getTokenResponse(
         token: token, clientId: clientId, clientSecret: clientSecret);
+  }
+
+  @override
+  Future<Either<NetworkError, UserRolePermissionResponse>>
+      getUserRolePermissions({required UserRolePermissionRequest body}) async {
+    return await networkPort.getUserRolePermissions(request: body);
+  }
+
+  @override
+  Future<Either<LocalError, UserRolePermissionResponse>> storeUserResponse(
+      UserRolePermissionResponse userRolePermissionResponse) async {
+    try {
+      final saveUserName = secureStorageService.saveToDisk(
+          secureStorageService.userName,
+          "${userRolePermissionResponse.data?.user?.firstName} ${userRolePermissionResponse.data?.user?.lastName}");
+      final saveEmail = secureStorageService.saveToDisk(
+          secureStorageService.userEmail,
+          userRolePermissionResponse.data?.user?.email);
+
+      final saveUserId = secureStorageService.saveToDisk(
+          secureStorageService.userId,
+          userRolePermissionResponse.data?.user?.id);
+
+      final savePhoneNumber = secureStorageService.saveToDisk(
+          secureStorageService.userPhoneNumber,
+          userRolePermissionResponse.data?.user?.mobileNo);
+
+      await Future.wait([saveUserName, saveEmail, saveUserId, savePhoneNumber]);
+
+      return Right(userRolePermissionResponse);
+    } catch (error) {
+      return Left(
+        LocalError(
+          errorType: ErrorType.storageError,
+          message: error.toString(),
+          cause: Exception(),
+        ),
+      );
+    }
   }
 }

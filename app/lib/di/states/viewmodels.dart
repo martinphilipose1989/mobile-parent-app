@@ -55,8 +55,11 @@ final tabbarViewModelProvider =
 
 final dashboardViewModelProvider =
     ChangeNotifierProvider.autoDispose<DashboardPageModel>(
-  (ref) => DashboardPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetGuardianStudentDetailsUsecase>()),
+  (ref) => DashboardPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetGuardianStudentDetailsUsecase>(),
+      getIt.get<TokenresponseUsecase>(),
+      getIt.get<GetUserRoleBasePermissionUsecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(

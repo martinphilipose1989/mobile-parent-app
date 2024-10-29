@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 
 import 'dart:io';
@@ -202,4 +203,7 @@ abstract class NetworkPort {
       required String feeTypeIds,
       required String feeCategoryIds,
       required String feeSubCategoryIds});
+
+  Future<Either<NetworkError, UserRolePermissionResponse>>
+      getUserRolePermissions({required UserRolePermissionRequest request});
 }

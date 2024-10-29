@@ -47,6 +47,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
             onSecondTabChange: () {
               FocusScope.of(context).unfocus();
               otpPageModel.mobileController.clear();
+              otpPageModel.login();
             },
           ),
           Column(

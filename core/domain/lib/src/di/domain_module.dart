@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/user/user_role_permission_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -355,5 +356,18 @@ abstract class DomainModule {
   @lazySingleton
   GetCouponsUsecase getCoupons(AdminRepository repository) {
     return GetCouponsUsecase(repository);
+  }
+
+  @lazySingleton
+  TokenresponseUsecase getTokenResponse(UserRepository userRepository) {
+    return TokenresponseUsecase(userRepository: userRepository);
+  }
+
+  @lazySingleton
+  GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase(
+      UserRepository userRepository) {
+    return GetUserRoleBasePermissionUsecase(
+      userRepository: userRepository,
+    );
   }
 }

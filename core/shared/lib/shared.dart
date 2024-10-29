@@ -131,10 +131,10 @@ export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_
 
 export 'src/model/request/gatepass/create_qrcode_request_model.dart';
 export 'src/model/response/gatepass/create_qrcode_response_model.dart';
-export'src/model/response/subject_listing/page_detail.dart';
-export'src/model/response/subject_listing/subject.dart';
-export'src/model/response/subject_listing/subject_list_detail.dart';
-export'src/model/response/subject_listing/subject_list_response.dart';
+export 'src/model/response/subject_listing/page_detail.dart';
+export 'src/model/response/subject_listing/subject.dart';
+export 'src/model/response/subject_listing/subject_list_detail.dart';
+export 'src/model/response/subject_listing/subject_list_response.dart';
 export 'src/model/response/transport_enrollment_detail/transport_enrollment_detail.dart';
 export 'src/model/response/transport_enrollment_detail/transport_enrollment_response.dart';
 export 'src/model/response/fetch_stop/fetch_stop_response.dart';
@@ -143,7 +143,8 @@ export 'src/model/response/fetch_stop/stop_detail.dart';
 //login
 export 'src/model/response/login/auth_response.dart';
 export 'src/model/response/user/token_introspect_reponse.dart';
+export 'src/model/response/user/user_role_permission_response.dart';
+export 'src/model/request/user/user_role_permission_request.dart';
 
 //utils
 export 'src/utils/validator.dart';
-export 'src/model/error/local_error.dart';

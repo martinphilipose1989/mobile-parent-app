@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/model/request/finance/get_school_name_reque
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
@@ -25,6 +26,7 @@ import 'package:network_retrofit/src/model/response/subject_selection/subject_de
 import 'package:network_retrofit/src/model/response/transport_enrollment_detail/transport_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/user/token_introspection_response.dart';
 import 'package:network_retrofit/src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response_entity.dart';
+import 'package:network_retrofit/src/model/response/user/user_role_permission_response_entity.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -526,4 +528,9 @@ abstract class RetrofitService {
       '${NetworkProperties.transportBaseURL}transport-service/route/fetch-stops')
   Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
       {@Body() required FetchStopRequest fetchStopRequest});
+
+  @POST(
+      '${NetworkProperties.mdmBaseUrl}/api/rbac-role-permissions/role-permissions-for-external')
+  Future<HttpResponse<UserRolePermissionResponseEntity>> getUserRolePermissions(
+      @Body() UserRolePermissionRequestEntity body);
 }

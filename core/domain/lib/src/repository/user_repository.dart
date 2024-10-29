@@ -12,4 +12,10 @@ abstract class UserRepository {
   Future<Either<BaseError, bool>> storeAccessToken(AuthResponse authResponse);
 
   Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse();
+
+  Future<Either<NetworkError, UserRolePermissionResponse>>
+      getUserRolePermissions({required UserRolePermissionRequest body});
+
+  Future<Either<LocalError, UserRolePermissionResponse>> storeUserResponse(
+      UserRolePermissionResponse userRolePermissionResponse);
 }
