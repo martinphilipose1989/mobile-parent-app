@@ -93,8 +93,8 @@ class EnquiryRepositoryImpl implements EnquiryRepository{
   }
 
   @override
-  Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute({required String infoType}) {
-    return _networkPort.getMdmAttribute(infoType: infoType);
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute({required String infoType,int? id}) {
+    return _networkPort.getMdmAttribute(infoType: infoType,id: id);
   }
 
   @override

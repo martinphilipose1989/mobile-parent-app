@@ -33,4 +33,5 @@ class EnquiryDetail{
     int? boardId;
     int? streamId;
     int? academicYearId;
+    String? currentStage;
 }

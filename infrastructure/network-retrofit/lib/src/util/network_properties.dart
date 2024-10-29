@@ -17,7 +17,7 @@ class NetworkProperties {
   static const String cancelationReason = '/api/ad-followup-reasons';
   static const String countries = '/api/countries';
   static const String states = '/api/states';
-  static const String city = '/api/cities?';
+  static const String city = '/api/cities';
   static const String schoolLocation = '/api/ac-schools';
   static const String batch = '/api/ac-batches';
   static const String academicYear =

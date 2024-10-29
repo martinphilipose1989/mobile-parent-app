@@ -72,6 +72,8 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     int? streamId;
     @JsonKey(name: 'academicYearId')
     int? academicYearId;
+    @JsonKey(name: 'currentStage')
+    String? currentStage;
 
 
     EnquiryDetailEntity({
@@ -107,6 +109,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
         this.academicYearId,
         this.boardId,
         this.streamId,
+        this.currentStage,
     });
   factory EnquiryDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$EnquiryDetailEntityFromJson(json);
@@ -157,6 +160,7 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     enquiryDetail.academicYearId = academicYearId;
     enquiryDetail.boardId = boardId;
     enquiryDetail.streamId = streamId;
+    enquiryDetail.currentStage = currentStage;
     return enquiryDetail;
   }
 

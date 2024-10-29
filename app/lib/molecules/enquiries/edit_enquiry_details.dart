@@ -165,8 +165,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           // ),
           CommonDatePickerWidget(
             initialDate: model.studentDob,
+            lastDate: DateTime(DateTime.now().year-5),
             labelName: "DOB",
             controller: model.dobController,
+            isDOB: true,
             showAstreik: true,
             isDisabled: true,
             onDateSelected: (newDate) {

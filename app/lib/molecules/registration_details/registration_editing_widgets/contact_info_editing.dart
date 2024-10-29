@@ -320,16 +320,34 @@ class ContactInfoEditing extends StatelessWidget {
                       }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    StreamBuilder<List<String>>(
+                    CommonTextFormField(
+                      showAstreik: true,
+                      labelText: "Pin Code",
+                      controller: model.residentialPinCodeController,
+                      focusNode: model.residentialPinCodeFocusNode,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      onFieldSubmitted: (value) {
+                        if(value.length == 6){
+                          model.getCityAndStateByPincode(pincode: model.residentialPinCodeController.text.trim(), infoType: "currentAddress");
+                        }
+                      },
+                      maxLength: 6,
+                    ),
+                    CommonSizedBox.sizedBox(height: 15, width: 10),
+                    AppStreamBuilder<List<String>>(
                       stream: model.state,
-                      builder: (context, snapshot) {
+                      initialData: model.state.value,
+                      dataBuilder: (context, snapshot) {
                         return CustomDropdownButton(
                           items: model.state.value,
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'State',
                           validator: (value)=> AppValidators.validateNotEmpty(value, "State",),
-
+                          isDisable: true,
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -345,16 +363,17 @@ class ContactInfoEditing extends StatelessWidget {
                       }
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    StreamBuilder<List<String>>(
+                    AppStreamBuilder<List<String>>(
                       stream: model.city,
-                      builder: (context, snapshot) {
+                      initialData: model.city.value,
+                      dataBuilder: (context, snapshot) {
                         return CustomDropdownButton(
                           items: model.city.value,
                           width: MediaQuery.of(context).size.width,
                           isMutiSelect: false,
                           dropdownName: 'City',
                           validator: (value)=> AppValidators.validateNotEmpty(value, "City",),
-
+                          isDisable: true,
                           showAstreik: true,
                           onMultiSelect: (selectedValues) {},
                           showBorderColor: true,
@@ -368,18 +387,6 @@ class ContactInfoEditing extends StatelessWidget {
                           },
                         );
                       }
-                    ),
-                    CommonSizedBox.sizedBox(height: 15, width: 10),
-                    CommonTextFormField(
-                      showAstreik: true,
-                      labelText: "Pin Code",
-                      controller: model.residentialPinCodeController,
-                      focusNode: model.residentialPinCodeFocusNode,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      maxLength: 6,
                     ),
                     const CommonText(
                       text: "Is Permanent Address Same As Present?",
@@ -478,14 +485,28 @@ class ContactInfoEditing extends StatelessWidget {
                                 }
                               ),
                               CommonSizedBox.sizedBox(height: 15, width: 10),
-                              StreamBuilder<List<String>>(
+                              CommonTextFormField(
+                                showAstreik: true,
+                                readOnly: model.radioButtonController3.selectedItem == "Yes",
+                                labelText: "Pin Code",
+                                controller: model.permanentResidentialPinCodeController,
+                                focusNode: model.permanentPinCodeFocusNode,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 6,
+                              ),
+                              CommonSizedBox.sizedBox(height: 15, width: 10),
+                              AppStreamBuilder<List<String>>(
                                 stream: model.state,
-                                builder: (context, snapshot) {
+                                initialData: model.state.value,
+                                dataBuilder: (context, snapshot) {
                                   return CustomDropdownButton(
                                     items: model.state.value,
                                     width: MediaQuery.of(context).size.width,
                                     isMutiSelect: false,
-                                    isDisable: model.radioButtonController3.selectedItem == "Yes",
+                                    isDisable: true,
                                     dropdownName: 'State',
                                     validator: (value)=> AppValidators.validateNotEmpty(value, "State",),
                                     showAstreik: true,
@@ -503,14 +524,15 @@ class ContactInfoEditing extends StatelessWidget {
                                 }
                               ),
                               CommonSizedBox.sizedBox(height: 15, width: 10),
-                              StreamBuilder<List<String>>(
+                              AppStreamBuilder<List<String>>(
                                 stream: model.city,
-                                builder: (context, snapshot) {
+                                initialData: model.city.value,
+                                dataBuilder: (context, snapshot) {
                                   return CustomDropdownButton(
                                     items: model.city.value,
                                     width: MediaQuery.of(context).size.width,
                                     isMutiSelect: false,
-                                    isDisable: model.radioButtonController3.selectedItem == "Yes",
+                                    isDisable: true,
                                     dropdownName: 'City',
                                     validator: (value)=> AppValidators.validateNotEmpty(value, "City",),
                                     showAstreik: true,
@@ -526,19 +548,6 @@ class ContactInfoEditing extends StatelessWidget {
                                     },
                                   );
                                 }
-                              ),
-                              CommonSizedBox.sizedBox(height: 15, width: 10),
-                              CommonTextFormField(
-                                showAstreik: true,
-                                readOnly: model.radioButtonController3.selectedItem == "Yes",
-                                labelText: "Pin Code",
-                                controller: model.permanentResidentialPinCodeController,
-                                focusNode: model.permanentPinCodeFocusNode,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                maxLength: 6,
                               ),
                             ],
                           ),

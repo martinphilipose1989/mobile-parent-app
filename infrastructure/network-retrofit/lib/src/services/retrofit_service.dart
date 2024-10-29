@@ -323,15 +323,13 @@ abstract class RetrofitService {
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.states}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getStates({
     @Header("Authorization") required String token,
-    @Query("fields[1]") String field1 = "name",
-    @Query("fields[2]") String field2 = "Shortform",
+    @Query("filters[id]") int? id,
   });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.city}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getCities({
     @Header("Authorization") required String token,
-    @Query("fields[1]") String field1 = "name",
-    @Query("fields[2]") String field2 = "Shortform",
+    @Query("filters[id]") int? id,
   });
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.batch}')

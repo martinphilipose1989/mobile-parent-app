@@ -76,6 +76,7 @@ class CommonTextFormField extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   prefixIcon: prefix,
                   hintText: hintText ?? '',
+                  counterText: ""
                 ),
             onTap: onTap,
             focusNode: focusNode,

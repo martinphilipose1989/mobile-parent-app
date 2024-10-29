@@ -328,7 +328,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       TextEditingController();
   BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedPersonalisedLearningNeedSubject = BehaviorSubject.seeded('');
-
+  TextEditingController schoolLocationController = TextEditingController();
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
@@ -1284,11 +1284,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getMdmAttribute({required String infoType}) async {
+  Future<void> getMdmAttribute({required String infoType,int? id}) async {
     exceptionHandlerBinder.handle(block: () {
-      GetMdmAttributeUsecaseParams params = GetMdmAttributeUsecaseParams(
-        infoType: infoType,
-      );
+      GetMdmAttributeUsecaseParams params;
+      if(infoType == "state" || infoType == "city"){
+        params = GetMdmAttributeUsecaseParams(
+          infoType: infoType,
+          id: id
+        );
+      }
+      else{
+        params = GetMdmAttributeUsecaseParams(
+          infoType: infoType,
+        );
+      }
       RequestManager<MdmAttributeBaseModel>(
         params,
         createCall: () async => await getMdmAttributeUsecase.execute(
@@ -1507,10 +1516,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         createCall: () => getCityStateByPincodeUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) {
+      ).asFlow().listen((result) async{
         if(result.status == Status.success){
           isLoading.add(false);
           if(infoType == "fatherInfo"){
+            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedFatherCitySubject
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
             selectedFatherCityEntity = CommonDataClass(
@@ -1525,6 +1536,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
           if(infoType == "motherInfo"){
+            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedMotherCitySubject
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
             selectedMotherCityEntity = CommonDataClass(
@@ -1539,6 +1552,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
           if(infoType == "guardianInfo"){
+            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedGuardianCitySubject
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
             selectedGuardianCityEntity = CommonDataClass(
@@ -1553,6 +1568,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
           if(infoType == "currentAddress"){
+            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedResidentialCity
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
             selectedCityEntity = CommonDataClass(
@@ -1567,6 +1584,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
           if(infoType == "permanentAddress"){
+            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedPermanentResidentialCity
               .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
             permanentResidentialCity = CommonDataClass(
@@ -1762,6 +1781,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    schoolLocationController.text = detail.schoolLocation?.value??'';
     if(!(detail.studentDetails?.dob ?? '').toLowerCase().contains("invalid date")){
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(

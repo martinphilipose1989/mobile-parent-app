@@ -68,36 +68,11 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         controller: model.enquiryTypeController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      StreamBuilder<List<String>>(
-                        stream: model.schoolLocationTypes,
-                        builder: (context, snapshot) {
-                          if(!snapshot.hasData){
-                            return const CircularProgressIndicator();
-                          }else {
-                            return CustomAppDropdownButton<MdmAttributeModel>(
-                              width: MediaQuery.of(context).size.width,
-                              itemAsString: (mdmAttribute) {
-                                return mdmAttribute.attributes?.name??'';
-                              },
-                              onMultiSelect: (selectedValues) {},
-                              dropdownName: 'School Location',
-                              showAstreik: true,
-                              showBorderColor: true,
-                              singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
-                              items: model.schoolLocationTypesAttribute ?? [],
-                              onSingleSelect: (selectedValue) {
-                                if ((model.schoolLocationTypesAttribute ?? []).any((element) => selectedValue.id == element.id)) {
-                                  var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element) => element.id == selectedValue.id);
-                                  model.selectedSchoolLocationType.add(true);
-                                  model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
-                                  model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
-                                }
-                              },
-                              isMutiSelect: false,
-                              validator: (value) => AppValidators.validateDropdown(value?.attributes?.name, "School location"),
-                            );
-                          }
-                        }
+                      CommonTextFormField(
+                        showAstreik: false,
+                        labelText: "School Location",
+                        readOnly: true,
+                        controller: model.schoolLocationController,
                       ),
                     ],
                   ),
@@ -180,6 +155,8 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       CommonDatePickerWidget(
                         labelName: "DOB",
                         showAstreik: true,
+                        isDOB: true,
+                        lastDate: DateTime(DateTime.now().year-5),
                         initialDate: model.studentDob,
                         controller: model.dobController,
                         onDateSelected: (newDate) {

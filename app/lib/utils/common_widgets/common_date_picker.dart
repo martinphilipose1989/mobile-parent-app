@@ -10,11 +10,13 @@ import 'package:intl/intl.dart';
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
   DateTime? initialDate;
+  DateTime? lastDate;
   final bool isDisabled;
   final bool showAstreik;
   final Function(DateTime?) onDateSelected;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final bool isDOB;
   CommonDatePickerWidget(
       {super.key,
       this.labelName,
@@ -23,7 +25,9 @@ class CommonDatePickerWidget extends StatefulWidget {
       this.showAstreik = false,
       required this.onDateSelected,
       this.validator,
-      required this.controller});
+      required this.controller,
+      this.isDOB = false,
+      this.lastDate});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
@@ -39,15 +43,25 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
   }
 
   String formatDateToDDMMYYYY(DateTime date) {
-    if (widget.initialDate != null) {
-      DateTime parsedDate =
-          DateFormat('dd/MM/yyyy').parse(widget.initialDate.toString());
+    if(!widget.isDOB){
+      if (widget.initialDate != null) {
+        DateTime parsedDate =
+            DateFormat('dd/MM/yyyy').parse(widget.initialDate.toString());
 
-      // Format the parsed date to 'YYYY-mm-dd'
-      String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
-      return formattedDate;
-    } else {
-      return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+        // Format the parsed date to 'YYYY-mm-dd'
+        String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+        return formattedDate;
+      } else {
+        return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      }      
+    }
+    else{
+      if (widget.initialDate != null) {
+        return DateFormat('dd/MM/yyyy').format(widget.initialDate!);
+      }
+      else{
+        return "";
+      }
     }
   }
 
@@ -68,7 +82,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
       context: context,
       initialDate: widget.initialDate ?? DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      lastDate: widget.isDOB? widget.lastDate??DateTime(DateTime.now().year-5) : DateTime(2101),
     );
     if (picked != null) {
       setState(() {
