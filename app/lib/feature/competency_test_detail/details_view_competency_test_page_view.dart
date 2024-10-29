@@ -56,7 +56,13 @@ class DetailsViewCompetencyTestPageView
                             const SizedBox(
                               height: 10,
                             ),
-                            CompetencyTestScheduledDetailsWidget(competencyTestDetails: model.competencyTestDetails.value),
+                            AppStreamBuilder<CompetencyTestDetails>(
+                              stream: model.competencyTestDetails,
+                              initialData: model.competencyTestDetails.value,
+                              dataBuilder: (context, snapshot) {
+                                return CompetencyTestScheduledDetailsWidget(competencyTestDetails: model.competencyTestDetails.value);
+                              }
+                            ),
                           ],
                         ),
                       ],

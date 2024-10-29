@@ -133,7 +133,7 @@ class AdmissionsViewModel extends BasePageViewModel {
       }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
       GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
-          phone: phoneNumber, pageNumber: closedAdmissionsPageNumber, pageSize: closedAdmissionPageSize, status: "Open");
+          phone: phoneNumber, pageNumber: closedAdmissionsPageNumber, pageSize: closedAdmissionPageSize, status: "Closed");
       if (closedAdmissionsPageNumber > 1) {
         isLoading.value = true;
       }

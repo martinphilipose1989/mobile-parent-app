@@ -82,6 +82,16 @@ class SiblingDetailEntity extends BaseLayerDataTransformer<SiblingDetailEntity,S
     return json;
   }
 
+  bool isValid() {
+    return (firstName != null && (firstName??'').isNotEmpty) &&
+           (lastName != null && (lastName??'').isNotEmpty) &&
+           (dob != null && (dob??'').isNotEmpty) &&
+           (type != null && (type??'').isNotEmpty) &&
+           ((gender is CommonDataEntity) ? gender?.isValid() : gender != null && (gender??'').isNotEmpty) &&
+           ((school != null && (school??'').isNotEmpty) || (enrollmentNumber != null && (enrollmentNumber??'').isNotEmpty)) &&
+           ((grade is CommonDataClass) ? grade?.isValid() : grade != null && (grade??'').isNotEmpty);
+  }
+
   @override
   SiblingDetail transform() {
     SiblingDetail siblingDetail = SiblingDetail();

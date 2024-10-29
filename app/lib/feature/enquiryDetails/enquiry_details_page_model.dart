@@ -13,6 +13,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -98,6 +99,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   //New Admission Details
    TextEditingController enquiryNumberController = TextEditingController();
    TextEditingController enquiryTypeController = TextEditingController();
+   TextEditingController schoolLocationController = TextEditingController();
    TextEditingController studentFirstNameController = TextEditingController();
    TextEditingController studentLastNameController = TextEditingController();
    TextEditingController dobController = TextEditingController();
@@ -467,7 +469,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       );
       RequestManager<MdmAttributeBaseModel>(
         params,
-        createCall: () => getMdmAttributeUsecase.execute(
+        createCall: () async => await getMdmAttributeUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
@@ -694,7 +696,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
-    print("Currnent Date:${DateTime.now()}");
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
@@ -707,9 +708,20 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
-    selectedSchoolLocationSubjectAttribute.add(
+    if(schoolLocationTypesAttribute != null){
+      selectedSchoolLocationSubjectAttribute.add(
       schoolLocationTypesAttribute?.firstWhere((element)=> element.id == detail.schoolLocation?.id)
     );
+    }
+    else{
+      selectedSchoolLocationSubjectAttribute.add(
+        MdmAttributeModel(
+          id: detail.schoolLocation?.id,
+          attributes: AttributesDetailsModel(name: detail.schoolLocation?.value)
+        )
+      );
+    }
+    schoolLocationController.text = detail.schoolLocation?.value??'';
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;

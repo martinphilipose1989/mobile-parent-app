@@ -5,6 +5,8 @@ part 'guardian_registration_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true,createToJson: false)
 class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEntity,GuardianDetails>{
+    @JsonKey(name: 'global_id')
+    String? globalId;
     @JsonKey(name:'firstName')
     String? firstName;
     @JsonKey(name:'lastName')
@@ -13,8 +15,8 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     String? aadharNumber;
     @JsonKey(name:'panNumber')
     String? panNumber;
-    @JsonKey(name:'relationWithChild')
-    String? relationWithChild;
+    @JsonKey(name:'relationWithChild', fromJson: _fromJson)
+    dynamic relationWithChild;
     @JsonKey(name:'houseNumber')
     String? houseNumber;
     @JsonKey(name:'street')
@@ -35,20 +37,11 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     String? emailId;
     @JsonKey(name:'mobileNumber')
     String? mobileNumber;
-    @JsonKey(name:'qualification')
-    String? qualification;
-    @JsonKey(name:'occupation')
-    String? occupation;
-    @JsonKey(name:'organization_name')
-    String? organizationName;
-    @JsonKey(name:'designation')
-    String? designation;
-    @JsonKey(name:'office_address')
-    String? officeAddress;
     @JsonKey(name:'guardianType')
     String? guardianType;
 
     GuardianDetailsEntity({
+      this.globalId,
       this.firstName,
       this.lastName,
       this.aadharNumber,
@@ -57,7 +50,6 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       this.houseNumber,
       this.street,
       this.landmark,
-      this.area,
       this.country,
       this.pincode,
       this.state,
@@ -65,11 +57,6 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       this.emailId,
       this.mobileNumber,
       this.guardianType,
-      this.qualification,
-      this.officeAddress,
-      this.occupation,
-      this.designation,
-      this.organizationName
     });
   factory GuardianDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$GuardianDetailsEntityFromJson(json);
@@ -87,11 +74,19 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       final Map<String, dynamic> json = {};
 
       void addIfNotEmpty(String key, dynamic value) {
-        if (value != null && value != '' && value != 'N/A') {
-          json[key] = value is CommonDataEntity ? value.toJson() : value;
+        if(value is CommonDataEntity){
+          if(value.isValid()){
+            json[key] = value;
+          }
+        }
+        else{
+          if (value != null && value != '' && value != 'N/A') {
+          json[key] = value;
+        }
         }
       }
 
+      addIfNotEmpty('global_id', globalId);
       addIfNotEmpty("first_name", firstName);
       addIfNotEmpty("last_name", lastName);
       addIfNotEmpty("mobile", mobileNumber);
@@ -108,11 +103,6 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       addIfNotEmpty("aadhar", aadharNumber);
       addIfNotEmpty("pan", panNumber);
       addIfNotEmpty("guardian_type", guardianType);
-      addIfNotEmpty("qualification", qualification);
-      addIfNotEmpty("occupation", occupation);
-      addIfNotEmpty("organization_name", organizationName);
-      addIfNotEmpty("designation", designation);
-      addIfNotEmpty("office_address", officeAddress);
 
       return json;
     }
@@ -124,11 +114,10 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     guardianDetails.lastName = lastName;
     guardianDetails.aadharNumber = aadharNumber;
     guardianDetails.panNumber = panNumber;
-    guardianDetails.relationWithChild = relationWithChild;
+    guardianDetails.relationWithChild = (relationWithChild is CommonDataEntity)? relationWithChild?.transform() : relationWithChild;
     guardianDetails.houseNumber = houseNumber;
     guardianDetails.street = street;
     guardianDetails.landmark = landmark;
-    guardianDetails.area = area;
     guardianDetails.country = (country is CommonDataEntity)? country?.transform() : country;
     guardianDetails.pincode = pincode;
     guardianDetails.state = (state is CommonDataEntity)? state?.transform() : state;
@@ -136,11 +125,6 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
     guardianDetails.emailId = emailId;
     guardianDetails.mobileNumber = mobileNumber;
     guardianDetails.guardianType = guardianType;
-    guardianDetails.occupation = occupation;
-    guardianDetails.qualification=qualification;
-    guardianDetails.officeAddress=officeAddress;
-    guardianDetails.designationName=designation;
-    guardianDetails.organisationName=organizationName;
     return guardianDetails;
   }
 
@@ -152,23 +136,18 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       lastName: data.lastName,
       aadharNumber: data.aadharNumber,
       panNumber: data.panNumber,
-      relationWithChild: data.relationWithChild,
+      relationWithChild: (data.relationWithChild is CommonDataClass)? commonDataEntity.restore(data.relationWithChild!) : data.relationWithChild,
       houseNumber: data.houseNumber,
       street: data.street,
       landmark: data.landmark,
       country: (data.country is CommonDataClass)? commonDataEntity.restore(data.country!) : data.country,
-      area: data.area,
       pincode: data.pincode,
       state: (data.state is CommonDataClass)? commonDataEntity.restore(data.state!) : data.state,
       city: (data.city is CommonDataClass)? commonDataEntity.restore(data.city!) : data.city,
       emailId: data.emailId,
       mobileNumber: data.mobileNumber,
       guardianType: data.guardianType,
-      occupation: data.occupation,
-      qualification: data.qualification,
-      officeAddress: data.officeAddress,
-      designation: data.designation,
-      organizationName: data.organizationName,
+
     );
     return guardianDetailsEntity;
   }

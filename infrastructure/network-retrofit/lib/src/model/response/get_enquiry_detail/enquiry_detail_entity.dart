@@ -2,6 +2,7 @@ import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_document_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_detail_entity.dart';
+import 'package:network_retrofit/src/model/response/get_new_admission/common_data_entity.dart';
 
 part 'enquiry_detail_entity.g.dart';
 
@@ -53,15 +54,15 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     String? studentAadhaarNumber;
     @JsonKey(name: 'placeOfBirth')
     String? placeOfBirth;
-    @JsonKey(name: 'religion')
-    String? religion;
-    @JsonKey(name: 'caste')
-    String? caste;
-    @JsonKey(name: 'subCaste')
-    String? subCaste;
-    @JsonKey(name: 'nationality')
-    String? nationality;
-    @JsonKey(name: 'motherTongue')
+    @JsonKey(name: 'religion',fromJson: _fromJson)
+    dynamic religion;
+    @JsonKey(name: 'caste',fromJson: _fromJson)
+    dynamic caste;
+    @JsonKey(name: 'subCaste',fromJson: _fromJson)
+    dynamic subCaste;
+    @JsonKey(name: 'nationality',fromJson: _fromJson)
+    dynamic nationality;
+    @JsonKey(name: 'motherTongue',fromJson: _fromJson)
     dynamic motherTongue;
     @JsonKey(name: 'schoolId')
     int? schoolId;
@@ -109,6 +110,15 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     });
   factory EnquiryDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$EnquiryDetailEntityFromJson(json);
+  
+  static dynamic _fromJson(dynamic data){
+    if(data is Map<String,dynamic>){
+      return CommonDataEntity.fromJson(data);
+    }
+    else{
+      return data;
+    }
+  }
 
   Map<String, dynamic> toJson() => _$EnquiryDetailEntityToJson(this);
 
@@ -138,11 +148,11 @@ class EnquiryDetailEntity extends BaseLayerDataTransformer<EnquiryDetailEntity, 
     enquiryDetail.eligibleGrade = eligibleGrade;
     enquiryDetail.studentAadhaarNumber = studentAadhaarNumber;
     enquiryDetail.placeOfBirth = placeOfBirth;
-    enquiryDetail.religion = religion;
-    enquiryDetail.caste = caste;
-    enquiryDetail.subCaste = subCaste;
-    enquiryDetail.nationality = nationality;
-    enquiryDetail.motherTongue = motherTongue;
+    enquiryDetail.religion = (religion is CommonDataEntity) ? religion?.transform(): religion??'';
+    enquiryDetail.caste = (caste is CommonDataEntity) ? caste?.transform(): caste??'';
+    enquiryDetail.subCaste = (subCaste is CommonDataEntity) ? subCaste?.transform(): subCaste??'';
+    enquiryDetail.nationality = (nationality is CommonDataEntity) ? nationality?.transform(): nationality??'';
+    enquiryDetail.motherTongue = (motherTongue is CommonDataEntity) ? motherTongue?.transform(): motherTongue??'';
     enquiryDetail.schoolId = schoolId;
     enquiryDetail.academicYearId = academicYearId;
     enquiryDetail.boardId = boardId;

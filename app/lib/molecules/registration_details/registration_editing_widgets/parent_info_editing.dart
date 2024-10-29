@@ -917,98 +917,55 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Relationship with child",
-                          controller: model.relationshipWithChildController,
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Qualification",
-                          controller: model.guardianQualificationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Qualification",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Relationship with child",
+                        // ),
                         StreamBuilder<List<String>>(
-                            stream: model.occupation,
+                            stream: model.relationWithChild,
                             builder: (context, snapshot) {
                               return CustomDropdownButton(
-                                items: model.occupation.value,
+                                items: model.relationWithChild.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
-                                dropdownName: 'Occupation',
-                                //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
+                                dropdownName: 'Relationship with child',
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedRelationWithChildSubject,
                                 onSingleSelect: (val) {
-                                  model.guardianOccupation = val;
+                                  if (model.relationWithChild.value.contains(val)) {
+                                    var relationWithChild = model.relationWithChildAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.name ?? '')
+                                                .contains(val));
+                                    // model.selectedGuardianCountryType.add(true);
+                                    model.selectedRelationWithChildSubject.value = val;
+                                    model.selectedRelationWithChildEntity =
+                                        CommonDataClass(
+                                            id: relationWithChild?.id,
+                                            value: relationWithChild?.attributes?.name);
+                                  }
                                 },
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Organization Name",
-                          controller: model.guardianOrganizationNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Organization Name",
-                            checkSpecialCharacters: true,
-                          ),
+                          labelText: "House Number",
+                          controller: model.guardianHouseNumberController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Designation",
-                          controller: model.guardianDesignationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Designation",
-                            checkSpecialCharacters: true,
-                          ),
+                          labelText: "Street",
+                          controller: model.guardianStreetController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Office Address",
-                          controller: model.guardianOfficeAddressController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Office Address",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        // CustomDropdownButton(
-                        //   items: model.area,
-                        //   width: MediaQuery.of(context).size.width,
-                        //   isMutiSelect: false,
-                        //   dropdownName: 'Area',
-                        //   showAstreik: false,
-                        //   validator: (value) => AppValidators.validateNotEmpty(
-                        //     value,
-                        //     "Guardian's Area",
-                        //     checkSpecialCharacters: true,
-                        //   ),
-                        //   onMultiSelect: (selectedValues) {},
-                        //   showBorderColor: true,
-                        //   onSingleSelect: (val) {
-                        //     model.guardianArea = val;
-                        //   },
-                        // ),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Area",
-                          controller: model.guardianOfficeAreaController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                              value, 'Office Address',
-                              checkSpecialCharacters: false),
+                          labelText: "Landmark",
+                          controller: model.guardianLandmarkController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
@@ -1028,6 +985,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 ),
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject: model.selectedGuardianCountrySubject,
                                 onSingleSelect: (val) {
                                   if (model.country.value.contains(val)) {
                                     var country = model.countryAttribute
@@ -1341,6 +1299,7 @@ class ParentInfoEditing extends StatelessWidget {
                                         onDateSelected: (newDate){
                                           if(data!=null){
                                             data.data?.data?.siblingProfile?.dob = newDate;
+                                            model.siblingDOB = newDate;
                                           }
                                           else{
                                             model.siblingDOB = newDate;

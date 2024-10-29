@@ -435,6 +435,12 @@ abstract class RetrofitService {
     @Query('filters[Pincode][\$eq]') required String pincode,
   });
 
+  @GET("${NetworkProperties.mdmBaseUrl}${NetworkProperties.relationWithChild}")
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getRelationWithChild({
+      @Header("Authorization") required String token,
+    }
+  );
+
   @POST(NetworkProperties.enrollmentDetail)
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
       {@Body() required GetSiblingDetailRequest getSiblingDetailRequest});

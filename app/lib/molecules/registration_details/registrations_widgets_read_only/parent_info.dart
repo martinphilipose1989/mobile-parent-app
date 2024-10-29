@@ -35,32 +35,32 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Father's First Name", subtitle: parentInfo?.fatherDetails?.firstName??''),
-                    DetailsItem(title: "Father's Last Name", subtitle: parentInfo?.fatherDetails?.lastName??''),
+                        title: "Father's First Name", subtitle: parentInfo?.fatherDetails?.firstName??'N/A'),
+                    DetailsItem(title: "Father's Last Name", subtitle: parentInfo?.fatherDetails?.lastName??'N/A'),
                     DetailsItem(
                         title: "Father's Aadhar Card No",
                         subtitle: parentInfo?.fatherDetails?.aadharNumber??''),
                     DetailsItem(
-                        title: "Father's Pan Card No", subtitle: parentInfo?.fatherDetails?.panNumber??''),
-                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.fatherDetails?.qualification is CommonDataClass) ? parentInfo?.fatherDetails?.qualification?.value??'' : parentInfo?.fatherDetails?.qualification??''),
-                    DetailsItem(title: "occupation", subtitle: parentInfo?.fatherDetails?.occupation??''),
+                        title: "Father's Pan Card No", subtitle: parentInfo?.fatherDetails?.panNumber??'N/A'),
+                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.fatherDetails?.qualification is CommonDataClass) ? parentInfo?.fatherDetails?.qualification?.value??'N/A' : parentInfo?.fatherDetails?.qualification??'N/A'),
+                    DetailsItem(title: "occupation", subtitle:(parentInfo?.fatherDetails?.occupation is CommonDataClass) ? parentInfo?.fatherDetails?.occupation?.value??'N/A' : parentInfo?.fatherDetails?.occupation??'N/A'),
                     DetailsItem(
                         title: "Organisation Name",
-                        subtitle: parentInfo?.fatherDetails?.organisationName??''),
-                    DetailsItem(title: "Designation", subtitle: parentInfo?.fatherDetails?.designationName??''),
+                        subtitle:(parentInfo?.fatherDetails?.organisationName is CommonDataClass) ? parentInfo?.fatherDetails?.organisationName?.value??'N/A' : parentInfo?.fatherDetails?.organisationName??'N/A'),
+                    DetailsItem(title: "Designation", subtitle:(parentInfo?.fatherDetails?.designationName is CommonDataClass) ? parentInfo?.fatherDetails?.designationName?.value??'N/A' : parentInfo?.fatherDetails?.designationName??'N/A'),
                     DetailsItem(
                         title: "Office Address",
-                        subtitle: parentInfo?.fatherDetails?.officeAddress??''),
-                    DetailsItem(title: "Area", subtitle: parentInfo?.fatherDetails?.area??''),
-                    DetailsItem(title: "Country", subtitle: (parentInfo?.fatherDetails?.country is String)? parentInfo?.fatherDetails?.country : parentInfo?.fatherDetails?.country?.value??''),
-                    // DetailsItem(title: "Pin Code", subtitle: parentInfo?.fatherDetails?.),
-                    DetailsItem(title: "State", subtitle: (parentInfo?.fatherDetails?.state is String)? parentInfo?.fatherDetails?.state: parentInfo?.fatherDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.fatherDetails?.city : parentInfo?.fatherDetails?.city?.value??''),
+                        subtitle: parentInfo?.fatherDetails?.officeAddress??'N/A'),
+                    DetailsItem(title: "Area", subtitle: parentInfo?.fatherDetails?.area??'N/A'),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.fatherDetails?.country is String)? parentInfo?.fatherDetails?.country : parentInfo?.fatherDetails?.country?.value??'N/A'),
+                    DetailsItem(title: "Pin Code", subtitle: parentInfo?.fatherDetails?.pinCode??'N/A'),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.fatherDetails?.state is String)? parentInfo?.fatherDetails?.state: parentInfo?.fatherDetails?.state?.value??'N/A'),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.fatherDetails?.city : parentInfo?.fatherDetails?.city?.value??'N/A'),
                     DetailsItem(
                         title: "Father's Email Id",
-                        subtitle: parentInfo?.fatherDetails?.emailId??''),
+                        subtitle: parentInfo?.fatherDetails?.emailId??'N/A'),
                     DetailsItem(
-                        title: "Father's Mobile No", subtitle: parentInfo?.fatherDetails?.mobileNumber??''),
+                        title: "Father's Mobile No", subtitle: parentInfo?.fatherDetails?.mobileNumber??'N/A'),
                   ],
                 ),
               )
@@ -89,32 +89,32 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Mother's First Name", subtitle: parentInfo?.motherDetails?.firstName??''),
-                    DetailsItem(title: "Mother's Last Name", subtitle: parentInfo?.motherDetails?.lastName??''),
+                        title: "Mother's First Name", subtitle: parentInfo?.motherDetails?.firstName??'N/A'),
+                    DetailsItem(title: "Mother's Last Name", subtitle: parentInfo?.motherDetails?.lastName??'N/A'),
                     DetailsItem(
                         title: "Mother's Aadhar Card No",
-                        subtitle: parentInfo?.motherDetails?.aadharNumber??''),
+                        subtitle: parentInfo?.motherDetails?.aadharNumber??'N/A'),
                     DetailsItem(
-                        title: "Mother's Pan Card No", subtitle: parentInfo?.motherDetails?.panNumber??''),
-                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.motherDetails?.qualification is CommonDataClass)? parentInfo?.motherDetails?.qualification?.value??'' : parentInfo?.motherDetails?.qualification??''),
-                    DetailsItem(title: "occupation", subtitle: parentInfo?.motherDetails?.occupation??''),
+                        title: "Mother's Pan Card No", subtitle: parentInfo?.motherDetails?.panNumber??'N/A'),
+                    DetailsItem(title: "Qualification", subtitle: (parentInfo?.motherDetails?.qualification is CommonDataClass)? parentInfo?.motherDetails?.qualification?.value??'N/A' : parentInfo?.motherDetails?.qualification??'N/A'),
+                    DetailsItem(title: "Occupation", subtitle: (parentInfo?.motherDetails?.occupation is CommonDataClass) ? parentInfo?.motherDetails?.occupation?.value??'N/A' : parentInfo?.motherDetails?.occupation??'N/A'),
                     DetailsItem(
                         title: "Organisation Name",
-                        subtitle: parentInfo?.motherDetails?.organisationName??''),
-                    DetailsItem(title: "Designation", subtitle: parentInfo?.motherDetails?.designationName??''),
+                        subtitle: (parentInfo?.motherDetails?.organisationName is CommonDataClass) ? parentInfo?.motherDetails?.organisationName?.value??'N/A' : parentInfo?.motherDetails?.organisationName??'N/A'),
+                    DetailsItem(title: "Designation", subtitle: (parentInfo?.motherDetails?.designationName is CommonDataClass) ? parentInfo?.motherDetails?.designationName?.value??'N/A' : parentInfo?.motherDetails?.designationName??'N/A'),
                     DetailsItem(
                         title: "Office Address",
-                        subtitle: parentInfo?.motherDetails?.officeAddress??''),
-                    DetailsItem(title: "Area", subtitle: parentInfo?.motherDetails?.area??''),
-                    DetailsItem(title: "Country", subtitle: (parentInfo?.motherDetails?.country is String)? parentInfo?.motherDetails?.country : parentInfo?.motherDetails?.country?.value??''),
-                    // DetailsItem(title: "Pin Code", subtitle: parentInfo?.motherDetails?.),
-                    DetailsItem(title: "State", subtitle: (parentInfo?.motherDetails?.state is String)? parentInfo?.motherDetails?.state: parentInfo?.motherDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.motherDetails?.city : parentInfo?.motherDetails?.city?.value??''),
+                        subtitle: parentInfo?.motherDetails?.officeAddress??'N/A'),
+                    DetailsItem(title: "Area", subtitle: parentInfo?.motherDetails?.area??'N/A'),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.motherDetails?.country is String)? parentInfo?.motherDetails?.country : parentInfo?.motherDetails?.country?.value??'N/A'),
+                    DetailsItem(title: "Pin Code", subtitle: parentInfo?.motherDetails?.pinCode??'N/A'),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.motherDetails?.state is String)? parentInfo?.motherDetails?.state: parentInfo?.motherDetails?.state?.value??'N/A'),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.fatherDetails?.city is String)? parentInfo?.motherDetails?.city : parentInfo?.motherDetails?.city?.value??'N/A'),
                     DetailsItem(
                         title: "Mother's Email Id",
-                        subtitle: parentInfo?.motherDetails?.emailId??''),
+                        subtitle: parentInfo?.motherDetails?.emailId??'N/A'),
                     DetailsItem(
-                        title: "Mother's Mobile No", subtitle: parentInfo?.motherDetails?.mobileNumber??''),
+                        title: "Mother's Mobile No", subtitle: parentInfo?.motherDetails?.mobileNumber??'N/A'),
                   ],
                 ),
               )
@@ -143,31 +143,31 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     DetailsItem(
-                        title: "Gurdian's First Name", subtitle: parentInfo?.guardianDetails?.firstName??''),
-                    DetailsItem(title: "Gurdian's Last Name", subtitle: parentInfo?.guardianDetails?.lastName??''),
+                        title: "Gurdian's First Name", subtitle: parentInfo?.guardianDetails?.firstName??'N/A'),
+                    DetailsItem(title: "Gurdian's Last Name", subtitle: parentInfo?.guardianDetails?.lastName??'N/A'),
                     DetailsItem(
                         title: "Gurdian's Aadhar Card No",
-                        subtitle: parentInfo?.guardianDetails?.aadharNumber??''),
+                        subtitle: parentInfo?.guardianDetails?.aadharNumber??'N/A'),
                     DetailsItem(
-                        title: "Gurdian's Pan Card No", subtitle: parentInfo?.guardianDetails?.panNumber??''),
+                        title: "Gurdian's Pan Card No", subtitle: parentInfo?.guardianDetails?.panNumber??'N/A'),
                     DetailsItem(
-                        title: "Relationship with child", subtitle: parentInfo?.guardianDetails?.relationWithChild??''),
-                    DetailsItem(title: "House No./Building", subtitle: parentInfo?.guardianDetails?.houseNumber??''),
-                    DetailsItem(title: "Street Name", subtitle: parentInfo?.guardianDetails?.street??''),
+                        title: "Relationship with child", subtitle: (parentInfo?.guardianDetails?.relationWithChild is String) ? parentInfo?.guardianDetails?.relationWithChild??'N/A' : parentInfo?.guardianDetails?.relationWithChild?.value??'N/A'),
+                    DetailsItem(title: "House No./Building", subtitle: parentInfo?.guardianDetails?.houseNumber??'N/A'),
+                    DetailsItem(title: "Street Name", subtitle: parentInfo?.guardianDetails?.street??'N/A'),
                     DetailsItem(
-                        title: "Landmark", subtitle: parentInfo?.guardianDetails?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: (parentInfo?.motherDetails?.country is String)? parentInfo?.motherDetails?.country : parentInfo?.motherDetails?.country?.value??''),
-                    DetailsItem(title: "Pin Code", subtitle: parentInfo?.guardianDetails?.pincode??''),
-                    DetailsItem(title: "State", subtitle: (parentInfo?.guardianDetails?.state is String)? parentInfo?.guardianDetails?.state: parentInfo?.guardianDetails?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: (parentInfo?.guardianDetails?.city is String)? parentInfo?.guardianDetails?.city : parentInfo?.guardianDetails?.city?.value??''),
+                        title: "Landmark", subtitle: parentInfo?.guardianDetails?.landmark??'N/A'),
+                    DetailsItem(title: "Country", subtitle: (parentInfo?.guardianDetails?.country is String)? parentInfo?.guardianDetails?.country : parentInfo?.guardianDetails?.country?.value??''),
+                    DetailsItem(title: "Pin Code", subtitle: parentInfo?.guardianDetails?.pincode??'N/A'),
+                    DetailsItem(title: "State", subtitle: (parentInfo?.guardianDetails?.state is String)? parentInfo?.guardianDetails?.state: parentInfo?.guardianDetails?.state?.value??'N/A'),
+                    DetailsItem(title: "City", subtitle: (parentInfo?.guardianDetails?.city is String)? parentInfo?.guardianDetails?.city : parentInfo?.guardianDetails?.city?.value??'N/A'),
                     DetailsItem(
                         title: "Gurdian's Email Id",
-                        subtitle: parentInfo?.guardianDetails?.emailId??''),
+                        subtitle: parentInfo?.guardianDetails?.emailId??'N/A'),
                     DetailsItem(
-                        title: "Gurdian's Mobile No", subtitle: parentInfo?.guardianDetails?.mobileNumber??''),
+                        title: "Gurdian's Mobile No", subtitle: parentInfo?.guardianDetails?.mobileNumber??'N/A'),
                     DetailsItem(
                         title: "This Guardian is also a",
-                        subtitle: parentInfo?.guardianDetails?.guardianType??''),
+                        subtitle: parentInfo?.guardianDetails?.guardianType??'N/A'),
                   ],
                 ),
               )
@@ -203,24 +203,27 @@ class ParentDetail extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     DetailsItem(
-                        title: "Is Sibling", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].type??''),
+                        title: "Is Sibling", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].type??'N/A'),
                     DetailsItem(
-                        title: "Enrolment Number", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].enrollmentNumber??''),
+                        title: "Enrolment Number", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].enrollmentNumber??'N/A'),
                     DetailsItem(
-                        title: "Sibling First Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].firstName??''),
-                    DetailsItem(title: "Sibling Last Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].lastName??''),
-                    DetailsItem(title: "DOB", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].dob??''),
-                    DetailsItem(title: "Gender", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].gender??''),
-                    DetailsItem(title: "School", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].school??''),
-                    DetailsItem(title: "Grade", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].grade??''),
+                        title: "Sibling First Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].firstName??'N/A'),
+                    DetailsItem(title: "Sibling Last Name", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].lastName??'N/A'),
+                      DetailsItem(title: "DOB", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty) ? 
+                      "N/A" :(parentInfo!.siblingDetails![0].isOnlyDOB())? "": (parentInfo?.siblingDetails?[0].dob??'N/A')),
+                    DetailsItem(title: "Gender", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].gender??'N/A'),
+                    DetailsItem(title: "School", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].school??'N/A'),
+                    DetailsItem(title: "Grade", subtitle: ((parentInfo?.siblingDetails??[]).isEmpty)? "N/A": parentInfo?.siblingDetails?[0].grade??'N/A'),
                   ],
                 ),
               )
             ]),
       ),
-      const DetailsItem(title: "Are Parent's Seprated", subtitle: "No"),
-      const DetailsItem(
-          title: "Who Haas The Custody of the Child?", subtitle: "")
+      DetailsItem(title: "Are Parent's Seprated", subtitle: parentInfo?.childCustodyDetail?.areParentsSeparated??'No'),
+      if((parentInfo?.childCustodyDetail?.areParentsSeparated??'No').toLowerCase() == "yes")...[
+        DetailsItem(
+        title: "Who Has The Custody of the Child?", subtitle: parentInfo?.childCustodyDetail?.childCustody??'N/A')
+      ]
     ]);
   }
 }

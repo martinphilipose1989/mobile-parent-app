@@ -440,6 +440,13 @@ String? _validateDateOfBirth(String value) {
         {'field': 'Pin Code', 'controller': model.residentialPinCodeController},
       ];
 
+      List<Map<String, dynamic>> permanentResidentialFields = [
+        {'field': 'House No./ Building', 'controller': model.permanentHouseOrBuildingController},
+        {'field': 'Street Name', 'controller': model.permanentStreetNameController},
+        {'field': 'Landmark', 'controller': model.permanentLandMarkController},
+        {'field': 'Pin Code', 'controller': model.permanentResidentialPinCodeController},
+      ];
+
       if (errorMessage.isEmpty) {
         for (var field in residentialFields) {
           String? validationResult;
@@ -478,7 +485,44 @@ String? _validateDateOfBirth(String value) {
           }
         }
       }
+      if(errorMessage.isEmpty){
+        if(model.radioButtonController3.selectedItem == "No"){
+          for (var field in permanentResidentialFields) {
+          String? validationResult;
+          if(field["field"].toString().contains("Pin")){
+            validationResult = AppValidators.validatePinCode(
+              field['controller']!.text.trim(),
+            );
+          }
+          else{
+            validationResult = AppValidators.validateNotEmpty(
+              field['controller']!.text.trim(),
+              field['field'] as String,
+              checkSpecialCharacters: false,
+            );
+          }
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
+      }
+    }
+    if(errorMessage.isEmpty && model.radioButtonController3.selectedItem == "No"){
+      List<Map<String, dynamic>> dropdowns = [
+          {'field': 'Country', 'value': model.selectedPermanentResidentialCountry.value},
+          {'field': 'State', 'value': model.selectedPermanentResidentialState.value},
+          {'field': 'City', 'value': model.selectedPermanentResidentialCity.value},
+        ];
 
+        for (var dropdown in dropdowns) {
+          String? validationResult = AppValidators.validateDropdown(dropdown['value'], dropdown['field']);
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
+    }
       // Show snackbar with error message
     if (errorMessage.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(

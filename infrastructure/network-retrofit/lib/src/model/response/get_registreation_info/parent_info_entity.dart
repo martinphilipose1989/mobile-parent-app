@@ -30,15 +30,29 @@ class ParentInfoEntity extends BaseLayerDataTransformer<ParentInfoEntity,ParentI
   factory ParentInfoEntity.fromJson(Map<String, dynamic> json) =>
       _$ParentInfoEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    "parent_details": {
-      "father_details": fatherDetails?.toJson(),
-      "mother_details": motherDetails?.toJson(),
-      "guardian_details": guardianDetails?.toJson(),
-    },
-    "sibling_details": (siblingDetails??[]).map((e) => e.toJson()).toList(),
-    "other_details": childCustodyDetail?.toJson()
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {
+      "parent_details": {
+        "father_details": fatherDetails?.toJson(),
+        "mother_details": motherDetails?.toJson(),
+        "guardian_details": guardianDetails?.toJson(),
+      },
+    };
+
+    final List<Map<String, dynamic>> validSiblingDetails = (siblingDetails ?? [])
+        .map((sibling) => sibling.toJson())
+        .toList();
+
+    if (validSiblingDetails.isNotEmpty) {
+      json["sibling_details"] = validSiblingDetails;
+    }
+
+    if (childCustodyDetail != null) {
+      json["other_details"] = childCustodyDetail!.toJson();
+    }
+
+    return json;
+  }
 
   @override
   ParentInfo transform() {

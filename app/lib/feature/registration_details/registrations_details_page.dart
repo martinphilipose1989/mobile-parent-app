@@ -67,8 +67,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
       model.getMdmAttribute(infoType: "designation"),
       model.getMdmAttribute(infoType: "nationality"),
       model.getMdmAttribute(infoType: "designation"),
-      model.getMdmAttribute(infoType: "organization"),
-      model.getMdmAttribute(infoType: "personalise_learning_needs")];
+      model.getMdmAttribute(infoType: "personalise_learning_needs"),
+      model.getMdmAttribute(infoType: "relationWithChild"),
+      ];
       Future.wait(mdmAttributes).then((_){
         if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
           model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
@@ -114,21 +115,21 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         });
       }
       model.enquiryDetails = widget.enquiryDetail;
-    }
-    if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
-      model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
-        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
-      );
-    }
-    else if(widget.enquiryDetailArgs?.enquiryType == "PSA"){
-      model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
-        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
-      );
-    }
-    else{
-      model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
-        isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
-      );
+      if(widget.enquiryDetailArgs?.enquiryType == "IVT"){
+        model.getIvtDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+          isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+        );
+      }
+      else if(widget.enquiryDetailArgs?.enquiryType == "PSA"){
+        model.getPsaDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+          isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+        );
+      }
+      else{
+        model.getNewAdmissionDetails(enquiryID: widget.enquiryDetailArgs?.enquiryId??'',
+          isEdit: widget.routeFrom == "enquiry" ? true : model.editRegistrationDetails.value
+        );
+      }
     }
     model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs?.enquiryId??'');
      model.exceptionHandlerBinder.bind(

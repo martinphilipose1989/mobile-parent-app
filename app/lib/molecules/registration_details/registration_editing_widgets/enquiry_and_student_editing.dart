@@ -444,8 +444,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               onSingleSelect: (selectedValue) {
                                 if (model.religions.value.contains(selectedValue)) {
                                   var religion = model.religionAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                  model.selectedSubCaste?.id = religion?.id;
-                                  model.selectedSubCaste?.value = religion?.attributes?.name;
+                                  model.selectedReligion = CommonDataClass(
+                                    id: religion?.id,
+                                    value: religion?.attributes?.name
+                                  );
                                   model.selectedReligionSubject.add(selectedValue);
                                 }
                               },
@@ -485,8 +487,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               onSingleSelect: (selectedValue) {
                                 if (model.castes.value.contains(selectedValue)) {
                                   var caste = model.casteAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                  model.selectedCaste?.id = caste?.id;
-                                  model.selectedCaste?.value = caste?.attributes?.name;
+                                  model.selectedCaste = CommonDataClass(
+                                    id: caste?.id,
+                                    value: caste?.attributes?.name
+                                  );
                                   model.selectedCasteSubject.add(selectedValue);
                                 }
                               },
@@ -519,8 +523,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               onSingleSelect: (selectedValue) {
                                 if (model.subCastes.value.contains(selectedValue)) {
                                   var subCaste = model.subCasteAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                  model.selectedSubCaste?.id = subCaste?.id;
-                                  model.selectedSubCaste?.value = subCaste?.attributes?.name;
+                                  model.selectedSubCaste = CommonDataClass(
+                                    id: subCaste?.id,
+                                    value: subCaste?.attributes?.name
+                                  );
                                   model.selectedSubCasteSubject.add(selectedValue);
                                 }
                               },
@@ -553,8 +559,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               onSingleSelect: (selectedValue) {
                                 if (model.nationalities.value.contains(selectedValue)) {
                                   var nationality = model.nationality?.firstWhere((element)=> (element.attributes?.nationality??'').contains(selectedValue));
-                                  model.selectedNationality?.id = nationality?.id;
-                                  model.selectedNationality?.value = nationality?.attributes?.name;
+                                  model.selectedNationality = CommonDataClass(
+                                    id: nationality?.id,
+                                    value: nationality?.attributes?.nationality
+                                  );
                                   model.selectedNationalitySubject.add(selectedValue);
                                 }
                               },
@@ -588,8 +596,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               onSingleSelect: (selectedValue) {
                                 if (model.motherTongues.value.contains(selectedValue)) {
                                   var board = model.motherTongueAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(selectedValue));
-                                  model.selectedMotherTongue?.id = board?.id;
-                                  model.selectedMotherTongue?.value = board?.attributes?.name;
+                                  model.selectedMotherTongue = CommonDataClass(
+                                    id: board?.id,
+                                    value: board?.attributes?.name,
+                                  );
                                   model.selectedMotherTongueSubject.add(selectedValue);
                                 }
                               },

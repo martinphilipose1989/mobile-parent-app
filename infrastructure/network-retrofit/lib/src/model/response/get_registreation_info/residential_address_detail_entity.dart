@@ -6,12 +6,17 @@ part 'residential_address_detail_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true,createToJson: false)
 class ResidentialAddressDetailEntity extends BaseLayerDataTransformer<ResidentialAddressDetailEntity,ResidentialAddressDetail>{
+ @JsonKey(name: 'currentAddress')
  ResidentialAddressEntity? currentAddress;
+ @JsonKey(name: 'permanentAddress')
  ResidentialAddressEntity? permanentAddress; 
+ @JsonKey(name: 'isPermanentAddress')
+ bool? isPermanentAddress;
 
  ResidentialAddressDetailEntity({
   this.currentAddress,
-  this.permanentAddress
+  this.permanentAddress,
+  this.isPermanentAddress
  });
 
  factory ResidentialAddressDetailEntity.fromJson(Map<String, dynamic> json) =>
@@ -19,9 +24,10 @@ class ResidentialAddressDetailEntity extends BaseLayerDataTransformer<Residentia
 
   Map<String, dynamic> toJson() {
     Map<String,dynamic> request = {};
-    request.addAll({"currentAddress": currentAddress?.toJson()});
+    request.addAll({"current_address": currentAddress?.toJson()});
+    request.addAll({"is_permanent_address": isPermanentAddress??false});
     if(permanentAddress != null){
-      request.addAll({"permanentAddress": permanentAddress?.toJson()});
+      request.addAll({"permanent_address": permanentAddress?.toJson()});
     }
     return request;
   }
@@ -31,6 +37,7 @@ class ResidentialAddressDetailEntity extends BaseLayerDataTransformer<Residentia
     ResidentialAddressDetail residentialAddressDetail = ResidentialAddressDetail();
     residentialAddressDetail.currentAddress = currentAddress?.transform();
     residentialAddressDetail.permanentAddress = permanentAddress?.transform();
+    residentialAddressDetail.isPermanentAddress = isPermanentAddress;
     return residentialAddressDetail;
   }
 
@@ -39,7 +46,8 @@ class ResidentialAddressDetailEntity extends BaseLayerDataTransformer<Residentia
     ResidentialAddressEntity residentialAddressEntity = ResidentialAddressEntity();
     ResidentialAddressDetailEntity residentialAddressDetailEntity = ResidentialAddressDetailEntity(
       currentAddress: residentialAddressEntity.restore(data.currentAddress??ResidentialAddress()),
-      permanentAddress: residentialAddressEntity.restore(data.permanentAddress??ResidentialAddress())
+      permanentAddress: residentialAddressEntity.restore(data.permanentAddress??ResidentialAddress()),
+      isPermanentAddress: isPermanentAddress
     );
     return residentialAddressDetailEntity;
   }

@@ -49,6 +49,7 @@ class NetworkProperties {
       '/api/ac-personalise-learning-needs?fields[1]=name';
   static const String cityAndState =
       '/api/co-pincodes?populate[0]=District_Or_City&populate[1]=State';
+  static const String relationWithChild = '/api/co-guardian-relationships?fields[1]=name';
 
   static const String enrollmentDetail =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
