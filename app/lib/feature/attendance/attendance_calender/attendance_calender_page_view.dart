@@ -26,7 +26,11 @@ class AttendanceCalenderPageView extends BasePageViewWidget {
           return AppStreamBuilder<Resource<StudentDetailsResponseModel>>(  stream: model!.studentDetails,
             initialData: Resource.none(),
             dataBuilder: (BuildContext context,  data) {
-            return AttendanceCalender(name: model.selectedStudent?.first.studentDisplayName,
+       return data?.status == Status.loading
+                ? const Center(
+              child: CircularProgressIndicator(),
+            )
+                :AttendanceCalender(name: model.selectedStudent?.first.studentDisplayName,
               schoolName: data?.data?.data?.profile?.crtSchool,
               boardName:data?.data?.data?.profile?.crtBoard ,stream: data?.data?.data?.profile?.streamName,
               grade: data?.data?.data?.profile?.crtGrade,

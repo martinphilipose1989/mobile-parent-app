@@ -48,8 +48,7 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
   ContactInfoEntity? contactInfo;
   @JsonKey(name: "guardian_contact_info")
   List<GuardianContactInfoEntity>? guardianContactInfo;
-  @JsonKey(name: "medical_info")
-  MedicalInfoEntity? medicalInfo;
+
   @JsonKey(name: "document_info")
   List<dynamic>? documentInfo;
   @JsonKey(name: "academics")
@@ -61,7 +60,6 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
     required this.siblingsInfo,
     required this.contactInfo,
     required this.guardianContactInfo,
-    required this.medicalInfo,
     required this.documentInfo,
     required this.academics,
   });
@@ -81,7 +79,7 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
   return StudentData(profile: profile?.transform(), parent: parent?.map((e)=>e.transform()).toList(),
       siblingsInfo: siblingsInfo?.map((e)=>e.transform()).toList(), contactInfo: contactInfo?.transform(),
       guardianContactInfo: guardianContactInfo?.map((e)=>e.transform()).toList(),
-      medicalInfo: medicalInfo?.transform(), documentInfo: documentInfo,
+      documentInfo: documentInfo,
       academics: academics?.transform());
   }
 }
@@ -158,33 +156,33 @@ class ResidentialInformationEntity implements BaseLayerDataTransformer<Residenti
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "type")
-  String type;
+  String? type;
   @JsonKey(name: "user_id")
-  int userId;
+  int? userId;
   @JsonKey(name: "house_building_no")
-  dynamic houseBuildingNo;
+  String? houseBuildingNo;
   @JsonKey(name: "street_name")
-  dynamic streetName;
+  String? streetName;
   @JsonKey(name: "landmark")
-  dynamic landmark;
+  String? landmark;
   @JsonKey(name: "city_id")
-  int cityId;
+  int? cityId;
   @JsonKey(name: "state_id")
-  int stateId;
+  int? stateId;
   @JsonKey(name: "country_id")
-  int countryId;
+  int? countryId;
   @JsonKey(name: "city")
-  String city;
+  String? city;
   @JsonKey(name: "state")
-  String state;
+  String? state;
   @JsonKey(name: "country")
-  String country;
+  String? country;
   @JsonKey(name: "pincode")
-  int pincode;
+  int? pincode;
   @JsonKey(name: "address_id")
-  dynamic addressId;
+  String? addressId;
   @JsonKey(name: "tag_id")
-  dynamic tagId;
+  String? tagId;
 
   ResidentialInformationEntity({
     required this.id,
@@ -226,15 +224,15 @@ class ResidentialInformationEntity implements BaseLayerDataTransformer<Residenti
 @JsonSerializable()
 class GuardianContactInfoEntity implements BaseLayerDataTransformer<GuardianContactInfoEntity,GuardianContactInfo> {
   @JsonKey(name: "relation")
-  String relation;
+  String? relation;
   @JsonKey(name: "guardian_relationship_id")
-  int guardianRelationshipId;
+  int? guardianRelationshipId;
   @JsonKey(name: "guardian_id")
-  int guardianId;
+  int? guardianId;
   @JsonKey(name: "preferred_mobile_no")
-  dynamic preferredMobileNo;
+  String? preferredMobileNo;
   @JsonKey(name: "preferred_email_no")
-  dynamic preferredEmailNo;
+  String? preferredEmailNo;
 
   GuardianContactInfoEntity({
     required this.relation,
@@ -261,65 +259,7 @@ class GuardianContactInfoEntity implements BaseLayerDataTransformer<GuardianCont
   }
 }
 
-@JsonSerializable()
-class MedicalInfoEntity implements BaseLayerDataTransformer<MedicalInfoEntity,MedicalInfo>{
-  @JsonKey(name: "past_hospitalization")
-  String pastHospitalization;
-  @JsonKey(name: "last_hospitalization_year")
-  String lastHospitalizationYear;
-  @JsonKey(name: "reason_for_hospitalization")
-  String reasonForHospitalization;
-  @JsonKey(name: "is_phsically_disabled")
-  String isPhsicallyDisabled;
-  @JsonKey(name: "disablility_details")
-  String disablilityDetails;
-  @JsonKey(name: "has_medical_history")
-  String hasMedicalHistory;
-  @JsonKey(name: "medical_history_details")
-  String medicalHistoryDetails;
-  @JsonKey(name: "has_allergy")
-  String hasAllergy;
-  @JsonKey(name: "allergy_details")
-  String allergyDetails;
-  @JsonKey(name: "has_personalized_learning_needs")
-  String hasPersonalizedLearningNeeds;
-  @JsonKey(name: "personalized_learning_needs_details")
-  String personalizedLearningNeedsDetails;
 
-  MedicalInfoEntity({
-    required this.pastHospitalization,
-    required this.lastHospitalizationYear,
-    required this.reasonForHospitalization,
-    required this.isPhsicallyDisabled,
-    required this.disablilityDetails,
-    required this.hasMedicalHistory,
-    required this.medicalHistoryDetails,
-    required this.hasAllergy,
-    required this.allergyDetails,
-    required this.hasPersonalizedLearningNeeds,
-    required this.personalizedLearningNeedsDetails,
-  });
-
-  factory MedicalInfoEntity.fromJson(Map<String, dynamic> json) => _$MedicalInfoEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MedicalInfoEntityToJson(this);
-
-  @override
-  MedicalInfoEntity restore(MedicalInfo data) {
-    // TODO: implement restore
-    throw UnimplementedError();
-  }
-
-  @override
-  MedicalInfo transform() {
-  return MedicalInfo(pastHospitalization: pastHospitalization,
-      lastHospitalizationYear: lastHospitalizationYear, reasonForHospitalization: reasonForHospitalization,
-      isPhsicallyDisabled: isPhsicallyDisabled, disablilityDetails: disablilityDetails, hasMedicalHistory: hasMedicalHistory, medicalHistoryDetails: medicalHistoryDetails,
-      hasAllergy: hasAllergy,
-      allergyDetails: allergyDetails, hasPersonalizedLearningNeeds: hasPersonalizedLearningNeeds,
-      personalizedLearningNeedsDetails: personalizedLearningNeedsDetails);
-  }
-}
 
 @JsonSerializable()
 class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent>{

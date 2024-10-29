@@ -76,7 +76,7 @@ this.subtitle2});
                         color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
-                    text: subtitle??"",
+                    text: subtitle2??"",
                     style: AppTypography.smallCaption.copyWith(
                         color: AppColors.textGray, letterSpacing: 0.25,)),
                 CommonSizedBox.sizedBox(height: 2, width: 5),

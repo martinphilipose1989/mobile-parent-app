@@ -26,49 +26,67 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
         builder: (BuildContext context, AttendanceDetailsViewModel? model,
             Widget? child) {
           return AppStreamBuilder<Resource<AttendanceDetailsResponseModel>>(
-            stream: model!.getAttendanceDetail ,
+            stream: model!.getAttendanceDetail,
             dataBuilder: (context, snapshot) {
               return
 //
 
                   snapshot?.status == Status.loading
                       ? const Center(child: CircularProgressIndicator())
-                        : Column(
-                              children: [
-                                CommonSizedBox.sizedBox(height: 20, width: 10),
-                                AppStreamBuilder<Resource<StudentDetailsResponseModel>>(
-                                  dataBuilder: (context,data){
-                               return     AttendanceDetails(
-                                 schoolName: data?.data?.data?.profile?.crtSchool,
-                                 boardName:data?.data?.data?.profile?.crtBoard ,stream: data?.data?.data?.profile?.streamName,
-                                 grade: data?.data?.data?.profile?.crtGrade,
-                                 course: data?.data?.data?.profile?.courseName,
-                                 shift: data?.data?.data?.profile?.crtShift,
-                                 division: data?.data?.data?.profile?.crtDivision,house: data?.data?.data?.profile?.crtHouse,
-
-                                 date: dateFormatToDDMMYYYhhmma(snapshot!
-                                          .data!.data.data.first.attendanceDate
-                                          .toString()),
-                                      name: model.selectedStudent?.first
-                                          .studentDisplayName ??
-                                          "",
-                                    );
-                                  }
-                        ,
-              stream: model.studentDetails, initialData: Resource.none(),
-                                ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.6,
-                                    child:  const AttendanceList())
-                              ],
-                            );
-                      //     : Center(
-                      //         child: CommonText(
-                      //           text: "No data Available",
-                      //         ),
-                      //       )
-                      // : CircularProgressIndicator();
+                      : Column(
+                          children: [
+                            CommonSizedBox.sizedBox(height: 20, width: 10),
+                            AppStreamBuilder<
+                                Resource<StudentDetailsResponseModel>>(
+                              dataBuilder: (context, data) {
+                                return data?.status == Status.loading
+                                    ? const Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : AttendanceDetails(
+                                        schoolName: data
+                                            ?.data?.data?.profile?.crtSchool,
+                                        boardName:
+                                            data?.data?.data?.profile?.crtBoard,
+                                        stream: data
+                                            ?.data?.data?.profile?.streamName,
+                                        grade:
+                                            data?.data?.data?.profile?.crtGrade,
+                                        course: data
+                                            ?.data?.data?.profile?.courseName,
+                                        shift:
+                                            data?.data?.data?.profile?.crtShift,
+                                        division: data
+                                            ?.data?.data?.profile?.crtDivision,
+                                        house:
+                                            data?.data?.data?.profile?.crtHouse,
+                                        date: dateFormatToDDMMYYYhhmma(snapshot!
+                                            .data!
+                                            .data
+                                            .data
+                                            .first
+                                            .attendanceDate
+                                            .toString()),
+                                        name: model.selectedStudent?.first
+                                                .studentDisplayName ??
+                                            "",
+                                      );
+                              },
+                              stream: model.studentDetails,
+                              initialData: Resource.none(),
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                child: const AttendanceList())
+                          ],
+                        );
+              //     : Center(
+              //         child: CommonText(
+              //           text: "No data Available",
+              //         ),
+              //       )
+              // : CircularProgressIndicator();
             },
             initialData: Resource.none(),
           );

@@ -19,7 +19,7 @@ class StudentData {
   List<SiblingsInfo>? siblingsInfo;
   ContactInfo? contactInfo;
   List<GuardianContactInfo>? guardianContactInfo;
-  MedicalInfo? medicalInfo;
+
   List<dynamic>? documentInfo;
   Academics? academics;
 
@@ -29,7 +29,7 @@ class StudentData {
     required this.siblingsInfo,
     required this.contactInfo,
     required this.guardianContactInfo,
-    required this.medicalInfo,
+
     required this.documentInfo,
     required this.academics,
   });
@@ -68,18 +68,18 @@ class ResidentialInformation {
   int? id;
   String? type;
   int? userId;
-  String houseBuildingNo;
-  String streetName;
-  String landmark;
-  int cityId;
-  int stateId;
-  int countryId;
-  String city;
-  String state;
-  String country;
-  int pincode;
-  String addressId;
-  String tagId;
+  String? houseBuildingNo;
+  String? streetName;
+  String? landmark;
+  int? cityId;
+  int? stateId;
+  int? countryId;
+  String? city;
+  String? state;
+  String? country;
+  int? pincode;
+  String? addressId;
+  String? tagId;
 
   ResidentialInformation({
     required this.id,
@@ -102,11 +102,11 @@ class ResidentialInformation {
 }
 
 class GuardianContactInfo {
-  String relation;
-  int guardianRelationshipId;
-  int guardianId;
-  String preferredMobileNo;
-  String preferredEmailNo;
+  String? relation;
+  int? guardianRelationshipId;
+  int? guardianId;
+  String? preferredMobileNo;
+  String? preferredEmailNo;
 
   GuardianContactInfo({
     required this.relation,
@@ -118,67 +118,40 @@ class GuardianContactInfo {
 
 }
 
-class MedicalInfo {
-  dynamic pastHospitalization;
-  dynamic lastHospitalizationYear;
-  dynamic reasonForHospitalization;
-  dynamic isPhsicallyDisabled;
-  dynamic disablilityDetails;
-  dynamic hasMedicalHistory;
-  dynamic medicalHistoryDetails;
-  dynamic hasAllergy;
-  dynamic allergyDetails;
-  dynamic hasPersonalizedLearningNeeds;
-  dynamic personalizedLearningNeedsDetails;
 
-  MedicalInfo({
-    required this.pastHospitalization,
-    required this.lastHospitalizationYear,
-    required this.reasonForHospitalization,
-    required this.isPhsicallyDisabled,
-    required this.disablilityDetails,
-    required this.hasMedicalHistory,
-    required this.medicalHistoryDetails,
-    required this.hasAllergy,
-    required this.allergyDetails,
-    required this.hasPersonalizedLearningNeeds,
-    required this.personalizedLearningNeedsDetails,
-  });
-
-}
 
 class Parent {
   int id;
   int guardianId;
-  int guardianRelationshipId;
-  String relation;
-  String globalNo;
-  String firstName;
-  String lastName;
-  String adharNo;
-  String panNo;
-  String designation;
-  String occupation;
-  String organization;
-  String qualification;
-  String address;
-  String area;
-  String pincode;
-  String mobileNo;
-  String email;
-  int isPreferredEmail;
-  int isPreferredMobileNo;
-  int isPreferredAddress;
-  int userId;
-  String streetName;
-  String landmark;
-  int cityId;
-  int countryId;
-  int stateId;
-  String city;
-  String state;
-  String country;
-  String tagId;
+  int? guardianRelationshipId;
+  String? relation;
+  String?globalNo;
+  String? firstName;
+  String? lastName;
+  String? adharNo;
+  String? panNo;
+  String? designation;
+  String? occupation;
+  String? organization;
+  String? qualification;
+  String? address;
+  String? area;
+  String? pincode;
+  String? mobileNo;
+  String? email;
+  int? isPreferredEmail;
+  int? isPreferredMobileNo;
+  int? isPreferredAddress;
+  int? userId;
+  String? streetName;
+  String? landmark;
+  int? cityId;
+  int? countryId;
+  int? stateId;
+  String? city;
+  String? state;
+  String? country;
+  String? tagId;
 
   Parent({
     required this.id,
@@ -218,51 +191,51 @@ class Parent {
 
 class Profile {
   int id;
-  String firstName;
-  String lastName;
-  DateTime dob;
-  String birthPlace;
-  int status;
-  int genderId;
-  String gender;
-  String nationality;
-  String caste;
-  String subCaste;
-  String subCasteId;
-  int isParentsSeperated;
-  String religion;
-  String bloodGroup;
-  String motherTongue;
-  String studentTypes;
-  String crtBoard;
-  String crtGrade;
-  String crtDivision;
-  int crtDivId;
-  int crtBrandId;
-  String brandName;
-  String crtEnrOn;
-  String crtShift;
-  String crtSchool;
-  String crtHouse;
-  int crtHouseId;
-  String emergencyContactNo;
-  String profileImage;
-  int academicYearId;
-  String academicYearName;
-  int casteId;
-  int crtBoardId;
-  int crtGradeId;
-  int crtShiftId;
-  int crtSchoolId;
-  int crtCourseId;
-  String crtStreamId;
-  int globalId;
-  int studentTypeId;
-  String courseName;
-  String streamName;
-  String createdAt;
-  DateTime updatedAt;
-  String profileImageUrl;
+  String? firstName;
+  String? lastName;
+  DateTime? dob;
+  String? birthPlace;
+  int? status;
+  int? genderId;
+  String? gender;
+  String? nationality;
+  String? caste;
+  String? subCaste;
+  String? subCasteId;
+  int? isParentsSeperated;
+  String? religion;
+  String? bloodGroup;
+  String? motherTongue;
+  String? studentTypes;
+  String? crtBoard;
+  String? crtGrade;
+  String? crtDivision;
+  int? crtDivId;
+  int? crtBrandId;
+  String? brandName;
+  String? crtEnrOn;
+  String? crtShift;
+  String? crtSchool;
+  String? crtHouse;
+  int? crtHouseId;
+  String? emergencyContactNo;
+  String? profileImage;
+  int? academicYearId;
+  String? academicYearName;
+  int? casteId;
+  int? crtBoardId;
+  int? crtGradeId;
+  int? crtShiftId;
+  int? crtSchoolId;
+  int? crtCourseId;
+  String? crtStreamId;
+  int? globalId;
+  int? studentTypeId;
+  String? courseName;
+  String? streamName;
+  String? createdAt;
+  DateTime? updatedAt;
+  String? profileImageUrl;
 
   Profile({
     required this.id,

@@ -27,6 +27,7 @@ class _DisplinaryDetailsPageState
         .read(dashboardViewModelProvider)
         .selectedStudentId;
     model.getSlipList(studentId: model.selectedStudent?.first.id??0, );
+    model.getStudentDetail(id: model.selectedStudent?.first.id);
   }
 
   @override

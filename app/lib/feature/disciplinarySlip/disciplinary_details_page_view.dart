@@ -30,7 +30,11 @@ class DisplinaryDetailsPageView
               ),
               AppStreamBuilder<Resource<StudentDetailsResponseModel>>(
                 dataBuilder: (context,data){
-                return  DisciplinaryDetails(
+           return data?.status == Status.loading
+                    ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : DisciplinaryDetails(
                     name: model.selectedStudent?.first.studentDisplayName ?? "",
                   schoolName: data?.data?.data?.profile?.crtSchool,
                   boardName:data?.data?.data?.profile?.crtBoard ,stream: data?.data?.data?.profile?.streamName,
