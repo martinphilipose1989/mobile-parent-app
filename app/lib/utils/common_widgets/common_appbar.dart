@@ -12,13 +12,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appbarTitle;
   final bool? showBackButton;
   final bool? notShowNotificationAndUserBatch;
+  final VoidCallback? onBackPressed; // Renamed for clarity
 
-  const CommonAppBar(
-      {super.key,
-      required this.appbarTitle,
-      this.showBackButton = false,
-      this.notShowNotificationAndUserBatch = false})
-      : preferredSize = const Size.fromHeight(60.0);
+  const CommonAppBar({
+    super.key,
+    required this.appbarTitle,
+    this.showBackButton = false,
+    this.notShowNotificationAndUserBatch = false,
+    this.onBackPressed,
+  }) : preferredSize = const Size.fromHeight(60.0);
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +28,27 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.primaryLighter,
       leading: showBackButton == true
           ? IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
+        icon: const Icon(
+          Icons.arrow_back_ios,
+        ),
+        onPressed: () {
+          if (onBackPressed != null) {
+            onBackPressed!(); // Calls the provided callback if given
+          } else {
+            Navigator.pop(context); // Pops the page if no callback
+          }
+        },
+      )
           : InkWell(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: SvgPicture.asset(
-                AppImages.menuHamburgerLogo,
-                height: 24.h,
-                width: 24.w,
-              ),
-            ),
+        onTap: () {
+          Scaffold.of(context).openDrawer();
+        },
+        child: SvgPicture.asset(
+          AppImages.menuHamburgerLogo,
+          height: 24.h,
+          width: 24.w,
+        ),
+      ),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,
@@ -51,30 +57,30 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: (notShowNotificationAndUserBatch ?? false)
           ? []
           : [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: SvgPicture.asset(AppImages.notificationLogo),
-                ),
-              ),
-              Container(
-                height: 32.h,
-                width: 32.w,
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.00),
-                    border: Border.all(color: AppColors.primary),
-                    color: AppColors.primary.withOpacity(0.2)),
-                child: const CommonText(
-                  text: 'ss',
-                  style: TextStyle(color: AppColors.primary),
-                ),
-              )
-            ],
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: InkWell(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: SvgPicture.asset(AppImages.notificationLogo),
+          ),
+        ),
+        Container(
+          height: 32.h,
+          width: 32.w,
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(right: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.00),
+              border: Border.all(color: AppColors.primary),
+              color: AppColors.primary.withOpacity(0.2)),
+          child: const CommonText(
+            text: 'ss',
+            style: TextStyle(color: AppColors.primary),
+          ),
+        )
+      ],
     );
   }
 }

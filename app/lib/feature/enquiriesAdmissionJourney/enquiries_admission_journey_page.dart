@@ -29,15 +29,28 @@ class _AdmissionsPageState extends AppBasePageState<
       context,
       super.stateObserver,
     );
+
+
   }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
+    return  CommonAppBar(
       appbarTitle: 'Enquiry Details',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
+onBackPressed:  (){
+  ProviderScope.containerOf(context)
+      .read(enquiriesPageModelProvider).fetchEnquiries();
+        print("on back pressed");
+  Navigator.pop(context);
+}
+
+
+
+
+
     );
   }
 

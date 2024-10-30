@@ -345,7 +345,13 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                             '',
                                     type: widget.enquiryDetailArgs?.isFrom ??
                                         'enquiry');
+
                       }
+                      ProviderScope.containerOf(context)
+                          .read(enquiriesAdmissionsJourneyProvider(
+                          widget.enquiryDetailArgs ??
+                              EnquiryDetailArgs())).getEnquiryDetail(enquiryID:      widget.enquiryDetailArgs?.enquiryId ??
+                          '',);
                     },
                     text: 'Next',
                     backgroundColor: AppColors.accent,
