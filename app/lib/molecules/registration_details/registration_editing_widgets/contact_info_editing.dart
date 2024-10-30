@@ -495,6 +495,11 @@ class ContactInfoEditing extends StatelessWidget {
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
+                                onFieldSubmitted: (value) {
+                                  if(value.length == 6){
+                                    model.getCityAndStateByPincode(pincode: model.permanentResidentialPinCodeController.text.trim(), infoType: "permanentAddress");
+                                  }
+                                },
                                 maxLength: 6,
                               ),
                               CommonSizedBox.sizedBox(height: 15, width: 10),
