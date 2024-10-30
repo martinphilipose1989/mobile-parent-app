@@ -223,7 +223,8 @@ class ParentDetail extends StatelessWidget {
       if((parentInfo?.childCustodyDetail?.areParentsSeparated??'No').toLowerCase() == "yes")...[
         DetailsItem(
         title: "Who Has The Custody of the Child?", subtitle: parentInfo?.childCustodyDetail?.childCustody??'N/A')
-      ]
+      ],
+      const SizedBox(height: 100,)
     ]);
   }
 }

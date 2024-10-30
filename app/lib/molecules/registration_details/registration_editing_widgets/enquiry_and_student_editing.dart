@@ -156,7 +156,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         labelName: "DOB",
                         showAstreik: true,
                         isDOB: true,
-                        lastDate: DateTime(DateTime.now().year-5),
+                        lastDate: DateTime(DateTime.now().year-1),
                         initialDate: model.studentDob,
                         controller: model.dobController,
                         onDateSelected: (newDate) {

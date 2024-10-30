@@ -916,7 +916,7 @@ class ParentInfoEditing extends StatelessWidget {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          maxLength: 14,
+                          maxLength: 12,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Guardian's Aadhar Card No",
@@ -1324,7 +1324,7 @@ class ParentInfoEditing extends StatelessWidget {
                                         labelName: "Date of birth",
                                         initialDate: data?.data?.data
                                             ?.siblingProfile?.dob?? model.siblingDOB,
-                                        lastDate: DateTime(DateTime.now().year-5),
+                                        lastDate: DateTime(DateTime.now().year-1),
                                         isDOB: true,
                                         onDateSelected: (newDate){
                                           if(data!=null){

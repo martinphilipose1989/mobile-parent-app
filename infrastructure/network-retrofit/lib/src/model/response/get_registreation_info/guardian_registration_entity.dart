@@ -76,7 +76,7 @@ class GuardianDetailsEntity extends BaseLayerDataTransformer<GuardianDetailsEnti
       void addIfNotEmpty(String key, dynamic value) {
         if(value is CommonDataEntity){
           if(value.isValid()){
-            json[key] = value;
+            json[key] = value.toJson();
           }
         }
         else{

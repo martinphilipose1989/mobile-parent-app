@@ -82,7 +82,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
       context: context,
       initialDate: widget.initialDate ?? DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: widget.isDOB? widget.lastDate??DateTime(DateTime.now().year-5) : DateTime(2101),
+      lastDate: widget.isDOB? widget.lastDate??DateTime(DateTime.now().year-1) : DateTime(2101),
     );
     if (picked != null) {
       setState(() {

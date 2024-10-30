@@ -153,20 +153,14 @@ String? _validateDateOfBirth(String value) {
       ];
 
       // Guardian's details
-      // List<Map<String, dynamic>> guardianFields = [
-      //   {'field': "Guardian's First Name", 'controller': model.guardianFirstNameController},
-      //   {'field': "Guardian's Last Name", 'controller': model.guardianLastNameController},
-      //   {'field': "Guardian's Adhar Card No", 'controller': model.guardianAdharCardController},
-      //   {'field': "Guardian's Pan Card No", 'controller': model.guardianPanCardController},
-      //   {'field': "Relationship With Child", 'controller': model.relationshipWithChildController},
-      //   {'field': "Guardian's Qualification", 'controller': model.guardianQualificationController},
-      //   {'field': "Guardian's Organization Name", 'controller': model.guardianOrganizationNameController},
-      //   {'field': "Guardian's Designation", 'controller': model.guardianDesignationController},
-      //   {'field': "Guardian's Office Address", 'controller': model.guardianOfficeAddressController},
-      //   {'field': "Guardian's Pin Code", 'controller': model.guardianPinCodeController},
-      //   {'field': "Guardian's Email ID", 'controller': model.guardianEmailController},
-      //   {'field': "Guardian's Mobile Number", 'controller': model.guardianMobileController},
-      // ];
+      List<Map<String, dynamic>> guardianFields = [
+        {'field': "Guardian's First Name", 'controller': model.guardianFirstNameController},
+        {'field': "Guardian's Last Name", 'controller': model.guardianLastNameController},
+        {'field': "Guardian's Aadhar Card No", 'controller': model.guardianAdharCardController},
+        {'field': "Guardian's Pan Card No", 'controller': model.guardianPanCardController},
+        {'field': "Guardian's Email ID", 'controller': model.guardianEmailController},
+        {'field': "Guardian's Mobile Number", 'controller': model.guardianMobileController},
+      ];
 
       // Sibling's details
       // List<Map<String, dynamic>> siblingFields = [
@@ -221,6 +215,53 @@ String? _validateDateOfBirth(String value) {
           }
         }
         if (errorMessage.isNotEmpty) break;
+      }
+
+      if(errorMessage.isEmpty){
+        for (var field in guardianFields) {
+          String? validationResult;
+          if(field['field'].toString().contains('Email')){
+            if(field['controller']!.text.trim().isNotEmpty){
+              validationResult = AppValidators.validateEmail(
+                field['controller']!.text.trim(),
+              );
+            }
+          }
+          else if(field['field'].toString().contains('Mobile')){
+            if(field['controller']!.text.trim().isNotEmpty){
+              validationResult = AppValidators.validateMobile(
+                field['controller']!.text.trim(),
+              );
+            }
+          }
+          else if(field['field'].toString().contains('Aadhar')){
+            if(field['controller']!.text.trim().isNotEmpty){
+              validationResult = AppValidators.validateAadhar(
+                field['controller']!.text.trim(),
+              );
+            }
+          }
+          else if(field['field'].toString().contains('Pan')){
+            if(field['controller']!.text.trim().isNotEmpty){
+              validationResult = AppValidators.validatePanCardNo(
+                field['controller']!.text.trim()
+              );
+            }
+          }
+          else {
+            if(field['controller']!.text.trim().isNotEmpty){
+              validationResult = AppValidators.validateNotEmpty(
+                field['controller']!.text.trim(),
+                field['field'].toString(),
+                checkSpecialCharacters: true
+              );
+            }
+          }
+          if (validationResult != null) {
+            errorMessage = validationResult;
+            break;
+          }
+        }
       }
 
       // Validate dropdowns
