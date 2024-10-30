@@ -70,6 +70,7 @@ abstract class RetrofitService {
   @POST('/api/guardian-student-details')
   Future<HttpResponse<GetGuardianStudentDetailsEntity>>
       getGuardianStudentDetails(
+          @Header('Authorization') token,
           @Body()
           GetGuardianStudentDetailsRequest getGuardianStudentDetailsRequest);
 
@@ -532,5 +533,6 @@ abstract class RetrofitService {
   @POST(
       '${NetworkProperties.mdmBaseUrl}/api/rbac-role-permissions/role-permissions-for-external')
   Future<HttpResponse<UserRolePermissionResponseEntity>> getUserRolePermissions(
+      @Header("Authorization") token,
       @Body() UserRolePermissionRequestEntity body);
 }

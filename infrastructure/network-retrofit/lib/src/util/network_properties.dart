@@ -64,7 +64,4 @@ class NetworkProperties {
   // key cloak
   static const String tokenIntroSpect =
       "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
-
-  static const String roleBasePermission =
-      "https://ampersand-r26sp3mibq-uc.a.run.app/api/rbac-role-permissions/role-permissions-for-external";
 }

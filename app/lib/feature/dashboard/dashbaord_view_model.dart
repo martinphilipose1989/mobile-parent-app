@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -18,13 +19,14 @@ class DashboardPageModel extends BasePageViewModel {
   final TokenresponseUsecase tokenresponseUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
 
+  BehaviorSubject<ParentStudentStatusEnum> statusSubject =
+      BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
+
   DashboardPageModel(
       this.exceptionHandlerBinder,
       this._getGuardianStudentDetailsUsecase,
       this.tokenresponseUsecase,
-      this.getUserRoleBasePermissionUsecase) {
-    getUserRoleBaseDetails();
-  }
+      this.getUserRoleBasePermissionUsecase);
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -159,11 +161,21 @@ class DashboardPageModel extends BasePageViewModel {
         params,
         createCall: () =>
             getUserRoleBasePermissionUsecase.execute(params: params),
-      ).asFlow().listen((result) {
+      ).asFlow().listen((result) async {
         if (result.status == Status.success) {
           log("getUserRoleBasePermissionUsecase ${result.data}");
           SharedPreferenceHelper.saveString(
               mobileNumber, "${result.data?.data?.user?.mobileNo}");
+          final statusId = result.data?.data?.user?.statusId ?? 0;
+          final statusEnum = ParentStudentStatusEnum.fromStatus(statusId);
+
+          // Add the enum to the subject
+          statusSubject.add(statusEnum);
+          final phoneNo = await SharedPreferenceHelper.getString(mobileNumber);
+          if (phoneNo.isNotEmpty &&
+              statusEnum == ParentStudentStatusEnum.admission) {
+            getStudentList(int.parse(phoneNo));
+          }
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);

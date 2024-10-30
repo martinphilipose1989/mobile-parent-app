@@ -12,7 +12,7 @@ class UserRolePermissionResponseEntity
   bool? success;
   @JsonKey(name: "data")
   UserRolePermissionEntity? data;
-  @JsonKey(name: "meta")
+
   @JsonKey(name: "message")
   String? message;
 
