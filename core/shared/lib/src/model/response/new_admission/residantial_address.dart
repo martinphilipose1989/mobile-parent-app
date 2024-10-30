@@ -6,7 +6,6 @@ class ResidentialAddress {
     String? pinCode;
     dynamic state;
     dynamic city;
-    bool? isPermanentAddress;
 
   ResidentialAddress({
     this.house,
@@ -16,6 +15,5 @@ class ResidentialAddress {
     this.pinCode,
     this.state,
     this.city,
-    this.isPermanentAddress,
   }); 
 }

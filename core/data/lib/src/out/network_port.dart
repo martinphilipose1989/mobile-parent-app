@@ -127,7 +127,7 @@ abstract class NetworkPort {
       required String verify});
 
   Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute(
-      {required String infoType});
+      {required String infoType,int? id});
 
   Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode(
       {required String pincode});

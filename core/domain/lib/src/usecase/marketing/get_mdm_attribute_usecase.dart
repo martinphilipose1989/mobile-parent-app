@@ -14,15 +14,18 @@ class GetMdmAttributeUsecase extends BaseUseCase<BaseError,
     required GetMdmAttributeUsecaseParams params,
   }) {
     return _enquiryRepository.getMdmAttribute(
-      infoType: params.infoType
+      infoType: params.infoType,
+      id: params.id
     );
   }
 }
 
 class GetMdmAttributeUsecaseParams extends Params {
   final String infoType;
+  final int? id;
   GetMdmAttributeUsecaseParams({
     required this.infoType,
+    this.id
   });
 
   @override

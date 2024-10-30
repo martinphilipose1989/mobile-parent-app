@@ -20,8 +20,6 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     dynamic state;
     @JsonKey(name: 'city',fromJson: _fromJson)
     dynamic city;
-    @JsonKey(name: 'isPermanentAddress')
-    bool? isPermanentAddress;
 
     ResidentialAddressEntity({
       this.house,
@@ -31,7 +29,6 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
       this.pinCode,
       this.state,
       this.city,
-      this.isPermanentAddress,
     });
 
   factory ResidentialAddressEntity.fromJson(Map<String, dynamic> json) =>
@@ -46,7 +43,6 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
       "pin_code": pinCode,
       "state": (state is CommonDataEntity) ? state.toJson() : state,
       "city": (city is CommonDataEntity) ? city.toJson() : city,
-      "is_permanent_address": isPermanentAddress
     };
   }
 
@@ -65,7 +61,6 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
     residentialAddress.city = (city is CommonDataEntity) ? city?.transform() : city;
     residentialAddress.country = (country is CommonDataEntity) ? country?.transform() : country;
     residentialAddress.house = house;
-    residentialAddress.isPermanentAddress = isPermanentAddress;
     residentialAddress.landmark = landmark;
     residentialAddress.pinCode = pinCode;
     residentialAddress.state = (state is CommonDataEntity) ? state?.transform() : state;
@@ -83,8 +78,7 @@ class ResidentialAddressEntity extends BaseLayerDataTransformer<ResidentialAddre
       country: commonDataEntity.restore(data.country??CommonDataClass()),
       pinCode: data.pinCode,
       state: commonDataEntity.restore(data.state??CommonDataClass()),
-      city: commonDataEntity.restore(data.city??CommonDataClass()),
-      isPermanentAddress: data.isPermanentAddress,
+      city: commonDataEntity.restore(data.city??CommonDataClass()),      
     );  
     return residentialAddressEntity;
   }

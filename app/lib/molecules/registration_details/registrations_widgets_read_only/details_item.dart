@@ -15,15 +15,25 @@ class DetailsItem extends StatelessWidget {
           height: 10,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonText(
-              text: title,
-              style: AppTypography.body2,
+            Expanded(
+              flex: 1,
+              child: CommonText(
+                text: title,
+                style: AppTypography.body2,
+                maxLines: 3,
+              ),
             ),
-            CommonText(
-              text: subtitle,
-              style: AppTypography.button,
+            const Spacer(),
+            Expanded(
+              flex: 1,
+              child: CommonText(
+                text: subtitle,
+                style: AppTypography.button,
+                maxLines: 3,
+              ),
             ),
           ],
         ),

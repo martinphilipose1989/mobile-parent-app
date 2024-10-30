@@ -60,7 +60,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       BehaviorSubject<List<String>>.seeded([]);
 
   late BehaviorSubject<String> singleSelectItemSubject;
-  late TextEditingController textEditingController;
+  late TextEditingController textEditingController = TextEditingController();
 
   String? selectedValue;
   BehaviorSubject<int> valueId = BehaviorSubject<int>();

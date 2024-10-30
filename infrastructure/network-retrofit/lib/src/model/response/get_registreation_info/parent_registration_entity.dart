@@ -185,7 +185,7 @@ class ParentRegistrationDetailEntity extends BaseLayerDataTransformer<ParentRegi
       }
     }
     if(pinCode != null && (pinCode??'').isNotEmpty && pinCode != 'N/A'){
-      request.addAll({"pincode": pinCode,});
+      request.addAll({"pin_code": pinCode,});
     }
 
     return request;

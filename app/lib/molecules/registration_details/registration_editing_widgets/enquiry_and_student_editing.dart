@@ -69,47 +69,12 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         controller: model.enquiryTypeController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
-                      StreamBuilder<List<String>>(
-                          stream: model.schoolLocationTypes,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const CircularProgressIndicator();
-                            } else {
-                              return CustomAppDropdownButton<MdmAttributeModel>(
-                                width: MediaQuery.of(context).size.width,
-                                itemAsString: (mdmAttribute) {
-                                  return mdmAttribute.attributes?.name ?? '';
-                                },
-                                onMultiSelect: (selectedValues) {},
-                                dropdownName: 'School Location',
-                                showAstreik: true,
-                                showBorderColor: true,
-                                singleSelectItemSubject: model
-                                    .selectedSchoolLocationSubjectAttribute,
-                                items: model.schoolLocationTypesAttribute ?? [],
-                                onSingleSelect: (selectedValue) {
-                                  if ((model.schoolLocationTypesAttribute ?? [])
-                                      .any((element) =>
-                                          selectedValue.id == element.id)) {
-                                    var schoolLocation = model
-                                        .schoolLocationTypesAttribute
-                                        ?.firstWhere((element) =>
-                                            element.id == selectedValue.id);
-                                    model.selectedSchoolLocationType.add(true);
-                                    model.selectedSchoolLocationEntity?.id =
-                                        schoolLocation?.id;
-                                    model.selectedSchoolLocationEntity?.value =
-                                        schoolLocation?.attributes?.name;
-                                  }
-                                },
-                                isMutiSelect: false,
-                                validator: (value) =>
-                                    AppValidators.validateDropdown(
-                                        value?.attributes?.name,
-                                        "School location"),
-                              );
-                            }
-                          }),
+                      CommonTextFormField(
+                        showAstreik: false,
+                        labelText: "School Location",
+                        readOnly: true,
+                        controller: model.schoolLocationController,
+                      ),
                     ],
                   ),
                 )
@@ -198,16 +163,18 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      // CommonDatePickerWidget(
-                      //   labelName: "DOB",
-                      //   showAstreik: true,
-                      //   initialDate: model.studentDob,
-                      //   controller: model.dobController,
-                      //   onDateSelected: (newDate) {
-                      //     model.studentDob = newDate;
-                      //     print("###Changed Date: ${model.studentDob}");
-                      //   },
-                      // ),
+                      CommonDatePickerWidget(
+                        labelName: "DOB",
+                        showAstreik: true,
+                        isDOB: true,
+                        lastDate: DateTime(DateTime.now().year - 1),
+                        initialDate: model.studentDob,
+                        controller: model.dobController,
+                        onDateSelected: (newDate) {
+                          model.studentDob = newDate;
+                          print("###Changed Date: ${model.studentDob}");
+                        },
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -530,9 +497,9 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                         ?.firstWhere((element) =>
                                             (element.attributes?.name ?? '')
                                                 .contains(selectedValue));
-                                    model.selectedSubCaste?.id = religion?.id;
-                                    model.selectedSubCaste?.value =
-                                        religion?.attributes?.name;
+                                    model.selectedReligion = CommonDataClass(
+                                        id: religion?.id,
+                                        value: religion?.attributes?.name);
                                     model.selectedReligionSubject
                                         .add(selectedValue);
                                   }
@@ -541,9 +508,6 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       CommonTextFormField(
                         labelText: 'Place Of Birth',
                         showAstreik: true,
@@ -580,9 +544,9 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                         ?.firstWhere((element) =>
                                             (element.attributes?.name ?? '')
                                                 .contains(selectedValue));
-                                    model.selectedCaste?.id = caste?.id;
-                                    model.selectedCaste?.value =
-                                        caste?.attributes?.name;
+                                    model.selectedCaste = CommonDataClass(
+                                        id: caste?.id,
+                                        value: caste?.attributes?.name);
                                     model.selectedCasteSubject
                                         .add(selectedValue);
                                   }
@@ -591,9 +555,6 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       // CommonTextFormField(
                       //   labelText: 'Sub Caste',
                       //   showAstreik: false,
@@ -622,9 +583,9 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                         ?.firstWhere((element) =>
                                             (element.attributes?.name ?? '')
                                                 .contains(selectedValue));
-                                    model.selectedSubCaste?.id = subCaste?.id;
-                                    model.selectedSubCaste?.value =
-                                        subCaste?.attributes?.name;
+                                    model.selectedSubCaste = CommonDataClass(
+                                        id: subCaste?.id,
+                                        value: subCaste?.attributes?.name);
                                     model.selectedSubCasteSubject
                                         .add(selectedValue);
                                   }
@@ -633,9 +594,6 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       // CommonTextFormField(
                       //   labelText: 'Nationality',
                       //   showAstreik: false,
@@ -665,10 +623,10 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                             (element.attributes?.nationality ??
                                                     '')
                                                 .contains(selectedValue));
-                                    model.selectedNationality?.id =
-                                        nationality?.id;
-                                    model.selectedNationality?.value =
-                                        nationality?.attributes?.name;
+                                    model.selectedNationality = CommonDataClass(
+                                        id: nationality?.id,
+                                        value: nationality
+                                            ?.attributes?.nationality);
                                     model.selectedNationalitySubject
                                         .add(selectedValue);
                                   }
@@ -680,9 +638,6 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       // CommonTextFormField(
                       //   labelText: 'Mother Tongue',
                       //   showAstreik: true,
@@ -711,9 +666,11 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                         ?.firstWhere((element) =>
                                             (element.attributes?.name ?? '')
                                                 .contains(selectedValue));
-                                    model.selectedMotherTongue?.id = board?.id;
-                                    model.selectedMotherTongue?.value =
-                                        board?.attributes?.name;
+                                    model.selectedMotherTongue =
+                                        CommonDataClass(
+                                      id: board?.id,
+                                      value: board?.attributes?.name,
+                                    );
                                     model.selectedMotherTongueSubject
                                         .add(selectedValue);
                                   }

@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../enquiries/enquiries_page_model.dart';
+
 class EnquiriesAdmissionsJourneyPage
     extends BasePage<EnquiriesAdmissionsJourneyViewModel> {
     final EnquiryDetailArgs? enquiryDetail;
@@ -23,21 +25,45 @@ class EnquiriesAdmissionsJourneyPage
 
 class _AdmissionsPageState extends AppBasePageState<
     EnquiriesAdmissionsJourneyViewModel, EnquiriesAdmissionsJourneyPage> {
+
+  late final EnquiriesPageModel enquiriesViewModel;
   @override
   void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,
     );
+
+
   }
+  @override
+  void initState() {
+    super.initState();
+    // Access the provider safely in initState or didChangeDependencies
+    enquiriesViewModel = ProviderScope.containerOf(context, listen: false)
+        .read(enquiriesPageModelProvider);
+  }
+
+
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
+    return  CommonAppBar(
       appbarTitle: 'Enquiry Details',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
+onBackPressed:  (){
+  ProviderScope.containerOf(context)
+      .read(enquiriesPageModelProvider).fetchEnquiries();
+        print("on back pressed");
+  Navigator.pop(context);
+}
+
+
+
+
+
     );
   }
 
@@ -90,6 +116,13 @@ class _AdmissionsPageState extends AppBasePageState<
       },
     );
   }
+  @override
+  void dispose() {
+    print("hiii AFTER DISPOSE");
+    // Use the stored provider instance instead of accessing it via context
+    enquiriesViewModel.fetchEnquiries();
+    super.dispose();
+  }
 }
 
 
@@ -131,4 +164,5 @@ class EnquiryDetailArgs{
     this.admissionStatus,
     this.status
   });
+
 }

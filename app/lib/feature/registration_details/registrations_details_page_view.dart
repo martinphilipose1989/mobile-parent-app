@@ -86,8 +86,8 @@ class RegistrationsDetailsPageView
             model.getMdmAttribute(infoType: 'psaSubCategory'),
             model.getMdmAttribute(infoType: 'periodOfService'),
             model.getMdmAttribute(infoType: "country"),
-            model.getMdmAttribute(infoType: "state"),
-            model.getMdmAttribute(infoType: "city"),
+            // model.getMdmAttribute(infoType: "state"),
+            // model.getMdmAttribute(infoType: "city"),
             model.getMdmAttribute(infoType: "bloodGroup"),
             model.getMdmAttribute(infoType: "occupation"),
             model.getMdmAttribute(infoType: "qualification"),
@@ -95,12 +95,12 @@ class RegistrationsDetailsPageView
             model.getMdmAttribute(infoType: "caste"),
             model.getMdmAttribute(infoType: "subcaste"),
             model.getMdmAttribute(infoType: "mother_tongue"),
-            model.getMdmAttribute(infoType: "organization"),
-            // model.getMdmAttribute(infoType: "designation"),
+            model.getMdmAttribute(infoType: "designation"),
             model.getMdmAttribute(infoType: "nationality"),
-            // model.getMdmAttribute(infoType: "designation"),
+            model.getMdmAttribute(infoType: "designation"),
             model.getMdmAttribute(infoType: "organization"),
-            model.getMdmAttribute(infoType: "personalise_learning_needs")
+            model.getMdmAttribute(infoType: "personalise_learning_needs"),
+            model.getMdmAttribute(infoType: "relationWithChild"),
           ];
 
           Future.wait(mdmAttributeList).then((_) {

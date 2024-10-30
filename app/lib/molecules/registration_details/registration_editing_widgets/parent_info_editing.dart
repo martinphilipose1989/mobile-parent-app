@@ -352,17 +352,26 @@ class ParentInfoEditing extends StatelessWidget {
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Pin code',
                               checkSpecialCharacters: false),
+                          onFieldSubmitted: (value) {
+                            if (value.length == 6) {
+                              model.getCityAndStateByPincode(
+                                  pincode: model.pinCodeController.text.trim(),
+                                  infoType: "fatherInfo");
+                            }
+                          },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.state,
-                            builder: (context, snapshot) {
+                            initialData: model.state.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 items: model.state.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'State',
                                 showAstreik: false,
+                                isDisable: true,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -389,9 +398,10 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.city,
-                            builder: (context, snapshot) {
+                            initialData: model.city.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 items: model.city.value,
                                 width: MediaQuery.of(context).size.width,
@@ -404,6 +414,7 @@ class ParentInfoEditing extends StatelessWidget {
                                   checkSpecialCharacters: false,
                                 ),
                                 showAstreik: false,
+                                isDisable: true,
                                 onMultiSelect: (selectedValues) {},
                                 singleSelectItemSubject:
                                     model.selectedFatherCitySubject,
@@ -770,6 +781,14 @@ class ParentInfoEditing extends StatelessWidget {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           maxLength: 6,
+                          onFieldSubmitted: (value) {
+                            if (value.length == 6) {
+                              model.getCityAndStateByPincode(
+                                  pincode:
+                                      model.motherPinCodeController.text.trim(),
+                                  infoType: "motherInfo");
+                            }
+                          },
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Mother's Pin code",
@@ -777,14 +796,16 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.state,
-                            builder: (context, snapshot) {
+                            initialData: model.state.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 items: model.state.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'State',
+                                isDisable: true,
                                 singleSelectItemSubject:
                                     model.selectedMotherStateSubject,
                                 validator: (value) =>
@@ -812,15 +833,17 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.city,
-                            builder: (context, snapshot) {
+                            initialData: model.city.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 items: model.city.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'City',
                                 showAstreik: false,
+                                isDisable: true,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -931,7 +954,7 @@ class ParentInfoEditing extends StatelessWidget {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          maxLength: 14,
+                          maxLength: 12,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Guardian's Aadhar Card No",
@@ -951,98 +974,60 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Relationship with child",
-                          controller: model.relationshipWithChildController,
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
-                        CommonTextFormField(
-                          showAstreik: false,
-                          labelText: "Qualification",
-                          controller: model.guardianQualificationController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Qualification",
-                            checkSpecialCharacters: true,
-                          ),
-                        ),
-                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        // CommonTextFormField(
+                        //   showAstreik: false,
+                        //   labelText: "Relationship with child",
+                        // ),
                         StreamBuilder<List<String>>(
-                            stream: model.occupation,
+                            stream: model.relationWithChild,
                             builder: (context, snapshot) {
                               return CustomDropdownButton(
-                                items: model.occupation.value,
+                                items: model.relationWithChild.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
-                                dropdownName: 'Occupation',
-                                //validator: (value)=> AppValidators.validateNotEmpty(value, "Guardian's Occupation",       checkSpecialCharacters: true,),
+                                dropdownName: 'Relationship with child',
                                 showAstreik: false,
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject:
+                                    model.selectedRelationWithChildSubject,
                                 onSingleSelect: (val) {
-                                  model.guardianOccupation = val;
+                                  if (model.relationWithChild.value
+                                      .contains(val)) {
+                                    var relationWithChild = model
+                                        .relationWithChildAttribute
+                                        ?.firstWhere((element) =>
+                                            (element.attributes?.name ?? '')
+                                                .contains(val));
+                                    // model.selectedGuardianCountryType.add(true);
+                                    model.selectedRelationWithChildSubject
+                                        .value = val;
+                                    model.selectedRelationWithChildEntity =
+                                        CommonDataClass(
+                                            id: relationWithChild?.id,
+                                            value: relationWithChild
+                                                ?.attributes?.name);
+                                  }
                                 },
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Organization Name",
-                          controller: model.guardianOrganizationNameController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Organization Name",
-                            checkSpecialCharacters: true,
-                          ),
+                          labelText: "House Number",
+                          controller: model.guardianHouseNumberController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        // CommonTextFormField(
-                        //   showAstreik: false,
-                        //   labelText: "Designation",
-                        //   controller: model.guardianDesignationController,
-                        //   validator: (value) => AppValidators.validateNotEmpty(
-                        //     value,
-                        //     "Guardian's Designation",
-                        //     checkSpecialCharacters: true,
-                        //   ),
-                        // ),
-                        // CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Office Address",
-                          controller: model.guardianOfficeAddressController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                            value,
-                            "Guardian's Office Address",
-                            checkSpecialCharacters: true,
-                          ),
+                          labelText: "Street",
+                          controller: model.guardianStreetController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-                        // CustomDropdownButton(
-                        //   items: model.area,
-                        //   width: MediaQuery.of(context).size.width,
-                        //   isMutiSelect: false,
-                        //   dropdownName: 'Area',
-                        //   showAstreik: false,
-                        //   validator: (value) => AppValidators.validateNotEmpty(
-                        //     value,
-                        //     "Guardian's Area",
-                        //     checkSpecialCharacters: true,
-                        //   ),
-                        //   onMultiSelect: (selectedValues) {},
-                        //   showBorderColor: true,
-                        //   onSingleSelect: (val) {
-                        //     model.guardianArea = val;
-                        //   },
-                        // ),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Area",
-                          controller: model.guardianOfficeAreaController,
-                          validator: (value) => AppValidators.validateNotEmpty(
-                              value, 'Office Address',
-                              checkSpecialCharacters: false),
+                          labelText: "Landmark",
+                          controller: model.guardianLandmarkController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         StreamBuilder<List<String>>(
@@ -1062,6 +1047,8 @@ class ParentInfoEditing extends StatelessWidget {
                                 ),
                                 onMultiSelect: (selectedValues) {},
                                 showBorderColor: true,
+                                singleSelectItemSubject:
+                                    model.selectedGuardianCountrySubject,
                                 onSingleSelect: (val) {
                                   if (model.country.value.contains(val)) {
                                     var country = model.countryAttribute
@@ -1090,6 +1077,14 @@ class ParentInfoEditing extends StatelessWidget {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           maxLength: 6,
+                          onFieldSubmitted: (value) {
+                            if (value.length == 6) {
+                              model.getCityAndStateByPincode(
+                                  pincode: model.guardianPinCodeController.text
+                                      .trim(),
+                                  infoType: "guardianInfo");
+                            }
+                          },
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
                             "Guardian's Pin Code",
@@ -1103,10 +1098,10 @@ class ParentInfoEditing extends StatelessWidget {
                           },
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.state,
-                            builder: (context, snapshot) {
+                            initialData: model.state.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 isDisable: true,
                                 items: model.state.value,
@@ -1140,16 +1135,17 @@ class ParentInfoEditing extends StatelessWidget {
                               );
                             }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
-
-                        StreamBuilder<List<String>>(
+                        AppStreamBuilder<List<String>>(
                             stream: model.city,
-                            builder: (context, snapshot) {
+                            initialData: model.city.value,
+                            dataBuilder: (context, snapshot) {
                               return CustomDropdownButton(
                                 // isDisable: true,
                                 items: model.city.value,
                                 width: MediaQuery.of(context).size.width,
                                 isMutiSelect: false,
                                 dropdownName: 'City',
+                                isDisable: true,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -1387,10 +1383,14 @@ class ParentInfoEditing extends StatelessWidget {
                                       initialDate: data?.data?.data
                                               ?.siblingProfile?.dob ??
                                           model.siblingDOB,
+                                      lastDate:
+                                          DateTime(DateTime.now().year - 1),
+                                      isDOB: true,
                                       onDateSelected: (newDate) {
                                         if (data != null) {
                                           data.data?.data?.siblingProfile?.dob =
                                               newDate;
+                                          model.siblingDOB = newDate;
                                         } else {
                                           model.siblingDOB = newDate;
                                         }

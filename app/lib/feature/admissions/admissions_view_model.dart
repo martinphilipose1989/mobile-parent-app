@@ -145,7 +145,7 @@ class AdmissionsViewModel extends BasePageViewModel {
           phone: phoneNumber,
           pageNumber: closedAdmissionsPageNumber,
           pageSize: closedAdmissionPageSize,
-          status: "Open");
+          status: "Closed");
       if (closedAdmissionsPageNumber > 1) {
         isLoading.value = true;
       }

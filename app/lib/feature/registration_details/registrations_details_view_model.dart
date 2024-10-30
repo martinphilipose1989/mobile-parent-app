@@ -15,6 +15,7 @@ import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
@@ -255,29 +256,19 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController guardianLastNameController = TextEditingController();
   TextEditingController guardianAdharCardController = TextEditingController();
   TextEditingController guardianPanCardController = TextEditingController();
-  TextEditingController relationshipWithChildController =
-      TextEditingController();
-  TextEditingController guardianQualificationController =
-      TextEditingController();
-  TextEditingController guardianOrganizationNameController =
-      TextEditingController();
-  TextEditingController guardianDesignationController = TextEditingController();
-  TextEditingController guardianOfficeAddressController =
-      TextEditingController();
-  TextEditingController guardianOfficeAreaController = TextEditingController();
+  TextEditingController guardianHouseNumberController = TextEditingController();
+  TextEditingController guardianStreetController = TextEditingController();
+  TextEditingController guardianLandmarkController = TextEditingController();
   TextEditingController guardianPinCodeController = TextEditingController();
   FocusNode guardianPinCodeFocusNode = FocusNode();
   TextEditingController guardianEmailController = TextEditingController();
   TextEditingController guardianMobileController = TextEditingController();
-  String? guardianOccupation;
-  String? guardianArea;
-  CommonDataClass? selectedGuardianOccupation;
-  CommonDataClass? selectedGuardianQualification;
-  CommonDataClass? selectedGuardianDesignation;
-  CommonDataClass? selectedGuardianOrganization;
+  CommonDataClass? selectedRelationWithChildEntity;
   CommonDataClass? selectedGuardianCountryEntity;
   CommonDataClass? selectedGuardianStateEntity;
   CommonDataClass? selectedGuardianCityEntity;
+  BehaviorSubject<String> selectedRelationWithChildSubject =
+      BehaviorSubject.seeded('');
 
 //siblingsEditDetails
   TextEditingController siblingFirstNameController = TextEditingController();
@@ -349,7 +340,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedPersonalisedLearningNeedSubject =
       BehaviorSubject.seeded('');
-
+  TextEditingController schoolLocationController = TextEditingController();
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
   TextEditingController bankNameController = TextEditingController();
@@ -581,6 +572,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject.seeded([]);
   final BehaviorSubject<List<String>> personalisedLearningNeeds =
       BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<String>> relationWithChild =
+      BehaviorSubject.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -608,6 +601,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   List<MdmAttributeModel>? organizationAttribute;
   List<MdmAttributeModel>? nationality;
   List<MdmAttributeModel>? personalisedLearningNeedsAttribute;
+  List<MdmAttributeModel>? relationWithChildAttribute;
 
   CommonDataClass? selectedSchoolLocationEntity;
   CommonDataClass? selectedGradeEntity;
@@ -1374,14 +1368,19 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getMdmAttribute({required String infoType}) async {
+  Future<void> getMdmAttribute({required String infoType, int? id}) async {
     exceptionHandlerBinder.handle(block: () {
-      GetMdmAttributeUsecaseParams params = GetMdmAttributeUsecaseParams(
-        infoType: infoType,
-      );
+      GetMdmAttributeUsecaseParams params;
+      if (infoType == "state" || infoType == "city") {
+        params = GetMdmAttributeUsecaseParams(infoType: infoType, id: id);
+      } else {
+        params = GetMdmAttributeUsecaseParams(
+          infoType: infoType,
+        );
+      }
       RequestManager<MdmAttributeBaseModel>(
         params,
-        createCall: () => getMdmAttributeUsecase.execute(
+        createCall: () async => await getMdmAttributeUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
@@ -1568,6 +1567,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .toList() ??
                 []);
           }
+          if (infoType == "relationWithChild") {
+            relationWithChildAttribute = result.data?.data;
+            relationWithChild.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
+          }
         }
         if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
@@ -1592,10 +1598,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         createCall: () => getCityStateByPincodeUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) {
+      ).asFlow().listen((result) async {
         if (result.status == Status.success) {
           isLoading.add(false);
           if (infoType == "fatherInfo") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedFatherCitySubject.add(result.data?.data?[0].attributes
                     ?.districtOrCity?.data?.attributes?.name ??
                 '');
@@ -1612,6 +1624,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
           if (infoType == "motherInfo") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedMotherCitySubject.add(result.data?.data?[0].attributes
                     ?.districtOrCity?.data?.attributes?.name ??
                 '');
@@ -1628,9 +1646,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
           if (infoType == "guardianInfo") {
-            log("districtOrCity ${result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name}");
-            log("state ${result.data?.data?[0].attributes?.state?.data?.attributes?.name}");
-
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedGuardianCitySubject.add(result.data?.data?[0].attributes
                     ?.districtOrCity?.data?.attributes?.name ??
                 '');
@@ -1647,6 +1668,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
           if (infoType == "currentAddress") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedResidentialCity.add(result.data?.data?[0].attributes
                     ?.districtOrCity?.data?.attributes?.name ??
                 '');
@@ -1663,6 +1690,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
           if (infoType == "permanentAddress") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
             selectedPermanentResidentialCity.add(result.data?.data?[0]
                     .attributes?.districtOrCity?.data?.attributes?.name ??
                 '');
@@ -1876,6 +1909,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
     if (!(detail.studentDetails?.dob ?? '')
         .toLowerCase()
         .contains("invalid date")) {
@@ -1910,8 +1944,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
-    selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
-        ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
+    if (schoolLocationTypesAttribute != null) {
+      selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
+          ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
+    }
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject
         .add(detail.existingSchoolDetails?.grade?.value ?? '');
@@ -2190,6 +2226,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }
     // fatherArea = parentDetails.fatherDetails?.area ?? "";
     fatherOfficeAreaController.text = parentDetails.fatherDetails?.area ?? "";
+    if (pinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: pinCodeController.text.trim(), infoType: "fatherInfo");
+    }
     if (parentDetails.fatherDetails?.country is CommonDataClass) {
       selectedFatherCountrySubject
           .add(parentDetails.fatherDetails?.country?.value ?? '');
@@ -2205,37 +2245,34 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
-    if (parentDetails.fatherDetails?.state is CommonDataClass) {
-      selectedFatherStateSubject
-          .add(parentDetails.fatherDetails?.state?.value ?? '');
-      selectedFatherStateEntity =
-          (parentDetails.fatherDetails?.state is CommonDataClass)
-              ? parentDetails.fatherDetails?.state
-              : null;
-    } else {
-      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state ?? '');
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.fatherDetails?.state)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.fatherDetails?.state);
-        selectedFatherStateEntity =
-            CommonDataClass(id: state?.id, value: state?.attributes?.name);
-      }
-    }
-    if (parentDetails.fatherDetails?.city is CommonDataClass) {
-      selectedFatherCitySubject
-          .add(parentDetails.fatherDetails?.city?.value ?? '');
-      selectedFatherCityEntity = parentDetails.fatherDetails?.city;
-    } else {
-      selectedFatherCitySubject.add(parentDetails.fatherDetails?.city ?? '');
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.fatherDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.fatherDetails?.city);
-        selectedFatherCityEntity =
-            CommonDataClass(id: city?.id, value: city?.attributes?.name);
-      }
-    }
+    // if(parentDetails.fatherDetails?.state is CommonDataClass){
+    //   selectedFatherStateSubject
+    //       .add(parentDetails.fatherDetails?.state?.value ?? '');
+    //   selectedFatherStateEntity =
+    //       (parentDetails.fatherDetails?.state is CommonDataClass)
+    //           ? parentDetails.fatherDetails?.state
+    //           : null;
+    // } else{
+    //   selectedFatherStateSubject.add(parentDetails.fatherDetails?.state ?? '');
+    //   if((stateAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.state)){
+    //     var state=stateAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.state);
+    //     selectedFatherStateEntity=CommonDataClass(id: state?.id,value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.fatherDetails?.city is CommonDataClass){
+    //   selectedFatherCitySubject
+    //       .add(parentDetails.fatherDetails?.city?.value ?? '');
+    //   selectedFatherCityEntity = parentDetails.fatherDetails?.city;
+    // } else {
+    //   selectedFatherCitySubject.add(parentDetails.fatherDetails?.city ?? '');
+    //     if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.fatherDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.fatherDetails?.city);
+    //     selectedFatherCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
     // if(parentDetails.fatherDetails?.qualification is CommonDataClass){
     //   selectedFatherQualificationSubject
     //       .add(parentDetails.fatherDetails?.qualification?.value ?? '');
@@ -2272,6 +2309,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     motherEmailController.text = parentDetails.motherDetails?.emailId ?? "";
     motherMobileController.text =
         parentDetails.motherDetails?.mobileNumber ?? "";
+    if (motherPinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: motherPinCodeController.text.trim(), infoType: "motherInfo");
+    }
     // motherOccupation = parentDetails.motherDetails?.occupation ?? "";
     if (parentDetails.motherDetails?.organisationName is CommonDataClass) {
       selectedMotherOrganization =
@@ -2306,37 +2347,37 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
-    if (parentDetails.motherDetails?.state is CommonDataClass) {
-      selectedMotherStateSubject
-          .add(parentDetails.motherDetails?.state?.value ?? '');
-      selectedMotherStateEntity =
-          (parentDetails.motherDetails?.state is CommonDataClass)
-              ? parentDetails.motherDetails?.state
-              : null;
-    } else {
-      selectedMotherStateSubject.add(parentDetails.motherDetails?.state ?? '');
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.motherDetails?.state)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.motherDetails?.state);
-        selectedMotherStateEntity =
-            CommonDataClass(id: state?.id, value: state?.attributes?.name);
-      }
-    }
-    if (parentDetails.motherDetails?.city is CommonDataClass) {
-      selectedMotherCitySubject
-          .add(parentDetails.motherDetails?.city?.value ?? '');
-      selectedMotherCityEntity = parentDetails.motherDetails?.city;
-    } else {
-      selectedMotherCitySubject.add(parentDetails.motherDetails?.city ?? '');
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.motherDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.motherDetails?.city);
-        selectedMotherCityEntity =
-            CommonDataClass(id: city?.id, value: city?.attributes?.name);
-      }
-    }
+    // if(parentDetails.motherDetails?.state is CommonDataClass){
+    //   selectedMotherStateSubject
+    //       .add(parentDetails.motherDetails?.state?.value ?? '');
+    //   selectedMotherStateEntity =
+    //       (parentDetails.motherDetails?.state is CommonDataClass)
+    //           ? parentDetails.motherDetails?.state
+    //           : null;
+    // } else {
+    //   selectedMotherStateSubject.add(parentDetails.motherDetails?.state ?? '');
+    //   if ((stateAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.motherDetails?.state)) {
+    //     var state = stateAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.motherDetails?.state);
+    //     selectedMotherStateEntity = CommonDataClass(
+    //         id: state?.id, value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.motherDetails?.city is CommonDataClass){
+    //   selectedMotherCitySubject
+    //       .add(parentDetails.motherDetails?.city?.value ?? '');
+    //   selectedMotherCityEntity = parentDetails.motherDetails?.city;
+    // } else {
+    //   selectedMotherCitySubject.add(parentDetails.motherDetails?.city ?? '');
+    //   if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.motherDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.motherDetails?.city);
+    //     selectedMotherCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
     if (parentDetails.motherDetails?.qualification is CommonDataClass) {
       selectedMotherQualificationSubject
           .add(parentDetails.motherDetails?.qualification?.value ?? '');
@@ -2374,48 +2415,41 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.aadharNumber ?? "";
     guardianPanCardController.text =
         parentDetails.guardianDetails?.panNumber ?? "";
-    relationshipWithChildController.text =
-        parentDetails.guardianDetails?.relationWithChild ?? "";
-    guardianQualificationController.text =
-        parentDetails.guardianDetails?.qualification ?? "";
-    guardianOrganizationNameController.text =
-        parentDetails.guardianDetails?.organisationName ?? "";
-    guardianDesignationController.text =
-        parentDetails.guardianDetails?.designationName ?? "";
-    guardianOfficeAddressController.text =
-        parentDetails.guardianDetails?.officeAddress ?? "";
-    guardianOfficeAreaController.text =
-        parentDetails.guardianDetails?.area ?? "";
+    guardianHouseNumberController.text =
+        parentDetails.guardianDetails?.houseNumber ?? "";
+    guardianStreetController.text = parentDetails.guardianDetails?.street ?? "";
+    guardianLandmarkController.text =
+        parentDetails.guardianDetails?.landmark ?? "";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
+    if (guardianPinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: guardianPinCodeController.text.trim(),
+          infoType: "guardianInfo");
+    }
     guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
     guardianMobileController.text =
         parentDetails.guardianDetails?.mobileNumber ?? "";
-    guardianOccupation = parentDetails.guardianDetails?.occupation ?? "";
-    // if(parentDetails.guardianDetails?.qualification is CommonDataClass){
-    //   selectedGuardianQualification = parentDetails.guardianDetails?.qualification;
-    //   selectedGuardianQualificationSubject.add(
-    //     parentDetails.guardianDetails?.qualification?.value??''
-    //   );
-    // }
-    // if(parentDetails.guardianDetails?.organisationName is CommonDataClass){
-    //   selectedGuardianOrganization = parentDetails.guardianDetails?.organisationName;
-    //   selectedGuardianOrganizationSubject.add(
-    //     parentDetails.guardianDetails?.organisationName?.value??''
-    //   );
-    // }
-    // if(parentDetails.guardianDetails?.designationName is CommonDataClass){
-    //   selectedGuardianDesignation = parentDetails.guardianDetails?.designationName;
-    //   selectedGuardianDesignationSubject.add(
-    //     parentDetails.guardianDetails?.designationName?.value??''
-    //   );
-    // }
-    // if(parentDetails.guardianDetails?.occupation is CommonDataClass){
-    //   selectedGuardianOccupation = parentDetails.guardianDetails?.occupation;
-    //   selectedGuardianOccupationSubject.add(
-    //     parentDetails.guardianDetails?.occupation?.value??''
-    //   );
-    // }
+    if (parentDetails.guardianDetails?.relationWithChild is CommonDataClass) {
+      selectedRelationWithChildSubject
+          .add(parentDetails.guardianDetails?.relationWithChild?.value ?? '');
+      selectedRelationWithChildEntity =
+          parentDetails.guardianDetails?.relationWithChild;
+    } else {
+      selectedRelationWithChildSubject
+          .add(parentDetails.guardianDetails?.relationWithChild ?? '');
+      if ((relationWithChildAttribute ?? []).any((element) =>
+          element.attributes?.name ==
+          parentDetails.guardianDetails?.relationWithChild)) {
+        var relationWithChild = relationWithChildAttribute?.firstWhere(
+            (element) =>
+                element.attributes?.name ==
+                parentDetails.guardianDetails?.relationWithChild);
+        selectedGuardianCountryEntity = CommonDataClass(
+            id: relationWithChild?.id,
+            value: relationWithChild?.attributes?.name);
+      }
+    }
     if (parentDetails.guardianDetails?.country is CommonDataClass) {
       selectedGuardianCountrySubject
           .add(parentDetails.guardianDetails?.country?.value ?? '');
@@ -2431,44 +2465,40 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
-    if (parentDetails.guardianDetails?.state is CommonDataClass) {
-      selectedGuardianStateSubject
-          .add(parentDetails.guardianDetails?.state?.value ?? '');
-      selectedGuardianStateEntity =
-          (parentDetails.guardianDetails?.state is CommonDataClass)
-              ? parentDetails.guardianDetails?.state
-              : null;
-    } else {
-      selectedGuardianStateSubject
-          .add(parentDetails.guardianDetails?.state ?? '');
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.guardianDetails?.state)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.guardianDetails?.state);
-        selectedGuardianStateEntity =
-            CommonDataClass(id: state?.id, value: state?.attributes?.name);
-      }
-    }
-    if (parentDetails.guardianDetails?.city is CommonDataClass) {
-      selectedGuardianCitySubject
-          .add(parentDetails.guardianDetails?.city?.value ?? '');
-      selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
-    } else {
-      selectedGuardianCitySubject
-          .add(parentDetails.guardianDetails?.city ?? '');
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.guardianDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.guardianDetails?.city);
-        selectedGuardianCityEntity =
-            CommonDataClass(id: city?.id, value: city?.attributes?.name);
-      }
-    }
-    selectedGuardianAreaSubject.add(parentDetails.guardianDetails?.area ?? '');
-    selectedGuardianOccupationSubject
-        .add(parentDetails.guardianDetails?.occupation ?? '');
+    // if(parentDetails.guardianDetails?.state is CommonDataClass){
+    //   selectedGuardianStateSubject
+    //       .add(parentDetails.guardianDetails?.state?.value ?? '');
+    //   selectedGuardianStateEntity =
+    //       (parentDetails.guardianDetails?.state is CommonDataClass)
+    //           ? parentDetails.guardianDetails?.state
+    //           : null;
+    // } else {
+    //   selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state ?? '');
+    //   if ((stateAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.guardianDetails?.state)) {
+    //     var state = stateAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.guardianDetails?.state);
+    //     selectedGuardianStateEntity = CommonDataClass(
+    //         id: state?.id, value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.guardianDetails?.city is CommonDataClass){
+    //   selectedGuardianCitySubject
+    //       .add(parentDetails.guardianDetails?.city?.value ?? '');
+    //   selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
+    // } else {
+    //   selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city ?? '');
+    //   if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.guardianDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.guardianDetails?.city);
+    //     selectedGuardianCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
 
-    if ((parentDetails.siblingDetails ?? []).isNotEmpty) {
+    if ((parentDetails.siblingDetails ?? []).isNotEmpty &&
+        !parentDetails.siblingDetails![0].isOnlyDOB()) {
       radioButtonController1.selectItem(parentDetails.siblingDetails?[0].type);
       siblingFirstNameController.text =
           parentDetails.siblingDetails?[0].firstName ?? '';
@@ -2478,9 +2508,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           parentDetails.siblingDetails?[0].enrollmentNumber ?? '';
       siblingsSchoolController.text =
           parentDetails.siblingDetails?[0].school ?? '';
-      siblingDOB = DateFormat('dd/MM/yyyy').parse(
-          (parentDetails.siblingDetails?[0].dob ?? DateTime.now().toString())
-              .replaceAll('-', '/'));
+      if (!(parentDetails.siblingDetails?[0].dob ?? "").isEmptyOrNull()) {
+        if (DateFormat('dd/MM/yyyy').parse(
+                (parentDetails.siblingDetails?[0].dob ?? '')
+                    .replaceAll('-', '/')) !=
+            DateTime.now()) {
+          siblingDOB = DateFormat('dd/MM/yyyy').parse(
+              (parentDetails.siblingDetails?[0].dob ?? '')
+                  .replaceAll('-', '/'));
+        }
+      }
       if (parentDetails.siblingDetails?[0].gender is CommonDataClass) {
         siblingGender.add(parentDetails.siblingDetails?[0].gender?.value ?? '');
         selectedSiblingGender = parentDetails.siblingDetails?[0].gender;
@@ -2515,7 +2552,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
 
   addContactDetails(ContactDetails contactDetails) {
-    emergencyContact.value = contactDetails.emergencyContact ?? '';
+    emergencyContact.value =
+        contactDetails.pointOfContact?.firstPreference?.emailOfParent ?? '';
     houseOrBuildingController.text =
         contactDetails.residentialAddress?.currentAddress?.house ?? "";
     streetNameController.text =
@@ -2546,6 +2584,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           contactDetails.residentialAddress?.currentAddress?.state ?? '';
       selectedResidentialCountry.value =
           contactDetails.residentialAddress?.currentAddress?.country ?? '';
+      residentialPinCodeController.text =
+          contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
+      if (residentialPinCodeController.text.isNotEmpty) {
+        getCityAndStateByPincode(
+            pincode: residentialPinCodeController.text,
+            infoType: "currentAddress");
+      }
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == selectedResidentialCountry.value)) {
         var country = countryAttribute?.firstWhere((element) =>
@@ -2554,88 +2599,81 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         residentialCountry =
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == selectedResidentialState.value)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            (element.attributes?.name ?? '')
-                .contains(selectedResidentialState.value));
-        residentialState =
-            CommonDataClass(id: state?.id, value: state?.attributes?.name);
-      }
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == selectedResidentialCity.value)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            (element.attributes?.name ?? '')
-                .contains(selectedResidentialCity.value));
-        residentialCity =
-            CommonDataClass(id: city?.id, value: city?.attributes?.name);
-      }
-    }
-    residentialPinCodeController.text =
-        contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
-    if (contactDetails.residentialAddress?.permanentAddress != null) {
-      permanentHouseOrBuildingController.text =
-          contactDetails.residentialAddress?.permanentAddress?.house ?? "";
-      permanentStreetNameController.text =
-          contactDetails.residentialAddress?.permanentAddress?.street ?? "";
-      permanentLandMarkController.text =
-          contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
-      if (contactDetails.residentialAddress?.permanentAddress?.country
-              is CommonDataClass ||
-          contactDetails.residentialAddress?.permanentAddress?.city
-              is CommonDataClass) {
-        permanentResidentialCountry =
-            contactDetails.residentialAddress?.permanentAddress?.country;
-        permanentResidentialState =
-            contactDetails.residentialAddress?.permanentAddress?.state;
-        permanentResidentialCity =
-            contactDetails.residentialAddress?.permanentAddress?.city;
-        selectedPermanentResidentialCity.value =
-            contactDetails.residentialAddress?.permanentAddress?.city?.value ??
-                '';
-        selectedPermanentResidentialState.value =
-            contactDetails.residentialAddress?.permanentAddress?.state?.value ??
-                '';
-        selectedPermanentResidentialCountry.value = contactDetails
-                .residentialAddress?.permanentAddress?.country?.value ??
-            '';
-      } else {
-        selectedPermanentResidentialCity.value =
-            contactDetails.residentialAddress?.permanentAddress?.city ?? '';
-        selectedPermanentResidentialState.value =
-            contactDetails.residentialAddress?.permanentAddress?.state ?? '';
-        selectedPermanentResidentialCountry.value =
-            contactDetails.residentialAddress?.permanentAddress?.country ?? '';
-        if ((countryAttribute ?? []).any((element) =>
-            element.attributes?.name ==
-            selectedPermanentResidentialCountry.value)) {
-          var country = countryAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedResidentialCountry.value));
-          permanentResidentialCountry = CommonDataClass(
-              id: country?.id, value: country?.attributes?.name);
+      //   if ((stateAttribute ?? []).any((element) =>
+      //       element.attributes?.name == selectedResidentialState.value)) {
+      //     var state = stateAttribute?.firstWhere((element) =>
+      //         (element.attributes?.name ?? '')
+      //             .contains(selectedResidentialState.value));
+      //     residentialState =
+      //         CommonDataClass(id: state?.id, value: state?.attributes?.name);
+      //   }
+      //   if ((cityAttribute ?? []).any((element) =>
+      //       element.attributes?.name == selectedResidentialCity.value)) {
+      //     var city = cityAttribute?.firstWhere((element) =>
+      //         (element.attributes?.name ?? '')
+      //             .contains(selectedResidentialCity.value));
+      //     residentialCity =
+      //         CommonDataClass(id: city?.id, value: city?.attributes?.name);
+      //   }
+      // }
+      if (contactDetails.residentialAddress?.permanentAddress != null) {
+        permanentHouseOrBuildingController.text =
+            contactDetails.residentialAddress?.permanentAddress?.house ?? "";
+        permanentStreetNameController.text =
+            contactDetails.residentialAddress?.permanentAddress?.street ?? "";
+        permanentLandMarkController.text =
+            contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
+        permanentResidentialPinCodeController.text =
+            contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
+        if (permanentResidentialPinCodeController.text.isNotEmpty) {
+          getCityAndStateByPincode(
+              pincode: permanentResidentialPinCodeController.text,
+              infoType: "permanentAddress");
         }
-        if ((stateAttribute ?? []).any((element) =>
-            element.attributes?.name ==
-            selectedPermanentResidentialState.value)) {
-          var state = stateAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedPermanentResidentialState.value));
-          permanentResidentialState =
-              CommonDataClass(id: state?.id, value: state?.attributes?.name);
-        }
-        if ((cityAttribute ?? []).any((element) =>
-            element.attributes?.name ==
-            selectedPermanentResidentialCity.value)) {
-          var city = cityAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedPermanentResidentialCity.value));
-          permanentResidentialCity =
-              CommonDataClass(id: city?.id, value: city?.attributes?.name);
-        }
+
+        // if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
+        //     contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
+        //   permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
+        //   permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
+        //   permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
+        //   selectedPermanentResidentialCity.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
+        //   selectedPermanentResidentialState.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
+        //   selectedPermanentResidentialCountry.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
+        // } else {
+        //   selectedPermanentResidentialCity.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.city ?? '';
+        //   selectedPermanentResidentialState.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.state ?? '';
+        //   selectedPermanentResidentialCountry.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.country ?? '';
+        //   if ((countryAttribute ?? []).any((element) =>
+        //       element.attributes?.name == selectedPermanentResidentialCountry.value)) {
+        //     var country = countryAttribute?.firstWhere((element) =>
+        //         (element.attributes?.name ?? '')
+        //             .contains(selectedResidentialCountry.value));
+        //     permanentResidentialCountry =
+        //         CommonDataClass(id: country?.id, value: country?.attributes?.name);
+        //   }
+        // if ((stateAttribute ?? []).any((element) =>
+        //     element.attributes?.name == selectedPermanentResidentialState.value)) {
+        //   var state = stateAttribute?.firstWhere((element) =>
+        //       (element.attributes?.name ?? '')
+        //           .contains(selectedPermanentResidentialState.value));
+        //   permanentResidentialState =
+        //       CommonDataClass(id: state?.id, value: state?.attributes?.name);
+        // }
+        // if ((cityAttribute ?? []).any((element) =>
+        //     element.attributes?.name == selectedPermanentResidentialCity.value)) {
+        //   var city = cityAttribute?.firstWhere((element) =>
+        //       (element.attributes?.name ?? '')
+        //           .contains(selectedPermanentResidentialCity.value));
+        //   permanentResidentialCity =
+        //       CommonDataClass(id: city?.id, value: city?.attributes?.name);
+        // }
       }
-      permanentResidentialPinCodeController.text =
-          contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
     }
     if (contactDetails.pointOfContact?.firstPreference != null) {
       parentEmailIdController1.text =
@@ -2667,10 +2705,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       contactParentTypeEmail3.value =
           contactDetails.pointOfContact?.thirdPreference?.emailOfParent ?? '';
     }
-    // radioButtonController3.selectItem(
-    //     ((contactDetails.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes')
-    //         ? "Yes"
-    //         : "No");
+    radioButtonController3.selectItem(
+        ((contactDetails.residentialAddress?.isPermanentAddress ??
+                    ''.toLowerCase()) ==
+                'yes')
+            ? "Yes"
+            : "No");
   }
 
   addMedicalDetails(MedicalDetails medicalDetails) {
@@ -2795,24 +2835,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         guardianAdharCardController.text.trim();
     parentInfo?.guardianDetails?.panNumber =
         guardianPanCardController.text.trim();
+    parentInfo?.guardianDetails?.houseNumber =
+        guardianHouseNumberController.text.trim();
+    parentInfo?.guardianDetails?.landmark =
+        guardianLandmarkController.text.trim();
+    parentInfo?.guardianDetails?.street = guardianStreetController.text.trim();
     parentInfo?.guardianDetails?.relationWithChild =
-        relationshipWithChildController.text.trim();
-    parentInfo?.guardianDetails?.qualification =
-        guardianQualificationController.text.trim();
-    parentInfo?.guardianDetails?.organizationName =
-        guardianOrganizationNameController.text.trim();
-    parentInfo?.guardianDetails?.designation =
-        guardianDesignationController.text.trim();
-    parentInfo?.guardianDetails?.officeAddress =
-        guardianOfficeAddressController.text.trim();
-    parentInfo?.guardianDetails?.area =
-        guardianOfficeAreaController.text.trim();
+        selectedRelationWithChildEntity;
     parentInfo?.guardianDetails?.pincode =
         guardianPinCodeController.text.trim();
     parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
     parentInfo?.guardianDetails?.mobileNumber =
         guardianMobileController.text.trim();
-    parentInfo?.guardianDetails?.occupation = guardianOccupation;
     parentInfo?.guardianDetails?.country = selectedGuardianCountryEntity;
     parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
@@ -2828,7 +2862,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           ((radioButtonController1.selectedItem ?? '') == "Vibgyor Student")
               ? siblingsEnrollmentController.text.trim()
               : "",
-      dob: DateFormat('dd-MM-yyyy').format(siblingDOB ?? DateTime.now()),
+      dob: (siblingDOB == null)
+          ? ""
+          : DateFormat('dd-MM-yyyy').format(siblingDOB ?? DateTime.now()),
       firstName: siblingFirstNameController.text.trim(),
       lastName: siblingLastNameController.text.trim(),
       gender: selectedSiblingGender,
@@ -2903,16 +2939,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     contactDetails = ContactDetails(
         residentialAddress: ResidentialAddressDetail(
             currentAddress: ResidentialAddress(
-                house: houseOrBuildingController.text.trim(),
-                street: streetNameController.text.trim(),
-                landmark: landMarkController.text.trim(),
-                country: residentialCountry,
-                state: residentialState,
-                city: residentialCity,
-                pinCode: residentialPinCodeController.text.trim(),
-                isPermanentAddress: radioButtonController3.selectedItem == "Yes"
-                    ? true
-                    : false),
+              house: houseOrBuildingController.text.trim(),
+              street: streetNameController.text.trim(),
+              landmark: landMarkController.text.trim(),
+              country: residentialCountry,
+              state: residentialState,
+              city: residentialCity,
+              pinCode: residentialPinCodeController.text.trim(),
+            ),
             permanentAddress: radioButtonController3.selectedItem == "No"
                 ? ResidentialAddress(
                     house: permanentHouseOrBuildingController.text.trim(),
@@ -2922,8 +2956,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     state: permanentResidentialState,
                     city: permanentResidentialCity,
                     pinCode: permanentResidentialPinCodeController.text.trim(),
-                    isPermanentAddress: true)
-                : null),
+                  )
+                : null,
+            isPermanentAddress:
+                (radioButtonController3.selectedItem ?? "No") == "No"
+                    ? true
+                    : false),
         emergencyContact: emergencyContact.value,
         pointOfContact: PointOfContactDetail(
           firstPreference: (parentEmailIdController1.text.isEmpty ||
@@ -3071,7 +3109,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.dob =
-          DateFormat('dd-MM-yyyy').format((studentDob ?? DateTime.now()));
+          DateFormat('yyyy-MM-dd').format((studentDob ?? DateTime.now()));
       newAdmissionDetailSubject?.value.studentDetails?.aadhar =
           studentAadharController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.eligibleGrade =
@@ -3227,16 +3265,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     guardianLastNameController.clear();
     guardianAdharCardController.clear();
     guardianPanCardController.clear();
-    relationshipWithChildController.clear();
-    guardianQualificationController.clear();
-    guardianOrganizationNameController.clear();
-    guardianDesignationController.clear();
-    guardianOfficeAddressController.clear();
     guardianPinCodeController.clear();
     guardianEmailController.clear();
     guardianMobileController.clear();
-    guardianOccupation = null;
-    guardianArea = null;
     selectedGuardianCountryEntity = null;
     selectedGuardianStateEntity = null;
     selectedGuardianCityEntity = null;

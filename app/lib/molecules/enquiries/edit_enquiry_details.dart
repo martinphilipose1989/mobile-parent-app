@@ -54,37 +54,43 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          StreamBuilder<List<String>>(
-            stream: model.schoolLocationTypes,
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return const CircularProgressIndicator();
-              }else {
-                return CustomAppDropdownButton<MdmAttributeModel>(
-                  width: MediaQuery.of(context).size.width,
-                  itemAsString: (mdmAttribute) {
-                    return mdmAttribute.attributes?.name??'';
-                  },
-                  onMultiSelect: (selectedValues) {},
-                  dropdownName: 'School Location',
-                  isDisable: true,
-                  showAstreik: true,
-                  showBorderColor: true,
-                  singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
-                  items: model.schoolLocationTypesAttribute ?? [],
-                  onSingleSelect: (selectedValue) {
-                    if ((model.schoolLocationTypesAttribute ?? []).any((element) => selectedValue.id == element.id)) {
-                      var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element) => element.id == selectedValue.id);
-                      model.selectedSchoolLocationType.add(true);
-                      model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
-                      model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
-                    }
-                  },
-                  isMutiSelect: false,
-                  validator: (value) => AppValidators.validateDropdown(value?.attributes?.name, "School location"),
-                );
-              }
-            }
+          // StreamBuilder<List<String>>(
+          //   stream: model.schoolLocationTypes,
+          //   builder: (context, snapshot) {
+          //     if(!snapshot.hasData){
+          //       return const CircularProgressIndicator();
+          //     }else {
+          //       return CustomAppDropdownButton<MdmAttributeModel>(
+          //         width: MediaQuery.of(context).size.width,
+          //         itemAsString: (mdmAttribute) {
+          //           return mdmAttribute.attributes?.name??'';
+          //         },
+          //         onMultiSelect: (selectedValues) {},
+          //         dropdownName: 'School Location',
+          //         isDisable: true,
+          //         showAstreik: true,
+          //         showBorderColor: true,
+          //         singleSelectItemSubject: model.selectedSchoolLocationSubjectAttribute,
+          //         items: model.schoolLocationTypesAttribute ?? [],
+          //         onSingleSelect: (selectedValue) {
+          //           if ((model.schoolLocationTypesAttribute ?? []).any((element) => selectedValue.id == element.id)) {
+          //             var schoolLocation = model.schoolLocationTypesAttribute?.firstWhere((element) => element.id == selectedValue.id);
+          //             model.selectedSchoolLocationType.add(true);
+          //             model.selectedSchoolLocationEntity?.id = schoolLocation?.id;
+          //             model.selectedSchoolLocationEntity?.value = schoolLocation?.attributes?.name;
+          //           }
+          //         },
+          //         isMutiSelect: false,
+          //         validator: (value) => AppValidators.validateDropdown(value?.attributes?.name, "School location"),
+          //       );
+          //     }
+          //   }
+          // ),
+          CommonTextFormField(
+            showAstreik: false,
+            labelText: "School Location",
+            readOnly: true,
+            controller: model.schoolLocationController,
           ),
           const SizedBox(
             height: 20,
@@ -159,8 +165,10 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           // ),
           CommonDatePickerWidget(
             initialDate: model.studentDob,
+            lastDate: DateTime(DateTime.now().year-1),
             labelName: "DOB",
             controller: model.dobController,
+            isDOB: true,
             showAstreik: true,
             isDisabled: true,
             onDateSelected: (newDate) {

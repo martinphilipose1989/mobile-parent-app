@@ -17,7 +17,7 @@ class NetworkProperties {
   static const String cancelationReason = '/api/ad-followup-reasons';
   static const String countries = '/api/countries';
   static const String states = '/api/states';
-  static const String city = '/api/cities?';
+  static const String city = '/api/cities';
   static const String schoolLocation = '/api/ac-schools';
   static const String batch = '/api/ac-batches';
   static const String academicYear =
@@ -42,13 +42,14 @@ class NetworkProperties {
   static const String motherTongue = '/api/mother-tongues?fields[1]=name';
   static const String organization = '/api/organizations?fields[1]=name';
   static const String designation =
-      '/api/ps-designations?fields[1]=designation';
+      '/api/ps-designations';
   static const String nationality =
       '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
   static const String personalisedLearningNeedsDescription =
       '/api/ac-personalise-learning-needs?fields[1]=name';
   static const String cityAndState =
       '/api/co-pincodes?populate[0]=District_Or_City&populate[1]=State';
+  static const String relationWithChild = '/api/co-guardian-relationships?fields[1]=name';
 
   static const String enrollmentDetail =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';

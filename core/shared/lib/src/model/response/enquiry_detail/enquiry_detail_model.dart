@@ -24,13 +24,14 @@ class EnquiryDetail{
     String? eligibleGrade;
     String? studentAadhaarNumber;
     String? placeOfBirth;
-    String? religion;
-    String? caste;
-    String? subCaste;
-    String? nationality;
+    dynamic religion;
+    dynamic caste;
+    dynamic subCaste;
+    dynamic nationality;
     dynamic motherTongue;
     int? schoolId;
     int? boardId;
     int? streamId;
     int? academicYearId;
+    String? currentStage;
 }

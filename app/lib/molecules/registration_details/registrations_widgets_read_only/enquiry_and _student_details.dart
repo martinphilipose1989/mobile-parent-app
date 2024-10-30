@@ -102,7 +102,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
             DetailsItem(title: "Existing school Grade", subtitle: psaDetail?.existingSchoolDetails?.grade?.value??''),
             DetailsItem(title: "PSA sub type", subtitle: psaDetail?.psaSubType?.value??''),
             DetailsItem(title: "PSA category", subtitle: psaDetail?.psaCategory?.value??''),
-            DetailsItem(title: "PSA sub category", subtitle: psaDetail?.psaSubCategory?.value??''),
+            DetailsItem(title: "PSA subN/A category", subtitle: psaDetail?.psaSubCategory?.value??''),
             DetailsItem(title: "Period of service", subtitle: psaDetail?.psaPeriodOfService?.value??''),
             DetailsItem(title: "PSA batch", subtitle: psaDetail?.psaBatch?.value??''),
             DetailsItem(
@@ -122,22 +122,42 @@ class EnquiryAndStudentDetails extends StatelessWidget {
   Widget getAdmissionDetails({NewAdmissionDetail? newAdmissionDetail}){
     return Column(
           children: [
-           DetailsItem(title: "Enquiry Number", subtitle: enquiryDetailArgs?.enquiryNumber??''),
-            DetailsItem(title: "Enquiry Type", subtitle: enquiryDetailArgs?.enquiryType??''),
-            DetailsItem(title: "School Location", subtitle: newAdmissionDetail?.schoolLocation?.value??''),
-            DetailsItem(title: "Student First Name", subtitle: newAdmissionDetail?.studentDetails?.firstName??''),
-            DetailsItem(title: "Student Last name", subtitle: newAdmissionDetail?.studentDetails?.lastName??''),
-            DetailsItem(title: "Grade", subtitle: newAdmissionDetail?.studentDetails?.grade?.value??''),
-            DetailsItem(title: "DOB", subtitle: newAdmissionDetail?.studentDetails?.dob??''),
-            DetailsItem(title: "Gender", subtitle: newAdmissionDetail?.studentDetails?.gender?.value??''),
-            DetailsItem(title: "Existing School Name", subtitle: newAdmissionDetail?.existingSchoolDetails?.name??''),
-            DetailsItem(title: "Existing school board", subtitle: newAdmissionDetail?.existingSchoolDetails?.board?.value??''),
-            DetailsItem(title: "Existing school Grade", subtitle: newAdmissionDetail?.existingSchoolDetails?.grade?.value??''), 
-            DetailsItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent??''),
+            DetailsItem(title: "Student First Name", subtitle: newAdmissionDetail?.studentDetails?.firstName??'N/A'),
+            DetailsItem(title: "Student Last name", subtitle: newAdmissionDetail?.studentDetails?.lastName??'N/A'),
+            DetailsItem(title: "Grade", subtitle: newAdmissionDetail?.studentDetails?.grade?.value??'N/A'),
+            DetailsItem(title: "DOB", subtitle: newAdmissionDetail?.studentDetails?.dob??'N/A'),
+            DetailsItem(title: "Aadhar Number", subtitle: newAdmissionDetail?.studentDetails?.aadhar??'N/A'),
+            DetailsItem(title: "Gender", subtitle: newAdmissionDetail?.studentDetails?.gender?.value??'N/A'),
+            DetailsItem(title: "Existing School Name", subtitle: newAdmissionDetail?.existingSchoolDetails?.name??'N/A'),
+            DetailsItem(title: "Existing school board", subtitle: newAdmissionDetail?.existingSchoolDetails?.board?.value??'N/A'),
+            DetailsItem(title: "Existing school Grade", subtitle: newAdmissionDetail?.existingSchoolDetails?.grade?.value??'N/A'), 
+            DetailsItem(title: "Parent Type", subtitle: newAdmissionDetail?.enquirerParent??'N/A'),
             DetailsItem(title: "Global Id", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
-              newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??'' :
-              newAdmissionDetail?.parentDetails?.motherDetails?.globalId ??'' 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.globalId??'N/A' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.globalId ??'N/A' 
             ),
+            DetailsItem(title: "Parent's First Name", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.firstName??'N/A' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.firstName ??'N/A' 
+            ),
+            DetailsItem(title: "Parent's Last Name", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.lastName??'N/A' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.lastName ??'N/A' 
+            ),
+            DetailsItem(title: "Parent's Email", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.email??'N/A' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.email ??'N/A' 
+            ),
+            DetailsItem(title: "Parent's Mobile Number", subtitle: newAdmissionDetail?.enquirerParent == "Father" ? 
+              newAdmissionDetail?.parentDetails?.fatherDetails?.mobile??'N/A' :
+              newAdmissionDetail?.parentDetails?.motherDetails?.mobile ??'N/A' 
+            ),
+            DetailsItem(title: "Religion", subtitle: newAdmissionDetail?.studentDetails?.religion?.value??'N/A'),
+            DetailsItem(title: "Place of birth", subtitle: newAdmissionDetail?.studentDetails?.placeOfBirth??'N/A'),
+            DetailsItem(title: "Caste", subtitle: newAdmissionDetail?.studentDetails?.caste?.value??'N/A'),
+            DetailsItem(title: "Sub Caste", subtitle: newAdmissionDetail?.studentDetails?.subCaste?.value??'N/A'),
+            DetailsItem(title: "Nationality", subtitle: newAdmissionDetail?.studentDetails?.nationality?.value??'N/A'),
+            DetailsItem(title: "Mother Tounge", subtitle: newAdmissionDetail?.studentDetails?.motherTongue?.value??'N/A'),
           ],
         );
   }

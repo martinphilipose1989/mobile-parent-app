@@ -400,10 +400,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -485,10 +482,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -567,10 +561,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -649,10 +640,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -788,10 +776,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -821,10 +806,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-<<<<<<< HEAD
 				CODE_SIGN_IDENTITY = "Apple Development";
-=======
->>>>>>> 8fb59eb44aed85e1288a2a1fcd941a79f56eab49
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";

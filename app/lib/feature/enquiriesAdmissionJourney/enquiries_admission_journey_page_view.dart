@@ -14,10 +14,12 @@ import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../di/states/viewmodels.dart';
 import '../../molecules/registration_details/registrations_widgets_read_only/menu.dart';
 
 class EnquiriesAdmissionsJourneyPageView
@@ -80,16 +82,22 @@ class EnquiriesAdmissionsJourneyPageView
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListItem(
-                image: AppImages.personIcon,
-                name: "${enquiryDetail.studentName} ",
-                year: enquiryDetail.academicYear??'',
-                id: enquiryDetail.enquiryNumber??'',
-                title: enquiryDetail.school??'',
-                subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
-                buttontext: enquiryDetail.currentStage??'',
-                compeletion: '',
-                status: enquiryDetail.status??'',
+              AppStreamBuilder<Resource<EnquiryDetailBase>>(
+                stream: model.fetchEnquiryDetail,
+                dataBuilder: (context, snapshot) {
+                  return snapshot?.status==Status.loading?const Center(child: CircularProgressIndicator(),):
+                  ListItem(
+                    image: AppImages.personIcon,
+                    name: "${snapshot?.data?.data?.parentFirstName} ${snapshot?.data?.data?.parentLastName}",
+                    year: "${snapshot?.data?.data!.academicYearId}",
+                    id: snapshot?.data?.data?.enquiryNumber??'',
+                    title: snapshot?.data?.data?.existingSchoolName??'',
+                    subtitle: "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
+                    buttontext: snapshot?.data?.data?.currentStage??'',
+                    compeletion: '',
+                    status: enquiryDetail.status??'',
+                  );
+                }, initialData: Resource.none(),
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),
               Row(
@@ -124,7 +132,7 @@ class EnquiriesAdmissionsJourneyPageView
                 stream: model.fetchAdmissionJourney,
                 initialData: Resource.none(),
                 onData: (value) {
-                  
+
                 },
                 dataBuilder: (context, result) {
                   switch(result?.status){
@@ -152,7 +160,7 @@ class EnquiriesAdmissionsJourneyPageView
                                       content: const SizedBox.shrink());
                                 },
                               ) ,
-                              activeStep: (result?.data?.data??[]).indexWhere((element) => (element.status != "Open")) == -1 ? 0 : 
+                              activeStep: (result?.data?.data??[]).indexWhere((element) => (element.status != "Open")) == -1 ? 0 :
                                 (result?.data?.data??[]).indexWhere((element) => (element.status != "Open")));
                     case Status.error:
                       return const Center(child: Text('Enquiries not found'),);
@@ -161,7 +169,7 @@ class EnquiriesAdmissionsJourneyPageView
                   }
                 }
               ),
-              
+
             ],
           ),
         ),

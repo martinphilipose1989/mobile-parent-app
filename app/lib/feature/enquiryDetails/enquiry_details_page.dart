@@ -185,7 +185,7 @@ class EnquiriesDetailsPageState
                                 model.newAdmissionDetails?.value.schoolLocation = model.selectedSchoolLocationEntity!;
                                 model.newAdmissionDetails?.value.studentDetails?.firstName = model.studentFirstNameController.text.trim(); 
                                 model.newAdmissionDetails?.value.studentDetails?.lastName = model.studentLastNameController.text.trim(); 
-                                model.newAdmissionDetails?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy').format((model.studentDob??DateTime.now())); 
+                                model.newAdmissionDetails?.value.studentDetails?.dob = DateFormat('yyyy-MM-dd').format((model.studentDob??DateTime.now())); 
                                 model.newAdmissionDetails?.value.studentDetails?.gender = model.selectedGenderEntity!;
                                 model.newAdmissionDetails?.value.studentDetails?.grade = model.selectedGradeEntity!;
                                 model.newAdmissionDetails?.value.existingSchoolDetails?.name = model.existingSchoolNameController.text.trim();

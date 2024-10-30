@@ -33,7 +33,7 @@ class ContactDetailsEntity extends BaseLayerDataTransformer<ContactDetailsEntity
         request.addAll({"contact_details": pointOfContact?.toJson()});
       }
       if(residentialAddress != null){
-        request.addAll({"residential_address": residentialAddress?.toJson()});
+        request.addAll({"residential_details": residentialAddress?.toJson()});
       }
       return request;
     }

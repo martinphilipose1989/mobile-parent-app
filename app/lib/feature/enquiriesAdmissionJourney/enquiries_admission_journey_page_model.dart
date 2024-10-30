@@ -7,6 +7,7 @@ import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -24,7 +25,135 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   }
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
   final PublishSubject <Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
-  Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream; 
+  Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream;
+
+  final PublishSubject <Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail  => _fetchEnquiryDetail.stream;
+
+  final BehaviorSubject<Resource<EnquiryListModel>> _getEnquiryResponse = BehaviorSubject();
+  final BehaviorSubject<Resource<EnquiryListModel>> _getClosedEnquiryResponse = BehaviorSubject();
+  int pageNumber = 1, pageSize = 10;
+  int closedEnquiryPageNumber = 1, closedEnquiryPageSize = 10;
+
+  bool isNextPage = true;
+  bool closedEnquiryNextPage = true;
+
+  final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
+
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream => _getEnquiryResponse.stream;
+  Stream<Resource<EnquiryListModel>> get getClosedEnquiryResponseStream => _getClosedEnquiryResponse.stream;
+
+  //
+  // Future<void> fetchEnquiries({bool isRefresh = false}) async{
+  //   exceptionHandlerBinder.handle(block: () async {
+  //     if(isRefresh){
+  //       pageNumber = 1;
+  //     }
+  //     if(!isNextPage){
+  //       return;
+  //     }
+  //     await setPhoneNumber();
+  //     GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
+  //         phone: phoneNumber,
+  //         pageNumber: pageNumber,
+  //         pageSize: pageSize,
+  //         status: "Open"
+  //     );
+  //     if(pageNumber > 1){
+  //       isLoading.value = true;
+  //     }
+  //     RequestManager<EnquiryListModel>(
+  //       params,
+  //       createCall: () => getEnquiryListUsecase.execute(
+  //         params: params,
+  //       ),
+  //     ).asFlow().listen((event) {
+  //       if(event.status == Status.loading){
+  //         if(pageNumber == 1 && !isRefresh){
+  //           _getEnquiryResponse.add(event);
+  //         }
+  //       }
+  //       if(event.status == Status.success){
+  //         if(isLoading.value){
+  //           isLoading.value = false;
+  //         }
+  //         _getEnquiryResponse.add(event);
+  //         _handleEnquiryListing(event.data?.data?.data??[],isRefresh);
+  //         isNextPage = event.data?.data?.isNextPage??false;
+  //       }
+  //       if(event.status == Status.error){
+  //         if(pageNumber == 1){
+  //           _getEnquiryResponse.add(event);
+  //         }
+  //         else{
+  //           if(isNextPage){
+  //             isNextPage = false;
+  //             _getEnquiryResponse.add(event);
+  //           }
+  //         }
+  //       }
+  //     }).onError((error) {
+  //       isLoading.value = false;
+  //       exceptionHandlerBinder.showError(error!);
+  //     });
+  //   }).execute();
+  // }
+  //
+  // Future<void> fetchClosedEnquiries({bool isRefresh = false}) async{
+  //   exceptionHandlerBinder.handle(block: () async {
+  //     if(isRefresh){
+  //       pageNumber = 1;
+  //     }
+  //     if(!closedEnquiryNextPage){
+  //       return;
+  //     }
+  //     await setPhoneNumber();
+  //     GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
+  //         phone: phoneNumber,
+  //         pageNumber: closedEnquiryPageNumber,
+  //         pageSize: closedEnquiryPageSize,
+  //         status: "Closed"
+  //     );
+  //     if(closedEnquiryPageNumber > 1){
+  //       isLoading.value = true;
+  //     }
+  //     RequestManager<EnquiryListModel>(
+  //       params,
+  //       createCall: () => getEnquiryListUsecase.execute(
+  //         params: params,
+  //       ),
+  //     ).asFlow().listen((event) {
+  //       if(event.status == Status.loading){
+  //         if(closedEnquiryPageNumber == 1 && !isRefresh){
+  //           _getClosedEnquiryResponse.add(event);
+  //         }
+  //       }
+  //       if(event.status == Status.success){
+  //         if(isLoading.value){
+  //           isLoading.value = false;
+  //         }
+  //         _getClosedEnquiryResponse.add(event);
+  //         _handleEnquiryListing(event.data?.data?.data??[],isRefresh,enquiryType: "Closed");
+  //         closedEnquiryNextPage = event.data?.data?.isNextPage??false;
+  //       }
+  //       if(event.status == Status.error){
+  //         if(closedEnquiryPageNumber == 1){
+  //           _getClosedEnquiryResponse.add(event);
+  //         }
+  //         else{
+  //           if(closedEnquiryNextPage){
+  //             closedEnquiryNextPage = false;
+  //             _getClosedEnquiryResponse.add(event);
+  //           }
+  //         }
+  //       }
+  //     }).onError((error) {
+  //       isLoading.value = false;
+  //       exceptionHandlerBinder.showError(error!);
+  //     });
+  //   }).execute();
+  // }
   EnquiryDetail? enquiryDetail;
   String? enquiryId;
 
@@ -63,13 +192,15 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
         enquiryID: enquiryID,
       );
-      admissionJourney.add(Resource.loading());
+
+
       RequestManager<EnquiryDetailBase>(
         params,
         createCall: () => getEnquiryDetailUseCase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
+        _fetchEnquiryDetail.add(result);
         if(result.status == Status.success){
           enquiryDetail = result.data?.data;
         }

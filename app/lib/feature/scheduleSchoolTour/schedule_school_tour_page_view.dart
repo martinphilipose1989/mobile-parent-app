@@ -61,6 +61,9 @@ class ScheduleSchoolTourPageView
           }
           else{
             ProviderScope.containerOf(context).read(enquiriesAdmissionsJourneyProvider(enquiryDetailArgs)).getAdmissionJourney(enquiryID: enquiryDetailArgs.enquiryId??'', type: enquiryDetailArgs.isFrom??'enquiry');
+
+            ProviderScope.containerOf(context).read(enquiriesAdmissionsJourneyProvider(enquiryDetailArgs)).getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('School tour scheduled successfully')),
             );

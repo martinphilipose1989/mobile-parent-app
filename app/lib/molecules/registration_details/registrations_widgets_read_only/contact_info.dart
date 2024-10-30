@@ -35,7 +35,7 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.emergencyContact??''),
+                    DetailsItem(title: "Contact No. Of", subtitle: contactDetail?.pointOfContact?.firstPreference?.emailOfParent??'N/A'),
                   ],
                 ),
               )
@@ -75,19 +75,19 @@ class ContactDetail extends StatelessWidget {
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                             DetailsItem(
                                 title: "Parent Type",
-                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobileOfParent??''
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobileOfParent??'N/A'
                             ),
                             DetailsItem(
                                 title: "Parent Mobile Number",
-                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobile ??''
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.mobile ??'N/A'
                             ),
                             DetailsItem(
                               title: "Parent Type",
-                              subtitle: contactDetail?.pointOfContact?.firstPreference?.emailOfParent ??''
+                              subtitle: contactDetail?.pointOfContact?.firstPreference?.emailOfParent ??'N/A'
                             ),
                             DetailsItem(
                                 title: "Parent Email ID",
-                                subtitle: contactDetail?.pointOfContact?.firstPreference?.email ??''
+                                subtitle: contactDetail?.pointOfContact?.firstPreference?.email ??'N/A'
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                           ],
@@ -103,22 +103,22 @@ class ContactDetail extends StatelessWidget {
                                 title: "Parent Type",
                                 subtitle: contactDetail?.pointOfContact
                                         ?.secondPreference?.mobileOfParent ??
-                                    ''),
+                                    'N/A'),
                             DetailsItem(
                                 title: "Parent Mobile Number",
                                 subtitle: contactDetail?.pointOfContact
                                         ?.secondPreference?.mobile ??
-                                    ''),
+                                    'N/A'),
                             DetailsItem(
                                 title: "Parent Type",
                                 subtitle: contactDetail?.pointOfContact
                                         ?.secondPreference?.emailOfParent ??
-                                    ''),
+                                    'N/A'),
                             DetailsItem(
                                 title: "Parent Email ID",
                                 subtitle: contactDetail?.pointOfContact
                                         ?.secondPreference?.email ??
-                                    ''),
+                                    'N/A'),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                           ],
                         )
@@ -151,15 +151,15 @@ class ContactDetail extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.currentAddress?.house??''),
+                    DetailsItem(title: "House No./Building", subtitle: contactDetail?.residentialAddress?.currentAddress?.house??'N/A'),
                     DetailsItem(
-                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.currentAddress?.street??''),
+                        title: "Street Name", subtitle: contactDetail?.residentialAddress?.currentAddress?.street??'N/A'),
                     DetailsItem(
-                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.currentAddress?.landmark??''),
-                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.currentAddress?.country is String) ? contactDetail?.residentialAddress?.currentAddress?.country : contactDetail?.residentialAddress?.currentAddress?.country?.value??''),
-                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.currentAddress?.state is String) ? contactDetail?.residentialAddress?.currentAddress?.state : contactDetail?.residentialAddress?.currentAddress?.state?.value??''),
-                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.currentAddress?.city is String) ? contactDetail?.residentialAddress?.currentAddress?.city : contactDetail?.residentialAddress?.currentAddress?.city?.value??''),
-                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.currentAddress?.pinCode??''),
+                        title: "Landmark", subtitle: contactDetail?.residentialAddress?.currentAddress?.landmark??'N/A'),
+                    DetailsItem(title: "Country", subtitle: (contactDetail?.residentialAddress?.currentAddress?.country is String) ? contactDetail?.residentialAddress?.currentAddress?.country : contactDetail?.residentialAddress?.currentAddress?.country?.value??'N/A'),
+                    DetailsItem(title: "State", subtitle:(contactDetail?.residentialAddress?.currentAddress?.state is String) ? contactDetail?.residentialAddress?.currentAddress?.state : contactDetail?.residentialAddress?.currentAddress?.state?.value??'N/A'),
+                    DetailsItem(title: "City", subtitle: (contactDetail?.residentialAddress?.currentAddress?.city is String) ? contactDetail?.residentialAddress?.currentAddress?.city : contactDetail?.residentialAddress?.currentAddress?.city?.value??'N/A'),
+                    DetailsItem(title: "Pin Code", subtitle: contactDetail?.residentialAddress?.currentAddress?.pinCode??'N/A'),
                     // DetailsItem(
                     //     title: "Is Permanent Address Same As Present?",
                     //     subtitle: (contactDetail?.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes' ? "Yes":"No"),

@@ -28,10 +28,12 @@ class MedicalDetail extends StatelessWidget {
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(
             title: 'Has the child ever been hospitalized?', subtitle: medicalDetails?.isChildHospitalised??false ? "Yes" : "No"),
-        DetailsItem(title: 'Year of last hospitalisation', subtitle: medicalDetails?.yearOfHospitalization??''),
-        DetailsItem(
+        if(medicalDetails?.isChildHospitalised??false)...[
+          DetailsItem(title: 'Year of last hospitalisation', subtitle: medicalDetails?.yearOfHospitalization??''),
+          DetailsItem(
             title: 'The reason for hospitalisation', subtitle: medicalDetails?.reasonOfHopitalization??''),
-        CommonSizedBox.sizedBox(height: 10, width: 10),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+        ],
         const Divider(
           height: 1,
           thickness: 1,
@@ -39,8 +41,10 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(title: 'Physical Disabilities', subtitle: medicalDetails?.hasPhysicalDisability??false ? "Yes" : "No"),
-        DetailsItem(title: 'Special Disability', subtitle: medicalDetails?.physicalDisabilityDescription??''),
-        CommonSizedBox.sizedBox(height: 10, width: 10),
+        if(medicalDetails?.hasPhysicalDisability??false)...[
+          DetailsItem(title: 'Special Disability', subtitle: medicalDetails?.physicalDisabilityDescription??''),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+        ],
         const Divider(
           height: 1,
           thickness: 1,
@@ -48,8 +52,10 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(title: 'Medical History', subtitle: medicalDetails?.hasMedicalHistory??false ? "Yes" : "No"),
-        DetailsItem(title: 'Special Medical History', subtitle: medicalDetails?.medicalHistoryDescription??''),
-        CommonSizedBox.sizedBox(height: 10, width: 10),
+        if(medicalDetails?.hasMedicalHistory??false)...[
+          DetailsItem(title: 'Special Medical History', subtitle: medicalDetails?.medicalHistoryDescription??''),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+        ],
         const Divider(
           height: 1,
           thickness: 1,
@@ -57,8 +63,10 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(title: 'Allergies', subtitle: medicalDetails?.hasAllergy??false ? "Yes" : "No"),
-        DetailsItem(title: 'Special Allergies', subtitle: medicalDetails?.allergyDescription??''),
-        CommonSizedBox.sizedBox(height: 10, width: 10),
+        if(medicalDetails?.hasAllergy??false)...[
+          DetailsItem(title: 'Specify Allergies', subtitle: medicalDetails?.allergyDescription??''),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+        ],
         const Divider(
           height: 1,
           thickness: 1,
@@ -74,7 +82,12 @@ class MedicalDetail extends StatelessWidget {
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.hasPersonalisedLearningNeeds??false ?  "Yes" : "No"),
-        DetailsItem(title: 'Personalized Learning Needs', subtitle: medicalDetails?.personalisedLearningNeedsDescription??''),
+        if(medicalDetails?.hasPersonalisedLearningNeeds??false)...[
+          DetailsItem(title: 'Personalized Learning Needs', subtitle:
+          (medicalDetails?.personalisedLearningNeedsDescription is CommonDataClass) ? medicalDetails?.personalisedLearningNeedsDescription?.value??'' : 
+              medicalDetails?.personalisedLearningNeedsDescription??''
+          ),
+        ]
       ],
     );
   }

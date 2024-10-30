@@ -37,15 +37,15 @@ final BankDetails? bankDetails;
                         height: 1,
                         thickness: 1,
                       ),
-                      DetailsItem(title: "IFSC Code", subtitle:bankDetails?.ifscCode??""),
+                      DetailsItem(title: "IFSC Code", subtitle:bankDetails?.ifscCode??"N/A"),
                       DetailsItem(
                           title: "Bank Name", subtitle: bankDetails?.bankName??''),
-                      DetailsItem(title: "Branch Name", subtitle: bankDetails?.branchName??''),
+                      DetailsItem(title: "Branch Name", subtitle: bankDetails?.branchName??'N/A'),
                       DetailsItem(
-                          title: "Account Holder name", subtitle: bankDetails?.accountHolderName??''),
-                      DetailsItem(title: "Account Type", subtitle: bankDetails?.accountType??''),
+                          title: "Account Holder name", subtitle: bankDetails?.accountHolderName??'N/A'),
+                      DetailsItem(title: "Account Type", subtitle: bankDetails?.accountType??'N/A'),
                       DetailsItem(
-                          title: "Account Number", subtitle: bankDetails?.accountNumber??''),
+                          title: "Account Number", subtitle: bankDetails?.accountNumber??'N/A'),
                     ],
                   ),
                 )
@@ -61,7 +61,7 @@ final BankDetails? bankDetails;
           text: "UPI Info",
           style: AppTypography.subtitle1,
         ),
-        DetailsItem(title: 'UPI Id', subtitle: bankDetails?.upiInfo??'')
+        DetailsItem(title: 'UPI Id', subtitle: bankDetails?.upiInfo??'N/A')
       ],
     );
   }
