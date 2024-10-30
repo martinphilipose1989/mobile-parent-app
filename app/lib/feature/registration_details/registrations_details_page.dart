@@ -118,9 +118,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "subcaste"),
         model.getMdmAttribute(infoType: "mother_tongue"),
         model.getMdmAttribute(infoType: "organization"),
-        model.getMdmAttribute(infoType: "designation"),
+        //  model.getMdmAttribute(infoType: "designation"),
         model.getMdmAttribute(infoType: "nationality"),
-        model.getMdmAttribute(infoType: "designation"),
+        // model.getMdmAttribute(infoType: "designation"),
         model.getMdmAttribute(infoType: "personalise_learning_needs"),
         model.getMdmAttribute(infoType: "relationWithChild"),
       ];
