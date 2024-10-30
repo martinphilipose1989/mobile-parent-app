@@ -41,6 +41,56 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
   @override
   void onModelReady(RegistrationsDetailsViewModel model) {
     model.context = context;
+    model.motherPinCodeFocusNode.addListener(() {
+      model.pinCodeFocusNode.addListener(() {
+        if (!model.pinCodeFocusNode.hasFocus) {
+          if (model.pinCodeController.text.isNotEmpty &&
+              model.pinCodeController.text.trim().length == 6) {
+            model.getCityAndStateByPincode(
+                pincode: model.pinCodeController.text.trim(),
+                infoType: "fatherInfo");
+          }
+        }
+      });
+      if (!model.motherPinCodeFocusNode.hasFocus) {
+        if (model.motherPinCodeController.text.isNotEmpty &&
+            model.pinCodeController.text.trim().length == 6) {
+          model.getCityAndStateByPincode(
+              pincode: model.motherPinCodeController.text.trim(),
+              infoType: "motherInfo");
+        }
+      }
+    });
+    model.guardianPinCodeFocusNode.addListener(() {
+      if (!model.guardianPinCodeFocusNode.hasFocus) {
+        if (model.guardianPinCodeController.text.isNotEmpty &&
+            model.pinCodeController.text.length == 6) {
+          model.getCityAndStateByPincode(
+              pincode: model.guardianPinCodeController.text.trim(),
+              infoType: "guardianInfo");
+        }
+      }
+    });
+    model.residentialPinCodeFocusNode.addListener(() {
+      if (!model.residentialPinCodeFocusNode.hasFocus) {
+        if (model.residentialPinCodeController.text.isNotEmpty &&
+            model.pinCodeController.text.trim().length == 6) {
+          model.getCityAndStateByPincode(
+              pincode: model.residentialPinCodeController.text.trim(),
+              infoType: "currentAddress");
+        }
+      }
+    });
+    model.permanentPinCodeFocusNode.addListener(() {
+      if (!model.permanentPinCodeFocusNode.hasFocus) {
+        if (model.permanentResidentialPinCodeController.text.isNotEmpty &&
+            model.pinCodeController.text.trim().length == 6) {
+          model.getCityAndStateByPincode(
+              pincode: model.permanentResidentialPinCodeController.text.trim(),
+              infoType: "permanentAddress");
+        }
+      }
+    });
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     if (widget.routeFrom == "enquiry") {
       model.editRegistrationDetails.add(true);
@@ -58,8 +108,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: 'psaSubCategory'),
         model.getMdmAttribute(infoType: 'periodOfService'),
         model.getMdmAttribute(infoType: "country"),
-        model.getMdmAttribute(infoType: "state"),
-        model.getMdmAttribute(infoType: "city"),
+        // model.getMdmAttribute(infoType: "state"),
+        // model.getMdmAttribute(infoType: "city"),
         model.getMdmAttribute(infoType: "bloodGroup"),
         model.getMdmAttribute(infoType: "occupation"),
         model.getMdmAttribute(infoType: "qualification"),
@@ -68,11 +118,11 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "subcaste"),
         model.getMdmAttribute(infoType: "mother_tongue"),
         model.getMdmAttribute(infoType: "organization"),
-        // model.getMdmAttribute(infoType: "designation"),
+        model.getMdmAttribute(infoType: "designation"),
         model.getMdmAttribute(infoType: "nationality"),
-        // model.getMdmAttribute(infoType: "designation"),
-        model.getMdmAttribute(infoType: "organization"),
-        model.getMdmAttribute(infoType: "personalise_learning_needs")
+        model.getMdmAttribute(infoType: "designation"),
+        model.getMdmAttribute(infoType: "personalise_learning_needs"),
+        model.getMdmAttribute(infoType: "relationWithChild"),
       ];
       Future.wait(mdmAttributes).then((_) {
         if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
@@ -123,25 +173,25 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         });
       }
       model.enquiryDetails = widget.enquiryDetail;
-    }
-    if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
-      model.getIvtDetails(
-          enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
-          isEdit: widget.routeFrom == "enquiry"
-              ? true
-              : model.editRegistrationDetails.value);
-    } else if (widget.enquiryDetailArgs?.enquiryType == "PSA") {
-      model.getPsaDetails(
-          enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
-          isEdit: widget.routeFrom == "enquiry"
-              ? true
-              : model.editRegistrationDetails.value);
-    } else {
-      model.getNewAdmissionDetails(
-          enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
-          isEdit: widget.routeFrom == "enquiry"
-              ? true
-              : model.editRegistrationDetails.value);
+      if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
+        model.getIvtDetails(
+            enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
+            isEdit: widget.routeFrom == "enquiry"
+                ? true
+                : model.editRegistrationDetails.value);
+      } else if (widget.enquiryDetailArgs?.enquiryType == "PSA") {
+        model.getPsaDetails(
+            enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
+            isEdit: widget.routeFrom == "enquiry"
+                ? true
+                : model.editRegistrationDetails.value);
+      } else {
+        model.getNewAdmissionDetails(
+            enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
+            isEdit: widget.routeFrom == "enquiry"
+                ? true
+                : model.editRegistrationDetails.value);
+      }
     }
     model.getEnquiryDetail(
         enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '');
@@ -149,61 +199,10 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
       context,
       super.stateObserver,
     );
-    model.pinCodeFocusNode.addListener(() {
-      if (!model.pinCodeFocusNode.hasFocus) {
-        if (model.pinCodeController.text.isNotEmpty &&
-            model.pinCodeController.text.trim().length == 6) {
-          model.getCityAndStateByPincode(
-              pincode: model.pinCodeController.text.trim(),
-              infoType: "fatherInfo");
-        }
-      }
-    });
-    model.motherPinCodeFocusNode.addListener(() {
-      if (!model.motherPinCodeFocusNode.hasFocus) {
-        if (model.motherPinCodeController.text.isNotEmpty &&
-            model.pinCodeController.text.trim().length == 6) {
-          model.getCityAndStateByPincode(
-              pincode: model.motherPinCodeController.text.trim(),
-              infoType: "motherInfo");
-        }
-      }
-    });
-    model.guardianPinCodeFocusNode.addListener(() {
-      if (!model.guardianPinCodeFocusNode.hasFocus) {
-        if (model.guardianPinCodeController.text.isNotEmpty &&
-            model.pinCodeController.text.length == 6) {
-          model.getCityAndStateByPincode(
-              pincode: model.guardianPinCodeController.text.trim(),
-              infoType: "guardianInfo");
-        }
-      }
-    });
-    model.residentialPinCodeFocusNode.addListener(() {
-      if (!model.residentialPinCodeFocusNode.hasFocus) {
-        if (model.residentialPinCodeController.text.isNotEmpty &&
-            model.pinCodeController.text.trim().length == 6) {
-          model.getCityAndStateByPincode(
-              pincode: model.residentialPinCodeController.text.trim(),
-              infoType: "currentAddress");
-        }
-      }
-    });
-    model.permanentPinCodeFocusNode.addListener(() {
-      if (!model.permanentPinCodeFocusNode.hasFocus) {
-        if (model.permanentResidentialPinCodeController.text.isNotEmpty &&
-            model.pinCodeController.text.trim().length == 6) {
-          model.getCityAndStateByPincode(
-              pincode: model.permanentResidentialPinCodeController.text.trim(),
-              infoType: "permanentAddress");
-        }
-      }
-    });
   }
 
   @override
   PreferredSizeWidget? buildAppbar(RegistrationsDetailsViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Registration Details',
       notShowNotificationAndUserBatch: false,
