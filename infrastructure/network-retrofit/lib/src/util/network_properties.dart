@@ -42,7 +42,7 @@ class NetworkProperties {
   static const String motherTongue = '/api/mother-tongues?fields[1]=name';
   static const String organization = '/api/organizations?fields[1]=name';
   static const String designation =
-      '/api/ps-designations?fields[1]=designation';
+      '/api/ps-designations';
   static const String nationality =
       '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
   static const String personalisedLearningNeedsDescription =

@@ -2092,6 +2092,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     }
     // fatherArea = parentDetails.fatherDetails?.area ?? "";
     fatherOfficeAreaController.text = parentDetails.fatherDetails?.area ?? "";
+    if(pinCodeController.text.trim().isNotEmpty){
+      getCityAndStateByPincode(pincode: pinCodeController.text.trim(), infoType: "fatherInfo");
+    }
     if(parentDetails.fatherDetails?.country is CommonDataClass){
       selectedFatherCountrySubject
           .add(parentDetails.fatherDetails?.country?.value ?? '');
@@ -2103,34 +2106,34 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         selectedFatherCountryEntity=CommonDataClass(id: country?.id,value: country?.attributes?.name);
       }
     }
-    if(parentDetails.fatherDetails?.state is CommonDataClass){
-      selectedFatherStateSubject
-          .add(parentDetails.fatherDetails?.state?.value ?? '');
-      selectedFatherStateEntity =
-          (parentDetails.fatherDetails?.state is CommonDataClass)
-              ? parentDetails.fatherDetails?.state
-              : null;
-    } else{
-      selectedFatherStateSubject.add(parentDetails.fatherDetails?.state ?? '');
-      if((stateAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.state)){
-        var state=stateAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.state);
-        selectedFatherStateEntity=CommonDataClass(id: state?.id,value: state?.attributes?.name);
-      }
-    }
-    if(parentDetails.fatherDetails?.city is CommonDataClass){
-      selectedFatherCitySubject
-          .add(parentDetails.fatherDetails?.city?.value ?? '');
-      selectedFatherCityEntity = parentDetails.fatherDetails?.city;
-    } else {
-      selectedFatherCitySubject.add(parentDetails.fatherDetails?.city ?? '');
-        if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.fatherDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.fatherDetails?.city);
-        selectedFatherCityEntity = CommonDataClass(
-            id: city?.id, value: city?.attributes?.name);
-      }
-    }
+    // if(parentDetails.fatherDetails?.state is CommonDataClass){
+    //   selectedFatherStateSubject
+    //       .add(parentDetails.fatherDetails?.state?.value ?? '');
+    //   selectedFatherStateEntity =
+    //       (parentDetails.fatherDetails?.state is CommonDataClass)
+    //           ? parentDetails.fatherDetails?.state
+    //           : null;
+    // } else{
+    //   selectedFatherStateSubject.add(parentDetails.fatherDetails?.state ?? '');
+    //   if((stateAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.state)){
+    //     var state=stateAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.state);
+    //     selectedFatherStateEntity=CommonDataClass(id: state?.id,value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.fatherDetails?.city is CommonDataClass){
+    //   selectedFatherCitySubject
+    //       .add(parentDetails.fatherDetails?.city?.value ?? '');
+    //   selectedFatherCityEntity = parentDetails.fatherDetails?.city;
+    // } else {
+    //   selectedFatherCitySubject.add(parentDetails.fatherDetails?.city ?? '');
+    //     if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.fatherDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.fatherDetails?.city);
+    //     selectedFatherCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
     // if(parentDetails.fatherDetails?.qualification is CommonDataClass){
     //   selectedFatherQualificationSubject
     //       .add(parentDetails.fatherDetails?.qualification?.value ?? '');
@@ -2167,6 +2170,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     motherEmailController.text = parentDetails.motherDetails?.emailId ?? "";
     motherMobileController.text =
         parentDetails.motherDetails?.mobileNumber ?? "";
+    if(motherPinCodeController.text.trim().isNotEmpty){
+      getCityAndStateByPincode(pincode: motherPinCodeController.text.trim(), infoType: "motherInfo");
+    }
     // motherOccupation = parentDetails.motherDetails?.occupation ?? "";
     if(parentDetails.motherDetails?.organisationName is CommonDataClass){
       selectedMotherOrganization = parentDetails.motherDetails?.organisationName;
@@ -2202,37 +2208,37 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: country?.id, value: country?.attributes?.name);
       }
     }
-    if(parentDetails.motherDetails?.state is CommonDataClass){
-      selectedMotherStateSubject
-          .add(parentDetails.motherDetails?.state?.value ?? '');
-      selectedMotherStateEntity =
-          (parentDetails.motherDetails?.state is CommonDataClass)
-              ? parentDetails.motherDetails?.state
-              : null;
-    } else {
-      selectedMotherStateSubject.add(parentDetails.motherDetails?.state ?? '');
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.motherDetails?.state)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.motherDetails?.state);
-        selectedMotherStateEntity = CommonDataClass(
-            id: state?.id, value: state?.attributes?.name);
-      }
-    }
-    if(parentDetails.motherDetails?.city is CommonDataClass){
-      selectedMotherCitySubject
-          .add(parentDetails.motherDetails?.city?.value ?? '');
-      selectedMotherCityEntity = parentDetails.motherDetails?.city;
-    } else {
-      selectedMotherCitySubject.add(parentDetails.motherDetails?.city ?? '');
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.motherDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.motherDetails?.city);
-        selectedMotherCityEntity = CommonDataClass(
-            id: city?.id, value: city?.attributes?.name);
-      }
-    }
+    // if(parentDetails.motherDetails?.state is CommonDataClass){
+    //   selectedMotherStateSubject
+    //       .add(parentDetails.motherDetails?.state?.value ?? '');
+    //   selectedMotherStateEntity =
+    //       (parentDetails.motherDetails?.state is CommonDataClass)
+    //           ? parentDetails.motherDetails?.state
+    //           : null;
+    // } else {
+    //   selectedMotherStateSubject.add(parentDetails.motherDetails?.state ?? '');
+    //   if ((stateAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.motherDetails?.state)) {
+    //     var state = stateAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.motherDetails?.state);
+    //     selectedMotherStateEntity = CommonDataClass(
+    //         id: state?.id, value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.motherDetails?.city is CommonDataClass){
+    //   selectedMotherCitySubject
+    //       .add(parentDetails.motherDetails?.city?.value ?? '');
+    //   selectedMotherCityEntity = parentDetails.motherDetails?.city;
+    // } else {
+    //   selectedMotherCitySubject.add(parentDetails.motherDetails?.city ?? '');
+    //   if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.motherDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.motherDetails?.city);
+    //     selectedMotherCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
     if(parentDetails.motherDetails?.qualification is CommonDataClass){
       selectedMotherQualificationSubject
           .add(parentDetails.motherDetails?.qualification?.value ?? '');
@@ -2272,6 +2278,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.landmark??"";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
+    if(guardianPinCodeController.text.trim().isNotEmpty){
+      getCityAndStateByPincode(pincode: guardianPinCodeController.text.trim(), infoType: "guardianInfo"); 
+    }
     guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
     guardianMobileController.text =
         parentDetails.guardianDetails?.mobileNumber ?? "";
@@ -2303,37 +2312,37 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: country?.id, value: country?.attributes?.name);
       }
     }
-    if(parentDetails.guardianDetails?.state is CommonDataClass){
-      selectedGuardianStateSubject
-          .add(parentDetails.guardianDetails?.state?.value ?? '');
-      selectedGuardianStateEntity =
-          (parentDetails.guardianDetails?.state is CommonDataClass)
-              ? parentDetails.guardianDetails?.state
-              : null;
-    } else {
-      selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state ?? '');
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.guardianDetails?.state)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.guardianDetails?.state);
-        selectedGuardianStateEntity = CommonDataClass(
-            id: state?.id, value: state?.attributes?.name);
-      }
-    }
-    if(parentDetails.guardianDetails?.city is CommonDataClass){
-      selectedGuardianCitySubject
-          .add(parentDetails.guardianDetails?.city?.value ?? '');
-      selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
-    } else {
-      selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city ?? '');
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.guardianDetails?.city)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.guardianDetails?.city);
-        selectedGuardianCityEntity = CommonDataClass(
-            id: city?.id, value: city?.attributes?.name);
-      }
-    }
+    // if(parentDetails.guardianDetails?.state is CommonDataClass){
+    //   selectedGuardianStateSubject
+    //       .add(parentDetails.guardianDetails?.state?.value ?? '');
+    //   selectedGuardianStateEntity =
+    //       (parentDetails.guardianDetails?.state is CommonDataClass)
+    //           ? parentDetails.guardianDetails?.state
+    //           : null;
+    // } else {
+    //   selectedGuardianStateSubject.add(parentDetails.guardianDetails?.state ?? '');
+    //   if ((stateAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.guardianDetails?.state)) {
+    //     var state = stateAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.guardianDetails?.state);
+    //     selectedGuardianStateEntity = CommonDataClass(
+    //         id: state?.id, value: state?.attributes?.name);
+    //   }
+    // }
+    // if(parentDetails.guardianDetails?.city is CommonDataClass){
+    //   selectedGuardianCitySubject
+    //       .add(parentDetails.guardianDetails?.city?.value ?? '');
+    //   selectedGuardianCityEntity = parentDetails.guardianDetails?.city;
+    // } else {
+    //   selectedGuardianCitySubject.add(parentDetails.guardianDetails?.city ?? '');
+    //   if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == parentDetails.guardianDetails?.city)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         element.attributes?.name == parentDetails.guardianDetails?.city);
+    //     selectedGuardianCityEntity = CommonDataClass(
+    //         id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
 
     if((parentDetails.siblingDetails??[]).isNotEmpty && !parentDetails.siblingDetails![0].isOnlyDOB()){
       radioButtonController1.selectItem(parentDetails.siblingDetails?[0].type);
@@ -2403,6 +2412,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           contactDetails.residentialAddress?.currentAddress?.state ?? '';
       selectedResidentialCountry.value =
           contactDetails.residentialAddress?.currentAddress?.country ?? '';
+      residentialPinCodeController.text =
+        contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
+      if(residentialPinCodeController.text.isNotEmpty){
+        getCityAndStateByPincode(pincode: residentialPinCodeController.text, infoType: "currentAddress");
+      }
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == selectedResidentialCountry.value)) {
         var country = countryAttribute?.firstWhere((element) =>
@@ -2411,75 +2425,77 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         residentialCountry =
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
-      if ((stateAttribute ?? []).any((element) =>
-          element.attributes?.name == selectedResidentialState.value)) {
-        var state = stateAttribute?.firstWhere((element) =>
-            (element.attributes?.name ?? '')
-                .contains(selectedResidentialState.value));
-        residentialState =
-            CommonDataClass(id: state?.id, value: state?.attributes?.name);
-      }
-      if ((cityAttribute ?? []).any((element) =>
-          element.attributes?.name == selectedResidentialCity.value)) {
-        var city = cityAttribute?.firstWhere((element) =>
-            (element.attributes?.name ?? '')
-                .contains(selectedResidentialCity.value));
-        residentialCity =
-            CommonDataClass(id: city?.id, value: city?.attributes?.name);
-      }
-    }
-    residentialPinCodeController.text =
-        contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
+    //   if ((stateAttribute ?? []).any((element) =>
+    //       element.attributes?.name == selectedResidentialState.value)) {
+    //     var state = stateAttribute?.firstWhere((element) =>
+    //         (element.attributes?.name ?? '')
+    //             .contains(selectedResidentialState.value));
+    //     residentialState =
+    //         CommonDataClass(id: state?.id, value: state?.attributes?.name);
+    //   }
+    //   if ((cityAttribute ?? []).any((element) =>
+    //       element.attributes?.name == selectedResidentialCity.value)) {
+    //     var city = cityAttribute?.firstWhere((element) =>
+    //         (element.attributes?.name ?? '')
+    //             .contains(selectedResidentialCity.value));
+    //     residentialCity =
+    //         CommonDataClass(id: city?.id, value: city?.attributes?.name);
+    //   }
+    // }
     if(contactDetails.residentialAddress?.permanentAddress != null){
       permanentHouseOrBuildingController.text =
         contactDetails.residentialAddress?.permanentAddress?.house ?? "";
       permanentStreetNameController.text = contactDetails.residentialAddress?.permanentAddress?.street ?? "";
       permanentLandMarkController.text = contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
-      if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
-          contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
-        permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
-        permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
-        permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
-        selectedPermanentResidentialCity.value =
-            contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
-        selectedPermanentResidentialState.value =
-            contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
-        selectedPermanentResidentialCountry.value =
-            contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
-      } else {
-        selectedPermanentResidentialCity.value =
-            contactDetails.residentialAddress?.permanentAddress?.city ?? '';
-        selectedPermanentResidentialState.value =
-            contactDetails.residentialAddress?.permanentAddress?.state ?? '';
-        selectedPermanentResidentialCountry.value =
-            contactDetails.residentialAddress?.permanentAddress?.country ?? '';
-        if ((countryAttribute ?? []).any((element) =>
-            element.attributes?.name == selectedPermanentResidentialCountry.value)) {
-          var country = countryAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedResidentialCountry.value));
-          permanentResidentialCountry =
-              CommonDataClass(id: country?.id, value: country?.attributes?.name);
-        }
-        if ((stateAttribute ?? []).any((element) =>
-            element.attributes?.name == selectedPermanentResidentialState.value)) {
-          var state = stateAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedPermanentResidentialState.value));
-          permanentResidentialState =
-              CommonDataClass(id: state?.id, value: state?.attributes?.name);
-        }
-        if ((cityAttribute ?? []).any((element) =>
-            element.attributes?.name == selectedPermanentResidentialCity.value)) {
-          var city = cityAttribute?.firstWhere((element) =>
-              (element.attributes?.name ?? '')
-                  .contains(selectedPermanentResidentialCity.value));
-          permanentResidentialCity =
-              CommonDataClass(id: city?.id, value: city?.attributes?.name);
-        }
-      }
       permanentResidentialPinCodeController.text =
           contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
+      if(permanentResidentialPinCodeController.text.isNotEmpty){
+        getCityAndStateByPincode(pincode: permanentResidentialPinCodeController.text, infoType: "permanentAddress");
+      }
+
+      // if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
+      //     contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
+      //   permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
+      //   permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
+      //   permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
+      //   selectedPermanentResidentialCity.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
+      //   selectedPermanentResidentialState.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
+      //   selectedPermanentResidentialCountry.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
+      // } else {
+      //   selectedPermanentResidentialCity.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.city ?? '';
+      //   selectedPermanentResidentialState.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.state ?? '';
+      //   selectedPermanentResidentialCountry.value =
+      //       contactDetails.residentialAddress?.permanentAddress?.country ?? '';
+      //   if ((countryAttribute ?? []).any((element) =>
+      //       element.attributes?.name == selectedPermanentResidentialCountry.value)) {
+      //     var country = countryAttribute?.firstWhere((element) =>
+      //         (element.attributes?.name ?? '')
+      //             .contains(selectedResidentialCountry.value));
+      //     permanentResidentialCountry =
+      //         CommonDataClass(id: country?.id, value: country?.attributes?.name);
+      //   }
+        // if ((stateAttribute ?? []).any((element) =>
+        //     element.attributes?.name == selectedPermanentResidentialState.value)) {
+        //   var state = stateAttribute?.firstWhere((element) =>
+        //       (element.attributes?.name ?? '')
+        //           .contains(selectedPermanentResidentialState.value));
+        //   permanentResidentialState =
+        //       CommonDataClass(id: state?.id, value: state?.attributes?.name);
+        // }
+        // if ((cityAttribute ?? []).any((element) =>
+        //     element.attributes?.name == selectedPermanentResidentialCity.value)) {
+        //   var city = cityAttribute?.firstWhere((element) =>
+        //       (element.attributes?.name ?? '')
+        //           .contains(selectedPermanentResidentialCity.value));
+        //   permanentResidentialCity =
+        //       CommonDataClass(id: city?.id, value: city?.attributes?.name);
+        // }
+      }
     }
     if (contactDetails.pointOfContact?.firstPreference != null) {
       parentEmailIdController1.text =
