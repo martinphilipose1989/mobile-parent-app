@@ -43,31 +43,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   EnquiriesDetailsPageModel(
-    this.exceptionHandlerBinder,
-    this.getNewAdmissionDetailUseCase,
-    this.getIvtDetailUsecase,
-    this.getPsaDetailUsecase,
-    this.getEnquiryDetailUseCase,
-    this.getMdmAttributeUsecase,
-    this.uploadEnquiryDocumentUsecase,
-    this.deleteEnquiryDocumentUsecase,
-    this.downloadEnquiryDocumentUsecase,
-    this.updatePsaDetailUsecase,
-    this.updateIvtDetailUsecase,
-    this.updateNewAdmissionUsecase,
-    this.downloadFileUsecase,
-    this.enquiryDetails,
-    this.chooseFileUseCase,
-    this.flutterToastErrorPresenter
-  ){
+      this.exceptionHandlerBinder,
+      this.getNewAdmissionDetailUseCase,
+      this.getIvtDetailUsecase,
+      this.getPsaDetailUsecase,
+      this.getEnquiryDetailUseCase,
+      this.getMdmAttributeUsecase,
+      this.uploadEnquiryDocumentUsecase,
+      this.deleteEnquiryDocumentUsecase,
+      this.downloadEnquiryDocumentUsecase,
+      this.updatePsaDetailUsecase,
+      this.updateIvtDetailUsecase,
+      this.updateNewAdmissionUsecase,
+      this.downloadFileUsecase,
+      this.enquiryDetails,
+      this.chooseFileUseCase,
+      this.flutterToastErrorPresenter) {
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else if (enquiryDetails.enquiryType == "PSA") {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else {
-      getNewAdmissionDetails(
-          enquiryID: enquiryDetails.enquiryId ?? '');
+      getNewAdmissionDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     }
   }
   late TabController tabController;
@@ -77,46 +75,61 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   final PermissionHandlerService permissionHandler = PermissionHandlerService();
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(0);
-  BehaviorSubject<NewAdmissionDetail> ? newAdmissionDetails = BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
-  BehaviorSubject<IVTDetail>? ivtDetails = BehaviorSubject<IVTDetail>.seeded(IVTDetail()); 
-  BehaviorSubject<PSADetail>? psaDetails = BehaviorSubject<PSADetail>.seeded(PSADetail());
-  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetail = PublishSubject();
-  Stream<Resource<NewAdmissionBase>> get newAdmissionDetail => _newAdmissionDetail.stream;
-  final PublishSubject<Resource<IVTBase>> _ivtDetail = PublishSubject(); 
+  BehaviorSubject<NewAdmissionDetail>? newAdmissionDetails =
+      BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
+  BehaviorSubject<IVTDetail>? ivtDetails =
+      BehaviorSubject<IVTDetail>.seeded(IVTDetail());
+  BehaviorSubject<PSADetail>? psaDetails =
+      BehaviorSubject<PSADetail>.seeded(PSADetail());
+  final PublishSubject<Resource<NewAdmissionBase>> _newAdmissionDetail =
+      PublishSubject();
+  Stream<Resource<NewAdmissionBase>> get newAdmissionDetail =>
+      _newAdmissionDetail.stream;
+  final PublishSubject<Resource<IVTBase>> _ivtDetail = PublishSubject();
   Stream<Resource<IVTBase>> get ivtDetail => _ivtDetail.stream;
   final PublishSubject<Resource<PsaResponse>> _psaDetail = PublishSubject();
   Stream<Resource<PsaResponse>> get psaDetail => _psaDetail.stream;
-  BehaviorSubject<EnquiryDetail> enquiryDetail= BehaviorSubject.seeded(EnquiryDetail());
-  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
-  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
+  BehaviorSubject<EnquiryDetail> enquiryDetail =
+      BehaviorSubject.seeded(EnquiryDetail());
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail =
+      PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail =>
+      _fetchEnquiryDetail.stream;
 
-  PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile = PublishSubject();
-  PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile = PublishSubject();
-  PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile = PublishSubject();
+  PublishSubject<Resource<EnquiryFileUploadBase>> uploadEnquiryFile =
+      PublishSubject();
+  PublishSubject<Resource<DeleteEnquiryFileBase>> deleteEnquiryFile =
+      PublishSubject();
+  PublishSubject<Resource<DownloadEnquiryFileBase>> getEnquiryFile =
+      PublishSubject();
   PublishSubject<Resource<Uint8List>> downloadFile = PublishSubject();
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
-  
+
   //New Admission Details
-   TextEditingController enquiryNumberController = TextEditingController();
-   TextEditingController enquiryTypeController = TextEditingController();
-   TextEditingController schoolLocationController = TextEditingController();
-   TextEditingController studentFirstNameController = TextEditingController();
-   TextEditingController studentLastNameController = TextEditingController();
-   TextEditingController dobController = TextEditingController();
-   TextEditingController existingSchoolNameController = TextEditingController();
-   TextEditingController globalIdController = TextEditingController();
-   TextEditingController parentTypeController = TextEditingController();
- //PSA-specific controllers
-   BehaviorSubject<String> psaSubTypeSubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaCategorySubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaSubCategorySubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> periodOfServiceSubject = BehaviorSubject<String>.seeded('');
-   BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
- //IVT-specific controllers
-    BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
-    BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
+  TextEditingController enquiryNumberController = TextEditingController();
+  TextEditingController enquiryTypeController = TextEditingController();
+  TextEditingController schoolLocationController = TextEditingController();
+  TextEditingController studentFirstNameController = TextEditingController();
+  TextEditingController studentLastNameController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController existingSchoolNameController = TextEditingController();
+  TextEditingController globalIdController = TextEditingController();
+  TextEditingController parentTypeController = TextEditingController();
+  //PSA-specific controllers
+  BehaviorSubject<String> psaSubTypeSubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaCategorySubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaSubCategorySubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> periodOfServiceSubject =
+      BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> psaBatchSubject = BehaviorSubject<String>.seeded('');
+  //IVT-specific controllers
+  BehaviorSubject<String> ivtBoardSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtCourseSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtStreamSubject = BehaviorSubject<String>.seeded('');
+  BehaviorSubject<String> ivtShiftSubject = BehaviorSubject<String>.seeded('');
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
       BehaviorSubject<bool>.seeded(false);
@@ -136,9 +149,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   ];
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
-  
-  EnquiryDetailArgs? enquiryDetailArgs;
 
+  EnquiryDetailArgs? enquiryDetailArgs;
 
   BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
 
@@ -175,18 +187,28 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> selectedShift =
       BehaviorSubject<bool>.seeded(false);
 
-  final BehaviorSubject<String> selectedGradeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedSchoolLocationSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<MdmAttributeModel?> selectedSchoolLocationSubjectAttribute = BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
-  final BehaviorSubject<String> selectedExistingSchoolGradeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedExistingSchoolBoardSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedParentTypeSubject = BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<String> selectedGenderSubject = BehaviorSubject<String>.seeded('');
-  
-  final BehaviorSubject<bool> selectedGenerType = BehaviorSubject<bool>.seeded(false);
-  final BehaviorSubject<List<String>> schoolLocationTypes = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<String> selectedGradeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedSchoolLocationSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<MdmAttributeModel?>
+      selectedSchoolLocationSubjectAttribute =
+      BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
+  final BehaviorSubject<String> selectedExistingSchoolGradeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedExistingSchoolBoardSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedParentTypeSubject =
+      BehaviorSubject<String>.seeded('');
+  final BehaviorSubject<String> selectedGenderSubject =
+      BehaviorSubject<String>.seeded('');
 
-  final List<String> parentType = ["Mother","Father"];
+  final BehaviorSubject<bool> selectedGenerType =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<List<String>> schoolLocationTypes =
+      BehaviorSubject<List<String>>.seeded([]);
+
+  final List<String> parentType = ["Mother", "Father"];
   TextEditingController fatherGlobalIdController = TextEditingController();
   TextEditingController motherGlobalIdController = TextEditingController();
   TextEditingController studentsFatherFirstNameController =
@@ -204,22 +226,35 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       TextEditingController();
   TextEditingController studentsMotherEmailController = TextEditingController();
 
-  final BehaviorSubject<List<String>> existingSchoolGrade = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> existingSchoolBoard = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> gradeTypes = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> existingSchoolGrade =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> existingSchoolBoard =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gradeTypes =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> psaSubType = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaSubCategory = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaCategory = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> periodOfService = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> psaBatch = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaSubType =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaSubCategory =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaCategory =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> periodOfService =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> psaBatch =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> gender = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> gender =
+      BehaviorSubject<List<String>>.seeded([]);
 
-  final BehaviorSubject<List<String>> stream = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> course = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> shift = BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> occupation = BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> stream =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> course =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> shift =
+      BehaviorSubject<List<String>>.seeded([]);
+  final BehaviorSubject<List<String>> occupation =
+      BehaviorSubject<List<String>>.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
   List<MdmAttributeModel>? schoolLocationTypesAttribute;
@@ -235,7 +270,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   List<MdmAttributeModel>? shiftTypeAttribute;
   List<MdmAttributeModel>? occupationAttribute;
 
-  CommonDataClass? selectedSchoolLocationEntity; 
+  CommonDataClass? selectedSchoolLocationEntity;
   CommonDataClass? selectedGradeEntity;
   CommonDataClass? selectedGenderEntity;
   CommonDataClass? selectedExistingSchoolBoardEntity;
@@ -251,13 +286,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   CommonDataClass? selectedCourseEntity;
   CommonDataClass? selectedShiftEntity;
 
-  Future<void> getNewAdmissionDetails({required String enquiryID,bool isEdit = false}) async {
+  Future<void> getNewAdmissionDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
-     
-      GetNewAdmissionDetailUseCaseParams params = GetNewAdmissionDetailUseCaseParams(
+      GetNewAdmissionDetailUseCaseParams params =
+          GetNewAdmissionDetailUseCaseParams(
         enquiryID: enquiryID,
       );
-      
+
       RequestManager<NewAdmissionBase>(
         params,
         createCall: () => getNewAdmissionDetailUseCase.execute(
@@ -265,26 +301,30 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
-        if(result.status == Status.success){
-          newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
-          if(isEdit){
-            addNewAdmissionDetails(result.data?.data?? NewAdmissionDetail(),enquiryDetailArgs??EnquiryDetailArgs());
+        if (result.status == Status.success) {
+          newAdmissionDetails?.add(result.data?.data ?? NewAdmissionDetail());
+          if (isEdit) {
+            addNewAdmissionDetails(result.data?.data ?? NewAdmissionDetail(),
+                enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> getIvtDetails({required String enquiryID,bool isEdit = false}) async {
+  Future<void> getIvtDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       GetIvtDetailUsecaseParams params = GetIvtDetailUsecaseParams(
         enquiryID: enquiryID,
       );
-      
+
       RequestManager<IVTBase>(
         params,
         createCall: () => getIvtDetailUsecase.execute(
@@ -292,27 +332,39 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _ivtDetail.add(result);
-        if(result.status == Status.success){
-          ivtDetails?.add(result.data?.data?? IVTDetail());
-          if(isEdit){
-            addIvtDetails(result.data?.data??IVTDetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        if (result.status == Status.success) {
+          removeRegistrationMenu();
+          ivtDetails?.add(result.data?.data ?? IVTDetail());
+          if (isEdit) {
+            addIvtDetails(result.data?.data ?? IVTDetail(),
+                enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  Future<void> getPsaDetails({required String enquiryID,bool isEdit = false}) async {
+  void removeRegistrationMenu() {
+    if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
+        enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
+      menuData.removeWhere((e) => e['name'].toLowerCase() == "registration");
+    }
+  }
+
+  Future<void> getPsaDetails(
+      {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       GetPsaDetailUsecaseParams params = GetPsaDetailUsecaseParams(
         enquiryID: enquiryID,
       );
-      
+
       RequestManager<PsaResponse>(
         params,
         createCall: () => getPsaDetailUsecase.execute(
@@ -320,55 +372,61 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _psaDetail.add(result);
-        if(result.status == Status.success){
-          psaDetails?.add(result.data?.data?? PSADetail());
-          if(isEdit){
-            addPsaDetails(result.data?.data??PSADetail(), enquiryDetailArgs??EnquiryDetailArgs());
+        if (result.status == Status.success) {
+          removeRegistrationMenu();
+          psaDetails?.add(result.data?.data ?? PSADetail());
+          if (isEdit) {
+            addPsaDetails(result.data?.data ?? PSADetail(),
+                enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  Future<void> updatePsaDetails({required String enquiryID,required PsaDetailResponseEntity psaDetail}) async{
+  Future<void> updatePsaDetails(
+      {required String enquiryID,
+      required PsaDetailResponseEntity psaDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       UpdatePsaDetailUsecaseParams params = UpdatePsaDetailUsecaseParams(
-        enquiryID: enquiryID,
-        psaDetail: psaDetail
-      );
+          enquiryID: enquiryID, psaDetail: psaDetail);
 
       isLoading.value = true;
-      
+
       RequestManager<PsaResponse>(
         params,
         createCall: () => updatePsaDetailUsecase.execute(
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          psaDetails?.add(result.data?.data?? PSADetail());
+        if (result.status == Status.success) {
+          psaDetails?.add(result.data?.data ?? PSADetail());
           isLoading.value = false;
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  Future<void> updateIvtDetails({required String enquiryID,required IvtDetailResponseEntity ivtDetail}) async{
+  Future<void> updateIvtDetails(
+      {required String enquiryID,
+      required IvtDetailResponseEntity ivtDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
       UpdateIvtDetailUsecaseParams params = UpdateIvtDetailUsecaseParams(
-        enquiryID: enquiryID,
-        ivtDetail: ivtDetail
-      );
+          enquiryID: enquiryID, ivtDetail: ivtDetail);
       isLoading.value = true;
       RequestManager<IVTBase>(
         params,
@@ -376,26 +434,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          ivtDetails?.add(result.data?.data??IVTDetail());
+        if (result.status == Status.success) {
+          ivtDetails?.add(result.data?.data ?? IVTDetail());
           isLoading.value = false;
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  Future<void> updateNewAdmissionDetails({required String enquiryID,required NewAdmissionDetailEntity newAdmissionDetail}) async{
+  Future<void> updateNewAdmissionDetails(
+      {required String enquiryID,
+      required NewAdmissionDetailEntity newAdmissionDetail}) async {
     exceptionHandlerBinder.handle(block: () {
-     
-      UpdateNewAdmissionUsecaseUseCaseParams params = UpdateNewAdmissionUsecaseUseCaseParams(
-        enquiryID: enquiryID,
-        newAdmissionDetail: newAdmissionDetail
-      );
+      UpdateNewAdmissionUsecaseUseCaseParams params =
+          UpdateNewAdmissionUsecaseUseCaseParams(
+              enquiryID: enquiryID, newAdmissionDetail: newAdmissionDetail);
 
       isLoading.value = true;
 
@@ -406,15 +467,18 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
-        if(result.status == Status.success){
-          newAdmissionDetails?.add(result.data?.data?? NewAdmissionDetail());
-          selectedValue.add(selectedValue.value+1);
+        if (result.status == Status.success) {
+          newAdmissionDetails?.add(result.data?.data ?? NewAdmissionDetail());
+          selectedValue.add(selectedValue.value + 1);
           isLoading.value = false;
           getEnquiryDetail(enquiryID: enquiryID);
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -433,12 +497,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
-        if(result.status == Status.success){
-          enquiryDetail.add(result.data?.data?? EnquiryDetail());
+        if (result.status == Status.success) {
+          final currentStepForJourney = result.data?.data?.enquiryStage
+                  ?.firstWhere(
+                      (e) =>
+                          e.status?.toLowerCase() != "completed" &&
+                          e.stageName?.toLowerCase() == "registration fees",
+                      orElse: () => EnquiryStage())
+                  .status ??
+              '';
+
+          if (currentStepForJourney.toLowerCase() != "completed") {
+            menuData
+                .removeWhere((e) => e['name'].toLowerCase() == "registration");
+          }
+
+          enquiryDetail.add(result.data?.data ?? EnquiryDetail());
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -446,20 +527,23 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   EnquiryStage? getSchoolVisitStage() {
-    return enquiryDetail.value.enquiryStage
-        ?.firstWhere(
-          (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
-          orElse: () => EnquiryStage(),
-        );
+    return enquiryDetail.value.enquiryStage?.firstWhere(
+      (element) =>
+          element.stageName?.toLowerCase().contains('school visit') ?? false,
+      orElse: () => EnquiryStage(),
+    );
   }
 
-  bool isDetailView(){
+  bool isDetailView() {
     final schoolVisitStage = getSchoolVisitStage();
     return schoolVisitStage?.status?.toLowerCase() == "in progress";
   }
 
-  bool isDetailViewCompetency(){
-    return enquiryDetail.value.enquiryStage?.firstWhere((element)=>element.stageName == "Competency test").status != "In Progress";
+  bool isDetailViewCompetency() {
+    return enquiryDetail.value.enquiryStage
+            ?.firstWhere((element) => element.stageName == "Competency test")
+            .status !=
+        "In Progress";
   }
 
   Future<void> getMdmAttribute({required String infoType}) async {
@@ -473,72 +557,112 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          if(infoType == "grade"){
+        if (result.status == Status.success) {
+          if (infoType == "grade") {
             gradeTypesAttribute = result.data?.data;
-            gradeTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            gradeTypes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "schoolLocation"){
+          if (infoType == "schoolLocation") {
             schoolLocationTypesAttribute = result.data?.data;
-            schoolLocationTypes.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            schoolLocationTypes.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "gender"){
+          if (infoType == "gender") {
             genderAttribute = result.data?.data;
-            gender.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            gender.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "board"){
+          if (infoType == "board") {
             existingSchoolBoardAttribute = result.data?.data;
-            existingSchoolBoard.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            existingSchoolBoard.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "psaCategory"){
+          if (infoType == "psaCategory") {
             psaCategoryAttribute = result.data?.data;
-            psaCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            psaCategory.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "psaSubCategory"){
+          if (infoType == "psaSubCategory") {
             psaSubCategoryAttribute = result.data?.data;
-            psaSubCategory.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            psaSubCategory.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "psaSubType"){
+          if (infoType == "psaSubType") {
             psaSubTypeAttribute = result.data?.data;
-            psaSubType.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            psaSubType.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "periodOfService"){
+          if (infoType == "periodOfService") {
             periodOfServiceAttribute = result.data?.data;
-            periodOfService.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            periodOfService.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "batch"){
+          if (infoType == "batch") {
             psaBatchAttribute = result.data?.data;
-            psaBatch.add(result.data?.data?.map((e) => e.attributes?.name?? '').toList()??[]);
+            psaBatch.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "stream"){
+          if (infoType == "stream") {
             streamTypeAttribute = result.data?.data;
-            stream.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+            stream.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "course"){
+          if (infoType == "course") {
             courseTypeAttribute = result.data?.data;
-            course.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+            course.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
-          if(infoType == "shift"){
+          if (infoType == "shift") {
             shiftTypeAttribute = result.data?.data;
-            shift.add(result.data?.data?.map((e)=>e.attributes?.name??'').toList()??[]);
+            shift.add(result.data?.data
+                    ?.map((e) => e.attributes?.name ?? '')
+                    .toList() ??
+                []);
           }
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> uploadEnquiryDocument({required String enquiryID,required String documentID,required File file,int? index}) async{
+  Future<void> uploadEnquiryDocument(
+      {required String enquiryID,
+      required String documentID,
+      required File file,
+      int? index}) async {
     exceptionHandlerBinder.handle(block: () {
-      
-      UploadEnquiryDocumentUsecaseParams params = UploadEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        file: file
-      );
-      
+      UploadEnquiryDocumentUsecaseParams params =
+          UploadEnquiryDocumentUsecaseParams(
+              documentID: documentID, enquiryID: enquiryID, file: file);
+
       isLoading.value = true;
       RequestManager<EnquiryFileUploadBase>(
         params,
@@ -546,32 +670,35 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          
-          isDocumentUploaded[index??0].value = true;
+        if (result.status == Status.success) {
+          isDocumentUploaded[index ?? 0].value = true;
           isLoading.value = false;
           ScaffoldMessenger.of(context!).showSnackBar(
             const SnackBar(content: Text('File uploaded successfully')),
           );
         }
-        if(result.status == Status.error){
-          
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  Future<void> deleteEnquiryDocument({required String enquiryID,required String documentID,int? index}) async{
+  Future<void> deleteEnquiryDocument(
+      {required String enquiryID,
+      required String documentID,
+      int? index}) async {
     exceptionHandlerBinder.handle(block: () {
-      
-      DeleteEnquiryDocumentUsecaseParams params = DeleteEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        delete: 'true',
-        verifyDoc: 'false'
-      );
+      DeleteEnquiryDocumentUsecaseParams params =
+          DeleteEnquiryDocumentUsecaseParams(
+              documentID: documentID,
+              enquiryID: enquiryID,
+              delete: 'true',
+              verifyDoc: 'false');
 
       isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
@@ -580,24 +707,27 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        if(result.status == Status.success){
-          isDocumentUploaded[index??0].value = false;
+        if (result.status == Status.success) {
+          isDocumentUploaded[index ?? 0].value = false;
           isLoading.value = false;
           ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
             const SnackBar(content: Text('File deleted successfully')),
           );
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
     }).execute();
   }
 
-  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID, String enquiryID,int index) {
+  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID,
+      String enquiryID, int index) {
     exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
       RequestManager<UploadFile>(params,
@@ -605,70 +735,76 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           .asFlow()
           .listen((result) {
         if (result.status == Status.success) {
-          uploadEnquiryDocument(enquiryID: enquiryID, documentID: documentID, file: result.data!.file!,index: index);
+          uploadEnquiryDocument(
+              enquiryID: enquiryID,
+              documentID: documentID,
+              file: result.data!.file!,
+              index: index);
         }
       }).onError((error) {});
     }).execute();
   }
 
-  Future<void> downloadEnquiryDocument({required String enquiryID,required String documentID}) async{
+  Future<void> downloadEnquiryDocument(
+      {required String enquiryID, required String documentID}) async {
     exceptionHandlerBinder.handle(block: () {
-      DownloadEnquiryDocumentUsecaseParams params = DownloadEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        download: 'true'
-      );
+      DownloadEnquiryDocumentUsecaseParams params =
+          DownloadEnquiryDocumentUsecaseParams(
+              documentID: documentID, enquiryID: enquiryID, download: 'true');
       isLoading.value = true;
-      
+
       RequestManager<DownloadEnquiryFileBase>(
         params,
         createCall: () => downloadEnquiryDocumentUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) async{
-        if(result.status == Status.success){
-          await downloadDocument(fileUrl: result.data?.data?["url"]?? '');
+      ).asFlow().listen((result) async {
+        if (result.status == Status.success) {
+          await downloadDocument(fileUrl: result.data?.data?["url"] ?? '');
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> downloadDocument({required String fileUrl}) async{
+  Future<void> downloadDocument({required String fileUrl}) async {
     exceptionHandlerBinder.handle(block: () {
-      DownloadFileUsecaseParams params = DownloadFileUsecaseParams(
-        fileUrl: fileUrl
-      );
+      DownloadFileUsecaseParams params =
+          DownloadFileUsecaseParams(fileUrl: fileUrl);
       RequestManager<Uint8List>(
         params,
         createCall: () => downloadFileUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) async{
-        if(result.status == Status.success){
+      ).asFlow().listen((result) async {
+        if (result.status == Status.success) {
           try {
             Directory? directory;
-            if(Platform.isAndroid){
+            if (Platform.isAndroid) {
               directory = Directory('storage/emulated/0/Download');
-            }
-            else{
+            } else {
               directory = await getApplicationDocumentsDirectory();
             }
             final fullPath = directory.path;
             final fileExtension = extractFileExtension(fileUrl);
-            final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
+            final fileName =
+                '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
-            await file.writeAsBytes(result.data??Uint8List(0));
+            await file.writeAsBytes(result.data ?? Uint8List(0));
             log('$fullPath/$fileName');
             log("File Downloaded");
             isLoading.value = false;
             OpenFilex.open(file.path);
             ScaffoldMessenger.of(context!).showSnackBar(
-              SnackBar(content: Text('File downloaded successfully at: ${file.path}')),
+              SnackBar(
+                  content:
+                      Text('File downloaded successfully at: ${file.path}')),
             );
           } catch (e) {
             log(e.toString());
@@ -678,9 +814,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             );
           }
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -695,42 +834,46 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     return null;
   }
 
-  addNewAdmissionDetails(NewAdmissionDetail detail,EnquiryDetailArgs enquiryDetail){
+  addNewAdmissionDetails(
+      NewAdmissionDetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    if(!(detail.studentDetails?.dob??'').toLowerCase().contains("invalid date")){
-      studentDob = (detail.studentDetails?.dob??'').isNotEmpty ? DateTime.parse((detail.studentDetails?.dob??'').split('-').reversed.join('-'))
-        : DateTime.now();
+    if (!(detail.studentDetails?.dob ?? '')
+        .toLowerCase()
+        .contains("invalid date")) {
+      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+          ? DateTime.parse(
+              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+          : DateTime.now();
     }
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
-    if(schoolLocationTypesAttribute != null){
-      selectedSchoolLocationSubjectAttribute.add(
-      schoolLocationTypesAttribute?.firstWhere((element)=> element.id == detail.schoolLocation?.id)
-    );
-    }
-    else{
-      selectedSchoolLocationSubjectAttribute.add(
-        MdmAttributeModel(
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
+    if (schoolLocationTypesAttribute != null) {
+      selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
+          ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
+    } else {
+      selectedSchoolLocationSubjectAttribute.add(MdmAttributeModel(
           id: detail.schoolLocation?.id,
-          attributes: AttributesDetailsModel(name: detail.schoolLocation?.value)
-        )
-      );
+          attributes:
+              AttributesDetailsModel(name: detail.schoolLocation?.value)));
     }
-    schoolLocationController.text = detail.schoolLocation?.value??'';
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedParentTypeSubject.add(detail.enquirerParent??'');
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    parentTypeController.text = detail.enquirerParent??'';
+    parentTypeController.text = detail.enquirerParent ?? '';
     fatherGlobalIdController.text =
         detail.parentDetails?.fatherDetails?.globalId ?? '';
     motherGlobalIdController.text =
@@ -753,73 +896,86 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         detail.parentDetails?.motherDetails?.email ?? '';
   }
 
-  addPsaDetails(PSADetail detail,EnquiryDetailArgs enquiryDetail){
+  addPsaDetails(PSADetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
-    studentDob = DateTime.parse((detail.studentDetails?.dob ?? DateTime.now().toString()).replaceAll('-', '/'));
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    dobController.text =
+        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentDob = DateTime.parse(
+        (detail.studentDetails?.dob ?? DateTime.now().toString())
+            .replaceAll('-', '/'));
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    psaSubTypeSubject.add(detail.psaSubType?.value?? '');
+    psaSubTypeSubject.add(detail.psaSubType?.value ?? '');
     selectedPsaSubTypeEntity = detail.psaSubType;
-    psaCategorySubject.add(detail.psaCategory?.value?? '');
+    psaCategorySubject.add(detail.psaCategory?.value ?? '');
     selectedPsaCategoryEntity = detail.psaCategory;
-    psaSubCategorySubject.add(detail.psaSubCategory?.value?? '');
+    psaSubCategorySubject.add(detail.psaSubCategory?.value ?? '');
     selectedPsaSubCategoryEntity = detail.psaSubCategory;
-    periodOfServiceSubject.add(detail.psaPeriodOfService?.value?? '');
+    periodOfServiceSubject.add(detail.psaPeriodOfService?.value ?? '');
     selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
-    psaBatchSubject.add(detail.psaBatch?.value?? '');
+    psaBatchSubject.add(detail.psaBatch?.value ?? '');
     selectedPsaBatchEntity = detail.psaBatch;
-    parentTypeController.text = detail.enquirerParent??'';
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    parentTypeController.text = detail.enquirerParent ?? '';
+    globalIdController.text = detail.enquirerParent == "Father"
+        ? detail.parentDetails?.fatherDetails?.globalId ?? ''
+        : detail.parentDetails?.fatherDetails?.globalId ?? '';
   }
 
-  addIvtDetails(IVTDetail detail,EnquiryDetailArgs enquiryDetail){
+  addIvtDetails(IVTDetail detail, EnquiryDetailArgs enquiryDetail) {
     enquiryNumberController.text = enquiryDetail.enquiryNumber ?? '';
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text = (detail.studentDetails?.dob ?? '').replaceAll('-', '/'); 
-    studentDob = DateTime.parse((detail.studentDetails?.dob ?? DateTime.now().toString()).replaceAll('-', '/'));
-    existingSchoolNameController.text = detail.existingSchoolDetails?.name?? '';
-    selectedGradeSubject.add(detail.studentDetails?.grade?.value?? '');
+    dobController.text =
+        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
+    studentDob = DateTime.parse(
+        (detail.studentDetails?.dob ?? DateTime.now().toString())
+            .replaceAll('-', '/'));
+    existingSchoolNameController.text =
+        detail.existingSchoolDetails?.name ?? '';
+    selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
-    selectedSchoolLocationSubject.add(detail.schoolLocation?.value?? '');
+    selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     selectedSchoolLocationEntity = detail.schoolLocation;
-    selectedExistingSchoolGradeSubject.add(detail.existingSchoolDetails?.grade?.value?? '');
+    selectedExistingSchoolGradeSubject
+        .add(detail.existingSchoolDetails?.grade?.value ?? '');
     selectedExistingSchoolGradeEntity = detail.existingSchoolDetails?.grade;
-    selectedExistingSchoolBoardSubject.add(detail.existingSchoolDetails?.board?.value?? '');
+    selectedExistingSchoolBoardSubject
+        .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
-    selectedGenderSubject.add(detail.studentDetails?.gender?.value?? '');
+    selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    ivtBoardSubject.add(detail.board?.value?? '');
-    ivtCourseSubject.add(detail.course?.value?? '');
-    ivtStreamSubject.add(detail.stream?.value?? '');
-    ivtShiftSubject.add(detail.shift?.value?? '');
-    parentTypeController.text = detail.enquirerParent??'';
-    globalIdController.text = detail.enquirerParent == "Father"? detail.parentDetails?.fatherDetails?.globalId??'' : detail.parentDetails?.fatherDetails?.globalId??'';
+    ivtBoardSubject.add(detail.board?.value ?? '');
+    ivtCourseSubject.add(detail.course?.value ?? '');
+    ivtStreamSubject.add(detail.stream?.value ?? '');
+    ivtShiftSubject.add(detail.shift?.value ?? '');
+    parentTypeController.text = detail.enquirerParent ?? '';
+    globalIdController.text = detail.enquirerParent == "Father"
+        ? detail.parentDetails?.fatherDetails?.globalId ?? ''
+        : detail.parentDetails?.fatherDetails?.globalId ?? '';
   }
 
-  showPopUP(context){
-    Future.delayed(Duration.zero, ()
-    {
-      CommonPopups().showSuccess(
-          context,
-          'Enquiry Created Successfully',
-              (shouldRoute) {
-            Navigator.pop(context);
-          });
+  showPopUP(context) {
+    Future.delayed(Duration.zero, () {
+      CommonPopups().showSuccess(context, 'Enquiry Created Successfully',
+          (shouldRoute) {
+        Navigator.pop(context);
+      });
     });
   }
 }
