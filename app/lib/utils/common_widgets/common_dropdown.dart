@@ -68,6 +68,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   @override
   void initState() {
     super.initState();
+
     eitherDisplayZerothIndexOrSelectedName();
   }
 

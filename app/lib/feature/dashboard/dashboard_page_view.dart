@@ -8,6 +8,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -133,38 +134,48 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           )
         ]),
         SizedBox(
-          child: AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
-            stream: model.getGuardianStudentDetailsModel,
-            initialData: Resource.none(),
-            dataBuilder: (context, data) {
-              return data!.status == Status.loading
-                  ? const SizedBox(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : data.data?.data?.students == null
-                      ? const SizedBox.shrink()
-                      : SizedBox(
-                          height: 60.h,
-                          width: 128.w,
-                          child: CustomDropdownButton(
-                            dropdownName: '',
-                            width: 300,
-                            showAstreik: false,
-                            showBorderColor: true,
-                            displayZerothIndex: true,
-                            items: data.data?.data?.students!
-                                    .map((e) => e.studentDisplayName)
-                                    .toList() ??
-                                [],
-                            isMutiSelect: true,
-                            onMultiSelect: (selectedValues) {
-                              model.getSelectedStudentid(selectedValues);
-                            },
-                            onSingleSelect: (selectedValue) {},
-                          ),
-                        );
-            },
-          ),
+          child: AppStreamBuilder<ParentStudentStatusEnum>(
+              stream: model.statusSubject.stream,
+              initialData: model.statusSubject.value,
+              dataBuilder: (context, status) {
+                return Visibility(
+                  visible: status == ParentStudentStatusEnum.admission,
+                  child: AppStreamBuilder<
+                      Resource<GetGuardianStudentDetailsModel>>(
+                    stream: model.getGuardianStudentDetailsModel,
+                    initialData: Resource.none(),
+                    dataBuilder: (context, data) {
+                      return data!.status == Status.loading
+                          ? const SizedBox(
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                          : data.data?.data?.students == null
+                              ? const SizedBox.shrink()
+                              : SizedBox(
+                                  height: 60.h,
+                                  width: 128.w,
+                                  child: CustomDropdownButton(
+                                    dropdownName: '',
+                                    width: 300,
+                                    showAstreik: false,
+                                    showBorderColor: true,
+                                    displayZerothIndex: true,
+                                    items: data.data?.data?.students!
+                                            .map((e) => e.studentDisplayName)
+                                            .toList() ??
+                                        [],
+                                    isMutiSelect: true,
+                                    onMultiSelect: (selectedValues) {
+                                      model
+                                          .getSelectedStudentid(selectedValues);
+                                    },
+                                    onSingleSelect: (selectedValue) {},
+                                  ),
+                                );
+                    },
+                  ),
+                );
+              }),
         )
       ],
     );

@@ -1,5 +1,5 @@
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_inputformatters.dart';
+
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,7 @@ class CommonTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final void Function(String value)? onFieldSubmitted;
+  final void Function(String)? onChanged;
 
   const CommonTextFormField(
       {super.key,
@@ -45,7 +46,8 @@ class CommonTextFormField extends StatelessWidget {
       this.onTap,
       this.focusNode,
       this.onFieldSubmitted,
-      this.textInputAction});
+      this.textInputAction,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,7 @@ class CommonTextFormField extends StatelessWidget {
           //height: 48.h,
           child: TextFormField(
             inputFormatters: inputFormatters,
+            onChanged: onChanged,
             controller: controller,
             cursorHeight: 20,
             readOnly: readOnly,

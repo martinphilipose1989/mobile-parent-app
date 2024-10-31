@@ -22,6 +22,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/get_sto
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
@@ -32,6 +33,8 @@ class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final String rbacToken =
+      "Bearer 580469a1200ce1057656f73a3ceb2af1146dcda478b4706f80e906157bc75e1e61e45a12fd475e4a7b1d60dafc3ae2e29caa2103ba9ca116a5de942ca8e0eb27e6b8e2baba7a19a548a4a86bd04a518875f9024f8cf5b36c66faf0a001a8569dd9cc358009eaef1f5d4ca1b6a9beaa21c9e6838239dc2da004178dece9a1d81c";
 
   NetworkAdapter(
       {required this.apiService,
@@ -134,7 +137,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo}) async {
     var response = await safeApiCall(apiService.getGuardianStudentDetails(
-        GetGuardianStudentDetailsRequest(mobileNo: mobileNo)));
+        rbacToken, GetGuardianStudentDetailsRequest(mobileNo: mobileNo)));
     return response.fold(
       (l) {
         return Left(l);
@@ -766,13 +769,13 @@ class NetworkAdapter implements NetworkPort {
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
-      case "designation":
-        var response = await safeApiCall(apiService.getDesignation(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
-        return response.fold((l) {
-          return Left(l);
-        }, (r) => Right(r.data.transform()));
+      // case "designation":
+      //   var response = await safeApiCall(apiService.getDesignation(
+      //       token:
+      //           "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+      //   return response.fold((l) {
+      //     return Left(l);
+      //   }, (r) => Right(r.data.transform()));
       case "nationality":
         var response = await safeApiCall(apiService.getNationality(
             token:
@@ -1132,5 +1135,23 @@ class NetworkAdapter implements NetworkPort {
       },
       (r) => Right(r.data.transform()),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, UserRolePermissionResponse>>
+      getUserRolePermissions({
+    required UserRolePermissionRequest request,
+  }) async {
+    var response = await safeApiCall(
+      apiService.getUserRolePermissions(
+        rbacToken,
+        UserRolePermissionRequestEntity(
+            email: request.email, service: request.service),
+      ),
+    );
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
   }
 }

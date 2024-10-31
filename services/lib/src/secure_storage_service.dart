@@ -9,6 +9,10 @@ class SecureStorageService {
   final String refreshTokenKey = "refreshTokenKey";
   final String expirationDateTimeKey = "expirationDateTime";
   final String idTokenKey = "idToken";
+  final String userName = "userName";
+  final String userEmail = "userEmail";
+  final String userId = "userId";
+  final String userPhoneNumber = "userPhoneNumber";
 
   Future<void> clearPreferences() async {
     await _storage.deleteAll();

@@ -64,5 +64,5 @@ class NetworkProperties {
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
   // key cloak
   static const String tokenIntroSpect =
-      "https://example.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
+      "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
 }

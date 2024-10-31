@@ -13,7 +13,8 @@ class AdmissionsViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetAdmissionListUsecase getAdmissionListUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,this.flutterToastErrorPresenter);
+  AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,
+      this.flutterToastErrorPresenter);
 
   final ScrollController scrollController = ScrollController();
   final ScrollController closedAdmissionController = ScrollController();
@@ -22,8 +23,9 @@ class AdmissionsViewModel extends BasePageViewModel {
 
   void setupScrollListener() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        if(isLoading.value){
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (isLoading.value) {
           return;
         }
         if (isNextPage) {
@@ -35,8 +37,9 @@ class AdmissionsViewModel extends BasePageViewModel {
     });
 
     closedAdmissionController.addListener(() {
-      if (closedAdmissionController.position.pixels == closedAdmissionController.position.maxScrollExtent) {
-        if(isLoading.value){
+      if (closedAdmissionController.position.pixels ==
+          closedAdmissionController.position.maxScrollExtent) {
+        if (isLoading.value) {
           return;
         }
         if (closedAdmissionsNextPage) {
@@ -60,10 +63,10 @@ class AdmissionsViewModel extends BasePageViewModel {
       BehaviorSubject.seeded([]);
   BehaviorSubject<List<AdmissionListDetailModel>> closedAdmissions =
       BehaviorSubject.seeded([]);
-  final BehaviorSubject<Resource<AdmissionListBaseModel>> _getAdmissionListResponse =
-      BehaviorSubject();
-  final BehaviorSubject<Resource<AdmissionListBaseModel>> _getClosedAdmissionListResponse =
-      BehaviorSubject();
+  final BehaviorSubject<Resource<AdmissionListBaseModel>>
+      _getAdmissionListResponse = BehaviorSubject();
+  final BehaviorSubject<Resource<AdmissionListBaseModel>>
+      _getClosedAdmissionListResponse = BehaviorSubject();
 
   Stream<Resource<AdmissionListBaseModel>> get getAdmissionListResponse =>
       _getAdmissionListResponse.stream;
@@ -71,7 +74,7 @@ class AdmissionsViewModel extends BasePageViewModel {
   Stream<Resource<AdmissionListBaseModel>> get getClosedAdmissionListResponse =>
       _getClosedAdmissionListResponse.stream;
 
-  Future<void> fetchAdmissionList({bool isRefresh = false}) async{
+  Future<void> fetchAdmissionList({bool isRefresh = false}) async {
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         pageNumber = 1;
@@ -81,7 +84,10 @@ class AdmissionsViewModel extends BasePageViewModel {
       }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
       GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
-          phone: phoneNumber, pageNumber: pageNumber, pageSize: pageSize, status: "Open");
+          phone: phoneNumber,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          status: "Open");
       if (pageNumber > 1) {
         isLoading.value = true;
       }
@@ -101,14 +107,17 @@ class AdmissionsViewModel extends BasePageViewModel {
             isLoading.value = false;
           }
           _getAdmissionListResponse.add(event);
-          _handleAdmissionListing(event.data?.data?.data ?? [],isRefresh,status: "Open");
+          _handleAdmissionListing(event.data?.data?.data ?? [], isRefresh,
+              status: "Open");
           isNextPage = event.data?.data?.isNextPage ?? false;
         }
         if (event.status == Status.error) {
           if (pageNumber == 1) {
-            _getAdmissionListResponse.add(event); 
+            _getAdmissionListResponse.add(event);
             flutterToastErrorPresenter.show(
-            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
+                event.dealSafeAppError!.throwable,
+                navigatorKey.currentContext!,
+                event.dealSafeAppError?.error.message ?? '');
           } else {
             if (isNextPage) {
               isNextPage = false;
@@ -123,7 +132,7 @@ class AdmissionsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> fetchClosedAdmissionList({bool isRefresh = false}) async{
+  Future<void> fetchClosedAdmissionList({bool isRefresh = false}) async {
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         closedAdmissionsPageNumber = 1;
@@ -133,7 +142,10 @@ class AdmissionsViewModel extends BasePageViewModel {
       }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
       GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
-          phone: phoneNumber, pageNumber: closedAdmissionsPageNumber, pageSize: closedAdmissionPageSize, status: "Closed");
+          phone: phoneNumber,
+          pageNumber: closedAdmissionsPageNumber,
+          pageSize: closedAdmissionPageSize,
+          status: "Closed");
       if (closedAdmissionsPageNumber > 1) {
         isLoading.value = true;
       }
@@ -153,14 +165,17 @@ class AdmissionsViewModel extends BasePageViewModel {
             isLoading.value = false;
           }
           _getClosedAdmissionListResponse.add(event);
-          _handleAdmissionListing(event.data?.data?.data ?? [],isRefresh,status: "Closed");
+          _handleAdmissionListing(event.data?.data?.data ?? [], isRefresh,
+              status: "Closed");
           closedAdmissionsNextPage = event.data?.data?.isNextPage ?? false;
         }
         if (event.status == Status.error) {
           if (closedAdmissionsPageNumber == 1) {
-            _getClosedAdmissionListResponse.add(event); 
+            _getClosedAdmissionListResponse.add(event);
             flutterToastErrorPresenter.show(
-            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
+                event.dealSafeAppError!.throwable,
+                navigatorKey.currentContext!,
+                event.dealSafeAppError?.error.message ?? '');
           } else {
             if (closedAdmissionsNextPage) {
               closedAdmissionsNextPage = false;
@@ -175,22 +190,21 @@ class AdmissionsViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  void _handleAdmissionListing(List<AdmissionListDetailModel> admission,bool isRefresh, {required String status}) {
-    if(status == "Open"){
-      if(isRefresh){
+  void _handleAdmissionListing(
+      List<AdmissionListDetailModel> admission, bool isRefresh,
+      {required String status}) {
+    if (status == "Open") {
+      if (isRefresh) {
         admissions.add(admission);
-      }
-      else{
+      } else {
         var admissionList = admission;
         var currentData = admissions.value;
         admissions.add(currentData + admissionList);
       }
-    }
-    else{
-      if(isRefresh){
+    } else {
+      if (isRefresh) {
         closedAdmissions.add(admission);
-      }
-      else{
+      } else {
         var admissionList = admission;
         var currentData = closedAdmissions.value;
         closedAdmissions.add(currentData + admissionList);

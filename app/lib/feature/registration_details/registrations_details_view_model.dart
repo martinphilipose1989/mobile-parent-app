@@ -15,6 +15,7 @@ import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
@@ -61,33 +62,34 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   RegistrationsDetailsViewModel(
-      this.exceptionHandlerBinder,
-      this.getRegistrationDetailUsecase,
-      this.getNewAdmissionDetailUseCase,
-      this.getIvtDetailUsecase,
-      this.getPsaDetailUsecase,
-      this.getEnquiryDetailUseCase,
-      this.updateParentDetailsUsecase,
-      this.updateMedicalDetailsUsecase,
-      this.updateBankDetailsUsecase,
-      this.updateContactDetailsUsecase,
-      this.updatePsaDetailUsecase,
-      this.updateIvtDetailUsecase,
-      this.updateNewAdmissionUsecase,
-      this.getMdmAttributeUsecase,
-      this.downloadEnquiryDocumentUsecase,
-      this.uploadEnquiryDocumentUsecase,
-      this.deleteEnquiryDocumentUsecase,
-      this.downloadFileUsecase,
-      this.getSiblingDetailsUsecase,
-      this.selectOptionalSubjectUsecase,
-      this.addVasOptionUsecase,
-      this.removeVasDetailUsecase,
-      this.makePaymentRequestUsecase,
-      this.getSubjectListUsecase,
-      this.getCityStateByPincodeUsecase,
-      this.chooseFileUseCase,
-      this.flutterToastErrorPresenter,);
+    this.exceptionHandlerBinder,
+    this.getRegistrationDetailUsecase,
+    this.getNewAdmissionDetailUseCase,
+    this.getIvtDetailUsecase,
+    this.getPsaDetailUsecase,
+    this.getEnquiryDetailUseCase,
+    this.updateParentDetailsUsecase,
+    this.updateMedicalDetailsUsecase,
+    this.updateBankDetailsUsecase,
+    this.updateContactDetailsUsecase,
+    this.updatePsaDetailUsecase,
+    this.updateIvtDetailUsecase,
+    this.updateNewAdmissionUsecase,
+    this.getMdmAttributeUsecase,
+    this.downloadEnquiryDocumentUsecase,
+    this.uploadEnquiryDocumentUsecase,
+    this.deleteEnquiryDocumentUsecase,
+    this.downloadFileUsecase,
+    this.getSiblingDetailsUsecase,
+    this.selectOptionalSubjectUsecase,
+    this.addVasOptionUsecase,
+    this.removeVasDetailUsecase,
+    this.makePaymentRequestUsecase,
+    this.getSubjectListUsecase,
+    this.getCityStateByPincodeUsecase,
+    this.chooseFileUseCase,
+    this.flutterToastErrorPresenter,
+  );
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -180,11 +182,15 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   PublishSubject<Resource<SubjectDetailResponse>> selectOptionalSubject =
       PublishSubject();
-  PublishSubject <Resource<VasOptionResponse>> vasOptionSubject = PublishSubject();
-  final PublishSubject <Resource<SubjectListResponse>> _getSubjectList = PublishSubject();
-  Stream<Resource<SubjectListResponse>> get getSubjectList => _getSubjectList.stream;
+  PublishSubject<Resource<VasOptionResponse>> vasOptionSubject =
+      PublishSubject();
+  final PublishSubject<Resource<SubjectListResponse>> _getSubjectList =
+      PublishSubject();
+  Stream<Resource<SubjectListResponse>> get getSubjectList =>
+      _getSubjectList.stream;
 
-  BehaviorSubject<List<String>> complusorySubjectList = BehaviorSubject.seeded([]);
+  BehaviorSubject<List<String>> complusorySubjectList =
+      BehaviorSubject.seeded([]);
   BehaviorSubject<List<String>> optionalSubject = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedSubject = BehaviorSubject.seeded("");
   List optionalSubjects = [];
@@ -261,7 +267,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   CommonDataClass? selectedGuardianCountryEntity;
   CommonDataClass? selectedGuardianStateEntity;
   CommonDataClass? selectedGuardianCityEntity;
-  BehaviorSubject<String> selectedRelationWithChildSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedRelationWithChildSubject =
+      BehaviorSubject.seeded('');
 
 //siblingsEditDetails
   TextEditingController siblingFirstNameController = TextEditingController();
@@ -282,10 +289,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController landMarkController = TextEditingController();
   TextEditingController residentialPinCodeController = TextEditingController();
   FocusNode residentialPinCodeFocusNode = FocusNode();
-  TextEditingController permanentHouseOrBuildingController = TextEditingController();
+  TextEditingController permanentHouseOrBuildingController =
+      TextEditingController();
   TextEditingController permanentStreetNameController = TextEditingController();
   TextEditingController permanentLandMarkController = TextEditingController();
-  TextEditingController permanentResidentialPinCodeController = TextEditingController();
+  TextEditingController permanentResidentialPinCodeController =
+      TextEditingController();
   FocusNode permanentPinCodeFocusNode = FocusNode();
   TextEditingController parentEmailIdController1 = TextEditingController();
   TextEditingController parentMobileNumberController1 = TextEditingController();
@@ -311,8 +320,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BehaviorSubject<String> selectedResidentialState = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedResidentialCountry =
       BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedPermanentResidentialCity = BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedPermanentResidentialState = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPermanentResidentialCity =
+      BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPermanentResidentialState =
+      BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedPermanentResidentialCountry =
       BehaviorSubject.seeded('');
   //YearOfHospitalization
@@ -327,7 +338,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController personalisedLearningNeedsController =
       TextEditingController();
   BehaviorSubject<String> selectedBloodGroup = BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedPersonalisedLearningNeedSubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedPersonalisedLearningNeedSubject =
+      BehaviorSubject.seeded('');
   TextEditingController schoolLocationController = TextEditingController();
   //BankDetails
   TextEditingController ifscCodeController = TextEditingController();
@@ -349,17 +361,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   TextEditingController fatherGlobalIdController = TextEditingController();
   TextEditingController motherGlobalIdController = TextEditingController();
   TextEditingController parentTypeController = TextEditingController();
-  TextEditingController studentEligibleGradeController = TextEditingController();
+  TextEditingController studentEligibleGradeController =
+      TextEditingController();
   TextEditingController studentAadharController = TextEditingController();
   BehaviorSubject<String> selectedReligionSubject = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedCasteSubject = BehaviorSubject.seeded('');
   BehaviorSubject<String> selectedSubCasteSubject = BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedMotherTongueSubject = BehaviorSubject.seeded('');
-  BehaviorSubject<String> selectedNationalitySubject = BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedMotherTongueSubject =
+      BehaviorSubject.seeded('');
+  BehaviorSubject<String> selectedNationalitySubject =
+      BehaviorSubject.seeded('');
   CommonDataClass? selectedReligion;
   CommonDataClass? selectedCaste;
   CommonDataClass? selectedSubCaste;
-  CommonDataClass? selectedMotherTongue;  
+  CommonDataClass? selectedMotherTongue;
   CommonDataClass? selectedNationality;
   TextEditingController studentsFatherFirstNameController =
       TextEditingController();
@@ -437,7 +452,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedSchoolLocationSubject =
       BehaviorSubject<String>.seeded('');
-  final BehaviorSubject<MdmAttributeModel?> selectedSchoolLocationSubjectAttribute = BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
+  final BehaviorSubject<MdmAttributeModel?>
+      selectedSchoolLocationSubjectAttribute =
+      BehaviorSubject<MdmAttributeModel>.seeded(MdmAttributeModel());
   final BehaviorSubject<String> selectedExistingSchoolGradeSubject =
       BehaviorSubject<String>.seeded('');
   final BehaviorSubject<String> selectedExistingSchoolBoardSubject =
@@ -506,7 +523,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> religions =
       BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> nationalities = 
+  final BehaviorSubject<List<String>> nationalities =
       BehaviorSubject.seeded([]);
 
   final List<String> parentType = ["Mother", "Father"];
@@ -548,15 +565,14 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       BehaviorSubject<List<String>>.seeded([]);
   final BehaviorSubject<List<String>> occupation =
       BehaviorSubject<List<String>>.seeded([]);
-  final BehaviorSubject<List<String>> qualifications = 
+  final BehaviorSubject<List<String>> qualifications =
       BehaviorSubject.seeded([]);
-  final BehaviorSubject<List<String>> designations = 
+  final BehaviorSubject<List<String>> designations = BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<String>> organizations =
       BehaviorSubject.seeded([]);
-  final BehaviorSubject<List<String>> organizations = 
+  final BehaviorSubject<List<String>> personalisedLearningNeeds =
       BehaviorSubject.seeded([]);
-  final BehaviorSubject<List<String>> personalisedLearningNeeds = 
-      BehaviorSubject.seeded([]);
-  final BehaviorSubject<List<String>> relationWithChild = 
+  final BehaviorSubject<List<String>> relationWithChild =
       BehaviorSubject.seeded([]);
 
   List<MdmAttributeModel>? gradeTypesAttribute;
@@ -612,14 +628,16 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   EnquiryStage? getSchoolVisitStage() {
     return enquiryDetails?.enquiryStage?.firstWhere(
-      (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
+      (element) =>
+          element.stageName?.toLowerCase().contains('school visit') ?? false,
       orElse: () => EnquiryStage(),
     );
   }
 
   EnquiryStage? getCompetencyStage() {
     return enquiryDetails?.enquiryStage?.firstWhere(
-      (element) => element.stageName?.toLowerCase().contains('competency test') ?? false,
+      (element) =>
+          element.stageName?.toLowerCase().contains('competency test') ?? false,
       orElse: () => EnquiryStage(),
     );
   }
@@ -680,7 +698,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             bankDetail.add(Resource.error());
           }
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -716,15 +737,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearParentDetails();
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           isLoading.value = false;
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> selectOptionalSubjects(String enquiryID,)async{
+  Future<void> selectOptionalSubjects(
+    String enquiryID,
+  ) async {
     exceptionHandlerBinder.handle(block: () {
       var subjectDetailResponse = [
         SubjectSelectionRequest(
@@ -739,111 +765,136 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           statusId: null,
           schoolName: "VIBGYOR Kids and High - Balewadi",
           subjectName: null,
-          acYear: "2024 - 25" ,
+          acYear: "2024 - 25",
         )
       ];
-      SelectOptionalSubjectUsecaseParams params = SelectOptionalSubjectUsecaseParams(subjectSelectionRequest: subjectDetailResponse, enquiryID: enquiryID);
+      SelectOptionalSubjectUsecaseParams params =
+          SelectOptionalSubjectUsecaseParams(
+              subjectSelectionRequest: subjectDetailResponse,
+              enquiryID: enquiryID);
       isLoading.value = true;
-      RequestManager<SubjectDetailResponse>(params, createCall: () => selectOptionalSubjectUsecase.execute(params: params)).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<SubjectDetailResponse>(params,
+              createCall: () =>
+                  selectOptionalSubjectUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           ProviderScope.containerOf(context!)
-            .read(commonChipListProvider)
-            .highlightIndex
-            .add(ProviderScope.containerOf(context!)
-                  .read(commonChipListProvider)
-                    .highlightIndex
-                    .value +
-            1);
-            showWidget.add(showWidget.value + 1);
-            controller.animateTo((showWidget.value + 1) * 50,
+              .read(commonChipListProvider)
+              .highlightIndex
+              .add(ProviderScope.containerOf(context!)
+                      .read(commonChipListProvider)
+                      .highlightIndex
+                      .value +
+                  1);
+          showWidget.add(showWidget.value + 1);
+          controller.animateTo((showWidget.value + 1) * 50,
               duration: const Duration(milliseconds: 500),
               curve: Curves.linear);
           isLoading.value = false;
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> addVasOption(String enquiryID,) async {
+  Future<void> addVasOption(
+    String enquiryID,
+  ) async {
     exceptionHandlerBinder.handle(block: () {
       VasOptionRequest vasOptionRequest = VasOptionRequest(
-        transport: radioButtonTransport.selectedItem == "Yes" ? true : false, 
+        transport: radioButtonTransport.selectedItem == "Yes" ? true : false,
         kidsClub: radioButtonKidsClub.selectedItem == "Yes" ? true : false,
         psa: radioButtonPsa.selectedItem == "Yes" ? true : false,
         hostel: radioButtonHostel.selectedItem == "Yes" ? true : false,
         cafeteria: radioButtonCafeteria.selectedItem == "Yes" ? true : false,
       );
-      AddVasOptionUsecaseParams params = AddVasOptionUsecaseParams(vasOptionRequest: vasOptionRequest, enquiryID: enquiryID);
+      AddVasOptionUsecaseParams params = AddVasOptionUsecaseParams(
+          vasOptionRequest: vasOptionRequest, enquiryID: enquiryID);
       isLoading.value = true;
-      RequestManager<VasOptionResponse>(params, createCall: () => addVasOptionUsecase.execute(params: params)).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<VasOptionResponse>(params,
+              createCall: () => addVasOptionUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           isLoading.value = false;
-          showPopUP(context,message: "Admission Details Submitted Successfully");
+          showPopUP(context,
+              message: "Admission Details Submitted Successfully");
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> fetchSubjectList() async{
+  Future<void> fetchSubjectList() async {
     exceptionHandlerBinder.handle(block: () {
       GetSubjectListUsecaseParams params = GetSubjectListUsecaseParams(
-        subjectListingRequest: SubjectListingRequest(
-          pageSize: 1000,
-          schoolId: 10,
-          academicYearId: 25,
-          brandId: 1,
-          boardId: 5,
-          termId: 1,
-          gradeID: 12
-        )
-      );
-      RequestManager<SubjectListResponse>(
-        params,
-        createCall: () => getSubjectListUsecase.execute(params: params)).asFlow().listen((result) {
-          _getSubjectList.add(result);
-          if(result.status == Status.success){
-            (result.data?.data?.data??[]).forEach((element){
-              if(element.isCompulsory == 1){
-                complusorySubjectList.value.add(element.subjectName??'');
-              }
-              if(element.isOptionalCompulsory == 1){
-                optionalSubject.value.add(element.subjectName??'');
-              }
-            });
-            optionalSubject.value.forEach((element){
-              optionalSubjects.add({"name": element,"isSelected": false});
-            });
-          }
-          if(result.status == Status.error){
-            flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
-          }
-
-        });
+          subjectListingRequest: SubjectListingRequest(
+              pageSize: 1000,
+              schoolId: 10,
+              academicYearId: 25,
+              brandId: 1,
+              boardId: 5,
+              termId: 1,
+              gradeID: 12));
+      RequestManager<SubjectListResponse>(params,
+              createCall: () => getSubjectListUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        _getSubjectList.add(result);
+        if (result.status == Status.success) {
+          (result.data?.data?.data ?? []).forEach((element) {
+            if (element.isCompulsory == 1) {
+              complusorySubjectList.value.add(element.subjectName ?? '');
+            }
+            if (element.isOptionalCompulsory == 1) {
+              optionalSubject.value.add(element.subjectName ?? '');
+            }
+          });
+          optionalSubject.value.forEach((element) {
+            optionalSubjects.add({"name": element, "isSelected": false});
+          });
+        }
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
+        }
+      });
     }).execute();
   }
 
-  Future<void> removeVasDetail(String enquiryID,String vasOption) async {
+  Future<void> removeVasDetail(String enquiryID, String vasOption) async {
     exceptionHandlerBinder.handle(block: () {
-      RemoveVasDetailUsecaseParams params = RemoveVasDetailUsecaseParams(
-        enquiryID: enquiryID,
-        type: vasOption
-      );
+      RemoveVasDetailUsecaseParams params =
+          RemoveVasDetailUsecaseParams(enquiryID: enquiryID, type: vasOption);
       isLoading.value = true;
-      RequestManager<VasOptionResponse>(params, createCall: () => removeVasDetailUsecase.execute(params: params)).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<VasOptionResponse>(params,
+              createCall: () => removeVasDetailUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           isLoading.value = false;
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -855,18 +906,26 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         enquiryID: enquiryID,
       );
       isLoading.value = true;
-      RequestManager<VasOptionResponse>(params, createCall: () => makePaymentRequestUsecase.execute(params: params)).asFlow().listen((result) {
-        if(result.status == Status.success){
+      RequestManager<VasOptionResponse>(params,
+              createCall: () =>
+                  makePaymentRequestUsecase.execute(params: params))
+          .asFlow()
+          .listen((result) {
+        if (result.status == Status.success) {
           isLoading.value = false;
-          showPopUP(context,message: "Admission Details Submitted Successfully");
+          showPopUP(context,
+              message: "Admission Details Submitted Successfully");
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
-  } 
+  }
 
   Future<void> updateMedicalDetail(
       String enquiryID, MedicalDetailsEntity medicalEntity) async {
@@ -898,9 +957,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearMedicalDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -936,9 +998,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearContactDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -974,9 +1039,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearBankDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -1005,9 +1073,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                 enquiryDetailArgs ?? EnquiryDetailArgs());
           }
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1034,38 +1105,33 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           if (result.status == Status.success) {
             siblingDetail.add(Resource.success(data: result.data));
             final siblingProfile = result.data?.data?.siblingProfile;
-            siblingFirstNameController.text =
-                siblingProfile?.firstName ?? '';
-            siblingLastNameController.text =
-                siblingProfile?.lastName ?? '';
-            siblingsSchoolController.text =
-                siblingProfile?.schoolName ?? "";
-            siblingDOB = siblingProfile?.dob??DateTime.now();
-            if (siblingProfile?.gender != null && (siblingProfile?.gender??'').isNotEmpty) {
-              final gender = genderAttribute
-                  ?.firstWhere((e) => e.attributes?.name == siblingProfile?.gender);
+            siblingFirstNameController.text = siblingProfile?.firstName ?? '';
+            siblingLastNameController.text = siblingProfile?.lastName ?? '';
+            siblingsSchoolController.text = siblingProfile?.schoolName ?? "";
+            siblingDOB = siblingProfile?.dob ?? DateTime.now();
+            if (siblingProfile?.gender != null &&
+                (siblingProfile?.gender ?? '').isNotEmpty) {
+              final gender = genderAttribute?.firstWhere(
+                  (e) => e.attributes?.name == siblingProfile?.gender);
               siblingInitialGender.value = gender?.attributes?.name ?? "";
               selectedSiblingGender = CommonDataClass(
-                id: gender?.id,
-                value: gender?.attributes?.name
-              );
+                  id: gender?.id, value: gender?.attributes?.name);
             }
             if (siblingProfile?.gradeId != null) {
               final grade = gradeTypesAttribute
                   ?.firstWhere((e) => e.id == siblingProfile?.gradeId);
               siblingGrades.value = grade?.attributes?.name ?? "";
               selectedSiblingGrade = CommonDataClass(
-                id: grade?.id,
-                value: grade?.attributes?.name
-              );
+                  id: grade?.id, value: grade?.attributes?.name);
             }
             isLoading.value = false;
           }
           if (result.status == Status.error) {
             isLoading.value = false;
-            ScaffoldMessenger.of(context!).showSnackBar(
-              SnackBar(content: CommonText(text: '${result.dealSafeAppError?.error.message}',))
-            );
+            ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+                content: CommonText(
+              text: '${result.dealSafeAppError?.error.message}',
+            )));
           }
         },
         onDone: () {
@@ -1111,8 +1177,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           addIvtDetails(result.data?.data ?? IVTDetail(),
               enquiryDetailArgs ?? EnquiryDetailArgs());
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1138,8 +1207,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           addPsaDetails(result.data?.data ?? PSADetail(),
               enquiryDetailArgs ?? EnquiryDetailArgs());
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1158,8 +1230,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _enquiryDetail.add(result);
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1197,9 +1272,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearPsaDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -1236,9 +1314,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearIvtDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -1276,24 +1357,23 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               curve: Curves.linear);
           clearNewAdmissionDetails();
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> getMdmAttribute({required String infoType,int? id}) async {
+  Future<void> getMdmAttribute({required String infoType, int? id}) async {
     exceptionHandlerBinder.handle(block: () {
       GetMdmAttributeUsecaseParams params;
-      if(infoType == "state" || infoType == "city"){
-        params = GetMdmAttributeUsecaseParams(
-          infoType: infoType,
-          id: id
-        );
-      }
-      else{
+      if (infoType == "state" || infoType == "city") {
+        params = GetMdmAttributeUsecaseParams(infoType: infoType, id: id);
+      } else {
         params = GetMdmAttributeUsecaseParams(
           infoType: infoType,
         );
@@ -1424,70 +1504,70 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                     .toList() ??
                 []);
           }
-          if(infoType == "qualification") {
+          if (infoType == "qualification") {
             qualificationAttribute = result.data?.data;
             qualifications.add(result.data?.data
                     ?.map((e) => e.attributes?.education ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == "religion") {
+          if (infoType == "religion") {
             religionAttribute = result.data?.data;
             religions.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == "caste") {
+          if (infoType == "caste") {
             casteAttribute = result.data?.data;
             castes.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == "subcaste") {
+          if (infoType == "subcaste") {
             subCasteAttribute = result.data?.data;
             subCastes.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == "mother_tongue") {
+          if (infoType == "mother_tongue") {
             motherTongueAttribute = result.data?.data;
             motherTongues.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == 'nationality'){
+          if (infoType == 'nationality') {
             nationality = result.data?.data;
-            nationalities.add(result.data?.data?.
-                    map((e)=> e.attributes?.nationality??'')
+            nationalities.add(result.data?.data
+                    ?.map((e) => e.attributes?.nationality ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == 'designation'){
+          if (infoType == 'designation') {
             designationAttribute = result.data?.data;
             designations.add(result.data?.data
                     ?.map((e) => e.attributes?.designation ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == 'organization'){
+          if (infoType == 'organization') {
             organizationAttribute = result.data?.data;
             organizations.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == 'personalise_learning_needs'){
+          if (infoType == 'personalise_learning_needs') {
             personalisedLearningNeedsAttribute = result.data?.data;
             personalisedLearningNeeds.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
                     .toList() ??
                 []);
           }
-          if(infoType == "relationWithChild"){
+          if (infoType == "relationWithChild") {
             relationWithChildAttribute = result.data?.data;
             relationWithChild.add(result.data?.data
                     ?.map((e) => e.attributes?.name ?? '')
@@ -1495,19 +1575,21 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
                 []);
           }
         }
-        if(result.status == Status.error){
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> getCityAndStateByPincode({
-    required String pincode,
-    required String infoType
-  }) async{
+  Future<void> getCityAndStateByPincode(
+      {required String pincode, required String infoType}) async {
     exceptionHandlerBinder.handle(block: () {
-      GetCityStateByPincodeUsecaseParams params = GetCityStateByPincodeUsecaseParams(
+      GetCityStateByPincodeUsecaseParams params =
+          GetCityStateByPincodeUsecaseParams(
         pincode: pincode,
       );
       isLoading.add(true);
@@ -1516,100 +1598,134 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         createCall: () => getCityStateByPincodeUsecase.execute(
           params: params,
         ),
-      ).asFlow().listen((result) async{
-        if(result.status == Status.success){
+      ).asFlow().listen((result) async {
+        if (result.status == Status.success) {
           isLoading.add(false);
-          if(infoType == "fatherInfo"){
-            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
-            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
-            selectedFatherCitySubject
-              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+          if (infoType == "fatherInfo") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
+            selectedFatherCitySubject.add(result.data?.data?[0].attributes
+                    ?.districtOrCity?.data?.attributes?.name ??
+                '');
             selectedFatherCityEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
-              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
-            );
-            selectedFatherStateSubject
-              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+                value: result.data?.data?[0].attributes?.districtOrCity?.data
+                    ?.attributes?.name);
+            selectedFatherStateSubject.add(result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name ??
+                '');
             selectedFatherStateEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.state?.data?.id,
-              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
-            );
+                id: result.data?.data?[0].attributes?.state?.data?.id,
+                value: result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
-          if(infoType == "motherInfo"){
-            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
-            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
-            selectedMotherCitySubject
-              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+          if (infoType == "motherInfo") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
+            selectedMotherCitySubject.add(result.data?.data?[0].attributes
+                    ?.districtOrCity?.data?.attributes?.name ??
+                '');
             selectedMotherCityEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
-              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
-            );
-            selectedMotherStateSubject
-              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+                value: result.data?.data?[0].attributes?.districtOrCity?.data
+                    ?.attributes?.name);
+            selectedMotherStateSubject.add(result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name ??
+                '');
             selectedMotherStateEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.state?.data?.id,
-              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
-            );
+                id: result.data?.data?[0].attributes?.state?.data?.id,
+                value: result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
-          if(infoType == "guardianInfo"){
-            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
-            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
-            selectedGuardianCitySubject
-              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+          if (infoType == "guardianInfo") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
+            selectedGuardianCitySubject.add(result.data?.data?[0].attributes
+                    ?.districtOrCity?.data?.attributes?.name ??
+                '');
             selectedGuardianCityEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
-              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
-            );
-            selectedGuardianStateSubject
-              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+                value: result.data?.data?[0].attributes?.districtOrCity?.data
+                    ?.attributes?.name);
+            selectedGuardianStateSubject.add(result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name ??
+                '');
             selectedGuardianStateEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.state?.data?.id,
-              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
-            );
+                id: result.data?.data?[0].attributes?.state?.data?.id,
+                value: result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
-          if(infoType == "currentAddress"){
-            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
-            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
-            selectedResidentialCity
-              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+          if (infoType == "currentAddress") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
+            selectedResidentialCity.add(result.data?.data?[0].attributes
+                    ?.districtOrCity?.data?.attributes?.name ??
+                '');
             selectedCityEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
-              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
-            );
-            selectedResidentialState
-              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+                value: result.data?.data?[0].attributes?.districtOrCity?.data
+                    ?.attributes?.name);
+            selectedResidentialState.add(result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name ??
+                '');
             selectedStateEntity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.state?.data?.id,
-              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
-            );
+                id: result.data?.data?[0].attributes?.state?.data?.id,
+                value: result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
-          if(infoType == "permanentAddress"){
-            await getMdmAttribute(infoType: "city",id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
-            await getMdmAttribute(infoType: "state",id: result.data?.data?[0].attributes?.state?.data?.id);
-            selectedPermanentResidentialCity
-              .add(result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name??'');
+          if (infoType == "permanentAddress") {
+            await getMdmAttribute(
+                infoType: "city",
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id);
+            await getMdmAttribute(
+                infoType: "state",
+                id: result.data?.data?[0].attributes?.state?.data?.id);
+            selectedPermanentResidentialCity.add(result.data?.data?[0]
+                    .attributes?.districtOrCity?.data?.attributes?.name ??
+                '');
             permanentResidentialCity = CommonDataClass(
-              id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
-              value: result.data?.data?[0].attributes?.districtOrCity?.data?.attributes?.name
-            );
-            selectedPermanentResidentialState
-              .add(result.data?.data?[0].attributes?.state?.data?.attributes?.name??'');
+                id: result.data?.data?[0].attributes?.districtOrCity?.data?.id,
+                value: result.data?.data?[0].attributes?.districtOrCity?.data
+                    ?.attributes?.name);
+            selectedPermanentResidentialState.add(result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name ??
+                '');
             permanentResidentialState = CommonDataClass(
-              id: result.data?.data?[0].attributes?.state?.data?.id,
-              value: result.data?.data?[0].attributes?.state?.data?.attributes?.name
-            );
+                id: result.data?.data?[0].attributes?.state?.data?.id,
+                value: result
+                    .data?.data?[0].attributes?.state?.data?.attributes?.name);
           }
         }
-       if(result.status == Status.error){
-          isLoading.add(false);  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
-        } 
+        if (result.status == Status.error) {
+          isLoading.add(false);
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
+        }
         // activeStep.add()
       });
     }).execute();
   }
 
-  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID, String enquiryID,int index) {
+  void pickFile(UpoladFileTypeEnum fileTypeEnum, String documentID,
+      String enquiryID, int index) {
     exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
       RequestManager<UploadFile>(params,
@@ -1617,7 +1733,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           .asFlow()
           .listen((result) {
         if (result.status == Status.success) {
-          uploadEnquiryDocument(enquiryID: enquiryID, documentID: documentID, file: result.data!.file!,index: index);
+          uploadEnquiryDocument(
+              enquiryID: enquiryID,
+              documentID: documentID,
+              file: result.data!.file!,
+              index: index);
         }
       }).onError((error) {});
     }).execute();
@@ -1645,9 +1765,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isDocumentUploaded[index ?? 0].value = true;
           isLoading.value = false;
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1661,11 +1784,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       DeleteEnquiryDocumentUsecaseParams params =
           DeleteEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        delete: 'true',
-        verifyDoc: 'false'
-      );
+              documentID: documentID,
+              enquiryID: enquiryID,
+              delete: 'true',
+              verifyDoc: 'false');
       isLoading.value = true;
       RequestManager<DeleteEnquiryFileBase>(
         params,
@@ -1679,9 +1801,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           isDocumentUploaded[index ?? 0].value = false;
           isLoading.value = false;
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       });
@@ -1693,10 +1818,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       DownloadEnquiryDocumentUsecaseParams params =
           DownloadEnquiryDocumentUsecaseParams(
-        documentID: documentID,
-        enquiryID: enquiryID,
-        download: 'true'
-      );
+              documentID: documentID, enquiryID: enquiryID, download: 'true');
       isLoading.value = true;
       RequestManager<DownloadEnquiryFileBase>(
         params,
@@ -1709,9 +1831,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               Resource.success(data: result.data ?? DownloadEnquiryFileBase()));
           downloadDocument(fileUrl: result.data?.data?['url'] ?? '');
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -1757,9 +1882,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           }
         }
-        if(result.status == Status.error){
-          isLoading.value = false;  
-          flutterToastErrorPresenter.show(result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        if (result.status == Status.error) {
+          isLoading.value = false;
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
@@ -1781,40 +1909,44 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     enquiryDateController.text = detail.enquiryDate ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    schoolLocationController.text = detail.schoolLocation?.value??'';
-    if(!(detail.studentDetails?.dob ?? '').toLowerCase().contains("invalid date")){
-    studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
-        ? DateTime.parse(
-            (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
-        : DateTime.now();
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
+    if (!(detail.studentDetails?.dob ?? '')
+        .toLowerCase()
+        .contains("invalid date")) {
+      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+          ? DateTime.parse(
+              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+          : DateTime.now();
     }
-    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
-    studentAadharController.text = detail.studentDetails?.aadhar??'';
+    studentEligibleGradeController.text =
+        detail.studentDetails?.eligibleGrade ?? '';
+    studentAadharController.text = detail.studentDetails?.aadhar ?? '';
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     // religionController.text = detail.studentDetails?.religion ?? '';
-    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value ?? '');
     selectedReligion = detail.studentDetails?.religion;
     // casteController.text = detail.studentDetails?.caste ?? '';
-    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value ?? '');
     selectedCaste = detail.studentDetails?.caste;
     // subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value ?? '');
     selectedSubCaste = detail.studentDetails?.subCaste;
     // nationalityController.text = detail.studentDetails?.nationality ?? '';
-    selectedNationalitySubject.add(detail.studentDetails?.nationality?.value??'');
+    selectedNationalitySubject
+        .add(detail.studentDetails?.nationality?.value ?? '');
     selectedNationality = detail.studentDetails?.nationality;
     // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
-    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongueSubject
+        .add(detail.studentDetails?.motherTongue?.value ?? '');
     selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
-    if(schoolLocationTypesAttribute!=null){
-      selectedSchoolLocationSubjectAttribute.add(
-      schoolLocationTypesAttribute?.firstWhere((element)=> element.id == detail.schoolLocation?.id)
-    );
+    if (schoolLocationTypesAttribute != null) {
+      selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
+          ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
     }
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject
@@ -1857,27 +1989,30 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
-    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
-    studentAadharController.text = detail.studentDetails?.aadhar??'';
+    studentEligibleGradeController.text =
+        detail.studentDetails?.eligibleGrade ?? '';
+    studentAadharController.text = detail.studentDetails?.aadhar ?? '';
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     // religionController.text = detail.studentDetails?.religion ?? '';
-    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value ?? '');
     selectedReligion = detail.studentDetails?.religion;
     // casteController.text = detail.studentDetails?.caste ?? '';
-    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value ?? '');
     selectedCaste = detail.studentDetails?.caste;
     // subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value ?? '');
     selectedSubCaste = detail.studentDetails?.subCaste;
     // nationalityController.text = detail.studentDetails?.nationality ?? '';
-    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongueSubject
+        .add(detail.studentDetails?.motherTongue?.value ?? '');
     selectedMotherTongue = detail.studentDetails?.motherTongue;
     // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
-    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongueSubject
+        .add(detail.studentDetails?.motherTongue?.value ?? '');
     selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
@@ -1934,27 +2069,30 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
     dobController.text =
         (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
-    studentEligibleGradeController.text = detail.studentDetails?.eligibleGrade??'';
-    studentAadharController.text = detail.studentDetails?.aadhar??'';
+    studentEligibleGradeController.text =
+        detail.studentDetails?.eligibleGrade ?? '';
+    studentAadharController.text = detail.studentDetails?.aadhar ?? '';
     studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
         ? DateTime.parse(
             (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
         : DateTime.now();
     placeOfBirthController.text = detail.studentDetails?.placeOfBirth ?? '';
     // religionController.text = detail.studentDetails?.religion ?? '';
-    selectedReligionSubject.add(detail.studentDetails?.religion?.value??'');
+    selectedReligionSubject.add(detail.studentDetails?.religion?.value ?? '');
     selectedReligion = detail.studentDetails?.religion;
     // casteController.text = detail.studentDetails?.caste ?? '';
-    selectedCasteSubject.add(detail.studentDetails?.caste?.value??'');
+    selectedCasteSubject.add(detail.studentDetails?.caste?.value ?? '');
     selectedCaste = detail.studentDetails?.caste;
     // subCasteController.text = detail.studentDetails?.subCaste ?? '';
-    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value??'');
+    selectedSubCasteSubject.add(detail.studentDetails?.subCaste?.value ?? '');
     selectedSubCaste = detail.studentDetails?.subCaste;
     // nationalityController.text = detail.studentDetails?.nationality ?? '';
-    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongueSubject
+        .add(detail.studentDetails?.motherTongue?.value ?? '');
     selectedMotherTongue = detail.studentDetails?.motherTongue;
     // motherTongueController.text = detail.studentDetails?.motherTongue ?? '';
-    selectedMotherTongueSubject.add(detail.studentDetails?.motherTongue?.value??'');
+    selectedMotherTongueSubject
+        .add(detail.studentDetails?.motherTongue?.value ?? '');
     selectedMotherTongue = detail.studentDetails?.motherTongue;
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
@@ -2035,7 +2173,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   final CommonRadioButton<String> radioButtonController10 =
       CommonRadioButton<String>(null);
-  
+
   final CommonRadioButton<String> radioButtonTransport =
       CommonRadioButton<String>(null);
   final CommonRadioButton<String> radioButtonCafeteria =
@@ -2046,7 +2184,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       CommonRadioButton<String>(null);
   final CommonRadioButton<String> radioButtonPsa =
       CommonRadioButton<String>(null);
-  
 
   addParentDetails(ParentInfo parentDetails) {
     fatherFirstNameController.text =
@@ -2057,53 +2194,55 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     fatherPanCardController.text = parentDetails.fatherDetails?.panNumber ?? "";
     // qualificationController.text =
     //     parentDetails.fatherDetails?.qualification ?? "";
-    if(parentDetails.fatherDetails?.qualification is CommonDataClass){
+    if (parentDetails.fatherDetails?.qualification is CommonDataClass) {
       selectedFatherQualification = parentDetails.fatherDetails?.qualification;
-      selectedFatherQualificationSubject.add(
-        parentDetails.fatherDetails?.qualification?.value??''
-      );
+      selectedFatherQualificationSubject
+          .add(parentDetails.fatherDetails?.qualification?.value ?? '');
     }
-    if(parentDetails.fatherDetails?.organisationName is CommonDataClass){
-      selectedFatherOrganization = parentDetails.fatherDetails?.organisationName;
-      selectedFatherOrganizationSubject.add(
-        parentDetails.fatherDetails?.organisationName?.value??''
-      );
+    if (parentDetails.fatherDetails?.organisationName is CommonDataClass) {
+      selectedFatherOrganization =
+          parentDetails.fatherDetails?.organisationName;
+      selectedFatherOrganizationSubject
+          .add(parentDetails.fatherDetails?.organisationName?.value ?? '');
     }
     // organizationNameController.text =
     //     parentDetails.fatherDetails?.organisationName ?? "";
     // designationController.text =
     //     parentDetails.fatherDetails?.designationName ?? "";
-    if(parentDetails.fatherDetails?.designationName is CommonDataClass){
+    if (parentDetails.fatherDetails?.designationName is CommonDataClass) {
       selectedFatherDesignation = parentDetails.fatherDetails?.designationName;
-      selectedFatherDesignationSubject.add(
-        parentDetails.fatherDetails?.designationName?.value??''
-      );
+      selectedFatherDesignationSubject
+          .add(parentDetails.fatherDetails?.designationName?.value ?? '');
     }
     pinCodeController.text = parentDetails.fatherDetails?.pinCode ?? "";
     fatherEmailController.text = parentDetails.fatherDetails?.emailId ?? "";
     fatherMobileController.text =
         parentDetails.fatherDetails?.mobileNumber ?? "";
     // fatherOccupation = parentDetails.fatherDetails?.occupation ?? "";
-    if(parentDetails.fatherDetails?.occupation is CommonDataClass){
+    if (parentDetails.fatherDetails?.occupation is CommonDataClass) {
       selectedFatherOccupation = parentDetails.fatherDetails?.occupation;
-      selectedFatherOccupationSubject.add(
-        parentDetails.fatherDetails?.occupation?.value??''
-      );
+      selectedFatherOccupationSubject
+          .add(parentDetails.fatherDetails?.occupation?.value ?? '');
     }
     // fatherArea = parentDetails.fatherDetails?.area ?? "";
     fatherOfficeAreaController.text = parentDetails.fatherDetails?.area ?? "";
-    if(pinCodeController.text.trim().isNotEmpty){
-      getCityAndStateByPincode(pincode: pinCodeController.text.trim(), infoType: "fatherInfo");
+    if (pinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: pinCodeController.text.trim(), infoType: "fatherInfo");
     }
-    if(parentDetails.fatherDetails?.country is CommonDataClass){
+    if (parentDetails.fatherDetails?.country is CommonDataClass) {
       selectedFatherCountrySubject
           .add(parentDetails.fatherDetails?.country?.value ?? '');
       selectedFatherCountryEntity = parentDetails.fatherDetails?.country;
     } else {
-      selectedFatherCountrySubject.add(parentDetails.fatherDetails?.country ?? '');
-      if((countryAttribute??[]).any((element)=>element.attributes?.name==parentDetails.fatherDetails?.country)){
-        var country=countryAttribute?.firstWhere((element)=>element.attributes?.name==parentDetails.fatherDetails?.country);
-        selectedFatherCountryEntity=CommonDataClass(id: country?.id,value: country?.attributes?.name);
+      selectedFatherCountrySubject
+          .add(parentDetails.fatherDetails?.country ?? '');
+      if ((countryAttribute ?? []).any((element) =>
+          element.attributes?.name == parentDetails.fatherDetails?.country)) {
+        var country = countryAttribute?.firstWhere((element) =>
+            element.attributes?.name == parentDetails.fatherDetails?.country);
+        selectedFatherCountryEntity =
+            CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
     // if(parentDetails.fatherDetails?.state is CommonDataClass){
@@ -2170,42 +2309,42 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     motherEmailController.text = parentDetails.motherDetails?.emailId ?? "";
     motherMobileController.text =
         parentDetails.motherDetails?.mobileNumber ?? "";
-    if(motherPinCodeController.text.trim().isNotEmpty){
-      getCityAndStateByPincode(pincode: motherPinCodeController.text.trim(), infoType: "motherInfo");
+    if (motherPinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: motherPinCodeController.text.trim(), infoType: "motherInfo");
     }
     // motherOccupation = parentDetails.motherDetails?.occupation ?? "";
-    if(parentDetails.motherDetails?.organisationName is CommonDataClass){
-      selectedMotherOrganization = parentDetails.motherDetails?.organisationName;
-      selectedMotherOrganizationSubject.add(
-        parentDetails.motherDetails?.organisationName?.value??''
-      );
+    if (parentDetails.motherDetails?.organisationName is CommonDataClass) {
+      selectedMotherOrganization =
+          parentDetails.motherDetails?.organisationName;
+      selectedMotherOrganizationSubject
+          .add(parentDetails.motherDetails?.organisationName?.value ?? '');
     }
-    if(parentDetails.motherDetails?.designationName is CommonDataClass){
+    if (parentDetails.motherDetails?.designationName is CommonDataClass) {
       selectedMotherDesignation = parentDetails.motherDetails?.designationName;
-      selectedMotherDesignationSubject.add(
-        parentDetails.motherDetails?.designationName?.value??''
-      );
+      selectedMotherDesignationSubject
+          .add(parentDetails.motherDetails?.designationName?.value ?? '');
     }
-    if(parentDetails.motherDetails?.occupation is CommonDataClass){
+    if (parentDetails.motherDetails?.occupation is CommonDataClass) {
       selectedMotherOccupation = parentDetails.motherDetails?.occupation;
-      selectedMotherOccupationSubject.add(
-        parentDetails.motherDetails?.occupation?.value??''
-      );
+      selectedMotherOccupationSubject
+          .add(parentDetails.motherDetails?.occupation?.value ?? '');
     }
-    motherArea = parentDetails.motherDetails?.area ?? ""; 
-    motherOfficeAreaController.text = parentDetails.motherDetails?.area??"";
-    if(parentDetails.motherDetails?.country is CommonDataClass){
+    motherArea = parentDetails.motherDetails?.area ?? "";
+    motherOfficeAreaController.text = parentDetails.motherDetails?.area ?? "";
+    if (parentDetails.motherDetails?.country is CommonDataClass) {
       selectedMotherCountrySubject
           .add(parentDetails.motherDetails?.country?.value ?? '');
       selectedMotherCountryEntity = parentDetails.motherDetails?.country;
     } else {
-      selectedMotherCountrySubject.add(parentDetails.motherDetails?.country ?? '');
+      selectedMotherCountrySubject
+          .add(parentDetails.motherDetails?.country ?? '');
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == parentDetails.motherDetails?.country)) {
         var country = countryAttribute?.firstWhere((element) =>
             element.attributes?.name == parentDetails.motherDetails?.country);
-        selectedMotherCountryEntity = CommonDataClass(
-            id: country?.id, value: country?.attributes?.name);
+        selectedMotherCountryEntity =
+            CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
     // if(parentDetails.motherDetails?.state is CommonDataClass){
@@ -2239,27 +2378,33 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     //         id: city?.id, value: city?.attributes?.name);
     //   }
     // }
-    if(parentDetails.motherDetails?.qualification is CommonDataClass){
+    if (parentDetails.motherDetails?.qualification is CommonDataClass) {
       selectedMotherQualificationSubject
           .add(parentDetails.motherDetails?.qualification?.value ?? '');
       selectedMotherQualification = parentDetails.motherDetails?.qualification;
     } else {
-      selectedMotherQualificationSubject.add(parentDetails.motherDetails?.qualification ?? '');
-        if ((qualificationAttribute ?? []).any((element) =>
-          element.attributes?.education == parentDetails.motherDetails?.qualification)) {
+      selectedMotherQualificationSubject
+          .add(parentDetails.motherDetails?.qualification ?? '');
+      if ((qualificationAttribute ?? []).any((element) =>
+          element.attributes?.education ==
+          parentDetails.motherDetails?.qualification)) {
         var qualification = qualificationAttribute?.firstWhere((element) =>
-            element.attributes?.education == parentDetails.motherDetails?.qualification);
+            element.attributes?.education ==
+            parentDetails.motherDetails?.qualification);
         selectedMotherOccupation = CommonDataClass(
-            id: qualification?.id, value: qualification?.attributes?.description);
+            id: qualification?.id,
+            value: qualification?.attributes?.description);
       }
     }
     selectedMotherAreaSubject.add(parentDetails.motherDetails?.area ?? '');
     // selectedMotherOccupationSubject
     //     .add(parentDetails.motherDetails?.occupation ?? '');
 
-    radioButtonController2.selectItem(parentDetails.childCustodyDetail?.areParentsSeparated??"No");
-    if(radioButtonController.selectedItem == "Yes"){
-      radioButtonController10.selectItem(parentDetails.childCustodyDetail?.childCustody??"");
+    radioButtonController2.selectItem(
+        parentDetails.childCustodyDetail?.areParentsSeparated ?? "No");
+    if (radioButtonController.selectedItem == "Yes") {
+      radioButtonController10
+          .selectItem(parentDetails.childCustodyDetail?.childCustody ?? "");
     }
 
     guardianFirstNameController.text =
@@ -2270,46 +2415,54 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.aadharNumber ?? "";
     guardianPanCardController.text =
         parentDetails.guardianDetails?.panNumber ?? "";
-    guardianHouseNumberController.text = 
-        parentDetails.guardianDetails?.houseNumber??"";
-    guardianStreetController.text = 
-        parentDetails.guardianDetails?.street??"";
-    guardianLandmarkController.text = 
-        parentDetails.guardianDetails?.landmark??"";
+    guardianHouseNumberController.text =
+        parentDetails.guardianDetails?.houseNumber ?? "";
+    guardianStreetController.text = parentDetails.guardianDetails?.street ?? "";
+    guardianLandmarkController.text =
+        parentDetails.guardianDetails?.landmark ?? "";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
-    if(guardianPinCodeController.text.trim().isNotEmpty){
-      getCityAndStateByPincode(pincode: guardianPinCodeController.text.trim(), infoType: "guardianInfo"); 
+    if (guardianPinCodeController.text.trim().isNotEmpty) {
+      getCityAndStateByPincode(
+          pincode: guardianPinCodeController.text.trim(),
+          infoType: "guardianInfo");
     }
     guardianEmailController.text = parentDetails.guardianDetails?.emailId ?? "";
     guardianMobileController.text =
         parentDetails.guardianDetails?.mobileNumber ?? "";
-    if(parentDetails.guardianDetails?.relationWithChild is CommonDataClass){
+    if (parentDetails.guardianDetails?.relationWithChild is CommonDataClass) {
       selectedRelationWithChildSubject
           .add(parentDetails.guardianDetails?.relationWithChild?.value ?? '');
-      selectedRelationWithChildEntity = parentDetails.guardianDetails?.relationWithChild;
+      selectedRelationWithChildEntity =
+          parentDetails.guardianDetails?.relationWithChild;
     } else {
-      selectedRelationWithChildSubject.add(parentDetails.guardianDetails?.relationWithChild ?? '');
+      selectedRelationWithChildSubject
+          .add(parentDetails.guardianDetails?.relationWithChild ?? '');
       if ((relationWithChildAttribute ?? []).any((element) =>
-          element.attributes?.name == parentDetails.guardianDetails?.relationWithChild)) {
-        var relationWithChild = relationWithChildAttribute?.firstWhere((element) =>
-            element.attributes?.name == parentDetails.guardianDetails?.relationWithChild);
+          element.attributes?.name ==
+          parentDetails.guardianDetails?.relationWithChild)) {
+        var relationWithChild = relationWithChildAttribute?.firstWhere(
+            (element) =>
+                element.attributes?.name ==
+                parentDetails.guardianDetails?.relationWithChild);
         selectedGuardianCountryEntity = CommonDataClass(
-            id: relationWithChild?.id, value: relationWithChild?.attributes?.name);
+            id: relationWithChild?.id,
+            value: relationWithChild?.attributes?.name);
       }
     }
-    if(parentDetails.guardianDetails?.country is CommonDataClass){
+    if (parentDetails.guardianDetails?.country is CommonDataClass) {
       selectedGuardianCountrySubject
           .add(parentDetails.guardianDetails?.country?.value ?? '');
       selectedGuardianCountryEntity = parentDetails.guardianDetails?.country;
     } else {
-      selectedGuardianCountrySubject.add(parentDetails.guardianDetails?.country ?? '');
+      selectedGuardianCountrySubject
+          .add(parentDetails.guardianDetails?.country ?? '');
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == parentDetails.guardianDetails?.country)) {
         var country = countryAttribute?.firstWhere((element) =>
             element.attributes?.name == parentDetails.guardianDetails?.country);
-        selectedGuardianCountryEntity = CommonDataClass(
-            id: country?.id, value: country?.attributes?.name);
+        selectedGuardianCountryEntity =
+            CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
     }
     // if(parentDetails.guardianDetails?.state is CommonDataClass){
@@ -2344,15 +2497,25 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     //   }
     // }
 
-    if((parentDetails.siblingDetails??[]).isNotEmpty && !parentDetails.siblingDetails![0].isOnlyDOB()){
+    if ((parentDetails.siblingDetails ?? []).isNotEmpty &&
+        !parentDetails.siblingDetails![0].isOnlyDOB()) {
       radioButtonController1.selectItem(parentDetails.siblingDetails?[0].type);
-      siblingFirstNameController.text = parentDetails.siblingDetails?[0].firstName??'';
-      siblingLastNameController.text = parentDetails.siblingDetails?[0].lastName??'';
-      siblingsEnrollmentController.text = parentDetails.siblingDetails?[0].enrollmentNumber??'';
-      siblingsSchoolController.text = parentDetails.siblingDetails?[0].school??'';
-      if(!(parentDetails.siblingDetails?[0].dob??"").isEmptyOrNull()){
-        if(DateFormat('dd/MM/yyyy').parse((parentDetails.siblingDetails?[0].dob??'').replaceAll('-', '/')) != DateTime.now()){
-          siblingDOB = DateFormat('dd/MM/yyyy').parse((parentDetails.siblingDetails?[0].dob??'').replaceAll('-', '/'));
+      siblingFirstNameController.text =
+          parentDetails.siblingDetails?[0].firstName ?? '';
+      siblingLastNameController.text =
+          parentDetails.siblingDetails?[0].lastName ?? '';
+      siblingsEnrollmentController.text =
+          parentDetails.siblingDetails?[0].enrollmentNumber ?? '';
+      siblingsSchoolController.text =
+          parentDetails.siblingDetails?[0].school ?? '';
+      if (!(parentDetails.siblingDetails?[0].dob ?? "").isEmptyOrNull()) {
+        if (DateFormat('dd/MM/yyyy').parse(
+                (parentDetails.siblingDetails?[0].dob ?? '')
+                    .replaceAll('-', '/')) !=
+            DateTime.now()) {
+          siblingDOB = DateFormat('dd/MM/yyyy').parse(
+              (parentDetails.siblingDetails?[0].dob ?? '')
+                  .replaceAll('-', '/'));
         }
       }
       if (parentDetails.siblingDetails?[0].gender is CommonDataClass) {
@@ -2363,11 +2526,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if ((genderAttribute ?? []).any((element) =>
             (element.attributes?.name ?? '')
                 .contains(parentDetails.siblingDetails?[0].gender ?? ''))) {
-          var gender= genderAttribute?.firstWhere((element) =>
+          var gender = genderAttribute?.firstWhere((element) =>
               (element.attributes?.name ?? '')
                   .contains(parentDetails.siblingDetails?[0].gender ?? ''));
-          selectedSiblingGender = CommonDataClass(
-              id: gender?.id, value: gender?.attributes?.name);
+          selectedSiblingGender =
+              CommonDataClass(id: gender?.id, value: gender?.attributes?.name);
         }
       }
       if (parentDetails.siblingDetails?[0].grade is CommonDataClass) {
@@ -2381,30 +2544,39 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           var grade = gradeTypesAttribute?.firstWhere((element) =>
               (element.attributes?.name ?? '')
                   .contains(parentDetails.siblingDetails?[0].grade ?? ''));
-          selectedSiblingGrade = CommonDataClass(
-              id: grade?.id, value: grade?.attributes?.name);
+          selectedSiblingGrade =
+              CommonDataClass(id: grade?.id, value: grade?.attributes?.name);
         }
       }
     }
   }
 
   addContactDetails(ContactDetails contactDetails) {
-    emergencyContact.value = contactDetails.pointOfContact?.firstPreference?.emailOfParent?? '';
+    emergencyContact.value =
+        contactDetails.pointOfContact?.firstPreference?.emailOfParent ?? '';
     houseOrBuildingController.text =
         contactDetails.residentialAddress?.currentAddress?.house ?? "";
-    streetNameController.text = contactDetails.residentialAddress?.currentAddress?.street ?? "";
-    landMarkController.text = contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
-    if (contactDetails.residentialAddress?.currentAddress?.country is CommonDataClass ||
-        contactDetails.residentialAddress?.currentAddress?.city is CommonDataClass) {
-      residentialCountry = contactDetails.residentialAddress?.currentAddress?.country;
-      residentialState = contactDetails.residentialAddress?.currentAddress?.state;
+    streetNameController.text =
+        contactDetails.residentialAddress?.currentAddress?.street ?? "";
+    landMarkController.text =
+        contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
+    if (contactDetails.residentialAddress?.currentAddress?.country
+            is CommonDataClass ||
+        contactDetails.residentialAddress?.currentAddress?.city
+            is CommonDataClass) {
+      residentialCountry =
+          contactDetails.residentialAddress?.currentAddress?.country;
+      residentialState =
+          contactDetails.residentialAddress?.currentAddress?.state;
       residentialCity = contactDetails.residentialAddress?.currentAddress?.city;
       selectedResidentialCity.value =
-          contactDetails.residentialAddress?.currentAddress?.country?.value ?? '';
+          contactDetails.residentialAddress?.currentAddress?.country?.value ??
+              '';
       selectedResidentialState.value =
           contactDetails.residentialAddress?.currentAddress?.state?.value ?? '';
       selectedResidentialCountry.value =
-          contactDetails.residentialAddress?.currentAddress?.country?.value ?? '';
+          contactDetails.residentialAddress?.currentAddress?.country?.value ??
+              '';
     } else {
       selectedResidentialCity.value =
           contactDetails.residentialAddress?.currentAddress?.city ?? '';
@@ -2413,9 +2585,11 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       selectedResidentialCountry.value =
           contactDetails.residentialAddress?.currentAddress?.country ?? '';
       residentialPinCodeController.text =
-        contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
-      if(residentialPinCodeController.text.isNotEmpty){
-        getCityAndStateByPincode(pincode: residentialPinCodeController.text, infoType: "currentAddress");
+          contactDetails.residentialAddress?.currentAddress?.pinCode ?? "";
+      if (residentialPinCodeController.text.isNotEmpty) {
+        getCityAndStateByPincode(
+            pincode: residentialPinCodeController.text,
+            infoType: "currentAddress");
       }
       if ((countryAttribute ?? []).any((element) =>
           element.attributes?.name == selectedResidentialCountry.value)) {
@@ -2425,60 +2599,64 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         residentialCountry =
             CommonDataClass(id: country?.id, value: country?.attributes?.name);
       }
-    //   if ((stateAttribute ?? []).any((element) =>
-    //       element.attributes?.name == selectedResidentialState.value)) {
-    //     var state = stateAttribute?.firstWhere((element) =>
-    //         (element.attributes?.name ?? '')
-    //             .contains(selectedResidentialState.value));
-    //     residentialState =
-    //         CommonDataClass(id: state?.id, value: state?.attributes?.name);
-    //   }
-    //   if ((cityAttribute ?? []).any((element) =>
-    //       element.attributes?.name == selectedResidentialCity.value)) {
-    //     var city = cityAttribute?.firstWhere((element) =>
-    //         (element.attributes?.name ?? '')
-    //             .contains(selectedResidentialCity.value));
-    //     residentialCity =
-    //         CommonDataClass(id: city?.id, value: city?.attributes?.name);
-    //   }
-    // }
-    if(contactDetails.residentialAddress?.permanentAddress != null){
-      permanentHouseOrBuildingController.text =
-        contactDetails.residentialAddress?.permanentAddress?.house ?? "";
-      permanentStreetNameController.text = contactDetails.residentialAddress?.permanentAddress?.street ?? "";
-      permanentLandMarkController.text = contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
-      permanentResidentialPinCodeController.text =
-          contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
-      if(permanentResidentialPinCodeController.text.isNotEmpty){
-        getCityAndStateByPincode(pincode: permanentResidentialPinCodeController.text, infoType: "permanentAddress");
-      }
-
-      // if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
-      //     contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
-      //   permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
-      //   permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
-      //   permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
-      //   selectedPermanentResidentialCity.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
-      //   selectedPermanentResidentialState.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
-      //   selectedPermanentResidentialCountry.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
-      // } else {
-      //   selectedPermanentResidentialCity.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.city ?? '';
-      //   selectedPermanentResidentialState.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.state ?? '';
-      //   selectedPermanentResidentialCountry.value =
-      //       contactDetails.residentialAddress?.permanentAddress?.country ?? '';
-      //   if ((countryAttribute ?? []).any((element) =>
-      //       element.attributes?.name == selectedPermanentResidentialCountry.value)) {
-      //     var country = countryAttribute?.firstWhere((element) =>
+      //   if ((stateAttribute ?? []).any((element) =>
+      //       element.attributes?.name == selectedResidentialState.value)) {
+      //     var state = stateAttribute?.firstWhere((element) =>
       //         (element.attributes?.name ?? '')
-      //             .contains(selectedResidentialCountry.value));
-      //     permanentResidentialCountry =
-      //         CommonDataClass(id: country?.id, value: country?.attributes?.name);
+      //             .contains(selectedResidentialState.value));
+      //     residentialState =
+      //         CommonDataClass(id: state?.id, value: state?.attributes?.name);
       //   }
+      //   if ((cityAttribute ?? []).any((element) =>
+      //       element.attributes?.name == selectedResidentialCity.value)) {
+      //     var city = cityAttribute?.firstWhere((element) =>
+      //         (element.attributes?.name ?? '')
+      //             .contains(selectedResidentialCity.value));
+      //     residentialCity =
+      //         CommonDataClass(id: city?.id, value: city?.attributes?.name);
+      //   }
+      // }
+      if (contactDetails.residentialAddress?.permanentAddress != null) {
+        permanentHouseOrBuildingController.text =
+            contactDetails.residentialAddress?.permanentAddress?.house ?? "";
+        permanentStreetNameController.text =
+            contactDetails.residentialAddress?.permanentAddress?.street ?? "";
+        permanentLandMarkController.text =
+            contactDetails.residentialAddress?.currentAddress?.landmark ?? "";
+        permanentResidentialPinCodeController.text =
+            contactDetails.residentialAddress?.permanentAddress?.pinCode ?? "";
+        if (permanentResidentialPinCodeController.text.isNotEmpty) {
+          getCityAndStateByPincode(
+              pincode: permanentResidentialPinCodeController.text,
+              infoType: "permanentAddress");
+        }
+
+        // if (contactDetails.residentialAddress?.permanentAddress?.country is CommonDataClass ||
+        //     contactDetails.residentialAddress?.permanentAddress?.city is CommonDataClass) {
+        //   permanentResidentialCountry = contactDetails.residentialAddress?.permanentAddress?.country;
+        //   permanentResidentialState = contactDetails.residentialAddress?.permanentAddress?.state;
+        //   permanentResidentialCity = contactDetails.residentialAddress?.permanentAddress?.city;
+        //   selectedPermanentResidentialCity.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.city?.value ?? '';
+        //   selectedPermanentResidentialState.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.state?.value ?? '';
+        //   selectedPermanentResidentialCountry.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.country?.value ?? '';
+        // } else {
+        //   selectedPermanentResidentialCity.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.city ?? '';
+        //   selectedPermanentResidentialState.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.state ?? '';
+        //   selectedPermanentResidentialCountry.value =
+        //       contactDetails.residentialAddress?.permanentAddress?.country ?? '';
+        //   if ((countryAttribute ?? []).any((element) =>
+        //       element.attributes?.name == selectedPermanentResidentialCountry.value)) {
+        //     var country = countryAttribute?.firstWhere((element) =>
+        //         (element.attributes?.name ?? '')
+        //             .contains(selectedResidentialCountry.value));
+        //     permanentResidentialCountry =
+        //         CommonDataClass(id: country?.id, value: country?.attributes?.name);
+        //   }
         // if ((stateAttribute ?? []).any((element) =>
         //     element.attributes?.name == selectedPermanentResidentialState.value)) {
         //   var state = stateAttribute?.firstWhere((element) =>
@@ -2528,7 +2706,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           contactDetails.pointOfContact?.thirdPreference?.emailOfParent ?? '';
     }
     radioButtonController3.selectItem(
-        ((contactDetails.residentialAddress?.isPermanentAddress??''.toLowerCase()) == 'yes')
+        ((contactDetails.residentialAddress?.isPermanentAddress ??
+                    ''.toLowerCase()) ==
+                'yes')
             ? "Yes"
             : "No");
   }
@@ -2547,7 +2727,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       selectedBloodGroup.add(medicalDetails.bloodGroup?.value ?? '');
       selectedBloodGroupEntity = medicalDetails.bloodGroup;
     } else {
-      selectedBloodGroup.value = medicalDetails.bloodGroup??'';
+      selectedBloodGroup.value = medicalDetails.bloodGroup ?? '';
       if ((bloodGroupAttribute ?? []).any((element) =>
           (element.attributes?.name ?? '')
               .contains(medicalDetails.bloodGroup ?? ''))) {
@@ -2558,19 +2738,24 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             id: bloodGroup?.id, value: bloodGroup?.attributes?.name);
       }
     }
-    if (medicalDetails.personalisedLearningNeedsDescription is CommonDataClass) {
-      selectedPersonalisedLearningNeedSubject.add(medicalDetails.personalisedLearningNeedsDescription?.value ?? '');
-      selectedPersonalisedLearningNeed = medicalDetails.personalisedLearningNeedsDescription;
+    if (medicalDetails.personalisedLearningNeedsDescription
+        is CommonDataClass) {
+      selectedPersonalisedLearningNeedSubject.add(
+          medicalDetails.personalisedLearningNeedsDescription?.value ?? '');
+      selectedPersonalisedLearningNeed =
+          medicalDetails.personalisedLearningNeedsDescription;
     } else {
-      selectedPersonalisedLearningNeedSubject.value = medicalDetails.personalisedLearningNeedsDescription??'';
+      selectedPersonalisedLearningNeedSubject.value =
+          medicalDetails.personalisedLearningNeedsDescription ?? '';
       if ((personalisedLearningNeedsAttribute ?? []).any((element) =>
-          (element.attributes?.name ?? '')
-              .contains(medicalDetails.personalisedLearningNeedsDescription ?? ''))) {
-        var personalisedLearningNeeds = personalisedLearningNeedsAttribute?.firstWhere((element) =>
-            (element.attributes?.name ?? '')
-                .contains(medicalDetails.personalisedLearningNeedsDescription ?? ''));
+          (element.attributes?.name ?? '').contains(
+              medicalDetails.personalisedLearningNeedsDescription ?? ''))) {
+        var personalisedLearningNeeds = personalisedLearningNeedsAttribute
+            ?.firstWhere((element) => (element.attributes?.name ?? '').contains(
+                medicalDetails.personalisedLearningNeedsDescription ?? ''));
         selectedPersonalisedLearningNeed = CommonDataClass(
-            id: personalisedLearningNeeds?.id, value: personalisedLearningNeeds?.attributes?.name);
+            id: personalisedLearningNeeds?.id,
+            value: personalisedLearningNeeds?.attributes?.name);
       }
     }
     // personalisedLearningNeedsController.text =
@@ -2609,7 +2794,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.fatherDetails?.qualification = selectedFatherQualification;
     parentInfo?.fatherDetails?.organisationName = selectedFatherOrganization;
     parentInfo?.fatherDetails?.designationName = selectedFatherDesignation;
-    parentInfo?.fatherDetails?.officeAddress = officeAddressController.text.trim();
+    parentInfo?.fatherDetails?.officeAddress =
+        officeAddressController.text.trim();
     parentInfo?.fatherDetails?.pinCode = pinCodeController.text.trim();
     parentInfo?.fatherDetails?.emailId = fatherEmailController.text.trim();
     parentInfo?.fatherDetails?.mobileNumber =
@@ -2649,13 +2835,13 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         guardianAdharCardController.text.trim();
     parentInfo?.guardianDetails?.panNumber =
         guardianPanCardController.text.trim();
-    parentInfo?.guardianDetails?.houseNumber = 
+    parentInfo?.guardianDetails?.houseNumber =
         guardianHouseNumberController.text.trim();
-    parentInfo?.guardianDetails?.landmark = 
+    parentInfo?.guardianDetails?.landmark =
         guardianLandmarkController.text.trim();
-    parentInfo?.guardianDetails?.street =
-        guardianStreetController.text.trim();
-    parentInfo?.guardianDetails?.relationWithChild = selectedRelationWithChildEntity;
+    parentInfo?.guardianDetails?.street = guardianStreetController.text.trim();
+    parentInfo?.guardianDetails?.relationWithChild =
+        selectedRelationWithChildEntity;
     parentInfo?.guardianDetails?.pincode =
         guardianPinCodeController.text.trim();
     parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
@@ -2665,7 +2851,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
     parentInfo?.childCustodyDetail?.areParentsSeparated =
-        radioButtonController2.selectedItem??"No";
+        radioButtonController2.selectedItem ?? "No";
     parentInfo?.childCustodyDetail?.childCustody =
         (radioButtonController2.selectedItem == "No")
             ? ""
@@ -2676,7 +2862,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           ((radioButtonController1.selectedItem ?? '') == "Vibgyor Student")
               ? siblingsEnrollmentController.text.trim()
               : "",
-      dob:(siblingDOB == null)? "" : DateFormat('dd-MM-yyyy').format(siblingDOB??DateTime.now()),
+      dob: (siblingDOB == null)
+          ? ""
+          : DateFormat('dd-MM-yyyy').format(siblingDOB ?? DateTime.now()),
       firstName: siblingFirstNameController.text.trim(),
       lastName: siblingLastNameController.text.trim(),
       gender: selectedSiblingGender,
@@ -2750,25 +2938,30 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     ContactDetailsEntity contactDetail = ContactDetailsEntity();
     contactDetails = ContactDetails(
         residentialAddress: ResidentialAddressDetail(
-          currentAddress: ResidentialAddress(
-            house: houseOrBuildingController.text.trim(),
-            street: streetNameController.text.trim(),
-            landmark: landMarkController.text.trim(),
-            country: residentialCountry,
-            state: residentialState,
-            city: residentialCity,
-            pinCode: residentialPinCodeController.text.trim(),),
-            permanentAddress: radioButtonController3.selectedItem == "No" ? ResidentialAddress(
-            house: permanentHouseOrBuildingController.text.trim(),
-            street: permanentStreetNameController.text.trim(),
-            landmark: permanentLandMarkController.text.trim(),
-            country: permanentResidentialCountry,
-            state: permanentResidentialState,
-            city: permanentResidentialCity,
-            pinCode: permanentResidentialPinCodeController.text.trim(),
-            ) : null,
-            isPermanentAddress: (radioButtonController3.selectedItem??"No") == "No" ? true : false
-        ),
+            currentAddress: ResidentialAddress(
+              house: houseOrBuildingController.text.trim(),
+              street: streetNameController.text.trim(),
+              landmark: landMarkController.text.trim(),
+              country: residentialCountry,
+              state: residentialState,
+              city: residentialCity,
+              pinCode: residentialPinCodeController.text.trim(),
+            ),
+            permanentAddress: radioButtonController3.selectedItem == "No"
+                ? ResidentialAddress(
+                    house: permanentHouseOrBuildingController.text.trim(),
+                    street: permanentStreetNameController.text.trim(),
+                    landmark: permanentLandMarkController.text.trim(),
+                    country: permanentResidentialCountry,
+                    state: permanentResidentialState,
+                    city: permanentResidentialCity,
+                    pinCode: permanentResidentialPinCodeController.text.trim(),
+                  )
+                : null,
+            isPermanentAddress:
+                (radioButtonController3.selectedItem ?? "No") == "No"
+                    ? true
+                    : false),
         emergencyContact: emergencyContact.value,
         pointOfContact: PointOfContactDetail(
           firstPreference: (parentEmailIdController1.text.isEmpty ||
@@ -2806,17 +2999,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           studentFirstNameController.text.trim();
       ivtDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
-      ivtDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
-          .format((studentDob??DateTime.now()));
-      ivtDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
-      ivtDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.dob =
+          DateFormat('dd-MM-yyyy').format((studentDob ?? DateTime.now()));
+      ivtDetailSubject?.value.studentDetails?.aadhar =
+          studentAadharController.text.trim();
+      ivtDetailSubject?.value.studentDetails?.eligibleGrade =
+          studentEligibleGradeController.text.trim();
       ivtDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
       ivtDetailSubject?.value.studentDetails?.religion = selectedReligion;
       ivtDetailSubject?.value.studentDetails?.caste = selectedCaste;
       ivtDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
       ivtDetailSubject?.value.studentDetails?.nationality = selectedNationality;
-      ivtDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
+      ivtDetailSubject?.value.studentDetails?.motherTongue =
+          selectedMotherTongue;
       ivtDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       ivtDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       ivtDetailSubject?.value.existingSchoolDetails?.name =
@@ -2856,17 +3052,20 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           studentFirstNameController.text.trim();
       psaDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
-      psaDetailSubject?.value.studentDetails?.dob = DateFormat('dd-MM-yyyy')
-          .format((studentDob??DateTime.now()));
-      psaDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
-      psaDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
+      psaDetailSubject?.value.studentDetails?.dob =
+          DateFormat('dd-MM-yyyy').format((studentDob ?? DateTime.now()));
+      psaDetailSubject?.value.studentDetails?.aadhar =
+          studentAadharController.text.trim();
+      psaDetailSubject?.value.studentDetails?.eligibleGrade =
+          studentEligibleGradeController.text.trim();
       psaDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
       psaDetailSubject?.value.studentDetails?.religion = selectedReligion;
       psaDetailSubject?.value.studentDetails?.caste = selectedCaste;
       psaDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
       psaDetailSubject?.value.studentDetails?.nationality = selectedNationality;
-      psaDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
+      psaDetailSubject?.value.studentDetails?.motherTongue =
+          selectedMotherTongue;
       psaDetailSubject?.value.studentDetails?.gender = selectedGenderEntity;
       psaDetailSubject?.value.studentDetails?.grade = selectedGradeEntity;
       psaDetailSubject?.value.existingSchoolDetails?.name =
@@ -2910,21 +3109,26 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       newAdmissionDetailSubject?.value.studentDetails?.lastName =
           studentLastNameController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.dob =
-          DateFormat('yyyy-MM-dd')
-              .format((studentDob??DateTime.now()));
-      newAdmissionDetailSubject?.value.studentDetails?.aadhar = studentAadharController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.eligibleGrade = studentEligibleGradeController.text.trim();
+          DateFormat('yyyy-MM-dd').format((studentDob ?? DateTime.now()));
+      newAdmissionDetailSubject?.value.studentDetails?.aadhar =
+          studentAadharController.text.trim();
+      newAdmissionDetailSubject?.value.studentDetails?.eligibleGrade =
+          studentEligibleGradeController.text.trim();
       newAdmissionDetailSubject?.value.studentDetails?.gender =
           selectedGenderEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.grade =
           selectedGradeEntity!;
       newAdmissionDetailSubject?.value.studentDetails?.placeOfBirth =
           placeOfBirthController.text.trim();
-      newAdmissionDetailSubject?.value.studentDetails?.religion = selectedReligion;
+      newAdmissionDetailSubject?.value.studentDetails?.religion =
+          selectedReligion;
       newAdmissionDetailSubject?.value.studentDetails?.caste = selectedCaste;
-      newAdmissionDetailSubject?.value.studentDetails?.subCaste = selectedSubCaste;
-      newAdmissionDetailSubject?.value.studentDetails?.nationality = selectedNationality;
-      newAdmissionDetailSubject?.value.studentDetails?.motherTongue = selectedMotherTongue;
+      newAdmissionDetailSubject?.value.studentDetails?.subCaste =
+          selectedSubCaste;
+      newAdmissionDetailSubject?.value.studentDetails?.nationality =
+          selectedNationality;
+      newAdmissionDetailSubject?.value.studentDetails?.motherTongue =
+          selectedMotherTongue;
       newAdmissionDetailSubject?.value.existingSchoolDetails?.name =
           existingSchoolNameController.text.trim();
       newAdmissionDetailSubject?.value.existingSchoolDetails?.grade =
@@ -3155,10 +3359,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedShiftEntity = null;
   }
 
-  showPopUP(context,{String? message}) {
+  showPopUP(context, {String? message}) {
     Future.delayed(Duration.zero, () {
-      CommonPopups().showSuccess(context, message ?? 'Student Registered Successfully',
-          (shouldRoute) {
+      CommonPopups().showSuccess(
+          context, message ?? 'Student Registered Successfully', (shouldRoute) {
         Navigator.pop(context);
       });
     });
