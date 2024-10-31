@@ -2422,6 +2422,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.landmark ?? "";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
+    radioButtonController.selectItem(parentDetails.guardianDetails?.guardianType?? "");
     if (guardianPinCodeController.text.trim().isNotEmpty) {
       getCityAndStateByPincode(
           pincode: guardianPinCodeController.text.trim(),
@@ -2847,6 +2848,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
     parentInfo?.guardianDetails?.mobileNumber =
         guardianMobileController.text.trim();
+    parentInfo?.guardianDetails?.guardianType = radioButtonController.selectedItem??'';
     parentInfo?.guardianDetails?.country = selectedGuardianCountryEntity;
     parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
@@ -2874,7 +2876,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.childCustodyDetail = ChildCustodyDetail(
       areParentsSeparated: radioButtonController2.selectedItem,
       childCustody: radioButtonController2.selectedItem == "Yes"
-          ? radioButtonController10.selectedItem
+          ? radioButtonController10.selectedItem??''
           : "",
     );
     parentInfoEntity = parentInfoEntity.restore(parentInfo ?? ParentInfo());
