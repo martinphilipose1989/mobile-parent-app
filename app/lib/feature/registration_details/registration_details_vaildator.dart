@@ -1,5 +1,6 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationDetailsValidator{
@@ -309,6 +310,14 @@ String? _validateDateOfBirth(String value) {
       //     }
       //   }
       // }
+
+      if(errorMessage.isEmpty){
+        if(model.radioButtonController2.selectedItem == "Yes"){
+          if((model.radioButtonController10.selectedItem??"").isEmptyOrNull()){
+            errorMessage = "Please select the option who have the custody of child";
+          }
+        }
+      }
 
       // Show snackbar with error message
       if (errorMessage.isNotEmpty) {

@@ -2,7 +2,6 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/app_validators.dart';
-import 'package:app/utils/common_widgets/app_dropdown.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
@@ -188,7 +187,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         height: 20,
                       ),
                       CommonTextFormField(
-                        showAstreik: false,
+                        showAstreik: true,
                         labelText: "Student Aadhar No",
                         controller: model.studentAadharController,
                         keyboardType: TextInputType.number,
@@ -508,6 +507,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
+                      const SizedBox(height: 20),
                       CommonTextFormField(
                         labelText: 'Place Of Birth',
                         showAstreik: true,
@@ -555,6 +555,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
+                      const SizedBox(height: 20),
                       // CommonTextFormField(
                       //   labelText: 'Sub Caste',
                       //   showAstreik: false,
@@ -600,6 +601,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       //   controller: model.nationalityController,
                       //   validator: (value)=> AppValidators.validateNotEmpty(value, 'nationality'),
                       // ),
+                      const SizedBox(height: 20),
                       StreamBuilder<List<String>>(
                           stream: model.nationalities,
                           builder: (context, snapshot) {
@@ -644,6 +646,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       //   controller: model.motherTongueController,
                       //   validator: (value)=> AppValidators.validateNotEmpty(value, 'mother tounge'),
                       // ),
+                      const SizedBox(height: 20),
                       StreamBuilder<List<String>>(
                           stream: model.motherTongues,
                           builder: (context, snapshot) {
@@ -687,6 +690,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                 )
               ]),
         ),
+        const SizedBox(height: 50,)
       ]),
     );
   }
