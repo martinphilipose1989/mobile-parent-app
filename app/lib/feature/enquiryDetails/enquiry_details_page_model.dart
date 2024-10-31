@@ -140,12 +140,32 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   DateTime? studentDob;
 
   final List menuData = [
-    {'image': AppImages.registrationIcon, 'name': "Registration"},
-    {'image': AppImages.call, 'name': "Call"},
-    {'image': AppImages.email, 'name': "Email"},
-    {'image': AppImages.editDetails, 'name': "Edit Details"},
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
-    {'image': AppImages.timeline, 'name': "Timeline"},
+    {
+      'id': 0,
+      'image': AppImages.registrationIcon,
+      'name': "Registration",
+      'isActive': true
+    },
+    {'id': 1, 'image': AppImages.call, 'name': "Call", 'isActive': true},
+    {'id': 2, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 3,
+      'image': AppImages.editDetails,
+      'name': "Edit Details",
+      'isActive': true
+    },
+    {
+      'id': 4,
+      'image': AppImages.schoolTour,
+      'name': "School Tour",
+      'isActive': true
+    },
+    {
+      'id': 5,
+      'image': AppImages.timeline,
+      'name': "Timeline",
+      'isActive': true
+    },
   ];
 
   List<ValueNotifier<bool>> isDocumentUploaded = [];
@@ -354,7 +374,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   void removeRegistrationMenu() {
     if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
         enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
-      menuData.removeWhere((e) => e['name'].toLowerCase() == "registration");
+      final index =
+          menuData.indexWhere((e) => e['name'].toLowerCase() == "registration");
+      menuData[index]['isActive'] = false;
     }
   }
 
@@ -508,8 +530,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
               '';
 
           if (currentStepForJourney.toLowerCase() != "completed") {
-            menuData
-                .removeWhere((e) => e['name'].toLowerCase() == "registration");
+            final index = menuData
+                .indexWhere((e) => e['name'].toLowerCase() == "registration");
+            menuData[index]['isActive'] = false;
           }
 
           enquiryDetail.add(result.data?.data ?? EnquiryDetail());

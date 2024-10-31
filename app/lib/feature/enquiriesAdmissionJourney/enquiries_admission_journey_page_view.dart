@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
 import 'package:app/model/resource.dart';
@@ -235,9 +237,26 @@ class EnquiriesAdmissionsJourneyPageView
                   child: data!
                       ? Menu(
                           height: 340.h,
-                          menuData: model.menuData,
+                          menuData: model.menuData
+                              .where((e) => e['isActive'] == true)
+                              .toList(),
                           onTap: (index) {
-                            actionOnMenu(index, context, model);
+                            log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+                            final isRegistrationNotActive = model
+                                        .menuData.first['name']
+                                        .toString()
+                                        .toLowerCase() ==
+                                    'registration' &&
+                                model.menuData.first['isActive'] == false;
+                            if (isRegistrationNotActive) {
+                              log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+
+                              actionOnMenu(model.menuData[index]['id'] + 1,
+                                  context, model);
+                            } else {
+                              actionOnMenu(
+                                  model.menuData[index]['id'], context, model);
+                            }
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,

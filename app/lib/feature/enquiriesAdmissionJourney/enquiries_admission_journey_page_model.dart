@@ -196,8 +196,9 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
               '';
 
           if (currentStepForJourney.toLowerCase() != "completed") {
-            menuData
-                .removeWhere((e) => e['name'].toLowerCase() == "registration");
+            final index = menuData
+                .indexWhere((e) => e['name'].toLowerCase() == "registration");
+            menuData[index]['isActive'] = false;
           }
 
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
@@ -284,11 +285,26 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.registrationIcon, 'name': "Registration"},
-    {'image': AppImages.call, 'name': "Call"},
-    {'image': AppImages.email, 'name': "Email"},
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
-    {'image': AppImages.timeline, 'name': "Timeline"},
+    {
+      'id': 0,
+      'image': AppImages.registrationIcon,
+      'name': "Registration",
+      'isActive': true
+    },
+    {'id': 1, 'image': AppImages.call, 'name': "Call", 'isActive': true},
+    {'id': 2, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 3,
+      'image': AppImages.schoolTour,
+      'name': "School Tour",
+      'isActive': true
+    },
+    {
+      'id': 4,
+      'image': AppImages.timeline,
+      'name': "Timeline",
+      'isActive': true
+    },
   ];
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
