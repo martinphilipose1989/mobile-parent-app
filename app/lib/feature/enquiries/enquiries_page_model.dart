@@ -88,9 +88,9 @@ class EnquiriesPageModel extends BasePageViewModel {
       if(isRefresh){
         pageNumber = 1;
       }
-      if(!isNextPage){
-        return;
-      }
+      // if(!isNextPage){
+      //   return;
+      // }
       await setPhoneNumber();
       GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
         phone: phoneNumber,
@@ -143,9 +143,9 @@ class EnquiriesPageModel extends BasePageViewModel {
       if(isRefresh){
         pageNumber = 1;
       }
-      if(!closedEnquiryNextPage){
-        return;
-      }
+      // if(!closedEnquiryNextPage){
+      //   return;
+      // }
       await setPhoneNumber();
       GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
         phone: phoneNumber,
@@ -229,12 +229,12 @@ class EnquiriesPageModel extends BasePageViewModel {
     'Transport Fees'
   ];
 
-  @override
-  void dispose() {
-    _getEnquiryResponse.close();
-    _getClosedEnquiryResponse.close();
-    enquiries.value.clear();
-    closedEnquiries.value.clear();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _getEnquiryResponse.close();
+  //   _getClosedEnquiryResponse.close();
+  //   enquiries.value.clear();
+  //   closedEnquiries.value.clear();
+  //   super.dispose();
+  // }
 }
