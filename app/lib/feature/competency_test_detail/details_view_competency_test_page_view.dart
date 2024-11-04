@@ -38,9 +38,7 @@ class DetailsViewCompetencyTestPageView
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        const SizedBox(
-                          height: 0,
-                        ),
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -53,8 +51,8 @@ class DetailsViewCompetencyTestPageView
                                 subtitle: "${enquiryDetail.grade} | ${enquiryDetail.board} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
                                 buttontext: enquiryDetail.currentStage??'',
                                 status: enquiryDetail.status ?? '',),
-                            const SizedBox(
-                              height: 10,
+           SizedBox(
+                              height: 10.h,
                             ),
                             AppStreamBuilder<CompetencyTestDetails>(
                               stream: model.competencyTestDetails,

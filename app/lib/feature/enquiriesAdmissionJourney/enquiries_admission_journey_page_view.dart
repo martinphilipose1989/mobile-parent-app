@@ -88,7 +88,7 @@ class EnquiriesAdmissionsJourneyPageView
                   return snapshot?.status==Status.loading?const Center(child: CircularProgressIndicator(),):
                   ListItem(
                     image: AppImages.personIcon,
-                    name: "${snapshot?.data?.data?.parentFirstName} ${snapshot?.data?.data?.parentLastName}",
+                    name: "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName}",
                     year: "${snapshot?.data?.data!.academicYearId}",
                     id: snapshot?.data?.data?.enquiryNumber??'',
                     title: snapshot?.data?.data?.existingSchoolName??'',

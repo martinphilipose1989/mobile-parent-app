@@ -1,5 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_page_view.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
@@ -23,6 +24,9 @@ class AdmissionsDetailsPage extends BasePage<AdmissionsDetailsViewModel> {
 
 class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
     AdmissionsDetailsPage> {
+
+  late final AdmissionsViewModel admissionsViewModel;
+
   @override
   void onModelReady(AdmissionsDetailsViewModel model) {
     model.enquiryId = widget.admissionDetail.enquiryId??'';
@@ -33,12 +37,27 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Access the provider safely in initState or didChangeDependencies
+    admissionsViewModel= ProviderScope.containerOf(context, listen: false)
+        .read(admissionsProvider);
+  }
+
+
+  @override
   PreferredSizeWidget? buildAppbar(AdmissionsDetailsViewModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
+    return  CommonAppBar(
       appbarTitle: 'Admissions Details',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
+        onBackPressed:  (){
+          ProviderScope.containerOf(context)
+              .read(admissionsProvider).fetchAdmissionList();
+
+          Navigator.pop(context);
+        }
     );
   }
 
@@ -89,5 +108,12 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
         );
       },
     );
+  }
+  @override
+  void dispose() {
+    print("hiii AFTER DISPOSE");
+    // Use the stored provider instance instead of accessing it via context
+    admissionsViewModel.fetchAdmissionList();
+    super.dispose();
   }
 }

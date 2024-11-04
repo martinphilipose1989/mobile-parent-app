@@ -83,6 +83,8 @@ onBackPressed:  (){
   @override
   ProviderBase<EnquiriesAdmissionsJourneyViewModel> provideBase() {
     return enquiriesAdmissionsJourneyProvider.call(widget.enquiryDetail??EnquiryDetailArgs());
+
+
   }
 
   @override

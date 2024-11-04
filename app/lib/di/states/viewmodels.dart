@@ -191,6 +191,7 @@ final scheduleSchoolTourPageModelProvider =
     getIt.get<GetSchoolVisitSlotsUsecase>(),
     getIt.get<RescheduleSchoolVisitUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
   ),
 );
 
@@ -202,6 +203,7 @@ final scheduleCompetencyTestPageModelProvider =
     getIt.get<GetCompetencyTestSlotsUsecase>(),
     getIt.get<RescheduleCompetencyTestUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
   ),
 );
 

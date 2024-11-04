@@ -90,7 +90,7 @@ class AdmissionsDetailsPageView
               children: [
                 AppStreamBuilder<Resource<EnquiryDetailBase>>(
                   dataBuilder: (context,snapshot) {
-                    return ListItem(
+                    return snapshot?.status==Status.loading?const Center(child: CircularProgressIndicator(),):ListItem(
                       image: AppImages.personIcon,
                       name: "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName} ",
                       year: admissionDetail.academicYear??'',
