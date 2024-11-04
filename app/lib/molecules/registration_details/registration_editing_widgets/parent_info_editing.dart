@@ -239,35 +239,35 @@ class ParentInfoEditing extends StatelessWidget {
                         //       value, 'Designation',
                         //       checkSpecialCharacters: false),
                         // ),
-                        StreamBuilder<List<String>>(
-                            stream: model.designations,
-                            builder: (context, snapshot) {
-                              return CustomDropdownButton(
-                                items: model.designations.value,
-                                width: MediaQuery.of(context).size.width,
-                                isMutiSelect: false,
-                                dropdownName: 'Designation',
-                                showAstreik: false,
-                                onMultiSelect: (selectedValues) {},
-                                showBorderColor: true,
-                                singleSelectItemSubject:
-                                    model.selectedFatherDesignationSubject,
-                                onSingleSelect: (val) {
-                                  if (model.designations.value.contains(val)) {
-                                    var designation = model.designationAttribute
-                                        ?.firstWhere((element) =>
-                                            (element.attributes?.designation ??
-                                                    '')
-                                                .contains(val));
-                                    model.selectedFatherDesignation =
-                                        CommonDataClass(
-                                            id: designation?.id,
-                                            value: designation
-                                                ?.attributes?.designation);
-                                  }
-                                },
-                              );
-                            }),
+                        // StreamBuilder<List<String>>(
+                        //     stream: model.designations,
+                        //     builder: (context, snapshot) {
+                        //       return CustomDropdownButton(
+                        //         items: model.designations.value,
+                        //         width: MediaQuery.of(context).size.width,
+                        //         isMutiSelect: false,
+                        //         dropdownName: 'Designation',
+                        //         showAstreik: false,
+                        //         onMultiSelect: (selectedValues) {},
+                        //         showBorderColor: true,
+                        //         singleSelectItemSubject:
+                        //             model.selectedFatherDesignationSubject,
+                        //         onSingleSelect: (val) {
+                        //           if (model.designations.value.contains(val)) {
+                        //             var designation = model.designationAttribute
+                        //                 ?.firstWhere((element) =>
+                        //                     (element.attributes?.designation ??
+                        //                             '')
+                        //                         .contains(val));
+                        //             model.selectedFatherDesignation =
+                        //                 CommonDataClass(
+                        //                     id: designation?.id,
+                        //                     value: designation
+                        //                         ?.attributes?.designation);
+                        //           }
+                        //         },
+                        //       );
+                        //     }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
@@ -674,35 +674,35 @@ class ParentInfoEditing extends StatelessWidget {
                         //     checkSpecialCharacters: true,
                         //   ),
                         // ),
-                        StreamBuilder<List<String>>(
-                            stream: model.designations,
-                            builder: (context, snapshot) {
-                              return CustomDropdownButton(
-                                items: model.designations.value,
-                                width: MediaQuery.of(context).size.width,
-                                isMutiSelect: false,
-                                dropdownName: 'Designation',
-                                showAstreik: false,
-                                onMultiSelect: (selectedValues) {},
-                                showBorderColor: true,
-                                singleSelectItemSubject:
-                                    model.selectedMotherDesignationSubject,
-                                onSingleSelect: (val) {
-                                  if (model.designations.value.contains(val)) {
-                                    var designation = model.designationAttribute
-                                        ?.firstWhere((element) =>
-                                            (element.attributes?.designation ??
-                                                    '')
-                                                .contains(val));
-                                    model.selectedMotherDesignation =
-                                        CommonDataClass(
-                                            id: designation?.id,
-                                            value: designation
-                                                ?.attributes?.designation);
-                                  }
-                                },
-                              );
-                            }),
+                        // StreamBuilder<List<String>>(
+                        //     stream: model.designations,
+                        //     builder: (context, snapshot) {
+                        //       return CustomDropdownButton(
+                        //         items: model.designations.value,
+                        //         width: MediaQuery.of(context).size.width,
+                        //         isMutiSelect: false,
+                        //         dropdownName: 'Designation',
+                        //         showAstreik: false,
+                        //         onMultiSelect: (selectedValues) {},
+                        //         showBorderColor: true,
+                        //         singleSelectItemSubject:
+                        //             model.selectedMotherDesignationSubject,
+                        //         onSingleSelect: (val) {
+                        //           if (model.designations.value.contains(val)) {
+                        //             var designation = model.designationAttribute
+                        //                 ?.firstWhere((element) =>
+                        //                     (element.attributes?.designation ??
+                        //                             '')
+                        //                         .contains(val));
+                        //             model.selectedMotherDesignation =
+                        //                 CommonDataClass(
+                        //                     id: designation?.id,
+                        //                     value: designation
+                        //                         ?.attributes?.designation);
+                        //           }
+                        //         },
+                        //       );
+                        //     }),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,

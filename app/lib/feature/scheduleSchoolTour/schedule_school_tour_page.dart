@@ -116,12 +116,6 @@ class ScheduleSchoolTourPageState extends AppBasePageState<ScheduleSchoolTourPag
                                 'Selected Time: ${model.selectedTime}',
                                 'Comments: ${model.commentController.text}',
                                 (shouldRoute) {
-                                  if(DateFormat.yMd().add_jm().parse(('${model.selectedDate} ${model.selectedTime}').replaceAll('-', '/')).isBefore(DateTime.now())){
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Please select valid time')),
-                                    );
-                                    return;
-                                  }
                                   if(widget.isReschedule){
                                       model.rescheduleSchoolTour(enquiryID: widget.enquiryDetailArgs.enquiryId??'',slotid:model.slotId ,Date:model.selectedDate);
                                   } else{
