@@ -139,6 +139,8 @@ export 'src/model/response/transport_enrollment_detail/transport_enrollment_deta
 export 'src/model/response/transport_enrollment_detail/transport_enrollment_response.dart';
 export 'src/model/response/fetch_stop/fetch_stop_response.dart';
 export 'src/model/response/fetch_stop/stop_detail.dart';
+export 'src/model/response/enquiry_detail/move_to_next_update_model.dart';
+export 'src/model/request/marketing/move_to_next_stage_model.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';

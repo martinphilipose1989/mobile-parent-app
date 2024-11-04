@@ -163,4 +163,32 @@ class UserRepositoryImpl extends UserRepository {
       );
     }
   }
+
+  @override
+  Future<Either<LocalError, User>> getUserDetails() async {
+    try {
+      final String userName =
+          await secureStorageService.getFromDisk(secureStorageService.userName);
+      final String emailId = await secureStorageService
+          .getFromDisk(secureStorageService.userEmail);
+      final String userPhoneNumber = await secureStorageService
+          .getFromDisk(secureStorageService.userPhoneNumber);
+      final int userId =
+          await secureStorageService.getFromDisk(secureStorageService.userId);
+      return Right(User(
+        id: userId,
+        email: emailId,
+        phoneNumber: userPhoneNumber,
+        userName: userName,
+      ));
+    } catch (error) {
+      return Left(
+        LocalError(
+          errorType: ErrorType.storageError,
+          message: error.toString(),
+          cause: Exception(),
+        ),
+      );
+    }
+  }
 }

@@ -58,7 +58,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       this.downloadFileUsecase,
       this.enquiryDetails,
       this.chooseFileUseCase,
-      this.flutterToastErrorPresenter) {
+      this.flutterToastErrorPresenter,
+      this.moveToNextStageUsecase) {
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -1002,5 +1003,34 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         Navigator.pop(context);
       });
     });
+  }
+
+  final MoveToNextStageUsecase moveToNextStageUsecase;
+  final BehaviorSubject<Resource<MoveToNextStageEnquiryResponse>>
+      moveStageSubject = BehaviorSubject.seeded(Resource.none());
+
+  Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
+      moveStageSubject.stream;
+
+  void moveToNextStage() {
+    isLoading.add(true);
+    MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
+        enquiryId: "${enquiryDetailArgs?.enquiryId}");
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(
+        params,
+        createCall: () => moveToNextStageUsecase.execute(params: params),
+      ).asFlow().listen((data) {
+        if (data.status == Status.error) {
+          isLoading.add(false);
+          moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
+        }
+        if (data.status == Status.success) {
+          isLoading.add(false);
+          moveStageSubject.add(Resource.success(data: data.data));
+          showPopUP(context);
+        }
+      });
+    }).execute();
   }
 }

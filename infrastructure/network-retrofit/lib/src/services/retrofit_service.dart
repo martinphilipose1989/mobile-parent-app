@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/model/request/finance/get_school_name_reque
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
@@ -15,6 +16,7 @@ import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
+import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_update.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_subject_list/subject_list_response_entity.dart';
 import 'package:network_retrofit/src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response_entity.dart';
@@ -42,6 +44,7 @@ import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_resp
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
+import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -545,4 +548,10 @@ abstract class RetrofitService {
   Future<HttpResponse<UserRolePermissionResponseEntity>> getUserRolePermissions(
       @Header("Authorization") token,
       @Body() UserRolePermissionRequestEntity body);
+
+  @PATCH(
+      "${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryId}/move-to-next-stage")
+  Future<HttpResponse<MoveToNextStageEnquiryResponseEntity>>
+      moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
+          @Body() MoveToNextStageEnquiryRequestEntity body);
 }

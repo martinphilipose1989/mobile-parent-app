@@ -22,11 +22,17 @@ class DashboardPageModel extends BasePageViewModel {
   BehaviorSubject<ParentStudentStatusEnum> statusSubject =
       BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
 
+  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+
+  Stream<Resource<User>> get userStream => userSubject.stream;
+
   DashboardPageModel(
       this.exceptionHandlerBinder,
       this._getGuardianStudentDetailsUsecase,
       this.tokenresponseUsecase,
-      this.getUserRoleBasePermissionUsecase);
+      this.getUserRoleBasePermissionUsecase,
+      this._getUserDetailsUsecase);
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -168,7 +174,7 @@ class DashboardPageModel extends BasePageViewModel {
               mobileNumber, "${result.data?.data?.user?.mobileNo}");
           final statusId = result.data?.data?.user?.statusId ?? 0;
           final statusEnum = ParentStudentStatusEnum.fromStatus(statusId);
-
+          getUserDetails();
           // Add the enum to the subject
           statusSubject.add(statusEnum);
           final phoneNo = await SharedPreferenceHelper.getString(mobileNumber);
@@ -181,6 +187,18 @@ class DashboardPageModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => _getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+      }
+    });
   }
 }
 

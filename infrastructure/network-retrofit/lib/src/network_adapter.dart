@@ -27,6 +27,7 @@ import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 
+import 'model/request/move_next_stage_request.dart';
 import 'services/retrofit_service.dart';
 
 class NetworkAdapter implements NetworkPort {
@@ -1160,6 +1161,19 @@ class NetworkAdapter implements NetworkPort {
             email: request.email, service: request.service),
       ),
     );
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
+      moveToNextStageEnquiry({required String enquiryId}) async {
+    var response = await safeApiCall(apiService.moveToNextStageEnquiry(
+      enquiryId,
+      MoveToNextStageEnquiryRequestEntity(currentStage: "Enquiry"),
+    ));
 
     return response.fold((l) {
       return Left(l);

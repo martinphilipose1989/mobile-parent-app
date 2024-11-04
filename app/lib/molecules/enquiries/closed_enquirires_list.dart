@@ -29,6 +29,7 @@ class ClosedEnquiriesListPage extends StatelessWidget {
               initialData: model.admissions.value,
               dataBuilder: (context, data) {
                 return AdmissionsList(
+                  isClosed: true,
                   admissionList: model.admissions.value,
                   scrollController: model.scrollController,
                   onRefresh: () =>
