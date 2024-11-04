@@ -187,7 +187,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         height: 20,
                       ),
                       CommonTextFormField(
-                        showAstreik: true,
+                        showAstreik: false,
                         labelText: "Student Aadhar No",
                         controller: model.studentAadharController,
                         keyboardType: TextInputType.number,
@@ -690,7 +690,9 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                 )
               ]),
         ),
-        const SizedBox(height: 50,)
+        const SizedBox(
+          height: 50,
+        )
       ]),
     );
   }
