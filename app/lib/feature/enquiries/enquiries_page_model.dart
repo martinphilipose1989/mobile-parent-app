@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +15,19 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class EnquiriesPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetEnquiryListUsecase getEnquiryListUsecase;
-  EnquiriesPageModel(this.exceptionHandlerBinder, this.getEnquiryListUsecase){
+  final GetAdmissionListUsecase getAdmissionListUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  EnquiriesPageModel(this.exceptionHandlerBinder, this.getEnquiryListUsecase,
+      this.getAdmissionListUsecase, this.flutterToastErrorPresenter) {
     setupScrollListener();
     fetchEnquiries();
   }
 
   final BehaviorSubject<String> selectedPaymentType =
-  BehaviorSubject<String>.seeded('');
+      BehaviorSubject<String>.seeded('');
 
   final BehaviorSubject<bool> selectedChequeType =
-  BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(false);
 
   final ScrollController scrollController = ScrollController();
   final ScrollController closedEnquiryController = ScrollController();
@@ -34,8 +39,9 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   void setupScrollListener() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        if(isLoading.value){
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (isLoading.value) {
           return;
         }
         if (isNextPage) {
@@ -46,14 +52,15 @@ class EnquiriesPageModel extends BasePageViewModel {
       }
     });
     closedEnquiryController.addListener(() {
-      if (closedEnquiryController.position.pixels == closedEnquiryController.position.maxScrollExtent) {
-        if(isLoading.value){
+      if (closedEnquiryController.position.pixels ==
+          closedEnquiryController.position.maxScrollExtent) {
+        if (isLoading.value) {
           return;
         }
         if (closedEnquiryNextPage) {
           closedEnquiryPageNumber++;
           isLoading.value = true;
-          fetchClosedEnquiries();
+          closedEnquiryAdmissionList();
         }
       }
     });
@@ -69,36 +76,36 @@ class EnquiriesPageModel extends BasePageViewModel {
 
   final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
-  Future<void> setPhoneNumber() async{
+  Future<void> setPhoneNumber() async {
     phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
   }
 
   // -------- Get Equiry List Usecase -------- //
-  BehaviorSubject<List<BehaviorSubject<EnquiryListDetailModel>>> enquiries = BehaviorSubject.seeded([]);
-  BehaviorSubject<List<BehaviorSubject<EnquiryListDetailModel>>> closedEnquiries = BehaviorSubject.seeded([]);
-  final BehaviorSubject<Resource<EnquiryListModel>> _getEnquiryResponse = BehaviorSubject();
-  final BehaviorSubject<Resource<EnquiryListModel>> _getClosedEnquiryResponse = BehaviorSubject();
+  BehaviorSubject<List<BehaviorSubject<EnquiryListDetailModel>>> enquiries =
+      BehaviorSubject.seeded([]);
+  BehaviorSubject<List<BehaviorSubject<EnquiryListDetailModel>>>
+      closedEnquiries = BehaviorSubject.seeded([]);
+  final BehaviorSubject<Resource<EnquiryListModel>> _getEnquiryResponse =
+      BehaviorSubject();
 
-  Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream => _getEnquiryResponse.stream;
-  Stream<Resource<EnquiryListModel>> get getClosedEnquiryResponseStream => _getClosedEnquiryResponse.stream;
+  Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream =>
+      _getEnquiryResponse.stream;
 
-
-  Future<void> fetchEnquiries({bool isRefresh = false}) async{
+  Future<void> fetchEnquiries({bool isRefresh = false}) async {
     exceptionHandlerBinder.handle(block: () async {
-      if(isRefresh){
+      if (isRefresh) {
         pageNumber = 1;
       }
-      if(!isNextPage){
+      if (!isNextPage) {
         return;
       }
       await setPhoneNumber();
       GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
-        phone: phoneNumber,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        status: "Open"
-      );
-      if(pageNumber > 1){
+          phone: phoneNumber,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          status: "Open");
+      if (pageNumber > 1) {
         isLoading.value = true;
       }
       RequestManager<EnquiryListModel>(
@@ -107,25 +114,24 @@ class EnquiriesPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((event) {
-        if(event.status == Status.loading){
-          if(pageNumber == 1 && !isRefresh){
+        if (event.status == Status.loading) {
+          if (pageNumber == 1 && !isRefresh) {
             _getEnquiryResponse.add(event);
           }
         }
-        if(event.status == Status.success){
-          if(isLoading.value){
+        if (event.status == Status.success) {
+          if (isLoading.value) {
             isLoading.value = false;
           }
           _getEnquiryResponse.add(event);
-          _handleEnquiryListing(event.data?.data?.data??[],isRefresh);
-          isNextPage = event.data?.data?.isNextPage??false;
+          _handleEnquiryListing(event.data?.data?.data ?? [], isRefresh);
+          isNextPage = event.data?.data?.isNextPage ?? false;
         }
-        if(event.status == Status.error){
-          if(pageNumber == 1){
+        if (event.status == Status.error) {
+          if (pageNumber == 1) {
             _getEnquiryResponse.add(event);
-          }
-          else{
-            if(isNextPage){
+          } else {
+            if (isNextPage) {
               isNextPage = false;
               _getEnquiryResponse.add(event);
             }
@@ -138,78 +144,24 @@ class EnquiriesPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> fetchClosedEnquiries({bool isRefresh = false}) async{
-    exceptionHandlerBinder.handle(block: () async {
-      if(isRefresh){
-        pageNumber = 1;
-      }
-      if(!closedEnquiryNextPage){
-        return;
-      }
-      await setPhoneNumber();
-      GetEnquiryListUsecaseParams params = GetEnquiryListUsecaseParams(
-        phone: phoneNumber,
-        pageNumber: closedEnquiryPageNumber,
-        pageSize: closedEnquiryPageSize,
-        status: "Closed"
-      );
-      if(closedEnquiryPageNumber > 1){
-        isLoading.value = true;
-      }
-      RequestManager<EnquiryListModel>(
-        params,
-        createCall: () => getEnquiryListUsecase.execute(
-          params: params,
-        ),
-      ).asFlow().listen((event) {
-        if(event.status == Status.loading){
-          if(closedEnquiryPageNumber == 1 && !isRefresh){
-            _getClosedEnquiryResponse.add(event);
-          }
-        }
-        if(event.status == Status.success){
-          if(isLoading.value){
-            isLoading.value = false;
-          }
-          _getClosedEnquiryResponse.add(event);
-          _handleEnquiryListing(event.data?.data?.data??[],isRefresh,enquiryType: "Closed");
-          closedEnquiryNextPage = event.data?.data?.isNextPage??false;
-        }
-        if(event.status == Status.error){
-          if(closedEnquiryPageNumber == 1){
-            _getClosedEnquiryResponse.add(event);
-          }
-          else{
-            if(closedEnquiryNextPage){
-              closedEnquiryNextPage = false;
-              _getClosedEnquiryResponse.add(event);
-            }
-          }
-        }
-      }).onError((error) {
-        isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
-      });
-    }).execute();
-  }
-
-  void _handleEnquiryListing(List<EnquiryListDetailModel> enquiry,bool isRefresh, {String enquiryType = 'Open'}){
-    List<BehaviorSubject<EnquiryListDetailModel>> enquiryList = enquiry.map((element){
+  void _handleEnquiryListing(
+      List<EnquiryListDetailModel> enquiry, bool isRefresh,
+      {String enquiryType = 'Open'}) {
+    List<BehaviorSubject<EnquiryListDetailModel>> enquiryList =
+        enquiry.map((element) {
       return BehaviorSubject.seeded(element);
     }).toList();
-    if(enquiryType == 'Open'){
-      if(isRefresh){
+    if (enquiryType == 'Open') {
+      if (isRefresh) {
         enquiries.add(enquiryList);
-      }
-      else{
+      } else {
         var currentData = enquiries.value;
         enquiries.add(currentData + enquiryList);
       }
-    } else{
-      if(isRefresh){
+    } else {
+      if (isRefresh) {
         closedEnquiries.add(enquiryList);
-      }
-      else{
+      } else {
         var currentData = closedEnquiries.value;
         closedEnquiries.add(currentData + enquiryList);
       }
@@ -232,9 +184,90 @@ class EnquiriesPageModel extends BasePageViewModel {
   @override
   void dispose() {
     _getEnquiryResponse.close();
-    _getClosedEnquiryResponse.close();
     enquiries.value.clear();
-    closedEnquiries.value.clear();
+    _getAdmissionListResponse.close();
+    admissions.value.clear();
     super.dispose();
+  }
+
+  BehaviorSubject<List<AdmissionListDetailModel>> admissions =
+      BehaviorSubject.seeded([]);
+
+  final BehaviorSubject<Resource<AdmissionListBaseModel>>
+      _getAdmissionListResponse = BehaviorSubject();
+
+  Stream<Resource<AdmissionListBaseModel>> get getAdmissionListResponse =>
+      _getAdmissionListResponse.stream;
+
+  Future<void> closedEnquiryAdmissionList({bool isRefresh = false}) async {
+    exceptionHandlerBinder.handle(block: () async {
+      if (isRefresh) {
+        closedEnquiryPageNumber = 1;
+      }
+      if (!closedEnquiryNextPage) {
+        return;
+      }
+      var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
+      GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
+          phone: phoneNumber,
+          pageNumber: closedEnquiryPageNumber,
+          pageSize: pageSize,
+          status: "Open");
+      if (closedEnquiryPageNumber > 1) {
+        isLoading.value = true;
+      }
+      RequestManager<AdmissionListBaseModel>(
+        params,
+        createCall: () => getAdmissionListUsecase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((event) {
+        if (event.status == Status.loading) {
+          if (closedEnquiryPageNumber == 1 && !isRefresh) {
+            _getAdmissionListResponse.add(event);
+          }
+        }
+        if (event.status == Status.success) {
+          if (isLoading.value) {
+            isLoading.value = false;
+          }
+          _getAdmissionListResponse.add(event);
+          _handleAdmissionListing(event.data?.data?.data ?? [], isRefresh,
+              status: "Open");
+          closedEnquiryNextPage = event.data?.data?.isNextPage ?? false;
+        }
+        if (event.status == Status.error) {
+          if (closedEnquiryPageNumber == 1) {
+            _getAdmissionListResponse.add(event);
+            flutterToastErrorPresenter.show(
+                event.dealSafeAppError!.throwable,
+                navigatorKey.currentContext!,
+                event.dealSafeAppError?.error.message ?? '');
+          } else {
+            if (closedEnquiryNextPage) {
+              closedEnquiryNextPage = false;
+              _getAdmissionListResponse.add(event);
+            }
+          }
+        }
+      }).onError((error) {
+        isLoading.value = false;
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  void _handleAdmissionListing(
+      List<AdmissionListDetailModel> admission, bool isRefresh,
+      {required String status}) {
+    if (status == "Open") {
+      if (isRefresh) {
+        admissions.add(admission);
+      } else {
+        var admissionList = admission;
+        var currentData = admissions.value;
+        admissions.add(currentData + admissionList);
+      }
+    }
   }
 }

@@ -19,11 +19,30 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../../base/app_base_page.dart';
 
-class Payments extends BasePage<PaymentsModel> {
+class PaymentArguments {
+  final String? enquiryId;
+  final String? enquiryNo;
+  final String? studentName;
   final String phoneNo;
+
+  PaymentArguments({
+    required this.phoneNo,
+    this.enquiryId,
+    this.enquiryNo,
+    this.studentName,
+  });
+
+  @override
+  String toString() {
+    return 'PaymentArguments(enquiryId: $enquiryId, enquiryNo: $enquiryNo, studentName: $studentName, phoneNo: $phoneNo)';
+  }
+}
+
+class Payments extends BasePage<PaymentsModel> {
+  final PaymentArguments paymentArguments;
   const Payments({
     super.key,
-    required this.phoneNo,
+    required this.paymentArguments,
   });
 
   @override
@@ -51,7 +70,7 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
       }
       model.studentIDs = temp;
     }
-    model.phoneNo = int.parse(widget.phoneNo);
+    model.phoneNo = int.parse(widget.paymentArguments.phoneNo);
     model.getStudentList(model.phoneNo);
   }
 

@@ -45,7 +45,7 @@ class AppRouter {
       case RoutePaths.payments:
         return CupertinoPageRoute(
             builder: (context) => Payments(
-                  phoneNo: settings.arguments as String,
+                  paymentArguments: settings.arguments as PaymentArguments,
                 ),
             settings: const RouteSettings(name: RoutePaths.payments));
       case RoutePaths.paymentDetails:

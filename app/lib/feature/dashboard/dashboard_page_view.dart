@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 import 'package:app/utils/app_typography.dart';
@@ -88,7 +89,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               .phoneNo);
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
-              arguments: model.mobileNo);
+              arguments: PaymentArguments(phoneNo: model.mobileNo));
         },
       ),
     );

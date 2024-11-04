@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/contact_info_editing.dart';
@@ -62,7 +65,14 @@ class RegistrationsDetailsPageView
               );
       case 1:
         model.showMenuOnFloatingButton.add(false);
-        return Navigator.of(context).pushNamed(RoutePaths.payments);
+        log("message ${PaymentArguments(
+          phoneNo: model.enquiryDetails?.parentMobile ?? '',
+          enquiryId: enquiryDetailArgs?.enquiryId,
+          enquiryNo: enquiryDetailArgs?.enquiryNumber,
+          studentName:
+              "${model.enquiryDetails?.studentFirstName} ${model.enquiryDetails?.studentLastName}",
+        )}");
+
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);

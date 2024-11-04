@@ -22,6 +22,9 @@ final configurators = [
   //configure database sources
   DatabaseDependencyConfigurator(),
 
+  // secure storage
+  ServiceDependenciesConfigurator(),
+
   //configure network sources
   NetworkDependencyConfigurator(),
 
@@ -34,8 +37,6 @@ final configurators = [
   //configure attachment sources
   AttachmentDependenciesConfigurator(),
 
-  // secure storage
-  ServiceDependenciesConfigurator(),
   // key cloak
   AppAuthDependenciesConfigurator(),
 ];

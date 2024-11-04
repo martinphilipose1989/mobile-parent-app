@@ -141,8 +141,11 @@ final registrationsDetailsProvider =
 
 final enquiriesPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesPageModel>(
-  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetEnquiryListUsecase>()),
+  (ref) => EnquiriesPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetEnquiryListUsecase>(),
+      getIt.get<GetAdmissionListUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>()),
 );
 
 final enquiriesDetailsPageModelProvider =
