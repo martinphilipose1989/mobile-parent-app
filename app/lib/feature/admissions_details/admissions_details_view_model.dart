@@ -7,6 +7,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:rxdart/src/streams/value_stream.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -25,7 +26,12 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final PublishSubject<Resource<List<AdmissionJourneyDetail>>> admissionJourney = PublishSubject();
   final PublishSubject<Resource<AdmissionJourneyBase>> _fetchAdmissionJourney = PublishSubject();
   Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney => _fetchAdmissionJourney.stream;
-  final BehaviorSubject<EnquiryDetail> enquiryDetails = BehaviorSubject.seeded(EnquiryDetail());
+  final BehaviorSubject<EnquiryDetail> _enquiryDetails = BehaviorSubject.seeded(EnquiryDetail());
+ValueStream<EnquiryDetail> get enquiryDetails => _enquiryDetails.stream;
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
+
+
   String? enquiryId;
 
   Future<void> getAdmissionJourney({required String enquiryID,required String type}) async {
@@ -70,7 +76,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryDetails.value = result.data?.data?? EnquiryDetail();
+        _fetchEnquiryDetail.add(result);
+        _enquiryDetails.value = result.data?.data?? EnquiryDetail();
         var admissionStatus = getAdmissionStatus();
         if (admissionStatus == "Approved") {
           if (!menuData
@@ -93,7 +100,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getSchoolVisitStage() {
-    return enquiryDetails.value.enquiryStage
+    return _enquiryDetails.value.enquiryStage
         ?.firstWhere(
           (element) => element.stageName?.toLowerCase().contains('school visit') ?? false,
           orElse: () => EnquiryStage(),
@@ -101,7 +108,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getCompetencyStage() {
-    return enquiryDetails.value.enquiryStage
+    return _enquiryDetails.value.enquiryStage
         ?.firstWhere(
           (element) => element.stageName?.toLowerCase().contains('competency test') ?? false,
           orElse: () => EnquiryStage(),
@@ -109,7 +116,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getAdmissionStage() {
-    return enquiryDetails.value.enquiryStage?.firstWhere(
+    return _enquiryDetails.value.enquiryStage?.firstWhere(
       (element) => (element.stageName??"") == "Admission Status",
       orElse: () => EnquiryStage(),
     );
