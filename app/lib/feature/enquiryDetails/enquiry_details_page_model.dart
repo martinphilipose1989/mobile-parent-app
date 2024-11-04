@@ -321,6 +321,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
+        removeRegistrationMenu();
         if (result.status == Status.success) {
           newAdmissionDetails?.add(result.data?.data ?? NewAdmissionDetail());
           if (isEdit) {
@@ -518,6 +519,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
+        removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
           final currentStepForJourney = result.data?.data?.enquiryStage

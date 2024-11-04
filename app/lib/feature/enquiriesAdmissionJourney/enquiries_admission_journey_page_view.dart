@@ -114,11 +114,11 @@ class EnquiriesAdmissionsJourneyPageView
                           image: AppImages.personIcon,
                           name:
                               "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName}",
-                          year: "${snapshot?.data?.data!.academicYearId}",
+                          year: "${snapshot?.data?.data?.academicYear}",
                           id: snapshot?.data?.data?.enquiryNumber ?? '',
                           title: snapshot?.data?.data?.existingSchoolName ?? '',
                           subtitle:
-                              "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
+                              "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.boardName} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
                           buttontext: snapshot?.data?.data?.currentStage ?? '',
                           compeletion: '',
                           status: enquiryDetail.status ?? '',
