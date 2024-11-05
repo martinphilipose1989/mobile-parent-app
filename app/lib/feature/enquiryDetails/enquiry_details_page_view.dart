@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
-import 'package:app/feature/payments/payments_pages/payments.dart';
+
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/enquiries/edit_enquiry_details.dart';
 import 'package:app/molecules/enquiries/enquiries_details_view.dart';
