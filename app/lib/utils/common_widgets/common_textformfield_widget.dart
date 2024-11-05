@@ -1,5 +1,4 @@
 import 'package:app/themes_setup.dart';
-
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -71,16 +70,15 @@ class CommonTextFormField extends StatelessWidget {
             maxLines: maxLines ?? 1,
             decoration: decoration ??
                 InputDecoration(
-                  filled: readOnly ? true : false,
-                  fillColor: readOnly
-                      ? Colors.grey.shade100
-                      : Theme.of(context).inputDecorationTheme.fillColor,
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  prefixIcon: prefix,
-                  hintText: hintText ?? '',
-                  counterText: ""
-                ),
+                    filled: readOnly ? true : false,
+                    fillColor: readOnly
+                        ? Colors.grey.shade100
+                        : Theme.of(context).inputDecorationTheme.fillColor,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    prefixIcon: prefix,
+                    hintText: hintText ?? '',
+                    counterText: ""),
             onTap: onTap,
             focusNode: focusNode,
             onFieldSubmitted: onFieldSubmitted,

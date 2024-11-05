@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -33,14 +34,18 @@ class PaymentsModel extends BasePageViewModel {
 
   late int phoneNo;
 
+  late PaymentArguments paymentArguments;
+
+  bool isEnquiryModeOn = false;
+
   BehaviorSubject<bool> paymentsLoader = BehaviorSubject<bool>.seeded(true);
 
 // Calling students list
 
-  final BehaviorSubject<Resource<GetGuardianStudentDetailsModel>>
+  final BehaviorSubject<Resource<List<GetGuardianStudentDetailsStudentModel>>>
       _getGuardianStudentDetailsModel = BehaviorSubject();
 
-  Stream<Resource<GetGuardianStudentDetailsModel>>
+  Stream<Resource<List<GetGuardianStudentDetailsStudentModel>>>
       get getGuardianStudentDetailsModel =>
           _getGuardianStudentDetailsModel.stream;
 
@@ -54,7 +59,8 @@ class PaymentsModel extends BasePageViewModel {
             _getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
-          _getGuardianStudentDetailsModel.add(result);
+          _getGuardianStudentDetailsModel
+              .add(Resource.success(data: result.data?.data?.students));
           getAcademicYear();
         }
       }).onError((error) {
@@ -147,7 +153,7 @@ class PaymentsModel extends BasePageViewModel {
   }
 
   Future<void> filterPendingFeeList(
-      {List<int>? studentIDs, List<int>? academicYear}) async {
+      {List? studentIDs, List<int>? academicYear}) async {
     await exceptionHandlerBinder.handle(block: () {
       GetPendingFeesUsecaseParams params = GetPendingFeesUsecaseParams(
           academicYear: academicYear ?? [],
@@ -164,7 +170,6 @@ class PaymentsModel extends BasePageViewModel {
         if (result.status == Status.success) {
           paymentsLoader.add(false);
           int tempTotalAmount = 0;
-
           for (var i = 0; i < (result.data?.data?.fees?.length ?? 0); i++) {
             if (result.data?.data?.fees?[i].isOverdue == 1) {
               result.data?.data?.fees?[i].isSelected =
@@ -173,11 +178,11 @@ class PaymentsModel extends BasePageViewModel {
                   result.data?.data?.fees?[i].pending?.split('.')[0] ?? '');
             }
           }
-
           totalAmount.add(tempTotalAmount);
-          pendingFeesFilteredById.add(Resource.success(data: []));
           createANewListAsPerStudentId(result.data!);
-          calculateTotalAmount();
+          if (result.data?.data?.fees?.isNotEmpty ?? false) {
+            calculateTotalAmount();
+          }
         }
       }).onError((error) {
         paymentsLoader.add(false);
@@ -197,8 +202,10 @@ class PaymentsModel extends BasePageViewModel {
     int receivedValue = 0;
     final currentList = _getPendingFeesModel.value;
     for (var i = 0; i < (currentList.data?.fees?.length ?? 0); i++) {
-      receivedValue +=
-          int.parse(currentList.data?.fees![i].pending?.split('.')[0] ?? '');
+      if (currentList.data?.fees![i].pending != null) {
+        receivedValue +=
+            int.parse(currentList.data?.fees![i].pending?.split('.')[0] ?? '');
+      }
     }
     exactPendingAmountToBePaid.add(receivedValue);
   }
@@ -207,7 +214,7 @@ class PaymentsModel extends BasePageViewModel {
 
   // filtering fees api as per student id
 
-  List<int> studentIDs = [];
+  List studentIDs = [];
   List<int> academicYearIds = [];
   void getSelectedStudentIds(
       {required List<String> selectedValues,
@@ -254,17 +261,28 @@ class PaymentsModel extends BasePageViewModel {
   void createANewListAsPerStudentId(GetPendingFeesModel data) {
     List<PendingFeesAsPerStudentIds> abc = [];
     for (var i = 0; i < studentIDs.length; i++) {
-      abc.add(PendingFeesAsPerStudentIds(
-          studentId: studentIDs[i],
-          studentName: _getGuardianStudentDetailsModel
-                  .value.data?.data?.students
-                  ?.firstWhere((e) => e.id == studentIDs[i])
-                  .studentDisplayName ??
-              "",
-          fees: data.data?.fees!
-                  .where((e) => e.studentId == studentIDs[i])
-                  .toList() ??
-              []));
+      if (isEnquiryModeOn) {
+        abc.add(PendingFeesAsPerStudentIds(
+            studentName:
+                "${paymentArguments.studentName} ${paymentArguments.enquiryNo}",
+            studentId: paymentArguments.enquiryId ?? '',
+            fees: _getPendingFeesModel.value.data!.fees!
+                .where(
+                  (e) => e.enquiryId == paymentArguments.enquiryId,
+                )
+                .toList()));
+      } else {
+        abc.add(PendingFeesAsPerStudentIds(
+            studentId: studentIDs[i].toString(),
+            studentName: _getGuardianStudentDetailsModel.value.data
+                    ?.firstWhere((e) => e.id == studentIDs[i])
+                    .studentDisplayName ??
+                "",
+            fees: data.data?.fees!
+                    .where((e) => e.studentId == studentIDs[i])
+                    .toList() ??
+                []));
+      }
     }
     pendingFeesFilteredById.add(Resource.success(data: abc));
   }
@@ -370,6 +388,24 @@ class PaymentsModel extends BasePageViewModel {
     // end
 
     return false;
+  }
+
+  void updateStudentDetailsForEnquiry(PaymentArguments paymentArguments) {
+    List<GetGuardianStudentDetailsStudentModel> tempList = [];
+    tempList.add(GetGuardianStudentDetailsStudentModel(
+        id: paymentArguments.enquiryId,
+        studentDisplayName:
+            "${paymentArguments.studentName} ${paymentArguments.enquiryNo}"));
+
+    //
+    //
+
+    _getGuardianStudentDetailsModel.add(Resource.success(data: tempList));
+    selectedStudent = tempList;
+    studentIDs.add(paymentArguments.enquiryId);
+    isEnquiryModeOn = true;
+
+    getAcademicYear();
   }
 
   @override

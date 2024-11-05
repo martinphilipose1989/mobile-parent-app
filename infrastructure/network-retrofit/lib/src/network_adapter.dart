@@ -59,7 +59,7 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
-      {required String type, required List<int> students}) async {
+      {required String type, required List students}) async {
     var response = await safeApiCall(financeRetrofitService.getAcademicYear(
         GetAcademicYearRequest(students: students, type: type)));
     return response.fold(
@@ -152,7 +152,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
-      required List<int> students,
+      required List students,
       required List<int> academicYear,
       required int applicableTo,
       int? entityId,
@@ -175,8 +175,7 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
-      {required List<int> studentIds,
-      required List<int> academicYearIds}) async {
+      {required List studentIds, required List<int> academicYearIds}) async {
     var response = await safeApiCall(financeRetrofitService.getSchoolNames(
         SchoolNamesRequest(
             academicYearIds: academicYearIds, studentIds: studentIds)));

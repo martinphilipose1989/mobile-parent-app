@@ -22,7 +22,7 @@ class GetAcademicYearUsecase extends BaseUseCase<BaseError,
 
 class GetAcademicYearUsecaseParams extends Params {
   final String type;
-  final List<int> students;
+  final List students;
 
   GetAcademicYearUsecaseParams({
     required this.type,

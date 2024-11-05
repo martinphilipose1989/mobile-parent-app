@@ -7,7 +7,7 @@ class GetAcademicYearRequest {
   @JsonKey(name: "type")
   final String type;
   @JsonKey(name: "students")
-  final List<int> students;
+  final List students;
 
   GetAcademicYearRequest({required this.type, required this.students});
 

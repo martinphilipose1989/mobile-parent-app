@@ -1,4 +1,3 @@
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
@@ -13,7 +12,6 @@ import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -84,12 +82,11 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
       child: HighlightList(
         chipValues: chipValues,
         onCallBack: (routeName) {
-          print(ProviderScope.containerOf(context)
-              .read(otpPageModelProvider)
-              .phoneNo);
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
-              arguments: PaymentArguments(phoneNo: model.mobileNo));
+              arguments: PaymentArguments(
+                phoneNo: model.mobileNo,
+              ));
         },
       ),
     );

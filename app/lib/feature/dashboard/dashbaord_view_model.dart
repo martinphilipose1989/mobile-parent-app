@@ -178,6 +178,7 @@ class DashboardPageModel extends BasePageViewModel {
           // Add the enum to the subject
           statusSubject.add(statusEnum);
           final phoneNo = await SharedPreferenceHelper.getString(mobileNumber);
+          mobileNo = phoneNo;
           if (phoneNo.isNotEmpty &&
               statusEnum == ParentStudentStatusEnum.admission) {
             getStudentList(int.parse(phoneNo));

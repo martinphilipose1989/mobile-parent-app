@@ -19,9 +19,30 @@ class GetPendingFeesDataEntity extends BaseLayerDataTransformer<
   });
 
   factory GetPendingFeesDataEntity.fromJson(Map<String, dynamic> json) =>
-      _$GetPendingFeesDataEntityFromJson(json);
+      GetPendingFeesDataEntity(
+        fees: json['fees'] is List
+            ? (json['fees'] as List<dynamic>)
+                .map((e) => GetPendingFeesDataFeeEntity.fromJson(
+                    e as Map<String, dynamic>))
+                .toList()
+            : json['fees'] == null
+                ? []
+                : [
+                    GetPendingFeesDataFeeEntity.fromJson(
+                        json['fees'] as Map<String, dynamic>)
+                  ],
+        paymentModes: (json['paymentModes'] as List<dynamic>?)
+            ?.map((e) => GetPendingFeesDataPaymentModeEntity.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+      );
 
-  Map<String, dynamic> toJson() => _$GetPendingFeesDataEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'fees': fees?.map((e) => e.toJson()).toList(),
+      'paymentModes': paymentModes?.map((e) => e.toJson()).toList(),
+    };
+  }
 
   @override
   GetPendingFeesDataModel transform() {

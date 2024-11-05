@@ -5,7 +5,7 @@ part 'get_school_name_request.g.dart';
 @JsonSerializable()
 class SchoolNamesRequest {
   @JsonKey(name: "studentIds")
-  final List<int>? studentIds;
+  final List? studentIds;
   @JsonKey(name: "academicYearIds")
   final List<int>? academicYearIds;
 
