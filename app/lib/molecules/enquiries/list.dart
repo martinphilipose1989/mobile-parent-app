@@ -57,7 +57,7 @@ class ListV extends StatelessWidget {
                         school: data?.school,
                         board: data?.board,
                         grade: data?.grade,
-                        stream: data?.shift,
+                        stream: data?.stream,
                         shift: data?.shift,
                         isFrom: 'enquiry',
                         status: data?.status);
