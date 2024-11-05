@@ -25,7 +25,7 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
       final token = await sharedPreferencesService
           .getFromDisk(sharedPreferencesService.accessTokenKey);
       if (token != null && token.isNotEmpty) {
-        options.headers.putIfAbsent("Authorization", () => token);
+        options.headers.putIfAbsent("Authorization", () => "Bearer $token");
       }
     }
 

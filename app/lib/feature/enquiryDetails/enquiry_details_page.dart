@@ -382,7 +382,7 @@ class EnquiriesDetailsPageState
                                 // model.selectedValue.add(model.selectedValue.value+1);
                               } else if (model.selectedValue.value == 1) {
                                 //model.showPopUP(context);
-                                model.moveToNextStage();
+                                model.moveToNextStage(from: 'submit');
                               }
                             },
                             text: model.selectedValue.value == 0

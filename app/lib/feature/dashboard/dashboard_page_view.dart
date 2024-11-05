@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
@@ -126,9 +127,20 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           const SizedBox(
             width: 10,
           ),
-          const CommonText(
-            text: 'Hello, Mr. Ajay Patel',
-            style: AppTypography.subtitle2,
+          BaseWidget(
+            providerBase: userViewModelProvider,
+            builder: (context, model, _) {
+              return AppStreamBuilder<Resource<User>>(
+                stream: model!.userStream,
+                initialData: Resource.none(),
+                dataBuilder: (context, userModel) {
+                  return CommonText(
+                    text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                    style: AppTypography.subtitle2,
+                  );
+                },
+              );
+            },
           )
         ]),
         SizedBox(

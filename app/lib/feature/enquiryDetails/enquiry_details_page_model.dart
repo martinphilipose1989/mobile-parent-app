@@ -4,8 +4,10 @@ import 'dart:typed_data';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/permission_handler.dart';
@@ -166,6 +168,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       'image': AppImages.timeline,
       'name': "Timeline",
       'isActive': true
+    },
+    {
+      'id': 6,
+      'image': AppImages.payments,
+      'name': "Payments",
+      'isActive': true,
     },
   ];
 
@@ -1012,7 +1020,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
       moveStageSubject.stream;
 
-  void moveToNextStage() {
+  void moveToNextStage({String from = "payment"}) {
     isLoading.add(true);
     MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
         enquiryId: "${enquiryDetailArgs?.enquiryId}");
@@ -1028,7 +1036,19 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         if (data.status == Status.success) {
           isLoading.add(false);
           moveStageSubject.add(Resource.success(data: data.data));
-          showPopUP(context);
+          if (from != "payment") {
+            showPopUP(context);
+          } else {
+            navigatorKey.currentState?.pushNamed(
+              RoutePaths.payments,
+              arguments: PaymentArguments(
+                phoneNo: '',
+                enquiryId: enquiryDetailArgs?.enquiryId,
+                enquiryNo: enquiryDetailArgs?.enquiryNumber,
+                studentName: "${enquiryDetails.studentName} ",
+              ),
+            );
+          }
         }
       });
     }).execute();

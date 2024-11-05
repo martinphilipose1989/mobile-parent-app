@@ -173,8 +173,8 @@ class UserRepositoryImpl extends UserRepository {
           .getFromDisk(secureStorageService.userEmail);
       final String userPhoneNumber = await secureStorageService
           .getFromDisk(secureStorageService.userPhoneNumber);
-      final int userId =
-          await secureStorageService.getFromDisk(secureStorageService.userId);
+      final int userId = int.parse(
+          await secureStorageService.getFromDisk(secureStorageService.userId));
       return Right(User(
         id: userId,
         email: emailId,

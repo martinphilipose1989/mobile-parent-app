@@ -4,6 +4,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/extension/string_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -77,9 +78,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.00),
-                    border: Border.all(color: AppColors.primary),
-                    color: AppColors.primary.withOpacity(0.2)),
+                  borderRadius: BorderRadius.circular(8.00),
+                  border: Border.all(color: AppColors.primary),
+                  color: AppColors.primary.withOpacity(0.2),
+                ),
                 child: BaseWidget(
                     providerBase: userViewModelProvider,
                     builder: (context, model, _) {
@@ -88,7 +90,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                           initialData: Resource.none(),
                           dataBuilder: (context, data) {
                             return CommonText(
-                              text: data?.data?.userName ?? '',
+                              text: data?.data?.userName?.getInitials() ?? '',
                               style: const TextStyle(color: AppColors.primary),
                             );
                           });
