@@ -8,6 +8,7 @@ import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -73,6 +74,11 @@ class EnquiriesAdmissionsJourneyPageView
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.enquiriesTimelinePage,
             arguments: enquiryDetail);
+      case 5:
+        model.showMenuOnFloatingButton.add(false);
+
+        model.moveToNextStage();
+        return;
       default:
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())
@@ -262,7 +268,16 @@ class EnquiriesAdmissionsJourneyPageView
                               model.showMenuOnFloatingButton,
                         )
                       : SizedBox.fromSize());
-            })
+            }),
+        AppStreamBuilder<bool>(
+          stream: model.isLoading,
+          initialData: model.isLoading.value,
+          dataBuilder: (context, isLoading) {
+            return isLoading == true
+                ? const CommonAppLoader()
+                : const SizedBox.shrink();
+          },
+        )
       ],
     );
   }

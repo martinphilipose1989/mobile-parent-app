@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -20,11 +22,13 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
   final EnquiryDetailArgs enquiryDetailArgs;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   EnquiriesAdmissionsJourneyViewModel(
-      this.exceptionHandlerBinder,
-      this.getAdmissionJourneyUsecase,
-      this.getEnquiryDetailUseCase,
-      this.enquiryDetailArgs,
-      this.flutterToastErrorPresenter) {
+    this.exceptionHandlerBinder,
+    this.getAdmissionJourneyUsecase,
+    this.getEnquiryDetailUseCase,
+    this.enquiryDetailArgs,
+    this.flutterToastErrorPresenter,
+    this.moveToNextStageUsecase,
+  ) {
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId ?? '', type: 'enquiry');
@@ -53,7 +57,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
 
   final BehaviorSubject<int> noOfCheques = BehaviorSubject<int>.seeded(1);
 
-  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  // final ValueNotifier<bool> isLoading = ValueNotifier(false);
   Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream =>
       _getEnquiryResponse.stream;
   Stream<Resource<EnquiryListModel>> get getClosedEnquiryResponseStream =>
@@ -305,6 +309,12 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       'name': "Timeline",
       'isActive': true
     },
+    {
+      'id': 5,
+      'image': AppImages.payments,
+      'name': "Payments",
+      'isActive': true,
+    },
   ];
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);
@@ -313,4 +323,45 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
 
   BehaviorSubject<bool> showMenuOnFloatingButton =
       BehaviorSubject<bool>.seeded(false);
+
+  final MoveToNextStageUsecase moveToNextStageUsecase;
+
+  final BehaviorSubject<Resource<MoveToNextStageEnquiryResponse>>
+      moveStageSubject = BehaviorSubject.seeded(Resource.none());
+
+  Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
+      moveStageSubject.stream;
+
+  BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(false);
+
+  void moveToNextStage({String from = "payment"}) {
+    isLoading.add(true);
+    MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
+        enquiryId: "${enquiryDetailArgs.enquiryId}");
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(
+        params,
+        createCall: () => moveToNextStageUsecase.execute(params: params),
+      ).asFlow().listen((data) {
+        if (data.status == Status.error) {
+          isLoading.add(false);
+          moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
+        }
+        if (data.status == Status.success) {
+          isLoading.add(false);
+          moveStageSubject.add(Resource.success(data: data.data));
+
+          navigatorKey.currentState?.pushNamed(
+            RoutePaths.payments,
+            arguments: PaymentArguments(
+              phoneNo: '',
+              enquiryId: enquiryDetailArgs.enquiryId,
+              enquiryNo: enquiryDetailArgs.enquiryNumber,
+              studentName: "${enquiryDetailArgs.studentName} ",
+            ),
+          );
+        }
+      });
+    }).execute();
+  }
 }

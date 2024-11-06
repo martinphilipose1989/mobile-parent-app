@@ -312,12 +312,12 @@ final enquiriesAdmissionsJourneyProvider =
     AutoDisposeChangeNotifierProviderFamily<EnquiriesAdmissionsJourneyViewModel,
         EnquiryDetailArgs>(
   (ref, args) => EnquiriesAdmissionsJourneyViewModel(
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<GetAdmissionJourneyUsecase>(),
-    getIt.get<GetEnquiryDetailUseCase>(),
-    args,
-    getIt.get<FlutterToastErrorPresenter>(),
-  ),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetAdmissionJourneyUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      args,
+      getIt.get<FlutterToastErrorPresenter>(),
+      getIt.get<MoveToNextStageUsecase>()),
 );
 
 final createQrcodeViewModelProvider =

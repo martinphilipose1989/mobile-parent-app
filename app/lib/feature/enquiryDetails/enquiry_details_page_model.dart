@@ -1053,4 +1053,5 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       });
     }).execute();
   }
+
 }
