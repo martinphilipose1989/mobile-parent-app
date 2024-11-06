@@ -20,20 +20,22 @@ abstract class NetworkModule {
       BaseOptions(baseUrl: url);
 
   @singleton
-  PrettyDioLogger providerPrettyLogger() => PrettyDioLogger(
-        request: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
+  PrettyDioLogger providerPrettyLogger(@Named('ShowLogs') bool showLogs) =>
+      PrettyDioLogger(
+        request: showLogs,
+        requestBody: showLogs,
+        requestHeader: showLogs,
+        responseBody: showLogs,
+        responseHeader: showLogs,
         logPrint: (log) {
           return print(log as String);
         },
       );
 
   @singleton
-  CurlLoggerDioInterceptor provideCurlLogger() =>
-      CurlLoggerDioInterceptor(printOnSuccess: true);
+  CurlLoggerDioInterceptor provideCurlLogger(
+          @Named('ShowLogs') bool showLogs) =>
+      CurlLoggerDioInterceptor(printOnSuccess: showLogs);
 
   @singleton
   ApiInterceptor provideApiInterceptor(
@@ -41,8 +43,12 @@ abstract class NetworkModule {
       ApiInterceptor(apiKey, mdmToken);
 
   @singleton
-  AliceDioInterceptor provideAliceInteceptor() =>
-      Alice(showNotification: true).getDioInterceptor();
+  Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
+      Alice(showNotification: showLogs);
+
+  @singleton
+  AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
+      alice.getDioInterceptor();
 
   @singleton
   List<Interceptor> providerInterceptors(
@@ -55,15 +61,15 @@ abstract class NetworkModule {
         logger,
         curlInterceptor,
         // REMOVE WHILE UAT OR RELEASE
-        aliceDioInterceptor
+
+        // aliceDioInterceptor
       ];
 
   @lazySingleton
   Dio providerDio(BaseOptions options, List<Interceptor> interceptors) {
     Dio dio = Dio(options);
-    dio.interceptors.addAll(
-      interceptors,
-    );
+
+    dio.interceptors.addAll(interceptors);
     return dio;
   }
 
