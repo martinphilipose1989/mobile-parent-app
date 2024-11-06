@@ -27,7 +27,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
 
   @override
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
-      {required int paymentMode, required List<int> studentFeeIds}) {
+      {required int paymentMode, required List studentFeeIds}) {
     return networkPort.getValidatePayNow(
         paymentMode: paymentMode, studentFeeIds: studentFeeIds);
   }

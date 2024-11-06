@@ -77,7 +77,7 @@ class Device {
 }
 
 class StudentFee {
-  final int? id;
+  final dynamic id;
   final int? feeId;
   final String? amount;
   final int? amountBeforeDiscount;

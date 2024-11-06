@@ -85,7 +85,7 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
-      {required int paymentMode, required List<int> studentFeeIds}) async {
+      {required int paymentMode, required List studentFeeIds}) async {
     var response = await safeApiCall(financeRetrofitService.getValidatePayNow(
         GetValidatePayNowRequest(
             paymentMode: paymentMode, studentFeeIds: studentFeeIds)));

@@ -81,9 +81,6 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                           model.isFeesSelectable(
                                               onCallBack: (failure) {},
                                               feeIndex: index,
-                                              studentId: int.parse(
-                                                  data.data?[i].studentId ??
-                                                      '0'),
                                               studentIdIndex: i,
                                               pendingAmount: data.data?[i]
                                                       .fees[index].pending ??

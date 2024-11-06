@@ -58,6 +58,9 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
       model.phoneNo = int.parse(widget.paymentArguments.phoneNo);
       model.getStudentList(model.phoneNo);
     } else {
+      model.phoneNo = widget.paymentArguments.phoneNo.isEmpty
+          ? 0
+          : int.parse(widget.paymentArguments.phoneNo);
       model.paymentArguments = widget.paymentArguments;
       model.updateStudentDetailsForEnquiry(model.paymentArguments);
     }

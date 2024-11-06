@@ -22,7 +22,7 @@ class GetValidatePayNowUseCase extends BaseUseCase<BaseError,
 
 class GetValidatePayNowUseCaseParams extends Params {
   final int paymentMode;
-  final List<int> studentFeeIds;
+  final List studentFeeIds;
 
   GetValidatePayNowUseCaseParams(
       {required this.paymentMode, required this.studentFeeIds});

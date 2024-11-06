@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
@@ -68,7 +67,7 @@ class PaymentsPageModel extends BasePageViewModel {
       _getValidateOnPayModel.stream;
 
   void getValidateOnPay(int paymentMode) {
-    List<int> studentFeeids = [];
+    List studentFeeids = [];
     for (var i = 0; i < selectedFees.value.length; i++) {
       studentFeeids.add(selectedFees.value[i].id ?? 0);
     }

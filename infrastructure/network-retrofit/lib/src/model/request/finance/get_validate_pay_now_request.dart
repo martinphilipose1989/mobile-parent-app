@@ -9,7 +9,7 @@ class GetValidatePayNowRequest {
   final int paymentMode;
 
   @JsonKey(name: "student_fee_ids")
-  final List<int> studentFeeIds;
+  final List studentFeeIds;
 
   GetValidatePayNowRequest({
     required this.paymentMode,

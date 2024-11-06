@@ -18,7 +18,7 @@ abstract class NetworkPort {
       {required int segmentLobId});
 
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
-      {required int paymentMode, required List<int> studentFeeIds});
+      {required int paymentMode, required List studentFeeIds});
 
   Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
       {required StorePaymentModelRequest storePaymentModelRequest});

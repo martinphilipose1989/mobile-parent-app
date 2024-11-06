@@ -293,8 +293,7 @@ class PaymentsModel extends BasePageViewModel {
 
   BehaviorSubject<int> totalAmount = BehaviorSubject<int>.seeded(0);
   void isFeesSelectable(
-      {required int studentId,
-      required int feeIndex,
+      {required int feeIndex,
       required int studentIdIndex,
       required String pendingAmount,
       required int feeId,
