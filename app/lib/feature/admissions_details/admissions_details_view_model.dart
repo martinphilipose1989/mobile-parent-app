@@ -79,6 +79,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
               'image': AppImages.subjectSelectionIcon,
               'name': "Subject Selection"
             });
+            enquiryDetailArgs.admissionStatus = admissionStatus;
           }
         }
         if(result.status == Status.error){

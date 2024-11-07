@@ -336,20 +336,25 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                               model.showPopUP(context);
                             } else {
                               if (model.editRegistrationDetails.value) {
-                                ProviderScope.containerOf(context)
-                                    .read(commonChipListProvider)
-                                    .highlightIndex
-                                    .add(ProviderScope.containerOf(context)
-                                            .read(commonChipListProvider)
-                                            .highlightIndex
-                                            .value +
-                                        1);
-                                model.showWidget
-                                    .add(model.showWidget.value + 1);
-                                model.controller.animateTo(
-                                    (model.showWidget.value + 1) * 50,
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.linear);
+                                if(model.enquiryDetailArgs?.admissionStatus == "Approved"){
+                                  ProviderScope.containerOf(context)
+                                      .read(commonChipListProvider)
+                                      .highlightIndex
+                                      .add(ProviderScope.containerOf(context)
+                                              .read(commonChipListProvider)
+                                              .highlightIndex
+                                              .value +
+                                          1);
+                                  model.showWidget
+                                      .add(model.showWidget.value + 1);
+                                  model.controller.animateTo(
+                                      (model.showWidget.value + 1) * 50,
+                                      duration: const Duration(milliseconds: 500),
+                                      curve: Curves.linear);
+                                }
+                                else{
+                                  model.showPopUP(context);
+                                }
                               }
                             }
                           } else if (model.showWidget.value == 6) {
