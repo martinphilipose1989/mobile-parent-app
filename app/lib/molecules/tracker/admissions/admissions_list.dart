@@ -32,69 +32,71 @@ class AdmissionsList extends StatelessWidget {
         shrinkWrap: false,
         padding: EdgeInsets.symmetric(vertical: 15.h),
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.listItem,
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 2,
-                        color: AppColors.disableNeutral80,
-                        offset: Offset(0, 1))
-                  ]),
-              child: GestureDetector(
-                onTap: () {
-                  EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
-                      enquiryId: admissionList?[index].enquiryId,
-                      enquiryNumber: admissionList?[index].enquiryNumber,
-                      currentStage: admissionList?[index].currentStage,
-                      enquiryType: admissionList?[index].enquiryType,
-                      school: admissionList?[index].school,
-                      studentName: admissionList?[index].studentName,
-                      academicYear: admissionList?[index].academicYear,
-                      board: admissionList?[index].board,
-                      grade: admissionList?[index].grade,
-                      shift: admissionList?[index].shift,
-                      stream: admissionList?[index].stream,
-                      formCompletionPercentage:
-                          admissionList?[index].formCompletionPercentage,
-                      isFrom: 'admission',
-                      status: admissionList?[index].status);
-                  if (isClosed == false) {
-                    Navigator.pushNamed(context, RoutePaths.admissionsDetails,
-                        arguments: admissionDetail);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListItem(
-                        image: AppImages.personIcon,
-                        name: admissionList?[index].studentName ?? '',
-                        year: admissionList?[index].academicYear ?? '',
-                        id: admissionList?[index].enquiryNumber ?? '',
-                        title: admissionList?[index].school ?? '',
-                        subtitle:
-                            "${admissionList?[index].grade ?? ''} | ${admissionList?[index].board ?? ''} | ${admissionList?[index].shift} | Stream-${admissionList?[index].stream}",
-                        buttontext: admissionList?[index].currentStage ?? '',
-                        compeletion:
-                            "${(admissionList?[index].formCompletionPercentage ?? 0).toString()}% Completed",
-                        status: admissionList?[index].status ?? '',
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CommonText(
-                        text: admissionList?[index].comment ?? '',
-                        style: AppTypography.caption.copyWith(
-                            color: AppColors.primary, letterSpacing: 0),
-                      )
-                    ],
-                  ),
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10.0, left: 16, right: 16),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color:
+                    isClosed == true ? AppColors.roseWhite : AppColors.listItem,
+                boxShadow: const [
+                  BoxShadow(
+                      blurRadius: 2,
+                      color: AppColors.disableNeutral80,
+                      offset: Offset(0, 1))
+                ]),
+            child: GestureDetector(
+              onTap: () {
+                EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
+                    enquiryId: admissionList?[index].enquiryId,
+                    enquiryNumber: admissionList?[index].enquiryNumber,
+                    currentStage: admissionList?[index].currentStage,
+                    enquiryType: admissionList?[index].enquiryType,
+                    school: admissionList?[index].school,
+                    studentName: admissionList?[index].studentName,
+                    academicYear: admissionList?[index].academicYear,
+                    board: admissionList?[index].board,
+                    grade: admissionList?[index].grade,
+                    shift: admissionList?[index].shift,
+                    stream: admissionList?[index].stream,
+                    formCompletionPercentage:
+                        admissionList?[index].formCompletionPercentage,
+                    isFrom: 'admission',
+                    status: admissionList?[index].status);
+                if (isClosed == false) {
+                  Navigator.pushNamed(context, RoutePaths.admissionsDetails,
+                      arguments: admissionDetail);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListItem(
+                      isClosed: isClosed,
+                      image: AppImages.personIcon,
+                      name: admissionList?[index].studentName ?? '',
+                      year: admissionList?[index].academicYear ?? '',
+                      id: admissionList?[index].enquiryNumber ?? '',
+                      title: admissionList?[index].school ?? '',
+                      subtitle:
+                          "${admissionList?[index].grade ?? ''} | ${admissionList?[index].board ?? ''} | ${admissionList?[index].shift} | Stream-${admissionList?[index].stream}",
+                      buttontext: admissionList?[index].currentStage ?? '',
+                      compeletion:
+                          "${(admissionList?[index].formCompletionPercentage ?? 0).toString()}% Completed",
+                      status: admissionList?[index].status ?? '',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CommonText(
+                      text: admissionList?[index].comment ?? '',
+                      style: AppTypography.caption.copyWith(
+                          color:
+                              isClosed ? AppColors.success : AppColors.primary,
+                          letterSpacing: 0),
+                    )
+                  ],
                 ),
               ),
             ),

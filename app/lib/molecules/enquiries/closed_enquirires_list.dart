@@ -1,12 +1,10 @@
 import 'package:app/feature/enquiries/enquiries_page_model.dart';
 import 'package:app/model/resource.dart';
-import 'package:app/molecules/enquiries/list.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class ClosedEnquiriesListPage extends StatelessWidget {
   final EnquiriesPageModel model;
