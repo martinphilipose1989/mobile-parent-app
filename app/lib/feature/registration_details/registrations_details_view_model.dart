@@ -189,6 +189,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Stream<Resource<SubjectListResponse>> get getSubjectList =>
       _getSubjectList.stream;
 
+  List<SubjectModel> subjects = [];
   BehaviorSubject<List<String>> complusorySubjectList =
       BehaviorSubject.seeded([]);
   BehaviorSubject<List<String>> optionalSubject = BehaviorSubject.seeded([]);
@@ -752,25 +753,50 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     String enquiryID,
   ) async {
     exceptionHandlerBinder.handle(block: () {
-      var subjectDetailResponse = [
-        SubjectSelectionRequest(
-          id: 19,
-          schoolId: 2,
-          schoolBrandId: null,
-          subjectId: 21,
-          isCompulsory: 1,
-          isOptionalCompulsory: null,
-          orderNo: null,
-          academicYearId: 25,
-          statusId: null,
-          schoolName: "VIBGYOR Kids and High - Balewadi",
-          subjectName: null,
-          acYear: "2024 - 25",
-        )
-      ];
+      List<SubjectSelectionRequest> subjectList = [];
+      subjects.forEach((element){
+        if(element.isCompulsory == 1){
+          subjectList.add(
+            SubjectSelectionRequest(
+              id: element.id,
+              schoolId: element.schoolId,
+              schoolBrandId: element.schoolBrandId,
+              subjectId: element.subjectId,
+              isCompulsory: element.isCompulsory,
+              isOptionalCompulsory: element.isOptionalCompulsory,
+              orderNo: element.orderNo,
+              academicYearId: element.academicYearId,
+              statusId: element.statusId,
+              schoolName: element.schoolName,
+              subjectName: element.subjectName,
+              acYear: element.academicYear,
+            )
+          );
+        }
+      });
+      subjects.forEach((element){
+        if(element.subjectName == selectedOptionalSubject.value){
+          subjectList.add(
+            SubjectSelectionRequest(
+              id: element.id,
+              schoolId: element.schoolId,
+              schoolBrandId: element.schoolBrandId,
+              subjectId: element.subjectId,
+              isCompulsory: element.isCompulsory,
+              isOptionalCompulsory: element.isOptionalCompulsory,
+              orderNo: element.orderNo,
+              academicYearId: element.academicYearId,
+              statusId: element.statusId,
+              schoolName: element.schoolName,
+              subjectName: element.subjectName,
+              acYear: element.academicYear,
+            )
+          );
+        }
+      });
       SelectOptionalSubjectUsecaseParams params =
           SelectOptionalSubjectUsecaseParams(
-              subjectSelectionRequest: subjectDetailResponse,
+              subjectSelectionRequest: subjectList,
               enquiryID: enquiryID);
       isLoading.value = true;
       RequestManager<SubjectDetailResponse>(params,
@@ -843,10 +869,10 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       GetSubjectListUsecaseParams params = GetSubjectListUsecaseParams(
           subjectListingRequest: SubjectListingRequest(
               pageSize: 1000,
-              schoolId: 10,
-              academicYearId: 25,
+              schoolId: enquiryDetails?.schoolId,
+              academicYearId: enquiryDetails?.academicYearId,
               brandId: 1,
-              boardId: 5,
+              boardId: enquiryDetails?.boardId,
               termId: 1,
               gradeID: 12));
       RequestManager<SubjectListResponse>(params,
@@ -855,6 +881,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           .listen((result) {
         _getSubjectList.add(result);
         if (result.status == Status.success) {
+          subjects = result.data?.data?.data??[];
           (result.data?.data?.data ?? []).forEach((element) {
             if (element.isCompulsory == 1) {
               complusorySubjectList.value.add(element.subjectName ?? '');
