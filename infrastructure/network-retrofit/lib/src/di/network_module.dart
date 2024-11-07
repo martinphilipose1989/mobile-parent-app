@@ -55,14 +55,16 @@ abstract class NetworkModule {
           PrettyDioLogger logger,
           ApiInterceptor apiInterceptor,
           CurlLoggerDioInterceptor curlInterceptor,
-          AliceDioInterceptor aliceDioInterceptor) =>
+          AliceDioInterceptor aliceDioInterceptor,
+          @Named('ShowLogs') bool showLogs) =>
       <Interceptor>[
         apiInterceptor,
-        logger,
-        curlInterceptor,
-        // REMOVE WHILE UAT OR RELEASE
-
-        // aliceDioInterceptor
+        if (showLogs == true) ...[
+          logger,
+          curlInterceptor,
+          // REMOVE WHILE UAT OR RELEASE
+          aliceDioInterceptor
+        ]
       ];
 
   @lazySingleton
