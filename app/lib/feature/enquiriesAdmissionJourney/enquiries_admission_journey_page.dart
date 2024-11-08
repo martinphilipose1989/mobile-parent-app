@@ -16,8 +16,8 @@ import '../enquiries/enquiries_page_model.dart';
 
 class EnquiriesAdmissionsJourneyPage
     extends BasePage<EnquiriesAdmissionsJourneyViewModel> {
-    final EnquiryDetailArgs? enquiryDetail;
-  const EnquiriesAdmissionsJourneyPage({super.key,this.enquiryDetail});
+  final EnquiryDetailArgs? enquiryDetail;
+  const EnquiriesAdmissionsJourneyPage({super.key, this.enquiryDetail});
 
   @override
   State<EnquiriesAdmissionsJourneyPage> createState() => _AdmissionsPageState();
@@ -25,7 +25,6 @@ class EnquiriesAdmissionsJourneyPage
 
 class _AdmissionsPageState extends AppBasePageState<
     EnquiriesAdmissionsJourneyViewModel, EnquiriesAdmissionsJourneyPage> {
-
   late final EnquiriesPageModel enquiriesViewModel;
   @override
   void onModelReady(EnquiriesAdmissionsJourneyViewModel model) {
@@ -33,9 +32,8 @@ class _AdmissionsPageState extends AppBasePageState<
       context,
       super.stateObserver,
     );
-
-
   }
+
   @override
   void initState() {
     super.initState();
@@ -44,45 +42,37 @@ class _AdmissionsPageState extends AppBasePageState<
         .read(enquiriesPageModelProvider);
   }
 
-
-
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
-    // TODO: implement buildAppbar
-    return  CommonAppBar(
-      appbarTitle: 'Enquiry Details',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-onBackPressed:  (){
-  ProviderScope.containerOf(context)
-      .read(enquiriesPageModelProvider).fetchEnquiries();
-        print("on back pressed");
-  Navigator.pop(context);
-}
+    return CommonAppBar(
+        appbarTitle: 'Enquiry Details',
+        notShowNotificationAndUserBatch: false,
+        showBackButton: true,
+        onBackPressed: () {
+          //  enquiriesViewModel.fetchEnquiries();
 
-
-
-
-
-    );
+          Navigator.pop(context);
+        });
   }
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(
       BuildContext context, EnquiriesAdmissionsJourneyViewModel model) {
-    // TODO: implement buildView
-    return EnquiriesAdmissionsJourneyPageView(provideBase(),enquiryDetail: widget.enquiryDetail??EnquiryDetailArgs(),);
+    return EnquiriesAdmissionsJourneyPageView(
+      provideBase(),
+      enquiryDetail: widget.enquiryDetail ?? EnquiryDetailArgs(),
+    );
   }
 
   @override
   ProviderBase<EnquiriesAdmissionsJourneyViewModel> provideBase() {
-    return enquiriesAdmissionsJourneyProvider.call(widget.enquiryDetail??EnquiryDetailArgs());
+    return enquiriesAdmissionsJourneyProvider
+        .call(widget.enquiryDetail ?? EnquiryDetailArgs());
   }
 
   @override
@@ -116,17 +106,15 @@ onBackPressed:  (){
       },
     );
   }
+
   @override
   void dispose() {
-    print("hiii AFTER DISPOSE");
-    // Use the stored provider instance instead of accessing it via context
-    enquiriesViewModel.fetchEnquiries();
+    //  enquiriesViewModel.fetchEnquiries();
     super.dispose();
   }
 }
 
-
-class EnquiryDetailArgs{
+class EnquiryDetailArgs {
   String? enquiryType;
   String? enquiryId;
   String? enquiryNumber;
@@ -145,24 +133,22 @@ class EnquiryDetailArgs{
   String? admissionStatus;
   String? status;
 
-  EnquiryDetailArgs({
-    this.enquiryId,
-    this.enquiryNumber,
-    this.enquiryType,
-    this.currentStage,
-    this.studentName,
-    this.academicYear,
-    this.school,
-    this.board,
-    this.grade,
-    this.stream,
-    this.shift,
-    this.schoolVisitDate,
-    this.schoolVisitTime,
-    this.formCompletionPercentage,
-    this.isFrom,
-    this.admissionStatus,
-    this.status
-  });
-
+  EnquiryDetailArgs(
+      {this.enquiryId,
+      this.enquiryNumber,
+      this.enquiryType,
+      this.currentStage,
+      this.studentName,
+      this.academicYear,
+      this.school,
+      this.board,
+      this.grade,
+      this.stream,
+      this.shift,
+      this.schoolVisitDate,
+      this.schoolVisitTime,
+      this.formCompletionPercentage,
+      this.isFrom,
+      this.admissionStatus,
+      this.status});
 }
