@@ -534,6 +534,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
+          result.data?.data?.enquiryStage?.forEach((e) {
+            log("enquiryStage ${e.status}  ${e.stageName}");
+          });
           final currentStepForJourney = result.data?.data?.enquiryStage
                   ?.firstWhere(
                       (e) =>

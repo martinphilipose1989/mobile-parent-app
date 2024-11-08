@@ -151,21 +151,21 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          AppStreamBuilder<Resource<List<BrandData>>>(
+          StreamBuilder<Resource<List<BrandData>>>(
               stream: model.brandListResponse.stream,
-              initialData: model.brandListResponse.value,
-              dataBuilder: (context, brandList) {
-                if (brandList?.status == Status.loading) {
+              initialData: Resource.none(),
+              builder: (context, brandList) {
+                if (!brandList.hasData) {
                   return const CircularProgressIndicator();
-                } else if (brandList?.status == Status.success) {
+                } else {
                   return CustomDropdownButton(
                     width: MediaQuery.of(context).size.width,
-                    onMultiSelect: (_) {},
+                    onMultiSelect: (selectedValues) {},
                     dropdownName: 'Brand',
                     showAstreik: true,
                     showBorderColor: true,
-                    items: brandList?.data
-                            ?.map((brand) => brand.attributes.name)
+                    items: brandList.data?.data
+                            ?.map((e) => e.attributes.name)
                             .toList() ??
                         [],
                     onSingleSelect: (selectedValue) {},
@@ -174,8 +174,6 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                     validator: (value) =>
                         AppValidators.validateDropdown(value, "brand"),
                   );
-                } else {
-                  return const SizedBox();
                 }
               }),
           const SizedBox(

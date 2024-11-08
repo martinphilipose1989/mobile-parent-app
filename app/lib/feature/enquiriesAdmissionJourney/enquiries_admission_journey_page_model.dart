@@ -190,6 +190,9 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
+          result.data?.data?.forEach((e) {
+            log("admission enquiryStage ${e.status}  ${e.stage}");
+          });
           final currentStepForJourney = result.data?.data
                   ?.firstWhere(
                       (e) =>
@@ -199,6 +202,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
                   .status ??
               '';
 
+          log("currentStepForJourney $currentStepForJourney");
           if (currentStepForJourney.toLowerCase() != "completed") {
             final index = menuData
                 .indexWhere((e) => e['name'].toLowerCase() == "registration");
