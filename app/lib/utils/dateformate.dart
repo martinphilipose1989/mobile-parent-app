@@ -68,6 +68,16 @@ extension DateFormatExtension on String {
     }
   }
 
+  String dateFormattodd_mm_yyyy() {
+    /// dd-mm-yyyy format
+    try {
+      DateTime dateTime = DateTime.parse(this);
+      return DateFormat('dd-mm-yyyy').format(dateTime);
+    } catch (e) {
+      return "";
+    }
+  }
+
   String dateFormat() {
     try {
       DateTime parsedDate = DateFormat("dd-MM-yyyy").parse(this);
@@ -106,6 +116,17 @@ extension DateFormatExtension on String {
       return "";
     }
   }
+
+  String convertTo24HourFormat() {
+    try {
+      DateTime dateTime = DateFormat("hh:mm:ss a").parse(this);
+      String time24Hour = DateFormat("HH:mm:ss").format(dateTime);
+      return time24Hour;
+    } catch (e) {
+      return "";
+    }
+  }
+
 
   String formatTimeWithoutIntl() {
     // Split the time string by space and colon
