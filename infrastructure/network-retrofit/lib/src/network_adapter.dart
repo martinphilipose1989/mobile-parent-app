@@ -1168,10 +1168,12 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId}) async {
+      moveToNextStageEnquiry(
+          {required String enquiryId, String? enquiryStage}) async {
     var response = await safeApiCall(apiService.moveToNextStageEnquiry(
       enquiryId,
-      MoveToNextStageEnquiryRequestEntity(currentStage: "Enquiry"),
+      MoveToNextStageEnquiryRequestEntity(
+          currentStage: enquiryStage ?? "Enquiry"),
     ));
 
     return response.fold((l) {

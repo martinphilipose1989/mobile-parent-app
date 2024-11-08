@@ -754,50 +754,45 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   ) async {
     exceptionHandlerBinder.handle(block: () {
       List<SubjectSelectionRequest> subjectList = [];
-      subjects.forEach((element){
-        if(element.isCompulsory == 1){
-          subjectList.add(
-            SubjectSelectionRequest(
-              id: element.id,
-              schoolId: element.schoolId,
-              schoolBrandId: element.schoolBrandId,
-              subjectId: element.subjectId,
-              isCompulsory: element.isCompulsory,
-              isOptionalCompulsory: element.isOptionalCompulsory,
-              orderNo: element.orderNo,
-              academicYearId: element.academicYearId,
-              statusId: element.statusId,
-              schoolName: element.schoolName,
-              subjectName: element.subjectName,
-              acYear: element.academicYear,
-            )
-          );
+      subjects.forEach((element) {
+        if (element.isCompulsory == 1) {
+          subjectList.add(SubjectSelectionRequest(
+            id: element.id,
+            schoolId: element.schoolId,
+            schoolBrandId: element.schoolBrandId,
+            subjectId: element.subjectId,
+            isCompulsory: element.isCompulsory,
+            isOptionalCompulsory: element.isOptionalCompulsory,
+            orderNo: element.orderNo,
+            academicYearId: element.academicYearId,
+            statusId: element.statusId,
+            schoolName: element.schoolName,
+            subjectName: element.subjectName,
+            acYear: element.academicYear,
+          ));
         }
       });
-      subjects.forEach((element){
-        if(element.subjectName == selectedOptionalSubject.value){
-          subjectList.add(
-            SubjectSelectionRequest(
-              id: element.id,
-              schoolId: element.schoolId,
-              schoolBrandId: element.schoolBrandId,
-              subjectId: element.subjectId,
-              isCompulsory: element.isCompulsory,
-              isOptionalCompulsory: element.isOptionalCompulsory,
-              orderNo: element.orderNo,
-              academicYearId: element.academicYearId,
-              statusId: element.statusId,
-              schoolName: element.schoolName,
-              subjectName: element.subjectName,
-              acYear: element.academicYear,
-            )
-          );
+      subjects.forEach((element) {
+        if (element.subjectName == selectedOptionalSubject.value) {
+          subjectList.add(SubjectSelectionRequest(
+            id: element.id,
+            schoolId: element.schoolId,
+            schoolBrandId: element.schoolBrandId,
+            subjectId: element.subjectId,
+            isCompulsory: element.isCompulsory,
+            isOptionalCompulsory: element.isOptionalCompulsory,
+            orderNo: element.orderNo,
+            academicYearId: element.academicYearId,
+            statusId: element.statusId,
+            schoolName: element.schoolName,
+            subjectName: element.subjectName,
+            acYear: element.academicYear,
+          ));
         }
       });
       SelectOptionalSubjectUsecaseParams params =
           SelectOptionalSubjectUsecaseParams(
-              subjectSelectionRequest: subjectList,
-              enquiryID: enquiryID);
+              subjectSelectionRequest: subjectList, enquiryID: enquiryID);
       isLoading.value = true;
       RequestManager<SubjectDetailResponse>(params,
               createCall: () =>
@@ -868,6 +863,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       GetSubjectListUsecaseParams params = GetSubjectListUsecaseParams(
           subjectListingRequest: SubjectListingRequest(
+              streamId: enquiryDetails?.streamId,
               pageSize: 1000,
               schoolId: enquiryDetails?.schoolId,
               academicYearId: enquiryDetails?.academicYearId,
@@ -881,7 +877,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           .listen((result) {
         _getSubjectList.add(result);
         if (result.status == Status.success) {
-          subjects = result.data?.data?.data??[];
+          subjects = result.data?.data?.data ?? [];
           (result.data?.data?.data ?? []).forEach((element) {
             if (element.isCompulsory == 1) {
               complusorySubjectList.value.add(element.subjectName ?? '');
@@ -2449,7 +2445,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         parentDetails.guardianDetails?.landmark ?? "";
     guardianPinCodeController.text =
         parentDetails.guardianDetails?.pincode ?? "";
-    radioButtonController.selectItem(parentDetails.guardianDetails?.guardianType?? "");
+    radioButtonController
+        .selectItem(parentDetails.guardianDetails?.guardianType ?? "");
     if (guardianPinCodeController.text.trim().isNotEmpty) {
       getCityAndStateByPincode(
           pincode: guardianPinCodeController.text.trim(),
@@ -2875,7 +2872,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.guardianDetails?.emailId = guardianEmailController.text.trim();
     parentInfo?.guardianDetails?.mobileNumber =
         guardianMobileController.text.trim();
-    parentInfo?.guardianDetails?.guardianType = radioButtonController.selectedItem??'';
+    parentInfo?.guardianDetails?.guardianType =
+        radioButtonController.selectedItem ?? '';
     parentInfo?.guardianDetails?.country = selectedGuardianCountryEntity;
     parentInfo?.guardianDetails?.state = selectedGuardianStateEntity;
     parentInfo?.guardianDetails?.city = selectedGuardianCityEntity;
@@ -2903,7 +2901,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     parentInfo?.childCustodyDetail = ChildCustodyDetail(
       areParentsSeparated: radioButtonController2.selectedItem,
       childCustody: radioButtonController2.selectedItem == "Yes"
-          ? radioButtonController10.selectedItem??''
+          ? radioButtonController10.selectedItem ?? ''
           : "",
     );
     parentInfoEntity = parentInfoEntity.restore(parentInfo ?? ParentInfo());

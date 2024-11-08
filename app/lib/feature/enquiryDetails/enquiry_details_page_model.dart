@@ -382,12 +382,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   void removeRegistrationMenu() {
-    if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
-        enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
-      final index =
-          menuData.indexWhere((e) => e['name'].toLowerCase() == "registration");
-      menuData[index]['isActive'] = false;
-    }
+    // if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
+    //     enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
+    //   final index =
+    //       menuData.indexWhere((e) => e['name'].toLowerCase() == "registration");
+    //   menuData[index]['isActive'] = false;
+    // }
   }
 
   Future<void> getPsaDetails(
@@ -1053,5 +1053,4 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       });
     }).execute();
   }
-
 }

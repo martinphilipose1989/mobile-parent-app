@@ -49,5 +49,5 @@ abstract class EnquiryRepository {
   Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode(
       {required String pincode});
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId});
+      moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
 }

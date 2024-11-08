@@ -138,7 +138,7 @@ class EnquiryRepositoryImpl implements EnquiryRepository {
 
   @override
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId}) {
-    return _networkPort.moveToNextStageEnquiry(enquiryId: enquiryId);
+      moveToNextStageEnquiry({required String enquiryId,String? enquiryStage}) {
+    return _networkPort.moveToNextStageEnquiry(enquiryId: enquiryId,enquiryStage: enquiryStage);
   }
 }

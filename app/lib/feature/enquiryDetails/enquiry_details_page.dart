@@ -42,7 +42,7 @@ class EnquiriesDetailsPageState
   PreferredSizeWidget? buildAppbar(EnquiriesDetailsPageModel model) {
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Enquiries Details',
+      appbarTitle: 'Enquiry Details',
       showBackButton: true,
     );
   }

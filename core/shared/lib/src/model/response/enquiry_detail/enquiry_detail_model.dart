@@ -32,6 +32,7 @@ class EnquiryDetail {
   int? schoolId;
   int? boardId;
   int? streamId;
+  int? gradeId;
   int? academicYearId;
   String? currentStage;
   String? boardName;

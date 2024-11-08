@@ -167,12 +167,13 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 6);
 
         model.showWidget.add(model.showWidget.value + 6);
-        model.fetchSubjectList();
+
         Future.delayed(const Duration(milliseconds: 500)).then((val) {
           model.controller.jumpTo(500);
         });
       }
       model.enquiryDetails = widget.enquiryDetail;
+      model.fetchSubjectList();
       if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
         model.getIvtDetails(
             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
@@ -336,7 +337,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                               model.showPopUP(context);
                             } else {
                               if (model.editRegistrationDetails.value) {
-                                if(model.enquiryDetailArgs?.admissionStatus == "Approved"){
+                                if (model.enquiryDetailArgs?.admissionStatus ==
+                                    "Approved") {
                                   ProviderScope.containerOf(context)
                                       .read(commonChipListProvider)
                                       .highlightIndex
@@ -349,10 +351,10 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                       .add(model.showWidget.value + 1);
                                   model.controller.animateTo(
                                       (model.showWidget.value + 1) * 50,
-                                      duration: const Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       curve: Curves.linear);
-                                }
-                                else{
+                                } else {
                                   model.showPopUP(context);
                                 }
                               }
