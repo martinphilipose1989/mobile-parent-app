@@ -1,13 +1,17 @@
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
+import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiries/enquiries_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
+import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
+import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
@@ -16,20 +20,19 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
-import 'package:app/feature/webview/webview_page.dart';
-import 'package:app/molecules/payment_history/payment_details.dart';
-import 'package:app/molecules/payments_page.dart/coupon_list.dart';
-import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
 import 'package:app/feature/vas/kids_club/kids_club_page.dart';
 import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
 import 'package:app/feature/vas/transport/transport_page.dart';
+import 'package:app/feature/webview/webview_page.dart';
+import 'package:app/molecules/payment_history/payment_details.dart';
+import 'package:app/molecules/payments_page.dart/coupon_list.dart';
+import 'package:domain/domain.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../feature/splash/splash_page.dart';
 import 'route_paths.dart';
-import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
-import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -256,6 +259,23 @@ class AppRouter {
                   enquiryDetailArgs:
                       args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
                 ));
+
+      case RoutePaths.visitorDetailsPage:
+        return CupertinoPageRoute(
+            builder: (context) => VisitorDetailsPage(),
+            settings: RouteSettings(
+              name: RoutePaths.visitorDetailsPage,
+              arguments: settings.arguments as VisitorDetailsPageParams?,
+            ));
+      case RoutePaths.createEditGatePassPage:
+        final arguments = settings.arguments as GatePassArguments;
+        return CupertinoPageRoute(
+          builder: (context) => CreateEditGatePassPage(arguments: arguments),
+          settings: RouteSettings(
+            name: RoutePaths.createEditGatePassPage,
+            arguments: settings.arguments,
+          ),
+        );
 
       default:
         // Replace by Empty Page

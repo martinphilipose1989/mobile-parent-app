@@ -1,10 +1,12 @@
 class NetworkProperties {
   static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
+
   // static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String financeBaseUrl =
       "https://finance-r26sp3mibq-uc.a.run.app";
   static const String marketingBaseURL =
       'https://marketing-r26sp3mibq-uc.a.run.app/';
+
   // static const String marketingBaseURL = 'https://marketing-backend-ndxpitoqla-el.a.run.app/';
   static const String transportBaseURL =
       'https://transport-219111640528.us-central1.run.app/';
@@ -41,27 +43,44 @@ class NetworkProperties {
   static const String subCastes = '/api/sub-castes?fields[1]=name';
   static const String motherTongue = '/api/mother-tongues?fields[1]=name';
   static const String organization = '/api/organizations?fields[1]=name';
-  static const String designation =
-      '/api/ps-designations';
+  static const String designation = '/api/ps-designations';
   static const String nationality =
       '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
   static const String personalisedLearningNeedsDescription =
       '/api/ac-personalise-learning-needs?fields[1]=name';
   static const String cityAndState =
       '/api/co-pincodes?populate[0]=District_Or_City&populate[1]=State';
-  static const String relationWithChild = '/api/co-guardian-relationships?fields[1]=name';
+  static const String relationWithChild =
+      '/api/co-guardian-relationships?fields[1]=name';
 
   static const String enrollmentDetail =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
+
   // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
   static const String subjetcList =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
+
   // static const String subjetcList = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
+  static const String mdmModule =
+      "https://ampersand-r26sp3mibq-uc.a.run.app/api/co-reasons";
+
+  ////-----GATE PASS ----///
+  /// GATE PASS API BASE:
+  static const String BASE_GATE_PASS =
+      "https://gate-management-r26sp3mibq-uc.a.run.app/";
+
+  /// GATE PASS API ENDPOINTS:
+  static const String createVistorGatepass =
+      "${BASE_GATE_PASS}gate-management/gatepass/create";
+  static const String uploadProfileImage =
+      "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
+
   static const String requestGatePass =
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
+
   // key cloak
   static const String tokenIntroSpect =
       "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";

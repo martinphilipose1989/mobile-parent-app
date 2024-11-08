@@ -209,4 +209,13 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
       moveToNextStageEnquiry({required String enquiryId});
+
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage({
+    required File file,
+    String module = "GATE",
+  });
+
+  Future<Either<NetworkError, CreateGatepassResponseModel>> createVisitorGatePass({required CreateGatePassModel request});
+
+  Future<Either<NetworkError, MdmCoReasonResponseModel>> getPurposeOfVisitList();
 }

@@ -63,7 +63,7 @@ dependencies:
     path: ../statemanagement-core/
   flutter_errors:
     git:
-      url: https://github.com/faiyyazs/flutter-errors.git
+      url: https://github.com/AshrafNeo/flutter-errors.git
       ref: main
       path: flutter-errors/
   fluttertoast: ^8.0.9
@@ -85,6 +85,10 @@ dependencies:
   open_filex: ^4.5.0
   intl: any
   alice: ^0.4.2
+  cached_network_image:
+  country_code_picker: ^3.0.0
+  flutter_libphonenumber: ^2.3.0
+  shimmer: ^3.0.0
   
 dev_dependencies:
   flutter_test:

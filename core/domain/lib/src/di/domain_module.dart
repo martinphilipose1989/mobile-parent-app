@@ -1,6 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/user/get_user_details_usecase.dart';
-import 'package:domain/src/usecase/user/user_role_permission_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -381,5 +379,23 @@ abstract class DomainModule {
   MoveToNextStageUsecase moveToNextStageUsecase(
       EnquiryRepository enquiryRepository) {
     return MoveToNextStageUsecase(enquiryRepository: enquiryRepository);
+  }
+
+  @lazySingleton
+  UploadVisitorProfileUsecase uploadVisitorProfileUsecase(
+      GatepassRepository gatepassRepository) {
+    return UploadVisitorProfileUsecase(gatepassRepository: gatepassRepository);
+  }
+
+  @lazySingleton
+  GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase(
+      GatepassRepository gatepassRepository) {
+    return GetPurposeOfVisitListUsecase(gatepassRepository: gatepassRepository);
+  }
+
+  @lazySingleton
+  CreateGatepassUsecase createGatepassNUsecase(
+      GatepassRepository gatepassRepository) {
+    return CreateGatepassUsecase(gatepassRepository: gatepassRepository);
   }
 }

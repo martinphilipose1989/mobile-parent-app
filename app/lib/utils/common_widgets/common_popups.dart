@@ -1,3 +1,5 @@
+import 'dart:io' show Platform, exit;
+
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -5,7 +7,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:io' show Platform, exit;
 
 class CommonPopups {
   // Private constructor
@@ -21,11 +22,13 @@ class CommonPopups {
 
   // Method to show a success popup
   void showSuccess(BuildContext context, String message,
-      Function(bool shouldRoute) onChanged) {
+      Function(bool shouldRoute) onChanged,
+      {String? popParameter}) {
     _showDialog(context,
         icon: Icons.check_circle,
         iconColor: Colors.green,
         message: message,
+        popParameter: popParameter,
         buttonText: 'OK',
         barrierDismissible: false,
         onChanged: onChanged);
@@ -112,6 +115,7 @@ class CommonPopups {
       required String message,
       required String buttonText,
       required bool barrierDismissible,
+      dynamic popParameter,
       required Function(bool shouldRoute) onChanged}) {
     showDialog(
       context: context,
@@ -142,7 +146,7 @@ class CommonPopups {
                   width: 80.w,
                   child: CommonElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, popParameter);
                       onChanged(true);
                     },
                     text: 'Ok',

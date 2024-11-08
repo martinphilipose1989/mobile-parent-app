@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/gatepass/gatepass_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class RequestGatepassUsecase extends BaseUseCase<NetworkError,

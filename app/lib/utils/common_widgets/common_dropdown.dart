@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 class CustomDropdownButton extends StatefulWidget {
   final List<String?> items;
   final List<DropdownData>? itemsWithId;
-  final bool isMutiSelect;
+  final bool? isMutiSelect;
   final bool showBorderColor;
   final String dropdownName;
   final bool showAstreik;
@@ -27,29 +27,38 @@ class CustomDropdownButton extends StatefulWidget {
   final String? intialValue;
   final bool isDisable;
   final bool isSearchable;
+  final double rightPadding;
+  final double leftPadding;
+  final double topPadding;
+  final double bottomPadding;
 
-  const CustomDropdownButton(
-      {super.key,
-      required this.items,
-      required this.isMutiSelect,
-      required this.dropdownName,
-      required this.showAstreik,
-      this.idValidator,
-      this.intialValue,
-      this.isSearchable = false,
-      this.isDisable = false,
-      this.onIdSelection,
-      this.singleSelectItemSubject,
-      required this.showBorderColor,
-      this.displayZerothIndex = false,
-      this.width,
-      this.showDropDownWithId = false,
-      this.selectedValue,
-      this.itemsWithId,
-      this.dropDownId,
-      this.validator,
-      required this.onMultiSelect,
-      this.onSingleSelect});
+  const CustomDropdownButton({
+    super.key,
+    required this.items,
+    this.isMutiSelect,
+    required this.dropdownName,
+    required this.showAstreik,
+    this.idValidator,
+    this.intialValue,
+    this.isSearchable = false,
+    this.isDisable = false,
+    this.onIdSelection,
+    this.singleSelectItemSubject,
+    required this.showBorderColor,
+    this.displayZerothIndex = false,
+    this.width,
+    this.showDropDownWithId = false,
+    this.selectedValue,
+    this.itemsWithId,
+    this.dropDownId,
+    this.validator,
+    required this.onMultiSelect,
+    this.onSingleSelect,
+    this.topPadding = 0,
+    this.bottomPadding = 0,
+    this.rightPadding = 0,
+    this.leftPadding = 0,
+  });
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -73,7 +82,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   }
 
   void eitherDisplayZerothIndexOrSelectedName() {
-    if (widget.isMutiSelect) {
+    if (widget.isMutiSelect != null && widget.isMutiSelect == true) {
       if (widget.displayZerothIndex) {
         List<String> addedZerothIndex = [];
         addedZerothIndex.add(widget.items[0] ?? '');
@@ -92,7 +101,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         singleSelectItemSubject.add(widget.items[0] ?? "");
       }
     }
-    if (!widget.isMutiSelect) {
+    if ( widget.isMutiSelect != null && widget.isMutiSelect == false) {
       singleSelectItemSubject =
           widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
     }
@@ -116,11 +125,18 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.isMutiSelect
-        ? multiSelectDropDown()
-        : widget.showDropDownWithId
-            ? selectionbyId()
-            : singleSelectDropDown();
+    return Padding(
+      padding: REdgeInsets.only(
+          top: widget.topPadding,
+          right: widget.rightPadding,
+          bottom: widget.bottomPadding,
+          left: widget.leftPadding),
+      child: widget.isMutiSelect != null && widget.isMutiSelect == true
+          ? multiSelectDropDown()
+          : widget.showDropDownWithId
+              ? selectionbyId()
+              : singleSelectDropDown(),
+    );
   }
 
   Widget singleSelectDropDown() {
@@ -407,7 +423,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                         'Select ',
                         style: TextStyle(
                           fontFamily: 'Graphik',
-                          fontWeight: FontWeight.normal, // Regular
+                          fontWeight: FontWeight.normal,
+                          // Regular
                           fontSize: 16,
                           color: Colors.black,
                           textBaseline: TextBaseline.alphabetic,

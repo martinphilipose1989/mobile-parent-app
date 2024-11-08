@@ -1,7 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:app/feature/create_qrcode/create_qrcode_viewmodel.dart';
+import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
@@ -26,6 +29,16 @@ class CreateQrcodePageView extends BasePageViewWidget<CreateQrcodeViewModel> {
               replacement: const Center(child: CircularProgressIndicator()),
               child: CommonElevatedButton(
                   onPressed: () {
+
+                    // TODO: GATE PASS : HANDLE NAVIGATION AND VIEW. CONFIRM AND REMOVE unwanted GatePassArguments
+                    navigatorKey.currentState?.pushNamed(
+                        RoutePaths.createEditGatePassPage,
+                        arguments: GatePassArguments(
+                            id: "",
+                            type: "",
+                            parentData: null));
+
+                    return;
                     model.requestGatePass();
                   },
                   text: "Create Qr code"),

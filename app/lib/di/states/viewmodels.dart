@@ -2,8 +2,8 @@ import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page_model.dart';
-import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page_model.dart';
+import 'package:app/feature/cheque_page/cheque_view_model.dart';
 import 'package:app/feature/competency_test_detail/details_view_competency_test_page_model.dart';
 import 'package:app/feature/create_qrcode/create_qrcode_viewmodel.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -14,6 +14,8 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_model.dart';
+import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_viewmodel.dart';
+import 'package:app/feature/gate_pass/visitor_details/visitor_details_viewmodel.dart';
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
 import 'package:app/feature/payments/payment_history_fees_type/payment_history_fees_model.dart';
@@ -26,12 +28,12 @@ import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.d
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
-import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/feature/vas/psa/psa_view_model.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
+import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -327,6 +329,24 @@ final createQrcodeViewModelProvider =
             requestGatepassUsecase: getIt.get<RequestGatepassUsecase>(),
             exceptionHandlerBinder:
                 getIt.get<FlutterExceptionHandlerBinder>()));
+
+final createEditGatePassViewModelProvider =
+    ChangeNotifierProvider.autoDispose<CreateEditGatePassViewModel>((ref) =>
+        CreateEditGatePassViewModel(
+          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+          uploadVisitorProfileUsecase: getIt.get<UploadVisitorProfileUsecase>(),
+          getPurposeOfVisitListUsecase:
+              getIt.get<GetPurposeOfVisitListUsecase>(),
+          createGatepassUsecase: getIt.get<CreateGatepassUsecase>(),
+          chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+          getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+        ));
+
+final visitorDetailsViewModelProvider = ChangeNotifierProvider
+    .autoDispose<VisitorDetailsViewModel>((ref) => VisitorDetailsViewModel(
+        // getVisitorDetailsUsecase: getIt.get<GetVisitorDetailsUsecase>(),
+        exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>()));
 
 final cafeteriaPageModelProvider =
     ChangeNotifierProvider.autoDispose<CafeteriaDetailViewModel>(
