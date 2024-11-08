@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registration_details_vaildator.dart';
 import 'package:app/feature/registration_details/registrations_details_page_view.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -213,18 +217,29 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, RegistrationsDetailsViewModel model) {
-    return SingleChildScrollView(
-        child: RegistrationsDetailsPageView(
-      provideBase(),
-      enquiryDetailArgs: widget.enquiryDetailArgs,
-      enquiryDetail: widget.enquiryDetail,
-    ));
+    return AppStreamBuilder<Resource<MoveToNextStageEnquiryResponse>>(
+        stream: model.moveStageSubject,
+        initialData: Resource.none(),
+        dataBuilder: (context, resource) {
+          return SingleChildScrollView(
+              child: Stack(
+            children: [
+              RegistrationsDetailsPageView(
+                provideBase(),
+                enquiryDetailArgs: widget.enquiryDetailArgs,
+                enquiryDetail: widget.enquiryDetail,
+              ),
+              resource?.status == Status.loading
+                  ? const CommonAppLoader()
+                  : const SizedBox.shrink()
+            ],
+          ));
+        });
   }
 
   @override
@@ -334,7 +349,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                             validator.validateBankDetails(context);
                           } else if (model.showWidget.value == 5) {
                             if (widget.enquiryDetailArgs?.isFrom == "enquiry") {
-                              model.showPopUP(context);
+                              //  model.showPopUP(context);
+                              log('5 SHOWPOPUP');
+                              model.moveToNextStage();
                             } else {
                               if (model.editRegistrationDetails.value) {
                                 if (model.enquiryDetailArgs?.admissionStatus ==
@@ -355,7 +372,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                           const Duration(milliseconds: 500),
                                       curve: Curves.linear);
                                 } else {
-                                  model.showPopUP(context);
+                                  log('5 no enq SHOWPOPUP');
+
+                                  model.moveToNextStage();
                                 }
                               }
                             }

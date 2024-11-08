@@ -209,4 +209,6 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
       moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
+
+  Future<Either<NetworkError, BrandResponse>> getBrandList();
 }

@@ -50,4 +50,6 @@ abstract class EnquiryRepository {
       {required String pincode});
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
       moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
+
+  Future<Either<NetworkError, BrandResponse>> getBrandList();
 }

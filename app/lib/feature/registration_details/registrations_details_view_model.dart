@@ -6,7 +6,9 @@ import 'dart:typed_data';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/myapp.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -62,34 +64,34 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   RegistrationsDetailsViewModel(
-    this.exceptionHandlerBinder,
-    this.getRegistrationDetailUsecase,
-    this.getNewAdmissionDetailUseCase,
-    this.getIvtDetailUsecase,
-    this.getPsaDetailUsecase,
-    this.getEnquiryDetailUseCase,
-    this.updateParentDetailsUsecase,
-    this.updateMedicalDetailsUsecase,
-    this.updateBankDetailsUsecase,
-    this.updateContactDetailsUsecase,
-    this.updatePsaDetailUsecase,
-    this.updateIvtDetailUsecase,
-    this.updateNewAdmissionUsecase,
-    this.getMdmAttributeUsecase,
-    this.downloadEnquiryDocumentUsecase,
-    this.uploadEnquiryDocumentUsecase,
-    this.deleteEnquiryDocumentUsecase,
-    this.downloadFileUsecase,
-    this.getSiblingDetailsUsecase,
-    this.selectOptionalSubjectUsecase,
-    this.addVasOptionUsecase,
-    this.removeVasDetailUsecase,
-    this.makePaymentRequestUsecase,
-    this.getSubjectListUsecase,
-    this.getCityStateByPincodeUsecase,
-    this.chooseFileUseCase,
-    this.flutterToastErrorPresenter,
-  );
+      this.exceptionHandlerBinder,
+      this.getRegistrationDetailUsecase,
+      this.getNewAdmissionDetailUseCase,
+      this.getIvtDetailUsecase,
+      this.getPsaDetailUsecase,
+      this.getEnquiryDetailUseCase,
+      this.updateParentDetailsUsecase,
+      this.updateMedicalDetailsUsecase,
+      this.updateBankDetailsUsecase,
+      this.updateContactDetailsUsecase,
+      this.updatePsaDetailUsecase,
+      this.updateIvtDetailUsecase,
+      this.updateNewAdmissionUsecase,
+      this.getMdmAttributeUsecase,
+      this.downloadEnquiryDocumentUsecase,
+      this.uploadEnquiryDocumentUsecase,
+      this.deleteEnquiryDocumentUsecase,
+      this.downloadFileUsecase,
+      this.getSiblingDetailsUsecase,
+      this.selectOptionalSubjectUsecase,
+      this.addVasOptionUsecase,
+      this.removeVasDetailUsecase,
+      this.makePaymentRequestUsecase,
+      this.getSubjectListUsecase,
+      this.getCityStateByPincodeUsecase,
+      this.chooseFileUseCase,
+      this.flutterToastErrorPresenter,
+      this.moveToNextStageUsecase);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -870,7 +872,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               brandId: 1,
               boardId: enquiryDetails?.boardId,
               termId: 1,
-              gradeID: 12));
+              gradeID: enquiryDetails?.gradeId));
       RequestManager<SubjectListResponse>(params,
               createCall: () => getSubjectListUsecase.execute(params: params))
           .asFlow()
@@ -878,17 +880,17 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         _getSubjectList.add(result);
         if (result.status == Status.success) {
           subjects = result.data?.data?.data ?? [];
-          (result.data?.data?.data ?? []).forEach((element) {
+          for (var element in (result.data?.data?.data ?? [])) {
             if (element.isCompulsory == 1) {
               complusorySubjectList.value.add(element.subjectName ?? '');
             }
             if (element.isOptionalCompulsory == 1) {
               optionalSubject.value.add(element.subjectName ?? '');
             }
-          });
-          optionalSubject.value.forEach((element) {
+          }
+          for (var element in optionalSubject.value) {
             optionalSubjects.add({"name": element, "isSelected": false});
-          });
+          }
         }
         if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
@@ -3403,4 +3405,35 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
 
   CommonRadioButton<String> vasFour = CommonRadioButton(null);
   CommonRadioButton<String> vasFive = CommonRadioButton(null);
+
+  final MoveToNextStageUsecase moveToNextStageUsecase;
+
+  final BehaviorSubject<Resource<MoveToNextStageEnquiryResponse>>
+      moveStageSubject = BehaviorSubject.seeded(Resource.none());
+
+  Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
+      moveStageSubject.stream;
+  void moveToNextStage({String from = "payment"}) {
+    log("message ${enquiryDetails?.currentStage}");
+    moveStageSubject.add(Resource.loading());
+    MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
+      enquiryId: "${enquiryDetailArgs?.enquiryId}",
+      currentStage: enquiryDetails?.currentStage,
+    );
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(
+        params,
+        createCall: () => moveToNextStageUsecase.execute(params: params),
+      ).asFlow().listen((data) {
+        if (data.status == Status.error) {
+          moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
+        }
+        if (data.status == Status.success) {
+          moveStageSubject.add(Resource.success(data: data.data));
+
+          showPopUP(context);
+        }
+      });
+    }).execute();
+  }
 }

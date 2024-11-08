@@ -42,8 +42,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   EnquiryDetailArgs enquiryDetails;
   final ChooseFileUseCase chooseFileUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
+  final GetBrandUsecase getBrandUsecase;
+
   EnquiriesDetailsPageModel(
       this.exceptionHandlerBinder,
       this.getNewAdmissionDetailUseCase,
@@ -61,7 +62,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       this.enquiryDetails,
       this.chooseFileUseCase,
       this.flutterToastErrorPresenter,
-      this.moveToNextStageUsecase) {
+      this.moveToNextStageUsecase,
+      this.getBrandUsecase) {
+    getBrandList();
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -1052,5 +1055,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         }
       });
     }).execute();
+  }
+
+  final BehaviorSubject<Resource<List<BrandData>>> brandListResponse =
+      BehaviorSubject<Resource<List<BrandData>>>.seeded(Resource.none());
+
+  final BehaviorSubject<String> selectedBrandSubject = BehaviorSubject();
+
+  void getBrandList() {
+    final GetBrandUsecaseParams params = GetBrandUsecaseParams();
+    exceptionHandlerBinder.handle(
+      block: () {
+        RequestManager(params,
+                createCall: () => getBrandUsecase.execute(params: params))
+            .asFlow()
+            .listen((result) {
+          if (result.status == Status.success) {
+            final brandList = result.data?.data;
+            brandListResponse.add(Resource.success(data: brandList!));
+          }
+        }).onError((error) {
+          brandListResponse.add(Resource.error(error: error));
+        });
+      },
+    ).execute();
   }
 }
