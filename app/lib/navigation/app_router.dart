@@ -262,10 +262,10 @@ class AppRouter {
 
       case RoutePaths.visitorDetailsPage:
         return CupertinoPageRoute(
-            builder: (context) => VisitorDetailsPage(),
-            settings: RouteSettings(
+            builder: (context) => VisitorDetailsPage(
+                params: settings.arguments as VisitorDetailsPageParams?),
+            settings: const RouteSettings(
               name: RoutePaths.visitorDetailsPage,
-              arguments: settings.arguments as VisitorDetailsPageParams?,
             ));
       case RoutePaths.createEditGatePassPage:
         final arguments = settings.arguments as GatePassArguments;

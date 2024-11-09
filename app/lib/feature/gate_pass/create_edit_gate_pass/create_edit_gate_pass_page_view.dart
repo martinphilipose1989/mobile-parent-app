@@ -263,14 +263,14 @@ class CreateEditGatePassPageView
               padding: REdgeInsets.only(bottom: 16, right: 16, left: 16),
               child: Row(
                 children: [
-                  Expanded(
+                  /*Expanded(
                     child: CommonOutlineButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         title: "Cancel"),
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: 16.w),*/
                   Expanded(
                     child: AppStreamBuilder<Resource<bool>>(
                         stream: model.loadingSubject.stream,

@@ -79,6 +79,7 @@ export 'src/usecase/gatepass/request_gatepass_usecase.dart';
 export 'src/usecase/gatepass/get_purpose_of_visit_usecase.dart';
 export 'src/usecase/gatepass/upload_visitor_profile_usecase.dart';
 export 'src/usecase/gatepass/create_gatepass_usecase.dart';
+export 'src/usecase/gatepass/get_visitor_details_usecase.dart';
 export 'src/usecase/finance/get_transaction_type_usecase.dart';
 export 'src/usecase/finance/get_transaction_type_fees_collected_usecase.dart';
 export 'src/repository/attachment_repository.dart';

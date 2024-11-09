@@ -3,15 +3,15 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class GetPurposeOfVisitListUsecase extends BaseUseCase<NetworkError,
     GetPurposeOfVisitListUsecaseParams, MdmCoReasonResponseModel> {
-  final GatepassRepository _gatepassRepository;
+  final GatepassRepository _gatePassRepository;
 
-  GetPurposeOfVisitListUsecase({required GatepassRepository gatepassRepository})
-      : _gatepassRepository = gatepassRepository;
+  GetPurposeOfVisitListUsecase({required GatepassRepository gatePassRepository})
+      : _gatePassRepository = gatePassRepository;
 
   @override
   Future<Either<NetworkError, MdmCoReasonResponseModel>> execute(
       {required GetPurposeOfVisitListUsecaseParams params}) {
-    return _gatepassRepository.getPurposeOfVisitList();
+    return _gatePassRepository.getPurposeOfVisitList();
   }
 }
 

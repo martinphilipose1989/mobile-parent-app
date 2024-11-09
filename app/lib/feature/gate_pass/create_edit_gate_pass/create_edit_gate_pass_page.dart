@@ -48,6 +48,7 @@ class CreateEditGatePassPageState extends AppBasePageState<
     return const CommonAppBar(
       appbarTitle: "Create Gate-Pass",
       showBackButton: true,
+      leading: SizedBox.shrink(),
       notShowNotificationAndUserBatch: true,
     );
   }

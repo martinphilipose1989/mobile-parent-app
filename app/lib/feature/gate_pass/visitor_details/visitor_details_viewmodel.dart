@@ -6,40 +6,46 @@ import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class VisitorDetailsViewModel extends BasePageViewModel {
+  // use cases
   final FlutterExceptionHandlerBinder _exceptionHandlerBinder;
+  final GetVisitorDetailsUseCase _getVisitorDetailsUseCase;
 
-  // final GetVisitorDetailsUsecase _getVisitorDetailsUsecase;
-
-  // final PublishSubject<Resource<VisitorDataModel>> _visitorDetailsResponse =
-  //     PublishSubject();
-
-  // Stream<Resource<VisitorDataModel>> get visitorDetails =>
-  //     _visitorDetailsResponse.stream;
-  //
+  // constructor
   VisitorDetailsViewModel({
     required FlutterExceptionHandlerBinder exceptionHandlerBinder,
-    // required GetVisitorDetailsUsecase getVisitorDetailsUsecase,
-  }) : _exceptionHandlerBinder = exceptionHandlerBinder;
-// _getVisitorDetailsUsecase = getVisitorDetailsUsecase;
+    required GetVisitorDetailsUseCase getVisitorDetailsUseCase,
+  })  : _exceptionHandlerBinder = exceptionHandlerBinder,
+        _getVisitorDetailsUseCase = getVisitorDetailsUseCase;
 
-// Future<void> getVisitorDetails({required gatePassId}) async {
-//   _exceptionHandlerBinder.handle(block: () {
-//     GetVisitorDetailsUsecaseParams params =
-//         GetVisitorDetailsUsecaseParams(gatepassId: gatePassId);
-//     RequestManager<VisitorDetailsResponseModel>(
-//       params,
-//       createCall: () => _getVisitorDetailsUsecase.execute(params: params),
-//     ).asFlow().listen((result) async {
-//       _visitorDetailsResponse.add(Resource.loading(data: null));
-//
-//       if (Status.success == result.status) {
-//         _visitorDetailsResponse
-//             .add(Resource.success(data: result.data?.data));
-//       } else if (Status.error == result.status) {
-//         _visitorDetailsResponse
-//             .add(Resource.error(error: result.dealSafeAppError));
-//       }
-//     }).onError((error) {});
-//   }).execute();
-// }
+  //-------------------------- get visitor details ------------------------------------//
+  final PublishSubject<Resource<VisitorDataModel>> _visitorDetailsResponse =
+      PublishSubject();
+
+  Stream<Resource<VisitorDataModel>> get visitorDetails =>
+      _visitorDetailsResponse.stream;
+
+  Future<void> getVisitorDetails(
+      {required String? mobile, required dynamic studentId}) async {
+    _exceptionHandlerBinder.handle(block: () {
+      GetVisitorDetailsUseCaseParams params = GetVisitorDetailsUseCaseParams(
+        mobile: mobileNumber,
+        studentId: studentId,
+      );
+      RequestManager<VisitorDetailsResponseModel>(
+        params,
+        createCall: () => _getVisitorDetailsUseCase.execute(params: params),
+      ).asFlow().listen((result) async {
+        _visitorDetailsResponse.add(Resource.loading());
+
+        if (Status.success == result.status) {
+          _visitorDetailsResponse
+              .add(Resource.success(data: result.data?.data));
+        }
+        if (Status.error == result.status) {
+          _visitorDetailsResponse
+              .add(Resource.error(error: result.dealSafeAppError));
+        }
+      }).onError((error) {});
+    }).execute();
+  }
 }

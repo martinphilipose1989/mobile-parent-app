@@ -5,15 +5,15 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class UploadVisitorProfileUsecase extends BaseUseCase<NetworkError,
     UploadVisitorProfileUsecaseParams, UploadFileResponseModel> {
-  final GatepassRepository _gatepassRepository;
+  final GatepassRepository _gatePassRepository;
 
-  UploadVisitorProfileUsecase({required GatepassRepository gatepassRepository})
-      : _gatepassRepository = gatepassRepository;
+  UploadVisitorProfileUsecase({required GatepassRepository gatePassRepository})
+      : _gatePassRepository = gatePassRepository;
 
   @override
   Future<Either<NetworkError, UploadFileResponseModel>> execute(
       {required UploadVisitorProfileUsecaseParams params}) {
-    return _gatepassRepository.uploadProfileImage(file: params.file);
+    return _gatePassRepository.uploadProfileImage(file: params.file);
   }
 }
 

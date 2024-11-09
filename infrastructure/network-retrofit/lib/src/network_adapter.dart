@@ -1230,4 +1230,17 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
+      {required params}) async {
+    var response = await safeApiCall(apiService.getVisitorDetails(
+      params.mobile,
+      params.studentId,
+    ));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
 }

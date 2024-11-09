@@ -17,6 +17,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Size preferredSize;
   final String appbarTitle;
   final bool? showBackButton;
+  final Widget? leading;
   final bool? notShowNotificationAndUserBatch;
   final VoidCallback? onBackPressed; // Renamed for clarity
 
@@ -24,6 +25,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.appbarTitle,
     this.showBackButton = false,
+    this.leading,
     this.notShowNotificationAndUserBatch = false,
     this.onBackPressed,
   }) : preferredSize = const Size.fromHeight(60.0);
@@ -32,29 +34,30 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.primaryLighter,
-      leading: showBackButton == true
-          ? IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-              ),
-              onPressed: () {
-                if (onBackPressed != null) {
-                  onBackPressed!(); // Calls the provided callback if given
-                } else {
-                  Navigator.pop(context); // Pops the page if no callback
-                }
-              },
-            )
-          : InkWell(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: SvgPicture.asset(
-                AppImages.menuHamburgerLogo,
-                height: 24.h,
-                width: 24.w,
-              ),
-            ),
+      leading: leading ??
+          (showBackButton == true
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                  ),
+                  onPressed: () {
+                    if (onBackPressed != null) {
+                      onBackPressed!(); // Calls the provided callback if given
+                    } else {
+                      Navigator.pop(context); // Pops the page if no callback
+                    }
+                  },
+                )
+              : InkWell(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: SvgPicture.asset(
+                    AppImages.menuHamburgerLogo,
+                    height: 24.h,
+                    width: 24.w,
+                  ),
+                )),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,

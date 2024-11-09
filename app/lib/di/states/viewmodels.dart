@@ -345,7 +345,7 @@ final createEditGatePassViewModelProvider =
 
 final visitorDetailsViewModelProvider = ChangeNotifierProvider
     .autoDispose<VisitorDetailsViewModel>((ref) => VisitorDetailsViewModel(
-        // getVisitorDetailsUsecase: getIt.get<GetVisitorDetailsUsecase>(),
+        getVisitorDetailsUseCase: getIt.get<GetVisitorDetailsUseCase>(),
         exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>()));
 
 final cafeteriaPageModelProvider =

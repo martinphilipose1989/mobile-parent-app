@@ -3,15 +3,15 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class CreateGatepassUsecase extends BaseUseCase<NetworkError,
     CreateGatepassUsecaseParams, CreateGatepassResponseModel> {
-  final GatepassRepository _gatepassRepository;
+  final GatepassRepository _gatePassRepository;
 
-  CreateGatepassUsecase({required GatepassRepository gatepassRepository})
-      : _gatepassRepository = gatepassRepository;
+  CreateGatepassUsecase({required GatepassRepository gatePassRepository})
+      : _gatePassRepository = gatePassRepository;
 
   @override
   Future<Either<NetworkError, CreateGatepassResponseModel>> execute(
       {required CreateGatepassUsecaseParams params}) {
-    return _gatepassRepository.createVisitorGatePass(
+    return _gatePassRepository.createVisitorGatePass(
         request: params.requestModel);
   }
 }

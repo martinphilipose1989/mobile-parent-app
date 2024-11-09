@@ -27,6 +27,7 @@ import 'package:network_retrofit/src/model/response/gatepass/create_gatepass_ent
 import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
 import 'package:network_retrofit/src/model/response/gatepass/mdm_coreason_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/upload_file_response_entity.dart';
+import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_admission_journey/admission_journey_base_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_update.dart';
@@ -476,6 +477,12 @@ abstract class RetrofitService {
   @POST(NetworkProperties.createVistorGatepass)
   Future<HttpResponse<CreateGatePassResponseEntity>> createVisitorGatePass(
       @Body() CreateGatePassRequestEntity requestBody);
+
+  @GET(NetworkProperties.getVisitorDetails)
+  Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
+    @Path("mobile") visitorMobileNumber,
+    @Path("studentId") studentId,
+  );
 
   // key cloak
   @POST(NetworkProperties.tokenIntroSpect)

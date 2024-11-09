@@ -7,10 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'common_outline_button.dart';
 
 class NoDataFoundWidget extends StatelessWidget {
-  const NoDataFoundWidget(
-      {super.key, required this.title, this.subtitle, this.onPressed});
+  const NoDataFoundWidget({
+    super.key,
+    this.title,
+    this.subtitle,
+    this.onPressed,
+  });
 
-  final String title;
+  final String? title;
   final String? subtitle;
   final VoidCallback? onPressed;
 
@@ -27,7 +31,7 @@ class NoDataFoundWidget extends StatelessWidget {
         ),
         Center(
           child: Text(
-            title,
+            title ?? "No Data Found.",
             style: AppTypography.h6,
             textAlign: TextAlign.center,
           ),

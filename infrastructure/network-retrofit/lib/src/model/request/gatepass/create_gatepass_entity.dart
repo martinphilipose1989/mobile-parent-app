@@ -107,7 +107,23 @@ class CreateGatePassRequestEntity
 
   @override
   CreateGatePassRequestEntity restore(CreateGatePassModel data) {
-    // TODO: implement restore
-    throw UnimplementedError();
+    return CreateGatePassRequestEntity(
+      name: data.name,
+      email: data.email,
+      comingFrom: data.comingFrom,
+      companyName: data.companyName,
+      guestCount: data.guestCount,
+      mobile: data.mobile,
+      otherPointOfContact: data.otherPointOfContact,
+      pointOfContact: data.pointOfContact,
+      profileImage: data.profileImage,
+      purposeOfVisitId: data.purposeOfVisitId,
+      visitorTypeId: data.visitorTypeId,
+      vehicleNumber: data.vehicleNumber,
+      issuedDate: data.issuedDate,
+      issuedTime: data.issuedTime,
+      studentName: data.studentName,
+      studentId: data.studentId,
+    );
   }
 }

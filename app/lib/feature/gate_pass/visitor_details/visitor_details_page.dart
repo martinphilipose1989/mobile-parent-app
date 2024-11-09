@@ -10,7 +10,7 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class VisitorDetailsPage extends BasePage<VisitorDetailsViewModel> {
   final VisitorDetailsPageParams? params;
 
-  VisitorDetailsPage({super.key, this.params});
+  const VisitorDetailsPage({super.key, this.params});
 
   @override
   VisitorDetailsPageState createState() => VisitorDetailsPageState();
@@ -42,7 +42,10 @@ class VisitorDetailsPageState
 
   @override
   void onModelReady(VisitorDetailsViewModel model) {
-    // model.getVisitorDetails(gatePassId: widget.gatePassId);
+    model.getVisitorDetails(
+      mobile: widget.params?.mobileNo,
+      studentId: widget.params?.studentId,
+    );
     super.onModelReady(model);
   }
 }

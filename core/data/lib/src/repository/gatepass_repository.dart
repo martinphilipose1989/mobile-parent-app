@@ -26,7 +26,14 @@ class GatepassRepositoryImpl extends GatepassRepository {
   }
 
   @override
-  Future<Either<NetworkError, MdmCoReasonResponseModel>> getPurposeOfVisitList() {
+  Future<Either<NetworkError, MdmCoReasonResponseModel>>
+      getPurposeOfVisitList() {
     return networkPort.getPurposeOfVisitList();
+  }
+
+  @override
+  Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
+      {required params}) {
+    return networkPort.getVisitorDetails(params: params);
   }
 }
