@@ -138,8 +138,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         purposeOfVisitId: purposOfVisitId,
         comingFrom: comingFromController.text,
         pointOfContact: pointOfContactController.text,
-        profileImage:
-            "https://www.google.com/search?q=profile+pic+samle+png&oq=profile+pic+samle+png&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKABMgkIAhAhGAoYoAEyBwgDECEYnwUyBwgEECEYnwUyBwgFECEYnwUyBwgGECEYnwUyBwgHECEYnwXSAQkxNDM3MmowajeoAgCwAgA&sourceid=chrome&ie=UTF-8#vhid=szOIGUvItozHbM&vssid=_RDYuZ-v6MtabnesPz_GKqQw_77" /*_uploadedFileResponse.valueOrNull?.data?.data?.filePath*/,
+        profileImage: _uploadedFileResponse.valueOrNull?.data?.data?.filePath,
         guestCount: int.parse(guestCountController.text),
         vehicleNumber: vehicleController.text,
         issuedDate: DateTime.now().toIso8601String().dateFormattodd_mm_yyyy(),
@@ -158,10 +157,12 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
       if (data.status == Status.success) {
         loadingSubject.add(Resource.loading(data: false));
         CommonPopups().showSuccess(
-            navigatorKey.currentContext!, "Gate pass created successfully",
-            (value) {
-          _checkAndNavigateToVisitorDetails();
-        }, popParameter: "In");
+          navigatorKey.currentContext!,
+          "Gate pass created successfully",
+          (value) {
+            _checkAndNavigateToVisitorDetails();
+          },
+        );
       } else if (data.status == Status.error) {
         loadingSubject.add(Resource.loading(data: false));
         _flutterToastErrorPresenter.show(
