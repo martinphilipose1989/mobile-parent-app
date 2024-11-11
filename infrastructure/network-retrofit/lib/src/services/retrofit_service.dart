@@ -474,15 +474,15 @@ abstract class RetrofitService {
   Future<HttpResponse<CreateQrcodeResponseEntity>> requestGatePass(
       @Body() CreateQrcodeRequestEntity requestBody);
 
-  @POST(NetworkProperties.createVistorGatepass)
+  @POST(NetworkProperties.createVisitorGatePass)
   Future<HttpResponse<CreateGatePassResponseEntity>> createVisitorGatePass(
-      @Body() CreateGatePassRequestEntity requestBody);
+      @Body() CreateGatePassRequestEntity requestBody,
+      {@Query('platform') required String platform});
 
   @GET(NetworkProperties.getVisitorDetails)
   Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-    @Path("mobile") visitorMobileNumber,
-    @Path("studentId") studentId,
-  );
+      @Path("mobile") visitorMobileNumber, @Path("studentId") studentId,
+      {@Query('platform') required String platform});
 
   // key cloak
   @POST(NetworkProperties.tokenIntroSpect)
@@ -571,7 +571,8 @@ abstract class RetrofitService {
   @POST(NetworkProperties.uploadProfileImage)
   @MultiPart()
   Future<HttpResponse<UploadFileResponseEntity>> uploadProfileImage(
-      @Part(name: "file") File file);
+      @Part(name: "file") File file,
+      {@Query('platform') required String platform});
 
   @GET(NetworkProperties.mdmModule)
   Future<HttpResponse<MdmCoReasonEntity>> getPurposeOfVisitList(

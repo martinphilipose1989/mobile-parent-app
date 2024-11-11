@@ -8,7 +8,7 @@ abstract class GatepassRepository {
       {required CreateQrcodeRequestModel requestBody});
 
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
-      {required File file});
+      {required UploadVisitorProfileUsecaseParams params});
 
   Future<Either<NetworkError, CreateGatepassResponseModel>>
       createVisitorGatePass({required CreateGatePassModel request});

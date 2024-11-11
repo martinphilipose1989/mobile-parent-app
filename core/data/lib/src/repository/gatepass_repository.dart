@@ -15,8 +15,8 @@ class GatepassRepositoryImpl extends GatepassRepository {
 
   @override
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
-      {required File file}) {
-    return networkPort.uploadProfileImage(file: file);
+      {required UploadVisitorProfileUsecaseParams params}) {
+    return networkPort.uploadProfileImage(params: params);
   }
 
   @override

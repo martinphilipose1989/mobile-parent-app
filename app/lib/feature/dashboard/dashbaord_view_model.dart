@@ -93,7 +93,7 @@ class DashboardPageModel extends BasePageViewModel {
     }
   }
 
-  List<GetGuardianStudentDetailsStudentModel>? selectedStudentId;
+  List<GetGuardianStudentDetailsStudentModel>? selectedStudentId = [];
 
   void getSelectedStudentid(List<String> names) {
     List<GetGuardianStudentDetailsStudentModel> tempList = [];

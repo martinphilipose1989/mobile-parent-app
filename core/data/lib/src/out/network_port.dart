@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/gatepass/get_visitor_details_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 abstract class NetworkPort {
@@ -242,10 +241,8 @@ abstract class NetworkPort {
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
       moveToNextStageEnquiry({required String enquiryId});
 
-  Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage({
-    required File file,
-    String module = "GATE",
-  });
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
+      {required UploadVisitorProfileUsecaseParams params});
 
   Future<Either<NetworkError, CreateGatepassResponseModel>>
       createVisitorGatePass({required CreateGatePassModel request});
@@ -253,5 +250,6 @@ abstract class NetworkPort {
   Future<Either<NetworkError, MdmCoReasonResponseModel>>
       getPurposeOfVisitList();
 
-  Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails({required GetVisitorDetailsUseCaseParams params});
+  Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
+      {required GetVisitorDetailsUseCaseParams params});
 }

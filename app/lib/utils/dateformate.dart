@@ -118,15 +118,16 @@ extension DateFormatExtension on String {
   }
 
   String convertTo24HourFormat() {
+    /// hh:mm:ss format time
     try {
-      DateTime dateTime = DateFormat("hh:mm:ss a").parse(this);
-      String time24Hour = DateFormat("HH:mm:ss").format(dateTime);
-      return time24Hour;
+      DateTime dateTime = DateTime.parse(this);
+      return '${dateTime.hour.toString().padLeft(2, '0')}:'
+          '${dateTime.minute.toString().padLeft(2, '0')}:'
+          '${dateTime.second.toString().padLeft(2, '0')}';
     } catch (e) {
       return "";
     }
   }
-
 
   String formatTimeWithoutIntl() {
     // Split the time string by space and colon

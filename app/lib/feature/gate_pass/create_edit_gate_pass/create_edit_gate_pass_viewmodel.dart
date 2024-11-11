@@ -33,7 +33,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
 
   Stream<Resource<User>> get userStream => userSubject.stream;
 
-  dynamic studentId;
+  GetGuardianStudentDetailsStudentModel? selectedStudent =
+      GetGuardianStudentDetailsStudentModel();
 
   // Stream for picking front file
   final PublishSubject<Resource<UploadFile>> _pickFrontFileResponse =
@@ -113,6 +114,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
       _createGatePassResponse.stream;
 
   final TextEditingController visitorNameController = TextEditingController();
+  final TextEditingController studentNameController = TextEditingController();
 
   final TextEditingController contactNumberController = TextEditingController();
   final TextEditingController emailIDController = TextEditingController();
@@ -144,7 +146,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         issuedDate: DateTime.now().toIso8601String().dateFormattodd_mm_yyyy(),
         issuedTime: DateTime.now().toIso8601String().convertTo24HourFormat(),
         studentName: vehicleController.text,
-        studentId: studentId,
+        studentId: selectedStudent?.id,
       ),
     );
 
@@ -175,21 +177,36 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
     });
   }
 
-  void getStudentId() {
+  final BehaviorSubject<GetGuardianStudentDetailsStudentModel?>
+      studentDataSubject = BehaviorSubject();
+
+  Stream<GetGuardianStudentDetailsStudentModel?> get studentDataStream =>
+      studentDataSubject.stream;
+
+  setStudentData(BuildContext context) {
     //dashboardProvider
-    var dashboardVM = ProviderScope.containerOf(navigatorKey.currentContext!)
-        .read(dashboardViewModelProvider);
-    //  studentId
-    studentId = dashboardVM.selectedStudentId?.first.id;
+    var dashboardVM =
+        ProviderScope.containerOf(context).read(dashboardViewModelProvider);
+
+    if (dashboardVM.selectedStudentId?.isNotEmpty == true) {
+      selectedStudent = dashboardVM.selectedStudentId?.first;
+    }
+
+    selectedStudent?.id ??= 10;
+    selectedStudent?.studentDisplayName ??= "ALIA Fernandes - ENR0002";
+
+    studentDataSubject.add(selectedStudent);
   }
 
   /// checkAndNavigateToVisitorDetails
   void _checkAndNavigateToVisitorDetails() {
+    var studentId = selectedStudent?.id;
     if (studentId == null || studentId!.toString().isEmpty) return;
     // navigate to visitorDetailsPage
     navigatorKey.currentState?.pushNamed(RoutePaths.visitorDetailsPage,
         arguments: VisitorDetailsPageParams(
-            mobileNo: contactNumberController.text, studentId: studentId));
+            mobileNo: "${countryDialCode.value}${contactNumberController.text}",
+            studentId: studentId));
   }
 
   getCountryCode({required String phoneNumber}) async {
@@ -205,7 +222,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
 
   BehaviorSubject<String>? intialTypeOfVisitor = BehaviorSubject.seeded('');
 
-  void _setUserData({User? userData}) {
+  void setUserData({User? userData}) {
     visitorNameController.text = userData?.userName ?? "";
     emailIDController.text = userData?.email ?? "";
     contactNumberController.text = userData?.phoneNumber ?? "";
@@ -216,7 +233,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   final BehaviorSubject<Resource<bool>> loadingSubject =
       BehaviorSubject.seeded(Resource.none());
 
-  void creatOrUpdateGatePass() {
+  void createOrUpdateGatePass() {
     loadingSubject.add(Resource.loading(data: true));
     createGatePass();
   }
@@ -231,7 +248,6 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
-        _setUserData(userData: data?.data);
       }
     });
   }

@@ -73,7 +73,7 @@ class NetworkProperties {
       "https://gate-management-r26sp3mibq-uc.a.run.app/";
 
   /// GATE PASS API ENDPOINTS:
-  static const String createVistorGatepass =
+  static const String createVisitorGatePass =
       "${BASE_GATE_PASS}gate-management/gatepass/create";
   static const String uploadProfileImage =
       "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";

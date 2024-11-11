@@ -13,7 +13,7 @@ class UploadVisitorProfileUsecase extends BaseUseCase<NetworkError,
   @override
   Future<Either<NetworkError, UploadFileResponseModel>> execute(
       {required UploadVisitorProfileUsecaseParams params}) {
-    return _gatePassRepository.uploadProfileImage(file: params.file);
+    return _gatePassRepository.uploadProfileImage(params:params);
   }
 }
 

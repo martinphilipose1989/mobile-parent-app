@@ -1182,8 +1182,9 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
-      {required File file, String module = "GATE"}) async {
-    var response = await safeApiCall(apiService.uploadProfileImage(file));
+      {required UploadVisitorProfileUsecaseParams params}) async {
+    var response = await safeApiCall(
+        apiService.uploadProfileImage(platform: platform, params.file));
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
@@ -1194,6 +1195,7 @@ class NetworkAdapter implements NetworkPort {
       createVisitorGatePass({required CreateGatePassModel request}) async {
     var response = await safeApiCall(
       apiService.createVisitorGatePass(
+        platform: platform,
         CreateGatePassRequestEntity(
           name: request.name,
           companyName: request.companyName,
@@ -1237,6 +1239,7 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(apiService.getVisitorDetails(
       params.mobile,
       params.studentId,
+      platform: platform,
     ));
 
     return response.fold((l) {

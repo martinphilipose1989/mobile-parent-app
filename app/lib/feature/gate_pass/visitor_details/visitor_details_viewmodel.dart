@@ -28,7 +28,7 @@ class VisitorDetailsViewModel extends BasePageViewModel {
       {required String? mobile, required dynamic studentId}) async {
     _exceptionHandlerBinder.handle(block: () {
       GetVisitorDetailsUseCaseParams params = GetVisitorDetailsUseCaseParams(
-        mobile: mobileNumber,
+        mobile: mobile,
         studentId: studentId,
       );
       RequestManager<VisitorDetailsResponseModel>(
