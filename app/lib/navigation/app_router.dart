@@ -268,12 +268,10 @@ class AppRouter {
               name: RoutePaths.visitorDetailsPage,
             ));
       case RoutePaths.createEditGatePassPage:
-        final arguments = settings.arguments as GatePassArguments;
         return CupertinoPageRoute(
-          builder: (context) => CreateEditGatePassPage(arguments: arguments),
-          settings: RouteSettings(
+          builder: (context) => const CreateEditGatePassPage(),
+          settings: const RouteSettings(
             name: RoutePaths.createEditGatePassPage,
-            arguments: settings.arguments,
           ),
         );
 

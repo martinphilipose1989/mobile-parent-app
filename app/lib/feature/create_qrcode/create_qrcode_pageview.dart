@@ -29,18 +29,16 @@ class CreateQrcodePageView extends BasePageViewWidget<CreateQrcodeViewModel> {
               replacement: const Center(child: CircularProgressIndicator()),
               child: CommonElevatedButton(
                   onPressed: () {
-                    // // TODO: GATE PASS : HANDLE NAVIGATION AND VIEW. CONFIRM AND REMOVE unwanted GatePassArguments
-                    // navigatorKey.currentState?.pushNamed(
-                    //     RoutePaths.createEditGatePassPage,
-                    //     arguments: GatePassArguments(
-                    //         id: "",
-                    //         type: "",
-                    //         parentData: null));
-                    //
-                    // return;
+                    navigatorKey.currentState?.pushNamed(
+                        RoutePaths.createEditGatePassPage,
+                       );
+
+                    return;
+                    // un comment this for Create Qr code and comment above call
                     model.requestGatePass();
                   },
-                  text: "Create Qr code"),
+                  // text: "Create Gate-Pass"),
+                  text: "Create Gate-Pass"),
             );
           },
           stream: model.response.stream,

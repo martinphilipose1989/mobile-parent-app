@@ -63,8 +63,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           width: MediaQuery.of(context).size.width,
           color: Colors.purple,
         ),
-        // TODO: GATE PASS : HANDLE NAVIGATION AND VIEW. CONFIRM AND REMOVE unwanted GatePassArguments
-        const CreateEditGatePassPage(arguments: null,),
+        const CreateQrcodePage()
       ],
     );
   }

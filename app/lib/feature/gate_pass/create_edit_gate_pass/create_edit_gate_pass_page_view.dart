@@ -1,10 +1,5 @@
-import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/profile_picker.dart';
-import 'package:app/myapp.dart';
-import 'package:app/navigation/route_paths.dart';
-import 'package:app/utils/common_outline_button.dart';
 import 'package:app/utils/common_primary_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
@@ -18,16 +13,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
-import 'create_edit_gate_pass_page.dart';
 import 'create_edit_gate_pass_viewmodel.dart';
 
 class CreateEditGatePassPageView
     extends BasePageViewWidget<CreateEditGatePassViewModel> {
-  final GatePassArguments? arguments;
-
   // ignore: use_super_parameters
-  CreateEditGatePassPageView(
-      ProviderBase<CreateEditGatePassViewModel> model, this.arguments)
+  CreateEditGatePassPageView(ProviderBase<CreateEditGatePassViewModel> model)
       : super(model);
 
   @override
@@ -52,11 +43,7 @@ class CreateEditGatePassPageView
                       CommonTextFormField(
                         bottomPadding: 16,
                         showAstreik: true,
-                        labelText:
-                            arguments?.parentData?.visitorName?.isNotEmpty ??
-                                    false
-                                ? "Parent Name"
-                                : "Visitor Name",
+                        labelText: "Parent Name",
                         readOnly: true,
                         controller: model.visitorNameController,
                         keyboardType: TextInputType.name,
@@ -66,7 +53,7 @@ class CreateEditGatePassPageView
                         ],
                         validator: (value) {
                           if (Validator.isEmpty(value!)) {
-                            return "${arguments?.parentData?.visitorName?.isNotEmpty ?? false ? "Parent Name" : "Visitor Name"} cannot be empty";
+                            return "Parent Name cannot be empty";
                           }
                           return null;
                         },
@@ -115,54 +102,6 @@ class CreateEditGatePassPageView
                         labelText: "Visit Date & Time",
                         controller: model.visitDateTimeController,
                       ),
-                      /* AppStreamBuilder<Resource<MdmCoReasonResponseModel>>(
-                        stream: model.typeOfVisitorResponse,
-                        initialData: Resource.none(),
-                        dataBuilder: (context, data) {
-                          return DataStatusWidget(
-                            status: data?.status ?? Status.none,
-                            loadingWidget: () => const SizedBox.shrink(),
-                            successWidget: () => AppStreamBuilder<String?>(
-                                stream: model.intialTypeOfVisitor!.stream,
-                                initialData: model.intialTypeOfVisitor?.value,
-                                dataBuilder: (context, visitorType) {
-                                  return CustomDropdownButton(
-                                    bottomPadding: 32,
-                                    intialValue: visitorType,
-                                    items: arguments?.parentData?.visitorName
-                                                ?.isEmpty ??
-                                            true
-                                        ? data?.data?.data
-                                                ?.map((e) => e.attributes?.name)
-                                                .toList() ??
-                                            <String>[]
-                                        : data?.data?.data
-                                                ?.map((e) => e.attributes?.name)
-                                                .toList()
-                                                .where((e) =>
-                                                    e?.toLowerCase() ==
-                                                    "parent")
-                                                .toList() ??
-                                            [],
-                                    dropdownName: "Type Of Visitor",
-                                    showAstreik: true,
-                                    showBorderColor: true,
-                                    onMultiSelect: (_) {},
-                                    onSingleSelect: (value) {
-                                      model.setTypeOfVisitorId(value);
-                                    },
-                                    validator: (value) {
-                                      if (value == null ||
-                                          Validator.isEmpty(value)) {
-                                        return "Type of visitor cannot be empty";
-                                      }
-                                      return null;
-                                    },
-                                  );
-                                }),
-                          );
-                        },
-                      ),*/
                       CommonTextFormField(
                           bottomPadding: 16,
                           showAstreik: true,
