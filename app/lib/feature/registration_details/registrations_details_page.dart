@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registration_details_vaildator.dart';
 import 'package:app/feature/registration_details/registrations_details_page_view.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -167,12 +171,13 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                 6);
 
         model.showWidget.add(model.showWidget.value + 6);
-        model.fetchSubjectList();
+
         Future.delayed(const Duration(milliseconds: 500)).then((val) {
           model.controller.jumpTo(500);
         });
       }
       model.enquiryDetails = widget.enquiryDetail;
+      model.fetchSubjectList();
       if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
         model.getIvtDetails(
             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
@@ -212,18 +217,29 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, RegistrationsDetailsViewModel model) {
-    return SingleChildScrollView(
-        child: RegistrationsDetailsPageView(
-      provideBase(),
-      enquiryDetailArgs: widget.enquiryDetailArgs,
-      enquiryDetail: widget.enquiryDetail,
-    ));
+    return AppStreamBuilder<Resource<MoveToNextStageEnquiryResponse>>(
+        stream: model.moveStageSubject,
+        initialData: Resource.none(),
+        dataBuilder: (context, resource) {
+          return SingleChildScrollView(
+              child: Stack(
+            children: [
+              RegistrationsDetailsPageView(
+                provideBase(),
+                enquiryDetailArgs: widget.enquiryDetailArgs,
+                enquiryDetail: widget.enquiryDetail,
+              ),
+              resource?.status == Status.loading
+                  ? const CommonAppLoader()
+                  : const SizedBox.shrink()
+            ],
+          ));
+        });
   }
 
   @override
@@ -333,23 +349,33 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                             validator.validateBankDetails(context);
                           } else if (model.showWidget.value == 5) {
                             if (widget.enquiryDetailArgs?.isFrom == "enquiry") {
-                              model.showPopUP(context);
+                              //  model.showPopUP(context);
+                              log('5 SHOWPOPUP');
+                              model.moveToNextStage();
                             } else {
                               if (model.editRegistrationDetails.value) {
-                                ProviderScope.containerOf(context)
-                                    .read(commonChipListProvider)
-                                    .highlightIndex
-                                    .add(ProviderScope.containerOf(context)
-                                            .read(commonChipListProvider)
-                                            .highlightIndex
-                                            .value +
-                                        1);
-                                model.showWidget
-                                    .add(model.showWidget.value + 1);
-                                model.controller.animateTo(
-                                    (model.showWidget.value + 1) * 50,
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.linear);
+                                if (model.enquiryDetailArgs?.admissionStatus ==
+                                    "Approved") {
+                                  ProviderScope.containerOf(context)
+                                      .read(commonChipListProvider)
+                                      .highlightIndex
+                                      .add(ProviderScope.containerOf(context)
+                                              .read(commonChipListProvider)
+                                              .highlightIndex
+                                              .value +
+                                          1);
+                                  model.showWidget
+                                      .add(model.showWidget.value + 1);
+                                  model.controller.animateTo(
+                                      (model.showWidget.value + 1) * 50,
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.linear);
+                                } else {
+                                  log('5 no enq SHOWPOPUP');
+
+                                  model.moveToNextStage();
+                                }
                               }
                             }
                           } else if (model.showWidget.value == 6) {

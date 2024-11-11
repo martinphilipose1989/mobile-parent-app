@@ -208,5 +208,7 @@ abstract class NetworkPort {
       getUserRolePermissions({required UserRolePermissionRequest request});
 
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId});
+      moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
+
+  Future<Either<NetworkError, BrandResponse>> getBrandList();
 }

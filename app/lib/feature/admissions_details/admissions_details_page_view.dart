@@ -9,6 +9,7 @@ import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -54,16 +55,22 @@ class AdmissionsDetailsPageView
       case 1:
         model.showMenuOnFloatingButton.add(false);
 
-        return Navigator.of(context).pushNamed(
-          RoutePaths.payments,
-          arguments: PaymentArguments(
-            phoneNo: model.enquiryDetails.value.parentMobile ?? '',
-            enquiryId: admissionDetail.enquiryId,
-            enquiryNo: admissionDetail.enquiryNumber,
-            studentName:
-                "${model.enquiryDetails.value.studentFirstName} ${model.enquiryDetails.value.studentLastName}",
-          ),
-        );
+        model.moveToNextStage();
+      // return Navigator.of(context)
+      //     .pushNamed(
+      //   RoutePaths.payments,
+      //   arguments: PaymentArguments(
+      //     phoneNo: model.enquiryDetails.value.parentMobile ?? '',
+      //     enquiryId: admissionDetail.enquiryId,
+      //     enquiryNo: admissionDetail.enquiryNumber,
+      //     studentName:
+      //         "${model.enquiryDetails.value.studentFirstName} ${model.enquiryDetails.value.studentLastName}",
+      //   ),
+      // )
+      //     .then((value) {
+      // TODO: call admision journey api
+      //  model.getAdmissionJourney(enquiryID: admissionDetail.enquiryId, type: admissionDetail.enquiryType);
+      // });
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
@@ -96,12 +103,15 @@ class AdmissionsDetailsPageView
             arguments: admissionDetail);
       case 6:
         model.showMenuOnFloatingButton.add(false);
+        log("enquiryDetails ==> ${model.enquiryDetails.value.schoolId}");
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
           "routeFrom": "admission",
           "enquiryDetailArgs": admissionDetail,
+          "enquiryDetail": model.enquiryDetails.value,
           "editRegistrationDetails": true
         });
+
       default:
         return null;
     }
@@ -256,14 +266,39 @@ class AdmissionsDetailsPageView
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
-                            actionOnMenu(index, context, model);
+                            log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+                            final isRegistrationNotActive = model
+                                        .menuData.first['name']
+                                        .toString()
+                                        .toLowerCase() ==
+                                    'book test' &&
+                                model.menuData.first['isActive'] == false;
+                            if (isRegistrationNotActive) {
+                              log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+
+                              actionOnMenu(model.menuData[index]['id'] + 1,
+                                  context, model);
+                            } else {
+                              actionOnMenu(
+                                  model.menuData[index]['id'], context, model);
+                            }
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,
-                          menuData: model.menuData,
+                          menuData: model.menuData
+                              .where((e) => e['isActive'] == true)
+                              .toList(),
                         )
                       : SizedBox.fromSize());
-            })
+            }),
+        AppStreamBuilder<Resource<MoveToNextStageEnquiryResponse>>(
+            stream: model.moveStageSubject,
+            initialData: Resource.none(),
+            dataBuilder: (context, data) {
+              return data?.status == Status.loading
+                  ? const CommonAppLoader()
+                  : const SizedBox.shrink();
+            }),
       ],
     );
   }

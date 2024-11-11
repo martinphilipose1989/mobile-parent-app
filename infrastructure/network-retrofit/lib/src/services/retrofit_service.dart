@@ -9,6 +9,7 @@ import 'package:network_retrofit/src/model/request/finance/get_token_generator_r
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
+import 'package:network_retrofit/src/model/response/brand/brand_response_entity.dart';
 import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
@@ -554,4 +555,8 @@ abstract class RetrofitService {
   Future<HttpResponse<MoveToNextStageEnquiryResponseEntity>>
       moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
           @Body() MoveToNextStageEnquiryRequestEntity body);
+
+  @GET(NetworkProperties.getBrandList)
+  Future<HttpResponse<BrandResponseEntity>> getBrandList(
+      @Header("Authorization") token);
 }

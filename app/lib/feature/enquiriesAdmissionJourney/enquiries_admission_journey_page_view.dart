@@ -41,7 +41,11 @@ class EnquiriesAdmissionsJourneyPageView
             arguments: {
               "routeFrom": "enquiry",
               "enquiryDetailArgs": enquiryDetail
-            });
+            }).then((_) {
+          model.getEnquiryDetail(enquiryID: "${enquiryDetail.enquiryId}");
+          model.getAdmissionJourney(
+              enquiryID: "${enquiryDetail.enquiryId}", type: "enquiry");
+        });
       case 1:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
@@ -57,7 +61,9 @@ class EnquiriesAdmissionsJourneyPageView
                       arguments: enquiryDetail)
                   .then((value) {
                   model.getEnquiryDetail(
-                      enquiryID: enquiryDetail.enquiryId ?? '');
+                      enquiryID: "${enquiryDetail.enquiryId}");
+                  model.getAdmissionJourney(
+                      enquiryID: "${enquiryDetail.enquiryId}", type: "enquiry");
                 })
               : Navigator.of(context).pushNamed(
                   RoutePaths.scheduleSchoolTourPage,
@@ -65,7 +71,10 @@ class EnquiriesAdmissionsJourneyPageView
                   (value) {
                     if (value != null) {
                       model.getEnquiryDetail(
-                          enquiryID: enquiryDetail.enquiryId ?? '');
+                          enquiryID: "${enquiryDetail.enquiryId}");
+                      model.getAdmissionJourney(
+                          enquiryID: "${enquiryDetail.enquiryId}",
+                          type: "enquiry");
                     }
                   },
                 );
@@ -93,7 +102,9 @@ class EnquiriesAdmissionsJourneyPageView
                 arguments: {'enquiryDetailArgs': enquiryDetail}).then((value) {
                 if (value != null) {
                   model.getEnquiryDetail(
-                      enquiryID: enquiryDetail.enquiryId ?? '');
+                      enquiryID: "${enquiryDetail.enquiryId}");
+                  model.getAdmissionJourney(
+                      enquiryID: "${enquiryDetail.enquiryId}", type: "enquiry");
                 }
               });
     }
@@ -142,8 +153,15 @@ class EnquiriesAdmissionsJourneyPageView
                   ),
                   InkWell(
                     onTap: () => Navigator.pushNamed(
-                        context, RoutePaths.enquiriesDetailsPage,
-                        arguments: enquiryDetail),
+                            context, RoutePaths.enquiriesDetailsPage,
+                            arguments: enquiryDetail)
+                        .then((value) {
+                      model.getEnquiryDetail(
+                          enquiryID: "${enquiryDetail.enquiryId}");
+                      model.getAdmissionJourney(
+                          enquiryID: "${enquiryDetail.enquiryId}",
+                          type: "enquiry");
+                    }),
                     child: Row(
                       children: [
                         SvgPicture.asset(

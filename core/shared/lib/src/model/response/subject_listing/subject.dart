@@ -1,4 +1,4 @@
-class Subject {
+class SubjectModel {
     int? id;
     int? schoolId;
     int? schoolBrandId;
@@ -23,7 +23,7 @@ class Subject {
     String? termName;
     dynamic optionNumber;
 
-    Subject({
+    SubjectModel({
         this.id,
         this.schoolId,
         this.schoolBrandId,

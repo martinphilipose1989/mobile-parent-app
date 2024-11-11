@@ -32,8 +32,52 @@ class EnquiryDetail {
   int? schoolId;
   int? boardId;
   int? streamId;
+  int? gradeId;
   int? academicYearId;
   String? currentStage;
   String? boardName;
   String? academicYear;
+
+  @override
+  String toString() {
+    return '''
+EnquiryDetail(
+  enquiryNumber: $enquiryNumber,
+  enquiryDate: $enquiryDate,
+  enquiryType: $enquiryType,
+  schoolLocation: $schoolLocation,
+  studentFirstName: $studentFirstName,
+  studentLastName: $studentLastName,
+  grade: $grade,
+  dob: $dob,
+  gender: $gender,
+  existingSchoolName: $existingSchoolName,
+  existingSchoolBoard: $existingSchoolBoard,
+  existingSchoolGrade: $existingSchoolGrade,
+  parentType: $parentType,
+  globalId: $globalId,
+  parentFirstName: $parentFirstName,
+  parentLastName: $parentLastName,
+  parentEmail: $parentEmail,
+  parentMobile: $parentMobile,
+  enquiryDocuments: $enquiryDocuments,
+  enquiryStage: $enquiryStage,
+  eligibleGrade: $eligibleGrade,
+  studentAadhaarNumber: $studentAadhaarNumber,
+  placeOfBirth: $placeOfBirth,
+  religion: $religion,
+  caste: $caste,
+  subCaste: $subCaste,
+  nationality: $nationality,
+  motherTongue: $motherTongue,
+  schoolId: $schoolId,
+  boardId: $boardId,
+  streamId: $streamId,
+  gradeId: $gradeId,
+  academicYearId: $academicYearId,
+  currentStage: $currentStage,
+  boardName: $boardName,
+  academicYear: $academicYear
+)''';
+  }
 }

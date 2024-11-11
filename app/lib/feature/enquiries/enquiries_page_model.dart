@@ -200,6 +200,7 @@ class EnquiriesPageModel extends BasePageViewModel {
       _getAdmissionListResponse.stream;
 
   Future<void> closedEnquiryAdmissionList({bool isRefresh = false}) async {
+    
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         closedEnquiryPageNumber = 1;

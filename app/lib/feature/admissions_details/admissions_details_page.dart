@@ -29,7 +29,7 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
 
   @override
   void onModelReady(AdmissionsDetailsViewModel model) {
-    model.enquiryId = widget.admissionDetail.enquiryId??'';
+    model.enquiryId = widget.admissionDetail.enquiryId ?? '';
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,
@@ -47,30 +47,23 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
 
   @override
   PreferredSizeWidget? buildAppbar(AdmissionsDetailsViewModel model) {
-    // TODO: implement buildAppbar
-    return  CommonAppBar(
-      appbarTitle: 'Admissions Details',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-        onBackPressed:  (){
-          ProviderScope.containerOf(context)
-              .read(admissionsProvider).fetchAdmissionList();
-
-          Navigator.pop(context);
-        }
-    );
+    return const CommonAppBar(
+        appbarTitle: 'Admissions Details',
+        notShowNotificationAndUserBatch: false,
+        showBackButton: true);
   }
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, AdmissionsDetailsViewModel model) {
-    // TODO: implement buildView
-    return AdmissionsDetailsPageView(provideBase(),admissionDetail: widget.admissionDetail,);
+    return AdmissionsDetailsPageView(
+      provideBase(),
+      admissionDetail: widget.admissionDetail,
+    );
   }
 
   @override

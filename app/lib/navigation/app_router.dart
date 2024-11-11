@@ -100,7 +100,7 @@ class AppRouter {
                   routeFrom: args['routeFrom'] ?? '',
                   enquiryDetailArgs:
                       args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
-                  enquiryDetail: args["enquiryDetail"],
+                  enquiryDetail: args["enquiryDetail"] as EnquiryDetail,
                   editRegistrationDetails:
                       args["editRegistrationDetails"] ?? false,
                 ),

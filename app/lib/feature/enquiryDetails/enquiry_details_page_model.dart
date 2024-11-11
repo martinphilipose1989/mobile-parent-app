@@ -42,8 +42,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   EnquiryDetailArgs enquiryDetails;
   final ChooseFileUseCase chooseFileUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
+  final GetBrandUsecase getBrandUsecase;
+
   EnquiriesDetailsPageModel(
       this.exceptionHandlerBinder,
       this.getNewAdmissionDetailUseCase,
@@ -61,11 +62,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       this.enquiryDetails,
       this.chooseFileUseCase,
       this.flutterToastErrorPresenter,
-      this.moveToNextStageUsecase) {
+      this.moveToNextStageUsecase,
+      this.getBrandUsecase) {
+    getBrandList();
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
-    } else if (enquiryDetails.enquiryType == "PSA") {
+    } else if (enquiryDetails.enquiryType == "Enquiry - PSA") {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else {
       getNewAdmissionDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -314,6 +317,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   CommonDataClass? selectedStreamEntity;
   CommonDataClass? selectedCourseEntity;
   CommonDataClass? selectedShiftEntity;
+  CommonDataClass? selectedBrandEntity;
 
   Future<void> getNewAdmissionDetails(
       {required String enquiryID, bool isEdit = false}) async {
@@ -382,12 +386,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   }
 
   void removeRegistrationMenu() {
-    if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
-        enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
-      final index =
-          menuData.indexWhere((e) => e['name'].toLowerCase() == "registration");
-      menuData[index]['isActive'] = false;
-    }
+    // if (enquiryDetailArgs?.status?.toLowerCase() != "completed" &&
+    //     enquiryDetailArgs?.currentStage?.toLowerCase() == "registration fees") {
+    //   final index =
+    //       menuData.indexWhere((e) => e['name'].toLowerCase() == "registration");
+    //   menuData[index]['isActive'] = false;
+    // }
   }
 
   Future<void> getPsaDetails(
@@ -494,9 +498,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
       RequestManager<NewAdmissionBase>(
         params,
-        createCall: () => updateNewAdmissionUsecase.execute(
-          params: params,
-        ),
+        createCall: () => updateNewAdmissionUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
         if (result.status == Status.success) {
@@ -531,6 +533,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
+          result.data?.data?.enquiryStage?.forEach((e) {
+            log("enquiryStage ${e.status}  ${e.stageName}");
+          });
           final currentStepForJourney = result.data?.data?.enquiryStage
                   ?.firstWhere(
                       (e) =>
@@ -935,16 +940,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text =
-        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
-    studentDob = DateTime.parse(
-        (detail.studentDetails?.dob ?? DateTime.now().toString())
-            .replaceAll('-', '/'));
+    if (!(detail.studentDetails?.dob ?? '')
+        .toLowerCase()
+        .contains("invalid date")) {
+      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+          ? DateTime.parse(
+              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+          : DateTime.now();
+    }
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
+    if (schoolLocationTypesAttribute != null) {
+      selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
+          ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
+    } else {
+      selectedSchoolLocationSubjectAttribute.add(MdmAttributeModel(
+          id: detail.schoolLocation?.id,
+          attributes:
+              AttributesDetailsModel(name: detail.schoolLocation?.value)));
+    }
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject
         .add(detail.existingSchoolDetails?.grade?.value ?? '');
@@ -952,22 +970,30 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedExistingSchoolBoardSubject
         .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    psaSubTypeSubject.add(detail.psaSubType?.value ?? '');
-    selectedPsaSubTypeEntity = detail.psaSubType;
-    psaCategorySubject.add(detail.psaCategory?.value ?? '');
-    selectedPsaCategoryEntity = detail.psaCategory;
-    psaSubCategorySubject.add(detail.psaSubCategory?.value ?? '');
-    selectedPsaSubCategoryEntity = detail.psaSubCategory;
-    periodOfServiceSubject.add(detail.psaPeriodOfService?.value ?? '');
-    selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
-    psaBatchSubject.add(detail.psaBatch?.value ?? '');
-    selectedPsaBatchEntity = detail.psaBatch;
     parentTypeController.text = detail.enquirerParent ?? '';
-    globalIdController.text = detail.enquirerParent == "Father"
-        ? detail.parentDetails?.fatherDetails?.globalId ?? ''
-        : detail.parentDetails?.fatherDetails?.globalId ?? '';
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.motherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
 
   addIvtDetails(IVTDetail detail, EnquiryDetailArgs enquiryDetail) {
@@ -1054,4 +1080,27 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     }).execute();
   }
 
+  final BehaviorSubject<Resource<List<BrandData>>> brandListResponse =
+      BehaviorSubject<Resource<List<BrandData>>>.seeded(Resource.none());
+
+  final BehaviorSubject<String> selectedBrandSubject = BehaviorSubject();
+
+  void getBrandList() {
+    final GetBrandUsecaseParams params = GetBrandUsecaseParams();
+    exceptionHandlerBinder.handle(
+      block: () {
+        RequestManager(params,
+                createCall: () => getBrandUsecase.execute(params: params))
+            .asFlow()
+            .listen((result) {
+          if (result.status == Status.success) {
+            final brandList = result.data?.data;
+            brandListResponse.add(Resource.success(data: brandList!));
+          }
+        }).onError((error) {
+          brandListResponse.add(Resource.error(error: error));
+        });
+      },
+    ).execute();
+  }
 }

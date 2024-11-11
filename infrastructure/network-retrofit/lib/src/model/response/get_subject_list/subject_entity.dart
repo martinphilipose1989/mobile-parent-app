@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'subject_entity.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class SubjectEntity extends BaseLayerDataTransformer<SubjectEntity, Subject>{
+class SubjectEntity extends BaseLayerDataTransformer<SubjectEntity, SubjectModel>{
     int? id;
     int? schoolId;
     int? schoolBrandId;
@@ -61,8 +61,8 @@ class SubjectEntity extends BaseLayerDataTransformer<SubjectEntity, Subject>{
     Map<String, dynamic> toJson() => _$SubjectEntityToJson(this);
 
   @override
-  Subject transform() {
-    Subject subject = Subject();
+  SubjectModel transform() {
+    SubjectModel subject = SubjectModel();
     subject.id = id;
     subject.schoolId = schoolId;
     subject.schoolBrandId = schoolBrandId;
