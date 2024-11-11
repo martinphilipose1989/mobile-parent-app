@@ -24,7 +24,7 @@ class GetSchoolNamesUsecase extends BaseUseCase<BaseError,
 }
 
 class GetSchoolNamesUsecaseParams extends Params {
-  final List<int> studentIds;
+  final List studentIds;
   final List<int> academicYearIds;
 
   GetSchoolNamesUsecaseParams({

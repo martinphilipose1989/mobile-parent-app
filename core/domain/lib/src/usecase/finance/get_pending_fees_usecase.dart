@@ -28,7 +28,7 @@ class GetPendingFeesUsecase extends BaseUseCase<BaseError,
 
 class GetPendingFeesUsecaseParams extends Params {
   final String type;
-  final List<int> students;
+  final List students;
   final List<int> academicYear;
   final int applicableTo;
   final int? entityId;

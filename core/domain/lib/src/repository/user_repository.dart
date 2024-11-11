@@ -18,4 +18,6 @@ abstract class UserRepository {
 
   Future<Either<LocalError, UserRolePermissionResponse>> storeUserResponse(
       UserRolePermissionResponse userRolePermissionResponse);
+
+  Future<Either<LocalError, User>> getUserDetails();
 }

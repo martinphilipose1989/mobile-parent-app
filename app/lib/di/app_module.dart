@@ -1,4 +1,5 @@
 import 'package:app/flavors/flavor_config.dart';
+
 import 'package:injectable/injectable.dart';
 
 @module
@@ -37,4 +38,7 @@ abstract class AppModule {
 
   @Named("ClientSecret")
   String get clientSecret => FlavorConfig.instance.values.secrets.clientSecret;
+
+  @Named("ShowLogs")
+  bool get showLogs => FlavorConfig.instance.values.showLogs;
 }

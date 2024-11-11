@@ -24,7 +24,9 @@ class CouponList extends StatelessWidget {
               feeCategoryIds: getPendingFeesFeeModel.feeCategoryIds ?? "",
               feeSubCategoryIds: getPendingFeesFeeModel.feeSubCategoryIds ?? "",
               feeTypeIds: getPendingFeesFeeModel.feeTypeId.toString(),
-              studentId: getPendingFeesFeeModel.studentId.toString());
+              studentId: getPendingFeesFeeModel.studentId == null
+                  ? getPendingFeesFeeModel.enquiryId
+                  : getPendingFeesFeeModel.studentId.toString());
         },
         builder: (context, model, child) {
           return Scaffold(

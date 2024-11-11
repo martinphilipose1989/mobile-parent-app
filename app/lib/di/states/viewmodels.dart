@@ -36,6 +36,7 @@ import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_model.dart';
+import 'package:app/utils/user_viewmodel.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +66,8 @@ final dashboardViewModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetGuardianStudentDetailsUsecase>(),
       getIt.get<TokenresponseUsecase>(),
-      getIt.get<GetUserRoleBasePermissionUsecase>()),
+      getIt.get<GetUserRoleBasePermissionUsecase>(),
+      getIt.get<GetUserDetailsUsecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
@@ -144,31 +146,34 @@ final registrationsDetailsProvider =
 
 final enquiriesPageModelProvider =
     ChangeNotifierProvider.autoDispose<EnquiriesPageModel>(
-  (ref) => EnquiriesPageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetEnquiryListUsecase>()),
+  (ref) => EnquiriesPageModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetEnquiryListUsecase>(),
+      getIt.get<GetAdmissionListUsecase>(),
+      getIt.get<FlutterToastErrorPresenter>()),
 );
 
 final enquiriesDetailsPageModelProvider =
     AutoDisposeChangeNotifierProviderFamily<EnquiriesDetailsPageModel,
         EnquiryDetailArgs>(
   (ref, args) => EnquiriesDetailsPageModel(
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<GetNewAdmissionDetailUseCase>(),
-    getIt.get<GetIvtDetailUsecase>(),
-    getIt.get<GetPsaDetailUsecase>(),
-    getIt.get<GetEnquiryDetailUseCase>(),
-    getIt.get<GetMdmAttributeUsecase>(),
-    getIt.get<UploadEnquiryDocumentUsecase>(),
-    getIt.get<DeleteEnquiryDocumentUsecase>(),
-    getIt.get<DownloadEnquiryDocumentUsecase>(),
-    getIt.get<UpdatePsaDetailUsecase>(),
-    getIt.get<UpdateIvtDetailUsecase>(),
-    getIt.get<UpdateNewAdmissionUsecase>(),
-    getIt.get<DownloadFileUsecase>(),
-    args,
-    getIt.get<ChooseFileUseCase>(),
-    getIt.get<FlutterToastErrorPresenter>(),
-  ),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetNewAdmissionDetailUseCase>(),
+      getIt.get<GetIvtDetailUsecase>(),
+      getIt.get<GetPsaDetailUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      getIt.get<GetMdmAttributeUsecase>(),
+      getIt.get<UploadEnquiryDocumentUsecase>(),
+      getIt.get<DeleteEnquiryDocumentUsecase>(),
+      getIt.get<DownloadEnquiryDocumentUsecase>(),
+      getIt.get<UpdatePsaDetailUsecase>(),
+      getIt.get<UpdateIvtDetailUsecase>(),
+      getIt.get<UpdateNewAdmissionUsecase>(),
+      getIt.get<DownloadFileUsecase>(),
+      args,
+      getIt.get<ChooseFileUseCase>(),
+      getIt.get<FlutterToastErrorPresenter>(),
+      getIt.get<MoveToNextStageUsecase>()),
 );
 
 final enquiriesTimelinePageModelProvider =
@@ -312,12 +317,12 @@ final enquiriesAdmissionsJourneyProvider =
     AutoDisposeChangeNotifierProviderFamily<EnquiriesAdmissionsJourneyViewModel,
         EnquiryDetailArgs>(
   (ref, args) => EnquiriesAdmissionsJourneyViewModel(
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<GetAdmissionJourneyUsecase>(),
-    getIt.get<GetEnquiryDetailUseCase>(),
-    args,
-    getIt.get<FlutterToastErrorPresenter>(),
-  ),
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<GetAdmissionJourneyUsecase>(),
+      getIt.get<GetEnquiryDetailUseCase>(),
+      args,
+      getIt.get<FlutterToastErrorPresenter>(),
+      getIt.get<MoveToNextStageUsecase>()),
 );
 
 final createQrcodeViewModelProvider =
@@ -405,4 +410,9 @@ ChangeNotifierProvider.autoDispose<StudentProfilePageViewModel>(
     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
   ),
+);
+
+final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
+  (ref) =>
+      UserViewModel(getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>()),
 );

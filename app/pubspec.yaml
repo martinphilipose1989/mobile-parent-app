@@ -86,7 +86,8 @@ dependencies:
   intl: any
   geolocator: ^13.0.1
   cached_network_image: ^3.4.1
-  
+  alice: ^0.4.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

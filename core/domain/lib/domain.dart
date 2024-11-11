@@ -90,3 +90,5 @@ export 'src/usecase/finance/get_payment_status_usecase.dart';
 export 'src/usecase/admin/get_coupons_usecase.dart';
 export 'src/usecase/user/tokenresponse_usecase.dart';
 export 'src/usecase/user/user_role_permission_usecase.dart';
+export 'src/usecase/user/get_user_details_usecase.dart';
+export 'src/usecase/marketing/move_to_next_stage_usecase.dart';

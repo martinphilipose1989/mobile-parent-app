@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/model/request/finance/get_school_name_reque
 import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/cafeteria_enrollment_detail/cafeteria_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
@@ -15,6 +16,7 @@ import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
 import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
+import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_update.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_subject_list/subject_list_response_entity.dart';
 import 'package:network_retrofit/src/model/response/kids_club_enrollment_detail/kids_club_enrollment_response_entity.dart';
@@ -42,6 +44,7 @@ import 'package:network_retrofit/src/model/response/get_ivt_detail/ivt_base_resp
 import 'package:network_retrofit/src/model/response/get_new_admission/new_admission_entity.dart';
 import 'package:network_retrofit/src/model/response/get_psa_detail/psa_base_response_entity.dart';
 import 'package:network_retrofit/src/model/response/schoo_visit/school_visit_entity.dart';
+import 'package:retrofit/http.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -145,25 +148,29 @@ abstract class RetrofitService {
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}')
   Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
-      {@Path('enquiryID') required String enquiryID});
+      {@Path('enquiryID') required String enquiryID,
+      @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryId}/schedule')
   Future<HttpResponse<SchoolVisitEntity>> createSchoolVisit(
       {@Path('enquiryId') required String enquiryID,
-      @Body() required SchoolCreationRequest schoolCreationRequest});
+      @Body() required SchoolCreationRequest schoolCreationRequest,
+      @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/reschedule')
   Future<HttpResponse<SchoolVisitEntity>> rescheduleSchoolVisit(
       {@Path('enquiryID') required String schoolVisitID,
-      @Body() required RescheduleSchoolVisitRequest schoolCreationRequest});
+      @Body() required RescheduleSchoolVisitRequest schoolCreationRequest,
+      @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/school-visit/{enquiryID}/cancel')
   Future<HttpResponse<SchoolVisitEntity>> cancelSchoolVisit(
       {@Path('enquiryID') required String enquiryID,
-      @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest});
+      @Body() required SchoolVisitCancelRequest schoolVisitCancelRequest,
+      @Query('platform') required String platform});
 
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/admission-list')
@@ -171,21 +178,23 @@ abstract class RetrofitService {
       {@Query('phone') required String phone,
       @Query('pageNumber') required int pageNumber,
       @Query('pageSize') required int pageSize,
-      @Query('status') required String status});
+      @Query('status') required String status,
+      @Query('platform') required String platform});
 
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryId}')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>>
-      getCompetencyTestDetail({
-    @Path('enquiryId') required String enquiryID,
-  });
+      getCompetencyTestDetail(
+          {@Path('enquiryId') required String enquiryID,
+          @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/create')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> createCompetencyTest(
       {@Path('enquiryID') required String enquiryID,
       @Body()
-      required CompetencyTestCreationRequest competencyTestCreationRequest});
+      required CompetencyTestCreationRequest competencyTestCreationRequest,
+      @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/reschedule')
@@ -194,14 +203,15 @@ abstract class RetrofitService {
           {@Path('enquiryID') required String enquiryID,
           @Body()
           required CompetencyTestRescheduleRequest
-              competencyTestCreationRequest});
+              competencyTestCreationRequest,
+          @Query('platform') required String platform});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/competency-test/{enquiryID}/cancel')
   Future<HttpResponse<CompetencyTestDetailResponseEntity>> cancelCompetencyTest(
       {@Path('enquiryID') required String enquiryID,
-      @Body()
-      required CancelCompetencyTestRequest cancelCompetencyTestRequest});
+      @Body() required CancelCompetencyTestRequest cancelCompetencyTestRequest,
+      @Query('platform') required String platform});
 
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryID}/document/{documentID}')
@@ -265,16 +275,16 @@ abstract class RetrofitService {
   });
 
   @GET('${NetworkProperties.marketingBaseURL}marketing/school-visit/slots')
-  Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots({
-    @Query("enquiryId") required String enquiryId,
-    @Query("date") required String date,
-  });
+  Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots(
+      {@Query("enquiryId") required String enquiryId,
+      @Query("date") required String date,
+      @Query('platform') required String platform});
 
   @GET('${NetworkProperties.marketingBaseURL}marketing/competency-test/slots')
-  Future<HttpResponse<SlotsEntity>> getCompetencyTestSlots({
-    @Query("enquiryId") required String enquiryId,
-    @Query("date") required String date,
-  });
+  Future<HttpResponse<SlotsEntity>> getCompetencyTestSlots(
+      {@Query("enquiryId") required String enquiryId,
+      @Query("date") required String date,
+      @Query('platform') required String platform});
 
   @GET('${NetworkProperties.mdmBaseUrl}${NetworkProperties.schoolLocation}')
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getSchoolLocation({
@@ -438,9 +448,8 @@ abstract class RetrofitService {
 
   @GET("${NetworkProperties.mdmBaseUrl}${NetworkProperties.relationWithChild}")
   Future<HttpResponse<MdmBaseResponseBaseEntity>> getRelationWithChild({
-      @Header("Authorization") required String token,
-    }
-  );
+    @Header("Authorization") required String token,
+  });
 
   @POST(NetworkProperties.enrollmentDetail)
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
@@ -539,4 +548,10 @@ abstract class RetrofitService {
   Future<HttpResponse<UserRolePermissionResponseEntity>> getUserRolePermissions(
       @Header("Authorization") token,
       @Body() UserRolePermissionRequestEntity body);
+
+  @PATCH(
+      "${NetworkProperties.marketingBaseURL}marketing/enquiry/{enquiryId}/move-to-next-stage")
+  Future<HttpResponse<MoveToNextStageEnquiryResponseEntity>>
+      moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
+          @Body() MoveToNextStageEnquiryRequestEntity body);
 }

@@ -14,8 +14,14 @@ class AdmissionsList extends StatelessWidget {
   final List<AdmissionListDetailModel>? admissionList;
   ScrollController scrollController;
   Future<void> Function() onRefresh;
+  final bool isClosed;
 
-  AdmissionsList({super.key,this.admissionList,required this.scrollController, required this.onRefresh});
+  AdmissionsList(
+      {super.key,
+      this.admissionList,
+      required this.scrollController,
+      required this.onRefresh,
+      this.isClosed = false});
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +47,25 @@ class AdmissionsList extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   EnquiryDetailArgs admissionDetail = EnquiryDetailArgs(
-                    enquiryId: admissionList?[index].enquiryId,
-                    enquiryNumber: admissionList?[index].enquiryNumber,
-                    currentStage: admissionList?[index].currentStage,
-                    enquiryType: admissionList?[index].enquiryType,
-                    school: admissionList?[index].school,
-                    studentName: admissionList?[index].studentName,
-                    academicYear: admissionList?[index].academicYear,
-                    board: admissionList?[index].board,
-                    grade: admissionList?[index].grade,
-                    shift: admissionList?[index].shift,
-                    stream: admissionList?[index].stream,
-                    formCompletionPercentage: admissionList?[index].formCompletionPercentage,
-                    isFrom: 'admission',
-                    status: admissionList?[index].status 
-                  );
-                  Navigator.pushNamed(context, RoutePaths.admissionsDetails,arguments: admissionDetail);
+                      enquiryId: admissionList?[index].enquiryId,
+                      enquiryNumber: admissionList?[index].enquiryNumber,
+                      currentStage: admissionList?[index].currentStage,
+                      enquiryType: admissionList?[index].enquiryType,
+                      school: admissionList?[index].school,
+                      studentName: admissionList?[index].studentName,
+                      academicYear: admissionList?[index].academicYear,
+                      board: admissionList?[index].board,
+                      grade: admissionList?[index].grade,
+                      shift: admissionList?[index].shift,
+                      stream: admissionList?[index].stream,
+                      formCompletionPercentage:
+                          admissionList?[index].formCompletionPercentage,
+                      isFrom: 'admission',
+                      status: admissionList?[index].status);
+                  if (isClosed == false) {
+                    Navigator.pushNamed(context, RoutePaths.admissionsDetails,
+                        arguments: admissionDetail);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -65,20 +74,22 @@ class AdmissionsList extends StatelessWidget {
                     children: [
                       ListItem(
                         image: AppImages.personIcon,
-                        name: admissionList?[index].studentName??'',
-                        year: admissionList?[index].academicYear??'',
-                        id: admissionList?[index].enquiryNumber??'',
-                        title: admissionList?[index].school??'',
-                        subtitle: "${admissionList?[index].grade??''} | ${admissionList?[index].board??''} | ${admissionList?[index].shift} | Stream-${admissionList?[index].stream}",
-                        buttontext: admissionList?[index].currentStage??'',
-                        compeletion: "${(admissionList?[index].formCompletionPercentage??0).toString()}% Completed",
-                        status: admissionList?[index].status??'',
+                        name: admissionList?[index].studentName ?? '',
+                        year: admissionList?[index].academicYear ?? '',
+                        id: admissionList?[index].enquiryNumber ?? '',
+                        title: admissionList?[index].school ?? '',
+                        subtitle:
+                            "${admissionList?[index].grade ?? ''} | ${admissionList?[index].board ?? ''} | ${admissionList?[index].shift} | Stream-${admissionList?[index].stream}",
+                        buttontext: admissionList?[index].currentStage ?? '',
+                        compeletion:
+                            "${(admissionList?[index].formCompletionPercentage ?? 0).toString()}% Completed",
+                        status: admissionList?[index].status ?? '',
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       CommonText(
-                        text: admissionList?[index].comment??'',
+                        text: admissionList?[index].comment ?? '',
                         style: AppTypography.caption.copyWith(
                             color: AppColors.primary, letterSpacing: 0),
                       )

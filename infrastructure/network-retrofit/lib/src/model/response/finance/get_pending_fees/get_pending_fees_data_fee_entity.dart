@@ -182,6 +182,8 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   final int? feeCategoryId;
   @JsonKey(name: "fee_subcategory_id")
   final int? feeSubCategoryIds;
+  @JsonKey(name: "enquiry_id")
+  String? enquiryId;
 
   GetPendingFeesDataFeeEntity(
       {this.id,
@@ -282,6 +284,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   GetPendingFeesFeeModel transform() {
     // TODO: implement transform
     return GetPendingFeesFeeModel(
+        enquiryId: enquiryId,
         paymentMode: paymentMode,
         academicYear: academicYear,
         academicYearId: academicYearId,

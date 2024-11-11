@@ -1,3 +1,4 @@
+import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
@@ -8,6 +9,7 @@ import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:alice/alice.dart';
 
 @module
 abstract class NetworkModule {
@@ -18,20 +20,22 @@ abstract class NetworkModule {
       BaseOptions(baseUrl: url);
 
   @singleton
-  PrettyDioLogger providerPrettyLogger() => PrettyDioLogger(
-        request: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
+  PrettyDioLogger providerPrettyLogger(@Named('ShowLogs') bool showLogs) =>
+      PrettyDioLogger(
+        request: showLogs,
+        requestBody: showLogs,
+        requestHeader: showLogs,
+        responseBody: showLogs,
+        responseHeader: showLogs,
         logPrint: (log) {
           return print(log as String);
         },
       );
 
   @singleton
-  CurlLoggerDioInterceptor provideCurlLogger() =>
-      CurlLoggerDioInterceptor(printOnSuccess: true);
+  CurlLoggerDioInterceptor provideCurlLogger(
+          @Named('ShowLogs') bool showLogs) =>
+      CurlLoggerDioInterceptor(printOnSuccess: showLogs);
 
   @singleton
   ApiInterceptor provideApiInterceptor(
@@ -39,18 +43,33 @@ abstract class NetworkModule {
       ApiInterceptor(apiKey, mdmToken);
 
   @singleton
+  Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
+      Alice(showNotification: showLogs);
+
+  @singleton
+  AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
+      alice.getDioInterceptor();
+
+  @singleton
   List<Interceptor> providerInterceptors(
           PrettyDioLogger logger,
           ApiInterceptor apiInterceptor,
-          CurlLoggerDioInterceptor curlInterceptor) =>
-      <Interceptor>[apiInterceptor, logger, curlInterceptor];
+          CurlLoggerDioInterceptor curlInterceptor,
+          AliceDioInterceptor aliceDioInterceptor) =>
+      <Interceptor>[
+        apiInterceptor,
+        logger,
+        curlInterceptor,
+        // REMOVE WHILE UAT OR RELEASE
+
+        // aliceDioInterceptor
+      ];
 
   @lazySingleton
   Dio providerDio(BaseOptions options, List<Interceptor> interceptors) {
     Dio dio = Dio(options);
-    dio.interceptors.addAll(
-      interceptors,
-    );
+
+    dio.interceptors.addAll(interceptors);
     return dio;
   }
 

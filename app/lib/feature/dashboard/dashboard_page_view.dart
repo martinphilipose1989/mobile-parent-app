@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 import 'package:app/utils/app_typography.dart';
@@ -12,7 +13,6 @@ import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -83,12 +83,11 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
       child: HighlightList(
         chipValues: chipValues,
         onCallBack: (routeName) {
-          print(ProviderScope.containerOf(context)
-              .read(otpPageModelProvider)
-              .phoneNo);
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
-              arguments: model.mobileNo);
+              arguments: PaymentArguments(
+                phoneNo: model.mobileNo,
+              ));
         },
       ),
     );
@@ -128,9 +127,20 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           const SizedBox(
             width: 10,
           ),
-          const CommonText(
-            text: 'Hello, Mr. Ajay Patel',
-            style: AppTypography.subtitle2,
+          BaseWidget(
+            providerBase: userViewModelProvider,
+            builder: (context, model, _) {
+              return AppStreamBuilder<Resource<User>>(
+                stream: model!.userStream,
+                initialData: Resource.none(),
+                dataBuilder: (context, userModel) {
+                  return CommonText(
+                    text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                    style: AppTypography.subtitle2,
+                  );
+                },
+              );
+            },
           )
         ]),
         SizedBox(

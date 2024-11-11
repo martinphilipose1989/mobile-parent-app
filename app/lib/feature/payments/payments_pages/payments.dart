@@ -12,6 +12,7 @@ import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,10 +21,10 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../../base/app_base_page.dart';
 
 class Payments extends BasePage<PaymentsModel> {
-  final String phoneNo;
+  final PaymentArguments paymentArguments;
   const Payments({
     super.key,
-    required this.phoneNo,
+    required this.paymentArguments,
   });
 
   @override
@@ -41,18 +42,28 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   void onModelReady(PaymentsModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.tabController = TabController(length: 2, vsync: this);
-    model.selectedStudent = ProviderScope.containerOf(context)
-        .read(dashboardViewModelProvider)
-        .selectedStudentId;
-    if (model.selectedStudent != null) {
-      List<int> temp = [];
-      for (var selectedStudent in model.selectedStudent!) {
-        temp.add(selectedStudent.id!);
+    if (widget.paymentArguments.enquiryId?.isEmpty ??
+        false || widget.paymentArguments.enquiryId == null) {
+      model.selectedStudent = ProviderScope.containerOf(context)
+              .read(dashboardViewModelProvider)
+              .selectedStudentId ??
+          [];
+      if (model.selectedStudent != null) {
+        List<int> temp = [];
+        for (var selectedStudent in model.selectedStudent!) {
+          temp.add(selectedStudent.id!);
+        }
+        model.studentIDs = temp;
       }
-      model.studentIDs = temp;
+      model.phoneNo = int.parse(widget.paymentArguments.phoneNo);
+      model.getStudentList(model.phoneNo);
+    } else {
+      model.phoneNo = widget.paymentArguments.phoneNo.isEmpty
+          ? 0
+          : int.parse(widget.paymentArguments.phoneNo);
+      model.paymentArguments = widget.paymentArguments;
+      model.updateStudentDetailsForEnquiry(model.paymentArguments);
     }
-    model.phoneNo = int.parse(widget.phoneNo);
-    model.getStudentList(model.phoneNo);
   }
 
   @override
@@ -160,5 +171,24 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
   Color scaffoldBackgroundColor() {
     // TODO: implement scaffoldBackgroundColor
     return Colors.white;
+  }
+}
+
+class PaymentArguments {
+  final String? enquiryId;
+  final String? enquiryNo;
+  final String? studentName;
+  final String phoneNo;
+
+  PaymentArguments({
+    required this.phoneNo,
+    this.enquiryId,
+    this.enquiryNo,
+    this.studentName,
+  });
+
+  @override
+  String toString() {
+    return 'PaymentArguments(enquiryId: $enquiryId, enquiryNo: $enquiryNo, studentName: $studentName, phoneNo: $phoneNo)';
   }
 }

@@ -1,3 +1,4 @@
+import 'package:app/dependencies.dart';
 import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,6 @@ class MyApp extends StatelessWidget {
             useInheritedMediaQuery: true,
             builder: (context, child) {
               return MaterialApp(
-                  // key: ,
                   navigatorKey: navigatorKey,
                   builder: (context, widget) => ResponsiveBreakpoints.builder(
                         child: widget!,

@@ -137,7 +137,7 @@ class AdmissionsViewModel extends BasePageViewModel {
       if (isRefresh) {
         closedAdmissionsPageNumber = 1;
       }
-      // if (!isNextPage) {
+      // if (!closedAdmissionsNextPage) {
       //   return;
       // }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);

@@ -12,13 +12,13 @@ abstract class NetworkPort {
       {required int studentId, required List<int> lobIDs});
 
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
-      {required String type, required List<int> students});
+      {required String type, required List students});
 
   Future<Either<NetworkError, GetTokenGeneratorModel>> getTokenGenerator(
       {required int segmentLobId});
 
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
-      {required int paymentMode, required List<int> studentFeeIds});
+      {required int paymentMode, required List studentFeeIds});
 
   Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
       {required StorePaymentModelRequest storePaymentModelRequest});
@@ -28,14 +28,14 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
-      required List<int> students,
+      required List students,
       required List<int> academicYear,
       required int applicableTo,
       int? entityId,
       int? brandId});
 
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
-      {required List<int> studentIds, required List<int> academicYearIds});
+      {required List studentIds, required List<int> academicYearIds});
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList(
       {required String phone,
       required int pageNumber,
@@ -127,7 +127,7 @@ abstract class NetworkPort {
       required String verify});
 
   Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute(
-      {required String infoType,int? id});
+      {required String infoType, int? id});
 
   Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode(
       {required String pincode});
@@ -206,4 +206,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, UserRolePermissionResponse>>
       getUserRolePermissions({required UserRolePermissionRequest request});
+
+  Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
+      moveToNextStageEnquiry({required String enquiryId});
 }
