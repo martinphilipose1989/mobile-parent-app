@@ -1,5 +1,5 @@
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/errors/flutter_toast_error_presenter.dart';
+import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/model/phone_number_details.dart';
 import 'package:app/model/resource.dart';
@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -183,17 +182,16 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   Stream<GetGuardianStudentDetailsStudentModel?> get studentDataStream =>
       studentDataSubject.stream;
 
+  var dashboardState = DashboardState();
+
   setStudentData(BuildContext context) {
-    //dashboardProvider
-    var dashboardVM =
-        ProviderScope.containerOf(context).read(dashboardViewModelProvider);
+    debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent.id}");
 
-    if (dashboardVM.selectedStudentId?.isNotEmpty == true) {
-      selectedStudent = dashboardVM.selectedStudentId?.first;
-    }
+    var selectedStudent = dashboardState.selectedStudent;
 
-    selectedStudent?.id ??= 10;
-    selectedStudent?.studentDisplayName ??= "ALIA Fernandes - ENR0002";
+
+    selectedStudent.id ??= -1;
+    selectedStudent.studentDisplayName ??= "";
 
     studentDataSubject.add(selectedStudent);
   }

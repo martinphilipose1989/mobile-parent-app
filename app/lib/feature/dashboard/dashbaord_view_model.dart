@@ -12,6 +12,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import 'dashboard_state.dart';
+
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
@@ -26,6 +28,8 @@ class DashboardPageModel extends BasePageViewModel {
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   Stream<Resource<User>> get userStream => userSubject.stream;
+
+  var dashboardState = DashboardState();
 
   DashboardPageModel(
       this.exceptionHandlerBinder,
@@ -106,6 +110,9 @@ class DashboardPageModel extends BasePageViewModel {
       }
     }
     selectedStudentId = tempList;
+    if (tempList.isNotEmpty) {
+      dashboardState.setValueOfSelectedStudent(tempList.first);
+    }
   }
 
   // Calling students list
@@ -131,6 +138,9 @@ class DashboardPageModel extends BasePageViewModel {
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
+
+          if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
+            dashboardState.setValueOfSelectedStudent(tempList.first);
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
