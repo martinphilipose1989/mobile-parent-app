@@ -31,11 +31,12 @@ class EnquiriesDetailsPageView
     switch (index) {
       case 0:
         model.showMenuOnFloatingButton.add(false);
-        return Navigator.of(context).pushNamed(RoutePaths.registrationDetails,
-            arguments: {
-              "routeFrom": "enquiry",
-              "enquiryDetailArgs": enquiryDetailArgs
-            });
+        return Navigator.of(context)
+            .pushNamed(RoutePaths.registrationDetails, arguments: {
+          "routeFrom": "enquiry",
+          "enquiryDetailArgs": enquiryDetailArgs,
+          "enquiryDetail": model.enquiryDetail.value
+        });
       case 1:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);

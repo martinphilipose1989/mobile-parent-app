@@ -30,6 +30,7 @@ class AdmissionsDetailsPageView
 
   actionOnMenu(
       int index, BuildContext context, AdmissionsDetailsViewModel model) {
+    setEnquiryDetailsArgs(model);
     switch (index) {
       case 0:
         model.showMenuOnFloatingButton.add(false);
@@ -46,10 +47,8 @@ class AdmissionsDetailsPageView
                 'enquiryDetailArgs': admissionDetail,
               }).then(
                 (value) {
-                  if (value != null) {
-                    model.getEnquiryDetail(
-                        enquiryID: admissionDetail.enquiryId ?? '');
-                  }
+                  model.getEnquiryDetail(
+                      enquiryID: admissionDetail.enquiryId ?? '');
                 },
               );
       case 1:
@@ -151,13 +150,16 @@ class AdmissionsDetailsPageView
                       style: AppTypography.subtitle1,
                     ),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails,
-                          arguments: {
-                            "routeFrom": "admission",
-                            "enquiryDetailArgs": admissionDetail,
-                            "enquiryDetail": model.enquiryDetails.value
-                          }),
+                      onTap: () {
+                        setEnquiryDetailsArgs(model);
+                        Navigator.pushNamed(
+                            context, RoutePaths.registrationDetails,
+                            arguments: {
+                              "routeFrom": "admission",
+                              "enquiryDetailArgs": admissionDetail,
+                              "enquiryDetail": model.enquiryDetails.value
+                            });
+                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -298,5 +300,18 @@ class AdmissionsDetailsPageView
             }),
       ],
     );
+  }
+
+  void setEnquiryDetailsArgs(AdmissionsDetailsViewModel model) {
+    log("admissionDetail.brandId ${model.enquiryDetails.value.brandId}");
+    log("admissionDetail.brandName ${model.enquiryDetails.value.brandName}");
+
+    admissionDetail.brandId = model.enquiryDetails.value.brandId;
+    admissionDetail.brandName = model.enquiryDetails.value.brandName;
+    admissionDetail.schoolId = model.enquiryDetails.value.schoolId;
+    admissionDetail.boardId = model.enquiryDetails.value.boardId;
+    admissionDetail.academicYearId = model.enquiryDetails.value.academicYearId;
+    admissionDetail.gradeId = model.enquiryDetails.value.gradeId;
+    admissionDetail.courseId = model.enquiryDetails.value.courseId;
   }
 }

@@ -17,4 +17,30 @@ class NewAdmissionDetail {
   CommonDataClass? shift;
   ResidentialAddress? residentialAddress;
   CommonDataClass? brand;
+  String? brandName;
+  String? brandId;
+
+  @override
+  String toString() {
+    return 'NewAdmissionDetail('
+        'enquiryNumber: $enquiryNumber, '
+        'enquiryDate: $enquiryDate, '
+        'academicYear: $academicYear, '
+        'schoolLocation: $schoolLocation, '
+        'isGuestStudent: $isGuestStudent, '
+        'guestStudentDetails: $guestStudentDetails, '
+        'parentDetails: $parentDetails, '
+        'existingSchoolDetails: $existingSchoolDetails, '
+        'enquirerParent: $enquirerParent, '
+        'studentDetails: $studentDetails, '
+        'board: $board, '
+        'course: $course, '
+        'stream: $stream, '
+        'shift: $shift, '
+        'residentialAddress: $residentialAddress, '
+        'brand: $brand, '
+        'brandName: $brandName, '
+        'brandId: $brandId'
+        ')';
+  }
 }

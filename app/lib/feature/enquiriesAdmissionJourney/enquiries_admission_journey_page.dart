@@ -132,24 +132,33 @@ class EnquiryDetailArgs {
   String? isFrom;
   String? admissionStatus;
   String? status;
-  
+  String? brandName;
+  int? schoolId;
+  int? boardId;
+  int? brandId;
+  int? gradeId;
+  int? academicYearId;
+  int? courseId;
 
-  EnquiryDetailArgs(
-      {this.enquiryId,
-      this.enquiryNumber,
-      this.enquiryType,
-      this.currentStage,
-      this.studentName,
-      this.academicYear,
-      this.school,
-      this.board,
-      this.grade,
-      this.stream,
-      this.shift,
-      this.schoolVisitDate,
-      this.schoolVisitTime,
-      this.formCompletionPercentage,
-      this.isFrom,
-      this.admissionStatus,
-      this.status});
+  EnquiryDetailArgs({
+    this.enquiryId,
+    this.enquiryNumber,
+    this.enquiryType,
+    this.currentStage,
+    this.studentName,
+    this.academicYear,
+    this.school,
+    this.board,
+    this.grade,
+    this.stream,
+    this.shift,
+    this.schoolVisitDate,
+    this.schoolVisitTime,
+    this.formCompletionPercentage,
+    this.isFrom,
+    this.admissionStatus,
+    this.status,
+    this.brandId,
+    this.brandName,
+  });
 }

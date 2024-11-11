@@ -533,23 +533,34 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          result.data?.data?.enquiryStage?.forEach((e) {
-            log("enquiryStage ${e.status}  ${e.stageName}");
-          });
-          final currentStepForJourney = result.data?.data?.enquiryStage
-                  ?.firstWhere(
-                      (e) =>
-                          e.status?.toLowerCase() != "completed" &&
-                          e.stageName?.toLowerCase() == "registration fees",
-                      orElse: () => EnquiryStage())
-                  .status ??
-              '';
-
-          if (currentStepForJourney.toLowerCase() != "completed") {
-            final index = menuData
-                .indexWhere((e) => e['name'].toLowerCase() == "registration");
-            menuData[index]['isActive'] = false;
+          bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
+                  ?.any((stage) =>
+                      stage.stageName == "Registration Fees" &&
+                      stage.status == "Completed") ??
+              false;
+          // Update the isActive status for "Registration" in menuData
+          for (var item in menuData) {
+            if (item['name'] == "Registration") {
+              item['isActive'] = isRegistrationFeesCompleted ? true : false;
+            }
           }
+          // result.data?.data?.enquiryStage?.forEach((e) {
+          //   log("enquiryStage ${e.status}  ${e.stageName}");
+          // });
+          // final currentStepForJourney = result.data?.data?.enquiryStage
+          //         ?.firstWhere(
+          //             (e) =>
+          //                 e.status?.toLowerCase() != "completed" &&
+          //                 e.stageName?.toLowerCase() == "registration fees",
+          //             orElse: () => EnquiryStage())
+          //         .status ??
+          //     '';
+
+          // if (currentStepForJourney.toLowerCase() != "completed") {
+          //   final index = menuData
+          //       .indexWhere((e) => e['name'].toLowerCase() == "registration");
+          //   menuData[index]['isActive'] = false;
+          // }
 
           enquiryDetail.add(result.data?.data ?? EnquiryDetail());
         }
@@ -890,6 +901,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
+    selectedBrandSubject.add(enquiryDetail.brandName ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
     if (schoolLocationTypesAttribute != null) {

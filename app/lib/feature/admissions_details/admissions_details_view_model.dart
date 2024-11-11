@@ -107,16 +107,6 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         var admissionStatus = getAdmissionStatus();
 
         if (admissionStatus == "Approved") {
-          // if (!menuData
-          //     .any((element) => element["name"] != "Subject Selection")) {
-          //   menuData.add({
-          //     'id': menuData.last['id'] + 1,
-          //     'image': AppImages.subjectSelectionIcon,
-          //     'name': "Subject Selection",
-          //     'isActive': true
-          //   });
-          //   enquiryDetailArgs.admissionStatus = admissionStatus;
-          // }
           final index = menuData.indexWhere((menu) =>
               menu['name'].toString().toLowerCase() == "subject selection");
           menuData[index]['isActive'] = true;

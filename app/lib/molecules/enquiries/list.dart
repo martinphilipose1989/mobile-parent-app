@@ -48,19 +48,21 @@ class ListV extends StatelessWidget {
                   builder: (context, model, _) => GestureDetector(
                     onTap: () {
                       EnquiryDetailArgs enquiryDetail = EnquiryDetailArgs(
-                          enquiryId: data?.enquiryId,
-                          enquiryNumber: data?.enquiryNumber,
-                          currentStage: data?.currentStage,
-                          enquiryType: data?.enquiryType,
-                          studentName: data?.studentName,
-                          academicYear: data?.academicYear,
-                          school: data?.school,
-                          board: data?.board,
-                          grade: data?.grade,
-                          stream: data?.stream,
-                          shift: data?.shift,
-                          isFrom: 'enquiry',
-                          status: data?.status);
+                        enquiryId: data?.enquiryId,
+                        enquiryNumber: data?.enquiryNumber,
+                        currentStage: data?.currentStage,
+                        enquiryType: data?.enquiryType,
+                        studentName: data?.studentName,
+                        academicYear: data?.academicYear,
+                        school: data?.school,
+                        board: data?.board,
+                        grade: data?.grade,
+                        stream: data?.stream,
+                        shift: data?.shift,
+                        isFrom: 'enquiry',
+                        status: data?.status,
+                        
+                      );
                       Navigator.pushNamed(
                           context, RoutePaths.enquiriesAdmissionsJourneyPage,
                           arguments: {

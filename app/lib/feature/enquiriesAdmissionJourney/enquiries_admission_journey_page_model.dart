@@ -10,7 +10,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -193,20 +193,30 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
           result.data?.data?.forEach((e) {
             log("admission enquiryStage ${e.status}  ${e.stage}");
           });
-          final currentStepForJourney = result.data?.data
-                  ?.firstWhere(
-                      (e) =>
-                          e.status?.toLowerCase() != "completed" &&
-                          e.stage?.toLowerCase() == "registration fees",
-                      orElse: () => AdmissionJourneyDetail())
-                  .status ??
-              '';
+          // final currentStepForJourney = result.data?.data
+          //         ?.firstWhere(
+          //             (e) =>
+          //                 e.status?.toLowerCase() != "completed" &&
+          //                 e.stage?.toLowerCase() == "registration fees",
+          //             orElse: () => AdmissionJourneyDetail())
+          //         .status ??
+          //     '';
 
-          log("currentStepForJourney $currentStepForJourney");
-          if (currentStepForJourney.toLowerCase() != "completed") {
-            final index = menuData
-                .indexWhere((e) => e['name'].toLowerCase() == "registration");
-            menuData[index]['isActive'] = false;
+          // log("currentStepForJourney $currentStepForJourney");
+          // if (currentStepForJourney.toLowerCase() != "completed") {
+          //   final index = menuData
+          //       .indexWhere((e) => e['name'].toLowerCase() == "registration");
+          //   menuData[index]['isActive'] = false;
+          // }
+          bool isRegistrationFeesCompleted = result.data?.data?.any((stage) =>
+                  stage.stage == "Registration Fees" &&
+                  stage.status == "Completed") ??
+              false;
+          // Update the isActive status for "Registration" in menuData
+          for (var item in menuData) {
+            if (item['name'] == "Registration") {
+              item['isActive'] = isRegistrationFeesCompleted ? true : false;
+            }
           }
 
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
@@ -238,6 +248,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
+          log("_fetchEnquiryDetail ${result.data?.data.toString()}");
           enquiryDetail = result.data?.data;
         }
         if (result.status == Status.error) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:data/data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/get_new_admission/academic_year_entity.dart';
@@ -44,22 +46,23 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<
   @JsonKey(name: 'brand')
   CommonDataEntity? brand;
 
-  NewAdmissionDetailEntity(
-      {this.enquiryDate,
-      this.academicYear,
-      this.schoolLocation,
-      this.isGuestStudent,
-      this.guestStudentDetails,
-      this.parentDetails,
-      this.existingSchoolDetails,
-      this.enquirerParent,
-      this.studentDetails,
-      this.board,
-      this.course,
-      this.stream,
-      this.shift,
-      this.residentialAddress,
-      this.brand});
+  NewAdmissionDetailEntity({
+    this.enquiryDate,
+    this.academicYear,
+    this.schoolLocation,
+    this.isGuestStudent,
+    this.guestStudentDetails,
+    this.parentDetails,
+    this.existingSchoolDetails,
+    this.enquirerParent,
+    this.studentDetails,
+    this.board,
+    this.course,
+    this.stream,
+    this.shift,
+    this.residentialAddress,
+    this.brand,
+  });
 
   factory NewAdmissionDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$NewAdmissionDetailEntityFromJson(json);
@@ -109,12 +112,16 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<
     newAdmissionDetail.stream = stream?.transform();
     newAdmissionDetail.shift = shift?.transform();
     newAdmissionDetail.residentialAddress = residentialAddress?.transform();
+    // newAdmissionDetail.brandId = brandId;
+    // newAdmissionDetail.brandName = brandName;
+    newAdmissionDetail.brand = brand?.transform();
     return newAdmissionDetail;
   }
 
   @override
   NewAdmissionDetailEntity restore(NewAdmissionDetail data) {
     AcademicYearEntity academicYearEntity = AcademicYearEntity();
+
     academicYearEntity = academicYearEntity.restore(data.academicYear!);
     CommonDataEntity commonDataEntity = CommonDataEntity();
     GuestStudentDetailsEntity guestStudentDetailsEntity =

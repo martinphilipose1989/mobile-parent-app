@@ -73,14 +73,23 @@ class PsaDetailViewModel extends BasePageViewModel {
 
   Future<void> getPsaDetail() async {
     exceptionHandlerBinder.handle(block: () {
+      // GetPsaEnrollmentDetailUsecaseParams params =
+      //     GetPsaEnrollmentDetailUsecaseParams(
+      //         vasDetailRequest: VasDetailRequest(
+      //   schoolId: 7,
+      //   boardId: 3,
+      //   academicYearId: 25,
+      //   courseId: 1,
+      //   gradeId: 4,
+      // ));
       GetPsaEnrollmentDetailUsecaseParams params =
           GetPsaEnrollmentDetailUsecaseParams(
               vasDetailRequest: VasDetailRequest(
-        schoolId: 7,
-        boardId: 3,
-        academicYearId: 25,
-        courseId: 1,
-        gradeId: 4,
+        schoolId: enquiryDetailArgs?.schoolId,
+        boardId: enquiryDetailArgs?.boardId,
+        academicYearId: enquiryDetailArgs?.academicYearId,
+        courseId: enquiryDetailArgs?.courseId,
+        gradeId: enquiryDetailArgs?.gradeId,
       ));
       RequestManager<PsaEnrollmentDetailResponseModel>(params,
               createCall: () =>
@@ -125,16 +134,26 @@ class PsaDetailViewModel extends BasePageViewModel {
   Future<void> calculateFees() async {
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
+          //     feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
+          //   schoolId: 2,
+          //   boardId: 3,
+          //   gradeId: 3,
+          //   feeTypeId: 2,
+          //   feeSubTypeId: 25,
+          //   feeCategoryId: 2,
+          //   periodOfServiceId: 7,
+          //   academicYearId: 25,
+          // )
           feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-        schoolId: 2,
-        boardId: 3,
-        gradeId: 3,
-        feeTypeId: 2,
-        feeSubTypeId: 25,
-        feeCategoryId: 2,
-        periodOfServiceId: 7,
-        academicYearId: 25,
-      ));
+              schoolId: enquiryDetailArgs?.schoolId,
+              boardId: enquiryDetailArgs?.boardId,
+              courseId: enquiryDetailArgs?.courseId,
+              gradeId: enquiryDetailArgs?.gradeId,
+              feeCategoryId: feeCategoryID,
+              feeSubcategoryId: feeSubCategoryID,
+              feeSubTypeId: feeSubTypeID,
+              batchId: batchID,
+              periodOfServiceId: periodOfServiceID));
       showLoader.value = true;
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))

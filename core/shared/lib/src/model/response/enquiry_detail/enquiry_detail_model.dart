@@ -37,6 +37,10 @@ class EnquiryDetail {
   String? currentStage;
   String? boardName;
   String? academicYear;
+  int? brandId;
+  String? brandName;
+  int? courseId;
+  String? courseName;
 
   @override
   String toString() {
@@ -77,7 +81,11 @@ EnquiryDetail(
   academicYearId: $academicYearId,
   currentStage: $currentStage,
   boardName: $boardName,
-  academicYear: $academicYear
+  academicYear: $academicYear.
+  brandName: $brandName,
+  brandId: $brandId,
+  courseId: $courseId,
+  courseName: $courseName
 )''';
   }
 }

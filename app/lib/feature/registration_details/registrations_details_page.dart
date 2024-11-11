@@ -337,6 +337,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                       'enquiry');
                           RegistrationDetailsValidator validator =
                               RegistrationDetailsValidator(model);
+                          log("VALUE ${model.showWidget.value}");
                           if (model.showWidget.value == 0) {
                             validator.validateStudentFields(context);
                           } else if (model.showWidget.value == 1) {
