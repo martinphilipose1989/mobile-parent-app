@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/gatepass/get_visitor_details_usecase.dart';
 

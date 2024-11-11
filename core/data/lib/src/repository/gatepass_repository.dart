@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:data/data.dart';
 
 class GatepassRepositoryImpl extends GatepassRepository {
