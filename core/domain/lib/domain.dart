@@ -16,12 +16,16 @@ export 'src/repository/marketing/admission_repository.dart';
 export 'src/repository/marketing/registration_repository.dart';
 export 'src/repository/gatepass/gatepass_repository.dart';
 export 'src/repository/admin_repository.dart';
-
+export 'src/repository/transport_repository.dart';
 //use-cases
 export 'src/usecase/base/params.dart';
 export 'src/usecase/user/login_usecase.dart';
 export 'src/usecase/finance/get_academic_year_usecase.dart';
 export 'src/usecase/finance/get_guardian_student_details_usecase.dart';
+export 'src/usecase/transport/fetch_stop_logs_usecase.dart';
+export 'src/usecase/transport/get_all_bus_stops_usecase.dart';
+export 'src/usecase/transport/get_myduty_list_usecase.dart';
+export 'src/usecase/transport/get_student_profile_usecase.dart';
 export 'src/usecase/finance/get_token_generator_usecase.dart';
 export 'src/usecase/finance/get_validate_pay_now.dart';
 export 'src/usecase/finance/get_pending_fees_usecase.dart';

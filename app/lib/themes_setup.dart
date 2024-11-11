@@ -43,7 +43,18 @@ class AppColors {
   static const Color listItem = Color(0xFFF7F7FF);
   static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color roseWhite = Color(0xFFF4F0EF);
+
+  static const Color listItemDisabled = Color(0xFFF4F0EF);
+
+  static Color shadowColor = const Color(0xFF4C4E64).withOpacity(0.22);
+  static BoxShadow boxShadow = BoxShadow(
+      color: AppColors.shadowColor.withOpacity(0.22),
+      blurRadius: 10,
+      // blurStyle: BlurStyle.solid,
+      offset: const Offset(0, 2));
 }
+
+
 
 List<ThemeData> getThemes(BuildContext context) {
   return [

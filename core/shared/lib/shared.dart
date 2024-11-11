@@ -139,6 +139,14 @@ export 'src/model/response/transport_enrollment_detail/transport_enrollment_deta
 export 'src/model/response/transport_enrollment_detail/transport_enrollment_response.dart';
 export 'src/model/response/fetch_stop/fetch_stop_response.dart';
 export 'src/model/response/fetch_stop/stop_detail.dart';
+export 'src/model/response/transport/busstop_response.dart';
+export 'src/model/response/transport/fetch_stops_logs_model.dart';
+export 'src/model/response/transport/get_bearer_response.dart';
+export 'src/model/response/transport/get_studentprofile_response.dart';
+export 'src/model/response/transport/guardian_detail_response.dart';
+export 'src/model/response/transport/route_stop_mapping_response.dart';
+export 'src/model/response/transport/stop_response.dart';
+export 'src/model/response/transport/trip_response.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';

@@ -32,7 +32,13 @@ class RoutePaths {
   static const String kidsClubPage = '/kidsClubPage';
   static const String summerCampPage = '/summerCampPage';
   static const String transportPage = '/transportPage';
+  //bus
+  static const String busRouteListPage = "/busRouteListPage";
+  static const String myDutyPage = "/myDutyPage";
+  static const String studentProfilePage = "/studentProfilePage";
 
   // route to webview
   static const String webview = '/webview';
+
+
 }

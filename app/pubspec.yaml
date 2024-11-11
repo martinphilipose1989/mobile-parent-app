@@ -84,6 +84,8 @@ dependencies:
   path_provider: ^2.1.4
   open_filex: ^4.5.0
   intl: any
+  geolocator: ^13.0.1
+  cached_network_image: ^3.4.1
   
 dev_dependencies:
   flutter_test:
