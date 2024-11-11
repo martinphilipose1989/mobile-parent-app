@@ -62,7 +62,7 @@ class EnquiriesDetailsPageView
             if (enquiryDetailArgs.enquiryType == "IVT") {
               model.getIvtDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
-            } else if (enquiryDetailArgs.enquiryType == "PSA") {
+            } else if (enquiryDetailArgs.enquiryType == "Enquiry - PSA") {
               model.getPsaDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
             } else {
@@ -201,7 +201,7 @@ class EnquiriesDetailsPageView
                                         isEdit: model
                                             .editRegistrationDetails.value);
                                   } else if (enquiryDetailArgs.enquiryType ==
-                                      "PSA") {
+                                      "Enquiry - PSA") {
                                     model.getPsaDetails(
                                         enquiryID:
                                             enquiryDetailArgs.enquiryId ?? '',
@@ -322,7 +322,7 @@ class EnquiriesDetailsPageView
                                                           })
                                                       : (enquiryDetailArgs
                                                                   .enquiryType ==
-                                                              "PSA")
+                                                              "Enquiry - PSA")
                                                           ? AppStreamBuilder<
                                                                   Resource<
                                                                       PsaResponse>>(
@@ -429,7 +429,7 @@ class EnquiriesDetailsPageView
                                                           );
                                                         }
                                                       })
-                                                  : (enquiryDetailArgs.enquiryType == "PSA")
+                                                  : (enquiryDetailArgs.enquiryType == "Enquiry - PSA")
                                                       ? AppStreamBuilder<Resource<PsaResponse>>(
                                                           stream: model.psaDetail,
                                                           initialData: Resource.none(),

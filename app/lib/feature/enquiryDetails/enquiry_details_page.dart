@@ -131,7 +131,7 @@ class EnquiriesDetailsPageState
                                           model.editRegistrationDetails.value);
                                 } else if (widget
                                         .enquiryDetailArgs.enquiryType ==
-                                    "PSA") {
+                                    "Enquiry - PSA") {
                                   model.getPsaDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??

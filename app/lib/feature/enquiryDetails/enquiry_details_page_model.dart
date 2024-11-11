@@ -68,7 +68,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
-    } else if (enquiryDetails.enquiryType == "PSA") {
+    } else if (enquiryDetails.enquiryType == "Enquiry - PSA") {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else {
       getNewAdmissionDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -940,16 +940,29 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text =
-        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
-    studentDob = DateTime.parse(
-        (detail.studentDetails?.dob ?? DateTime.now().toString())
-            .replaceAll('-', '/'));
+    if (!(detail.studentDetails?.dob ?? '')
+        .toLowerCase()
+        .contains("invalid date")) {
+      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+          ? DateTime.parse(
+              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
+          : DateTime.now();
+    }
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
     selectedGradeEntity = detail.studentDetails?.grade;
     selectedSchoolLocationSubject.add(detail.schoolLocation?.value ?? '');
+    if (schoolLocationTypesAttribute != null) {
+      selectedSchoolLocationSubjectAttribute.add(schoolLocationTypesAttribute
+          ?.firstWhere((element) => element.id == detail.schoolLocation?.id));
+    } else {
+      selectedSchoolLocationSubjectAttribute.add(MdmAttributeModel(
+          id: detail.schoolLocation?.id,
+          attributes:
+              AttributesDetailsModel(name: detail.schoolLocation?.value)));
+    }
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
     selectedSchoolLocationEntity = detail.schoolLocation;
     selectedExistingSchoolGradeSubject
         .add(detail.existingSchoolDetails?.grade?.value ?? '');
@@ -957,22 +970,30 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedExistingSchoolBoardSubject
         .add(detail.existingSchoolDetails?.board?.value ?? '');
     selectedExistingSchoolBoardEntity = detail.existingSchoolDetails?.board;
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
-    psaSubTypeSubject.add(detail.psaSubType?.value ?? '');
-    selectedPsaSubTypeEntity = detail.psaSubType;
-    psaCategorySubject.add(detail.psaCategory?.value ?? '');
-    selectedPsaCategoryEntity = detail.psaCategory;
-    psaSubCategorySubject.add(detail.psaSubCategory?.value ?? '');
-    selectedPsaSubCategoryEntity = detail.psaSubCategory;
-    periodOfServiceSubject.add(detail.psaPeriodOfService?.value ?? '');
-    selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
-    psaBatchSubject.add(detail.psaBatch?.value ?? '');
-    selectedPsaBatchEntity = detail.psaBatch;
     parentTypeController.text = detail.enquirerParent ?? '';
-    globalIdController.text = detail.enquirerParent == "Father"
-        ? detail.parentDetails?.fatherDetails?.globalId ?? ''
-        : detail.parentDetails?.fatherDetails?.globalId ?? '';
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.motherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
   }
 
   addIvtDetails(IVTDetail detail, EnquiryDetailArgs enquiryDetail) {
