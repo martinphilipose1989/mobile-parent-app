@@ -132,6 +132,7 @@ class EnquiryDetailArgs {
   String? isFrom;
   String? admissionStatus;
   String? status;
+  
 
   EnquiryDetailArgs(
       {this.enquiryId,

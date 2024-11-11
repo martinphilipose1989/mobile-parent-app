@@ -317,6 +317,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
   CommonDataClass? selectedStreamEntity;
   CommonDataClass? selectedCourseEntity;
   CommonDataClass? selectedShiftEntity;
+  CommonDataClass? selectedBrandEntity;
 
   Future<void> getNewAdmissionDetails(
       {required String enquiryID, bool isEdit = false}) async {
@@ -497,9 +498,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
       RequestManager<NewAdmissionBase>(
         params,
-        createCall: () => updateNewAdmissionUsecase.execute(
-          params: params,
-        ),
+        createCall: () => updateNewAdmissionUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
         if (result.status == Status.success) {

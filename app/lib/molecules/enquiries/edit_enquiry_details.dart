@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/model/resource.dart';
@@ -151,11 +153,11 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          StreamBuilder<Resource<List<BrandData>>>(
+          AppStreamBuilder<Resource<List<BrandData>>>(
               stream: model.brandListResponse.stream,
               initialData: Resource.none(),
-              builder: (context, brandList) {
-                if (!brandList.hasData) {
+              dataBuilder: (context, brandResponse) {
+                if (brandResponse?.status == Status.loading) {
                   return const CircularProgressIndicator();
                 } else {
                   return CustomDropdownButton(
@@ -164,11 +166,18 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                     dropdownName: 'Brand',
                     showAstreik: true,
                     showBorderColor: true,
-                    items: brandList.data?.data
+                    items: brandResponse?.data
                             ?.map((e) => e.attributes.name)
                             .toList() ??
                         [],
-                    onSingleSelect: (selectedValue) {},
+                    onSingleSelect: (selectedValue) {
+                      log("selectedValue $selectedValue ${brandResponse?.data}");
+                      final brandData = brandResponse?.data?.firstWhere(
+                          (brand) => brand.attributes.name == selectedValue);
+                      model.selectedBrandEntity?.id = brandData?.id;
+                      model.selectedBrandEntity?.value =
+                          brandData?.attributes.name;
+                    },
                     singleSelectItemSubject: model.selectedBrandSubject,
                     isMutiSelect: false,
                     validator: (value) =>

@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:shared/shared.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -260,6 +261,8 @@ class EnquiriesDetailsPageState
                                 } else {
                                   NewAdmissionDetailEntity newAdmissionDetail =
                                       NewAdmissionDetailEntity();
+                                  model.newAdmissionDetails?.value.brand =
+                                      model.selectedBrandEntity;
                                   model.newAdmissionDetails?.value
                                           .schoolLocation =
                                       model.selectedSchoolLocationEntity!;
@@ -295,6 +298,7 @@ class EnquiriesDetailsPageState
                                   model.newAdmissionDetails?.value
                                           .existingSchoolDetails?.board =
                                       model.selectedExistingSchoolBoardEntity!;
+
                                   if (model.newAdmissionDetails?.value
                                           .enquirerParent ==
                                       "Father") {
