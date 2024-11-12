@@ -31,10 +31,11 @@ abstract class ApiResponseHandler {
               flutterToastErrorPresenter: flutterToastErrorPresenter);
         }
       }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
         // flutterToastErrorPresenter.show(
         //     error, navigatorKey.currentContext!, "Something went wrong!!!");
-        onError(AppError(
-            throwable: Exception(), error: error, type: ErrorType.unknown));
+        // onError(AppError(
+        //     throwable: Exception(), error: error, type: ErrorType.unknown));
       });
     }).execute();
   }

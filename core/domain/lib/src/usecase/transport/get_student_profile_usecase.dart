@@ -3,14 +3,14 @@ import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class GetStudentProfileUsecase extends BaseUseCase<NetworkError,
     GetStudentProfileUsecaseParams, GetStudentProfileResponse> {
- final TransportRepository transportRepository;
+  final TransportRepository transportRepository;
 
- GetStudentProfileUsecase({required this.transportRepository});
+  GetStudentProfileUsecase({required this.transportRepository});
 
   @override
   Future<Either<NetworkError, GetStudentProfileResponse>> execute(
       {required GetStudentProfileUsecaseParams params}) {
-    return transportRepository.getStudentProfile(studentId: params.studentId);
+    return transportRepository.getStudentProfile(params: params);
   }
 }
 

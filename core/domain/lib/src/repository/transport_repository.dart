@@ -1,21 +1,18 @@
-import 'dart:io';
-
 import 'package:domain/domain.dart';
 
 abstract class TransportRepository {
-
-
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
-      {required int studentId});
+      {required GetStudentProfileUsecaseParams params});
 
   Future<Either<NetworkError, TripResponse>> getMyDutyList(
-      {required int pageNo, required int dayId,required int studentId,required String app});
+      {required int pageNo,
+      required int dayId,
+      required int studentId,
+      required String app});
 
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
-      {required String routeId, required int dayId,required String app});
+      {required String routeId, required int dayId, required String app});
 
   Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
       {required int routeId, required int stopId});
-
-
 }

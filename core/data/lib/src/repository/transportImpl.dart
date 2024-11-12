@@ -22,9 +22,8 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
   }
 
   @override
-  Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile({required int studentId}) {
-    // TODO: implement getStudentProfile
-    throw UnimplementedError();
+  Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile({required GetStudentProfileUsecaseParams params}) {
+    return networkPort.getStudentProfile(params:params);
   }
   
 }

@@ -64,10 +64,16 @@ abstract class DomainModule {
       EnquiryRepository enquiryRepository) {
     return GetAdmissionJourneyUsecase(enquiryRepository);
   }
+
   @lazySingleton
-  GetMydutyListUsecase getMyDutyListUsecase(
-    TransportRepository transportRepo) {
+  GetMydutyListUsecase getMyDutyListUsecase(TransportRepository transportRepo) {
     return GetMydutyListUsecase(transportRepository: transportRepo);
+  }
+
+  @lazySingleton
+  GetStudentProfileUsecase getStudentProfileUseCase(
+      TransportRepository transportRepo) {
+    return GetStudentProfileUsecase(transportRepository: transportRepo);
   }
 
   @lazySingleton

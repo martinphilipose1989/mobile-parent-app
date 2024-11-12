@@ -133,6 +133,7 @@ class BearerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(bearerList.isEmpty) return NoDataFoundWidget(title: 'No Data Found',);
     return SizedBox(
       height: 200,
       width: 1.sw,

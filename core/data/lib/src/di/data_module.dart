@@ -38,9 +38,9 @@ abstract class DataModule {
       DatabasePort databasePort, NetworkPort networkPort) {
     return AdmissionRepositoryImpl(networkPort);
   }
+
   @lazySingleton
-TransportRepository transportRepository(
-     NetworkPort networkPort) {
+  TransportRepository transportRepository(NetworkPort networkPort) {
     return TransportRepositoryimpl(networkPort);
   }
 
