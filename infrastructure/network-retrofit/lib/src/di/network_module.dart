@@ -100,7 +100,7 @@ abstract class NetworkModule {
   @lazySingleton
   TransportService providerTransportRetrofitService(
       Dio dio, @Named('transportUrl') String transportUrl) =>
-      TransportService(dio,transportUrl: transportUrl);
+      TransportService(dio,transportUrl: transportUrl) ;
 
   @lazySingleton
   NetworkPort providerNetworkService(
