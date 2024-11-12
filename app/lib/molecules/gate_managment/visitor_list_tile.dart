@@ -186,7 +186,7 @@ class VisitorListTile extends StatelessWidget {
                       : AppColors.dividerColor,
                   borderRadius: BorderRadius.circular(6.r)),
               child: Text(
-                  "Purpose Of Visit:\t${visitorDataModel?.purposeOfVisit ?? "N/A"}",
+                  "Purpose Of Visit:\t${visitorDataModel?.purposeOfVisitName ?? "N/A"}",
                   style: AppTypography.caption.copyWith(
                       color:
                           visitorDataModel?.visitStatus?.toLowerCase() == "in"

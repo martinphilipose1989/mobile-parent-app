@@ -25,7 +25,7 @@ class VisitorDataModel {
 
   final String? visitorProfileImage;
 
-  final String? purposeOfVisit;
+  final String? purposeOfVisitName;
 
 //visitor details related fields
   final int? purposeOfVisitId;
@@ -67,7 +67,7 @@ class VisitorDataModel {
     required this.visitorMobile,
     required this.visitorEmail,
     required this.visitorProfileImage,
-    required this.purposeOfVisit,
+    required this.purposeOfVisitName,
     required this.purposeOfVisitId,
     required this.comingFrom,
     required this.qrCode,
@@ -85,6 +85,6 @@ class VisitorDataModel {
 
   @override
   String toString() {
-    return 'VisitorDataModel(id: $id, pointOfContact: $pointOfContact, issuedDate: $issuedDate, incomingTime: $incomingTime, outgoingTime: $outgoingTime, visitStatus: $visitStatus, visitorId: $visitorId, visitorName: $visitorName, visitorMobile: $visitorMobile, visitorEmail: $visitorEmail, visitorProfileImage: $visitorProfileImage, purposeOfVisit: $purposeOfVisit, purposeOfVisitId: $purposeOfVisitId, comingFrom: $comingFrom, qrCode: $qrCode, visitorProfileImageImageUrl: $visitorProfileImageImageUrl, visitorProfileImageFilePath: $visitorProfileImageFilePath, visitorType: $visitorType, guestCount: $guestCount, gatePassNumber: $gatePassNumber)';
+    return 'VisitorDataModel(id: $id, pointOfContact: $pointOfContact, issuedDate: $issuedDate, incomingTime: $incomingTime, outgoingTime: $outgoingTime, visitStatus: $visitStatus, visitorId: $visitorId, visitorName: $visitorName, visitorMobile: $visitorMobile, visitorEmail: $visitorEmail, visitorProfileImage: $visitorProfileImage, purposeOfVisitName: $purposeOfVisitName, purposeOfVisitId: $purposeOfVisitId, comingFrom: $comingFrom, qrCode: $qrCode, visitorProfileImageImageUrl: $visitorProfileImageImageUrl, visitorProfileImageFilePath: $visitorProfileImageFilePath, visitorType: $visitorType, guestCount: $guestCount, gatePassNumber: $gatePassNumber)';
   }
 }

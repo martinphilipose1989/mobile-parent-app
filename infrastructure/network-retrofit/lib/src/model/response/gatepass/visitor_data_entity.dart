@@ -42,8 +42,8 @@ class VisitorDataEntity
   @JsonKey(name: "visitor_profile_image")
   final String? visitorProfileImage;
 
-  @JsonKey(name: "purpose_of_visit")
-  final String? purposeOfVisit;
+  @JsonKey(name: "purpose_of_visit_name")
+  final String? purposeOfVisitName;
 
 //visitor details related fields
   @JsonKey(name: "purpose_of_visit_id")
@@ -97,7 +97,7 @@ class VisitorDataEntity
     this.visitorMobile,
     this.visitorEmail,
     this.visitorProfileImage,
-    this.purposeOfVisit,
+    this.purposeOfVisitName,
     this.purposeOfVisitId,
     this.comingFrom,
     this.qrCode,
@@ -132,7 +132,7 @@ class VisitorDataEntity
       issuedDate: issuedDate,
       outgoingTime: outgoingTime,
       pointOfContact: pointOfContact,
-      purposeOfVisit: purposeOfVisit,
+      purposeOfVisitName: purposeOfVisitName,
       visitStatus: visitStatus,
       visitorEmail: visitorEmail,
       visitorId: visitorId,

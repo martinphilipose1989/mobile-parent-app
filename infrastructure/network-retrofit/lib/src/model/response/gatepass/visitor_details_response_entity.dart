@@ -51,7 +51,7 @@ class VisitorDetailsResponseEntity
           visitorMobile: data.data?.visitorMobile ?? '',
           visitorEmail: data.data?.visitorEmail ?? '',
           visitorProfileImageFilePath: data.data?.visitorProfileImage ?? '',
-          purposeOfVisit: data.data?.purposeOfVisit ?? '',
+          purposeOfVisitName: data.data?.purposeOfVisitName ?? '',
           visitorProfileImageImageUrl:
               data.data?.visitorProfileImageImageUrl ?? '',
           visitorType: data.data?.visitorType ?? '',
@@ -77,7 +77,7 @@ class VisitorDetailsResponseEntity
           visitorName: data?.visitorName ?? '',
           visitorMobile: data?.visitorMobile ?? '',
           visitorEmail: data?.visitorEmail ?? '',
-          purposeOfVisit: data?.purposeOfVisit ?? '',
+          purposeOfVisitName: data?.purposeOfVisitName ?? '',
           qrCode: data?.qrCode ?? '',
           comingFrom: data?.comingFrom ?? '',
           purposeOfVisitId: data?.purposeOfVisitId ?? 0,

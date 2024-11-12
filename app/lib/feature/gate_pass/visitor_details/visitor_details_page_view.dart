@@ -108,7 +108,7 @@ class VisitorDetailsPageView
                                 title1: "Email ID",
                                 value1: visitor.visitorEmail ?? '',
                                 title2: "Purpose Of Visit",
-                                value2: visitor.purposeOfVisit ?? '',
+                                value2: visitor.purposeOfVisitName ?? '',
                               ),
                               SizedBox(height: 16.h),
                               VisitorDetailsRow(
