@@ -19,7 +19,7 @@ void main() async {
       tokenEndpoint:
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
       apiBaseUrl: "https://api.openweathermap.org/",
-      secrets: AppSecrets.appSecretsQA,
+      secrets: AppSecrets.appSecretsQA, transportUrl: EnvQA.transportUrl,
     ),
   );
   startApp();

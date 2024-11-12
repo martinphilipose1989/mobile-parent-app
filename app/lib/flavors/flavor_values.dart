@@ -15,8 +15,9 @@ class FlavorValues {
   final String authorizationEndpoint;
   final String tokenEndpoint;
   final String? logoutEndpoint;
-
+final String transportUrl;
   const FlavorValues({
+    required this.transportUrl,
     required this.apiBaseUrl,
     required this.mdmBaseUrl,
     required this.financeBaseUrl,

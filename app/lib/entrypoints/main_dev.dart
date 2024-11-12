@@ -25,7 +25,7 @@ void main() async {
       secrets: AppSecrets.appSecretsDev,
       logSqlStatements: true,
       showLogs: true,
-      useFakeData: false,
+      useFakeData: false, transportUrl: EnvDev.transportUrl,
     ),
   );
   startApp();

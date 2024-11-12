@@ -59,7 +59,7 @@ class MyDutyPageViewModel extends BasePageViewModel {
     }
 
     final GetMydutyListParams params = GetMydutyListParams(
-        pageNo: _pageSubject.value, dayId: DateTime.now().weekday);
+        pageNo: _pageSubject.value, dayId: DateTime.now().weekday, studentId: 10);
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,

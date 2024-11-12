@@ -25,7 +25,11 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo});
+  Future<Either<NetworkError, TripResponse>> getMyDutyList(
+      {required int page, required int dayId,required int studentId});
 
+  Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
+      {required String routeId, required int dayId});
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
       required List students,

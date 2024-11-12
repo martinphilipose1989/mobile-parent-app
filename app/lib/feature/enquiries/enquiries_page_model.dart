@@ -168,18 +168,18 @@ class EnquiriesPageModel extends BasePageViewModel {
     }
   }
 
-  final List<String> chequeTypes = [
-    'Current Dated Cheque',
-    'Post Dated Cheque',
-    'Demand Draft'
-  ];
-
-  final List<String> feesType = [
-    'Registration Fees',
-    'Admission Fees',
-    'Consolidated Fees',
-    'Transport Fees'
-  ];
+  // final List<String> chequeTypes = [
+  //   'Current Dated Cheque',
+  //   'Post Dated Cheque',
+  //   'Demand Draft'
+  // ];
+  //
+  // final List<String> feesType = [
+  //   'Registration Fees',
+  //   'Admission Fees',
+  //   'Consolidated Fees',
+  //   'Transport Fees'
+  // ];
 
   @override
   void dispose() {
@@ -272,18 +272,6 @@ class EnquiriesPageModel extends BasePageViewModel {
     }
   }
 
-  final List<String> chequeTypes = [
-    'Current Dated Cheque',
-    'Post Dated Cheque',
-    'Demand Draft'
-  ];
-
-  final List<String> feesType = [
-    'Registration Fees',
-    'Admission Fees',
-    'Consolidated Fees',
-    'Transport Fees'
-  ];
 
   // @override
   // void dispose() {
