@@ -34,7 +34,7 @@ class VisitorDetailsPageState
   @override
   PreferredSizeWidget? buildAppbar(VisitorDetailsViewModel model) {
     return const CommonAppBar(
-      appbarTitle: "Gate Pass",
+      appbarTitle: "Visitor Details",
       showBackButton: true,
       notShowNotificationAndUserBatch: true,
     );

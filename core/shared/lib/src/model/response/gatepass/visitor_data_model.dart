@@ -1,77 +1,87 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class VisitorDataModel {
-  String? id;
+  final String? id;
 
-  String? pointOfContact;
+  final String? pointOfContact;
 
-  String? issuedDate;
+  final String? issuedDate;
 
-  String? issuedTime;
+  final String? issuedTime;
 
-  String? incomingTime;
+  final String? incomingTime;
 
-  String? outgoingTime;
+  final String? outgoingTime;
 
-  String? visitStatus;
+  final String? visitStatus;
 
-  String? visitorId;
+  final String? visitorId;
 
-  String? visitorName;
+  final String? visitorName;
 
-  String? visitorMobile;
+  final String? visitorMobile;
 
-  String? visitorEmail;
+  final String? visitorEmail;
 
-  String? visitorProfileImage;
+  final String? visitorProfileImage;
 
-  String? purposeOfVisit;
+  final String? purposeOfVisit;
 
 //visitor details related fields
-  int? purposeOfVisitId;
+  final int? purposeOfVisitId;
 
-  String? comingFrom;
+  final String? comingFrom;
 
-  String? qrCode;
+  final String? qrCode;
 
-  String? visitorProfileImageImageUrl;
+  final String? visitorProfileImageImageUrl;
 
-  String? visitorProfileImageFilePath;
+  final String? visitorProfileImageFilePath;
 
-  String? visitorType;
+  final String? visitorType;
 
-  int? guestCount;
+  final int? guestCount;
 
-  String? gatePassNumber;
+  final String? gatePassNumber;
 
-  String? vehicleNumber;
+  final String? vehicleNumber;
 
-  String? studentName;
+  final String? studentName;
 
-  VisitorDataModel(
-      {this.id,
-      this.pointOfContact,
-      this.issuedDate,
-      this.incomingTime,
-      this.outgoingTime,
-      this.visitStatus,
-      this.visitorId,
-      this.visitorName,
-      this.visitorMobile,
-      this.visitorEmail,
-      this.visitorProfileImage,
-      this.purposeOfVisit,
-      this.purposeOfVisitId,
-      this.comingFrom,
-      this.qrCode,
-      this.visitorProfileImageImageUrl,
-      this.visitorProfileImageFilePath,
-      this.visitorType = "Parent",
-      this.guestCount,
-      this.gatePassNumber,
-      this.vehicleNumber,
-      this.issuedTime,
-      this.studentName});
+  final String? schoolVisitDate;
+
+  final String? otherPointOfContact;
+
+  final int? visitorTypeId;
+
+  VisitorDataModel({
+    required this.id,
+    required this.pointOfContact,
+    required this.issuedDate,
+    required this.issuedTime,
+    required this.incomingTime,
+    required this.outgoingTime,
+    required this.visitStatus,
+    required this.visitorId,
+    required this.visitorName,
+    required this.visitorMobile,
+    required this.visitorEmail,
+    required this.visitorProfileImage,
+    required this.purposeOfVisit,
+    required this.purposeOfVisitId,
+    required this.comingFrom,
+    required this.qrCode,
+    required this.visitorProfileImageImageUrl,
+    required this.visitorProfileImageFilePath,
+    this.visitorType = "Parent",
+    required this.guestCount,
+    required this.gatePassNumber,
+    required this.vehicleNumber,
+    required this.studentName,
+    required this.schoolVisitDate,
+    required this.otherPointOfContact,
+    required this.visitorTypeId,
+  });
 
   @override
   String toString() {

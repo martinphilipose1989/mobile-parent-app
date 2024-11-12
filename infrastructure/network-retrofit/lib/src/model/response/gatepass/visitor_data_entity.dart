@@ -7,99 +7,112 @@ part 'visitor_data_entity.g.dart';
 class VisitorDataEntity
     implements BaseLayerDataTransformer<VisitorDataEntity, VisitorDataModel> {
   @JsonKey(name: "_id")
-  String? id;
+  final String? id;
 
   @JsonKey(name: "point_of_contact")
-  String? pointOfContact;
+  final String? pointOfContact;
 
-  @JsonKey(name: "issued_date")
-  String? issuedDate;
+    @JsonKey(name: "issued_date")
+  final String? issuedDate;
 
   @JsonKey(name: "issued_time")
-  String? issuedTime;
+  final String? issuedTime;
 
   @JsonKey(name: "incoming_time")
-  String? incomingTime;
+  final String? incomingTime;
 
   @JsonKey(name: "outgoing_time")
-  String? outgoingTime;
+  final String? outgoingTime;
 
   @JsonKey(name: "visit_status")
-  String? visitStatus;
+  final String? visitStatus;
 
   @JsonKey(name: "visitor_id")
-  String? visitorId;
+  final String? visitorId;
 
   @JsonKey(name: "visitor_name")
-  String? visitorName;
+  final String? visitorName;
 
   @JsonKey(name: "visitor_mobile")
-  String? visitorMobile;
+  final String? visitorMobile;
 
   @JsonKey(name: "visitor_email")
-  String? visitorEmail;
+  final String? visitorEmail;
 
   @JsonKey(name: "visitor_profile_image")
-  String? visitorProfileImage;
+  final String? visitorProfileImage;
 
   @JsonKey(name: "purpose_of_visit")
-  String? purposeOfVisit;
+  final String? purposeOfVisit;
 
 //visitor details related fields
   @JsonKey(name: "purpose_of_visit_id")
-  int? purposeOfVisitId;
+  final int? purposeOfVisitId;
 
   @JsonKey(name: "coming_from")
-  String? comingFrom;
+  final String? comingFrom;
 
   @JsonKey(name: "qr_code")
-  String? qrCode;
+  final String? qrCode;
 
   @JsonKey(name: "visitor_profile_image_file_path")
-  String? visitorProfileImageFilePath;
+  final String? visitorProfileImageFilePath;
 
   @JsonKey(name: "visitor_profile_image_image_url")
-  String? visitorProfileImageImageUrl;
+  final String? visitorProfileImageImageUrl;
 
   @JsonKey(name: "visitor_type")
-  String? visitorType;
+  final String? visitorType;
 
   @JsonKey(name: "guest_count")
-  int? guestCount;
+  final int? guestCount;
 
   @JsonKey(name: "gatepass_number")
-  String? gatePassNumber;
+  final String? gatePassNumber;
 
   @JsonKey(name: "vehicle_number")
-  String? vehicleNumber;
+  final String? vehicleNumber;
 
   @JsonKey(name: "student_name")
-  String? studentName;
+  final String? studentName;
 
-  VisitorDataEntity(
-      {this.id,
-      this.pointOfContact,
-      this.issuedDate,
-      this.incomingTime,
-      this.outgoingTime,
-      this.visitStatus,
-      this.visitorId,
-      this.visitorName,
-      this.visitorMobile,
-      this.visitorEmail,
-      this.visitorProfileImage,
-      this.purposeOfVisit,
-      this.purposeOfVisitId,
-      this.comingFrom,
-      this.qrCode,
-      this.visitorProfileImageFilePath,
-      this.visitorProfileImageImageUrl,
-      this.visitorType,
-      this.guestCount,
-      this.gatePassNumber,
-      this.vehicleNumber,
-      this.issuedTime,
-      this.studentName});
+  @JsonKey(name: "school_visit_date")
+  final String? schoolVisitDate;
+
+  @JsonKey(name: "other_point_of_contact")
+  final String? otherPointOfContact;
+
+  @JsonKey(name: "visitor_type_id")
+  final int? visitorTypeId;
+
+  VisitorDataEntity({
+    this.id,
+    this.pointOfContact,
+    this.issuedDate,
+    this.incomingTime,
+    this.outgoingTime,
+    this.visitStatus,
+    this.visitorId,
+    this.visitorName,
+    this.visitorMobile,
+    this.visitorEmail,
+    this.visitorProfileImage,
+    this.purposeOfVisit,
+    this.purposeOfVisitId,
+    this.comingFrom,
+    this.qrCode,
+    this.visitorProfileImageFilePath,
+    this.visitorProfileImageImageUrl,
+    this.visitorType,
+    this.guestCount,
+    this.gatePassNumber,
+    this.vehicleNumber,
+    this.issuedTime,
+    this.studentName,
+    this.schoolVisitDate,
+    this.otherPointOfContact,
+    this.visitorTypeId,
+  });
 
   factory VisitorDataEntity.fromJson(Map<String, dynamic> json) =>
       _$VisitorDataEntityFromJson(json);
@@ -114,28 +127,32 @@ class VisitorDataEntity
   @override
   VisitorDataModel transform() {
     return VisitorDataModel(
-        id: id,
-        incomingTime: incomingTime,
-        issuedDate: issuedDate,
-        outgoingTime: outgoingTime,
-        pointOfContact: pointOfContact,
-        purposeOfVisit: purposeOfVisit,
-        visitStatus: visitStatus,
-        visitorEmail: visitorEmail,
-        visitorId: visitorId,
-        visitorMobile: visitorMobile,
-        visitorName: visitorName,
-        visitorProfileImage: visitorProfileImage,
-        purposeOfVisitId: purposeOfVisitId,
-        comingFrom: comingFrom,
-        qrCode: qrCode,
-        visitorProfileImageFilePath: visitorProfileImageFilePath,
-        visitorProfileImageImageUrl: visitorProfileImageImageUrl,
-        visitorType: visitorType ?? "Parent",
-        guestCount: guestCount,
-        vehicleNumber: vehicleNumber,
-        gatePassNumber: gatePassNumber,
-        issuedTime: issuedTime,
-        studentName: studentName);
+      id: id,
+      incomingTime: incomingTime,
+      issuedDate: issuedDate,
+      outgoingTime: outgoingTime,
+      pointOfContact: pointOfContact,
+      purposeOfVisit: purposeOfVisit,
+      visitStatus: visitStatus,
+      visitorEmail: visitorEmail,
+      visitorId: visitorId,
+      visitorMobile: visitorMobile,
+      visitorName: visitorName,
+      visitorProfileImage: visitorProfileImage,
+      purposeOfVisitId: purposeOfVisitId,
+      comingFrom: comingFrom,
+      qrCode: qrCode,
+      visitorProfileImageFilePath: visitorProfileImageFilePath,
+      visitorProfileImageImageUrl: visitorProfileImageImageUrl,
+      visitorType: visitorType ?? "Parent",
+      guestCount: guestCount,
+      vehicleNumber: vehicleNumber,
+      gatePassNumber: gatePassNumber,
+      issuedTime: issuedTime,
+      studentName: studentName,
+      schoolVisitDate: schoolVisitDate,
+      otherPointOfContact: otherPointOfContact,
+      visitorTypeId: visitorTypeId,
+    );
   }
 }

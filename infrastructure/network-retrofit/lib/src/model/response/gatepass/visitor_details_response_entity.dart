@@ -1,7 +1,7 @@
-import 'package:data/data.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
+import 'package:data/data.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:network_retrofit/src/model/response/gatepass/visitor_data_entity.dart';
 
 part 'visitor_details_response_entity.g.dart';
@@ -62,33 +62,35 @@ class VisitorDetailsResponseEntity
   @override
   VisitorDetailsResponseModel transform() {
     return VisitorDetailsResponseModel(
-        status: status,
-        message: message,
-        data: VisitorDataModel(
-            id: data?.id ?? '',
-            issuedTime: data?.issuedTime ?? '',
-            gatePassNumber: data?.gatePassNumber ?? '',
-            incomingTime: data?.incomingTime ?? '',
-            issuedDate: data?.issuedDate ?? '',
-            pointOfContact: data?.pointOfContact ?? '',
-            outgoingTime: data?.outgoingTime ?? '',
-            visitStatus: data?.visitStatus ?? '',
-            visitorId: data?.visitorId ?? '',
-            visitorName: data?.visitorName ?? '',
-            visitorMobile: data?.visitorMobile ?? '',
-            visitorEmail: data?.visitorEmail ?? '',
-            purposeOfVisit: data?.purposeOfVisit ?? '',
-            qrCode: data?.qrCode ?? '',
-            comingFrom: data?.comingFrom ?? '',
-            purposeOfVisitId: data?.purposeOfVisitId ?? 0,
-            visitorProfileImage: data?.visitorProfileImage ?? '',
-            visitorProfileImageFilePath:
-                data?.visitorProfileImageFilePath ?? '',
-            visitorProfileImageImageUrl:
-                data?.visitorProfileImageImageUrl ?? '',
-            visitorType: data?.visitorType ?? '',
-            guestCount: data?.guestCount,
-            vehicleNumber: data?.vehicleNumber,
-            studentName: data?.studentName));
+      status: status,
+      message: message,
+      data: VisitorDataModel(
+          id: data?.id ?? '',
+          issuedTime: data?.issuedTime ?? '',
+          gatePassNumber: data?.gatePassNumber ?? '',
+          incomingTime: data?.incomingTime ?? '',
+          issuedDate: data?.issuedDate ?? '',
+          pointOfContact: data?.pointOfContact ?? '',
+          outgoingTime: data?.outgoingTime ?? '',
+          visitStatus: data?.visitStatus ?? '',
+          visitorId: data?.visitorId ?? '',
+          visitorName: data?.visitorName ?? '',
+          visitorMobile: data?.visitorMobile ?? '',
+          visitorEmail: data?.visitorEmail ?? '',
+          purposeOfVisit: data?.purposeOfVisit ?? '',
+          qrCode: data?.qrCode ?? '',
+          comingFrom: data?.comingFrom ?? '',
+          purposeOfVisitId: data?.purposeOfVisitId ?? 0,
+          visitorProfileImage: data?.visitorProfileImage ?? '',
+          visitorProfileImageFilePath: data?.visitorProfileImageFilePath ?? '',
+          visitorProfileImageImageUrl: data?.visitorProfileImageImageUrl ?? '',
+          visitorType: data?.visitorType ?? '',
+          guestCount: data?.guestCount,
+          vehicleNumber: data?.vehicleNumber,
+          studentName: data?.studentName,
+          schoolVisitDate: data?.schoolVisitDate,
+          otherPointOfContact: data?.otherPointOfContact,
+          visitorTypeId: data?.visitorTypeId),
+    );
   }
 }

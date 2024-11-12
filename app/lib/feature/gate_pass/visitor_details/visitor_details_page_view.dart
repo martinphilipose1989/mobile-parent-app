@@ -112,13 +112,6 @@ class VisitorDetailsPageView
                               ),
                               SizedBox(height: 16.h),
                               VisitorDetailsRow(
-                                title1: "Purpose Of Visit",
-                                value1: visitor.purposeOfVisit ?? '',
-                                title2: "Coming From",
-                                value2: visitor.comingFrom ?? '',
-                              ),
-                              SizedBox(height: 16.h),
-                              VisitorDetailsRow(
                                 title1: "Date",
                                 value1:
                                     "${visitor.issuedDate?.replaceAll('-', '/')}",
@@ -139,6 +132,12 @@ class VisitorDetailsPageView
                                 title2: "Guest Count",
                                 value2: '${visitor.guestCount ?? ""}',
                               ),
+                              SizedBox(height: 16.h),
+                              VisitorDetailsRow(
+                                title1: "Coming From",
+                                value1: visitor.comingFrom ?? '',
+                              ),
+
                             ],
                           ),
                         ),
