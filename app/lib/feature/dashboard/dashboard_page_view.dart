@@ -84,10 +84,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
       child: HighlightList(
         chipValues: chipValues,
         onCallBack: (routeName) {
-          Navigator.pushNamed(context, RoutePaths.studentProfilePage,
-              arguments: 10);
-          return;
-
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
               arguments: PaymentArguments(
