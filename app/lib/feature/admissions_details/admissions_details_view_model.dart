@@ -11,6 +11,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -30,6 +31,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.flutterToastErrorPresenter,
       this.moveToNextStageUsecase,
       this.makePaymentRequestUsecase) {
+    initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId ?? '', type: 'admission');
@@ -60,6 +62,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
+          // Check if "registration" stage is completed and update "Book Test" status accordingly
           final currentStepForJourney = result.data?.data
                   ?.firstWhere(
                       (e) =>
@@ -70,13 +73,15 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
               '';
 
           if (currentStepForJourney.toLowerCase() == "completed") {
+            // Find the "Book Test" item and set isActive to true
             final index = menuData
                 .indexWhere((e) => e['name'].toLowerCase() == "book test");
-            menuData[index]['isActive'] = true;
-          } else {
-            final index = menuData
-                .indexWhere((e) => e['name'].toLowerCase() == "book test");
-            menuData[index]['isActive'] = false;
+            if (index != -1) {
+              menuData[index]['isActive'] = true;
+            }
+            else{
+              
+            }
           }
         }
         if (result.status == Status.error) {
@@ -240,6 +245,35 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final BehaviorSubject<Resource<VasOptionResponse>> vasSubject =
       BehaviorSubject.seeded(Resource.none());
 
+  final BehaviorSubject<Resource<bool>> isLoadingSubject =
+      BehaviorSubject<Resource<bool>>.seeded(Resource.success(data: false));
+
+  void initializeLoadingState() {
+    Rx.combineLatest2<Resource<VasOptionResponse>,
+        Resource<MoveToNextStageEnquiryResponse>, Resource<bool>>(
+      vasSubject.stream,
+      moveStageSubject.stream,
+      (vasResource, moveStageResource) {
+        // Return a loading Resource if either of the subjects is loading
+        if (vasResource.status == Status.loading ||
+            moveStageResource.status == Status.loading) {
+          return Resource.loading();
+        } else if (vasResource.status == Status.error ||
+            moveStageResource.status == Status.error) {
+          // If either subject has an error, propagate the error
+          return Resource.error(
+              error: vasResource.dealSafeAppError ??
+                  moveStageResource.dealSafeAppError);
+        } else {
+          // Neither is loading and there is no error, so loading is complete
+          return Resource.success(data: false);
+        }
+      },
+    ).listen((isLoading) {
+      isLoadingSubject.add(isLoading); // Update the combined loading state
+    });
+  }
+
   void makePaymentRequest() {
     MakePaymentRequestUsecaseParams params = MakePaymentRequestUsecaseParams(
         enquiryID: "${enquiryDetailArgs.enquiryId}");
@@ -252,6 +286,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
             .asFlow()
             .listen((data) {
           if (data.status == Status.error) {
+            exceptionHandlerBinder.showError(data.dealSafeAppError!);
             vasSubject.add(Resource.error(error: data.dealSafeAppError));
           }
           if (data.status == Status.success) {
@@ -276,12 +311,14 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         createCall: () => moveToNextStageUsecase.execute(params: params),
       ).asFlow().listen((data) {
         if (data.status == Status.error) {
+          exceptionHandlerBinder.showError(data.dealSafeAppError!);
           moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
         }
         if (data.status == Status.success) {
           moveStageSubject.add(Resource.success(data: data.data));
 
-          navigatorKey.currentState?.pushNamed(
+          navigatorKey.currentState
+              ?.pushNamed(
             RoutePaths.payments,
             arguments: PaymentArguments(
               phoneNo: '',
@@ -289,7 +326,13 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
               enquiryNo: enquiryDetailArgs.enquiryNumber,
               studentName: "${enquiryDetailArgs.studentName} ",
             ),
-          );
+          )
+              .then((_) {
+            getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
+            getAdmissionJourney(
+                enquiryID: enquiryDetailArgs.enquiryId ?? '',
+                type: 'admission');
+          });
         }
       });
     }).execute();

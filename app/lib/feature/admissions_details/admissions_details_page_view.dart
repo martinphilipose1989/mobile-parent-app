@@ -31,6 +31,7 @@ class AdmissionsDetailsPageView
   actionOnMenu(
       int index, BuildContext context, AdmissionsDetailsViewModel model) {
     setEnquiryDetailsArgs(model);
+    log("INDEX $index");
     switch (index) {
       case 0:
         model.showMenuOnFloatingButton.add(false);
@@ -39,16 +40,24 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.detailsViewSchoolTourPage,
                     arguments: admissionDetail)
                 .then((value) {
+                log("detailsViewSchoolTourPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               })
             : Navigator.of(context)
                 .pushNamed(RoutePaths.scheduleSchoolTourPage, arguments: {
                 'enquiryDetailArgs': admissionDetail,
               }).then(
                 (value) {
+                  log("scheduleSchoolTourPage");
                   model.getEnquiryDetail(
                       enquiryID: admissionDetail.enquiryId ?? '');
+                  model.getAdmissionJourney(
+                      enquiryID: admissionDetail.enquiryId ?? '',
+                      type: 'admission');
                 },
               );
       case 1:
@@ -70,24 +79,40 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.competencyTestDetailPage,
                     arguments: admissionDetail)
                 .then((value) {
+                log("competencyTestDetailPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               })
             : Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,
                 arguments: {
                     'enquiryDetailArgs': admissionDetail
                   }).then((value) {
-                if (value != null) {
-                  model.getEnquiryDetail(
-                      enquiryID: admissionDetail.enquiryId ?? '');
-                }
+                log("scheduleCompetencyTest");
+
+                model.getEnquiryDetail(
+                    enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               });
       case 5:
         model.showMenuOnFloatingButton.add(false);
-        return Navigator.of(context).pushNamed(RoutePaths.enquiriesTimelinePage,
-            arguments: admissionDetail);
+        return Navigator.of(context)
+            .pushNamed(RoutePaths.enquiriesTimelinePage,
+                arguments: admissionDetail)
+            .then((_) {
+          log("enquiriesTimelinePage");
+
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
+          model.getAdmissionJourney(
+              enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
+        });
       case 6:
         model.showMenuOnFloatingButton.add(false);
+        log("registrationDetails");
 
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
@@ -95,6 +120,10 @@ class AdmissionsDetailsPageView
           "enquiryDetailArgs": admissionDetail,
           "enquiryDetail": model.enquiryDetails.value,
           "editRegistrationDetails": true
+        }).then((_) {
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
+          model.getAdmissionJourney(
+              enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
         });
 
       default:
@@ -251,19 +280,29 @@ class AdmissionsDetailsPageView
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
+                            // Log the menu data for debugging
                             log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
-                            final isRegistrationNotActive = model
-                                        .menuData.first['name']
-                                        .toString()
-                                        .toLowerCase() ==
-                                    'book test' &&
-                                model.menuData.first['isActive'] == false;
-                            if (isRegistrationNotActive) {
-                              log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
 
+                            // Find the "Book Test" menu item
+                            final bookTestMenuItem = model.menuData.firstWhere(
+                              (menuItem) =>
+                                  menuItem['name'].toString().toLowerCase() ==
+                                  'book test',
+                              orElse: () => null,
+                            );
+
+                            // Check if "Book Test" is not active
+                            final isRegistrationNotActive =
+                                bookTestMenuItem != null &&
+                                    bookTestMenuItem['isActive'] == false;
+
+                            // Execute action based on the status of "Book Test"
+                            if (isRegistrationNotActive) {
+                              log("Book Test is inactive. Executing action with incremented ID.");
                               actionOnMenu(model.menuData[index]['id'] + 1,
                                   context, model);
                             } else {
+                              log("Executing action with original ID.");
                               actionOnMenu(
                                   model.menuData[index]['id'], context, model);
                             }
@@ -276,8 +315,8 @@ class AdmissionsDetailsPageView
                         )
                       : SizedBox.fromSize());
             }),
-        AppStreamBuilder<Resource<VasOptionResponse>>(
-            stream: model.vasSubject,
+        AppStreamBuilder<Resource<bool>>(
+            stream: model.isLoadingSubject,
             initialData: Resource.none(),
             dataBuilder: (context, data) {
               return data?.status == Status.loading

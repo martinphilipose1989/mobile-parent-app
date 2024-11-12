@@ -1,3 +1,4 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -7,6 +8,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
@@ -64,7 +66,14 @@ class AdmissionsList extends StatelessWidget {
                     status: admissionList?[index].status);
                 if (isClosed == false) {
                   Navigator.pushNamed(context, RoutePaths.admissionsDetails,
-                      arguments: admissionDetail);
+                          arguments: admissionDetail)
+                      .then((_) {
+                    if (context.mounted) {
+                      ProviderScope.containerOf(context)
+                          .read(admissionsProvider)
+                          .fetchAdmissionList();
+                    }
+                  });
                 }
               },
               child: Padding(
