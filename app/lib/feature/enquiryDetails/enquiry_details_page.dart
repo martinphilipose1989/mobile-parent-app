@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
@@ -254,6 +256,7 @@ class EnquiriesDetailsPageState
                                       model.selectedPeriodOfServiceEntity;
                                   psaDetail = psaDetail
                                       .restore(model.psaDetails!.value);
+
                                   model.updatePsaDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??
@@ -392,7 +395,12 @@ class EnquiriesDetailsPageState
                             },
                             text: model.selectedValue.value == 0
                                 ? 'Next'
-                                : "Submit",
+                                : widget.enquiryDetailArgs.enquiryType ==
+                                            EnquiryTypeEnum.psa.type ||
+                                        widget.enquiryDetailArgs.enquiryType ==
+                                            EnquiryTypeEnum.kidsClub.type
+                                    ? "Move to admission"
+                                    : "Submit",
                             backgroundColor: AppColors.accent,
                             width: 171.w,
                             height: 40.h,

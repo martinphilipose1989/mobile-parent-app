@@ -80,13 +80,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
-          result.data?.data?.forEach((e) {
-            log("admission enquiryStage ${e.status}  ${e.stage}");
-          });
-        
           if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type) {
-         
-
             bool isRegistrationFeesCompleted = result.data?.data?.any((stage) =>
                     stage.stage == "Registration Fees" &&
                     stage.status == "Completed") ??
@@ -95,6 +89,14 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
             for (var item in menuData) {
               if (item['name'] == "Registration") {
                 item['isActive'] = isRegistrationFeesCompleted ? true : false;
+              }
+            }
+          } else if (enquiryDetailArgs.enquiryType ==
+              EnquiryTypeEnum.psa.type) {
+            for (var item in menuData) {
+              if (item['name'] == "Registration" ||
+                  item['name'] == "Payments") {
+                item['isActive'] = false;
               }
             }
           }

@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/app_validators.dart';
-import 'package:app/utils/common_widgets/app_dropdown.dart';
+
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -330,11 +333,12 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   );
                 }
               }),
-          if ((enquiryDetailArgs?.enquiryType ?? "") == "PSA") ...[
+          if ((enquiryDetailArgs?.enquiryType ?? "") ==
+              EnquiryTypeEnum.psa.type) ...[
             const SizedBox(
               height: 20,
             ),
-            psaDetails()
+            //  psaDetails()
           ],
           if ((enquiryDetailArgs?.enquiryType ?? "") == "IVT") ...[
             const SizedBox(
@@ -449,11 +453,30 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
-                  ]
+                  ],
                 ],
               );
             },
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          _detailItem(
+              title: "Category",
+              subtitle: model.selectedPsaCategoryEntity?.value ?? "NA"),
+          _detailItem(
+              title: "Sub Category",
+              subtitle: model.selectedPsaSubCategoryEntity?.value ?? "NA"),
+          _detailItem(
+              title: "Sub Type",
+              subtitle: model.selectedPsaSubTypeEntity?.value ?? "NA"),
+          _detailItem(
+              title: "Period of Service",
+              subtitle: model.selectedPeriodOfServiceEntity?.value ?? "NA"),
+          _detailItem(
+              title: "Batch",
+              subtitle: model.selectedPsaBatchEntity?.value ?? "NA"),
+
           const SizedBox(
             height: 50,
           ),
@@ -781,4 +804,38 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+_detailItem({title, subtitle}) {
+  return Column(
+    children: [
+      const SizedBox(
+        height: 10,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: CommonText(
+              text: title,
+              style: AppTypography.body2,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: CommonText(
+                text: subtitle,
+                style: AppTypography.button,
+                textAlign: TextAlign.end,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
 }

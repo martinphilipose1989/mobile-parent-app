@@ -4,6 +4,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         ),
         enquiryDetailArgs?.enquiryType == "IVT"
             ? getIvtDetails(ivtDetail: ivtDetail)
-            : enquiryDetailArgs?.enquiryType == "PSA"
+            : enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type
                 ? getPsaDetails(psaDetail: psaDetail)
                 : getAdmissionDetails(newAdmissionDetail: newAdmissionDetail)
       ],
@@ -345,4 +346,5 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
       ],
     );
   }
+
 }

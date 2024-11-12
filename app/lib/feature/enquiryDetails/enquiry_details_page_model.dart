@@ -16,7 +16,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/network_retrofit.dart';
@@ -445,7 +445,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           psaDetails?.add(result.data?.data ?? PSADetail());
+          selectedValue.add(selectedValue.value + 1);
           isLoading.value = false;
+          getEnquiryDetail(enquiryID: enquiryID);
         }
         if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
@@ -474,6 +476,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         if (result.status == Status.success) {
           ivtDetails?.add(result.data?.data ?? IVTDetail());
           isLoading.value = false;
+          selectedValue.add(selectedValue.value + 1);
         }
         if (result.status == Status.error) {
           isLoading.value = false;
@@ -544,6 +547,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             for (var item in menuData) {
               if (item['name'] == "Registration") {
                 item['isActive'] = isRegistrationFeesCompleted ? true : false;
+              }
+            }
+          } else if (enquiryDetailArgs?.enquiryType ==
+              EnquiryTypeEnum.psa.type) {
+            for (var item in menuData) {
+              if (item['name'] == "Registration" ||
+                  item['name'] == "Payments") {
+                item['isActive'] = false;
               }
             }
           }
@@ -992,6 +1003,17 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         detail.parentDetails?.motherDetails?.mobile ?? '';
     studentsMotherEmailController.text =
         detail.parentDetails?.motherDetails?.email ?? '';
+    // PSA SUB TYPE AND CATEGORY
+    psaSubTypeSubject.add(detail.psaSubType?.value ?? '');
+    selectedPsaSubTypeEntity = detail.psaSubType;
+    selectedPsaCategoryEntity = detail.psaCategory;
+    psaCategorySubject.add(detail.psaCategory?.value ?? '');
+    selectedPsaSubCategoryEntity = detail.psaSubCategory;
+    psaSubCategorySubject.add(detail.psaSubCategory?.value ?? '');
+    selectedPeriodOfServiceEntity = detail.psaPeriodOfService;
+    periodOfServiceSubject.add(detail.psaPeriodOfService?.value ?? '');
+    selectedPsaBatchEntity = detail.psaBatch;
+    psaBatchSubject.add(detail.psaBatch?.value ?? '');
   }
 
   addIvtDetails(IVTDetail detail, EnquiryDetailArgs enquiryDetail) {
@@ -1033,6 +1055,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       CommonPopups().showSuccess(context, 'Enquiry Created Successfully',
           (shouldRoute) {
         Navigator.pop(context);
+        navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
       });
     });
   }

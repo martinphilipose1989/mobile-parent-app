@@ -39,9 +39,7 @@ class EnquiriesPageState
 
   @override
   Widget buildView(BuildContext context, EnquiriesPageModel model) {
-    return EnquiriesPageView(
-      provideBase(),
-    );
+    return EnquiriesPageView(provideBase());
   }
 
   @override
