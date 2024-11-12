@@ -525,13 +525,14 @@ class RegistrationDetailsValidator {
         String? validationResult;
         if (field['field'].toString().contains('Email')) {
           validationResult = AppValidators.validateEmail(
-            field['controller']!.text.trim(),
-          );
+              field['controller']!.text.trim(),
+              labelName: "Selected Parent Preference email cannot be empty");
         }
         if (field['field'].toString().contains('Mobile')) {
           validationResult = AppValidators.validateMobile(
-            field['controller']!.text.trim(),
-          );
+              field['controller']!.text.trim(),
+              labelName:
+                  'Selected Parent Preference  mobile number  cannot be empty');
         }
         if (validationResult != null) {
           errorMessage = validationResult;

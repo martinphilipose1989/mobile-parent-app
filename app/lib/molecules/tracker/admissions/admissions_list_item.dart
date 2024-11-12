@@ -16,6 +16,7 @@ class ListItem extends StatelessWidget {
   final String buttontext;
   final String compeletion;
   final String status;
+  final bool isClosed;
   const ListItem(
       {super.key,
       required this.image,
@@ -26,8 +27,8 @@ class ListItem extends StatelessWidget {
       required this.subtitle,
       required this.buttontext,
       required this.compeletion,
-      required this.status
-    });
+      required this.status,
+      this.isClosed = false});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,9 @@ class ListItem extends StatelessWidget {
                       child: SvgPicture.asset(image),
                     ),
                   ),
-                  SizedBox(width: 8.w,),
+                  SizedBox(
+                    width: 8.w,
+                  ),
                   SizedBox(
                     width: 0.4.sw,
                     child: Column(
@@ -89,15 +92,17 @@ class ListItem extends StatelessWidget {
                             text: id,
                             softWrap: true,
                             style: AppTypography.smallCaption.copyWith(
-                                color: AppColors.textGray, letterSpacing: 0.25)),
+                                color: AppColors.textGray,
+                                letterSpacing: 0.25)),
                         CommonSizedBox.sizedBox(height: 2, width: 5),
-                       CommonText(
-                           text: title,
-                           maxLines: 2,
-                           softWrap: true,
-                           overflow: TextOverflow.clip,
-                           style: AppTypography.smallCaption.copyWith(
-                               color: AppColors.textGray, letterSpacing: 0.25)),
+                        CommonText(
+                            text: title,
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
+                            style: AppTypography.smallCaption.copyWith(
+                                color: AppColors.textGray,
+                                letterSpacing: 0.25)),
                         CommonSizedBox.sizedBox(height: 2, width: 5),
                         CommonText(
                             text: subtitle,
@@ -126,19 +131,24 @@ class ListItem extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: AppColors.primaryLighter,
+                      color: isClosed
+                          ? AppColors.success
+                          : AppColors.primaryLighter,
                     ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                    child:  CommonText(
-                        text: buttontext,
-                        maxLines: 2,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: AppTypography.body2.copyWith(
-                          color: Theme.of(context).primaryColor,
-                      )),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 8),
+                    child: CommonText(
+                      text: buttontext,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: AppTypography.body2.copyWith(
+                        color: isClosed
+                            ? Colors.white
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
                   ),
                   CommonSizedBox.sizedBox(height: 8, width: 10),
                   CommonText(

@@ -41,15 +41,15 @@ class NetworkProperties {
   static const String subCastes = '/api/sub-castes?fields[1]=name';
   static const String motherTongue = '/api/mother-tongues?fields[1]=name';
   static const String organization = '/api/organizations?fields[1]=name';
-  static const String designation =
-      '/api/ps-designations';
+  static const String designation = '/api/ps-designations';
   static const String nationality =
       '/api/countries?sort[0]=id:asc&fields[1]=nationality&fields[2]=name';
   static const String personalisedLearningNeedsDescription =
       '/api/ac-personalise-learning-needs?fields[1]=name';
   static const String cityAndState =
       '/api/co-pincodes?populate[0]=District_Or_City&populate[1]=State';
-  static const String relationWithChild = '/api/co-guardian-relationships?fields[1]=name';
+  static const String relationWithChild =
+      '/api/co-guardian-relationships?fields[1]=name';
 
   static const String enrollmentDetail =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
@@ -65,4 +65,7 @@ class NetworkProperties {
   // key cloak
   static const String tokenIntroSpect =
       "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
+
+  static const String getBrandList =
+      "https://ampersand-r26sp3mibq-uc.a.run.app/api/ac-brands";
 }

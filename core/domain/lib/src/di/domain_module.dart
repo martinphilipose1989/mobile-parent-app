@@ -1,6 +1,6 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/user/get_user_details_usecase.dart';
-import 'package:domain/src/usecase/user/user_role_permission_usecase.dart';
+import 'package:domain/src/usecase/marketing/get_brand_usecase.dart';
+
 import 'package:injectable/injectable.dart';
 
 @module
@@ -381,5 +381,10 @@ abstract class DomainModule {
   MoveToNextStageUsecase moveToNextStageUsecase(
       EnquiryRepository enquiryRepository) {
     return MoveToNextStageUsecase(enquiryRepository: enquiryRepository);
+  }
+
+  @lazySingleton
+  GetBrandUsecase getBrandUsecase(EnquiryRepository enquiryRepository) {
+    return GetBrandUsecase(enquiryRepository: enquiryRepository);
   }
 }

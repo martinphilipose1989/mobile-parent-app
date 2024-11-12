@@ -79,6 +79,16 @@ class EnquiryDetailEntity
   String? boardName;
   @JsonKey(name: 'academicYear')
   String? academicYear;
+  @JsonKey(name: 'gradeId')
+  int? gradeId;
+  @JsonKey(name: 'brandId')
+  int? brandId;
+  @JsonKey(name: "brand")
+  String? brandName;
+  @JsonKey(name: "course")
+  String? courseName;
+  @JsonKey(name: "courseId")
+  int? courseId;
 
   EnquiryDetailEntity(
       {this.enquiryNumber,
@@ -114,7 +124,12 @@ class EnquiryDetailEntity
       this.boardId,
       this.streamId,
       this.currentStage,
-      this.academicYear});
+      this.academicYear,
+      this.gradeId,
+      this.brandId,
+      this.brandName,
+      this.courseId,
+      this.courseName});
   factory EnquiryDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$EnquiryDetailEntityFromJson(json);
 
@@ -175,6 +190,11 @@ class EnquiryDetailEntity
     enquiryDetail.currentStage = currentStage;
     enquiryDetail.boardName = boardName;
     enquiryDetail.academicYear = academicYear;
+    enquiryDetail.gradeId = gradeId;
+    enquiryDetail.brandId = brandId;
+    enquiryDetail.brandName = brandName;
+    enquiryDetail.courseId = courseId;
+    enquiryDetail.courseName = courseName;
     return enquiryDetail;
   }
 }

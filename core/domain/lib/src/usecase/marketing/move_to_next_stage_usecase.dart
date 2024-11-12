@@ -11,14 +11,15 @@ class MoveToNextStageUsecase extends BaseUseCase<NetworkError,
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>> execute(
       {required MoveToNextStageUsecaseParams params}) {
     return enquiryRepository.moveToNextStageEnquiry(
-        enquiryId: params.enquiryId);
+        enquiryId: params.enquiryId, enquiryStage: params.currentStage);
   }
 }
 
 class MoveToNextStageUsecaseParams extends Params {
   final String enquiryId;
+  final String? currentStage;
 
-  MoveToNextStageUsecaseParams({required this.enquiryId});
+  MoveToNextStageUsecaseParams({required this.enquiryId, this.currentStage});
 
   @override
   Either<AppError, bool> verify() {
