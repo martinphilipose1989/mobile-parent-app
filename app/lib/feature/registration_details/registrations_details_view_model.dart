@@ -939,7 +939,18 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
         if (result.status == Status.success) {
           isLoading.value = false;
           showPopUP(context,
-              message: "Admission Details Submitted Successfully");
+              message: "Admission Details Submitted Successfully",
+              callback: () {
+            navigatorKey.currentState?.pushNamed(
+              RoutePaths.payments,
+              arguments: PaymentArguments(
+                phoneNo: '',
+                enquiryId: enquiryDetailArgs?.enquiryId,
+                enquiryNo: enquiryDetailArgs?.enquiryNumber,
+                studentName: "${enquiryDetailArgs?.studentName} ",
+              ),
+            );
+          });
         }
         if (result.status == Status.error) {
           isLoading.value = false;
@@ -3388,11 +3399,12 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
     selectedShiftEntity = null;
   }
 
-  showPopUP(context, {String? message}) {
+  showPopUP(context, {String? message, VoidCallback? callback}) {
     Future.delayed(Duration.zero, () {
       CommonPopups().showSuccess(
           context, message ?? 'Student Registered Successfully', (shouldRoute) {
         Navigator.pop(context);
+        callback?.call();
       });
     });
   }

@@ -72,7 +72,7 @@ class RegistrationsDetailsPageView
           studentName:
               "${model.enquiryDetails?.studentFirstName} ${model.enquiryDetails?.studentLastName}",
         )}");
-
+        model.makePaymentRequest("${model.enquiryDetailArgs?.enquiryId}");
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);

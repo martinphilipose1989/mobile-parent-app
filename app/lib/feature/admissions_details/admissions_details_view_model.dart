@@ -28,7 +28,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.getEnquiryDetailUseCase,
       this.enquiryDetailArgs,
       this.flutterToastErrorPresenter,
-      this.moveToNextStageUsecase) {
+      this.moveToNextStageUsecase,
+      this.makePaymentRequestUsecase) {
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
         enquiryID: enquiryDetailArgs.enquiryId ?? '', type: 'admission');
@@ -234,6 +235,43 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
       moveStageSubject.stream;
 
+  final MakePaymentRequestUsecase makePaymentRequestUsecase;
+
+  final BehaviorSubject<Resource<VasOptionResponse>> vasSubject =
+      BehaviorSubject.seeded(Resource.none());
+
+  void makePaymentRequest() {
+    MakePaymentRequestUsecaseParams params = MakePaymentRequestUsecaseParams(
+        enquiryID: "${enquiryDetailArgs.enquiryId}");
+    vasSubject.add(Resource.loading());
+    exceptionHandlerBinder.handle(
+      block: () {
+        RequestManager(params,
+                createCall: () =>
+                    makePaymentRequestUsecase.execute(params: params))
+            .asFlow()
+            .listen((data) {
+          if (data.status == Status.error) {
+            vasSubject.add(Resource.error(error: data.dealSafeAppError));
+          }
+          if (data.status == Status.success) {
+            vasSubject.add(Resource.success(data: data.data));
+
+            navigatorKey.currentState?.pushNamed(
+              RoutePaths.payments,
+              arguments: PaymentArguments(
+                phoneNo: '',
+                enquiryId: enquiryDetailArgs.enquiryId,
+                enquiryNo: enquiryDetailArgs.enquiryNumber,
+                studentName: "${enquiryDetailArgs.studentName} ",
+              ),
+            );
+          }
+        });
+      },
+    ).execute();
+  }
+
   void moveToNextStage({String from = "payment"}) {
     log("message ${enquiryDetails.value.currentStage}");
     moveStageSubject.add(Resource.loading());
@@ -251,16 +289,16 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         if (data.status == Status.success) {
           moveStageSubject.add(Resource.success(data: data.data));
-
-          navigatorKey.currentState?.pushNamed(
-            RoutePaths.payments,
-            arguments: PaymentArguments(
-              phoneNo: '',
-              enquiryId: enquiryDetailArgs.enquiryId,
-              enquiryNo: enquiryDetailArgs.enquiryNumber,
-              studentName: "${enquiryDetailArgs.studentName} ",
-            ),
-          );
+         
+          // navigatorKey.currentState?.pushNamed(
+          //   RoutePaths.payments,
+          //   arguments: PaymentArguments(
+          //     phoneNo: '',
+          //     enquiryId: enquiryDetailArgs.enquiryId,
+          //     enquiryNo: enquiryDetailArgs.enquiryNumber,
+          //     studentName: "${enquiryDetailArgs.studentName} ",
+          //   ),
+          // );
         }
       });
     }).execute();

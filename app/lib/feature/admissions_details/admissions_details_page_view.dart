@@ -54,7 +54,7 @@ class AdmissionsDetailsPageView
       case 1:
         model.showMenuOnFloatingButton.add(false);
 
-        model.moveToNextStage();
+        model.makePaymentRequest();
       // return Navigator.of(context)
       //     .pushNamed(
       //   RoutePaths.payments,
@@ -290,8 +290,8 @@ class AdmissionsDetailsPageView
                         )
                       : SizedBox.fromSize());
             }),
-        AppStreamBuilder<Resource<MoveToNextStageEnquiryResponse>>(
-            stream: model.moveStageSubject,
+        AppStreamBuilder<Resource<VasOptionResponse>>(
+            stream: model.vasSubject,
             initialData: Resource.none(),
             dataBuilder: (context, data) {
               return data?.status == Status.loading

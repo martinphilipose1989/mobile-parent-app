@@ -107,7 +107,8 @@ final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
       getIt.get<GetEnquiryDetailUseCase>(),
       args,
       getIt.get<FlutterToastErrorPresenter>(),
-      getIt.get<MoveToNextStageUsecase>()),
+      getIt.get<MoveToNextStageUsecase>(),
+      getIt.get<MakePaymentRequestUsecase>()),
 );
 
 final registrationsDetailsProvider =
