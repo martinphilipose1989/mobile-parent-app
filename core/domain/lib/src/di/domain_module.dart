@@ -77,6 +77,12 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetStudentAttendanceUseCase getStudentAttendanceUseCase(
+      TransportRepository transportRepo) {
+    return GetStudentAttendanceUseCase(transportRepository: transportRepo);
+  }
+
+  @lazySingleton
   GetAdmissionListUsecase getAdmissionListUsecase(
       AdmissionRepository admissionRepository) {
     return GetAdmissionListUsecase(admissionRepository);

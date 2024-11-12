@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:data/data.dart';
+import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -1234,5 +1235,18 @@ class NetworkAdapter implements NetworkPort {
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params}) async {
+    final response = await safeApiCall(
+      transportService.getStudentAttendance(
+        studentId: params.studentId,
+        platform: platform,
+      ),
+    );
+
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
   }
 }

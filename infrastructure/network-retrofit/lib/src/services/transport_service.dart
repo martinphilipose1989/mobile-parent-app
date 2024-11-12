@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/response/transport/student_attendance_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../model/response/transport/bus_route_response_entity.dart';
@@ -7,10 +8,9 @@ import '../model/response/transport/trip_response_entity.dart';
 
 part 'transport_service.g.dart';
 
-
-
-const String transportBaseUrl = "https://transport-219111640528.us-central1.run.app/";
-const String _getMyDutyList = "transport-service/parent/route-list";
+const String transportBaseUrl =
+    "https://transport-219111640528.us-central1.run.app/";
+const String _getMyDutyList = "${transportBaseUrl}transport-service/parent/route-list";
 const String _getCheckList = "transport-service/mobile-app/check-list";
 const String _createIncidentReport = "transport-service/mobile-app/check-list";
 const String _getStudentListByRoute =
@@ -18,11 +18,10 @@ const String _getStudentListByRoute =
 const String _getStudentProfile =
     "${transportBaseUrl}transport-service/parent/student-profile/{studentId}";
 
-
 const String _getStudentattendance =
-    "transport-service/parent/student-attandence/{studentId}";
+    "${transportBaseUrl}transport-service/parent/student-attandence/{studentId}";
 
-const String _getBusStopsList = 'transport-service/parent/bus-stops';
+const String _getBusStopsList = '${transportBaseUrl}transport-service/parent/bus-stops';
 
 @RestApi()
 abstract class TransportService {
@@ -55,10 +54,11 @@ abstract class TransportService {
       @Query("day_id") required int dayId,
       @Query("platform") required String app});
 
-// @GET(_getBusStopsList)
-// Future<HttpResponse<StudentAttendanceResponseEntity>> getstudentAttendance({
-//   @Query("route_id") required String studentId,
-// });
+  @GET(_getStudentattendance)
+  Future<HttpResponse<StudentAttendanceResponseEntity>> getStudentAttendance({
+    @Query("route_id") required int studentId,
+    @Query("platform") required String platform,
+  });
 
 // @GET(_getBearerList)
 // Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(

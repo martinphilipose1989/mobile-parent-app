@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 abstract class NetworkPort {
@@ -254,4 +255,6 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
+
+  Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params});
 }
