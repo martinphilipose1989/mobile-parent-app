@@ -52,7 +52,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     }
 
     final GetAllBusStopsParams params = GetAllBusStopsParams(
-        routeId: trip?.id ?? '', dayId: DateTime.now().weekday);
+        routeId: trip?.id ?? '', dayId: DateTime.now().weekday, app: 'app');
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,

@@ -13,15 +13,15 @@ final TransportRepository transportRepository;
   Future<Either<NetworkError, BusStopResponseModel>> execute(
       {required GetAllBusStopsParams params}) {
     return transportRepository.getBusStopsList(
-        routeId: params.routeId, dayId: params.dayId);
+        routeId: params.routeId, dayId: params.dayId, app: params.app);
   }
 }
 
 class GetAllBusStopsParams extends Params {
   final String routeId;
   final int dayId;
-
-  GetAllBusStopsParams({required this.routeId, required this.dayId});
+final String app;
+  GetAllBusStopsParams( {required this.app,required this.routeId, required this.dayId});
 
   @override
   Either<AppError, bool> verify() {

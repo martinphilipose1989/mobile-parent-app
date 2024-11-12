@@ -9,10 +9,10 @@ abstract class TransportRepository {
       {required int studentId});
 
   Future<Either<NetworkError, TripResponse>> getMyDutyList(
-      {required int pageNo, required int dayId,required int studentId});
+      {required int pageNo, required int dayId,required int studentId,required String app});
 
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
-      {required String routeId, required int dayId});
+      {required String routeId, required int dayId,required String app});
 
   Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
       {required int routeId, required int stopId});

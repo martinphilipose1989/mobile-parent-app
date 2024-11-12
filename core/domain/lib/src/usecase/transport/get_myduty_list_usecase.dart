@@ -11,7 +11,7 @@ class GetMydutyListUsecase
   Future<Either<NetworkError, TripResponse>> execute(
       {required GetMydutyListParams params}) {
     return transportRepository.getMyDutyList(
-        pageNo: params.pageNo, dayId: params.dayId, studentId: params.studentId);
+        pageNo: params.pageNo, dayId: params.dayId, studentId: params.studentId, app: params.app);
   }
 }
 
@@ -19,8 +19,8 @@ class GetMydutyListParams extends Params {
   final int pageNo;
   final int dayId;
   final int studentId;
-
-  GetMydutyListParams({required this.studentId,required this.pageNo, required this.dayId});
+final String app;
+  GetMydutyListParams( {required this.app,required this.studentId,required this.pageNo, required this.dayId});
 
   @override
   Either<AppError, bool> verify() {

@@ -150,6 +150,7 @@ export 'src/model/response/transport/guardian_detail_response.dart';
 export 'src/model/response/transport/route_stop_mapping_response.dart';
 export 'src/model/response/transport/stop_response.dart';
 export 'src/model/response/transport/trip_response.dart';
+export 'src/model/response/transport/student_attendance_response_model.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';

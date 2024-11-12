@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/response/transport/student_attendance_response_entity.dart';
 
 import 'package:retrofit/retrofit.dart';
 
@@ -11,14 +12,14 @@ import '../model/response/transport/trip_response_entity.dart';
 
 part 'transport_service.g.dart';
 
-const String _getMyDutyList = "/transport-service/parent/route-list";
+const String _getMyDutyList = "transport-service/parent/route-list";
 const String _getCheckList = "transport-service/mobile-app/check-list";
 const String _createIncidentReport = "transport-service/mobile-app/check-list";
 const String _getStudentListByRoute =
     "transport-service/mobile-app/student-list";
 const String _getStudentProfile =
     "transport-service/mobile-app/student-profile/{studentId}";
-
+const String _getStudentattendance="transport-service/parent/student-attandence/{studentId}";
 
 const String _getBusStopsList = 'transport-service/parent/bus-stops';
 
@@ -46,14 +47,22 @@ abstract class TransportService {
       @Query("page") int page,
       @Query("limit") int limit,
       @Query("day_id") int dayId,
-  @Query("student_id") int studentId);
+  @Query("student_id") int studentId,
+      @Query("platform") String app);
 
   @GET(_getBusStopsList)
   Future<HttpResponse<BusStopResponseEntity>> getBusStopsList(
       {@Query("route_id") required String routeId,
-      @Query("day_id") required int dayId});
+      @Query("day_id") required int dayId,
+  @Query("platform") required String app
+      });
+
+  @GET(_getBusStopsList)
+  Future<HttpResponse<StudentAttendanceResponseEntity>> getstudentAttendance({
+    @Query("route_id") required String studentId,
 
 
+});
 
   // @GET(_getBearerList)
   // Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(

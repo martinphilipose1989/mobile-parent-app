@@ -1196,9 +1196,9 @@ final TransportService transportService;
   }
 
   @override
-  Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList({required String routeId, required int dayId}) async{
+  Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList({required String routeId, required int dayId,required String app}) async{
     final response = await safeApiCall(
-      transportService.getBusStopsList(routeId: routeId, dayId: dayId),
+      transportService.getBusStopsList(routeId: routeId, dayId: dayId,app: app),
     );
 
     return response.fold(
@@ -1207,10 +1207,10 @@ final TransportService transportService;
   }
 
   @override
-  Future<Either<NetworkError, TripResponse>> getMyDutyList({required int page, required int dayId, required int studentId})
+  Future<Either<NetworkError, TripResponse>> getMyDutyList({required int page, required int dayId, required int studentId,required String app})
     async {
       final response = await safeApiCall(
-        transportService.getMyDutyList(page, 10, dayId,10),
+        transportService.getMyDutyList(page, 10, dayId,10,app)
       );
 
       return response.fold(
