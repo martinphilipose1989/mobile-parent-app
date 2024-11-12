@@ -40,4 +40,5 @@ class RoutePaths {
   static const String visitorListPage = "/visitorListPage";
   static const String createEditGatePassPage = "/createEditGatePassPage";
   static const String visitorDetailsPage = "/visitorDetailsPage";
+  static const String qrCodeDetailsPage = "/qrCodeDetailsPage";
 }

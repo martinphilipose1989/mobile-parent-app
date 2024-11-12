@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
@@ -11,6 +13,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/enquiryDetails/enquiry_details_page.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
+import 'package:app/feature/gate_pass/visitor_details/qr_details.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
@@ -267,6 +270,14 @@ class AppRouter {
             settings: const RouteSettings(
               name: RoutePaths.visitorDetailsPage,
             ));
+
+      case RoutePaths.qrCodeDetailsPage:
+        final arguments = settings.arguments as Uint8List;
+        return CupertinoPageRoute(
+          settings: RouteSettings(
+              name: RoutePaths.qrCodeDetailsPage, arguments: arguments),
+          builder: (context) => QrDetailsPage(qrImageBytes: arguments),
+        );
       case RoutePaths.createEditGatePassPage:
         return CupertinoPageRoute(
           builder: (context) => const CreateEditGatePassPage(),

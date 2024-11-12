@@ -73,10 +73,9 @@ class VisitorInfoCard extends StatelessWidget {
               qrImagePath.isNotEmpty
                   ? InkWell(
                       onTap: () {
-                        // TODO : DISCUSS AND DO THE NEED FULL
-                        // navigatorKey.currentState?.pushNamed(
-                        //     RoutePaths.qrCodeDetailsPage,
-                        //     arguments: qrImagePath);
+                        navigatorKey.currentState?.pushNamed(
+                            RoutePaths.qrCodeDetailsPage,
+                            arguments: qrImagePath);
                       },
                       child: Image.memory(
                         qrImagePath,
