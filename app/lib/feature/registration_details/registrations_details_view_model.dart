@@ -2176,7 +2176,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       CommonRadioButton<String>(null);
 
   final CommonRadioButton<String> radioButtonController3 =
-      CommonRadioButton<String>(null);
+      CommonRadioButton<String>("Yes");
 
   final CommonRadioButton<String> radioButtonController4 =
       CommonRadioButton<String>(null);

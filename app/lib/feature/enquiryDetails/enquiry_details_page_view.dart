@@ -14,6 +14,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
@@ -63,7 +64,8 @@ class EnquiriesDetailsPageView
             if (enquiryDetailArgs.enquiryType == "IVT") {
               model.getIvtDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
-            } else if (enquiryDetailArgs.enquiryType == "Enquiry - PSA") {
+            } else if (enquiryDetailArgs.enquiryType ==
+                EnquiryTypeEnum.psa.type) {
               model.getPsaDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
             } else {
@@ -430,7 +432,7 @@ class EnquiriesDetailsPageView
                                                           );
                                                         }
                                                       })
-                                                  : (enquiryDetailArgs.enquiryType == "Enquiry - PSA")
+                                                  : (enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type)
                                                       ? AppStreamBuilder<Resource<PsaResponse>>(
                                                           stream: model.psaDetail,
                                                           initialData: Resource.none(),

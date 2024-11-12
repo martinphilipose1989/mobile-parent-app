@@ -10,6 +10,7 @@ import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
@@ -68,7 +69,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
     if (enquiryDetails.enquiryType == "IVT") {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
-    } else if (enquiryDetails.enquiryType == "Enquiry - PSA") {
+    } else if (enquiryDetails.enquiryType == EnquiryTypeEnum.psa.type) {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else {
       getNewAdmissionDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -533,34 +534,19 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
-                  ?.any((stage) =>
-                      stage.stageName == "Registration Fees" &&
-                      stage.status == "Completed") ??
-              false;
-          // Update the isActive status for "Registration" in menuData
-          for (var item in menuData) {
-            if (item['name'] == "Registration") {
-              item['isActive'] = isRegistrationFeesCompleted ? true : false;
+          if (enquiryDetailArgs?.enquiryType != 'Enquiry - PSA') {
+            bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
+                    ?.any((stage) =>
+                        stage.stageName == "Registration Fees" &&
+                        stage.status == "Completed") ??
+                false;
+            // Update the isActive status for "Registration" in menuData
+            for (var item in menuData) {
+              if (item['name'] == "Registration") {
+                item['isActive'] = isRegistrationFeesCompleted ? true : false;
+              }
             }
           }
-          // result.data?.data?.enquiryStage?.forEach((e) {
-          //   log("enquiryStage ${e.status}  ${e.stageName}");
-          // });
-          // final currentStepForJourney = result.data?.data?.enquiryStage
-          //         ?.firstWhere(
-          //             (e) =>
-          //                 e.status?.toLowerCase() != "completed" &&
-          //                 e.stageName?.toLowerCase() == "registration fees",
-          //             orElse: () => EnquiryStage())
-          //         .status ??
-          //     '';
-
-          // if (currentStepForJourney.toLowerCase() != "completed") {
-          //   final index = menuData
-          //       .indexWhere((e) => e['name'].toLowerCase() == "registration");
-          //   menuData[index]['isActive'] = false;
-          // }
 
           enquiryDetail.add(result.data?.data ?? EnquiryDetail());
         }

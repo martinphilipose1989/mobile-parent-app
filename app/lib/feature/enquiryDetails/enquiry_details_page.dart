@@ -6,6 +6,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,7 +132,7 @@ class EnquiriesDetailsPageState
                                           model.editRegistrationDetails.value);
                                 } else if (widget
                                         .enquiryDetailArgs.enquiryType ==
-                                    "Enquiry - PSA") {
+                                    EnquiryTypeEnum.psa.type) {
                                   model.getPsaDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??
@@ -211,7 +212,7 @@ class EnquiriesDetailsPageState
                                       ivtDetail: ivtDetail);
                                 } else if (widget
                                         .enquiryDetailArgs.enquiryType ==
-                                    "PSA") {
+                                    EnquiryTypeEnum.psa.type) {
                                   PsaDetailResponseEntity psaDetail =
                                       PsaDetailResponseEntity();
                                   model.psaDetails?.value.schoolLocation =

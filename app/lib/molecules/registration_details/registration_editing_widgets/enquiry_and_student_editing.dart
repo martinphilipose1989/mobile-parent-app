@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -320,7 +321,8 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                               );
                             }
                           }),
-                      if ((enquiryDetailArgs.enquiryType ?? "") == "PSA") ...[
+                      if ((enquiryDetailArgs.enquiryType ?? "") ==
+                          EnquiryTypeEnum.psa.type) ...[
                         const SizedBox(
                           height: 20,
                         ),

@@ -12,6 +12,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +136,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
               isEdit: widget.routeFrom == "enquiry"
                   ? true
                   : model.editRegistrationDetails.value);
-        } else if (widget.enquiryDetailArgs?.enquiryType == "PSA") {
+        } else if (widget.enquiryDetailArgs?.enquiryType ==
+            EnquiryTypeEnum.psa.type) {
           model.getPsaDetails(
               enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
               isEdit: widget.routeFrom == "enquiry"

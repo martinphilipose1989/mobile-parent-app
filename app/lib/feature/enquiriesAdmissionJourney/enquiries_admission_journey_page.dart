@@ -161,4 +161,34 @@ class EnquiryDetailArgs {
     this.brandId,
     this.brandName,
   });
+
+  @override
+  String toString() {
+    return 'EnquiryDetailArgs('
+        'enquiryType: $enquiryType, '
+        'enquiryId: $enquiryId, '
+        'enquiryNumber: $enquiryNumber, '
+        'studentName: $studentName, '
+        'academicYear: $academicYear, '
+        'school: $school, '
+        'board: $board, '
+        'grade: $grade, '
+        'stream: $stream, '
+        'shift: $shift, '
+        'currentStage: $currentStage, '
+        'schoolVisitDate: $schoolVisitDate, '
+        'schoolVisitTime: $schoolVisitTime, '
+        'formCompletionPercentage: $formCompletionPercentage, '
+        'isFrom: $isFrom, '
+        'admissionStatus: $admissionStatus, '
+        'status: $status, '
+        'brandName: $brandName, '
+        'schoolId: $schoolId, '
+        'boardId: $boardId, '
+        'brandId: $brandId, '
+        'gradeId: $gradeId, '
+        'academicYearId: $academicYearId, '
+        'courseId: $courseId'
+        ')';
+  }
 }
