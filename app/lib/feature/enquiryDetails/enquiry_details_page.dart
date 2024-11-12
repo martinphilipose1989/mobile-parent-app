@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:shared/shared.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 

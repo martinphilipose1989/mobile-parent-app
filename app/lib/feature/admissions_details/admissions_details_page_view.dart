@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
-import 'package:app/feature/payments/payments_pages/payments.dart';
+
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
@@ -55,21 +55,7 @@ class AdmissionsDetailsPageView
         model.showMenuOnFloatingButton.add(false);
 
         model.makePaymentRequest();
-      // return Navigator.of(context)
-      //     .pushNamed(
-      //   RoutePaths.payments,
-      //   arguments: PaymentArguments(
-      //     phoneNo: model.enquiryDetails.value.parentMobile ?? '',
-      //     enquiryId: admissionDetail.enquiryId,
-      //     enquiryNo: admissionDetail.enquiryNumber,
-      //     studentName:
-      //         "${model.enquiryDetails.value.studentFirstName} ${model.enquiryDetails.value.studentLastName}",
-      //   ),
-      // )
-      //     .then((value) {
-      // TODO: call admision journey api
-      //  model.getAdmissionJourney(enquiryID: admissionDetail.enquiryId, type: admissionDetail.enquiryType);
-      // });
+
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
@@ -102,7 +88,7 @@ class AdmissionsDetailsPageView
             arguments: admissionDetail);
       case 6:
         model.showMenuOnFloatingButton.add(false);
-        log("enquiryDetails ==> ${model.enquiryDetails.value.schoolId}");
+
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
           "routeFrom": "admission",

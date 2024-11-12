@@ -256,16 +256,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           }
           if (data.status == Status.success) {
             vasSubject.add(Resource.success(data: data.data));
-
-            navigatorKey.currentState?.pushNamed(
-              RoutePaths.payments,
-              arguments: PaymentArguments(
-                phoneNo: '',
-                enquiryId: enquiryDetailArgs.enquiryId,
-                enquiryNo: enquiryDetailArgs.enquiryNumber,
-                studentName: "${enquiryDetailArgs.studentName} ",
-              ),
-            );
+            moveToNextStage();
           }
         });
       },
@@ -289,16 +280,16 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         if (data.status == Status.success) {
           moveStageSubject.add(Resource.success(data: data.data));
-         
-          // navigatorKey.currentState?.pushNamed(
-          //   RoutePaths.payments,
-          //   arguments: PaymentArguments(
-          //     phoneNo: '',
-          //     enquiryId: enquiryDetailArgs.enquiryId,
-          //     enquiryNo: enquiryDetailArgs.enquiryNumber,
-          //     studentName: "${enquiryDetailArgs.studentName} ",
-          //   ),
-          // );
+
+          navigatorKey.currentState?.pushNamed(
+            RoutePaths.payments,
+            arguments: PaymentArguments(
+              phoneNo: '',
+              enquiryId: enquiryDetailArgs.enquiryId,
+              enquiryNo: enquiryDetailArgs.enquiryNumber,
+              studentName: "${enquiryDetailArgs.studentName} ",
+            ),
+          );
         }
       });
     }).execute();
