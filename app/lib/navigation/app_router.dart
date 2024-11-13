@@ -35,7 +35,10 @@ import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
 import 'package:app/feature/vas/transport/transport_page.dart';
 
+import '../feature/bus_route_list/bus_route_list_page_page.dart';
+import '../feature/my_duty/my_duty_page.dart';
 import '../feature/splash/splash_page.dart';
+import '../feature/student_profile/student_profile_page.dart';
 import 'route_paths.dart';
 
 class AppRouter {
@@ -290,6 +293,22 @@ class AppRouter {
           ),
         );
 
+      case RoutePaths.busRouteListPage:
+        var args = settings.arguments as TripResultArgs?;
+        return CupertinoPageRoute(
+            settings: const RouteSettings(name: RoutePaths.busRouteListPage),
+            builder: (context) => BusRouteListPage(tripArgs: args));
+      case RoutePaths.myDutyPage:
+        return CupertinoPageRoute(
+          builder: (context) => const MyDutyPage(),
+          settings: const RouteSettings(name: RoutePaths.myDutyPage),
+        );
+      case RoutePaths.studentProfilePage:
+        final studentId = settings.arguments as int;
+        return CupertinoPageRoute(
+          builder: (context) => StudentProfilePage(studentId: studentId),
+          settings: const RouteSettings(name: RoutePaths.studentProfilePage),
+        );
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

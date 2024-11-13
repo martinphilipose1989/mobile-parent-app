@@ -1,7 +1,5 @@
 import 'package:app/secrets/app_secrets.dart';
 
-
-
 class FlavorValues {
   final String apiBaseUrl;
   final String mdmBaseUrl;
@@ -15,8 +13,10 @@ class FlavorValues {
   final String authorizationEndpoint;
   final String tokenEndpoint;
   final String? logoutEndpoint;
+  final String transportUrl;
 
   const FlavorValues({
+    required this.transportUrl,
     required this.apiBaseUrl,
     required this.mdmBaseUrl,
     required this.financeBaseUrl,

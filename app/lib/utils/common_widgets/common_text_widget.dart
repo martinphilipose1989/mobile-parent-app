@@ -9,7 +9,7 @@ class CommonText extends StatelessWidget {
   final TextDirection? textDirection;
   final bool? softWrap;
   final double? textScaleFactor;
-
+ final Color? color;
   const CommonText({
     super.key,
     required this.text,
@@ -19,7 +19,7 @@ class CommonText extends StatelessWidget {
     this.maxLines,
     this.textDirection,
     this.softWrap,
-    this.textScaleFactor = 1.0, // Default to 1.0 to maintain consistent size
+    this.textScaleFactor = 1.0, this.color, // Default to 1.0 to maintain consistent size
   });
 
   @override

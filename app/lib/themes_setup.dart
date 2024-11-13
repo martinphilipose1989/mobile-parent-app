@@ -38,6 +38,7 @@ class AppColors {
   static const Color textGray = Color(0xFF666666);
   static const Color textLightGray = Color(0xFFA3A3A3);
   static const Color textLighterGray = Color(0xFFBDBDBD);
+  static const Color surface_1 = Color(0xFFF6F6F6);
   static const Color textPaleGray = Color.fromRGBO(224, 224, 224, 1.0);
   static const Color textPalerGray = Color(0xFFEBEBEB);
 

@@ -16,10 +16,18 @@ import 'package:intl/intl.dart';
 class CompetencyTestModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
+
+
   final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  CompetencyTestModel(this.exceptionHandlerBinder,this.createCompetencyTestUsecase,this.getCompetencyTestSlotsUsecase,this.rescheduleCompetencyTestUseCase,this.flutterToastErrorPresenter);
+  final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
+  CompetencyTestModel(this.exceptionHandlerBinder,
+      this.createCompetencyTestUsecase,
+      this.getCompetencyTestSlotsUsecase,
+      this.rescheduleCompetencyTestUseCase,
+      this.flutterToastErrorPresenter,
+      this.getEnquiryDetailUseCase);
   BuildContext? context;
 
   String selectedTime = "";
@@ -39,6 +47,8 @@ class CompetencyTestModel extends BasePageViewModel {
   final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetails= PublishSubject();
   final PublishSubject<Resource<CompetencyTestDetailBase>> _createCompetencyTest = PublishSubject();
   Stream<Resource<CompetencyTestDetailBase>> get createCompetencyTest => _createCompetencyTest.stream;
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
 
   final BehaviorSubject<int> selectedTimeIndex = BehaviorSubject<int>.seeded(0);
 
@@ -78,6 +88,32 @@ class CompetencyTestModel extends BasePageViewModel {
           flutterToastErrorPresenter.show(
             result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
         }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+  Future<void> getEnquiryDetail({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+
+      GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
+        enquiryID: enquiryID,
+      );
+
+      RequestManager<EnquiryDetailBase>(
+        params,
+        createCall: () => getEnquiryDetailUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        _fetchEnquiryDetail.add(result);
+
+
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
+        // activeStep.add()
       }).onError((error) {
         exceptionHandlerBinder.showError(error!);
       });

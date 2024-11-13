@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:data/data.dart';
+import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -25,6 +26,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_reques
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 
 import 'model/request/gatepass/create_gatepass_entity.dart';
@@ -35,6 +37,7 @@ class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final TransportService transportService;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
   final String rbacToken =
@@ -44,6 +47,7 @@ class NetworkAdapter implements NetworkPort {
 
   NetworkAdapter(
       {required this.apiService,
+      required this.transportService,
       required this.financeRetrofitService,
       required this.adminRetorfitService});
 
@@ -1269,4 +1273,69 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
+      {required String routeId,
+      required int dayId,
+      required String app}) async {
+    final response = await safeApiCall(
+      transportService.getBusStopsList(
+          routeId: routeId, dayId: dayId, app: app),
+    );
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, TripResponse>> getMyDutyList(
+      {required int page,
+      required int dayId,
+      required int studentId,
+      required String app}) async {
+    final response = await safeApiCall(
+        transportService.getMyDutyList(page, 10, dayId, 10, app));
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
+      {required GetStudentProfileUsecaseParams params}) async {
+    final response = await safeApiCall(
+      transportService.getStudentProfile(
+        params.studentId,
+        platform: platform,
+      ),
+    );
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance(
+      {required GetStudentAttendanceUsecaseParams params}) async {
+    final response = await safeApiCall(
+      transportService.getStudentAttendance(
+        studentId: params.studentId,
+        platform: platform,
+      ),
+    );
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  // @override
+  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required int stopId}) async{
+  //   final response = await safeApiCall(
+  //     transportService.fetchStopLogs(routeId: routeId, stopId: stopId),
+  //   );
+  //
+  //   return response.fold(
+  //           (error) => Left(error), (data) => Right(data.data.transform()));
+  // }
 }

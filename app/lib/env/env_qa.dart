@@ -15,4 +15,6 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'ADMIN_BASE_URL')
   static const String adminBaseUrl = _EnvQA.adminBaseUrl;
+  @EnviedField(varName: 'TRANSPORT_BASE_URL')
+  static const String transportUrl= _EnvQA.transportUrl;
 }

@@ -22,7 +22,8 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
     }
 
     if (options.uri.path.contains('marketing') ||
-        options.uri.path.contains('gate-management')) {
+        options.uri.path.contains('gate-management') ||
+        options.uri.path.contains('transport')) {
       final token = await sharedPreferencesService
           .getFromDisk(sharedPreferencesService.accessTokenKey);
       if (token != null && token.isNotEmpty) {

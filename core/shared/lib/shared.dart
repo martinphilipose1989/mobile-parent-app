@@ -153,6 +153,16 @@ export 'src/model/response/enquiry_detail/move_to_next_update_model.dart';
 export 'src/model/request/marketing/move_to_next_stage_model.dart';
 export 'src/model/response/brand/brand_response_model.dart';
 export 'src/model/response/admission_vas/admission_vas_response.dart';
+export 'src/model/response/transport/busstop_response.dart';
+export 'src/model/response/transport/fetch_stops_logs_model.dart';
+export 'src/model/response/transport/get_bearer_response.dart';
+export 'src/model/response/transport/get_studentprofile_response.dart';
+export 'src/model/response/transport/guardian_detail_response.dart';
+export 'src/model/response/transport/route_stop_mapping_response.dart';
+export 'src/model/response/transport/stop_response.dart';
+export 'src/model/response/transport/trip_response.dart';
+export 'src/model/response/transport/student_attendance_response_model.dart';
+export 'src/model/response/transport/get_student_profile_response.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';

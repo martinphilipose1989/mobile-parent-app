@@ -44,8 +44,14 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       PublishSubject();
   Stream<Resource<AdmissionJourneyBase>> get fetchAdmissionJourney =>
       _fetchAdmissionJourney.stream;
-  final BehaviorSubject<EnquiryDetail> enquiryDetails =
+  final BehaviorSubject<EnquiryDetail> _enquiryDetails =
       BehaviorSubject.seeded(EnquiryDetail());
+  ValueStream<EnquiryDetail> get enquiryDetails => _enquiryDetails.stream;
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail =
+      PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail =>
+      _fetchEnquiryDetail.stream;
+
   String? enquiryId;
 
   Future<void> getAdmissionJourney(
@@ -129,7 +135,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
           params: params,
         ),
       ).asFlow().listen((result) {
-        enquiryDetails.value = result.data?.data ?? EnquiryDetail();
+        _fetchEnquiryDetail.add(result);
+        _enquiryDetails.value = result.data?.data ?? EnquiryDetail();
         var admissionStatus = getAdmissionStatus();
 
         if (admissionStatus == "Approved") {
@@ -160,7 +167,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getSchoolVisitStage() {
-    return enquiryDetails.value.enquiryStage?.firstWhere(
+    return _enquiryDetails.value.enquiryStage?.firstWhere(
       (element) =>
           element.stageName?.toLowerCase().contains('school visit') ?? false,
       orElse: () => EnquiryStage(),
@@ -168,7 +175,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getCompetencyStage() {
-    return enquiryDetails.value.enquiryStage?.firstWhere(
+    return _enquiryDetails.value.enquiryStage?.firstWhere(
       (element) =>
           element.stageName?.toLowerCase().contains('competency test') ?? false,
       orElse: () => EnquiryStage(),
@@ -176,7 +183,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   EnquiryStage? getAdmissionStage() {
-    return enquiryDetails.value.enquiryStage?.firstWhere(
+    return _enquiryDetails.value.enquiryStage?.firstWhere(
       (element) => (element.stageName ?? "") == "Admission Status",
       orElse: () => EnquiryStage(),
     );

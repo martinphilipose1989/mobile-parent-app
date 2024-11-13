@@ -83,7 +83,7 @@ class DashboardPageModel extends BasePageViewModel {
       case 'order':
         return '';
       case 'transport':
-        return '';
+        return RoutePaths.myDutyPage;
       case 'enquires':
         return '';
       case 'application':

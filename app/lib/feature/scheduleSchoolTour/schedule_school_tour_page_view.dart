@@ -88,18 +88,25 @@ class ScheduleSchoolTourPageView
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ListItem(
-                              image: AppImages.personIcon,
-                              name: enquiryDetailArgs.studentName??'',
-                              year: enquiryDetailArgs.academicYear??'',
-                              id: enquiryDetailArgs.enquiryNumber??'',
-                              title: enquiryDetailArgs.studentName??'',
-                              subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
-                              buttontext: enquiryDetailArgs.currentStage??'',
-                              status: enquiryDetailArgs.status??'',
+                          AppStreamBuilder<Resource<EnquiryDetailBase>>(
+                            stream: model.fetchEnquiryDetail,
+                            dataBuilder: (context, snapshot) {
+                              return snapshot?.status==Status.loading?const Center(child: CircularProgressIndicator(),):
+                              ListItem(
+                                image: AppImages.personIcon,
+                                name: "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName}",
+                                year: "${snapshot?.data?.data!.academicYearId}",
+                                id: snapshot?.data?.data?.enquiryNumber??'',
+                                title: snapshot?.data?.data?.existingSchoolName??'',
+                                subtitle: "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
+                                buttontext: snapshot?.data?.data?.currentStage??'',
+
+                                status: enquiryDetailArgs.status??'',
+                              );
+                            }, initialData: Resource.none(),
                           ),
-                          const SizedBox(
-                            height: 10,
+                           SizedBox(
+                            height: 10.h,
                           ),
                         ],
                       ),

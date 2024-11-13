@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
+import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:alice/alice.dart';
@@ -97,12 +98,18 @@ abstract class NetworkModule {
       AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
 
   @lazySingleton
+  TransportService providerTransportRetrofitService(
+      Dio dio, @Named('transportUrl') String transportUrl) =>
+      TransportService(dio,transportUrl: transportUrl) ;
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
-          AdminRetorfitService adminRetorfitService) =>
+          AdminRetorfitService adminRetorfitService,
+      TransportService transportService) =>
       NetworkAdapter(
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
-          financeRetrofitService: financeRetrofitService);
+          financeRetrofitService: financeRetrofitService, transportService: transportService);
 }

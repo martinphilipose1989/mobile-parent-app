@@ -79,9 +79,9 @@ class AdmissionsViewModel extends BasePageViewModel {
       if (isRefresh) {
         pageNumber = 1;
       }
-      if (!isNextPage) {
-        return;
-      }
+      // if (!isNextPage) {
+      //   return;
+      // }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
       GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
           phone: phoneNumber,
@@ -137,9 +137,9 @@ class AdmissionsViewModel extends BasePageViewModel {
       if (isRefresh) {
         closedAdmissionsPageNumber = 1;
       }
-      if (!closedAdmissionsNextPage) {
-        return;
-      }
+      // if (!closedAdmissionsNextPage) {
+      //   return;
+      // }
       var phoneNumber = await SharedPreferenceHelper.getString(mobileNumber);
       GetAdmissionListUsecaseParams params = GetAdmissionListUsecaseParams(
           phone: phoneNumber,
