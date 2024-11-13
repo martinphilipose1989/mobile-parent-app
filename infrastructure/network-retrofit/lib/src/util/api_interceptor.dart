@@ -21,7 +21,8 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
       options.headers.putIfAbsent("Authorization", () => "Bearer $mdmToken");
     }
 
-    if (options.uri.path.contains('marketing')) {
+    if (options.uri.path.contains('marketing') ||
+        options.uri.path.contains('gate-management')) {
       final token = await sharedPreferencesService
           .getFromDisk(sharedPreferencesService.accessTokenKey);
       if (token != null && token.isNotEmpty) {

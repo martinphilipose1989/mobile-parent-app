@@ -1,13 +1,20 @@
+import 'dart:typed_data';
+
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
+import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
 import 'package:app/feature/enquiries/enquiries_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
+import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
+import 'package:app/feature/gate_pass/visitor_details/qr_details.dart';
+import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
@@ -27,10 +34,9 @@ import 'package:app/feature/vas/kids_club/kids_club_page.dart';
 import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
 import 'package:app/feature/vas/transport/transport_page.dart';
+
 import '../feature/splash/splash_page.dart';
 import 'route_paths.dart';
-import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
-import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -258,6 +264,29 @@ class AppRouter {
         return CupertinoPageRoute(
           builder: (context) => TransportPage(
             enquiryDetailArgs: args.enquiryDetailArgs ?? EnquiryDetailArgs(),
+          ),
+        );
+
+      case RoutePaths.visitorDetailsPage:
+        return CupertinoPageRoute(
+            builder: (context) => VisitorDetailsPage(
+                params: settings.arguments as VisitorDetailsPageParams?),
+            settings: const RouteSettings(
+              name: RoutePaths.visitorDetailsPage,
+            ));
+
+      case RoutePaths.qrCodeDetailsPage:
+        final arguments = settings.arguments as Uint8List;
+        return CupertinoPageRoute(
+          settings: RouteSettings(
+              name: RoutePaths.qrCodeDetailsPage, arguments: arguments),
+          builder: (context) => QrDetailsPage(qrImageBytes: arguments),
+        );
+      case RoutePaths.createEditGatePassPage:
+        return CupertinoPageRoute(
+          builder: (context) => const CreateEditGatePassPage(),
+          settings: const RouteSettings(
+            name: RoutePaths.createEditGatePassPage,
           ),
         );
 

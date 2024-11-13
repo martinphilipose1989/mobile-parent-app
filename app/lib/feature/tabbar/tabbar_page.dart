@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';

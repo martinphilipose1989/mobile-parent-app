@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/marketing/get_brand_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -272,8 +271,8 @@ abstract class DomainModule {
 
   @lazySingleton
   RequestGatepassUsecase createGatePassUsecaseProvider(
-      GatepassRepository gatepassRepository) {
-    return RequestGatepassUsecase(gatepassRepository: gatepassRepository);
+      GatepassRepository gatePassRepository) {
+    return RequestGatepassUsecase(gatePassRepository: gatePassRepository);
   }
 
   @lazySingleton
@@ -381,6 +380,30 @@ abstract class DomainModule {
   MoveToNextStageUsecase moveToNextStageUsecase(
       EnquiryRepository enquiryRepository) {
     return MoveToNextStageUsecase(enquiryRepository: enquiryRepository);
+  }
+
+  @lazySingleton
+  UploadVisitorProfileUsecase uploadVisitorProfileUsecase(
+      GatepassRepository gatePassRepository) {
+    return UploadVisitorProfileUsecase(gatePassRepository: gatePassRepository);
+  }
+
+  @lazySingleton
+  GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase(
+      GatepassRepository gatePassRepository) {
+    return GetPurposeOfVisitListUsecase(gatePassRepository: gatePassRepository);
+  }
+
+  @lazySingleton
+  CreateGatepassUsecase createGatepassNUsecase(
+      GatepassRepository gatePassRepository) {
+    return CreateGatepassUsecase(gatePassRepository: gatePassRepository);
+  }
+
+  @lazySingleton
+  GetVisitorDetailsUseCase getVisitorDetailsUseCase(
+      GatepassRepository gatePassRepository) {
+    return GetVisitorDetailsUseCase(gatePassRepository: gatePassRepository);
   }
 
   @lazySingleton

@@ -68,8 +68,26 @@ class NetworkProperties {
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
+  static const String mdmModule =
+      "https://ampersand-r26sp3mibq-uc.a.run.app/api/co-reasons";
+
+  ////-----GATE PASS ----///
+  /// GATE PASS API BASE:
+  static const String BASE_GATE_PASS =
+      "https://gate-management-r26sp3mibq-uc.a.run.app/";
+
+  /// GATE PASS API ENDPOINTS:
+  static const String createVisitorGatePass =
+      "${BASE_GATE_PASS}gate-management/gatepass/create";
+  static const String uploadProfileImage =
+      "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
+
+  static const String getVisitorDetails =
+      "${BASE_GATE_PASS}gate-management/visitor/{mobile}/{studentId}";
+
   static const String requestGatePass =
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
+
   // key cloak
   static const String tokenIntroSpect =
       "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";

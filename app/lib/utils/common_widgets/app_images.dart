@@ -55,4 +55,18 @@ class AppImages {
       'assets/images/subject_selection.svg';
   static const String calendarIcon = 'assets/images/ic_calendar.svg';
   static const String userIcon = "assets/images/user_icon.svg";
+
+
+  // gate pass
+  static const String defaultAvatar = "assets/images/default_avatar.webp";
+  static const String camera = "assets/images/camera.svg";
+  static const String qrImage = "assets/images/qr_image.svg";
+  static const String noDataFound = "assets/images/empty_box.webp";
+  static const String backArrow = "assets/images/back_arrow.svg";
+  static const String defaultBus = "assets/images/default_bus.webp";
+  static const String playButton = "assets/images/play.svg";
+  static const String routeImage = "assets/images/route_path.webp";
+  static const String callIcon = "assets/images/call_icon.svg";
+  static const String searchIcon = "assets/images/search_icon.svg";
+  static const String filterIcon = "assets/images/filter.svg";
 }

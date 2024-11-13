@@ -1,18 +1,17 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/repository/gatepass/gatepass_repository.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class RequestGatepassUsecase extends BaseUseCase<NetworkError,
     RequestGatepassUsecaseParams, CreateQrcodeResponseModel> {
-  final GatepassRepository _gatepassRepository;
+  final GatepassRepository _gatePassRepository;
 
-  RequestGatepassUsecase({required GatepassRepository gatepassRepository})
-      : _gatepassRepository = gatepassRepository;
+  RequestGatepassUsecase({required GatepassRepository gatePassRepository})
+      : _gatePassRepository = gatePassRepository;
 
   @override
   Future<Either<NetworkError, CreateQrcodeResponseModel>> execute(
       {required RequestGatepassUsecaseParams params}) {
-    return _gatepassRepository.requestGatePass(requestBody: params.requestBody);
+    return _gatePassRepository.requestGatePass(requestBody: params.requestBody);
   }
 }
 

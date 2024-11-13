@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:data/data.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -20,13 +21,13 @@ import 'package:network_retrofit/src/model/request/finance/payment_order/student
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
-import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
-import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/util/safe_api_call.dart';
 
+import 'model/request/gatepass/create_gatepass_entity.dart';
 import 'model/request/move_next_stage_request.dart';
 import 'services/retrofit_service.dart';
 
@@ -1178,6 +1179,72 @@ class NetworkAdapter implements NetworkPort {
           currentStage: enquiryStage ?? "Enquiry"),
     ));
 
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
+      {required UploadVisitorProfileUsecaseParams params}) async {
+    var response = await safeApiCall(
+        apiService.uploadProfileImage(platform: platform, params.file));
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, CreateGatepassResponseModel>>
+      createVisitorGatePass({required CreateGatePassModel request}) async {
+    var response = await safeApiCall(
+      apiService.createVisitorGatePass(
+        platform: platform,
+        CreateGatePassRequestEntity(
+          name: request.name,
+          companyName: request.companyName,
+          comingFrom: request.comingFrom,
+          email: request.email,
+          guestCount: request.guestCount,
+          mobile: request.mobile,
+          otherPointOfContact: request.otherPointOfContact,
+          pointOfContact: request.pointOfContact,
+          profileImage: request.profileImage,
+          purposeOfVisitId: request.purposeOfVisitId,
+          visitorTypeId: request.visitorTypeId,
+          vehicleNumber: request.vehicleNumber,
+          issuedDate: request.issuedDate,
+          issuedTime: request.issuedTime,
+          studentName: request.studentName,
+          studentId: request.studentId,
+        ),
+      ),
+    );
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, MdmCoReasonResponseModel>>
+      getPurposeOfVisitList() async {
+    var response =
+        await safeApiCall(apiService.getPurposeOfVisitList(19, "name"));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
+      {required params}) async {
+    var response = await safeApiCall(apiService.getVisitorDetails(
+      params.mobile,
+      params.studentId,
+      platform: platform,
+    ));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

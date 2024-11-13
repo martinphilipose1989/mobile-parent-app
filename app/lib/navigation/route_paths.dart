@@ -35,4 +35,10 @@ class RoutePaths {
 
   // route to webview
   static const String webview = '/webview';
+
+  // gate managment
+  static const String visitorListPage = "/visitorListPage";
+  static const String createEditGatePassPage = "/createEditGatePassPage";
+  static const String visitorDetailsPage = "/visitorDetailsPage";
+  static const String qrCodeDetailsPage = "/qrCodeDetailsPage";
 }

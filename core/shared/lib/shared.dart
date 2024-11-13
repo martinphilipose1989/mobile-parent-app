@@ -130,8 +130,18 @@ export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_
 export 'src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response.dart';
 
 export 'src/model/request/gatepass/create_qrcode_request_model.dart';
+export 'src/model/request/gatepass/create_gatepass_model.dart';
 export 'src/model/response/gatepass/create_qrcode_response_model.dart';
+export 'src/model/response/gatepass/upload_response_model.dart';
+export 'src/model/response/gatepass/visitor_data_model.dart';
+export 'src/model/response/gatepass/create_gate_pass_data_response_model.dart';
+export 'src/model/response/gatepass/create_gatepass_response_model.dart';
+export 'src/model/response/gatepass/parent_gatepass_response_model.dart';
+export 'src/model/response/gatepass/mdm_coreason_response_model.dart';
+export 'src/model/response/gatepass/visitor_details_response_model.dart';
+
 export 'src/model/response/subject_listing/page_detail.dart';
+
 export 'src/model/response/subject_listing/subject.dart';
 export 'src/model/response/subject_listing/subject_list_detail.dart';
 export 'src/model/response/subject_listing/subject_list_response.dart';
