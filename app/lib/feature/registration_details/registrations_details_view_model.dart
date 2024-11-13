@@ -12,6 +12,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
@@ -3085,7 +3086,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ivtDetail = ivtDetail.restore(ivtDetailSubject!.value);
       updateIvtDetails(
           enquiryID: enquiryDetailArgs?.enquiryId ?? '', ivtDetail: ivtDetail);
-    } else if ((enquiryDetailArgs?.enquiryType ?? '') == "PSA") {
+    } else if ((enquiryDetailArgs?.enquiryType ?? '') == EnquiryTypeEnum.psa.type) {
       PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
       psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
       psaDetailSubject?.value.studentDetails?.firstName =

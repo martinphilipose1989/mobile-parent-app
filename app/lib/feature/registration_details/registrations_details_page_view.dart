@@ -25,6 +25,7 @@ import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
@@ -119,7 +120,8 @@ class RegistrationsDetailsPageView
                 model.getIvtDetails(
                     enquiryID: enquiryDetailArgs?.enquiryId ?? '',
                     isEdit: true);
-              } else if (enquiryDetailArgs?.enquiryType == "PSA") {
+              } else if (enquiryDetailArgs?.enquiryType ==
+                  EnquiryTypeEnum.psa.type) {
                 model.getIvtDetails(
                     enquiryID: enquiryDetailArgs?.enquiryId ?? '',
                     isEdit: true);
@@ -248,7 +250,7 @@ class RegistrationsDetailsPageView
                                       enquiryID:
                                           enquiryDetailArgs?.enquiryId ?? '');
                                 } else if (enquiryDetailArgs?.enquiryType ==
-                                    "PSA") {
+                                    EnquiryTypeEnum.psa.type) {
                                   model.getPsaDetails(
                                       enquiryID:
                                           enquiryDetailArgs?.enquiryId ?? '');
@@ -686,7 +688,7 @@ class RegistrationsDetailsPageView
                   );
               }
             });
-      case "PSA":
+      case "Enquiry - PSA":
         return AppStreamBuilder<Resource<PSADetail>>(
             stream: model.psaDetails,
             initialData: Resource.none(),

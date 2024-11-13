@@ -1,11 +1,14 @@
 class NetworkProperties {
   static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
+  // UAT
   // static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String financeBaseUrl =
       "https://finance-r26sp3mibq-uc.a.run.app";
   static const String marketingBaseURL =
       'https://marketing-r26sp3mibq-uc.a.run.app/';
-  // static const String marketingBaseURL = 'https://marketing-backend-ndxpitoqla-el.a.run.app/';
+  //UAT
+  // static const String marketingBaseURL =
+  //     'https://marketing-backend-ndxpitoqla-el.a.run.app/';
   static const String transportBaseURL =
       'https://transport-219111640528.us-central1.run.app/';
   static const String schoolBoard = '/api/ac-boards';
@@ -53,10 +56,15 @@ class NetworkProperties {
 
   static const String enrollmentDetail =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
-  // static const String enrollmentDetail = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
+  // UAT
+  // static const String enrollmentDetail =
+  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
+
   static const String subjetcList =
       'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
-  // static const String subjetcList = 'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
+  //UAT
+  // static const String subjetcList =
+  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
@@ -66,6 +74,9 @@ class NetworkProperties {
   static const String tokenIntroSpect =
       "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
 
-  static const String getBrandList =
-      "https://ampersand-r26sp3mibq-uc.a.run.app/api/ac-brands";
+  //UAT
+  // static const String tokenIntroSpect =
+  //     "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
+
+  static const String getBrandList = "$mdmBaseUrl/api/ac-brands";
 }

@@ -537,7 +537,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          if (enquiryDetailArgs?.enquiryType != 'Enquiry - PSA') {
+          if (enquiryDetailArgs?.enquiryType != EnquiryTypeEnum.psa.type) {
             bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
                     ?.any((stage) =>
                         stage.stageName == "Registration Fees" &&

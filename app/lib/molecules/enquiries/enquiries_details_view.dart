@@ -104,29 +104,23 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         _detailItem(
             title: "Parent First Name",
             subtitle: psaDetail?.enquirerParent == "Father"
-                ? newAdmissionDetail?.parentDetails?.fatherDetails?.firstName ??
-                    ""
-                : newAdmissionDetail?.parentDetails?.motherDetails?.firstName ??
-                    ""),
+                ? psaDetail?.parentDetails?.fatherDetails?.firstName ?? ""
+                : psaDetail?.parentDetails?.motherDetails?.firstName ?? ""),
         _detailItem(
             title: "Parent Last Name",
             subtitle: psaDetail?.enquirerParent == "Father"
-                ? newAdmissionDetail?.parentDetails?.fatherDetails?.lastName ??
-                    ""
-                : newAdmissionDetail?.parentDetails?.motherDetails?.lastName ??
-                    ""),
+                ? psaDetail?.parentDetails?.fatherDetails?.lastName ?? ""
+                : psaDetail?.parentDetails?.motherDetails?.lastName ?? ""),
         _detailItem(
             title: "Parent Email ID",
             subtitle: psaDetail?.enquirerParent == "Father"
-                ? newAdmissionDetail?.parentDetails?.fatherDetails?.email ?? ""
-                : newAdmissionDetail?.parentDetails?.motherDetails?.email ??
-                    ""),
+                ? psaDetail?.parentDetails?.fatherDetails?.email ?? ""
+                : psaDetail?.parentDetails?.motherDetails?.email ?? ""),
         _detailItem(
             title: "Parent Contact Number",
             subtitle: psaDetail?.enquirerParent == "Father"
-                ? newAdmissionDetail?.parentDetails?.fatherDetails?.mobile ?? ""
-                : newAdmissionDetail?.parentDetails?.motherDetails?.mobile ??
-                    ""),
+                ? psaDetail?.parentDetails?.fatherDetails?.mobile ?? ""
+                : psaDetail?.parentDetails?.motherDetails?.mobile ?? ""),
         const SizedBox(
           height: 100,
         )
@@ -346,5 +340,4 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
       ],
     );
   }
-
 }

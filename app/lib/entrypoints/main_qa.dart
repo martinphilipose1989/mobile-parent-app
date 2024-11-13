@@ -4,6 +4,7 @@ import 'package:app/flavors/flavor.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
+import 'package:network_retrofit/util/network_properties.dart';
 
 void main() async {
   FlavorConfig.initialize(
@@ -15,10 +16,10 @@ void main() async {
       mdmBaseUrl: EnvQA.mdmBaseUrl,
       mdmToken: EnvQA.mdmToken,
       authorizationEndpoint:
-          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+          "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/auth",
       tokenEndpoint:
-          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-      apiBaseUrl: "https://api.openweathermap.org/",
+          "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
+      apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsQA,
     ),
   );

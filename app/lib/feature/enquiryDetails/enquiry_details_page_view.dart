@@ -204,7 +204,7 @@ class EnquiriesDetailsPageView
                                         isEdit: model
                                             .editRegistrationDetails.value);
                                   } else if (enquiryDetailArgs.enquiryType ==
-                                      "Enquiry - PSA") {
+                                      EnquiryTypeEnum.psa.type) {
                                     model.getPsaDetails(
                                         enquiryID:
                                             enquiryDetailArgs.enquiryId ?? '',
@@ -325,16 +325,19 @@ class EnquiriesDetailsPageView
                                                           })
                                                       : (enquiryDetailArgs
                                                                   .enquiryType ==
-                                                              "Enquiry - PSA")
+                                                              EnquiryTypeEnum
+                                                                  .psa.type)
                                                           ? AppStreamBuilder<
                                                                   Resource<
                                                                       PsaResponse>>(
                                                               stream: model
                                                                   .psaDetail,
-                                                              initialData: Resource
-                                                                  .none(),
-                                                              dataBuilder: (context,
-                                                                  snapshot) {
+                                                              initialData:
+                                                                  Resource
+                                                                      .none(),
+                                                              dataBuilder:
+                                                                  (context,
+                                                                      snapshot) {
                                                                 if (snapshot
                                                                         ?.status ==
                                                                     Status
@@ -367,12 +370,9 @@ class EnquiriesDetailsPageView
                                                                 }
                                                               })
                                                           : AppStreamBuilder<
-                                                                  Resource<
-                                                                      IVTBase>>(
-                                                              stream: model
-                                                                  .ivtDetail,
-                                                              initialData:
-                                                                  Resource.none(),
+                                                                  Resource<IVTBase>>(
+                                                              stream: model.ivtDetail,
+                                                              initialData: Resource.none(),
                                                               dataBuilder: (context, snapshot) {
                                                                 if (snapshot
                                                                         ?.status ==

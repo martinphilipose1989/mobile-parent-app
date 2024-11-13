@@ -186,7 +186,7 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             isEdit: widget.routeFrom == "enquiry"
                 ? true
                 : model.editRegistrationDetails.value);
-      } else if (widget.enquiryDetailArgs?.enquiryType == "PSA") {
+      } else if (widget.enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type) {
         model.getPsaDetails(
             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
             isEdit: widget.routeFrom == "enquiry"

@@ -3,6 +3,7 @@ import 'package:app/flavors/flavor.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
+import 'package:network_retrofit/util/network_properties.dart';
 
 void main() async {
   FlavorConfig.initialize(
@@ -17,7 +18,7 @@ void main() async {
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
       tokenEndpoint:
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-      apiBaseUrl: "https://api.openweathermap.org/",
+        apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsProd,
     ),
   );
