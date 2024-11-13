@@ -17,13 +17,16 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GetAllBusStopsUsecase getAllBusStopsUsecase;
-  final FetchStopLogsUsecase fetchStopLogsUsecase;
+  final GetStudentAttendanceUseCase getStudentAttendanceUseCase;
+ // final FetchStopLogsUsecase fetchStopLogsUsecase;
 
   BusRouteListPageViewModel(
       {required this.exceptionHandlerBinder,
-      required this.flutterToastErrorPresenter,
+       required this.getStudentAttendanceUseCase,
+        required this.flutterToastErrorPresenter,
       required this.getAllBusStopsUsecase,
-      required this.fetchStopLogsUsecase});
+     // required this.fetchStopLogsUsecase
+      });
   TripResult? trip;
   late Timer timer;
 
@@ -35,6 +38,12 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   final fetchBusStopLogsSubject =
       BehaviorSubject<Resource<List<FetchStopLogsData>>>.seeded(
           Resource.none());
+
+final studentAttendanceSubject=      BehaviorSubject<Resource<GetStudentAttendance>>.seeded(
+    Resource.none());
+
+  Stream<Resource<GetStudentAttendance>> get studentAttendanceStream =>
+      studentAttendanceSubject.stream;
 
   final hasMorePagesSubject = BehaviorSubject<bool>.seeded(true);
 
@@ -50,9 +59,9 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     if (_pageSubject.value == 1) {
       _busStopsListSubject.add(Resource.loading(data: null));
     }
-
+print("trip_id====="+ "${trip?.id}");
     final GetAllBusStopsParams params = GetAllBusStopsParams(
-        routeId: trip?.id ?? '', dayId: DateTime.now().weekday, app: 'app');
+        routeId: trip?.id?? '', dayId: DateTime.now().weekday, app: 'app');
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
@@ -60,8 +69,9 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       params: params,
       createCall: (params) => getAllBusStopsUsecase.execute(params: params),
       onSuccess: (result) {
+        _busStopsListSubject.add(Resource.success(data: result?.data?.routeStopMapping));
         _loadingSubject.add(false);
-        fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
+        // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
         _busStopsListSubject.add(Resource.error(data: null, error: error));
@@ -69,46 +79,68 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       },
     );
   }
+void getStudentAttendance()async{
+  _loadingSubject.add(true);
+    GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams=GetStudentAttendanceUsecaseParams(studentId: 10);
+  ApiResponseHandler.apiCallHandler(
+    exceptionHandlerBinder: exceptionHandlerBinder,
+    flutterToastErrorPresenter: flutterToastErrorPresenter,
+    params: getStudentAttendanceUsecaseParams,
+    createCall: (params) => getStudentAttendanceUseCase.execute(params: params),
+    onSuccess: (result) {
+      studentAttendanceSubject.add(Resource.success(data: result));
+      _loadingSubject.add(false);
+      // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
+    },
+    onError: (error) {
+      _busStopsListSubject.add(Resource.error(data: null, error: error));
+      _loadingSubject.add(false);
+    },
+  );
 
+
+
+
+}
   Position? _busPosition;
   void getUserLoacation() async {
     PermissionHandlerService permission = PermissionHandlerService();
     _busPosition = await permission.getUserLocation();
   }
 
-  void fetchBusStopLogs(List<RouteStopMappingModel> a) {
-    final FetchStopLogsParams params = FetchStopLogsParams(
-      routeId: int.parse(trip?.id ?? ''),
-    );
-
-    ApiResponseHandler.apiCallHandler(
-      exceptionHandlerBinder: exceptionHandlerBinder,
-      flutterToastErrorPresenter: flutterToastErrorPresenter,
-      params: params,
-      createCall: (params) => fetchStopLogsUsecase.execute(params: params),
-      onSuccess: (results) {
-        for (var value in a) {
-          for (var result in results!.data!) {
-            if (value.stop?.id == result.stopId) {
-              if (result.stopStatus == 'At Stop') {
-                if (!value.stopComplete) {
-                  value.stopComplete = true;
-                }
-              }
-            }
-          }
-        }
-
-        updatRoute(a);
-
-        fetchBusStopLogsSubject
-            .add(Resource.success(data: results?.data ?? []));
-      },
-      onError: (error) {
-        fetchBusStopLogsSubject.add(Resource.error(data: null, error: error));
-      },
-    );
-  }
+  // void fetchBusStopLogs(List<RouteStopMappingModel> a) {
+  //   final FetchStopLogsParams params = FetchStopLogsParams(
+  //     routeId: int.parse(trip?.id ?? ''),
+  //   );
+  //
+  //   ApiResponseHandler.apiCallHandler(
+  //     exceptionHandlerBinder: exceptionHandlerBinder,
+  //     flutterToastErrorPresenter: flutterToastErrorPresenter,
+  //     params: params,
+  //     createCall: (params) => fetchStopLogsUsecase.execute(params: params),
+  //     onSuccess: (results) {
+  //       for (var value in a) {
+  //         for (var result in results!.data!) {
+  //           if (value.stop?.id == result.stopId) {
+  //             if (result.stopStatus == 'At Stop') {
+  //               if (!value.stopComplete) {
+  //                 value.stopComplete = true;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //
+  //       updatRoute(a);
+  //
+  //       fetchBusStopLogsSubject
+  //           .add(Resource.success(data: results?.data ?? []));
+  //     },
+  //     onError: (error) {
+  //       fetchBusStopLogsSubject.add(Resource.error(data: null, error: error));
+  //     },
+  //   );
+  // }
 
   int updatedRouteIndex = 0;
 

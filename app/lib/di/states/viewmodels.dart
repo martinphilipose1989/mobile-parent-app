@@ -394,8 +394,9 @@ ChangeNotifierProvider.autoDispose<BusRouteListPageViewModel>(
       (ref) => BusRouteListPageViewModel(
       flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
       exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-      getAllBusStopsUsecase: getIt.get<GetAllBusStopsUsecase>(),
-      fetchStopLogsUsecase: getIt.get<FetchStopLogsUsecase>()),
+      getAllBusStopsUsecase: getIt.get<GetAllBusStopsUsecase>(), getStudentAttendanceUseCase: getIt.get<GetStudentAttendanceUseCase>(),
+      //fetchStopLogsUsecase: getIt.get<FetchStopLogsUsecase>()
+        ),
 );
 
 final myDutyPageViewModelProvider =

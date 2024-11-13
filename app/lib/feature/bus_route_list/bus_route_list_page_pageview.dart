@@ -1,5 +1,6 @@
 
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/tansport/student_details_row_widget.dart';
 
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -258,9 +259,17 @@ class BusRouteListPageView
                                           }));
                                 });
                           }));
-                }))
+                })),
 
-
+AppStreamBuilder<Resource<GetStudentAttendance>>(
+  dataBuilder: (context,snapshot) {
+    if(snapshot?.data?.data?.attendanceList?.isEmpty==true){
+      return SizedBox.shrink();
+    }
+else
+    return StudentDetailsRowWidget(name: snapshot?.data?.data?.firstName??"khevna", desc: "regular", status: snapshot?.data?.data?.attendanceList?.first.attendanceRemark??"present", lname: snapshot?.data?.data?.lastName??"", image: '', id: snapshot?.data?.data?.attendanceList?.first.id,);
+  }, stream: model.studentAttendanceStream, initialData: Resource.none(),
+)
       ],
     );
   }

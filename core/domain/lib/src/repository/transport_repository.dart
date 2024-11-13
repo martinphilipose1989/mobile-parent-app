@@ -14,8 +14,8 @@ abstract class TransportRepository {
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
       {required String routeId, required int dayId, required String app});
 
-  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
-      {required int routeId, required int stopId});
+  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+  //     {required int routeId, required int stopId});
 
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params});
 }

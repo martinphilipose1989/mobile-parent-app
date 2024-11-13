@@ -56,9 +56,12 @@ abstract class TransportService {
 
   @GET(_getStudentattendance)
   Future<HttpResponse<StudentAttendanceResponseEntity>> getStudentAttendance({
-    @Query("route_id") required int studentId,
+    @Path("studentId") required int studentId,
     @Query("platform") required String platform,
   });
+  // @GET(_fetchStopsLogs)
+  // Future<HttpResponse<FetchStopLogsEntity>> fetchStopLogs(
+  //     {@Query("route_id") required int routeId, required int stopId});
 
 // @GET(_getBearerList)
 // Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(

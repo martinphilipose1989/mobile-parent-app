@@ -260,13 +260,12 @@ class AppRouter {
                       args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
                 ));
       case RoutePaths.busRouteListPage:
+  var args = settings.arguments as TripResultArgs?;
         return CupertinoPageRoute(
             settings: const RouteSettings(name: RoutePaths.busRouteListPage),
-            builder: (context) => BusRouteListPage(
-              dropStarted: settings.arguments == null
-                  ? false
-                  : settings.arguments as bool,
-            ));
+            builder: (context) => BusRouteListPage(tripArgs: args)
+     
+            );
       case RoutePaths.myDutyPage:
         return CupertinoPageRoute(
           builder: (context) => const MyDutyPage(),

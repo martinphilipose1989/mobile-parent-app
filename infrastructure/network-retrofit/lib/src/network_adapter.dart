@@ -1249,4 +1249,14 @@ class NetworkAdapter implements NetworkPort {
     return response.fold(
             (error) => Left(error), (data) => Right(data.data.transform()));
   }
+
+  // @override
+  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required int stopId}) async{
+  //   final response = await safeApiCall(
+  //     transportService.fetchStopLogs(routeId: routeId, stopId: stopId),
+  //   );
+  //
+  //   return response.fold(
+  //           (error) => Left(error), (data) => Right(data.data.transform()));
+  // }
 }
