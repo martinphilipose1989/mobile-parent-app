@@ -496,17 +496,34 @@ class TimelineTile extends StatelessWidget {
                                             ),
                                           ),
                                           Container(
-                                            decoration: BoxDecoration(
+                                            constraints: BoxConstraints(
+                                              minWidth:
+                                              MediaQuery.sizeOf(context)
+                                                  .width *
+                                                  0.0,
+                                              maxWidth:
+                                              MediaQuery.sizeOf(context)
+                                                  .width *
+                                                  0.5,
+                                            ),
+                                            decoration: const BoxDecoration(
                                               color: AppColors.primaryLighter,
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8)),
                                             ),
                                             margin: EdgeInsets.zero,
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 6, horizontal: 10),
                                             child: CommonText(
-                                                text:
-                                                    "Currently at $stopName \n(Updated 1 mins ago)"),
+                                              text:
+                                              "Currently at $stopName \n(Updated 1 mins ago)",
+                                              maxLines: 3,
+                                              style: AppTypography.smallCaption
+                                                  .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurfaceVariant),
+                                            ),
                                           ),
                                         ],
                                       ),
