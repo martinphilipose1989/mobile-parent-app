@@ -7,6 +7,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -55,14 +56,18 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       admissionJourney.add(Resource.loading());
       RequestManager<AdmissionJourneyBase>(
         params,
-        createCall: () => getAdmissionJourneyUsecase.execute(
-          params: params,
-        ),
+        createCall: () => getAdmissionJourneyUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
           // Check if "registration" stage is completed and update "Book Test" status accordingly
+          if(enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type){
+
+          }
+          else{
+            
+          }
           final currentStepForJourney = result.data?.data
                   ?.firstWhere(
                       (e) =>
@@ -78,10 +83,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
                 .indexWhere((e) => e['name'].toLowerCase() == "book test");
             if (index != -1) {
               menuData[index]['isActive'] = true;
-            }
-            else{
-              
-            }
+            } else {}
           }
         }
         if (result.status == Status.error) {
