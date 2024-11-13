@@ -37,6 +37,10 @@ class BusRouteListPageView
                 model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
                 startTime: model.trip?.shiftName ?? '',
                 totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
+        Row(children: [
+          CommonText(text: "Track Bus",style: AppTypography.subtitle1,),
+SvgPicture.asset(AppImages.trackBus)
+        ],),
         Expanded(
             child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
                 stream: model.busStopsListStream,
@@ -183,14 +187,14 @@ class BusRouteListPageView
   }
 
   Widget _studentDetailsBottomWidget(BusRouteListPageViewModel model) {
-    return InkWell(
-      onTap: (){
-        Navigator.pushNamed(
-          navigatorKey.currentContext!,
-          RoutePaths.studentProfilePage,
-          arguments: 10,
-        );
-      }, child: Container(width: 50, height: 50, color: Colors.red,),);
+  //   return InkWell(
+  //     onTap: (){
+  //       Navigator.pushNamed(
+  //         navigatorKey.currentContext!,
+  //         RoutePaths.studentProfilePage,
+  //         arguments: 10,
+  //       );
+  //     }, child: Container(width: 50, height: 50, color: Colors.red,),);
 
     return AppStreamBuilder<Resource<GetStudentAttendance>>(
         stream: model.studentAttendanceStream,
@@ -202,7 +206,7 @@ class BusRouteListPageView
 
           var data = snapshot?.data?.data;
           var studentId = snapshot?.data?.data?.studentId;
-          var attendanceListItem = attendanceList?.first;
+          var attendanceListItem = attendanceList.first;
 
           return StudentDetailsRowWidget(
               name: data?.firstName ?? "firstName",

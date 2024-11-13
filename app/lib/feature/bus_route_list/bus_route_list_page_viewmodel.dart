@@ -97,7 +97,9 @@ class BusRouteListPageViewModel extends BasePageViewModel {
           getStudentAttendanceUseCase.execute(params: params),
       onSuccess: (result) {
         studentAttendanceSubject.add(Resource.success(data: result));
+        print("======studentName"+ "${result?.data?.firstName}");
         _loadingSubject.add(false);
+        print( studentAttendanceSubject.value.data?.data?.firstName);
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {

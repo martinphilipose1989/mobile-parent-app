@@ -34,6 +34,7 @@ class AppImages {
   static const String cube = 'assets/images/3dcube.svg';
   static const String studentIcon = 'assets/images/Vector 2.svg';
   static const String eyeIcon = 'assets/images/eye.svg';
+  static const String trackBus = 'assets/images/trackbus.svg';
   static const String downloadIcon = 'assets/images/download.svg';
   static const String sbiBankIcon = 'assets/images/image 2.png';
   static const String otpCenterImage =
