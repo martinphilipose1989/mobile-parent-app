@@ -36,10 +36,7 @@ class BusRouteListPageView
                     model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
                 startTime: model.trip?.shiftName ?? '',
                 totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
-        Row(children: [
-          CommonText(text: "Track Bus",style: AppTypography.subtitle1,),
-SvgPicture.asset(AppImages.trackBus)
-        ],),
+
         Expanded(
             child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
                 stream: model.busStopsListStream,
