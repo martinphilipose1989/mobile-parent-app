@@ -10,12 +10,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VASDetails extends StatelessWidget {
+  
   const VASDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
     final model =
         ProviderScope.containerOf(context).read(registrationsDetailsProvider);
+    //model.enquiryDetailArgs?.enquiryType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,34 +30,34 @@ class VASDetails extends StatelessWidget {
           child: const Divider(color: AppColors.dividerColor),
         ),
         VasQuestions(
-            question: "Would You Like To Opt For Transportation?",
-            commonRadioButton: model.radioButtonTransport,
-            vasOption: "Transport",
-            model: model,
+          question: "Would You Like To Opt For Transportation?",
+          commonRadioButton: model.radioButtonTransport,
+          vasOption: "Transport",
+          model: model,
         ),
         VasQuestions(
-            question: "Would You Like To Opt For Cafeteria?",
-            commonRadioButton: model.radioButtonCafeteria,
-            vasOption: "Cafeteria",
-            model: model,
+          question: "Would You Like To Opt For Cafeteria?",
+          commonRadioButton: model.radioButtonCafeteria,
+          vasOption: "Cafeteria",
+          model: model,
         ),
         VasQuestions(
-            question: "Would You Like To Opt For PSA(Post School Activities)?",
-            commonRadioButton: model.radioButtonPsa,
-            vasOption: "Psa",
-            model: model,
+          question: "Would You Like To Opt For PSA(Post School Activities)?",
+          commonRadioButton: model.radioButtonPsa,
+          vasOption: "Psa",
+          model: model,
         ),
         VasQuestions(
-            question: "Would You Like To Opt For Summer Camp?",
-            commonRadioButton: model.radioButtonHostel,
-            vasOption: "SummerCamp",
-            model: model,
+          question: "Would You Like To Opt For Summer Camp?",
+          commonRadioButton: model.radioButtonHostel,
+          vasOption: "SummerCamp",
+          model: model,
         ),
         VasQuestions(
-            question: "Would You Like To Opt For Kids Club?",
-            commonRadioButton: model.radioButtonKidsClub,
-            vasOption: "KidsClub",
-            model: model,
+          question: "Would You Like To Opt For Kids Club?",
+          commonRadioButton: model.radioButtonKidsClub,
+          vasOption: "KidsClub",
+          model: model,
         )
       ],
     );
@@ -64,7 +66,11 @@ class VASDetails extends StatelessWidget {
 
 class VasQuestions extends StatelessWidget {
   const VasQuestions(
-      {super.key, required this.question, required this.commonRadioButton,required this.vasOption,required this.model});
+      {super.key,
+      required this.question,
+      required this.commonRadioButton,
+      required this.vasOption,
+      required this.model});
 
   final String question;
   final CommonRadioButton<String> commonRadioButton;
@@ -84,64 +90,64 @@ class VasQuestions extends StatelessWidget {
           children: [
             Flexible(
               child: CommonRadioButtonWidget(
-                  commonRadioButton: commonRadioButton,
-                  isTogglableWithValue: true,
-                  value: "Yes",
-                  title: "Yes",
-                  onOptionSelected: (value){
-                    var data;
-                    if(vasOption == "Cafeteria"){
-                      Navigator.pushNamed(context, RoutePaths.cafeteriaDetailPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
-                        (value){
-                          data = value;
-                          if(data == null){
-                            commonRadioButton.selectItem("");
-                          }
-                        }
-                      );
-
-                    }
-                    else if(vasOption == 'Psa'){
-                      Navigator.pushNamed(context, RoutePaths.psaDetailPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
-                        (value){
-                          data = value;
-                          if(data == null){
-                            commonRadioButton.selectItem("");
-                          }
-                        }
-                      );
-                    }
-                    else if(vasOption == 'KidsClub'){
-                      Navigator.pushNamed(context, RoutePaths.kidsClubPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
-                        (value){
-                          data = value;
-                          if(data == null){
-                            commonRadioButton.selectItem("");
-                          }
-                        }
-                      );
-                    }
-                    else if(vasOption == "Transport"){
-                      Navigator.pushNamed(context, RoutePaths.transportPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
-                        (value){
-                          data = value;
-                          if(data == null){
-                            commonRadioButton.selectItem("");
-                          }
-                        }
-                      );
-                    }
-                    else{
-                      Navigator.pushNamed(context, RoutePaths.summerCampPage,arguments: {"enquiryDetailArgs": model.enquiryDetailArgs}).then(
-                        (value){
-                          data = value;
-                          if(data == null){
-                            commonRadioButton.selectItem("");
-                          }
-                        }
-                      );
-                    }
-                  },
+                commonRadioButton: commonRadioButton,
+                isTogglableWithValue: true,
+                value: "Yes",
+                title: "Yes",
+                onOptionSelected: (value) {
+                  var data;
+                  if (vasOption == "Cafeteria") {
+                    Navigator.pushNamed(context, RoutePaths.cafeteriaDetailPage,
+                        arguments: {
+                          "enquiryDetailArgs": model.enquiryDetailArgs
+                        }).then((value) {
+                      data = value;
+                      if (data == null) {
+                        commonRadioButton.selectItem("");
+                      }
+                    });
+                  } else if (vasOption == 'Psa') {
+                    Navigator.pushNamed(context, RoutePaths.psaDetailPage,
+                        arguments: {
+                          "enquiryDetailArgs": model.enquiryDetailArgs
+                        }).then((value) {
+                      data = value;
+                      if (data == null) {
+                        commonRadioButton.selectItem("");
+                      }
+                    });
+                  } else if (vasOption == 'KidsClub') {
+                    Navigator.pushNamed(context, RoutePaths.kidsClubPage,
+                        arguments: {
+                          "enquiryDetailArgs": model.enquiryDetailArgs
+                        }).then((value) {
+                      data = value;
+                      if (data == null) {
+                        commonRadioButton.selectItem("");
+                      }
+                    });
+                  } else if (vasOption == "Transport") {
+                    Navigator.pushNamed(context, RoutePaths.transportPage,
+                        arguments: {
+                          "enquiryDetailArgs": model.enquiryDetailArgs
+                        }).then((value) {
+                      data = value;
+                      if (data == null) {
+                        commonRadioButton.selectItem("");
+                      }
+                    });
+                  } else {
+                    Navigator.pushNamed(context, RoutePaths.summerCampPage,
+                        arguments: {
+                          "enquiryDetailArgs": model.enquiryDetailArgs
+                        }).then((value) {
+                      data = value;
+                      if (data == null) {
+                        commonRadioButton.selectItem("");
+                      }
+                    });
+                  }
+                },
               ),
             ),
             Flexible(
@@ -151,20 +157,21 @@ class VasQuestions extends StatelessWidget {
                 value: "No",
                 title: "No",
                 onOptionSelected: (selectedValue) {
-                  if(vasOption == "Cafeteria"){
-                    model.removeVasDetail(model.enquiryDetailArgs?.enquiryId??'', vasOption);
-                  }
-                  else if(vasOption == 'Psa'){
-                    model.removeVasDetail(model.enquiryDetailArgs?.enquiryId??'', vasOption);
-                  }
-                  else if(vasOption == 'KidsClub'){
-                    model.removeVasDetail(model.enquiryDetailArgs?.enquiryId??'', vasOption);
-                  }
-                  else if(vasOption == "Transport"){
-                    model.removeVasDetail(model.enquiryDetailArgs?.enquiryId??'', vasOption);
-                  }
-                  else{
-                    model.removeVasDetail(model.enquiryDetailArgs?.enquiryId??'', vasOption);
+                  if (vasOption == "Cafeteria") {
+                    model.removeVasDetail(
+                        model.enquiryDetailArgs?.enquiryId ?? '', vasOption);
+                  } else if (vasOption == 'Psa') {
+                    model.removeVasDetail(
+                        model.enquiryDetailArgs?.enquiryId ?? '', vasOption);
+                  } else if (vasOption == 'KidsClub') {
+                    model.removeVasDetail(
+                        model.enquiryDetailArgs?.enquiryId ?? '', vasOption);
+                  } else if (vasOption == "Transport") {
+                    model.removeVasDetail(
+                        model.enquiryDetailArgs?.enquiryId ?? '', vasOption);
+                  } else {
+                    model.removeVasDetail(
+                        model.enquiryDetailArgs?.enquiryId ?? '', vasOption);
                   }
                 },
               ),

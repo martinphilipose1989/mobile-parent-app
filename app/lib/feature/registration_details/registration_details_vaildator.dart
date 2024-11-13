@@ -1,5 +1,6 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_validators.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -116,7 +117,7 @@ class RegistrationDetailsValidator {
 
     // PSA-specific validations
     if (errorMessage.isEmpty &&
-        (model.enquiryDetailArgs?.enquiryType ?? '') == "PSA") {
+        (model.enquiryDetailArgs?.enquiryType ?? '') == EnquiryTypeEnum.psa.type) {
       final psaDropdowns = [
         {'field': 'PSA Sub Type', 'value': model.psaSubTypeSubject.value},
         {'field': 'PSA Category', 'value': model.psaCategorySubject.value},
@@ -525,13 +526,14 @@ class RegistrationDetailsValidator {
         String? validationResult;
         if (field['field'].toString().contains('Email')) {
           validationResult = AppValidators.validateEmail(
-            field['controller']!.text.trim(),
-          );
+              field['controller']!.text.trim(),
+              labelName: "Selected Parent Preference email cannot be empty");
         }
         if (field['field'].toString().contains('Mobile')) {
           validationResult = AppValidators.validateMobile(
-            field['controller']!.text.trim(),
-          );
+              field['controller']!.text.trim(),
+              labelName:
+                  'Selected Parent Preference  mobile number  cannot be empty');
         }
         if (validationResult != null) {
           errorMessage = validationResult;

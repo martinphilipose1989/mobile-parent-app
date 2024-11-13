@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
@@ -6,12 +8,14 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -42,7 +46,7 @@ class EnquiriesDetailsPageState
   PreferredSizeWidget? buildAppbar(EnquiriesDetailsPageModel model) {
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Enquiries Details',
+      appbarTitle: 'Enquiry Details',
       showBackButton: true,
     );
   }
@@ -130,7 +134,7 @@ class EnquiriesDetailsPageState
                                           model.editRegistrationDetails.value);
                                 } else if (widget
                                         .enquiryDetailArgs.enquiryType ==
-                                    "PSA") {
+                                    EnquiryTypeEnum.psa.type) {
                                   model.getPsaDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??
@@ -210,7 +214,7 @@ class EnquiriesDetailsPageState
                                       ivtDetail: ivtDetail);
                                 } else if (widget
                                         .enquiryDetailArgs.enquiryType ==
-                                    "PSA") {
+                                    EnquiryTypeEnum.psa.type) {
                                   PsaDetailResponseEntity psaDetail =
                                       PsaDetailResponseEntity();
                                   model.psaDetails?.value.schoolLocation =
@@ -252,6 +256,7 @@ class EnquiriesDetailsPageState
                                       model.selectedPeriodOfServiceEntity;
                                   psaDetail = psaDetail
                                       .restore(model.psaDetails!.value);
+
                                   model.updatePsaDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??
@@ -260,6 +265,8 @@ class EnquiriesDetailsPageState
                                 } else {
                                   NewAdmissionDetailEntity newAdmissionDetail =
                                       NewAdmissionDetailEntity();
+                                  model.newAdmissionDetails?.value.brand =
+                                      model.selectedBrandEntity;
                                   model.newAdmissionDetails?.value
                                           .schoolLocation =
                                       model.selectedSchoolLocationEntity!;
@@ -295,6 +302,7 @@ class EnquiriesDetailsPageState
                                   model.newAdmissionDetails?.value
                                           .existingSchoolDetails?.board =
                                       model.selectedExistingSchoolBoardEntity!;
+
                                   if (model.newAdmissionDetails?.value
                                           .enquirerParent ==
                                       "Father") {
@@ -387,7 +395,12 @@ class EnquiriesDetailsPageState
                             },
                             text: model.selectedValue.value == 0
                                 ? 'Next'
-                                : "Submit",
+                                : widget.enquiryDetailArgs.enquiryType ==
+                                            EnquiryTypeEnum.psa.type ||
+                                        widget.enquiryDetailArgs.enquiryType ==
+                                            EnquiryTypeEnum.kidsClub.type
+                                    ? "Move to admission"
+                                    : "Submit",
                             backgroundColor: AppColors.accent,
                             width: 171.w,
                             height: 40.h,

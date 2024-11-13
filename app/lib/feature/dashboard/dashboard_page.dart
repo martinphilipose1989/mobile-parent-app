@@ -19,16 +19,26 @@ class DashboardPage extends BasePage<DashboardPageModel> {
 class DashboardPageState
     extends AppBasePageState<DashboardPageModel, DashboardPage>
     with TickerProviderStateMixin {
+  late final DashboardPageModel dashboardViewModel;
+
   @override
   ProviderBase<DashboardPageModel> provideBase() {
     return dashboardViewModelProvider;
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Access the provider safely in initState or didChangeDependencies
+    dashboardViewModel = ProviderScope.containerOf(context, listen: false)
+        .read(dashboardViewModelProvider)
+      ..getUserRoleBaseDetails();
+  }
+
+  @override
   void onModelReady(DashboardPageModel model) async {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.getUserRoleBaseDetails();
   }
 
   @override

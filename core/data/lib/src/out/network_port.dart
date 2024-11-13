@@ -238,9 +238,6 @@ abstract class NetworkPort {
   Future<Either<NetworkError, UserRolePermissionResponse>>
       getUserRolePermissions({required UserRolePermissionRequest request});
 
-  Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId});
-
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
       {required UploadVisitorProfileUsecaseParams params});
 
@@ -252,4 +249,9 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
       {required GetVisitorDetailsUseCaseParams params});
+
+  Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
+      moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
+
+  Future<Either<NetworkError, BrandResponse>> getBrandList();
 }

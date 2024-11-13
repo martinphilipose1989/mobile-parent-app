@@ -14,6 +14,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
@@ -31,11 +32,12 @@ class EnquiriesDetailsPageView
     switch (index) {
       case 0:
         model.showMenuOnFloatingButton.add(false);
-        return Navigator.of(context).pushNamed(RoutePaths.registrationDetails,
-            arguments: {
-              "routeFrom": "enquiry",
-              "enquiryDetailArgs": enquiryDetailArgs
-            });
+        return Navigator.of(context)
+            .pushNamed(RoutePaths.registrationDetails, arguments: {
+          "routeFrom": "enquiry",
+          "enquiryDetailArgs": enquiryDetailArgs,
+          "enquiryDetail": model.enquiryDetail.value
+        });
       case 1:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
@@ -62,7 +64,8 @@ class EnquiriesDetailsPageView
             if (enquiryDetailArgs.enquiryType == "IVT") {
               model.getIvtDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
-            } else if (enquiryDetailArgs.enquiryType == "PSA") {
+            } else if (enquiryDetailArgs.enquiryType ==
+                EnquiryTypeEnum.psa.type) {
               model.getPsaDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
             } else {
@@ -201,7 +204,7 @@ class EnquiriesDetailsPageView
                                         isEdit: model
                                             .editRegistrationDetails.value);
                                   } else if (enquiryDetailArgs.enquiryType ==
-                                      "PSA") {
+                                      EnquiryTypeEnum.psa.type) {
                                     model.getPsaDetails(
                                         enquiryID:
                                             enquiryDetailArgs.enquiryId ?? '',
@@ -322,16 +325,19 @@ class EnquiriesDetailsPageView
                                                           })
                                                       : (enquiryDetailArgs
                                                                   .enquiryType ==
-                                                              "PSA")
+                                                              EnquiryTypeEnum
+                                                                  .psa.type)
                                                           ? AppStreamBuilder<
                                                                   Resource<
                                                                       PsaResponse>>(
                                                               stream: model
                                                                   .psaDetail,
-                                                              initialData: Resource
-                                                                  .none(),
-                                                              dataBuilder: (context,
-                                                                  snapshot) {
+                                                              initialData:
+                                                                  Resource
+                                                                      .none(),
+                                                              dataBuilder:
+                                                                  (context,
+                                                                      snapshot) {
                                                                 if (snapshot
                                                                         ?.status ==
                                                                     Status
@@ -364,12 +370,9 @@ class EnquiriesDetailsPageView
                                                                 }
                                                               })
                                                           : AppStreamBuilder<
-                                                                  Resource<
-                                                                      IVTBase>>(
-                                                              stream: model
-                                                                  .ivtDetail,
-                                                              initialData:
-                                                                  Resource.none(),
+                                                                  Resource<IVTBase>>(
+                                                              stream: model.ivtDetail,
+                                                              initialData: Resource.none(),
                                                               dataBuilder: (context, snapshot) {
                                                                 if (snapshot
                                                                         ?.status ==
@@ -429,7 +432,7 @@ class EnquiriesDetailsPageView
                                                           );
                                                         }
                                                       })
-                                                  : (enquiryDetailArgs.enquiryType == "PSA")
+                                                  : (enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type)
                                                       ? AppStreamBuilder<Resource<PsaResponse>>(
                                                           stream: model.psaDetail,
                                                           initialData: Resource.none(),

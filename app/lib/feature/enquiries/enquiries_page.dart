@@ -14,7 +14,8 @@ class EnquiriesPage extends BasePage<EnquiriesPageModel> {
   EnquiriesPageState createState() => EnquiriesPageState();
 }
 
-class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesPage>
+class EnquiriesPageState
+    extends AppBasePageState<EnquiriesPageModel, EnquiriesPage>
     with TickerProviderStateMixin {
   @override
   ProviderBase<EnquiriesPageModel> provideBase() {
@@ -24,10 +25,7 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
   @override
   void onModelReady(EnquiriesPageModel model) {
     model.controller = TabController(length: 2, vsync: this);
-    model.exceptionHandlerBinder.bind(
-      context,
-      super.stateObserver,
-    );
+    model.exceptionHandlerBinder.bind(context, super.stateObserver);
   }
 
   @override
@@ -41,7 +39,7 @@ class EnquiriesPageState extends AppBasePageState<EnquiriesPageModel, EnquiriesP
 
   @override
   Widget buildView(BuildContext context, EnquiriesPageModel model) {
-    return EnquiriesPageView(provideBase(),);
+    return EnquiriesPageView(provideBase());
   }
 
   @override

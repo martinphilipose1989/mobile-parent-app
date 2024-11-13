@@ -1,8 +1,8 @@
 import 'package:app/feature/enquiries/enquiries_page_model.dart';
 import 'package:app/molecules/enquiries/closed_enquirires_list.dart';
 import 'package:app/molecules/enquiries/open_enquiries_list.dart';
-import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
+
+import 'package:app/utils/common_widgets/toggle_button.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,60 +44,14 @@ class EnquiriesPageView extends BasePageViewWidget<EnquiriesPageModel> {
                 ),
                 tabs: [
                   Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: model.selectedTab.value == 0
-                              ? Theme.of(context).colorScheme.primary
-                              : AppColors.textNeutral35,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                        color: model.selectedTab.value == 0
-                            ? Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.2)
-                            : Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Open Enquiries',
-                          style: AppTypography.subtitle2.copyWith(
-                            color: model.selectedTab.value == 0
-                                ? Theme.of(context).colorScheme.primary
-                                : AppColors.textNeutral35,
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: ToggleButton(
+                        toggleCondition: model.selectedTab.value == 0,
+                        title: "Open Enquiries"),
                   ),
                   Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: model.selectedTab.value == 1
-                              ? Theme.of(context).colorScheme.primary
-                              : AppColors.textNeutral35,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                        color: model.selectedTab.value == 1
-                            ? Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.2)
-                            : Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Closed Enquiries',
-                          style: AppTypography.subtitle2.copyWith(
-                            color: model.selectedTab.value == 1
-                                ? Theme.of(context).colorScheme.primary
-                                : AppColors.textNeutral35,
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: ToggleButton(
+                        toggleCondition: model.selectedTab.value == 1,
+                        title: "Closed Enquiries"),
                   ),
                 ],
               );

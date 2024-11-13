@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
-import 'package:app/feature/payments/payments_pages/payments.dart';
+
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
 import 'package:app/molecules/tracker/admissions/admissions_list_item.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -29,6 +30,8 @@ class AdmissionsDetailsPageView
 
   actionOnMenu(
       int index, BuildContext context, AdmissionsDetailsViewModel model) {
+    setEnquiryDetailsArgs(model);
+    log("INDEX $index");
     switch (index) {
       case 0:
         model.showMenuOnFloatingButton.add(false);
@@ -37,33 +40,31 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.detailsViewSchoolTourPage,
                     arguments: admissionDetail)
                 .then((value) {
+                log("detailsViewSchoolTourPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               })
             : Navigator.of(context)
                 .pushNamed(RoutePaths.scheduleSchoolTourPage, arguments: {
                 'enquiryDetailArgs': admissionDetail,
               }).then(
                 (value) {
-                  if (value != null) {
-                    model.getEnquiryDetail(
-                        enquiryID: admissionDetail.enquiryId ?? '');
-                  }
+                  log("scheduleSchoolTourPage");
+                  model.getEnquiryDetail(
+                      enquiryID: admissionDetail.enquiryId ?? '');
+                  model.getAdmissionJourney(
+                      enquiryID: admissionDetail.enquiryId ?? '',
+                      type: 'admission');
                 },
               );
       case 1:
         model.showMenuOnFloatingButton.add(false);
 
-        return Navigator.of(context).pushNamed(
-          RoutePaths.payments,
-          arguments: PaymentArguments(
-            phoneNo: model.enquiryDetails.value.parentMobile ?? '',
-            enquiryId: admissionDetail.enquiryId,
-            enquiryNo: admissionDetail.enquiryNumber,
-            studentName:
-                "${model.enquiryDetails.value.studentFirstName} ${model.enquiryDetails.value.studentLastName}",
-          ),
-        );
+        model.makePaymentRequest();
+
       case 2:
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
@@ -78,30 +79,53 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.competencyTestDetailPage,
                     arguments: admissionDetail)
                 .then((value) {
+                log("competencyTestDetailPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               })
             : Navigator.of(context).pushNamed(RoutePaths.scheduleCompetencyTest,
                 arguments: {
                     'enquiryDetailArgs': admissionDetail
                   }).then((value) {
-                if (value != null) {
-                  model.getEnquiryDetail(
-                      enquiryID: admissionDetail.enquiryId ?? '');
-                }
+                log("scheduleCompetencyTest");
+
+                model.getEnquiryDetail(
+                    enquiryID: admissionDetail.enquiryId ?? '');
+                model.getAdmissionJourney(
+                    enquiryID: admissionDetail.enquiryId ?? '',
+                    type: 'admission');
               });
       case 5:
         model.showMenuOnFloatingButton.add(false);
-        return Navigator.of(context).pushNamed(RoutePaths.enquiriesTimelinePage,
-            arguments: admissionDetail);
+        return Navigator.of(context)
+            .pushNamed(RoutePaths.enquiriesTimelinePage,
+                arguments: admissionDetail)
+            .then((_) {
+          log("enquiriesTimelinePage");
+
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
+          model.getAdmissionJourney(
+              enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
+        });
       case 6:
         model.showMenuOnFloatingButton.add(false);
+        log("registrationDetails");
+
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
           "routeFrom": "admission",
           "enquiryDetailArgs": admissionDetail,
+          "enquiryDetail": model.enquiryDetails.value,
           "editRegistrationDetails": true
+        }).then((_) {
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
+          model.getAdmissionJourney(
+              enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
         });
+
       default:
         return null;
     }
@@ -141,13 +165,16 @@ class AdmissionsDetailsPageView
                       style: AppTypography.subtitle1,
                     ),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails,
-                          arguments: {
-                            "routeFrom": "admission",
-                            "enquiryDetailArgs": admissionDetail,
-                            "enquiryDetail": model.enquiryDetails.value
-                          }),
+                      onTap: () {
+                        setEnquiryDetailsArgs(model);
+                        Navigator.pushNamed(
+                            context, RoutePaths.registrationDetails,
+                            arguments: {
+                              "routeFrom": "admission",
+                              "enquiryDetailArgs": admissionDetail,
+                              "enquiryDetail": model.enquiryDetails.value
+                            });
+                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -253,15 +280,63 @@ class AdmissionsDetailsPageView
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
-                            actionOnMenu(index, context, model);
+                            // Log the menu data for debugging
+                            log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+
+                            // Find the "Book Test" menu item
+                            final bookTestMenuItem = model.menuData.firstWhere(
+                              (menuItem) =>
+                                  menuItem['name'].toString().toLowerCase() ==
+                                  'book test',
+                              orElse: () => null,
+                            );
+
+                            // Check if "Book Test" is not active
+                            final isRegistrationNotActive =
+                                bookTestMenuItem != null &&
+                                    bookTestMenuItem['isActive'] == false;
+
+                            // Execute action based on the status of "Book Test"
+                            if (isRegistrationNotActive) {
+                              log("Book Test is inactive. Executing action with incremented ID.");
+                              actionOnMenu(model.menuData[index]['id'] + 1,
+                                  context, model);
+                            } else {
+                              log("Executing action with original ID.");
+                              actionOnMenu(
+                                  model.menuData[index]['id'], context, model);
+                            }
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,
-                          menuData: model.menuData,
+                          menuData: model.menuData
+                              .where((e) => e['isActive'] == true)
+                              .toList(),
                         )
                       : SizedBox.fromSize());
-            })
+            }),
+        AppStreamBuilder<Resource<bool>>(
+            stream: model.isLoadingSubject,
+            initialData: Resource.none(),
+            dataBuilder: (context, data) {
+              return data?.status == Status.loading
+                  ? const CommonAppLoader()
+                  : const SizedBox.shrink();
+            }),
       ],
     );
+  }
+
+  void setEnquiryDetailsArgs(AdmissionsDetailsViewModel model) {
+    log("admissionDetail.brandId ${model.enquiryDetails.value.brandId}");
+    log("admissionDetail.brandName ${model.enquiryDetails.value.brandName}");
+
+    admissionDetail.brandId = model.enquiryDetails.value.brandId;
+    admissionDetail.brandName = model.enquiryDetails.value.brandName;
+    admissionDetail.schoolId = model.enquiryDetails.value.schoolId;
+    admissionDetail.boardId = model.enquiryDetails.value.boardId;
+    admissionDetail.academicYearId = model.enquiryDetails.value.academicYearId;
+    admissionDetail.gradeId = model.enquiryDetails.value.gradeId;
+    admissionDetail.courseId = model.enquiryDetails.value.courseId;
   }
 }

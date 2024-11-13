@@ -1,5 +1,5 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/gatepass/get_visitor_details_usecase.dart';
+
 import 'package:injectable/injectable.dart';
 
 @module
@@ -404,5 +404,10 @@ abstract class DomainModule {
   GetVisitorDetailsUseCase getVisitorDetailsUseCase(
       GatepassRepository gatePassRepository) {
     return GetVisitorDetailsUseCase(gatePassRepository: gatePassRepository);
+  }
+
+  @lazySingleton
+  GetBrandUsecase getBrandUsecase(EnquiryRepository enquiryRepository) {
+    return GetBrandUsecase(enquiryRepository: enquiryRepository);
   }
 }

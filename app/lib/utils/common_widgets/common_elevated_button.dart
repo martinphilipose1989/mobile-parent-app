@@ -14,6 +14,7 @@ class CommonElevatedButton extends StatelessWidget {
   final TextStyle? textStyle;
   final double? height;
   final double? width;
+  final bool isDisabled;
 
   const CommonElevatedButton(
       {super.key,
@@ -28,7 +29,8 @@ class CommonElevatedButton extends StatelessWidget {
       this.icon,
       this.textStyle,
       this.height,
-      this.width});
+      this.width,
+      this.isDisabled = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CommonElevatedButton extends StatelessWidget {
       width: width ?? 200.w,
       height: height ?? 40.h,
       child: ElevatedButton.icon(
-        onPressed: onPressed,
+        onPressed: isDisabled ? null : onPressed,
         icon: icon != null
             ? Icon(icon, color: textColor)
             : const SizedBox.shrink(),
