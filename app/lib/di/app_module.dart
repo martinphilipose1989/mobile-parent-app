@@ -1,5 +1,4 @@
 import 'package:app/flavors/flavor_config.dart';
-
 import 'package:injectable/injectable.dart';
 
 @module
@@ -21,6 +20,7 @@ abstract class AppModule {
 
   @Named("adminBaseUrl")
   String get adminBaseUrl => FlavorConfig.instance.values.adminBaseUrl;
+
   @Named("AuthUrl")
   String get authUrl => FlavorConfig.instance.values.authorizationEndpoint;
 
@@ -41,4 +41,7 @@ abstract class AppModule {
 
   @Named("ShowLogs")
   bool get showLogs => FlavorConfig.instance.values.showLogs;
+
+  @Named("gatePassBaseUrl")
+  String get gatePassBaseUrl => FlavorConfig.instance.values.gatePassBaseUrl;
 }

@@ -11,6 +11,7 @@ void main() async {
       //   apiBaseUrl: '',
       mdmBaseUrl: '',
       adminBaseUrl: '',
+      gatePassBaseUrl: '',
       mdmToken: '',
       financeBaseUrl: '',
       authorizationEndpoint:

@@ -15,4 +15,7 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'ADMIN_BASE_URL')
   static const String adminBaseUrl = _EnvQA.adminBaseUrl;
+
+  @EnviedField(varName: 'GATE_PASS_BASE_URL')
+  static const String gatePassBaseUrl = _EnvQA.gatePassBaseUrl;
 }

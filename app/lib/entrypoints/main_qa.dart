@@ -12,6 +12,7 @@ void main() async {
       // apiBaseUrl: '',
       financeBaseUrl: EnvQA.financeBaseUrl,
       adminBaseUrl: EnvQA.adminBaseUrl,
+      gatePassBaseUrl: EnvQA.gatePassBaseUrl,
       mdmBaseUrl: EnvQA.mdmBaseUrl,
       mdmToken: EnvQA.mdmToken,
       authorizationEndpoint:

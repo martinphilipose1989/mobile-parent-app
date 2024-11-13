@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:data/data.dart';
@@ -6,10 +7,10 @@ import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/gate_pass_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:alice/alice.dart';
 
 @module
 abstract class NetworkModule {
@@ -95,12 +96,23 @@ abstract class NetworkModule {
       AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
 
   @lazySingleton
+  GatePassRetrofitService providerGatePassRetrofitService(
+          Dio dio, @Named('gatePassBaseUrl') String gatePassBaseUrl) =>
+      GatePassRetrofitService(
+        dio,
+        gatePassBaseUrl: gatePassBaseUrl,
+      );
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
-          AdminRetorfitService adminRetorfitService) =>
+          AdminRetorfitService adminRetorfitService,
+          GatePassRetrofitService gatePassRetrofitService) =>
       NetworkAdapter(
-          adminRetorfitService: adminRetorfitService,
-          apiService: retrofitService,
-          financeRetrofitService: financeRetrofitService);
+        adminRetorfitService: adminRetorfitService,
+        apiService: retrofitService,
+        financeRetrofitService: financeRetrofitService,
+        gatePassRetrofitService: gatePassRetrofitService,
+      );
 }

@@ -470,19 +470,6 @@ abstract class RetrofitService {
       {@Body() required VasOptionRequest vasOptionRequest,
       @Path("enquiryId") required String enquiryID});
 
-  @POST(NetworkProperties.requestGatePass)
-  Future<HttpResponse<CreateQrcodeResponseEntity>> requestGatePass(
-      @Body() CreateQrcodeRequestEntity requestBody);
-
-  @POST(NetworkProperties.createVisitorGatePass)
-  Future<HttpResponse<CreateGatePassResponseEntity>> createVisitorGatePass(
-      @Body() CreateGatePassRequestEntity requestBody,
-      {@Query('platform') required String platform});
-
-  @GET(NetworkProperties.getVisitorDetails)
-  Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Path("mobile") visitorMobileNumber, @Path("studentId") studentId,
-      {@Query('platform') required String platform});
 
   // key cloak
   @POST(NetworkProperties.tokenIntroSpect)
@@ -568,13 +555,6 @@ abstract class RetrofitService {
       moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
           @Body() MoveToNextStageEnquiryRequestEntity body);
 
-  @POST(NetworkProperties.uploadProfileImage)
-  @MultiPart()
-  Future<HttpResponse<UploadFileResponseEntity>> uploadProfileImage(
-      @Part(name: "file") File file,
-      {@Query('platform') required String platform});
 
-  @GET(NetworkProperties.mdmModule)
-  Future<HttpResponse<MdmCoReasonEntity>> getPurposeOfVisitList(
-      @Query('filters[parent_id]') int id, @Query("fields[0]") String name);
+
 }

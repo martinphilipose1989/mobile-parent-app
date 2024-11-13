@@ -15,4 +15,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'ADMIN_BASE_URL')
   static const String adminBaseUrl = _EnvDev.adminBaseUrl;
+
+  @EnviedField(varName: 'GATE_PASS_BASE_URL')
+  static const String gatePassBaseUrl = _EnvDev.gatePassBaseUrl;
 }

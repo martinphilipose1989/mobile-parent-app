@@ -16,6 +16,7 @@ void main() async {
       financeBaseUrl: EnvDev.financeBaseUrl,
       mdmBaseUrl: EnvDev.mdmBaseUrl,
       adminBaseUrl: EnvDev.adminBaseUrl,
+      gatePassBaseUrl: EnvDev.gatePassBaseUrl,
       mdmToken: EnvDev.mdmToken,
       authorizationEndpoint:
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",

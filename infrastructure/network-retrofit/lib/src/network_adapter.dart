@@ -25,6 +25,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_reques
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/gate_pass_retrofit_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 
 import 'model/request/gatepass/create_gatepass_entity.dart';
@@ -35,6 +36,7 @@ class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final GatePassRetrofitService gatePassRetrofitService;
   final String rbacToken =
       "Bearer 580469a1200ce1057656f73a3ceb2af1146dcda478b4706f80e906157bc75e1e61e45a12fd475e4a7b1d60dafc3ae2e29caa2103ba9ca116a5de942ca8e0eb27e6b8e2baba7a19a548a4a86bd04a518875f9024f8cf5b36c66faf0a001a8569dd9cc358009eaef1f5d4ca1b6a9beaa21c9e6838239dc2da004178dece9a1d81c";
 
@@ -43,7 +45,9 @@ class NetworkAdapter implements NetworkPort {
   NetworkAdapter(
       {required this.apiService,
       required this.financeRetrofitService,
-      required this.adminRetorfitService});
+      required this.adminRetorfitService,
+      required this.gatePassRetrofitService,
+      });
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -870,7 +874,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, CreateQrcodeResponseModel>> requestGatePass(
       {required CreateQrcodeRequestModel requestBody}) async {
     final response = await safeApiCall(
-      apiService.requestGatePass(CreateQrcodeRequestEntity(
+      gatePassRetrofitService.requestGatePass(CreateQrcodeRequestEntity(
           email: requestBody.email,
           mobile: requestBody.mobile,
           name: requestBody.name,
@@ -1180,11 +1184,12 @@ class NetworkAdapter implements NetworkPort {
     }, (r) => Right(r.data.transform()));
   }
 
+  // gate pass retrofit service
   @override
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
       {required UploadVisitorProfileUsecaseParams params}) async {
-    var response = await safeApiCall(
-        apiService.uploadProfileImage(platform: platform, params.file));
+    var response = await safeApiCall(gatePassRetrofitService.uploadProfileImage(
+        platform: platform, params.file));
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
@@ -1194,7 +1199,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, CreateGatepassResponseModel>>
       createVisitorGatePass({required CreateGatePassModel request}) async {
     var response = await safeApiCall(
-      apiService.createVisitorGatePass(
+      gatePassRetrofitService.createVisitorGatePass(
         platform: platform,
         CreateGatePassRequestEntity(
           name: request.name,
@@ -1226,7 +1231,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, MdmCoReasonResponseModel>>
       getPurposeOfVisitList() async {
     var response =
-        await safeApiCall(apiService.getPurposeOfVisitList(19, "name"));
+        await safeApiCall(gatePassRetrofitService.getPurposeOfVisitList(19, "name"));
 
     return response.fold((l) {
       return Left(l);
@@ -1236,7 +1241,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
       {required params}) async {
-    var response = await safeApiCall(apiService.getVisitorDetails(
+    var response = await safeApiCall(gatePassRetrofitService.getVisitorDetails(
       params.mobile,
       params.studentId,
       platform: platform,
