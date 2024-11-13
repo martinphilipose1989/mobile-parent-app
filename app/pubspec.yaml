@@ -87,16 +87,10 @@ dependencies:
   geolocator: ^12.0.0
   cached_network_image: ^3.4.0
   alice: ^0.4.2
-<<<<<<< HEAD
-  cached_network_image:
   country_code_picker: ^3.0.0
   flutter_libphonenumber: ^2.3.0
   shimmer: ^3.0.0
   
-=======
-
-
->>>>>>> f65d2c05b7ce37c9a195ee4381aba260454914d9
 dev_dependencies:
   flutter_test:
     sdk: flutter

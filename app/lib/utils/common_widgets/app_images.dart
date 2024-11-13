@@ -71,4 +71,12 @@ class AppImages {
   static const String subjectSelectionIcon =
       'assets/images/subject_selection.svg';
   static const String calendarIcon = 'assets/images/ic_calendar.svg';
+
+  // gate pass
+  static const String camera = "assets/images/camera.svg";
+  static const String qrImage = "assets/images/qr_image.svg";
+  static const String backArrow = "assets/images/back_arrow.svg";
+  static const String callIcon = "assets/images/call_icon.svg";
+  static const String searchIcon = "assets/images/search_icon.svg";
+  static const String filterIcon = "assets/images/filter.svg";
 }
