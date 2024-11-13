@@ -30,7 +30,7 @@ class StudentDetailsRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isPresent = status == "persent" || status == "present";
-    return InkWell(
+    return GestureDetector(
       onTap: () => onPressed?.call(),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
