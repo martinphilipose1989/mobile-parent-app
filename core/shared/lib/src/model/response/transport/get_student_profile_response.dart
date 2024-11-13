@@ -7,6 +7,7 @@ class GetStudentAttendance {
 }
 
 class StudentAttendanceDetails {
+  int? studentId;
   String? firstName;
   String? middleName;
   String? lastName;
@@ -21,6 +22,7 @@ class StudentAttendanceDetails {
   List<AttendanceLogDetailsResponse>? attendanceList;
 
   StudentAttendanceDetails({
+    this.studentId,
     this.firstName,
     this.middleName,
     this.lastName,

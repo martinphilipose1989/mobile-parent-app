@@ -188,6 +188,8 @@ class RouteEntity
                   createdAt: e.createdAt,
                   orderNo: e.orderNo,
                   stop: Stop(
+                      stopName: e.stop?.stopName,
+                      stopMapName: e.stop?.stopMapName,
                       academicYrsId: e.stop?.academicYrsId,
                       createdAt: e.stop?.createdAt,
                       distanceKm: e.stop?.distanceKm,

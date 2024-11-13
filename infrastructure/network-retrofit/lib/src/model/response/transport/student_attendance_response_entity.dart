@@ -43,6 +43,8 @@ class StudentAttendanceDetailsEntity
     implements
         BaseLayerDataTransformer<StudentAttendanceDetailsEntity,
             StudentAttendanceDetails> {
+  @JsonKey(name: "student_id")
+  int? studentId;
   @JsonKey(name: "first_name")
   String? firstName;
   @JsonKey(name: "middle_name")
@@ -69,7 +71,8 @@ class StudentAttendanceDetailsEntity
   List<AttendanceLogDetailsResponseEntity>? attendanceList;
 
   StudentAttendanceDetailsEntity(
-      {this.firstName,
+      {this.studentId,
+      this.firstName,
       this.middleName,
       this.lastName,
       this.profileImage,
@@ -97,6 +100,7 @@ class StudentAttendanceDetailsEntity
     return StudentAttendanceDetails(
       crtEnrOn: crtEnrOn,
       firstName: firstName,
+      studentId: studentId,
       lastName: lastName,
       middleName: middleName,
       profileImage: profileImage,

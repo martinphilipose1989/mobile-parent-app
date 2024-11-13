@@ -18,15 +18,17 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GetAllBusStopsUsecase getAllBusStopsUsecase;
   final GetStudentAttendanceUseCase getStudentAttendanceUseCase;
- // final FetchStopLogsUsecase fetchStopLogsUsecase;
 
-  BusRouteListPageViewModel(
-      {required this.exceptionHandlerBinder,
-       required this.getStudentAttendanceUseCase,
-        required this.flutterToastErrorPresenter,
-      required this.getAllBusStopsUsecase,
-     // required this.fetchStopLogsUsecase
-      });
+  // final FetchStopLogsUsecase fetchStopLogsUsecase;
+
+  BusRouteListPageViewModel({
+    required this.exceptionHandlerBinder,
+    required this.getStudentAttendanceUseCase,
+    required this.flutterToastErrorPresenter,
+    required this.getAllBusStopsUsecase,
+    // required this.fetchStopLogsUsecase
+  });
+
   TripResult? trip;
   late Timer timer;
 
@@ -39,8 +41,8 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       BehaviorSubject<Resource<List<FetchStopLogsData>>>.seeded(
           Resource.none());
 
-final studentAttendanceSubject=      BehaviorSubject<Resource<GetStudentAttendance>>.seeded(
-    Resource.none());
+  final studentAttendanceSubject =
+      BehaviorSubject<Resource<GetStudentAttendance>>();
 
   Stream<Resource<GetStudentAttendance>> get studentAttendanceStream =>
       studentAttendanceSubject.stream;
@@ -48,7 +50,9 @@ final studentAttendanceSubject=      BehaviorSubject<Resource<GetStudentAttendan
   final hasMorePagesSubject = BehaviorSubject<bool>.seeded(true);
 
   Stream<bool> get loadingStream => _loadingSubject.stream;
+
   Stream<bool> get hasMorePagesStream => hasMorePagesSubject.stream;
+
   Stream<Resource<List<RouteStopMappingModel>>> get busStopsListStream =>
       _busStopsListSubject.stream;
 
@@ -59,9 +63,9 @@ final studentAttendanceSubject=      BehaviorSubject<Resource<GetStudentAttendan
     if (_pageSubject.value == 1) {
       _busStopsListSubject.add(Resource.loading(data: null));
     }
-print("trip_id====="+ "${trip?.id}");
+    print("trip_id=====" + "${trip?.id}");
     final GetAllBusStopsParams params = GetAllBusStopsParams(
-        routeId: trip?.id?? '', dayId: DateTime.now().weekday, app: 'app');
+        routeId: trip?.id ?? '', dayId: DateTime.now().weekday, app: 'app');
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
@@ -69,7 +73,8 @@ print("trip_id====="+ "${trip?.id}");
       params: params,
       createCall: (params) => getAllBusStopsUsecase.execute(params: params),
       onSuccess: (result) {
-        _busStopsListSubject.add(Resource.success(data: result?.data?.routeStopMapping));
+        _busStopsListSubject
+            .add(Resource.success(data: result?.data?.routeStopMapping));
         _loadingSubject.add(false);
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
@@ -79,30 +84,31 @@ print("trip_id====="+ "${trip?.id}");
       },
     );
   }
-void getStudentAttendance()async{
-  _loadingSubject.add(true);
-    GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams=GetStudentAttendanceUsecaseParams(studentId: 10);
-  ApiResponseHandler.apiCallHandler(
-    exceptionHandlerBinder: exceptionHandlerBinder,
-    flutterToastErrorPresenter: flutterToastErrorPresenter,
-    params: getStudentAttendanceUsecaseParams,
-    createCall: (params) => getStudentAttendanceUseCase.execute(params: params),
-    onSuccess: (result) {
-      studentAttendanceSubject.add(Resource.success(data: result));
-      _loadingSubject.add(false);
-      // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
-    },
-    onError: (error) {
-      _busStopsListSubject.add(Resource.error(data: null, error: error));
-      _loadingSubject.add(false);
-    },
-  );
 
+  void getStudentAttendance() async {
+    _loadingSubject.add(true);
+    GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
+        GetStudentAttendanceUsecaseParams(studentId: 10);
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: flutterToastErrorPresenter,
+      params: getStudentAttendanceUsecaseParams,
+      createCall: (params) =>
+          getStudentAttendanceUseCase.execute(params: params),
+      onSuccess: (result) {
+        studentAttendanceSubject.add(Resource.success(data: result));
+        _loadingSubject.add(false);
+        // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
+      },
+      onError: (error) {
+        _busStopsListSubject.add(Resource.error(data: null, error: error));
+        _loadingSubject.add(false);
+      },
+    );
+  }
 
-
-
-}
   Position? _busPosition;
+
   void getUserLoacation() async {
     PermissionHandlerService permission = PermissionHandlerService();
     _busPosition = await permission.getUserLocation();
@@ -166,6 +172,7 @@ void getStudentAttendance()async{
 
   // distance between bus and next stop
   BehaviorSubject<double> distanceSubject = BehaviorSubject<double>.seeded(0);
+
   Stream<double> get distanceStream => distanceSubject.stream;
 
   Future<void> checkBusProximity(
