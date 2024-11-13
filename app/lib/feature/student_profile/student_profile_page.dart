@@ -39,7 +39,6 @@ class StudentProfilePageState
   @override
   void onModelReady(StudentProfilePageViewModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    //getViewModel()
     model.getStudentProfile(studentId: widget.studentId);
     super.onModelReady(model);
   }

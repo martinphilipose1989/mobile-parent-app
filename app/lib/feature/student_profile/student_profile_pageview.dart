@@ -6,9 +6,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_image_widget.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
-
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
-
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
 import '../../molecules/tansport/visitor_details_row.dart';
 import '../../utils/common_widgets/data_status_widget.dart';
 import 'student_profile_page_viewmodel.dart';
@@ -23,6 +22,7 @@ import 'student_profile_page_viewmodel.dart';
 class StudentProfilePageView
     extends BasePageViewWidget<StudentProfilePageViewModel> {
   final int studentId;
+
   StudentProfilePageView(ProviderBase<StudentProfilePageViewModel> model,
       {required this.studentId})
       : super(model);
@@ -105,12 +105,21 @@ class StudentProfilePageView
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    CommonText(text: "Bearers", style: AppTypography.subtitle2),
-                    SizedBox(height: 16.h),
-                    BearerList(
-                        model: model,
-                        bearerList: student?.data?.bearersDetails ?? [],
-                        studentId: studentId)
+                    Column(
+                      children: [
+                        const CommonText(
+                            text: "Bearers", style: AppTypography.subtitle2),
+                        SizedBox(height: 16.h),
+
+                        /// bearerList is empty
+                        student?.data?.bearersDetails?.isEmpty == true
+                            ? const SizedBox.shrink()
+                            : BearerList(
+                                model: model,
+                                bearerList: student?.data?.bearersDetails ?? [],
+                                studentId: studentId)
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -133,17 +142,14 @@ class BearerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(bearerList.isEmpty) return NoDataFoundWidget(title: 'No Data Found',);
     return SizedBox(
       height: 200,
       width: 1.sw,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: bearerList.length + 1, // Add one for the "Add New" button
+        itemCount: bearerList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-
-
           // Display each bearer
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,

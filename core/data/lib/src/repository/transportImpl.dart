@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
 class TransportRepositoryimpl extends TransportRepository{
   NetworkPort networkPort;
@@ -24,6 +25,11 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
   @override
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile({required GetStudentProfileUsecaseParams params}) {
     return networkPort.getStudentProfile(params:params);
+  }
+
+  @override
+  Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params}) {
+    return networkPort.getStudentAttendance(params:params);
   }
   
 }
