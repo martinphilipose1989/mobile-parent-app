@@ -94,35 +94,41 @@ class BusRouteListPageView
                                             //     (isLoading! && hasMorePage!
                                             //         ? 1
                                             //         : 0);
-                                            return Visibility(
-                                              visible: busStopsListData
-                                                      ?.data?.isEmpty ??
-                                                  false,
-                                              replacement:
-                                                  CommonRefreshIndicator(
-                                                isChildScrollable: true,
-                                                onRefresh: () {
-                                                  return model
-                                                      .refreshMyDutyList();
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    /// bus TackingListWidget
-                                                    _busTackingListWidget(
-                                                      busStopsListData,
-                                                      model,
-                                                      context,
-                                                    ),
-                                                    _studentDetailsBottomWidget(
-                                                      model,
-                                                      context,
-                                                    ),
-                                                  ],
+                                            return SingleChildScrollView(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              child: Visibility(
+                                                visible: busStopsListData
+                                                        ?.data?.isEmpty ??
+                                                    false,
+                                                replacement:
+                                                    CommonRefreshIndicator(
+                                                  isChildScrollable: true,
+                                                  onRefresh: () {
+                                                    return model
+                                                        .refreshMyDutyList();
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      _trackBus(),
+
+                                                      /// bus TackingListWidget
+                                                      _busTackingListWidget(
+                                                        busStopsListData,
+                                                        model,
+                                                        context,
+                                                      ),
+                                                      _studentDetailsBottomWidget(
+                                                        model,
+                                                        context,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              child: const NoDataFoundWidget(
-                                                title:
-                                                    "No Bus Stops List Found",
+                                                child: const NoDataFoundWidget(
+                                                  title:
+                                                      "No Bus Stops List Found",
+                                                ),
                                               ),
                                             );
                                           }));
@@ -319,6 +325,22 @@ class BusRouteListPageView
               });
         });
   }
+
+  Widget _trackBus() {
+    return Container(
+      padding: const EdgeInsets.only(left: 22.0, right: 22.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const CommonText(
+            text: "Track Bus",
+            style: AppTypography.subtitle1,
+          ),
+          SvgPicture.asset(AppImages.trackBus)
+        ],
+      ),
+    );
+  }
 }
 
 class TimelineTile extends StatelessWidget {
@@ -473,7 +495,6 @@ class TimelineTile extends StatelessWidget {
                                             ),
                                           ),
                                           Container(
-
                                             decoration: BoxDecoration(
                                               color: AppColors.primaryLighter,
                                               borderRadius:
