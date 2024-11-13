@@ -44,6 +44,9 @@ import 'package:flutter_errors/flutter_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dependencies.dart';
+import '../../feature/bus_route_list/bus_route_list_page_viewmodel.dart';
+import '../../feature/my_duty/my_duty_page_viewmodel.dart';
+import '../../feature/student_profile/student_profile_page_viewmodel.dart';
 
 final splashViewModelProvider =
     ChangeNotifierProvider.autoDispose<SplashViewModel>(
@@ -204,6 +207,7 @@ final scheduleSchoolTourPageModelProvider =
     getIt.get<GetSchoolVisitSlotsUsecase>(),
     getIt.get<RescheduleSchoolVisitUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
   ),
 );
 
@@ -215,6 +219,7 @@ final scheduleCompetencyTestPageModelProvider =
     getIt.get<GetCompetencyTestSlotsUsecase>(),
     getIt.get<RescheduleCompetencyTestUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
   ),
 );
 
@@ -404,6 +409,35 @@ final transportPageModelProvider =
               getIt.get<FetchStopsUsecase>(),
               getIt.get<FlutterToastErrorPresenter>(),
             ));
+//bus_route
+final busRouteListPageViewModelProvider =
+ChangeNotifierProvider.autoDispose<BusRouteListPageViewModel>(
+      (ref) => BusRouteListPageViewModel(
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      getAllBusStopsUsecase: getIt.get<GetAllBusStopsUsecase>(), getStudentAttendanceUseCase: getIt.get<GetStudentAttendanceUseCase>(),
+      //fetchStopLogsUsecase: getIt.get<FetchStopLogsUsecase>()
+        ),
+);
+
+final myDutyPageViewModelProvider =
+ChangeNotifierProvider.autoDispose<MyDutyPageViewModel>(
+      (ref) => MyDutyPageViewModel(
+      getMydutyListUsecase: getIt.get<GetMydutyListUsecase>(),
+
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+
+));
+
+final studentProfilePageViewModelProvider =
+ChangeNotifierProvider.autoDispose<StudentProfilePageViewModel>(
+      (ref) => StudentProfilePageViewModel(
+    getStudentProfileUsecase: getIt.get<GetStudentProfileUsecase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+  ),
+);
 
 final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
   (ref) =>

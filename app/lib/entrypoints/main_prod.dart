@@ -14,11 +14,12 @@ void main() async {
       adminBaseUrl: '',
       mdmToken: '',
       financeBaseUrl: '',
+      transportUrl: '',
       authorizationEndpoint:
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
       tokenEndpoint:
           "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-        apiBaseUrl: NetworkProperties.baseURL,
+      apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsProd,
     ),
   );

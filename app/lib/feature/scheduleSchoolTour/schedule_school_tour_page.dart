@@ -43,7 +43,7 @@ class ScheduleSchoolTourPageState extends AppBasePageState<
     model.enquiryID = widget.enquiryDetailArgs.enquiryId ?? '';
     model.isReschedule == widget.isReschedule;
     model.context = context;
-
+model.getEnquiryDetail(enquiryID: model.enquiryID);
     if (widget.isReschedule) {
       model.schoolVisitDetails = widget.schoolVisitDetail;
       model.selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.parse(

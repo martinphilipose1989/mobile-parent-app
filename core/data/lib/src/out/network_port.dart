@@ -4,11 +4,13 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
       {required int studentId, required List<int> lobIDs});
-
+  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+  //     {required int routeId, required int stopId});
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
       {required String type, required List students});
 
@@ -23,6 +25,15 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo});
+
+  Future<Either<NetworkError, TripResponse>> getMyDutyList(
+      {required int page,
+      required int dayId,
+      required int studentId,
+      required String app});
+
+  Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
+      {required String routeId, required int dayId, required String app});
 
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
@@ -254,4 +265,10 @@ abstract class NetworkPort {
       moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
 
   Future<Either<NetworkError, BrandResponse>> getBrandList();
+
+  Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
+      {required GetStudentProfileUsecaseParams params});
+
+  Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance(
+      {required GetStudentAttendanceUsecaseParams params});
 }

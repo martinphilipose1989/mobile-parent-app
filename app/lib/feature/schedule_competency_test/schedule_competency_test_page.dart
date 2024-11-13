@@ -36,7 +36,7 @@ class ScheduleCompetencyTestPageState extends AppBasePageState<CompetencyTestMod
     model.enquiryID = widget.enquiryDetailArgs.enquiryId??'';
     model.isReschedule == widget.isReschedule;
     model.context = context;
-
+model.getEnquiryDetail(enquiryID: model.enquiryID);
     if(widget.isReschedule){
       model.competencyTestDetail = widget.competencyTestDetails;
       model.selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.parse((widget.competencyTestDetails?.competencyTestDate??DateTime.now().toString())));

@@ -65,6 +65,32 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetMydutyListUsecase getMyDutyListUsecase(TransportRepository transportRepo) {
+    return GetMydutyListUsecase(transportRepository: transportRepo);
+  }
+  @lazySingleton
+  GetAllBusStopsUsecase allBusStopsUsecase(
+     TransportRepository transportRepo) {
+    return   GetAllBusStopsUsecase(transportRepository: transportRepo);
+  }
+  // @lazySingleton
+  // FetchStopLogsUsecase fetchStopLogsUsecase(
+  //     TransportRepository transportRepo) {
+  //   return   FetchStopLogsUsecase(  transportRepository: transportRepo,);
+  // }
+  @lazySingleton
+  GetStudentProfileUsecase getStudentProfileUseCase(
+      TransportRepository transportRepo) {
+    return GetStudentProfileUsecase(transportRepository: transportRepo);
+  }
+
+  @lazySingleton
+  GetStudentAttendanceUseCase getStudentAttendanceUseCase(
+      TransportRepository transportRepo) {
+    return GetStudentAttendanceUseCase(transportRepository: transportRepo);
+  }
+
+  @lazySingleton
   GetAdmissionListUsecase getAdmissionListUsecase(
       AdmissionRepository admissionRepository) {
     return GetAdmissionListUsecase(admissionRepository);

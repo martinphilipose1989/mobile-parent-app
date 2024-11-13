@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
@@ -62,5 +64,38 @@ class PermissionHandlerService {
       return false;
     }
     return true;
+  }
+  Future<bool> requestLocationPermission(
+      Function(bool value) onPermanentlyClosedCall) async {
+    PermissionStatus status = await Permission.location.request();
+
+    if (!status.isGranted) {
+      onPermanentlyClosedCall.call(true);
+    } else {
+      Position position = await getUserLocation();
+      log("LOCATION ${position.latitude}");
+      log("LOCATION ${position.longitude}");
+      return true;
+    }
+    return false;
+  }
+
+  Future<Position> getUserLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // If location services are not enabled, ask the user to enable them
+      await Geolocator.openLocationSettings();
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+  Stream<Position> liveLocation() {
+    const LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      // distanceFilter: 5,
+      timeLimit: Duration(minutes: 2),
+    );
+    return Geolocator.getPositionStream(locationSettings: locationSettings);
   }
 }

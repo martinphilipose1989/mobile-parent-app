@@ -21,6 +21,7 @@ void main() async {
           "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
       apiBaseUrl: NetworkProperties.baseURL,
       secrets: AppSecrets.appSecretsQA,
+      transportUrl: EnvQA.transportUrl,
     ),
   );
   startApp();

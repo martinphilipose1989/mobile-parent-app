@@ -18,9 +18,13 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final RescheduleSchoolVisitUseCase rescheduleSchoolVisitUseCase;
   final GetSchoolVisitSlotsUsecase getSchoolVisitSlotsUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase,this.flutterToastErrorPresenter);
+  final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
+
+  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase,this.flutterToastErrorPresenter, this.getEnquiryDetailUseCase);
   
   final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
 
   final formKey = GlobalKey<FormState>();
   final dateSubject = BehaviorSubject<String>();
@@ -165,4 +169,35 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
       return "";
     }
   }
+
+
+  Future<void> getEnquiryDetail({required String enquiryID}) async {
+    exceptionHandlerBinder.handle(block: () {
+
+      GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
+        enquiryID: enquiryID,
+      );
+
+      RequestManager<EnquiryDetailBase>(
+        params,
+        createCall: () => getEnquiryDetailUseCase.execute(
+          params: params,
+        ),
+      ).asFlow().listen((result) {
+        _fetchEnquiryDetail.add(result);
+
+
+        if(result.status == Status.error){
+          flutterToastErrorPresenter.show(
+              result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+        }
+        // activeStep.add()
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+
+
 }

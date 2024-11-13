@@ -143,18 +143,30 @@ class AdmissionsDetailsPageView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListItem(
-                  image: AppImages.personIcon,
-                  name: "${admissionDetail.studentName} ",
-                  year: admissionDetail.academicYear ?? '',
-                  id: admissionDetail.enquiryNumber ?? '',
-                  title: admissionDetail.school ?? '',
-                  subtitle:
-                      "${admissionDetail.grade} | ${admissionDetail.board} | ${admissionDetail.shift} | Stream-${admissionDetail.stream} ",
-                  buttontext: admissionDetail.currentStage ?? '',
-                  compeletion:
-                      "${(admissionDetail.formCompletionPercentage ?? 0).toString()}% Completed",
-                  status: admissionDetail.status ?? '',
+                AppStreamBuilder<Resource<EnquiryDetailBase>>(
+                  dataBuilder: (context, snapshot) {
+                    return snapshot?.status == Status.loading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListItem(
+                            image: AppImages.personIcon,
+                            name:
+                                "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName} ",
+                            year: admissionDetail.academicYear ?? '',
+                            id: snapshot?.data?.data?.enquiryNumber ?? '',
+                            title:
+                                snapshot?.data?.data?.existingSchoolName ?? '',
+                            subtitle:
+                                "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${admissionDetail.shift} | Stream-${admissionDetail.stream} ",
+                            buttontext: admissionDetail.currentStage ?? '',
+                            compeletion:
+                                "${(admissionDetail.formCompletionPercentage ?? 0).toString()}% Completed",
+                            status: snapshot?.data?.data?.currentStage ?? '',
+                          );
+                  },
+                  stream: model.fetchEnquiryDetail,
+                  initialData: Resource.none(),
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
                 Row(
@@ -165,16 +177,14 @@ class AdmissionsDetailsPageView
                       style: AppTypography.subtitle1,
                     ),
                     InkWell(
-                      onTap: () {
-                        setEnquiryDetailsArgs(model);
-                        Navigator.pushNamed(
-                            context, RoutePaths.registrationDetails,
-                            arguments: {
-                              "routeFrom": "admission",
-                              "enquiryDetailArgs": admissionDetail,
-                              "enquiryDetail": model.enquiryDetails.value
-                            });
-                      },
+                      onTap: () => Navigator.pushNamed(
+                          context, RoutePaths.registrationDetails,
+                          arguments: {
+                            "routeFrom": "admission",
+                            "enquiryDetailArgs": admissionDetail,
+                            ""
+                                "enquiryDetail": model.enquiryDetails.value
+                          }),
                       child: Row(
                         children: [
                           SvgPicture.asset(
