@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/marketing/get_admission_vas_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -409,5 +410,12 @@ abstract class DomainModule {
   @lazySingleton
   GetBrandUsecase getBrandUsecase(EnquiryRepository enquiryRepository) {
     return GetBrandUsecase(enquiryRepository: enquiryRepository);
+  }
+
+  @lazySingleton
+  GetAdmissionVasUsecase getAdmissionVasUsecase(
+      RegistrationRepository registrationRepository) {
+    return GetAdmissionVasUsecase(
+        registrationRepository: registrationRepository);
   }
 }

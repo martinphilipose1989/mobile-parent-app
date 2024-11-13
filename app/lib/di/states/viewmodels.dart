@@ -144,6 +144,7 @@ final registrationsDetailsProvider =
     getIt.get<ChooseFileUseCase>(),
     getIt.get<FlutterToastErrorPresenter>(),
     getIt.get<MoveToNextStageUsecase>(),
+    getIt.get<GetAdmissionVasUsecase>()
   ),
 );
 

@@ -1258,4 +1258,15 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, AdmissionVasDetailsResponse>>
+      getAdmissionVasDetails({required String enquiryId}) async {
+    final response =
+        await safeApiCall(apiService.fetchadmissionVasDetails(enquiryId));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
 }

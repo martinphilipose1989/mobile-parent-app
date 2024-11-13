@@ -152,6 +152,7 @@ export 'src/model/response/fetch_stop/stop_detail.dart';
 export 'src/model/response/enquiry_detail/move_to_next_update_model.dart';
 export 'src/model/request/marketing/move_to_next_stage_model.dart';
 export 'src/model/response/brand/brand_response_model.dart';
+export 'src/model/response/admission_vas/admission_vas_response.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';
