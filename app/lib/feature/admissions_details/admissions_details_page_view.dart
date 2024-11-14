@@ -13,6 +13,8 @@ import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_stepper/common_stepper_page.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
+
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:app/utils/url_launcher.dart';
@@ -29,11 +31,11 @@ class AdmissionsDetailsPageView
       {required this.admissionDetail});
 
   actionOnMenu(
-      int index, BuildContext context, AdmissionsDetailsViewModel model) {
+      String key, BuildContext context, AdmissionsDetailsViewModel model) {
     setEnquiryDetailsArgs(model);
-    log("INDEX $index");
-    switch (index) {
-      case 0:
+    log("KEY $key");
+    switch (key) {
+      case 'schooltour':
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())
             ? Navigator.of(context)
@@ -60,19 +62,19 @@ class AdmissionsDetailsPageView
                       type: 'admission');
                 },
               );
-      case 1:
+      case 'payment':
         model.showMenuOnFloatingButton.add(false);
 
         model.makePaymentRequest();
 
-      case 2:
+      case 'call':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
-      case 3:
+      case 'email':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
 
-      case 4:
+      case 'competency':
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailViewCompetency())
             ? Navigator.of(context)
@@ -98,7 +100,7 @@ class AdmissionsDetailsPageView
                     enquiryID: admissionDetail.enquiryId ?? '',
                     type: 'admission');
               });
-      case 5:
+      case 'timeline':
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.enquiriesTimelinePage,
@@ -110,7 +112,7 @@ class AdmissionsDetailsPageView
           model.getAdmissionJourney(
               enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
         });
-      case 6:
+      case 'registration':
         model.showMenuOnFloatingButton.add(false);
         log("registrationDetails");
 
@@ -177,14 +179,19 @@ class AdmissionsDetailsPageView
                       style: AppTypography.subtitle1,
                     ),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(
-                          context, RoutePaths.registrationDetails,
-                          arguments: {
-                            "routeFrom": "admission",
-                            "enquiryDetailArgs": admissionDetail,
-                            ""
-                                "enquiryDetail": model.enquiryDetails.value
-                          }),
+                      onTap: () {
+                        setEnquiryDetailsArgs(model);
+                        Navigator.pushNamed(
+                            context, RoutePaths.registrationDetails,
+                            arguments: {
+                              "routeFrom": "admission",
+                              "enquiryDetailArgs": admissionDetail,
+                              "enquiryDetail": model.enquiryDetails.value,
+                              "editRegistrationDetails":
+                                  admissionDetail.enquiryType ==
+                                      EnquiryTypeEnum.psa.type
+                            });
+                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -290,32 +297,12 @@ class AdmissionsDetailsPageView
                       ? Menu(
                           height: 395.h,
                           onTap: (index) {
-                            // Log the menu data for debugging
-                            log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
+                            final newMenuData = model.menuData
+                                .where((e) => e['isActive'] == true)
+                                .toList();
 
-                            // Find the "Book Test" menu item
-                            final bookTestMenuItem = model.menuData.firstWhere(
-                              (menuItem) =>
-                                  menuItem['name'].toString().toLowerCase() ==
-                                  'book test',
-                              orElse: () => null,
-                            );
-
-                            // Check if "Book Test" is not active
-                            final isRegistrationNotActive =
-                                bookTestMenuItem != null &&
-                                    bookTestMenuItem['isActive'] == false;
-
-                            // Execute action based on the status of "Book Test"
-                            if (isRegistrationNotActive) {
-                              log("Book Test is inactive. Executing action with incremented ID.");
-                              actionOnMenu(model.menuData[index]['id'] + 1,
-                                  context, model);
-                            } else {
-                              log("Executing action with original ID.");
-                              actionOnMenu(
-                                  model.menuData[index]['id'], context, model);
-                            }
+                            actionOnMenu(
+                                newMenuData[index]['key'], context, model);
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,

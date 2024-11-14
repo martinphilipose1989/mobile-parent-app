@@ -98,3 +98,4 @@ export 'src/usecase/user/user_role_permission_usecase.dart';
 export 'src/usecase/user/get_user_details_usecase.dart';
 export 'src/usecase/marketing/move_to_next_stage_usecase.dart';
 export 'src/usecase/marketing/get_brand_usecase.dart';
+export 'src/usecase/marketing/get_admission_vas_usecase.dart';

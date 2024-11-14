@@ -266,6 +266,8 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, BrandResponse>> getBrandList();
 
+  Future<Either<NetworkError, AdmissionVasDetailsResponse>>
+      getAdmissionVasDetails({required String enquiryId});
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
 

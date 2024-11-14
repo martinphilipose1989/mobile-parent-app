@@ -1,65 +1,112 @@
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/data_status_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
+import 'package:app/utils/no_data_found_widget.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class VASDetails extends StatelessWidget {
-  
   const VASDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model =
-        ProviderScope.containerOf(context).read(registrationsDetailsProvider);
-    //model.enquiryDetailArgs?.enquiryType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CommonText(
-          text: "Other Value Added Services",
-          style: AppTypography.subtitle1.copyWith(color: AppColors.textDark),
-        ),
-        Padding(
-          padding: REdgeInsets.symmetric(vertical: 16.0),
-          child: const Divider(color: AppColors.dividerColor),
-        ),
-        VasQuestions(
-          question: "Would You Like To Opt For Transportation?",
-          commonRadioButton: model.radioButtonTransport,
-          vasOption: "Transport",
-          model: model,
-        ),
-        VasQuestions(
-          question: "Would You Like To Opt For Cafeteria?",
-          commonRadioButton: model.radioButtonCafeteria,
-          vasOption: "Cafeteria",
-          model: model,
-        ),
-        VasQuestions(
-          question: "Would You Like To Opt For PSA(Post School Activities)?",
-          commonRadioButton: model.radioButtonPsa,
-          vasOption: "Psa",
-          model: model,
-        ),
-        VasQuestions(
-          question: "Would You Like To Opt For Summer Camp?",
-          commonRadioButton: model.radioButtonHostel,
-          vasOption: "SummerCamp",
-          model: model,
-        ),
-        VasQuestions(
-          question: "Would You Like To Opt For Kids Club?",
-          commonRadioButton: model.radioButtonKidsClub,
-          vasOption: "KidsClub",
-          model: model,
-        )
-      ],
+    return BaseWidget(
+      providerBase: registrationsDetailsProvider,
+      onModelReady: (model) {
+        model.fetchVasAdmissionDetails();
+      },
+      builder: (context, model, child) =>
+          AppStreamBuilder<Resource<AdmissionVasDetailsResponse>>(
+              stream: model!.admissionVasDetailsResponse.stream,
+              initialData: Resource.none(),
+              dataBuilder: (context, vasData) {
+                return DataStatusWidget(
+                  status: vasData?.status ?? Status.none,
+                  loadingWidget: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: () => Center(
+                    child: NoDataFoundWidget(
+                      title: vasData?.dealSafeAppError?.error.message
+                                  .contains("internet") ??
+                              false
+                          ? "No Internet Connection"
+                          : "Something Went Wrong",
+                      subtitle: vasData?.dealSafeAppError?.error.message
+                                  .contains("internet") ??
+                              false
+                          ? "It seems you're offline. Please check your internet connection and try again."
+                          : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                      onPressed: () {
+                        model.fetchVasAdmissionDetails();
+                      },
+                    ),
+                  ),
+                  successWidget: () {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonText(
+                          text: "Other Value Added Services",
+                          style: AppTypography.subtitle1
+                              .copyWith(color: AppColors.textDark),
+                        ),
+                        Padding(
+                          padding: REdgeInsets.symmetric(vertical: 16.0),
+                          child: const Divider(color: AppColors.dividerColor),
+                        ),
+                        VasQuestions(
+                          question: "Would You Like To Opt For Transportation?",
+                          commonRadioButton: model.radioButtonTransport,
+                          vasOption: "Transport",
+                          model: model,
+                        ),
+                        VasQuestions(
+                          question: "Would You Like To Opt For Cafeteria?",
+                          commonRadioButton: model.radioButtonCafeteria,
+                          vasOption: "Cafeteria",
+                          model: model,
+                        ),
+                        if (model.enquiryDetailArgs?.enquiryType ==
+                                EnquiryTypeEnum.kidsClub.type ||
+                            model.enquiryDetailArgs?.enquiryType ==
+                                EnquiryTypeEnum.newAdmission.type) ...{
+                          VasQuestions(
+                            question:
+                                "Would You Like To Opt For PSA(Post School Activities)?",
+                            commonRadioButton: model.radioButtonPsa,
+                            vasOption: "Psa",
+                            model: model,
+                          ),
+                        },
+                        if (model.enquiryDetailArgs?.enquiryType ==
+                                EnquiryTypeEnum.psa.type ||
+                            model.enquiryDetailArgs?.enquiryType ==
+                                EnquiryTypeEnum.newAdmission.type) ...{
+                          VasQuestions(
+                            question: "Would You Like To Opt For Kids Club?",
+                            commonRadioButton: model.radioButtonKidsClub,
+                            vasOption: "KidsClub",
+                            model: model,
+                          )
+                        }
+                      ],
+                    );
+                  },
+                );
+              }),
     );
   }
 }
@@ -97,50 +144,65 @@ class VasQuestions extends StatelessWidget {
                 onOptionSelected: (value) {
                   var data;
                   if (vasOption == "Cafeteria") {
-                    Navigator.pushNamed(context, RoutePaths.cafeteriaDetailPage,
-                        arguments: {
-                          "enquiryDetailArgs": model.enquiryDetailArgs
-                        }).then((value) {
+                    Navigator.pushNamed(
+                      context,
+                      RoutePaths.cafeteriaDetailPage,
+                      arguments: VasDetailsArg(
+                        enquiryDetailArgs: model.enquiryDetailArgs,
+                      ),
+                    ).then((value) {
                       data = value;
                       if (data == null) {
                         commonRadioButton.selectItem("");
                       }
                     });
                   } else if (vasOption == 'Psa') {
-                    Navigator.pushNamed(context, RoutePaths.psaDetailPage,
-                        arguments: {
-                          "enquiryDetailArgs": model.enquiryDetailArgs
-                        }).then((value) {
+                    Navigator.pushNamed(
+                      context,
+                      RoutePaths.psaDetailPage,
+                      arguments: VasDetailsArg(
+                        enquiryDetailArgs: model.enquiryDetailArgs,
+                      ),
+                    ).then((value) {
                       data = value;
                       if (data == null) {
                         commonRadioButton.selectItem("");
                       }
                     });
                   } else if (vasOption == 'KidsClub') {
-                    Navigator.pushNamed(context, RoutePaths.kidsClubPage,
-                        arguments: {
-                          "enquiryDetailArgs": model.enquiryDetailArgs
-                        }).then((value) {
+                    Navigator.pushNamed(
+                      context,
+                      RoutePaths.kidsClubPage,
+                      arguments: VasDetailsArg(
+                        enquiryDetailArgs: model.enquiryDetailArgs,
+                      ),
+                    ).then((value) {
                       data = value;
                       if (data == null) {
                         commonRadioButton.selectItem("");
                       }
                     });
                   } else if (vasOption == "Transport") {
-                    Navigator.pushNamed(context, RoutePaths.transportPage,
-                        arguments: {
-                          "enquiryDetailArgs": model.enquiryDetailArgs
-                        }).then((value) {
+                    Navigator.pushNamed(
+                      context,
+                      RoutePaths.transportPage,
+                      arguments: VasDetailsArg(
+                        enquiryDetailArgs: model.enquiryDetailArgs,
+                      ),
+                    ).then((value) {
                       data = value;
                       if (data == null) {
                         commonRadioButton.selectItem("");
                       }
                     });
                   } else {
-                    Navigator.pushNamed(context, RoutePaths.summerCampPage,
-                        arguments: {
-                          "enquiryDetailArgs": model.enquiryDetailArgs
-                        }).then((value) {
+                    Navigator.pushNamed(
+                      context,
+                      RoutePaths.summerCampPage,
+                      arguments: VasDetailsArg(
+                        enquiryDetailArgs: model.enquiryDetailArgs,
+                      ),
+                    ).then((value) {
                       data = value;
                       if (data == null) {
                         commonRadioButton.selectItem("");
@@ -182,4 +244,10 @@ class VasQuestions extends StatelessWidget {
       ],
     );
   }
+}
+
+class VasDetailsArg {
+  EnquiryDetailArgs? enquiryDetailArgs;
+
+  VasDetailsArg({this.enquiryDetailArgs});
 }
