@@ -2,6 +2,7 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/common_widgets/dialog/staff_list_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -321,6 +322,13 @@ class CommonPopups {
     );
   }
 
+ showStaff(BuildContext context,{required StaffArgs args}){
+    showDialog(context: context, builder: (context){
+
+      return AlertDialog(contentPadding:EdgeInsets.zero,content: Container(height:300.h,child: StaffListPopup(args: args,)));
+    });
+
+}
   _showAlertDialog(BuildContext context,
       {required String message,
       required Function(bool shouldRoute) onChanged}) {

@@ -27,6 +27,7 @@ export 'src/usecase/transport/get_all_bus_stops_usecase.dart';
 export 'src/usecase/transport/get_myduty_list_usecase.dart';
 export 'src/usecase/transport/get_student_profile_usecase.dart';
 export 'src/usecase/transport/get_student_attandence_usecase.dart';
+export 'src/usecase/transport/get_staff_list_usecase.dart';
 export 'src/usecase/finance/get_token_generator_usecase.dart';
 export 'src/usecase/finance/get_validate_pay_now.dart';
 export 'src/usecase/finance/get_pending_fees_usecase.dart';

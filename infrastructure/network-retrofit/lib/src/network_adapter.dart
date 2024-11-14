@@ -1248,15 +1248,27 @@ class NetworkAdapter implements NetworkPort {
 
     return response.fold(
             (error) => Left(error), (data) => Right(data.data.transform()));
+
   }
 
-  // @override
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required int stopId}) async{
-  //   final response = await safeApiCall(
-  //     transportService.fetchStopLogs(routeId: routeId, stopId: stopId),
-  //   );
-  //
-  //   return response.fold(
-  //           (error) => Left(error), (data) => Right(data.data.transform()));
-  // }
+  @override
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList({required GetStaffListUseCaseParams params}) async{
+    final response = await safeApiCall(
+transportService.getStaffList(schoolId: params.schoolId, platform: params.platform)
+    );
+
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+
+  }
+
+  @override
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required String platform}) async{
+    final response = await safeApiCall(
+      transportService.fetchStopLogs(routeId: routeId, platform: platform, ),
+    );
+
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+  }
 }

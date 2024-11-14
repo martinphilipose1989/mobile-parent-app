@@ -9,13 +9,15 @@ import 'package:network_retrofit/network_retrofit.dart';
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
       {required int studentId, required List<int> lobIDs});
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
-  //     {required int routeId, required int stopId});
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+      {required int routeId ,required String platform});
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
       {required String type, required List students});
 
   Future<Either<NetworkError, GetTokenGeneratorModel>> getTokenGenerator(
       {required int segmentLobId});
+
+
 
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
       {required int paymentMode, required List studentFeeIds});
@@ -258,4 +260,8 @@ abstract class NetworkPort {
       {required GetStudentProfileUsecaseParams params});
 
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params});
+
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList({required GetStaffListUseCaseParams params});
+
+
 }

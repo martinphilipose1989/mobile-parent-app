@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/response/transport/student_attendance_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../network_retrofit.dart';
 import '../model/response/transport/bus_route_response_entity.dart';
+import '../model/response/transport/fetch_stops_logs_entity.dart';
 import '../model/response/transport/get_student_profile_entity_response.dart';
 import '../model/response/transport/trip_response_entity.dart';
 
@@ -17,10 +19,10 @@ const String _getStudentListByRoute =
     "transport-service/mobile-app/student-list";
 const String _getStudentProfile =
     "${transportBaseUrl}transport-service/parent/student-profile/{studentId}";
-
+const String _getStaffList ='transport-service/parent/staff-contacts/{route_id}';
 const String _getStudentattendance =
     "${transportBaseUrl}transport-service/parent/student-attandence/{studentId}";
-
+const String _fetchStopsLogs="transport-service/parent/fetch-stop-logs";
 const String _getBusStopsList = '${transportBaseUrl}transport-service/parent/bus-stops';
 
 @RestApi()
@@ -59,14 +61,29 @@ abstract class TransportService {
     @Path("studentId") required int studentId,
     @Query("platform") required String platform,
   });
-  // @GET(_fetchStopsLogs)
-  // Future<HttpResponse<FetchStopLogsEntity>> fetchStopLogs(
-  //     {@Query("route_id") required int routeId, required int stopId});
+
+
+
+  @GET(_getStaffList)
+  Future<HttpResponse<StaffListResponseEntity>> getStaffList({
+    @Path("route_id") required int schoolId,
+    @Query("platform") required String platform,
+  });
+
+
+  @GET(_fetchStopsLogs)
+  Future<HttpResponse<FetchStopLogsEntity>> fetchStopLogs(
+      {@Query("route_id") required int routeId,
+        @Query("platform") required String platform,
+      });
 
 // @GET(_getBearerList)
 // Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(
 //     @Path('studentId') int studentId);
 //
+
+
+
 // @GET(_getSchoolContacts)
 // Future<HttpResponse<GetSchoolContactResponseEntity>> getSchoolContacts(
 //     @Path('schoolId') int schoolId);

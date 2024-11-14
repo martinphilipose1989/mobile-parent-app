@@ -96,7 +96,11 @@ abstract class DomainModule {
       AdmissionRepository admissionRepository) {
     return GetAdmissionListUsecase(admissionRepository);
   }
-
+  @lazySingleton
+  GetStaffListUsecase staffListusecase( TransportRepository transportRepo
+      ) {
+    return GetStaffListUsecase( transportRepository: transportRepo);
+  }
   @lazySingleton
   GetNewAdmissionDetailUseCase getNewAdmissionDetailUseCase(
       EnquiryRepository enquiryRepository) {
@@ -343,7 +347,9 @@ abstract class DomainModule {
       RegistrationRepository registrationRepository) {
     return MakePaymentRequestUsecase(registrationRepository);
   }
-
+  FetchStopLogsUsecase fetchStopLogsUsecase(TransportRepository transportRepository){
+    return FetchStopLogsUsecase(transportRepository: transportRepository);
+  }
   @lazySingleton
   FetchStopsUsecase fetchStopsUsecase(
       RegistrationRepository registrationRepository) {
