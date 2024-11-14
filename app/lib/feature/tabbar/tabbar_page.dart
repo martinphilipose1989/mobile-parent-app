@@ -2,6 +2,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
+import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -63,7 +64,9 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           width: MediaQuery.of(context).size.width,
           color: Colors.purple,
         ),
-        const CreateQrcodePage()
+
+        // const VisitorDetailsPage(),
+        const CreateEditGatePassPage()
       ],
     );
   }
@@ -144,7 +147,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: 'View Gate Pass',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

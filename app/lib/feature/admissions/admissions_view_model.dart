@@ -74,6 +74,15 @@ class AdmissionsViewModel extends BasePageViewModel {
   Stream<Resource<AdmissionListBaseModel>> get getClosedAdmissionListResponse =>
       _getClosedAdmissionListResponse.stream;
 
+  void reset() {
+    pageNumber = 1;
+    closedAdmissionsPageNumber = 1;
+    admissions.add([]);
+    closedAdmissions.add([]);
+    isNextPage = true;
+    closedAdmissionsNextPage = true;
+  }
+
   Future<void> fetchAdmissionList({bool isRefresh = false}) async {
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {

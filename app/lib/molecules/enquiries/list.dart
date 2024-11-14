@@ -61,7 +61,6 @@ class ListV extends StatelessWidget {
                         shift: data?.shift,
                         isFrom: 'enquiry',
                         status: data?.status,
-                        
                       );
                       Navigator.pushNamed(
                           context, RoutePaths.enquiriesAdmissionsJourneyPage,
@@ -69,6 +68,7 @@ class ListV extends StatelessWidget {
                             "enquiryDetailArgs": enquiryDetail,
                           }).then((_) {
                         if (context.mounted) {
+                          model?.reset();
                           model?.fetchEnquiries();
                         }
                       });

@@ -10,19 +10,19 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.qa,
     values: const FlavorValues(
-      // apiBaseUrl: '',
-      financeBaseUrl: EnvQA.financeBaseUrl,
-      adminBaseUrl: EnvQA.adminBaseUrl,
-      mdmBaseUrl: EnvQA.mdmBaseUrl,
-      mdmToken: EnvQA.mdmToken,
-      authorizationEndpoint:
-          "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/auth",
-      tokenEndpoint:
-          "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
-      apiBaseUrl: NetworkProperties.baseURL,
-      secrets: AppSecrets.appSecretsQA,
-      transportUrl: EnvQA.transportUrl,
-    ),
+        // apiBaseUrl: '',
+        financeBaseUrl: EnvQA.financeBaseUrl,
+        adminBaseUrl: EnvQA.adminBaseUrl,
+        mdmBaseUrl: EnvQA.mdmBaseUrl,
+        mdmToken: EnvQA.mdmToken,
+        authorizationEndpoint:
+            "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/auth",
+        tokenEndpoint:
+            "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
+        apiBaseUrl: NetworkProperties.baseURL,
+        secrets: AppSecrets.appSecretsQA,
+        transportUrl: EnvQA.transportUrl,
+        showLogs: true),
   );
   startApp();
 }

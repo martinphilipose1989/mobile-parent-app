@@ -71,7 +71,8 @@ class AdmissionsList extends StatelessWidget {
                     if (context.mounted) {
                       ProviderScope.containerOf(context)
                           .read(admissionsProvider)
-                          .fetchAdmissionList();
+                        ..reset()
+                        ..fetchAdmissionList();
                     }
                   });
                 }

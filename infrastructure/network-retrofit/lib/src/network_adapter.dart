@@ -40,8 +40,8 @@ class NetworkAdapter implements NetworkPort {
   final TransportService transportService;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
-  final String rbacToken =
-      "Bearer 580469a1200ce1057656f73a3ceb2af1146dcda478b4706f80e906157bc75e1e61e45a12fd475e4a7b1d60dafc3ae2e29caa2103ba9ca116a5de942ca8e0eb27e6b8e2baba7a19a548a4a86bd04a518875f9024f8cf5b36c66faf0a001a8569dd9cc358009eaef1f5d4ca1b6a9beaa21c9e6838239dc2da004178dece9a1d81c";
+  // final String rbacToken =
+  //     "Bearer 580469a1200ce1057656f73a3ceb2af1146dcda478b4706f80e906157bc75e1e61e45a12fd475e4a7b1d60dafc3ae2e29caa2103ba9ca116a5de942ca8e0eb27e6b8e2baba7a19a548a4a86bd04a518875f9024f8cf5b36c66faf0a001a8569dd9cc358009eaef1f5d4ca1b6a9beaa21c9e6838239dc2da004178dece9a1d81c";
 
   final String platform = "app";
 
@@ -147,7 +147,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo}) async {
     var response = await safeApiCall(apiService.getGuardianStudentDetails(
-        rbacToken, GetGuardianStudentDetailsRequest(mobileNo: mobileNo)));
+        mdmToken, GetGuardianStudentDetailsRequest(mobileNo: mobileNo)));
     return response.fold(
       (l) {
         return Left(l);
@@ -616,209 +616,174 @@ class NetworkAdapter implements NetworkPort {
       {required String infoType, int? id}) async {
     switch (infoType) {
       case "schoolLocation":
-        var response = await safeApiCall(apiService.getSchoolLocation(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getSchoolLocation(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
 
       case "country":
-        var response = await safeApiCall(apiService.getCountries(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getCountries(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
 
       case "state":
-        var response = await safeApiCall(apiService.getStates(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933",
-            id: id));
+        var response =
+            await safeApiCall(apiService.getStates(token: mdmToken, id: id));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "city":
-        var response = await safeApiCall(apiService.getCities(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933",
-            id: id));
+        var response =
+            await safeApiCall(apiService.getCities(token: mdmToken, id: id));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "grade":
-        var response = await safeApiCall(apiService.getGrades(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(apiService.getGrades(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "gender":
-        var response = await safeApiCall(apiService.getGender(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(apiService.getGender(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "stream":
-        var response = await safeApiCall(apiService.getStreams(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getStreams(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "shift":
-        var response = await safeApiCall(apiService.getShifts(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(apiService.getShifts(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "board":
-        var response = await safeApiCall(apiService.getSchoolBoard(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getSchoolBoard(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "batch":
-        var response = await safeApiCall(apiService.getBatch(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(apiService.getBatch(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "course":
-        var response = await safeApiCall(apiService.getCourses(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getCourses(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "psaSubType":
-        var response = await safeApiCall(apiService.getPsaSubType(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getPsaSubType(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "psaCategory":
-        var response = await safeApiCall(apiService.getPsaCategory(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getPsaCategory(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "psaSubCategory":
-        var response = await safeApiCall(apiService.getPsaSubCategory(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getPsaSubCategory(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "periodOfService":
-        var response = await safeApiCall(apiService.getPeriodOfService(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getPeriodOfService(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "academicYear":
-        var response = await safeApiCall(apiService.getAcademicYearAttribute(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(
+            apiService.getAcademicYearAttribute(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "bloodGroup":
-        var response = await safeApiCall(apiService.getBloodGroupAttribute(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(
+            apiService.getBloodGroupAttribute(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "occupation":
-        var response = await safeApiCall(apiService.getOccupationAttribute(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(
+            apiService.getOccupationAttribute(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "qualification":
-        var response = await safeApiCall(apiService.getQualifications(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getQualifications(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "religion":
-        var response = await safeApiCall(apiService.getReligions(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getReligions(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "caste":
-        var response = await safeApiCall(apiService.getCastes(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(apiService.getCastes(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "subcaste":
-        var response = await safeApiCall(apiService.getSubCastes(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getSubCastes(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "mother_tongue":
-        var response = await safeApiCall(apiService.getMotherTongue(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getMotherTongue(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "organization":
-        var response = await safeApiCall(apiService.getOrganizations(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getOrganizations(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       // case "designation":
       //   var response = await safeApiCall(apiService.getDesignation(
       //       token:
-      //           "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+      //           "$mdmToken"));
       //   return response.fold((l) {
       //     return Left(l);
       //   }, (r) => Right(r.data.transform()));
       case "nationality":
-        var response = await safeApiCall(apiService.getNationality(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getNationality(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "personalise_learning_needs":
-        var response = await safeApiCall(apiService.getPersonalizedLearningNeeds(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(
+            apiService.getPersonalizedLearningNeeds(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       case "relationWithChild":
-        var response = await safeApiCall(apiService.getRelationWithChild(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response =
+            await safeApiCall(apiService.getRelationWithChild(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
       default:
-        var response = await safeApiCall(apiService.getCancellationReason(
-            token:
-                "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        var response = await safeApiCall(
+            apiService.getCancellationReason(token: mdmToken));
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
@@ -828,10 +793,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, CityAndStateResponse>> getCityAndStateByPincode(
       {required String pincode}) async {
-    var response = await safeApiCall(apiService.getCityAndStateByPincode(
-        token:
-            "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933",
-        pincode: pincode));
+    var response = await safeApiCall(
+        apiService.getCityAndStateByPincode(token: mdmToken, pincode: pincode));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -936,9 +899,7 @@ class NetworkAdapter implements NetworkPort {
       getSummerCampEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
     var response = await safeApiCall(apiService.getSummerCampEnrollmentDetail(
-        summerCampEnrollmentDetail: vasDetailRequest,
-        token:
-            "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        summerCampEnrollmentDetail: vasDetailRequest, token: mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -960,9 +921,7 @@ class NetworkAdapter implements NetworkPort {
       getTransportEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
     var response = await safeApiCall(apiService.getTransportEnrollmentDetail(
-        transportEnrollmentDetail: vasDetailRequest,
-        token:
-            "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933"));
+        transportEnrollmentDetail: vasDetailRequest, token: mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1162,7 +1121,7 @@ class NetworkAdapter implements NetworkPort {
   }) async {
     var response = await safeApiCall(
       apiService.getUserRolePermissions(
-        rbacToken,
+        mdmToken,
         UserRolePermissionRequestEntity(
             email: request.email, service: request.service),
       ),
@@ -1233,8 +1192,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, MdmCoReasonResponseModel>>
       getPurposeOfVisitList() async {
-    var response =
-        await safeApiCall(apiService.getPurposeOfVisitList(19, "name"));
+    var response = await safeApiCall(
+        apiService.getPurposeOfVisitList(19, "name", mdmToken));
 
     return response.fold((l) {
       return Left(l);
