@@ -14,7 +14,7 @@ dependencies:
   flutter_riverpod: ^2.0.2
   flutter_errors:
     git:
-      url: https://github.com/faiyyazs/flutter-errors.git
+      url: https://github.com/AshrafNeo/flutter-errors.git
       ref: main
       path: flutter-errors/
 

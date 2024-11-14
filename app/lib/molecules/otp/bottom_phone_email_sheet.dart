@@ -47,6 +47,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
             onSecondTabChange: () {
               FocusScope.of(context).unfocus();
               otpPageModel.mobileController.clear();
+              otpPageModel.login();
             },
           ),
           Column(
@@ -82,17 +83,21 @@ class BottomPhoneEmailSheet extends StatelessWidget {
                           AppInputformatters.emailFormatter(),
                         ],
                       )
-                    : CommonTextFormField(
-                        controller: otpPageModel.mobileController,
-                        showAstreik: false,
-                        keyboardType: TextInputType.phone,
-                        hintText: 'Enter Phone Number',
-                        labelText: '',
-                        validator: (value) =>
-                            AppValidators.validateMobile(value),
-                        inputFormatters: [
-                          AppInputformatters.mobileFormatter(),
-                        ],
+                    : Form(
+                        key: otpPageModel.formKey,
+                        child: CommonTextFormField(
+                          controller: otpPageModel.mobileController,
+                          showAstreik: false,
+                          keyboardType: TextInputType.phone,
+                          hintText: 'Enter Phone Number',
+                          maxLength: 10,
+                          labelText: '',
+                          validator: (value) =>
+                              AppValidators.validateMobile(value),
+                          inputFormatters: [
+                            AppInputformatters.mobileFormatter(),
+                          ],
+                        ),
                       );
               },
             ),
@@ -108,8 +113,11 @@ class BottomPhoneEmailSheet extends StatelessWidget {
           ]),
           CommonElevatedButton(
             onPressed: () {
-              if (otpPageModel.mobileController.text.isNotEmpty ||
-                  otpPageModel.emailContoller.text.isNotEmpty) {
+              if (otpPageModel.formKey.currentState!.validate()) {
+                otpPageModel.openBottomSheet.add(true);
+                return;
+              }
+              if (otpPageModel.mobileController.text.isNotEmpty) {
                 otpPageModel.openBottomSheet.add(true);
               }
             },

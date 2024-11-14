@@ -8,6 +8,8 @@ import 'package:rxdart/subjects.dart';
 
 class CommonTabPage<T> extends StatelessWidget {
   final BehaviorSubject<int> selectedValue;
+  final VoidCallback? onFirstTabTap;
+  final VoidCallback? onSecondTabTap;
   final TabController tabController;
   final String? firstTabTitle;
   final Function()? onFirstTabChange;
@@ -28,6 +30,8 @@ class CommonTabPage<T> extends StatelessWidget {
     this.onThirdTabChange,
     this.moreThanTwoTab = false,
     this.firstTabTitle,
+    this.onFirstTabTap,
+    this.onSecondTabTap,
     this.secondTabTitle,
     this.thirdTabTitle,
     this.showMiddleTab = false, // Defaults to false

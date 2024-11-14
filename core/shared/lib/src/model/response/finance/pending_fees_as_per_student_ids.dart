@@ -1,7 +1,7 @@
 import 'package:shared/src/model/response/finance/get_pending_fees_model.dart';
 
 class PendingFeesAsPerStudentIds {
-  final int studentId;
+  final String studentId;
   final String studentName;
   final bool? isSelected;
   final List<GetPendingFeesFeeModel> fees;
@@ -14,7 +14,7 @@ class PendingFeesAsPerStudentIds {
   });
 
   PendingFeesAsPerStudentIds copyWith({
-    int? studentId,
+    String? studentId,
     String? studentName,
     bool? isSelected,
     List<GetPendingFeesFeeModel>? fees,

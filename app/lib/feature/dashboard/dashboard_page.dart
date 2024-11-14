@@ -1,8 +1,10 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/dashboard_page_view.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../base/app_base_page.dart';
@@ -17,20 +19,26 @@ class DashboardPage extends BasePage<DashboardPageModel> {
 class DashboardPageState
     extends AppBasePageState<DashboardPageModel, DashboardPage>
     with TickerProviderStateMixin {
+  late final DashboardPageModel dashboardViewModel;
+
   @override
   ProviderBase<DashboardPageModel> provideBase() {
     return dashboardViewModelProvider;
   }
 
   @override
-  void onModelReady(DashboardPageModel model) {
+  void initState() {
+    super.initState();
+    // Access the provider safely in initState or didChangeDependencies
+    dashboardViewModel = ProviderScope.containerOf(context, listen: false)
+        .read(dashboardViewModelProvider)
+      ..getUserRoleBaseDetails();
+  }
+
+  @override
+  void onModelReady(DashboardPageModel model) async {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.mobileNo =
-        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo;
-
-    model.getStudentList(int.parse(
-        ProviderScope.containerOf(context).read(otpPageModelProvider).phoneNo));
   }
 
   @override
@@ -40,7 +48,6 @@ class DashboardPageState
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 }

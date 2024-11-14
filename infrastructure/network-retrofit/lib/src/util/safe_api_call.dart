@@ -74,10 +74,8 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
             message: throwable.toString(), httpError: 502, cause: throwable));
 
       case HttpException:
-        return Left(NetworkError(
-            message: (throwable as HttpException).message,
-            httpError: 502,
-            cause: throwable));
+        final eitherResponse = (throwable as DioException).response as HttpResponse<dynamic>;
+        return Left(getError(apiResponse: eitherResponse.response));
 
       default:
         return Left(NetworkError(

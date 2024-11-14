@@ -24,4 +24,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'ATTENDANCE_BASE_URL')
   static const String attendance = _EnvDev.attendance;
+
+  @EnviedField(varName: 'TRANSPORT_BASE_URL')
+  static const String transportUrl = _EnvDev.transportUrl;
 }

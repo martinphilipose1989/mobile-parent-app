@@ -21,9 +21,9 @@ class GetGuardianStudentDetailsDataModel {
 }
 
 class GetGuardianStudentDetailsStudentModel {
-  final int? id;
-  final String? studentDisplayName;
-  final String? crtEnrOn;
+  dynamic id;
+  String? studentDisplayName;
+  String? crtEnrOn;
 
   GetGuardianStudentDetailsStudentModel({
     this.id,

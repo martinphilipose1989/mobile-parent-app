@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/molecules/payments_page.dart/payments_page_radio_button.dart';
 import 'package:app/navigation/route_paths.dart';

@@ -30,6 +30,10 @@ class NetworkError extends BaseError {
         return AppError(
             throwable: cause, error: error, type: ErrorType.netServerMessage);
 
+      case 500:
+        return AppError(
+            throwable: cause, error: error, type: ErrorType.netServerMessage);
+            
       case 404:
         return AppError(
             throwable: cause, error: error, type: ErrorType.netServerMessage);

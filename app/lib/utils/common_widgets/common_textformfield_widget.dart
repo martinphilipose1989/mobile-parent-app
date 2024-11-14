@@ -21,90 +21,122 @@ class CommonTextFormField extends StatelessWidget {
   final bool readOnly;
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
+  final void Function()? onTap;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final void Function(String value)? onFieldSubmitted;
+  final void Function(String)? onChanged;
+  final double rightPadding;
+  final double leftPadding;
+  final double topPadding;
+  final double bottomPadding;
+  final BoxConstraints? prefixIconConstraints;
 
-  const CommonTextFormField(
-      {super.key,
-      this.labelText,
-      this.controller,
-      this.keyboardType = TextInputType.text,
-      this.hintText,
-      this.validator,
-      this.obscureText = false,
-      this.readOnly = false,
-      this.decoration,
-      this.maxLines,
-      this.maxLength,
-      required this.showAstreik,
-      this.showSearchIcon = false,
-      this.prefix,
-      this.suffix,
-      this.inputFormatters});
+  const CommonTextFormField({
+    super.key,
+    this.labelText,
+    this.controller,
+    this.suffix,
+    this.keyboardType = TextInputType.text,
+    this.hintText,
+    this.validator,
+    this.obscureText = false,
+    this.readOnly = false,
+    this.decoration,
+    this.maxLines,
+    this.maxLength,
+    required this.showAstreik,
+    this.showSearchIcon = false,
+    this.prefix,
+    this.inputFormatters,
+    this.onTap,
+    this.focusNode,
+    this.onFieldSubmitted,
+    this.textInputAction,
+    this.onChanged,
+    this.topPadding = 0,
+    this.bottomPadding = 0,
+    this.rightPadding = 0,
+    this.leftPadding = 0,
+    this.prefixIconConstraints,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        SizedBox(
-          //height: 48.h,
-          child: TextFormField(
-            inputFormatters: inputFormatters,
-            controller: controller,
-            cursorHeight: 20,
-            readOnly: readOnly,
-            maxLength: maxLength,
-            style:
-                AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
-            keyboardType: keyboardType,
-            validator: validator,
-            obscureText: obscureText,
-            maxLines: maxLines ?? 1,
-            decoration: decoration ??
-                InputDecoration(
-                  filled: readOnly ? true : false,
-                  fillColor: readOnly
-                      ? Colors.grey.shade100
-                      : Theme.of(context).inputDecorationTheme.fillColor,
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  prefixIcon: prefix,
-                  suffixIcon: suffix,
-                  hintText: hintText ?? '',
-                ),
+    return Padding(
+      padding: REdgeInsets.only(
+          top: topPadding,
+          bottom: bottomPadding,
+          left: leftPadding,
+          right: rightPadding),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SizedBox(
+            //height: 48.h,
+            child: TextFormField(
+              inputFormatters: inputFormatters,
+              onChanged: onChanged,
+              controller: controller,
+              cursorHeight: 20,
+              readOnly: readOnly,
+              maxLength: maxLength,
+              style:
+                  AppTypography.body1.copyWith(overflow: TextOverflow.ellipsis),
+              keyboardType: keyboardType,
+              validator: validator,
+              obscureText: obscureText,
+              maxLines: maxLines ?? 1,
+              decoration: decoration ??
+                  InputDecoration(
+                      filled: readOnly ? true : false,
+                      fillColor: readOnly
+                          ? Colors.grey.shade100
+                          : Theme.of(context).inputDecorationTheme.fillColor,
+                      prefixIconConstraints: prefixIconConstraints,
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      prefixIcon: prefix,
+                      hintText: hintText ?? '',
+                      counterText: ""),
+              onTap: onTap,
+              focusNode: focusNode,
+              onFieldSubmitted: onFieldSubmitted,
+            ),
           ),
-        ),
-        Positioned(
-          left: 6,
-          top: -11,
-          child: labelText != ''
-              ? Container(
-                  color: readOnly
-                      ? Colors.grey.shade100
-                      : Colors
-                          .white, // Match the background color to avoid overlap
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    children: [
-                      CommonText(
-                        text: labelText ?? "",
-                        style: AppTypography.caption
-                            .copyWith(color: AppColors.textNeutral35),
-                      ),
-                      showAstreik
-                          ? CommonText(
-                              text: ' *',
-                              style: AppTypography.caption.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.failure,
-                                  fontSize: 12.sp),
-                            )
-                          : const SizedBox.shrink(),
-                    ],
-                  ),
-                )
-              : Container(),
-        )
-      ],
+          Positioned(
+            left: 6,
+            top: -11,
+            child: labelText != ''
+                ? Container(
+                    color: readOnly
+                        ? Colors.grey.shade100
+                        : Colors
+                            .white, // Match the background color to avoid overlap
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      children: [
+                        CommonText(
+                          text: labelText ?? "",
+                          style: AppTypography.caption
+                              .copyWith(color: AppColors.textNeutral35),
+                        ),
+                        showAstreik
+                            ? CommonText(
+                                text: ' *',
+                                style: AppTypography.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.failure,
+                                    fontSize: 12.sp),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

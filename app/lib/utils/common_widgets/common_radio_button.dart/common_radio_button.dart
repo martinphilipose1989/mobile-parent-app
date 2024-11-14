@@ -21,15 +21,19 @@ class CommonRadioButton<T> {
 }
 
 class CommonRadioButtonWidget<T> extends StatelessWidget {
+  final Function(T?)? onOptionSelected;
   final CommonRadioButton<T> commonRadioButton;
   final T value;
   final String title;
+  final bool isTogglableWithValue;
 
   const CommonRadioButtonWidget({
     super.key,
     required this.commonRadioButton,
     required this.value,
     required this.title,
+    this.onOptionSelected,
+    this.isTogglableWithValue = false
   });
 
   @override
@@ -44,8 +48,17 @@ class CommonRadioButtonWidget<T> extends StatelessWidget {
           activeColor: Theme.of(context).colorScheme.primary,
           groupValue: snapshot.data,
           onChanged: (T? newValue) {
-            commonRadioButton.selectItem(newValue);
+            if(isTogglableWithValue){
+              if(newValue != null){
+                commonRadioButton.selectItem(newValue);
+              }
+            }
+            else{
+              commonRadioButton.selectItem(newValue);
+            }
+            onOptionSelected?.call(newValue);
           },
+          toggleable: isTogglableWithValue,
         );
       },
     );

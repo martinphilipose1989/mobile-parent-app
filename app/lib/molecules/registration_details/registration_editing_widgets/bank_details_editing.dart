@@ -1,10 +1,12 @@
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BankDetailsEditing extends StatelessWidget {
@@ -32,43 +34,64 @@ class BankDetailsEditing extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      CommonSizedBox.sizedBox(height: 20, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'IFSC Code',
-                      ),
-                      CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Bank Name',
-                      ),
-                      CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Branch Name',
-                      ),
-                      CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Account Holder Name',
-                      ),
-                      CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Account Type',
-                      ),
-                      CommonSizedBox.sizedBox(height: 15, width: 10),
-                      const CommonTextFormField(
-                        showAstreik: false,
-                        labelText: 'Account Number',
-                      ),
-                    ],
+                  child: Form(
+                    key: model.bankDetailsFormKey,
+                    child: Column(
+                      children: [
+                        const Divider(
+                          height: 1,
+                          thickness: 1,
+                        ),
+                        CommonSizedBox.sizedBox(height: 20, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'IFSC Code',
+                          controller: model.ifscCodeController,
+                          maxLength: 11,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'IFSC code',checkSpecialCharacters: false,validateLength: true,minLength: 9),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'Bank Name',
+                          controller:model.bankNameController,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Bank name'),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                         CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'Branch Name',
+                           controller:model.branchNameController,
+                           validator: (value)=> AppValidators.validateNotEmpty(value, 'Branch name'),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'Account Holder Name',
+                          controller:model.accountHolderNameController,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Account holder name'),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'Account Type',
+                          controller: model.accountTypeController,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Account type'),
+                        ),
+                        CommonSizedBox.sizedBox(height: 15, width: 10),
+                        CommonTextFormField(
+                          showAstreik: true,
+                          labelText: 'Account Number',
+                          maxLength: 14,
+                          controller:model.accountNumberController,
+                          validator: (value)=> AppValidators.validateNotEmpty(value, 'Account number',checkSpecialCharacters: false,validateLength: true,minLength: 10),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          keyboardType: TextInputType.number,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ]),
@@ -84,10 +107,15 @@ class BankDetailsEditing extends StatelessWidget {
           style: AppTypography.subtitle1,
         ),
         CommonSizedBox.sizedBox(height: 15, width: 10),
-        const CommonTextFormField(
-          showAstreik: false,
-          labelText: 'UPI ID',
-        ),
+         Form(
+           key: model.upiFormKey,
+           child: CommonTextFormField(
+            showAstreik: false,
+            labelText: 'UPI ID',
+             controller: model.upiController,
+             validator: (value)=> AppValidators.validateNotEmpty(value, 'UPI ID',checkSpecialCharacters: false,validateLength: true,minLength: 5),
+                   ),
+         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
         const CommonText(
           text: "UnderTaking",

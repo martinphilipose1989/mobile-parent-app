@@ -225,11 +225,12 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                       CommonSizedBox.sizedBox(
                                           height: 20, width: 10),
                                       CommonDatePickerWidget(
+                                        onDateSelected: (p0) {},
                                         validator: (value) =>
                                             AppValidators.validateNotEmpty(
                                                 value, 'Cheque Date'),
                                         showAstreik: true,
-                                        dateController:
+                                        controller:
                                             model.chequeDateControllers[index],
                                         labelName: 'Cheque Date',
                                       ),

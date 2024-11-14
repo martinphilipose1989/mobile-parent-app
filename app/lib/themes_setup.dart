@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 
 class AppColors {
   AppColors._();
+
   // Primary Colors
   static const Color primary = Color(0xFF3F41D1);
   static const Color primaryLight = Color(0xFF4B4DD4);
   static const Color primaryLighter = Color(0xFFEBEBFA);
-
 
   // On Primary Colors
   static const Color primaryOn = Color(0xFFFFFFFF);
@@ -39,6 +39,7 @@ class AppColors {
   static const Color textGray = Color(0xFF666666);
   static const Color textLightGray = Color(0xFFA3A3A3);
   static const Color textLighterGray = Color(0xFFBDBDBD);
+  static const Color surface_1 = Color(0xFFF6F6F6);
   static const Color textPaleGray = Color.fromRGBO(224, 224, 224, 1.0);
   static const Color textPalerGray = Color(0xFFEBEBEB);
 
@@ -49,8 +50,16 @@ class AppColors {
   static const Color lightgrey = Color(0xFFF5F5F7);
   static const Color disable = Color(0xFFEBEBEB);
 
-
   static const Color divider = Color(0xFFE0E0E0);
+  static const Color dividerColor = Color(0xFFE0E0E0);
+  static const Color roseWhite = Color(0xFFF4F0EF);
+  static const Color listItemDisabled = Color(0xFFF4F0EF);
+  static Color shadowColor = const Color(0xFF4C4E64).withOpacity(0.22);
+  static BoxShadow boxShadow = BoxShadow(
+      color: AppColors.shadowColor.withOpacity(0.22),
+      blurRadius: 10,
+      // blurStyle: BlurStyle.solid,
+      offset: const Offset(0, 2));
 }
 
 List<ThemeData> getThemes(BuildContext context) {

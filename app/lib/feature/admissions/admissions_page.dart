@@ -15,13 +15,20 @@ class AdmissionsPage extends BasePage<AdmissionsViewModel> {
 }
 
 class _AdmissionsPageState
-    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage> {
+    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage> with TickerProviderStateMixin {
   @override
-  void onModelReady(AdmissionsViewModel model) {}
+  void onModelReady(AdmissionsViewModel model) {
+    model.controller = TabController(length: 2, vsync: this);
+    model.setupScrollListener();
+    model.fetchAdmissionList();
+    model.exceptionHandlerBinder.bind(
+      context,
+      super.stateObserver,
+    );
+  }
 
   @override
   PreferredSizeWidget? buildAppbar(AdmissionsViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Admissions',
       notShowNotificationAndUserBatch: false,
@@ -31,13 +38,11 @@ class _AdmissionsPageState
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, AdmissionsViewModel model) {
-    // TODO: implement buildView
     return AdmissionsPageView(provideBase());
   }
 

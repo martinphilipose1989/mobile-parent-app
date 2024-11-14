@@ -15,7 +15,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
 
   @override
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
-      {required String type, required List<int> students}) {
+      {required String type, required List students}) {
     return networkPort.getAcademicYear(type: type, students: students);
   }
 
@@ -27,7 +27,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
 
   @override
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
-      {required int paymentMode, required List<int> studentFeeIds}) {
+      {required int paymentMode, required List studentFeeIds}) {
     return networkPort.getValidatePayNow(
         paymentMode: paymentMode, studentFeeIds: studentFeeIds);
   }
@@ -48,7 +48,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
   @override
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
-      required List<int> students,
+      required List students,
       required List<int> academicYear,
       required int applicableTo,
       int? entityId,
@@ -64,7 +64,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
 
   @override
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
-      {required List<int> studentIds, required List<int> academicYearIds}) {
+      {required List studentIds, required List<int> academicYearIds}) {
     return networkPort.getSchoolNames(
         studentIds: studentIds, academicYearIds: academicYearIds);
   }

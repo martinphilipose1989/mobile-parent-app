@@ -163,8 +163,8 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                 width: 10,
               ),
               SizedBox(
-                child:
-                    AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
+                child: AppStreamBuilder<
+                    Resource<List<GetGuardianStudentDetailsStudentModel>>>(
                   stream: model.getGuardianStudentDetailsModel,
                   initialData: Resource.none(),
                   dataBuilder: (context, data) {
@@ -172,7 +172,7 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         ? const SizedBox(
                             child: CircularProgressIndicator(),
                           )
-                        : data.data?.data?.students == null
+                        : data.data == null
                             ? const SizedBox.shrink()
                             : SizedBox(
                                 height: 55.h,
@@ -186,15 +186,13 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                   selectedValue: model.selectedStudent!
                                       .map((e) => e.studentDisplayName ?? '')
                                       .toList(),
-                                  items: data.data?.data?.students!
-                                          .map((e) => e.studentDisplayName)
-                                          .toList() ??
-                                      [],
+                                  items: data.data!
+                                      .map((e) => e.studentDisplayName)
+                                      .toList(),
                                   isMutiSelect: true,
                                   onMultiSelect: (selectedValues) {
                                     model.getSelectedStudentIds(
-                                        students:
-                                            data.data?.data!.students ?? [],
+                                        students: data.data ?? [],
                                         selectedValues: selectedValues);
                                   },
                                 ),

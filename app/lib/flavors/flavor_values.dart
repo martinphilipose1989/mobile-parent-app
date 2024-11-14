@@ -14,7 +14,13 @@ class FlavorValues {
   final String disciplinarySlip;
   final String attendance;
 
-  const FlavorValues( {
+  final String authorizationEndpoint;
+  final String tokenEndpoint;
+  final String? logoutEndpoint;
+  final String transportUrl;
+
+  const FlavorValues({
+    required this.transportUrl,
     required this.attendance,
     required this.disciplinarySlip,
     required this.apiBaseUrl,
@@ -24,6 +30,9 @@ class FlavorValues {
     required this.mdmToken,
     required this.ticketingBaseUrl,
     required this.secrets,
+    required this.authorizationEndpoint,
+    required this.tokenEndpoint,
+    this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,
     this.useFakeData = false,

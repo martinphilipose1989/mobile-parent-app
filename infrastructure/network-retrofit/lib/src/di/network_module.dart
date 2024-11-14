@@ -1,3 +1,5 @@
+import 'package:alice/core/alice_dio_interceptor.dart';
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -7,8 +9,10 @@ import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dar
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
+import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:alice/alice.dart';
 
 import '../services/attendance_retrofit_service.dart';
 
@@ -21,16 +25,22 @@ abstract class NetworkModule {
       BaseOptions(baseUrl: url);
 
   @singleton
-  PrettyDioLogger providerPrettyLogger() => PrettyDioLogger(
-        request: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
+  PrettyDioLogger providerPrettyLogger(@Named('ShowLogs') bool showLogs) =>
+      PrettyDioLogger(
+        request: showLogs,
+        requestBody: showLogs,
+        requestHeader: showLogs,
+        responseBody: showLogs,
+        responseHeader: showLogs,
         logPrint: (log) {
           return print(log as String);
         },
       );
+
+  @singleton
+  CurlLoggerDioInterceptor provideCurlLogger(
+          @Named('ShowLogs') bool showLogs) =>
+      CurlLoggerDioInterceptor(printOnSuccess: showLogs);
 
   @singleton
   ApiInterceptor provideApiInterceptor(
@@ -38,19 +48,35 @@ abstract class NetworkModule {
       ApiInterceptor(apiKey, mdmToken);
 
   @singleton
+  Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
+      Alice(showNotification: showLogs);
+
+  @singleton
+  AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
+      alice.getDioInterceptor();
+
+  @singleton
   List<Interceptor> providerInterceptors(
-          PrettyDioLogger logger, ApiInterceptor apiInterceptor) =>
+          PrettyDioLogger logger,
+          ApiInterceptor apiInterceptor,
+          CurlLoggerDioInterceptor curlInterceptor,
+          AliceDioInterceptor aliceDioInterceptor,
+          @Named('ShowLogs') bool showLogs) =>
       <Interceptor>[
         apiInterceptor,
-        logger,
+        if (showLogs == true) ...[
+          logger,
+          curlInterceptor,
+          // REMOVE WHILE UAT OR RELEASE
+          aliceDioInterceptor
+        ]
       ];
 
   @lazySingleton
   Dio providerDio(BaseOptions options, List<Interceptor> interceptors) {
     Dio dio = Dio(options);
-    dio.interceptors.addAll(
-      interceptors,
-    );
+
+    dio.interceptors.addAll(interceptors);
     return dio;
   }
 
@@ -92,6 +118,10 @@ abstract class NetworkModule {
   AttendanceRetorfitService providerAttendanceRetrofitService(
           Dio dio, @Named('attendance') String attendancebaseUrl) =>
       AttendanceRetorfitService(dio, attendanceBaseUrl: attendancebaseUrl);
+  @lazySingleton
+  TransportService providerTransportRetrofitService(
+          Dio dio, @Named('transportUrl') String transportUrl) =>
+      TransportService(dio, transportUrl: transportUrl);
 
   @lazySingleton
   NetworkPort providerNetworkService(
@@ -100,6 +130,7 @@ abstract class NetworkModule {
           AdminRetorfitService adminRetorfitService,
           AttendanceRetorfitService attendanceRetorfitService,
           DisciplinaryRetorfitService disciplinaryRetorfitService,
+          TransportService transportService,
           TicketRetrofitService ticketRetrofitService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
@@ -107,5 +138,6 @@ abstract class NetworkModule {
           disciplinaryRetorfitService: disciplinaryRetorfitService,
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
-          financeRetrofitService: financeRetrofitService);
+          financeRetrofitService: financeRetrofitService,
+          transportService: transportService);
 }

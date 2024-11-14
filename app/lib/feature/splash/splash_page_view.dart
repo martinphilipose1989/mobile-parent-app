@@ -1,4 +1,3 @@
-import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -33,7 +32,10 @@ class SplashPageView extends BasePageViewWidget<SplashViewModel> {
           ),
           CommonElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(RoutePaths.otpPage);
+              // Navigator.of(context).pushReplacementNamed(
+              //   RoutePaths.otpPage,
+              // );
+              model.login();
             },
             text: 'Lets Get Started',
             textStyle: AppTypography.subtitle2,

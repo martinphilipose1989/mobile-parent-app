@@ -8,7 +8,7 @@ class GetPendingFeesRequest {
   @JsonKey(name: "type")
   final String type;
   @JsonKey(name: "students")
-  final List<int> students;
+  final List students;
   @JsonKey(name: "applicable_to")
   final int applicableTo;
   @JsonKey(name: "academic_years")

@@ -36,7 +36,6 @@ class LocalError extends BaseError {
             error: error,
             throwable: cause,
             type: ErrorType.imagePickerCancelled);
-
       default:
         return AppError(
             error: error, throwable: cause, type: ErrorType.iOException);

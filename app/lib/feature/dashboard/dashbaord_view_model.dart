@@ -1,20 +1,42 @@
+import 'dart:developer';
+
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import 'dashboard_state.dart';
 
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final TokenresponseUsecase tokenresponseUsecase;
+  final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
+
+  BehaviorSubject<ParentStudentStatusEnum> statusSubject =
+      BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
+
+  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+
+  Stream<Resource<User>> get userStream => userSubject.stream;
+
+  var dashboardState = DashboardState();
 
   DashboardPageModel(
-      this.exceptionHandlerBinder, this._getGuardianStudentDetailsUsecase);
+      this.exceptionHandlerBinder,
+      this._getGuardianStudentDetailsUsecase,
+      this.tokenresponseUsecase,
+      this.getUserRoleBasePermissionUsecase,
+      this._getUserDetailsUsecase);
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -72,7 +94,7 @@ class DashboardPageModel extends BasePageViewModel {
       case 'order':
         return '';
       case 'transport':
-        return '';
+        return RoutePaths.ticketListPage;
       case 'tickets':
         return RoutePaths.ticketListPage;
       case 'application':
@@ -90,7 +112,7 @@ class DashboardPageModel extends BasePageViewModel {
     }
   }
 
-  List<GetGuardianStudentDetailsStudentModel>? selectedStudentId;
+  List<GetGuardianStudentDetailsStudentModel>? selectedStudentId = [];
 
   void getSelectedStudentid(List<String> names) {
     List<GetGuardianStudentDetailsStudentModel> tempList = [];
@@ -103,6 +125,9 @@ class DashboardPageModel extends BasePageViewModel {
       }
     }
     selectedStudentId = tempList;
+    if (tempList.isNotEmpty) {
+      dashboardState.setValueOfSelectedStudent(tempList.first);
+    }
   }
 
   // Calling students list
@@ -128,6 +153,9 @@ class DashboardPageModel extends BasePageViewModel {
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
+
+          if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
+          dashboardState.setValueOfSelectedStudent(tempList.first);
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
@@ -136,7 +164,68 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  // end
+  Future<void> getUserRoleBaseDetails() async {
+    await exceptionHandlerBinder.handle(block: () {
+      TokenresponseUsecaseParams params = TokenresponseUsecaseParams();
+      RequestManager<TokenIntrospectionResponse>(
+        params,
+        createCall: () => tokenresponseUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {
+          log("tokenresponseUsecase ${result.data.toString()}");
+          getUserProfile(
+              request: UserRolePermissionRequest(
+                  email: result.data?.email, service: "mobile_app"));
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> getUserProfile(
+      {required UserRolePermissionRequest request}) async {
+    await exceptionHandlerBinder.handle(block: () {
+      GetUserRoleBasePermissionParams params =
+          GetUserRoleBasePermissionParams(request: request);
+      RequestManager<UserRolePermissionResponse>(
+        params,
+        createCall: () =>
+            getUserRoleBasePermissionUsecase.execute(params: params),
+      ).asFlow().listen((result) async {
+        if (result.status == Status.success) {
+          log("getUserRoleBasePermissionUsecase ${result.data}");
+          SharedPreferenceHelper.saveString(
+              mobileNumber, "${result.data?.data?.user?.mobileNo}");
+          final statusId = result.data?.data?.user?.statusId ?? 0;
+          final statusEnum = ParentStudentStatusEnum.fromStatus(statusId);
+          getUserDetails();
+          // Add the enum to the subject
+          statusSubject.add(statusEnum);
+          final phoneNo = await SharedPreferenceHelper.getString(mobileNumber);
+          mobileNo = phoneNo;
+          if (phoneNo.isNotEmpty &&
+              statusEnum == ParentStudentStatusEnum.admission) {
+            getStudentList(int.parse(phoneNo));
+          }
+        }
+      }).onError((error) {
+        exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => _getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+      }
+    });
+  }
 }
 
 class Chips {

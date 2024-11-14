@@ -24,4 +24,7 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'ATTENDANCE_BASE_URL')
   static const String attendance = _EnvQA.attendance;
+
+  @EnviedField(varName: 'TRANSPORT_BASE_URL')
+  static const String transportUrl = _EnvQA.transportUrl;
 }

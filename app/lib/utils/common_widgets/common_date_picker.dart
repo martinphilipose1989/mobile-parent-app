@@ -3,21 +3,31 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class CommonDatePickerWidget extends StatefulWidget {
   final String? labelName;
-  final bool? showAstreik;
-  final String? intialDate;
+  DateTime? initialDate;
+  DateTime? lastDate;
+  final bool isDisabled;
+  final bool showAstreik;
+  final Function(DateTime?) onDateSelected;
+  final TextEditingController controller;
   final String? Function(String?)? validator;
-  final TextEditingController? dateController;
-  const CommonDatePickerWidget(
+  final bool isDOB;
+  CommonDatePickerWidget(
       {super.key,
       this.labelName,
-      this.intialDate,
+      this.initialDate,
+      this.isDisabled = false,
       this.showAstreik = false,
+      required this.onDateSelected,
       this.validator,
-      this.dateController});
+      required this.controller,
+      this.isDOB = false,
+      this.lastDate});
 
   @override
   CommonDatePickerWidgetState createState() => CommonDatePickerWidgetState();
@@ -29,38 +39,56 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     // TODO: implement initState
     super.initState();
 
-    widget.dateController!.text = formatDateToDDMMYYYY(DateTime.now());
+    widget.controller.text = formatDateToDDMMYYYY(DateTime.now());
   }
 
   String formatDateToDDMMYYYY(DateTime date) {
-    if (widget.intialDate != null) {
-      DateTime parsedDate =
-          DateFormat('dd/MM/yyyy').parse(widget.intialDate ?? '');
+    if(!widget.isDOB){
+      if (widget.initialDate != null) {
+        DateTime parsedDate =
+            DateFormat('dd/MM/yyyy').parse(widget.initialDate.toString());
 
-      // Format the parsed date to 'YYYY-mm-dd'
-      String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
-      return formattedDate;
-    } else {
-      return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+        // Format the parsed date to 'YYYY-mm-dd'
+        String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+        return formattedDate;
+      } else {
+        return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      }      
+    }
+    else{
+      if (widget.initialDate != null) {
+        return DateFormat('dd/MM/yyyy').format(widget.initialDate!);
+      }
+      else{
+        return "";
+      }
     }
   }
 
-  @override
-  void dispose() {
-    widget.dateController!.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.dateController!.dispose();
+  //   super.dispose();
+  // }
+
+  // @override
+  // void dispose() {
+  //   widget.controller.dispose();
+  //   super.dispose();
+  // }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: widget.initialDate ?? DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      lastDate: widget.isDOB? widget.lastDate??DateTime(DateTime.now().year-1) : DateTime(2101),
     );
     if (picked != null) {
       setState(() {
-        widget.dateController?.text = DateFormat('yyyy-MM-dd').format(picked);
+        widget.onDateSelected(picked);
+        widget.initialDate = picked;
+        widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
   }
@@ -72,12 +100,11 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
       children: [
         TextFormField(
           validator: widget.validator,
-          controller: widget.dateController,
+          controller: widget.controller,
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
-            alignLabelWithHint: true,
-            prefixIcon: IconButton(
-              icon: const Icon(Icons.calendar_today_outlined),
+            suffixIcon: IconButton(
+              icon: SvgPicture.asset(AppImages.calendarIcon),
               onPressed: () {
                 _selectDate(context);
               },
@@ -88,13 +115,15 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           ),
           readOnly: true,
           onTap: () {
-            _selectDate(context);
+            if (!widget.isDisabled) {
+              _selectDate(context);
+            }
           },
         ),
         Positioned(
           left: 6,
           top: -11,
-          child: widget.labelName != ''
+          child: widget.labelName != null
               ? Container(
                   color: Colors
                       .white, // Match the background color to avoid overlap
@@ -106,7 +135,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
                         style: AppTypography.caption
                             .copyWith(color: AppColors.textNeutral35),
                       ),
-                      widget.showAstreik!
+                      widget.showAstreik
                           ? CommonText(
                               text: ' *',
                               style: AppTypography.caption.copyWith(

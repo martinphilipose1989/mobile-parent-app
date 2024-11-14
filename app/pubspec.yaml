@@ -37,6 +37,8 @@ dependencies:
   injectable:
   dependency_injection:
     path: ../dependency-injection/
+  appauth:
+    path: ../infrastructure/appauth/  
   database_floor:
     path: ../infrastructure/database-floor/
   network_retrofit:
@@ -49,6 +51,8 @@ dependencies:
     path: ../core/domain/
   themes:
     path: ../themes/
+  shared:
+    path: ../core/shared
   localisation:
     path: ../localisation/
   statemanagement_riverpod:
@@ -59,7 +63,7 @@ dependencies:
     path: ../statemanagement-core/
   flutter_errors:
     git:
-      url: https://github.com/faiyyazs/flutter-errors.git
+      url: https://github.com/AshrafNeo/flutter-errors.git
       ref: main
       path: flutter-errors/
   fluttertoast: ^8.0.9
@@ -78,6 +82,17 @@ dependencies:
   intl: ^0.19.0
   badges: ^3.1.2
 
+  dropdown_search: ^5.0.6
+  flutter_typeahead: ^5.2.0
+  path_provider: ^2.1.4
+  open_filex: ^4.5.0
+  geolocator: ^12.0.0
+  cached_network_image: ^3.4.0
+  alice: ^0.4.2
+  country_code_picker: ^3.0.0
+  flutter_libphonenumber: ^2.3.0
+  shimmer: ^3.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

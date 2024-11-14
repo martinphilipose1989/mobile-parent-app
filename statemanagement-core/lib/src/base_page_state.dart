@@ -50,18 +50,23 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   Widget getLayout() {
     return WillPopScope(
       onWillPop: onBackPressed,
-      child: Scaffold(
-        key: _scaffoldKey,
-        floatingActionButton: buildFloatingButton(_viewModel as VM),
-        backgroundColor: scaffoldBackgroundColor(),
-        appBar: buildAppbar(_viewModel as VM),
-        extendBodyBehindAppBar: extendBodyBehindAppBar(),
-        body: buildScaffoldBody(context, _viewModel as VM),
-        drawer: buildDrawer(),
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
-        bottomNavigationBar: buildBottomNavigationBar(_viewModel as VM),
-        bottomSheet: buildBottomSheet(_viewModel as VM),
-        resizeToAvoidBottomInset: true,
+      child: GestureDetector(
+        onTap: (){
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: buildFloatingButton(_viewModel as VM),
+          backgroundColor: scaffoldBackgroundColor(),
+          appBar: buildAppbar(_viewModel as VM),
+          extendBodyBehindAppBar: extendBodyBehindAppBar(),
+          body: buildScaffoldBody(context, _viewModel as VM),
+          drawer: buildDrawer(),
+          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
+          bottomNavigationBar: buildBottomNavigationBar(_viewModel as VM),
+          bottomSheet: buildBottomSheet(_viewModel as VM),
+          resizeToAvoidBottomInset: true,
+        ),
       ),
     );
   }

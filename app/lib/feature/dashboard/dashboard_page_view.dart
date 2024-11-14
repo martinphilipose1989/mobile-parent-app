@@ -1,17 +1,19 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -94,12 +96,11 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
       child: HighlightList(
         chipValues: chipValues,
         onCallBack: (routeName) {
-          print(ProviderScope.containerOf(context)
-              .read(otpPageModelProvider)
-              .phoneNo);
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
-              arguments: model.mobileNo);
+              arguments: PaymentArguments(
+                phoneNo: model.mobileNo,
+              ));
         },
       ),
     );
@@ -139,44 +140,65 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           const SizedBox(
             width: 10,
           ),
-          const CommonText(
-            text: 'Hello, Mr. Ajay Patel',
-            style: AppTypography.subtitle2,
+          BaseWidget(
+            providerBase: userViewModelProvider,
+            builder: (context, model, _) {
+              return AppStreamBuilder<Resource<User>>(
+                stream: model!.userStream,
+                initialData: Resource.none(),
+                dataBuilder: (context, userModel) {
+                  return CommonText(
+                    text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                    style: AppTypography.subtitle2,
+                  );
+                },
+              );
+            },
           )
         ]),
         SizedBox(
-          child: AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
-            stream: model.getGuardianStudentDetailsModel,
-            initialData: Resource.none(),
-            dataBuilder: (context, data) {
-              return data!.status == Status.loading
-                  ? const SizedBox(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : data.data?.data?.students == null
-                      ? const SizedBox.shrink()
-                      : SizedBox(
-                          height: 60.h,
-                          width: 128.w,
-                          child: CustomDropdownButton(
-                            dropdownName: '',
-                            width: 300,
-                            showAstreik: false,
-                            showBorderColor: true,
-                            displayZerothIndex: true,
-                            items: data.data?.data?.students!
-                                    .map((e) => e.studentDisplayName)
-                                    .toList() ??
-                                [],
-                            isMutiSelect: true,
-                            onMultiSelect: (selectedValues) {
-                              model.getSelectedStudentid(selectedValues);
-                            },
-                            onSingleSelect: (selectedValue) {},
-                          ),
-                        );
-            },
-          ),
+          child: AppStreamBuilder<ParentStudentStatusEnum>(
+              stream: model.statusSubject.stream,
+              initialData: model.statusSubject.value,
+              dataBuilder: (context, status) {
+                return Visibility(
+                  visible: status == ParentStudentStatusEnum.admission,
+                  child: AppStreamBuilder<
+                      Resource<GetGuardianStudentDetailsModel>>(
+                    stream: model.getGuardianStudentDetailsModel,
+                    initialData: Resource.none(),
+                    dataBuilder: (context, data) {
+                      return data!.status == Status.loading
+                          ? const SizedBox(
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                          : data.data?.data?.students == null
+                              ? const SizedBox.shrink()
+                              : SizedBox(
+                                  height: 60.h,
+                                  width: 128.w,
+                                  child: CustomDropdownButton(
+                                    dropdownName: '',
+                                    width: 300,
+                                    showAstreik: false,
+                                    showBorderColor: true,
+                                    displayZerothIndex: true,
+                                    items: data.data?.data?.students!
+                                            .map((e) => e.studentDisplayName)
+                                            .toList() ??
+                                        [],
+                                    isMutiSelect: true,
+                                    onMultiSelect: (selectedValues) {
+                                      model
+                                          .getSelectedStudentid(selectedValues);
+                                    },
+                                    onSingleSelect: (selectedValue) {},
+                                  ),
+                                );
+                    },
+                  ),
+                );
+              }),
         )
       ],
     );

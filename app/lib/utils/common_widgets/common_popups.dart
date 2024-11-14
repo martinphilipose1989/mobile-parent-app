@@ -1,3 +1,5 @@
+import 'dart:io' show Platform, exit;
+
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -5,7 +7,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:io' show Platform, exit;
 
 import 'package:flutter_svg/svg.dart';
 
@@ -25,11 +26,13 @@ class CommonPopups {
 
   // Method to show a success popup
   void showSuccess(BuildContext context, String message,
-      Function(bool shouldRoute) onChanged) {
+      Function(bool shouldRoute) onChanged,
+      {String? popParameter}) {
     _showDialog(context,
         icon: Icons.check_circle,
         iconColor: Colors.green,
         message: message,
+        popParameter: popParameter,
         buttonText: 'OK',
         barrierDismissible: false,
         onChanged: onChanged);
@@ -100,6 +103,15 @@ class CommonPopups {
     );
   }
 
+  showAlert(BuildContext context, String message,
+      Function(bool shouldRoute) onChanged) {
+    _showAlertDialog(
+      context,
+      message: message,
+      onChanged: onChanged,
+    );
+  }
+
   // Private method to show a dialog
   void _showDialog(BuildContext context,
       {required IconData icon,
@@ -107,6 +119,7 @@ class CommonPopups {
       required String message,
       required String buttonText,
       required bool barrierDismissible,
+      dynamic popParameter,
       required Function(bool shouldRoute) onChanged}) {
     showDialog(
       context: context,
@@ -137,7 +150,7 @@ class CommonPopups {
                   width: 80.w,
                   child: CommonElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, popParameter);
                       onChanged(true);
                     },
                     text: 'Ok',
@@ -156,8 +169,8 @@ class CommonPopups {
   //showinfo
   void showInfo(
     BuildContext context, {
-      required Widget title,
-      required Widget child,
+    required Widget title,
+    required Widget child,
     required bool barrierDismissible,
   }) {
     showDialog(
@@ -165,16 +178,11 @@ class CommonPopups {
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: title,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          content:child
-
-
-
-
-        );
+            title: title,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            content: child);
       },
     );
   }
@@ -325,7 +333,70 @@ class CommonPopups {
                       child: CommonElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
+                          // onChanged(true);
+                        },
+                        text: 'Cancel',
+                        backgroundColor: Colors.white,
+                        borderColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
+                      )),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                           onChanged(true);
+                        },
+                        text: 'Confirm',
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        textStyle: AppTypography.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      )),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _showAlertDialog(BuildContext context,
+      {required String message,
+      required Function(bool shouldRoute) onChanged}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(25),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CommonText(
+                text: message,
+                style:
+                    AppTypography.subtitle1.copyWith(color: AppColors.textDark),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                      height: 40.h,
+                      width: 110.w,
+                      child: CommonElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // onChanged(true);
                         },
                         text: 'Cancel',
                         backgroundColor: Colors.white,
