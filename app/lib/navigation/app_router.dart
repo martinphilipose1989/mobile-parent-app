@@ -23,16 +23,18 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/webview/webview_page.dart';
+import 'package:app/molecules/payment_history/payment_details.dart';
+import 'package:app/molecules/payments_page.dart/coupon_list.dart';
+import 'package:app/molecules/registration_details/registrations_widgets_read_only/v_a_s_details.dart';
+import 'package:domain/domain.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
 import 'package:app/feature/vas/kids_club/kids_club_page.dart';
 import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
 import 'package:app/feature/vas/transport/transport_page.dart';
-import 'package:app/feature/webview/webview_page.dart';
-import 'package:app/molecules/payment_history/payment_details.dart';
-import 'package:app/molecules/payments_page.dart/coupon_list.dart';
-import 'package:domain/domain.dart';
-import 'package:flutter/cupertino.dart';
+
 import '../feature/bus_route_list/bus_route_list_page_page.dart';
 import '../feature/my_duty/my_duty_page.dart';
 import '../feature/splash/splash_page.dart';
@@ -226,44 +228,47 @@ class AppRouter {
                 const RouteSettings(name: RoutePaths.cancelCompetencyTestPage));
 
       case RoutePaths.cafeteriaDetailPage:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as VasDetailsArg;
+
         return CupertinoPageRoute(
             builder: (context) => CafeteriaPage(
                   enquiryDetailArgs:
-                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                      args.enquiryDetailArgs ?? EnquiryDetailArgs(),
                 ));
 
       case RoutePaths.psaDetailPage:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as VasDetailsArg;
+
         return CupertinoPageRoute(
             builder: (context) => PsaDetailPage(
                   enquiryDetailArgs:
-                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+                      args.enquiryDetailArgs ?? EnquiryDetailArgs(),
                 ));
 
       case RoutePaths.kidsClubPage:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as VasDetailsArg;
         return CupertinoPageRoute(
           builder: (context) => KidsClubDeatilDetailPage(
-            enquiryDetailArgs: args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
+            enquiryDetailArgs: args.enquiryDetailArgs ?? EnquiryDetailArgs(),
           ),
         );
 
       case RoutePaths.summerCampPage:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as VasDetailsArg;
+
         return CupertinoPageRoute(
-            builder: (context) => SummerCampDetailPage(
-                  enquiryDetailArgs:
-                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
-                ));
+          builder: (context) => SummerCampDetailPage(
+            enquiryDetailArgs: args.enquiryDetailArgs ?? EnquiryDetailArgs(),
+          ),
+        );
 
       case RoutePaths.transportPage:
-        final args = settings.arguments as Map<String, dynamic>;
+        final args = settings.arguments as VasDetailsArg;
         return CupertinoPageRoute(
-            builder: (context) => TransportPage(
-                  enquiryDetailArgs:
-                      args['enquiryDetailArgs'] ?? EnquiryDetailArgs(),
-                ));
+          builder: (context) => TransportPage(
+            enquiryDetailArgs: args.enquiryDetailArgs ?? EnquiryDetailArgs(),
+          ),
+        );
 
       case RoutePaths.visitorDetailsPage:
         return CupertinoPageRoute(

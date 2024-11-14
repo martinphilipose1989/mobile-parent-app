@@ -7,13 +7,13 @@ import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:rxdart/src/streams/value_stream.dart';
-import 'package:rxdart/subjects.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsDetailsViewModel extends BasePageViewModel {
@@ -62,30 +62,52 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       admissionJourney.add(Resource.loading());
       RequestManager<AdmissionJourneyBase>(
         params,
-        createCall: () => getAdmissionJourneyUsecase.execute(
-          params: params,
-        ),
+        createCall: () => getAdmissionJourneyUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
           // Check if "registration" stage is completed and update "Book Test" status accordingly
-          final currentStepForJourney = result.data?.data
-                  ?.firstWhere(
-                      (e) =>
-                          e.status?.toLowerCase() == "completed" &&
-                          e.stage?.toLowerCase() == "registration",
-                      orElse: () => AdmissionJourneyDetail())
-                  .status ??
-              '';
-
-          if (currentStepForJourney.toLowerCase() == "completed") {
-            // Find the "Book Test" item and set isActive to true
+          if (enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type) {
+            // Payment will be enabled only when Admission Status is Approved
+            if (enquiryDetailArgs.admissionStatus == "Approved") {
+              final index = menuData
+                  .indexWhere((e) => e['name'].toLowerCase() == "payments");
+              if (index != -1) {
+                menuData[index]['isActive'] = true;
+              } else {
+                menuData[index]['isActive'] = false;
+              }
+            } else {
+              final index = menuData
+                  .indexWhere((e) => e['name'].toLowerCase() == "payments");
+              if (index != -1) {
+                menuData[index]['isActive'] = false;
+              }
+            }
             final index = menuData
                 .indexWhere((e) => e['name'].toLowerCase() == "book test");
             if (index != -1) {
-              menuData[index]['isActive'] = true;
-            } else {}
+              menuData[index]['isActive'] = false;
+            }
+          } else {
+            final currentStepForJourney = result.data?.data
+                    ?.firstWhere(
+                        (e) =>
+                            e.status?.toLowerCase() == "completed" &&
+                            e.stage?.toLowerCase() == "registration",
+                        orElse: () => AdmissionJourneyDetail())
+                    .status ??
+                '';
+
+            if (currentStepForJourney.toLowerCase() == "completed") {
+              // Find the "Book Test" item and set isActive to true
+              final index = menuData
+                  .indexWhere((e) => e['name'].toLowerCase() == "book test");
+              if (index != -1) {
+                menuData[index]['isActive'] = true;
+              } else {}
+            }
           }
         }
         if (result.status == Status.error) {
@@ -118,10 +140,18 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         var admissionStatus = getAdmissionStatus();
 
         if (admissionStatus == "Approved") {
-          final index = menuData.indexWhere((menu) =>
-              menu['name'].toString().toLowerCase() == "subject selection");
-          menuData[index]['isActive'] = true;
-          enquiryDetailArgs.admissionStatus = admissionStatus;
+          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type) {
+            final index = menuData.indexWhere((menu) =>
+                menu['name'].toString().toLowerCase() == "subject selection");
+            menuData[index]['isActive'] = true;
+            enquiryDetailArgs.admissionStatus = admissionStatus;
+          } else if (enquiryDetailArgs.enquiryType ==
+                  EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs.enquiryType == EnquiryTypeEnum.kidsClub.type) {
+            final index = menuData.indexWhere(
+                (menu) => menu['name'].toString().toLowerCase() == "vas");
+            menuData[index]['isActive'] = true;
+          }
         }
         if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
@@ -202,34 +232,58 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       'id': 0,
       'image': AppImages.schoolTour,
       'name': "School Tour",
-      'isActive': true
+      'isActive': true,
+      'key': "schooltour"
     },
     {
       'id': 1,
       'image': AppImages.payments,
       'name': "Payments",
-      'isActive': true
+      'isActive': true,
+      'key': 'payment'
     },
-    {'id': 2, 'image': AppImages.call, 'name': "Call", 'isActive': true},
-    {'id': 3, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 2,
+      'image': AppImages.call,
+      'name': "Call",
+      'isActive': true,
+      'key': 'call'
+    },
+    {
+      'id': 3,
+      'image': AppImages.email,
+      'name': "Email",
+      'isActive': true,
+      'key': 'email',
+    },
     {
       'id': 4,
       'image': AppImages.bookTest,
       'name': "Book Test",
-      'isActive': true
+      'isActive': true,
+      'key': 'competency'
     },
     {
       'id': 5,
       'image': AppImages.timeline,
       'name': "Timeline",
-      'isActive': true
+      'isActive': true,
+      'key': 'timeline'
     },
     {
       'id': 6,
       'image': AppImages.subjectSelectionIcon,
       'name': "Subject Selection",
-      'isActive': false
-    }
+      'isActive': false,
+      'key': 'registration'
+    },
+    {
+      'id': 7,
+      'image': AppImages.subjectSelectionIcon,
+      'name': "VAS",
+      'isActive': false,
+      'key': 'registration'
+    },
   ];
 
   BehaviorSubject<int> showWidget = BehaviorSubject<int>.seeded(0);

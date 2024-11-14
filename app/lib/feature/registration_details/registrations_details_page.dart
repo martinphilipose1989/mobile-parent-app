@@ -186,7 +186,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
             isEdit: widget.routeFrom == "enquiry"
                 ? true
                 : model.editRegistrationDetails.value);
-      } else if (widget.enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type) {
+      } else if (widget.enquiryDetailArgs?.enquiryType ==
+          EnquiryTypeEnum.psa.type) {
         model.getPsaDetails(
             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
             isEdit: widget.routeFrom == "enquiry"
@@ -328,76 +329,14 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                           if (model.isLoading.value) {
                             return;
                           }
-                          ProviderScope.containerOf(context)
-                              .read(enquiriesAdmissionsJourneyProvider(
-                                  widget.enquiryDetailArgs ??
-                                      EnquiryDetailArgs()))
-                              .getAdmissionJourney(
-                                  enquiryID:
-                                      widget.enquiryDetailArgs?.enquiryId ?? '',
-                                  type: widget.enquiryDetailArgs?.isFrom ??
-                                      'enquiry');
-                          RegistrationDetailsValidator validator =
-                              RegistrationDetailsValidator(model);
-                          log("VALUE ${model.showWidget.value}");
-                          if (model.showWidget.value == 0) {
-                            validator.validateStudentFields(context);
-                          } else if (model.showWidget.value == 1) {
-                            validator.validateParentInfoFields(context);
-                          } else if (model.showWidget.value == 2) {
-                            validator.validateContactDetails(context);
-                          } else if (model.showWidget.value == 3) {
-                            validator.validateMedicalDetails(context);
-                          } else if (model.showWidget.value == 4) {
-                            validator.validateBankDetails(context);
-                          } else if (model.showWidget.value == 5) {
-                            if (widget.enquiryDetailArgs?.isFrom == "enquiry") {
-                              //  model.showPopUP(context);
-                              log('5 SHOWPOPUP');
-                              model.moveToNextStage();
-                            } else {
-                              if (model.editRegistrationDetails.value) {
-                                if (model.enquiryDetailArgs?.admissionStatus ==
-                                    "Approved") {
-                                  ProviderScope.containerOf(context)
-                                      .read(commonChipListProvider)
-                                      .highlightIndex
-                                      .add(ProviderScope.containerOf(context)
-                                              .read(commonChipListProvider)
-                                              .highlightIndex
-                                              .value +
-                                          1);
-                                  model.showWidget
-                                      .add(model.showWidget.value + 1);
-                                  model.controller.animateTo(
-                                      (model.showWidget.value + 1) * 50,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.linear);
-                                } else {
-                                  log('5 no enq SHOWPOPUP');
 
-                                  model.moveToNextStage();
-                                }
-                              }
-                            }
-                          } else if (model.showWidget.value == 6) {
-                            model.selectOptionalSubjects(
-                                widget.enquiryDetailArgs?.enquiryId ?? '');
-                            ProviderScope.containerOf(context)
-                                .read(enquiriesAdmissionsJourneyProvider(
-                                    widget.enquiryDetailArgs ??
-                                        EnquiryDetailArgs()))
-                                .getAdmissionJourney(
-                                    enquiryID:
-                                        widget.enquiryDetailArgs?.enquiryId ??
-                                            '',
-                                    type: widget.enquiryDetailArgs?.isFrom ??
-                                        'enquiry');
-                          } else if (model.showWidget.value == 7) {
-                            //  model.addVasOption(widget.enquiryDetailArgs?.enquiryId??'');
+                          if (model.enquiryDetailArgs?.enquiryType ==
+                                  EnquiryTypeEnum.psa.type ||
+                              model.enquiryDetailArgs?.enquiryType ==
+                                  EnquiryTypeEnum.kidsClub.type) {
                             model.makePaymentRequest(
                                 widget.enquiryDetailArgs?.enquiryId ?? "");
+                          } else {
                             ProviderScope.containerOf(context)
                                 .read(enquiriesAdmissionsJourneyProvider(
                                     widget.enquiryDetailArgs ??
@@ -408,6 +347,80 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                             '',
                                     type: widget.enquiryDetailArgs?.isFrom ??
                                         'enquiry');
+                            RegistrationDetailsValidator validator =
+                                RegistrationDetailsValidator(model);
+                            log("VALUE ${model.showWidget.value}");
+                            if (model.showWidget.value == 0) {
+                              validator.validateStudentFields(context);
+                            } else if (model.showWidget.value == 1) {
+                              validator.validateParentInfoFields(context);
+                            } else if (model.showWidget.value == 2) {
+                              validator.validateContactDetails(context);
+                            } else if (model.showWidget.value == 3) {
+                              validator.validateMedicalDetails(context);
+                            } else if (model.showWidget.value == 4) {
+                              validator.validateBankDetails(context);
+                            } else if (model.showWidget.value == 5) {
+                              if (widget.enquiryDetailArgs?.isFrom ==
+                                  "enquiry") {
+                                //  model.showPopUP(context);
+                                log('5 SHOWPOPUP');
+                                model.moveToNextStage();
+                              } else {
+                                if (model.editRegistrationDetails.value) {
+                                  if (model
+                                          .enquiryDetailArgs?.admissionStatus ==
+                                      "Approved") {
+                                    ProviderScope.containerOf(context)
+                                        .read(commonChipListProvider)
+                                        .highlightIndex
+                                        .add(ProviderScope.containerOf(context)
+                                                .read(commonChipListProvider)
+                                                .highlightIndex
+                                                .value +
+                                            1);
+                                    model.showWidget
+                                        .add(model.showWidget.value + 1);
+                                    model.controller.animateTo(
+                                        (model.showWidget.value + 1) * 50,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        curve: Curves.linear);
+                                  } else {
+                                    log('5 no enq SHOWPOPUP');
+
+                                    model.moveToNextStage();
+                                  }
+                                }
+                              }
+                            } else if (model.showWidget.value == 6) {
+                              model.selectOptionalSubjects(
+                                  widget.enquiryDetailArgs?.enquiryId ?? '');
+                              ProviderScope.containerOf(context)
+                                  .read(enquiriesAdmissionsJourneyProvider(
+                                      widget.enquiryDetailArgs ??
+                                          EnquiryDetailArgs()))
+                                  .getAdmissionJourney(
+                                      enquiryID:
+                                          widget.enquiryDetailArgs?.enquiryId ??
+                                              '',
+                                      type: widget.enquiryDetailArgs?.isFrom ??
+                                          'enquiry');
+                            } else if (model.showWidget.value == 7) {
+                              //  model.addVasOption(widget.enquiryDetailArgs?.enquiryId??'');
+                              model.makePaymentRequest(
+                                  widget.enquiryDetailArgs?.enquiryId ?? "");
+                              ProviderScope.containerOf(context)
+                                  .read(enquiriesAdmissionsJourneyProvider(
+                                      widget.enquiryDetailArgs ??
+                                          EnquiryDetailArgs()))
+                                  .getAdmissionJourney(
+                                      enquiryID:
+                                          widget.enquiryDetailArgs?.enquiryId ??
+                                              '',
+                                      type: widget.enquiryDetailArgs?.isFrom ??
+                                          'enquiry');
+                            }
                           }
                         },
                         text: 'Next',

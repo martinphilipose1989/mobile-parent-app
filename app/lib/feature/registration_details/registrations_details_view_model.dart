@@ -63,6 +63,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final GetCityStateByPincodeUsecase getCityStateByPincodeUsecase;
   final ChooseFileUseCase chooseFileUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  final GetAdmissionVasUsecase getAdmissionVasUsecase;
 
   RegistrationsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -92,7 +93,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       this.getCityStateByPincodeUsecase,
       this.chooseFileUseCase,
       this.flutterToastErrorPresenter,
-      this.moveToNextStageUsecase);
+      this.moveToNextStageUsecase,
+      this.getAdmissionVasUsecase);
 
   List registrationDetails = [
     {'name': 'Enquiry & Student Details', 'isSelected': false, 'infoType': ''},
@@ -104,13 +106,55 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   ];
 
   final List menuData = [
-    {'image': AppImages.schoolTour, 'name': "School Tour"},
-    {'image': AppImages.payments, 'name': "Payments"},
-    {'image': AppImages.call, 'name': "Call"},
-    {'image': AppImages.email, 'name': "Email"},
-    {'image': AppImages.editDetails, 'name': "Edit Details"},
-    {'image': AppImages.bookTest, 'name': "Book Test"},
-    {'image': AppImages.timeline, 'name': "Timeline"},
+    {
+      'id': 1,
+      'image': AppImages.schoolTour,
+      'name': "School Tour",
+      'key': 'schooltour',
+      'isActive': true
+    },
+    {
+      'id': 2,
+      'image': AppImages.payments,
+      'name': "Payments",
+      'key': 'payments',
+      'isActive': true
+    },
+    {
+      'id': 3,
+      'image': AppImages.call,
+      'name': "Call",
+      'key': 'call',
+      'isActive': true
+    },
+    {
+      'id': 4,
+      'image': AppImages.email,
+      'name': "Email",
+      'key': 'email',
+      'isActive': true
+    },
+    {
+      'id': 5,
+      'image': AppImages.editDetails,
+      'name': "Edit Details",
+      'key': 'registration',
+      'isActive': true
+    },
+    {
+      'id': 6,
+      'image': AppImages.bookTest,
+      'name': "Book Test",
+      'key': 'competency',
+      'isActive': true
+    },
+    {
+      'id': 7,
+      'image': AppImages.timeline,
+      'name': "Timeline",
+      'key': 'timeline',
+      'isActive': true
+    },
   ];
 
   // final List<String> occupation=['Government','Private','Business'];
@@ -3086,7 +3130,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       ivtDetail = ivtDetail.restore(ivtDetailSubject!.value);
       updateIvtDetails(
           enquiryID: enquiryDetailArgs?.enquiryId ?? '', ivtDetail: ivtDetail);
-    } else if ((enquiryDetailArgs?.enquiryType ?? '') == EnquiryTypeEnum.psa.type) {
+    } else if ((enquiryDetailArgs?.enquiryType ?? '') ==
+        EnquiryTypeEnum.psa.type) {
       PsaDetailResponseEntity psaDetail = PsaDetailResponseEntity();
       psaDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
       psaDetailSubject?.value.studentDetails?.firstName =
@@ -3449,4 +3494,55 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       });
     }).execute();
   }
+
+  final BehaviorSubject<Resource<AdmissionVasDetailsResponse>>
+      admissionVasDetailsResponse =
+      BehaviorSubject<Resource<AdmissionVasDetailsResponse>>.seeded(
+          Resource.none());
+  void fetchVasAdmissionDetails() {
+    admissionVasDetailsResponse.add(Resource.loading());
+    GetAdmissionVasUsecaseParams params = GetAdmissionVasUsecaseParams(
+        enquiryId: enquiryDetailArgs?.enquiryId ?? '');
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(
+        params,
+        createCall: () => getAdmissionVasUsecase.execute(params: params),
+      ).asFlow().listen((data) {
+        if (data.status == Status.success) {
+          admissionVasDetailsResponse.add(Resource.success(data: data.data));
+          final optTransport = data.data?.data?.optedForTransport;
+          final optCafeteria = data.data?.data?.optedForCafeteria;
+          final optKidsClub = data.data?.data?.optedForKidsClub;
+          final optPsa = data.data?.data?.optedForPsa;
+
+          if (optTransport != null) {
+            radioButtonTransport.selectItem(optTransport ? 'Yes' : 'No');
+          }
+          if (optCafeteria != null) {
+            radioButtonCafeteria.selectItem(optCafeteria ? 'Yes' : 'No');
+          }
+          if (optKidsClub != null) {
+            radioButtonKidsClub.selectItem(optKidsClub ? 'Yes' : 'No');
+          }
+           if (optPsa != null) {
+            radioButtonPsa.selectItem(optPsa ? 'Yes' : 'No');
+          }
+        } else if (data.status == Status.error) {
+          admissionVasDetailsResponse
+              .add(Resource.error(error: data.dealSafeAppError));
+        }
+      });
+    }).execute();
+  }
+
+  // void setMenu() {
+  //   if (enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type) {
+  //     final bookTestIndex =
+  //         menuData.indexWhere((e) => e['name'].toLowerCase() == "book test");
+  //     if (bookTestIndex != -1) {
+  //       menuData[bookTestIndex]['isActive'] = false;
+  //     }
+
+  //   }
+  // }
 }

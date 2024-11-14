@@ -223,93 +223,119 @@ class RegistrationsDetailsPageView
                       status: enquiryDetailArgs?.status ?? '',
                     ),
                     CommonSizedBox.sizedBox(height: 20, width: 10),
-                    AppStreamBuilder<bool>(
-                      stream: model.editRegistrationDetails,
-                      initialData: model.editRegistrationDetails.value,
-                      dataBuilder: (context, data) {
-                        return SizedBox(
-                          height: 40,
-                          child: CommonChipListPage(
-                            controller: model.controller,
-                            chipValues: List.generate(
-                              model.registrationDetails.length,
-                              (index) => CommonChips(
-                                isSelected: model.registrationDetails[index]
-                                    ['isSelected'],
-                                name: model.registrationDetails[index]['name'],
-                              ),
-                            ),
-                            onCallBack: (index) {
-                              if (model.showWidget.value == index) {
-                                return;
-                              }
-                              model.showWidget.add(index);
-                              if (index == 0) {
-                                if (enquiryDetailArgs?.enquiryType == "IVT") {
-                                  model.getIvtDetails(
-                                      enquiryID:
-                                          enquiryDetailArgs?.enquiryId ?? '');
-                                } else if (enquiryDetailArgs?.enquiryType ==
-                                    EnquiryTypeEnum.psa.type) {
-                                  model.getPsaDetails(
-                                      enquiryID:
-                                          enquiryDetailArgs?.enquiryId ?? '');
-                                } else {
-                                  model.getNewAdmissionDetails(
-                                      enquiryID:
-                                          enquiryDetailArgs?.enquiryId ?? '',
-                                      isEdit: true);
-                                }
-                              }
-                              if (index == 5) {
-                                model.getEnquiryDetail(
-                                    enquiryID:
-                                        enquiryDetailArgs?.enquiryId ?? '');
-                              }
-                              if (index > 0 && index < 5) {
-                                model.fetchAllDetails(
-                                    enquiryDetailArgs?.enquiryId ?? '',
-                                    model.registrationDetails[index]
-                                        ['infoType']);
-                              }
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    CommonSizedBox.sizedBox(height: 20, width: 10),
-                    AppStreamBuilder<bool>(
+                    Visibility(
+                      visible: enquiryDetailArgs?.enquiryType ==
+                              EnquiryTypeEnum.psa.type ||
+                          enquiryDetailArgs?.enquiryType ==
+                              EnquiryTypeEnum.kidsClub.type,
+                      replacement: AppStreamBuilder<bool>(
                         stream: model.editRegistrationDetails,
                         initialData: model.editRegistrationDetails.value,
-                        dataBuilder: (context, editRegistrationDetailsData) {
-                          return AppStreamBuilder<int>(
-                            stream: model.showWidget,
-                            initialData: model.showWidget.value,
-                            dataBuilder: (context, data) {
-                              return SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height - 300,
-                                width: double.infinity,
-                                child: SingleChildScrollView(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                                .viewInsets
-                                                .bottom +
-                                            55),
-                                    keyboardDismissBehavior:
-                                        ScrollViewKeyboardDismissBehavior
-                                            .onDrag,
-                                    child: editRegistrationDetailsData!
-                                        ? registrationsEditingWidgetAsPerIndex(
-                                            model.showWidget.value,
-                                            model,
-                                            context)
-                                        : registrationsWidgetAsPerIndex(
-                                            model.showWidget.value, model)),
-                              );
-                            },
+                        dataBuilder: (context, data) {
+                          return SizedBox(
+                            height: 40,
+                            child: CommonChipListPage(
+                              controller: model.controller,
+                              chipValues: List.generate(
+                                model.registrationDetails.length,
+                                (index) => CommonChips(
+                                  isSelected: model.registrationDetails[index]
+                                      ['isSelected'],
+                                  name: model.registrationDetails[index]
+                                      ['name'],
+                                ),
+                              ),
+                              onCallBack: (index) {
+                                if (model.showWidget.value == index) {
+                                  return;
+                                }
+                                model.showWidget.add(index);
+                                if (index == 0) {
+                                  if (enquiryDetailArgs?.enquiryType == "IVT") {
+                                    model.getIvtDetails(
+                                        enquiryID:
+                                            enquiryDetailArgs?.enquiryId ?? '');
+                                  } else if (enquiryDetailArgs?.enquiryType ==
+                                      EnquiryTypeEnum.psa.type) {
+                                    model.getPsaDetails(
+                                        enquiryID:
+                                            enquiryDetailArgs?.enquiryId ?? '');
+                                  } else {
+                                    model.getNewAdmissionDetails(
+                                        enquiryID:
+                                            enquiryDetailArgs?.enquiryId ?? '',
+                                        isEdit: true);
+                                  }
+                                }
+                                if (index == 5) {
+                                  model.getEnquiryDetail(
+                                      enquiryID:
+                                          enquiryDetailArgs?.enquiryId ?? '');
+                                }
+                                if (index > 0 && index < 5) {
+                                  model.fetchAllDetails(
+                                      enquiryDetailArgs?.enquiryId ?? '',
+                                      model.registrationDetails[index]
+                                          ['infoType']);
+                                }
+                              },
+                            ),
                           );
-                        })
+                        },
+                      ),
+                      child: const SizedBox(),
+                    ),
+                    CommonSizedBox.sizedBox(height: 20, width: 10),
+                    if (enquiryDetailArgs?.enquiryType ==
+                            EnquiryTypeEnum.psa.type ||
+                        enquiryDetailArgs?.enquiryType ==
+                            EnquiryTypeEnum.kidsClub.type) ...{
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - 300,
+                        width: double.infinity,
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  55),
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                          child: const VASDetails(),
+                        ),
+                      ),
+                    } else ...{
+                      AppStreamBuilder<bool>(
+                          stream: model.editRegistrationDetails,
+                          initialData: model.editRegistrationDetails.value,
+                          dataBuilder: (context, editRegistrationDetailsData) {
+                            return AppStreamBuilder<int>(
+                              stream: model.showWidget,
+                              initialData: model.showWidget.value,
+                              dataBuilder: (context, data) {
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height - 300,
+                                  width: double.infinity,
+                                  child: SingleChildScrollView(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom +
+                                              55),
+                                      keyboardDismissBehavior:
+                                          ScrollViewKeyboardDismissBehavior
+                                              .onDrag,
+                                      child: editRegistrationDetailsData!
+                                          ? registrationsEditingWidgetAsPerIndex(
+                                              model.showWidget.value,
+                                              model,
+                                              context)
+                                          : registrationsWidgetAsPerIndex(
+                                              model.showWidget.value, model)),
+                                );
+                              },
+                            );
+                          })
+                    },
                   ],
                 ),
               ),
@@ -505,7 +531,7 @@ class RegistrationsDetailsPageView
           },
         );
       case 7:
-        return VASDetails();
+        return const VASDetails();
       default:
         return AppStreamBuilder<Resource<EnquiryDetailBase>>(
             stream: model.enquiryDetail,
