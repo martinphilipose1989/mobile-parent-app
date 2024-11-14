@@ -170,17 +170,18 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                                     width: 300,
                                     showAstreik: false,
                                     showBorderColor: true,
-                                    displayZerothIndex: true,
+                                    //displayZerothIndex: true,
                                     items: data.data?.data?.students!
                                             .map((e) => e.studentDisplayName)
                                             .toList() ??
                                         [],
-                                    isMutiSelect: true,
-                                    onMultiSelect: (selectedValues) {
-                                      model
-                                          .getSelectedStudentid(selectedValues);
+                                    isMutiSelect: false,
+                                    singleSelectItemSubject:
+                                        model.selectedStudent,
+                                    onSingleSelect: (selectValue) {
+                                      model.getSelectedStudentid(selectValue);
                                     },
-                                    onSingleSelect: (selectedValue) {},
+                                    onMultiSelect: (val) {},
                                   ),
                                 );
                     },

@@ -99,19 +99,30 @@ class DashboardPageModel extends BasePageViewModel {
 
   List<GetGuardianStudentDetailsStudentModel>? selectedStudentId = [];
 
-  void getSelectedStudentid(List<String> names) {
-    List<GetGuardianStudentDetailsStudentModel> tempList = [];
-    for (var student
-        in _getGuardianStudentDetailsModel.value.data!.data!.students!) {
-      for (var name in names) {
-        if (student.studentDisplayName == name) {
-          tempList.add(student);
-        }
-      }
-    }
-    selectedStudentId = tempList;
-    if (tempList.isNotEmpty) {
-      dashboardState.setValueOfSelectedStudent(tempList.first);
+  BehaviorSubject<String> selectedStudent = BehaviorSubject.seeded("");
+
+  void getSelectedStudentid(String names) {
+    // List<GetGuardianStudentDetailsStudentModel> tempList = [];
+    // for (var student
+    //     in _getGuardianStudentDetailsModel.value.data!.data!.students!) {
+    //   for (var name in names) {
+    //     if (student.studentDisplayName == name) {
+    //       tempList.add(student);
+    //     }
+    //   }
+    // }
+    // selectedStudentId = tempList;
+    // if (tempList.isNotEmpty) {
+    // selectedStudent.add(tempList.first.studentDisplayName ?? '');
+    // dashboardState.setValueOfSelectedStudent(tempList.first);
+    // }
+    final student = _getGuardianStudentDetailsModel.value.data?.data?.students
+        ?.firstWhere((name) => name.studentDisplayName == names,
+            orElse: () => GetGuardianStudentDetailsStudentModel());
+    selectedStudentId = [student!];
+    if (student.studentDisplayName != null) {
+      selectedStudent.add(student.studentDisplayName ?? '');
+      dashboardState.setValueOfSelectedStudent(student);
     }
   }
 
@@ -140,7 +151,8 @@ class DashboardPageModel extends BasePageViewModel {
           selectedStudentId = tempList;
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
-            dashboardState.setValueOfSelectedStudent(tempList.first);
+          selectedStudent.add(tempList.first.studentDisplayName ?? '');
+          dashboardState.setValueOfSelectedStudent(tempList.first);
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
