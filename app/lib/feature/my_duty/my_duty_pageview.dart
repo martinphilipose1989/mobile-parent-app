@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:app/model/resource.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 
 import 'package:app/utils/common_widgets/common_refresh_indicator.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
@@ -10,6 +12,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/trip_list/completed_trip_list_tile.dart';
@@ -34,6 +37,19 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
               options: model.tripStatusType,
               onSelect: (value) => {model.getMyDutyList()}),
         ),
+ Padding(
+   padding: const EdgeInsets.all(8.0),
+   child: Row(
+     mainAxisAlignment: MainAxisAlignment.end,
+     children: [
+   InkWell(child: SvgPicture.asset(AppImages.duty_list),
+   onTap: (){
+     CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
+   },
+   
+   ),
+          ],),
+ ),
         AppStreamBuilder<String>(
             stream: model.selectedTripStatus,
             initialData: model.selectedTripStatus.value,

@@ -36,6 +36,7 @@ class AppImages {
   static const String eyeIcon = 'assets/images/eye.svg';
   static const String trackBus = 'assets/images/trackbus.svg';
   static const String downloadIcon = 'assets/images/download.svg';
+  static const String duty_list = 'assets/images/list_duty.svg';
   static const String sbiBankIcon = 'assets/images/image 2.png';
   static const String otpCenterImage =
       'assets/images/Two factor authentication-pana 1.svg';
@@ -55,6 +56,7 @@ class AppImages {
   static const String locationIcon = "assets/images/location.svg";
   static const String userIcon = "assets/images/user.svg";
   static const String call = "assets/images/Icon button 2.svg";
+  static const String upload = "assets/images/upload_attachment.svg";
   static const String email = "assets/images/Icon button (1).svg";
   static const String bookTest = "assets/images/container (1).svg";
   static const String timeline = "assets/images/Icon button (2).svg";
