@@ -26,8 +26,15 @@ class _DisplinaryDetailsPageState
     model.selectedStudent = ProviderScope.containerOf(context)
         .read(dashboardViewModelProvider)
         .selectedStudentId;
-    model.getSlipList(studentId: model.selectedStudent?.first.id??0, );
-    model.getStudentDetail(id: model.selectedStudent?.first.id);
+    if (model.selectedStudent!.isEmpty ||    model.selectedStudent?.first.id==null) {
+      return;
+    }
+  else  {
+      model.getSlipList(
+        studentId: model.selectedStudent?.first.id ?? 0,
+      );
+      model.getStudentDetail(id: model.selectedStudent?.first.id);
+    }
   }
 
   @override

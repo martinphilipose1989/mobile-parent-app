@@ -27,8 +27,19 @@ class _AttendanceCalenderPageState
     model.selectedStudent = ProviderScope.containerOf(context)
         .read(dashboardViewModelProvider)
         .selectedStudentId;
-model.getAttendanceList(model: AttendanceCountRequestModel(studentId: model.selectedStudent?.first.id??0, attendanceDate: "2024-10", academicYearId: 25,));
-model.getStudentDetail(id: model.selectedStudent?.first.id);
+    if (model.selectedStudent!.isEmpty ||    model.selectedStudent?.first.id==null) {
+      return;
+    }
+ else  {
+      model.getAttendanceList(
+          model: AttendanceCountRequestModel(
+        studentId: model.selectedStudent?.first.id ?? 0,
+        attendanceDate: "2024-10",
+        academicYearId: 25,
+      ));
+      model.getStudentDetail(id: model.selectedStudent?.first.id);
+    }
+
 
   }
 

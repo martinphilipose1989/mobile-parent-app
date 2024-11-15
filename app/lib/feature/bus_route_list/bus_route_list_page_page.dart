@@ -40,8 +40,13 @@ class BusChecklistPageState
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.trip = widget.tripArgs?.tripResult;
     model.getBusStopsList();
-    model.getStudentAttendance();
-    //   model.dropStarted = widget. ?? false;
+    if (model.selectedStudent!.isEmpty ||    model.selectedStudent?.first.id==null) {
+      return;
+    }
+    else {
+
+      model.getStudentAttendance();
+    } //   model.dropStarted = widget. ?? false;
 
     // model.trackLiveLocation();
 
