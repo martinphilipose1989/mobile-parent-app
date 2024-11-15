@@ -68,7 +68,9 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         if (result.status == Status.success) {
           admissionJourney.add(Resource.success(data: result.data?.data ?? []));
           // Check if "registration" stage is completed and update "Book Test" status accordingly
-          if (enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type) {
+          if (enquiryDetailArgs.enquiryType == EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs.enquiryType?.toLowerCase() ==
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             // Payment will be enabled only when Admission Status is Approved
             if (enquiryDetailArgs.admissionStatus == "Approved") {
               final index = menuData
@@ -140,7 +142,9 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         var admissionStatus = getAdmissionStatus();
 
         if (admissionStatus == "Approved") {
-          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type) {
+          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs.enquiryType?.toLowerCase() !=
+                  EnquiryTypeEnum.kidsClub.type) {
             final index = menuData.indexWhere((menu) =>
                 menu['name'].toString().toLowerCase() == "subject selection");
             menuData[index]['isActive'] = true;

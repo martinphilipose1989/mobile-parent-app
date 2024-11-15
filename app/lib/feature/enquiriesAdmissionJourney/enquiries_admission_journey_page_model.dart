@@ -80,7 +80,9 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchAdmissionJourney.add(result);
         if (result.status == Status.success) {
-          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type) {
+          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs.enquiryType?.toLowerCase() !=
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.any((stage) =>
                     stage.stage == "Registration Fees" &&
                     stage.status == "Completed") ??
@@ -92,7 +94,9 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
               }
             }
           } else if (enquiryDetailArgs.enquiryType ==
-              EnquiryTypeEnum.psa.type) {
+                  EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs.enquiryType?.toLowerCase() ==
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             for (var item in menuData) {
               if (item['name'] == "Registration" ||
                   item['name'] == "Payments") {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -82,6 +84,7 @@ class PsaDetailViewModel extends BasePageViewModel {
       //   courseId: 1,
       //   gradeId: 4,
       // ));
+      log("DEVELOPER ${enquiryDetailArgs.toString()}");
       GetPsaEnrollmentDetailUsecaseParams params =
           GetPsaEnrollmentDetailUsecaseParams(
               vasDetailRequest: VasDetailRequest(
@@ -145,15 +148,30 @@ class PsaDetailViewModel extends BasePageViewModel {
           //   academicYearId: 25,
           // )
           feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-              schoolId: enquiryDetailArgs?.schoolId,
-              boardId: enquiryDetailArgs?.boardId,
-              courseId: enquiryDetailArgs?.courseId,
-              gradeId: enquiryDetailArgs?.gradeId,
-              feeCategoryId: feeCategoryID,
-              feeSubcategoryId: feeSubCategoryID,
-              feeSubTypeId: feeSubTypeID,
-              batchId: batchID,
-              periodOfServiceId: periodOfServiceID));
+              //     schoolId: enquiryDetailArgs?.schoolId,
+              //     boardId: enquiryDetailArgs?.boardId,
+              //     courseId: enquiryDetailArgs?.courseId,
+              //     gradeId: enquiryDetailArgs?.gradeId,
+              //     feeCategoryId: feeCategoryID,
+              //     feeSubcategoryId: feeSubCategoryID,
+              //     feeSubTypeId: feeSubTypeID,
+              //     academicYearId: enquiryDetailArgs?.academicYearId,
+              //     periodOfServiceId: periodOfServiceID
+
+              schoolId: 26, // enquiryDetailArgs?.schoolId,
+              boardId: 3, // enquiryDetailArgs?.boardId,
+              courseId: 4, // enquiryDetailArgs?.courseId,
+              gradeId: 8, //enquiryDetailArgs?.gradeId,
+              feeCategoryId: 19, //feeCategoryID,
+              feeSubcategoryId: 16, //feeSubCategoryID,
+              feeSubTypeId: 32, //feeSubTypeID,
+              feeTypeId: 11,
+              shiftId: 2,
+              streamId: 1,
+              academicYearId: 25, // enquiryDetailArgs?.academicYearId,
+              batchId: 1, // batchID,
+              periodOfServiceId: 1 // periodOfServiceID
+              ));
       showLoader.value = true;
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))

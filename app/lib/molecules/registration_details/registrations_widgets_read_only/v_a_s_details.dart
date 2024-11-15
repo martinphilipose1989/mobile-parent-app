@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
@@ -79,8 +81,9 @@ class VASDetails extends StatelessWidget {
                           vasOption: "Cafeteria",
                           model: model,
                         ),
-                        if (model.enquiryDetailArgs?.enquiryType ==
-                                EnquiryTypeEnum.kidsClub.type ||
+                        if (model.enquiryDetailArgs?.enquiryType
+                                    ?.toLowerCase() ==
+                                EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
                             model.enquiryDetailArgs?.enquiryType ==
                                 EnquiryTypeEnum.newAdmission.type) ...{
                           VasQuestions(
@@ -157,6 +160,7 @@ class VasQuestions extends StatelessWidget {
                       }
                     });
                   } else if (vasOption == 'Psa') {
+                    log("message ${model.enquiryDetailArgs}");
                     Navigator.pushNamed(
                       context,
                       RoutePaths.psaDetailPage,

@@ -17,6 +17,7 @@ class AdmissionsViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,
       this.flutterToastErrorPresenter) {
+    fetchAdmissionList();
     setupScrollListener();
   }
 
@@ -26,8 +27,6 @@ class AdmissionsViewModel extends BasePageViewModel {
   BehaviorSubject<int> selectedTab = BehaviorSubject<int>.seeded(0);
 
   void setupScrollListener() {
-    log("setupScrollListener");
-
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -91,6 +90,7 @@ class AdmissionsViewModel extends BasePageViewModel {
   }
 
   Future<void> fetchAdmissionList({bool isRefresh = false}) async {
+    log("fetchAdmissionList");
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         pageNumber = 1;

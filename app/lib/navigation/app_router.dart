@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:app/feature/admissions/admissions_page.dart';
@@ -238,7 +239,7 @@ class AppRouter {
 
       case RoutePaths.psaDetailPage:
         final args = settings.arguments as VasDetailsArg;
-
+        log("ARGS ====> ${args.enquiryDetailArgs.toString()}");
         return CupertinoPageRoute(
             builder: (context) => PsaDetailPage(
                   enquiryDetailArgs:

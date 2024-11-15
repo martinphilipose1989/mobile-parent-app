@@ -61,7 +61,8 @@ class EnquiriesDetailsPageView
             model.getMdmAttribute(infoType: 'periodOfService')
           ];
           Future.wait(mdmAttributes).then((_) {
-            if (enquiryDetailArgs.enquiryType == "IVT") {
+            if (enquiryDetailArgs.enquiryType?.toLowerCase() ==
+                EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
               model.getIvtDetails(
                   enquiryID: enquiryDetailArgs.enquiryId ?? '', isEdit: true);
             } else if (enquiryDetailArgs.enquiryType ==
@@ -226,7 +227,10 @@ class EnquiriesDetailsPageView
                                           enquiryDetailArgs.enquiryId ?? '');
                                 },
                                 onFirstTabChange: () {
-                                  if (enquiryDetailArgs.enquiryType == "IVT") {
+                                  if (enquiryDetailArgs.enquiryType
+                                          ?.toLowerCase() ==
+                                      EnquiryTypeEnum.kidsClub.type
+                                          .toLowerCase()) {
                                     model.getIvtDetails(
                                         enquiryID:
                                             enquiryDetailArgs.enquiryId ?? '',
@@ -434,7 +438,7 @@ class EnquiriesDetailsPageView
                                                                   return const CircularProgressIndicator();
                                                                 }
                                                               }))
-                                              : (enquiryDetailArgs.enquiryType == "IVT")
+                                              : (enquiryDetailArgs.enquiryType?.toLowerCase() == EnquiryTypeEnum.kidsClub.type.toLowerCase())
                                                   ? AppStreamBuilder<Resource<IVTBase>>(
                                                       stream: model.ivtDetail,
                                                       initialData: Resource.none(),

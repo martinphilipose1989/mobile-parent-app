@@ -124,8 +124,10 @@ class EnquiriesDetailsPageState
                               if (model.selectedValue.value == 1) {
                                 model.selectedValue
                                     .add(model.selectedValue.value - 1);
-                                if (widget.enquiryDetailArgs.enquiryType ==
-                                    "IVT") {
+                                if (widget.enquiryDetailArgs.enquiryType
+                                        ?.toLowerCase() ==
+                                    EnquiryTypeEnum.kidsClub.type
+                                        .toLowerCase()) {
                                   model.getIvtDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??
@@ -166,8 +168,10 @@ class EnquiriesDetailsPageState
                             onPressed: () {
                               if (model.selectedValue.value == 0) {
                                 // model.getEnquiryDetail(enquiryID: widget.enquiryDetailArgs.enquiryId??'');
-                                if (widget.enquiryDetailArgs.enquiryType ==
-                                    "IVT") {
+                                if (widget.enquiryDetailArgs.enquiryType
+                                        ?.toLowerCase() ==
+                                    EnquiryTypeEnum.kidsClub.type
+                                        .toLowerCase()) {
                                   IvtDetailResponseEntity ivtDetail =
                                       IvtDetailResponseEntity();
                                   model.ivtDetails?.value.schoolLocation =
@@ -397,8 +401,10 @@ class EnquiriesDetailsPageState
                                 ? 'Next'
                                 : widget.enquiryDetailArgs.enquiryType ==
                                             EnquiryTypeEnum.psa.type ||
-                                        widget.enquiryDetailArgs.enquiryType ==
+                                        widget.enquiryDetailArgs.enquiryType
+                                                ?.toLowerCase() ==
                                             EnquiryTypeEnum.kidsClub.type
+                                                .toLowerCase()
                                     ? "Move to admission"
                                     : "Submit",
                             backgroundColor: AppColors.accent,

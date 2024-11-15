@@ -21,7 +21,7 @@ class _AdmissionsPageState
   void onModelReady(AdmissionsViewModel model) {
     model.controller = TabController(length: 2, vsync: this);
 
-    model.fetchAdmissionList();
+    // model.fetchAdmissionList();
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

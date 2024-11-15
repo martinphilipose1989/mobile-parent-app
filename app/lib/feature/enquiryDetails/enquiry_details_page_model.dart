@@ -67,7 +67,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       this.getBrandUsecase) {
     getBrandList();
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
-    if (enquiryDetails.enquiryType == "IVT") {
+    if (enquiryDetails.enquiryType?.toLowerCase() ==
+        EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else if (enquiryDetails.enquiryType == EnquiryTypeEnum.psa.type) {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -537,7 +538,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          if (enquiryDetailArgs?.enquiryType != EnquiryTypeEnum.psa.type) {
+          if (enquiryDetailArgs?.enquiryType != EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs?.enquiryType?.toLowerCase() !=
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
                     ?.any((stage) =>
                         stage.stageName == "Registration Fees" &&
@@ -550,7 +553,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
               }
             }
           } else if (enquiryDetailArgs?.enquiryType ==
-              EnquiryTypeEnum.psa.type) {
+                  EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             for (var item in menuData) {
               if (item['name'] == "Registration" ||
                   item['name'] == "Payments") {
@@ -1056,7 +1061,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           (shouldRoute) {
         Navigator.pop(context);
         if (enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type ||
-            enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.kidsClub.type) {
+            enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
           navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
         }
       });

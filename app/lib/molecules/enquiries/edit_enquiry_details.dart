@@ -334,12 +334,6 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                 }
               }),
 
-          if ((enquiryDetailArgs?.enquiryType ?? "") == "IVT") ...[
-            const SizedBox(
-              height: 20,
-            ),
-            ivtDetails()
-          ],
           const SizedBox(
             height: 20,
           ),
@@ -472,6 +466,15 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             _detailItem(
                 title: "Batch",
                 subtitle: model.selectedPsaBatchEntity?.value ?? "NA"),
+          ],
+
+          if ((enquiryDetailArgs?.enquiryType?.toLowerCase() ?? "") ==
+              EnquiryTypeEnum.kidsClub.type.toLowerCase()) ...[
+            const SizedBox(
+              height: 20,
+            ),
+            // Replace with read only fields
+            ivtDetails()
           ],
 
           const SizedBox(

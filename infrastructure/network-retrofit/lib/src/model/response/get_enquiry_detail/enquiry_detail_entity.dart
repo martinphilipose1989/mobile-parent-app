@@ -89,6 +89,8 @@ class EnquiryDetailEntity
   String? courseName;
   @JsonKey(name: "courseId")
   int? courseId;
+  @JsonKey(name: "shiftId")
+  int? shiftId;
 
   EnquiryDetailEntity(
       {this.enquiryNumber,
@@ -129,7 +131,8 @@ class EnquiryDetailEntity
       this.brandId,
       this.brandName,
       this.courseId,
-      this.courseName});
+      this.courseName,
+      this.shiftId});
   factory EnquiryDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$EnquiryDetailEntityFromJson(json);
 
@@ -195,6 +198,7 @@ class EnquiryDetailEntity
     enquiryDetail.brandName = brandName;
     enquiryDetail.courseId = courseId;
     enquiryDetail.courseName = courseName;
+    enquiryDetail.shiftId = shiftId;
     return enquiryDetail;
   }
 }

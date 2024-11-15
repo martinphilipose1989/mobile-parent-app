@@ -24,7 +24,6 @@ class AdmissionsDetailsPage extends BasePage<AdmissionsDetailsViewModel> {
 
 class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
     AdmissionsDetailsPage> {
-
   late final AdmissionsViewModel admissionsViewModel;
 
   @override
@@ -40,10 +39,9 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
   void initState() {
     super.initState();
     // Access the provider safely in initState or didChangeDependencies
-    admissionsViewModel= ProviderScope.containerOf(context, listen: false)
+    admissionsViewModel = ProviderScope.containerOf(context, listen: false)
         .read(admissionsProvider);
   }
-
 
   @override
   PreferredSizeWidget? buildAppbar(AdmissionsDetailsViewModel model) {
@@ -102,11 +100,12 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
       },
     );
   }
+
   @override
   void dispose() {
     print("hiii AFTER DISPOSE");
     // Use the stored provider instance instead of accessing it via context
-    admissionsViewModel.fetchAdmissionList();
+    // admissionsViewModel.fetchAdmissionList();
     super.dispose();
   }
 }
