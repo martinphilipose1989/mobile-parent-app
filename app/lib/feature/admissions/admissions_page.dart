@@ -15,12 +15,13 @@ class AdmissionsPage extends BasePage<AdmissionsViewModel> {
 }
 
 class _AdmissionsPageState
-    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage> with TickerProviderStateMixin {
+    extends AppBasePageState<AdmissionsViewModel, AdmissionsPage>
+    with TickerProviderStateMixin {
   @override
   void onModelReady(AdmissionsViewModel model) {
     model.controller = TabController(length: 2, vsync: this);
-    model.setupScrollListener();
-    model.fetchAdmissionList();
+
+    // model.fetchAdmissionList();
     model.exceptionHandlerBinder.bind(
       context,
       super.stateObserver,

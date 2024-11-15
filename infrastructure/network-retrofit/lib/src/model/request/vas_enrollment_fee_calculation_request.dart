@@ -14,7 +14,6 @@ class VasEnrollmentFeeCalculationRequest {
   int? academicYearId;
   String? feeSubCategoryStart;
   String? feeSubCategoryEnd;
-  
 
   VasEnrollmentFeeCalculationRequest(
       {this.boardId,
@@ -66,8 +65,12 @@ class VasEnrollmentFeeCalculationRequest {
     data['fee_subcategory_id'] = feeSubcategoryId;
     data['period_of_service_id'] = periodOfServiceId;
     data['academic_year_id'] = academicYearId;
-    data['fee_subcategory_start'] = feeSubCategoryStart;
-    data['fee_subcategory_end'] = feeSubCategoryEnd;
+    if (feeSubCategoryStart != null) {
+      data['fee_subcategory_start'] = feeSubCategoryStart;
+    }
+    if (feeSubCategoryEnd != null) {
+      data['fee_subcategory_end'] = feeSubCategoryEnd;
+    }
     return data;
   }
 }

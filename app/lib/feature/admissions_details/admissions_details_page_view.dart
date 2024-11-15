@@ -135,6 +135,7 @@ class AdmissionsDetailsPageView
 
   @override
   Widget build(BuildContext context, AdmissionsDetailsViewModel model) {
+    log("model.enquiryDetails.value.enquiryType ${model.enquiryDetailArgs.enquiryType}");
     return Stack(
       children: [
         SingleChildScrollView(
@@ -178,35 +179,120 @@ class AdmissionsDetailsPageView
                       text: 'Admission Journey',
                       style: AppTypography.subtitle1,
                     ),
-                    InkWell(
-                      onTap: () {
-                        setEnquiryDetailsArgs(model);
-                        Navigator.pushNamed(
-                            context, RoutePaths.registrationDetails,
-                            arguments: {
-                              "routeFrom": "admission",
-                              "enquiryDetailArgs": admissionDetail,
-                              "enquiryDetail": model.enquiryDetails.value,
-                              "editRegistrationDetails":
-                                  admissionDetail.enquiryType ==
-                                      EnquiryTypeEnum.psa.type
-                            });
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            AppImages.eyeIcon,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          CommonSizedBox.sizedBox(height: 10, width: 10),
-                          CommonText(
-                            text: 'View Details',
-                            style: AppTypography.subtitle1.copyWith(
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ],
-                      ),
-                    )
+                    if ((model.enquiryDetailArgs.enquiryType ==
+                            EnquiryTypeEnum.psa.type &&
+                        model.enquiryDetailArgs.admissionStatus ==
+                            "Approved")) ...{
+                      InkWell(
+                        onTap: () {
+                          setEnquiryDetailsArgs(model);
+                          Navigator.pushNamed(
+                              context, RoutePaths.registrationDetails,
+                              arguments: {
+                                "routeFrom": "admission",
+                                "enquiryDetailArgs": admissionDetail,
+                                "enquiryDetail": model.enquiryDetails.value,
+                                "editRegistrationDetails":
+                                    admissionDetail.enquiryType ==
+                                        EnquiryTypeEnum.psa.type
+                              }).then((val) {
+                            model.getEnquiryDetail(
+                                enquiryID: admissionDetail.enquiryId ?? '');
+                            model.getAdmissionJourney(
+                                enquiryID: admissionDetail.enquiryId ?? '',
+                                type: 'admission');
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppImages.eyeIcon,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            CommonText(
+                              text: 'View Details',
+                              style: AppTypography.subtitle1.copyWith(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      )
+                    } else if ((model.enquiryDetailArgs.enquiryType ==
+                            EnquiryTypeEnum.kidsClub.type &&
+                        model.enquiryDetailArgs.admissionStatus ==
+                            "Approved")) ...{
+                      InkWell(
+                        onTap: () {
+                          setEnquiryDetailsArgs(model);
+                          Navigator.pushNamed(
+                              context, RoutePaths.registrationDetails,
+                              arguments: {
+                                "routeFrom": "admission",
+                                "enquiryDetailArgs": admissionDetail,
+                                "enquiryDetail": model.enquiryDetails.value,
+                                "editRegistrationDetails":
+                                    admissionDetail.enquiryType ==
+                                        EnquiryTypeEnum.kidsClub.type
+                              }).then((val) {
+                            model.getEnquiryDetail(
+                                enquiryID: admissionDetail.enquiryId ?? '');
+                            model.getAdmissionJourney(
+                                enquiryID: admissionDetail.enquiryId ?? '',
+                                type: 'admission');
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppImages.eyeIcon,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            CommonText(
+                              text: 'View Details',
+                              style: AppTypography.subtitle1.copyWith(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      )
+                    } else if (model.enquiryDetailArgs.enquiryType ==
+                        EnquiryTypeEnum.newAdmission.type) ...{
+                      InkWell(
+                        onTap: () {
+                          setEnquiryDetailsArgs(model);
+                          Navigator.pushNamed(
+                              context, RoutePaths.registrationDetails,
+                              arguments: {
+                                "routeFrom": "admission",
+                                "enquiryDetailArgs": admissionDetail,
+                                "enquiryDetail": model.enquiryDetails.value,
+                                "editRegistrationDetails": false
+                              }).then((val) {
+                            model.getEnquiryDetail(
+                                enquiryID: admissionDetail.enquiryId ?? '');
+                            model.getAdmissionJourney(
+                                enquiryID: admissionDetail.enquiryId ?? '',
+                                type: 'admission');
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppImages.eyeIcon,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            CommonSizedBox.sizedBox(height: 10, width: 10),
+                            CommonText(
+                              text: 'View Details',
+                              style: AppTypography.subtitle1.copyWith(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      )
+                    }
                   ],
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),

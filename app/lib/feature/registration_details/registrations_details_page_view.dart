@@ -116,7 +116,8 @@ class RegistrationsDetailsPageView
 
           Future.wait(mdmAttributeList).then((_) {
             if (model.showWidget.value == 0) {
-              if (enquiryDetailArgs?.enquiryType == "IVT") {
+              if (enquiryDetailArgs?.enquiryType ==
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
                 model.getIvtDetails(
                     enquiryID: enquiryDetailArgs?.enquiryId ?? '',
                     isEdit: true);
@@ -226,8 +227,8 @@ class RegistrationsDetailsPageView
                     Visibility(
                       visible: enquiryDetailArgs?.enquiryType ==
                               EnquiryTypeEnum.psa.type ||
-                          enquiryDetailArgs?.enquiryType ==
-                              EnquiryTypeEnum.kidsClub.type,
+                          enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                              EnquiryTypeEnum.kidsClub.type.toLowerCase(),
                       replacement: AppStreamBuilder<bool>(
                         stream: model.editRegistrationDetails,
                         initialData: model.editRegistrationDetails.value,
@@ -251,7 +252,9 @@ class RegistrationsDetailsPageView
                                 }
                                 model.showWidget.add(index);
                                 if (index == 0) {
-                                  if (enquiryDetailArgs?.enquiryType == "IVT") {
+                                  if (enquiryDetailArgs?.enquiryType ==
+                                      EnquiryTypeEnum.kidsClub.type
+                                          .toLowerCase()) {
                                     model.getIvtDetails(
                                         enquiryID:
                                             enquiryDetailArgs?.enquiryId ?? '');
@@ -288,8 +291,8 @@ class RegistrationsDetailsPageView
                     CommonSizedBox.sizedBox(height: 20, width: 10),
                     if (enquiryDetailArgs?.enquiryType ==
                             EnquiryTypeEnum.psa.type ||
-                        enquiryDetailArgs?.enquiryType ==
-                            EnquiryTypeEnum.kidsClub.type) ...{
+                        enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                            EnquiryTypeEnum.kidsClub.type.toLowerCase()) ...{
                       SizedBox(
                         height: MediaQuery.of(context).size.height - 300,
                         width: double.infinity,
@@ -684,8 +687,8 @@ class RegistrationsDetailsPageView
 
   Widget getEnquiryDetails(EnquiryDetailArgs enquiryDetailArgs,
       RegistrationsDetailsViewModel model, bool isEditing) {
-    switch (enquiryDetailArgs.enquiryType) {
-      case "IVT":
+    switch (enquiryDetailArgs.enquiryType?.toLowerCase()) {
+      case 'enquiry - kids club':
         return AppStreamBuilder<Resource<IVTDetail>>(
             stream: model.ivtDetails,
             initialData: Resource.none(),
@@ -714,7 +717,7 @@ class RegistrationsDetailsPageView
                   );
               }
             });
-      case "Enquiry - PSA":
+      case "enquiry - psa":
         return AppStreamBuilder<Resource<PSADetail>>(
             stream: model.psaDetails,
             initialData: Resource.none(),

@@ -3077,7 +3077,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   }
 
   Future<void> saveStudentDetail() async {
-    if ((enquiryDetailArgs?.enquiryType ?? '') == "IVT") {
+    if ((enquiryDetailArgs?.enquiryType?.toLowerCase() ?? '') ==
+        EnquiryTypeEnum.kidsClub.type) {
       IvtDetailResponseEntity ivtDetail = IvtDetailResponseEntity();
       ivtDetailSubject?.value.schoolLocation = selectedSchoolLocationEntity;
       ivtDetailSubject?.value.studentDetails?.firstName =
@@ -3524,7 +3525,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           if (optKidsClub != null) {
             radioButtonKidsClub.selectItem(optKidsClub ? 'Yes' : 'No');
           }
-           if (optPsa != null) {
+          if (optPsa != null) {
             radioButtonPsa.selectItem(optPsa ? 'Yes' : 'No');
           }
         } else if (data.status == Status.error) {

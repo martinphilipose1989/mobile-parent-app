@@ -67,7 +67,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       this.getBrandUsecase) {
     getBrandList();
     getEnquiryDetail(enquiryID: enquiryDetails.enquiryId ?? '');
-    if (enquiryDetails.enquiryType == "IVT") {
+    if (enquiryDetails.enquiryType?.toLowerCase() ==
+        EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
       getIvtDetails(enquiryID: enquiryDetails.enquiryId ?? '');
     } else if (enquiryDetails.enquiryType == EnquiryTypeEnum.psa.type) {
       getPsaDetails(enquiryID: enquiryDetails.enquiryId ?? '');
@@ -537,7 +538,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         removeRegistrationMenu();
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          if (enquiryDetailArgs?.enquiryType != EnquiryTypeEnum.psa.type) {
+          if (enquiryDetailArgs?.enquiryType != EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs?.enquiryType?.toLowerCase() !=
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
                     ?.any((stage) =>
                         stage.stageName == "Registration Fees" &&
@@ -550,7 +553,9 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
               }
             }
           } else if (enquiryDetailArgs?.enquiryType ==
-              EnquiryTypeEnum.psa.type) {
+                  EnquiryTypeEnum.psa.type ||
+              enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             for (var item in menuData) {
               if (item['name'] == "Registration" ||
                   item['name'] == "Payments") {
@@ -1052,10 +1057,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   showPopUP(context) {
     Future.delayed(Duration.zero, () {
-      CommonPopups().showSuccess(context, 'Enquiry Created Successfully',
+      CommonPopups().showSuccess(context, 'Enquiry edited Successfully',
           (shouldRoute) {
         Navigator.pop(context);
-        navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
+        if (enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type ||
+            enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
+          navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
+        }
       });
     });
   }
@@ -1086,7 +1095,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           if (from != "payment") {
             showPopUP(context);
           } else {
-            navigatorKey.currentState?.pushNamed(
+            navigatorKey.currentState
+                ?.pushNamed(
               RoutePaths.payments,
               arguments: PaymentArguments(
                 phoneNo: '',
@@ -1094,7 +1104,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                 enquiryNo: enquiryDetailArgs?.enquiryNumber,
                 studentName: "${enquiryDetails.studentName} ",
               ),
-            );
+            )
+                .then((val) {
+              getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId ?? '');
+            });
           }
         }
       });

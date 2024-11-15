@@ -189,10 +189,6 @@ class CreateEditGatePassPageView
                               labelText: "Coming From",
                               controller: model.comingFromController,
                               keyboardType: TextInputType.text,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'^[0-9a-zA-Z\s]+$'))
-                              ],
                               validator: (value) {
                                 if (Validator.isEmpty(value!)) {
                                   return "Coming from cannot be empty";

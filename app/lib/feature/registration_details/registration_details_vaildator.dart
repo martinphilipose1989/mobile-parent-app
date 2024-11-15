@@ -97,7 +97,8 @@ class RegistrationDetailsValidator {
 
     // IVT-specific validations
     if (errorMessage.isEmpty &&
-        (model.enquiryDetailArgs?.enquiryType ?? '') == "IVT") {
+        (model.enquiryDetailArgs?.enquiryType?.toLowerCase() ?? '') ==
+            EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
       final ivtDropdowns = [
         {'field': 'Board', 'value': model.ivtBoardSubject.value},
         {'field': 'Course', 'value': model.ivtCourseSubject.value},
@@ -117,7 +118,8 @@ class RegistrationDetailsValidator {
 
     // PSA-specific validations
     if (errorMessage.isEmpty &&
-        (model.enquiryDetailArgs?.enquiryType ?? '') == EnquiryTypeEnum.psa.type) {
+        (model.enquiryDetailArgs?.enquiryType ?? '') ==
+            EnquiryTypeEnum.psa.type) {
       final psaDropdowns = [
         {'field': 'PSA Sub Type', 'value': model.psaSubTypeSubject.value},
         {'field': 'PSA Category', 'value': model.psaCategorySubject.value},

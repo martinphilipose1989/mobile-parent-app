@@ -328,7 +328,9 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         ),
                         psaDetails()
                       ],
-                      if ((enquiryDetailArgs.enquiryType ?? "") == "IVT") ...[
+                      if ((enquiryDetailArgs.enquiryType?.toLowerCase() ??
+                              "") ==
+                          EnquiryTypeEnum.kidsClub.type.toLowerCase()) ...[
                         const SizedBox(
                           height: 20,
                         ),

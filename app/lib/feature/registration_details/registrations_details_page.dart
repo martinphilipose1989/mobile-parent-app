@@ -130,7 +130,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
         model.getMdmAttribute(infoType: "relationWithChild"),
       ];
       Future.wait(mdmAttributes).then((_) {
-        if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
+        if (widget.enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+            EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
           model.getIvtDetails(
               enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
               isEdit: widget.routeFrom == "enquiry"
@@ -180,7 +181,8 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
       }
       model.enquiryDetails = widget.enquiryDetail;
       model.fetchSubjectList();
-      if (widget.enquiryDetailArgs?.enquiryType == "IVT") {
+      if (widget.enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+          EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
         model.getIvtDetails(
             enquiryID: widget.enquiryDetailArgs?.enquiryId ?? '',
             isEdit: widget.routeFrom == "enquiry"
@@ -332,8 +334,9 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
 
                           if (model.enquiryDetailArgs?.enquiryType ==
                                   EnquiryTypeEnum.psa.type ||
-                              model.enquiryDetailArgs?.enquiryType ==
-                                  EnquiryTypeEnum.kidsClub.type) {
+                              model.enquiryDetailArgs?.enquiryType
+                                      ?.toLowerCase() ==
+                                  EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
                             model.makePaymentRequest(
                                 widget.enquiryDetailArgs?.enquiryId ?? "");
                           } else {

@@ -89,7 +89,8 @@ class EnquiryAndStudentDetails extends StatelessWidget {
                       height: 1,
                       thickness: 1,
                     ),
-                    enquiryDetailArgs?.enquiryType == "IVT"
+                    enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                            EnquiryTypeEnum.kidsClub.type
                         ? getIvtDetails(ivtDetail: ivtDetail)
                         : enquiryDetailArgs?.enquiryType ==
                                 EnquiryTypeEnum.psa.type

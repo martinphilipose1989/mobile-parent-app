@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -14,7 +16,10 @@ class AdmissionsViewModel extends BasePageViewModel {
   final GetAdmissionListUsecase getAdmissionListUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,
-      this.flutterToastErrorPresenter);
+      this.flutterToastErrorPresenter) {
+    fetchAdmissionList();
+    setupScrollListener();
+  }
 
   final ScrollController scrollController = ScrollController();
   final ScrollController closedAdmissionController = ScrollController();
@@ -74,7 +79,18 @@ class AdmissionsViewModel extends BasePageViewModel {
   Stream<Resource<AdmissionListBaseModel>> get getClosedAdmissionListResponse =>
       _getClosedAdmissionListResponse.stream;
 
+  void reset() {
+    log("RESET");
+    pageNumber = 1;
+    closedAdmissionsPageNumber = 1;
+    admissions.add([]);
+    closedAdmissions.add([]);
+    isNextPage = true;
+    closedAdmissionsNextPage = true;
+  }
+
   Future<void> fetchAdmissionList({bool isRefresh = false}) async {
+    log("fetchAdmissionList");
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         pageNumber = 1;

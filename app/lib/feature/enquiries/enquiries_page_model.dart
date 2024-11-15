@@ -91,6 +91,14 @@ class EnquiriesPageModel extends BasePageViewModel {
   Stream<Resource<EnquiryListModel>> get getEnquiryResponseStream =>
       _getEnquiryResponse.stream;
 
+  void reset() {
+    pageNumber = 1;
+    enquiries.add([]);
+    admissions.add([]);
+    isNextPage = true;
+    closedEnquiryNextPage = true;
+  }
+
   Future<void> fetchEnquiries({bool isRefresh = false}) async {
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
@@ -200,7 +208,6 @@ class EnquiriesPageModel extends BasePageViewModel {
       _getAdmissionListResponse.stream;
 
   Future<void> closedEnquiryAdmissionList({bool isRefresh = false}) async {
-    
     exceptionHandlerBinder.handle(block: () async {
       if (isRefresh) {
         closedEnquiryPageNumber = 1;
@@ -271,7 +278,6 @@ class EnquiriesPageModel extends BasePageViewModel {
       }
     }
   }
-
 
   // @override
   // void dispose() {

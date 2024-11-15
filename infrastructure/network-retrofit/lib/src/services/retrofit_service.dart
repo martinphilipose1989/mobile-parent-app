@@ -585,7 +585,9 @@ abstract class RetrofitService {
 
   @GET(NetworkProperties.mdmModule)
   Future<HttpResponse<MdmCoReasonEntity>> getPurposeOfVisitList(
-      @Query('filters[parent_id]') int id, @Query("fields[0]") String name);
+      @Query('filters[parent_id]') int id,
+      @Query("fields[0]") String name,
+      @Header("Authorization") token);
 
   @GET(NetworkProperties.getBrandList)
   Future<HttpResponse<BrandResponseEntity>> getBrandList(

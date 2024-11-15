@@ -333,19 +333,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                   );
                 }
               }),
-          if ((enquiryDetailArgs?.enquiryType ?? "") ==
-              EnquiryTypeEnum.psa.type) ...[
-            const SizedBox(
-              height: 20,
-            ),
-            //  psaDetails()
-          ],
-          if ((enquiryDetailArgs?.enquiryType ?? "") == "IVT") ...[
-            const SizedBox(
-              height: 20,
-            ),
-            ivtDetails()
-          ],
+
           const SizedBox(
             height: 20,
           ),
@@ -461,21 +449,33 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          _detailItem(
-              title: "Category",
-              subtitle: model.selectedPsaCategoryEntity?.value ?? "NA"),
-          _detailItem(
-              title: "Sub Category",
-              subtitle: model.selectedPsaSubCategoryEntity?.value ?? "NA"),
-          _detailItem(
-              title: "Sub Type",
-              subtitle: model.selectedPsaSubTypeEntity?.value ?? "NA"),
-          _detailItem(
-              title: "Period of Service",
-              subtitle: model.selectedPeriodOfServiceEntity?.value ?? "NA"),
-          _detailItem(
-              title: "Batch",
-              subtitle: model.selectedPsaBatchEntity?.value ?? "NA"),
+          if ((enquiryDetailArgs?.enquiryType ?? "") ==
+              EnquiryTypeEnum.psa.type) ...[
+            _detailItem(
+                title: "Category",
+                subtitle: model.selectedPsaCategoryEntity?.value ?? "NA"),
+            _detailItem(
+                title: "Sub Category",
+                subtitle: model.selectedPsaSubCategoryEntity?.value ?? "NA"),
+            _detailItem(
+                title: "Sub Type",
+                subtitle: model.selectedPsaSubTypeEntity?.value ?? "NA"),
+            _detailItem(
+                title: "Period of Service",
+                subtitle: model.selectedPeriodOfServiceEntity?.value ?? "NA"),
+            _detailItem(
+                title: "Batch",
+                subtitle: model.selectedPsaBatchEntity?.value ?? "NA"),
+          ],
+
+          if ((enquiryDetailArgs?.enquiryType?.toLowerCase() ?? "") ==
+              EnquiryTypeEnum.kidsClub.type.toLowerCase()) ...[
+            const SizedBox(
+              height: 20,
+            ),
+            // Replace with read only fields
+            ivtDetails()
+          ],
 
           const SizedBox(
             height: 50,

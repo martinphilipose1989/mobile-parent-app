@@ -28,7 +28,8 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        enquiryDetailArgs?.enquiryType == "IVT"
+        enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                EnquiryTypeEnum.kidsClub.type.toLowerCase()
             ? getIvtDetails(ivtDetail: ivtDetail)
             : enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type
                 ? getPsaDetails(psaDetail: psaDetail)
@@ -277,10 +278,8 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         _detailItem(
             title: "Parent First Name",
             subtitle: ivtDetail?.enquirerParent == "Father"
-                ? newAdmissionDetail?.parentDetails?.fatherDetails?.firstName ??
-                    ""
-                : newAdmissionDetail?.parentDetails?.motherDetails?.firstName ??
-                    ""),
+                ? ivtDetail?.parentDetails?.fatherDetails?.firstName ?? ""
+                : ivtDetail?.parentDetails?.motherDetails?.firstName ?? ""),
         _detailItem(
             title: "Parent Last Name",
             subtitle: ivtDetail?.enquirerParent == "Father"
