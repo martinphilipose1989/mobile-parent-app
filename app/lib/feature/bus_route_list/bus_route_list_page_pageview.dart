@@ -1,11 +1,15 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/tansport/student_details_row_widget.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_refresh_indicator.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/common_widgets/dialog/staff_list_popup.dart';
+import 'package:app/utils/common_widgets/dialog/staff_list_view_model.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
@@ -111,7 +115,18 @@ class BusRouteListPageView
                                                   },
                                                   child: Column(
                                                     children: [
-                                                      _trackBus(),
+                                                      BaseWidget(
+                                                        builder: (BuildContext context, StaffListViewModel? staffmodel, Widget? child) {
+                                                          return    _trackBus(onTap:(){
+                                                            print("taaappppppppeeedddd");
+
+ staffmodel?.getStaffList(routeId: int.parse(model.trip?.id??""), app: 'app');
+
+                                                         CommonPopups().showStaff(context,  args: StaffArgs(routeId:int.parse(model.trip?.id??"")));
+                                                        }); },
+                                                      providerBase: staffListViewModelProvider,
+
+                                                      ),
 
                                                       /// bus TackingListWidget
                                                       _busTackingListWidget(
@@ -327,7 +342,7 @@ class BusRouteListPageView
         });
   }
 
-  Widget _trackBus() {
+  Widget _trackBus({required void Function() onTap}) {
     return Container(
       padding: const EdgeInsets.only(left: 22.0, right: 22.0),
       child: Row(
@@ -337,7 +352,9 @@ class BusRouteListPageView
             text: "Track Bus",
             style: AppTypography.subtitle1,
           ),
-          SvgPicture.asset(AppImages.trackBus)
+          InkWell(child: SvgPicture.asset(AppImages.trackBus),onTap: (){
+            onTap();
+          },)
         ],
       ),
     );

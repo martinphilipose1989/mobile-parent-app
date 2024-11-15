@@ -7,10 +7,10 @@ class TransportRepositoryimpl extends TransportRepository{
 
   TransportRepositoryimpl(this.networkPort);
 
-  // @override
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required int stopId}) {
-  //   // TODO: implement fetchStopLogs
-  //   return networkPort.fetchStopLogs(routeId: routeId, stopId: stopId);  }
+  @override
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required String platform}) {
+    // TODO: implement fetchStopLogs
+    return networkPort.fetchStopLogs(routeId: routeId, platform: platform, );  }
 
   @override
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList({required String routeId, required int dayId,required String app}) {
@@ -30,6 +30,11 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
   @override
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params}) {
     return networkPort.getStudentAttendance(params:params);
+  }
+
+  @override
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList({required GetStaffListUseCaseParams staffListusecaseparams}) {
+   return networkPort.getStaffList(params: staffListusecaseparams);
   }
   
 }

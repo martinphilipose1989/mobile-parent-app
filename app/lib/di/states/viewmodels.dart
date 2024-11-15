@@ -54,6 +54,7 @@ import '../../feature/tickets/ticket_list_view_model.dart';
 import '../../feature/bus_route_list/bus_route_list_page_viewmodel.dart';
 import '../../feature/my_duty/my_duty_page_viewmodel.dart';
 import '../../feature/student_profile/student_profile_page_viewmodel.dart';
+import '../../utils/common_widgets/dialog/staff_list_view_model.dart';
 
 final splashViewModelProvider =
     ChangeNotifierProvider.autoDispose<SplashViewModel>(
@@ -474,13 +475,18 @@ final transportPageModelProvider =
 final busRouteListPageViewModelProvider =
     ChangeNotifierProvider.autoDispose<BusRouteListPageViewModel>(
   (ref) => BusRouteListPageViewModel(
-    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-    getAllBusStopsUsecase: getIt.get<GetAllBusStopsUsecase>(),
-    getStudentAttendanceUseCase: getIt.get<GetStudentAttendanceUseCase>(),
-    //fetchStopLogsUsecase: getIt.get<FetchStopLogsUsecase>()
-  ),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      getAllBusStopsUsecase: getIt.get<GetAllBusStopsUsecase>(),
+      getStudentAttendanceUseCase: getIt.get<GetStudentAttendanceUseCase>(),
+      fetchStopLogsUsecase: getIt.get<FetchStopLogsUsecase>()),
 );
+final staffListViewModelProvider = ChangeNotifierProvider
+    .autoDispose<StaffListViewModel>((ref) => StaffListViewModel(
+          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+          getStaffListUsecase: getIt.get<GetStaffListUsecase>(),
+        ));
 
 final myDutyPageViewModelProvider = ChangeNotifierProvider
     .autoDispose<MyDutyPageViewModel>((ref) => MyDutyPageViewModel(
