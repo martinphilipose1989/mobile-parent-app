@@ -4,13 +4,12 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
       {required int studentId, required List<int> lobIDs});
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
-  //     {required int routeId, required int stopId});
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+      {required int routeId, required String platform});
   Future<Either<NetworkError, GetAcademicYearModel>> getAcademicYear(
       {required String type, required List students});
 
@@ -273,4 +272,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance(
       {required GetStudentAttendanceUsecaseParams params});
+
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
+      {required GetStaffListUseCaseParams params});
 }

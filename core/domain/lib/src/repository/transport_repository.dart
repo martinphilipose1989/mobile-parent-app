@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/transport/get_staff_list_usecase.dart';
 import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
 abstract class TransportRepository {
@@ -14,8 +15,12 @@ abstract class TransportRepository {
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
       {required String routeId, required int dayId, required String app});
 
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
-  //     {required int routeId, required int stopId});
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+      {required int routeId,required String platform});
 
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance({required GetStudentAttendanceUsecaseParams params});
+
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
+      {required GetStaffListUseCaseParams staffListusecaseparams});
+
 }

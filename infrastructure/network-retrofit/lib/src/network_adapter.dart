@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:data/data.dart';
-import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
@@ -1329,13 +1328,27 @@ class NetworkAdapter implements NetworkPort {
         (error) => Left(error), (data) => Right(data.data.transform()));
   }
 
-  // @override
-  // Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs({required int routeId, required int stopId}) async{
-  //   final response = await safeApiCall(
-  //     transportService.fetchStopLogs(routeId: routeId, stopId: stopId),
-  //   );
-  //
-  //   return response.fold(
-  //           (error) => Left(error), (data) => Right(data.data.transform()));
-  // }
+  @override
+  Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
+      {required GetStaffListUseCaseParams params}) async {
+    final response = await safeApiCall(transportService.getStaffList(
+        schoolId: params.schoolId, platform: params.platform));
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, FetchStopLogsModel>> fetchStopLogs(
+      {required int routeId, required String platform}) async {
+    final response = await safeApiCall(
+      transportService.fetchStopLogs(
+        routeId: routeId,
+        platform: platform,
+      ),
+    );
+
+    return response.fold(
+        (error) => Left(error), (data) => Right(data.data.transform()));
+  }
 }
