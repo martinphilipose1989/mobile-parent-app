@@ -32,6 +32,16 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
     CommonDataEntity? stream;
     @JsonKey(name: 'shift')
     CommonDataEntity? shift;
+    @JsonKey(name: 'kids_club_type')
+    CommonDataEntity? kidsClubType;
+    @JsonKey(name: 'kids_club_batch')
+    CommonDataEntity? kidsClubBatch;
+    @JsonKey(name: 'kids_club_period_of_service')
+    CommonDataEntity? kidsClubPeriodOfService;
+    @JsonKey(name: 'kids_club_month')
+    CommonDataEntity? kidsClubMonth;
+    @JsonKey(name: 'kids_club_from_cafeteria_opt_for')
+    CommonDataEntity? kidsClubFromCafeteriaOptFor;
 
     IvtDetailResponseEntity({
       this.enquiryDate,
@@ -45,6 +55,11 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
       this.course,
       this.shift,
       this.stream,
+      this.kidsClubType,
+      this.kidsClubBatch,
+      this.kidsClubPeriodOfService,
+      this.kidsClubMonth,
+      this.kidsClubFromCafeteriaOptFor,
     });
 
   factory IvtDetailResponseEntity.fromJson(Map<String, dynamic> json) =>
@@ -66,6 +81,10 @@ class IvtDetailResponseEntity extends BaseLayerDataTransformer<IvtDetailResponse
     ivtDetail.course = course?.transform();
     ivtDetail.shift = shift?.transform();
     ivtDetail.stream = stream?.transform();
+    ivtDetail.kidsClubBatch = kidsClubBatch?.transform();
+    ivtDetail.kidsClubType = kidsClubType?.transform();
+    ivtDetail.kidsClubMonth = kidsClubMonth?.transform();
+    ivtDetail.kidsClubFromCafeteriaOptFor = kidsClubFromCafeteriaOptFor?.transform();
     return ivtDetail;
   }
 }

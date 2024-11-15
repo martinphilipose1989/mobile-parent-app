@@ -13,5 +13,10 @@ class IVTDetail {
     CommonDataClass? course;
     CommonDataClass? stream;
     CommonDataClass? shift;
+    CommonDataClass? kidsClubType;
+    CommonDataClass? kidsClubBatch;
+    CommonDataClass? kidsClubPeriodOfService;
+    CommonDataClass? kidsClubMonth;
+    CommonDataClass? kidsClubFromCafeteriaOptFor;
 
 }

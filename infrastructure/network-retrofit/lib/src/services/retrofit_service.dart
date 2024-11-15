@@ -147,12 +147,12 @@ abstract class RetrofitService {
       @Body() required PsaDetailResponseEntity psaDetail});
 
   @GET(
-      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/kids-club')
   Future<HttpResponse<IvtBaseResponseEntity>> getIvtDetail(
       {@Path('enquiryID') required String enquiryID});
 
   @PATCH(
-      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/ivt')
+      '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/{enquiryID}/kids-club')
   Future<HttpResponse<IvtBaseResponseEntity>> updateIvtDetail(
       {@Path('enquiryID') required String enquiryID,
       @Body() required IvtDetailResponseEntity ivtDetail});
