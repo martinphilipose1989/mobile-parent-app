@@ -191,4 +191,38 @@ class UserRepositoryImpl extends UserRepository {
       );
     }
   }
+
+  @override
+  Future<Either<LocalError, bool>> clearSession() async {
+    try {
+      await secureStorageService.clearPreferences();
+      return Right(true);
+    } catch (error) {
+      return Left(
+        LocalError(
+          errorType: ErrorType.storageError,
+          message: error.toString(),
+          cause: Exception(),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<LocalError, LogoutResponse>> logOut() async {
+    try {
+      final idTokenHint = await secureStorageService
+          .getFromDisk(secureStorageService.idTokenKey);
+      final result = await appAuthPort.logout(idTokenHint: idTokenHint);
+      return Right(LogoutResponse(state: result.state));
+    } catch (error) {
+      return Left(
+        LocalError(
+          errorType: ErrorType.storageError,
+          message: error.toString(),
+          cause: Exception(),
+        ),
+      );
+    }
+  }
 }

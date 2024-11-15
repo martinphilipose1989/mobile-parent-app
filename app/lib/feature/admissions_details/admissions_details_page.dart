@@ -100,12 +100,4 @@ class _AdmissionsPageState extends AppBasePageState<AdmissionsDetailsViewModel,
       },
     );
   }
-
-  @override
-  void dispose() {
-    print("hiii AFTER DISPOSE");
-    // Use the stored provider instance instead of accessing it via context
-    // admissionsViewModel.fetchAdmissionList();
-    super.dispose();
-  }
 }

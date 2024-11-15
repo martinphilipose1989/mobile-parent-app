@@ -1026,12 +1026,12 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
+
     if (!(detail.studentDetails?.dob ?? '')
         .toLowerCase()
         .contains("invalid date")) {
       studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
-          ? DateTime.parse(
-              (detail.studentDetails?.dob ?? ''))
+          ? DateTime.parse((detail.studentDetails?.dob ?? ''))
           : DateTime.now();
     }
     schoolLocationController.text = detail.schoolLocation?.value ?? '';
@@ -1075,6 +1075,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
         detail.parentDetails?.motherDetails?.mobile ?? '';
     studentsMotherEmailController.text =
         detail.parentDetails?.motherDetails?.email ?? '';
+    selectedBoardEntity = detail.board;
+    selectedCourseEntity = detail.course;
+    selectedStreamEntity = detail.stream;
+    selectedShiftEntity = detail.shift;
   }
 
   showPopUP(context) {

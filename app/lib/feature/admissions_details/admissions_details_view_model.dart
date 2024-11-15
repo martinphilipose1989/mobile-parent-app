@@ -142,9 +142,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         var admissionStatus = getAdmissionStatus();
 
         if (admissionStatus == "Approved") {
-          if (enquiryDetailArgs.enquiryType != EnquiryTypeEnum.psa.type ||
-              enquiryDetailArgs.enquiryType?.toLowerCase() !=
-                  EnquiryTypeEnum.kidsClub.type) {
+          if (enquiryDetailArgs.enquiryType ==
+              EnquiryTypeEnum.newAdmission.type) {
             final index = menuData.indexWhere((menu) =>
                 menu['name'].toString().toLowerCase() == "subject selection");
             menuData[index]['isActive'] = true;

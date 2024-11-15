@@ -505,6 +505,7 @@ final studentProfilePageViewModelProvider =
 );
 
 final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
-  (ref) =>
-      UserViewModel(getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>()),
+  (ref) => UserViewModel(
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+      logoutUsecase: getIt.get<LogoutUsecase>()),
 );

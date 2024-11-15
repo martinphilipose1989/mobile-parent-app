@@ -5,6 +5,8 @@ class AppAuthConfig {
   final String loginUrl;
   final String tokenUrl;
   final String? logOutUrl;
+  final String logOutRedirectUri;
+  final String discoveryUrl;
 
   AppAuthConfig(
       {required this.clientSecret,
@@ -12,5 +14,7 @@ class AppAuthConfig {
       required this.clientId,
       required this.loginUrl,
       required this.tokenUrl,
+      required this.logOutRedirectUri,
+      required this.discoveryUrl,
       this.logOutUrl});
 }

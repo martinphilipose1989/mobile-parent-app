@@ -53,4 +53,11 @@ abstract class AppModule {
 
   @Named("ShowLogs")
   bool get showLogs => FlavorConfig.instance.values.showLogs;
+
+  @Named("LogOutUri")
+  String get logOutRedirectUri =>
+      FlavorConfig.instance.values.secrets.logoutRedirectUri;
+
+  @Named("DiscoveryUrl")
+  String get discoveryUrl => FlavorConfig.instance.values.discoveryUrl;
 }

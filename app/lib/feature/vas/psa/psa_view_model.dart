@@ -5,6 +5,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -148,30 +149,34 @@ class PsaDetailViewModel extends BasePageViewModel {
           //   academicYearId: 25,
           // )
           feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-              //     schoolId: enquiryDetailArgs?.schoolId,
-              //     boardId: enquiryDetailArgs?.boardId,
-              //     courseId: enquiryDetailArgs?.courseId,
-              //     gradeId: enquiryDetailArgs?.gradeId,
-              //     feeCategoryId: feeCategoryID,
-              //     feeSubcategoryId: feeSubCategoryID,
-              //     feeSubTypeId: feeSubTypeID,
-              //     academicYearId: enquiryDetailArgs?.academicYearId,
-              //     periodOfServiceId: periodOfServiceID
+        schoolId: enquiryDetailArgs?.schoolId,
+        boardId: enquiryDetailArgs?.boardId,
+        courseId: enquiryDetailArgs?.courseId,
+        gradeId: enquiryDetailArgs?.gradeId,
+        feeCategoryId: feeCategoryID,
+        feeSubcategoryId: feeSubCategoryID,
+        feeSubTypeId: feeSubTypeID,
+        academicYearId: enquiryDetailArgs?.academicYearId,
+        periodOfServiceId: periodOfServiceID,
+        batchId: batchID,
+        feeTypeId: FeesTypeIdEnum.psaFess.id,
+        shiftId: enquiryDetailArgs?.shiftId,
+        streamId: enquiryDetailArgs?.streamId,
 
-              schoolId: 26, // enquiryDetailArgs?.schoolId,
-              boardId: 3, // enquiryDetailArgs?.boardId,
-              courseId: 4, // enquiryDetailArgs?.courseId,
-              gradeId: 8, //enquiryDetailArgs?.gradeId,
-              feeCategoryId: 19, //feeCategoryID,
-              feeSubcategoryId: 16, //feeSubCategoryID,
-              feeSubTypeId: 32, //feeSubTypeID,
-              feeTypeId: 11,
-              shiftId: 2,
-              streamId: 1,
-              academicYearId: 25, // enquiryDetailArgs?.academicYearId,
-              batchId: 1, // batchID,
-              periodOfServiceId: 1 // periodOfServiceID
-              ));
+        // schoolId: 26, // enquiryDetailArgs?.schoolId,
+        // boardId: 3, // enquiryDetailArgs?.boardId,
+        // courseId: 4, // enquiryDetailArgs?.courseId,
+        // gradeId: 8, //enquiryDetailArgs?.gradeId,
+        // feeCategoryId: 19, //feeCategoryID,
+        // feeSubcategoryId: 16, //feeSubCategoryID,
+        // feeSubTypeId: 32, //feeSubTypeID,
+        // feeTypeId: FeesTypeIdEnum.psaFess.id,
+        // shiftId: 2, // shiftId
+        // streamId: 1, // streamId
+        // academicYearId: 25, // enquiryDetailArgs?.academicYearId,
+        // batchId: 1, // batchID,
+        // periodOfServiceId: 1 // periodOfServiceID
+      ));
       showLoader.value = true;
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))

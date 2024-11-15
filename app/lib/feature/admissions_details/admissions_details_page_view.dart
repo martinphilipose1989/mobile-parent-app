@@ -115,6 +115,7 @@ class AdmissionsDetailsPageView
       case 'registration':
         model.showMenuOnFloatingButton.add(false);
         log("registrationDetails");
+        setEnquiryDetailsArgs(model);
 
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
@@ -413,7 +414,8 @@ class AdmissionsDetailsPageView
   void setEnquiryDetailsArgs(AdmissionsDetailsViewModel model) {
     log("admissionDetail.brandId ${model.enquiryDetails.value.brandId}");
     log("admissionDetail.brandName ${model.enquiryDetails.value.brandName}");
-
+    log("admissionDetail.streamId ${model.enquiryDetails.value.streamId}");
+    log("admissionDetail.shiftId ${model.enquiryDetails.value.shiftId}");
     admissionDetail.brandId = model.enquiryDetails.value.brandId;
     admissionDetail.brandName = model.enquiryDetails.value.brandName;
     admissionDetail.schoolId = model.enquiryDetails.value.schoolId;
@@ -421,5 +423,7 @@ class AdmissionsDetailsPageView
     admissionDetail.academicYearId = model.enquiryDetails.value.academicYearId;
     admissionDetail.gradeId = model.enquiryDetails.value.gradeId;
     admissionDetail.courseId = model.enquiryDetails.value.courseId;
+    admissionDetail.streamId = model.enquiryDetails.value.streamId;
+    admissionDetail.shiftId = model.enquiryDetails.value.shiftId;
   }
 }

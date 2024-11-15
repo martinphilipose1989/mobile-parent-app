@@ -32,8 +32,10 @@ enum ErrorType {
   uiInvalidAmoun,
 
   // Auth Error
+
   appAuthUserCancelled,
   appAuthPlatformException,
+  appLogoutException,
 
   // Storage
   storageError

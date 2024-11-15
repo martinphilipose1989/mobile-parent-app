@@ -3,7 +3,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 abstract class AppAuthPort {
   Future<AuthorizationTokenResponse> login();
 
-  Future<void> logout();
+  Future<EndSessionResponse> logout({required String idTokenHint});
 
-  Future<void> refreshToken();
+  Future<TokenResponse> refreshToken();
 }

@@ -78,20 +78,23 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: SvgPicture.asset(AppImages.notificationLogo),
                 ),
               ),
-              Container(
-                height: 32.h,
-                width: 32.w,
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.00),
-                  border: Border.all(color: AppColors.primary),
-                  color: AppColors.primary.withOpacity(0.2),
-                ),
-                child: BaseWidget(
-                    providerBase: userViewModelProvider,
-                    builder: (context, model, _) {
-                      return AppStreamBuilder<Resource<User>>(
+              BaseWidget(
+                providerBase: userViewModelProvider,
+                builder: (context, model, _) => GestureDetector(
+                  onTap: () {
+                    model.logOut();
+                  },
+                  child: Container(
+                      height: 32.h,
+                      width: 32.w,
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.00),
+                        border: Border.all(color: AppColors.primary),
+                        color: AppColors.primary.withOpacity(0.2),
+                      ),
+                      child: AppStreamBuilder<Resource<User>>(
                           stream: model!.userStream,
                           initialData: Resource.none(),
                           dataBuilder: (context, data) {
@@ -99,8 +102,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                               text: data?.data?.userName?.getInitials() ?? '',
                               style: const TextStyle(color: AppColors.primary),
                             );
-                          });
-                    }),
+                          })),
+                ),
               )
             ],
     );
