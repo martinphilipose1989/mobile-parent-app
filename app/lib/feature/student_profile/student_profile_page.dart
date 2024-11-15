@@ -11,9 +11,9 @@ import 'student_profile_page_viewmodel.dart';
 import 'student_profile_pageview.dart';
 
 class StudentProfilePage extends BasePage<StudentProfilePageViewModel> {
-  const StudentProfilePage({super.key, required this.studentId});
+ StudentProfilePage({super.key, required this.studentId});
 
-  final int studentId;
+ late final int studentId;
 
   @override
   StudentProfilePageState createState() => StudentProfilePageState();
@@ -23,7 +23,7 @@ class StudentProfilePageState
     extends AppBasePageState<StudentProfilePageViewModel, StudentProfilePage> {
   @override
   Widget buildView(BuildContext context, StudentProfilePageViewModel model) {
-    return StudentProfilePageView(provideBase(), studentId: widget.studentId);
+    return StudentProfilePageView(provideBase(), studentId: model.selectedStudent?.first.id);
   }
 
   @override
@@ -39,7 +39,16 @@ class StudentProfilePageState
   @override
   void onModelReady(StudentProfilePageViewModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.getStudentProfile(studentId: widget.studentId);
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+   if(model.selectedStudent!.isEmpty||model.selectedStudent?.first.id==null){
+     return;
+   }
+   else {
+     widget.studentId=model.selectedStudent?.first.id;
+      model.getStudentProfile(studentId: widget.studentId);
+    }
     super.onModelReady(model);
   }
 

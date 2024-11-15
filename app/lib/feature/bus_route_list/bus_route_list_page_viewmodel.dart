@@ -52,6 +52,7 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
   Stream<bool> get loadingStream => _loadingSubject.stream;
 
   Stream<bool> get hasMorePagesStream => hasMorePagesSubject.stream;
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
 
   Stream<Resource<List<RouteStopMappingModel>>> get busStopsListStream =>
       _busStopsListSubject.stream;
@@ -88,7 +89,7 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
   void getStudentAttendance() async {
     _loadingSubject.add(true);
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
-        GetStudentAttendanceUsecaseParams(studentId: 10);
+        GetStudentAttendanceUsecaseParams(studentId: selectedStudent?.first.id);
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,

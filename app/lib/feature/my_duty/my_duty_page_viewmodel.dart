@@ -9,8 +9,11 @@ import 'package:app/utils/common_widgets/toggle_option_list.dart';
 
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import '../../di/states/viewmodels.dart';
 
 class MyDutyPageViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
@@ -20,6 +23,7 @@ class MyDutyPageViewModel extends BasePageViewModel {
 
   final BehaviorSubject<String> selectedTripStatus =
       BehaviorSubject.seeded("up coming trips");
+ List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
 
   final tripStatusType = [
     const ToggleOption<String>(
@@ -53,13 +57,15 @@ class MyDutyPageViewModel extends BasePageViewModel {
   }
 
   void getMyDutyList() {
+    if (selectedStudent!.isEmpty ||    selectedStudent?.first.id==null)
+      return;
     _loadingSubject.add(true);
     if (_pageSubject.value == 1) {
       _tripListSubject.add(Resource.loading(data: null));
     }
 
     final GetMydutyListParams params = GetMydutyListParams(
-        pageNo: _pageSubject.value, dayId: DateTime.now().weekday, studentId: 10, app: "app");
+        pageNo: _pageSubject.value, dayId: DateTime.now().weekday, studentId: selectedStudent?.first.id??-1, app: "app");
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,

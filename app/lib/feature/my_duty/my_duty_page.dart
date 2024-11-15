@@ -26,8 +26,12 @@ class MyDutyPageState
 
   @override
   void onModelReady(MyDutyPageViewModel model) {
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     //getViewModel()
+
     super.onModelReady(model);
   }
 
