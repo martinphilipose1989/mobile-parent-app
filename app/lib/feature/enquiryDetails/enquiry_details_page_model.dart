@@ -1052,10 +1052,13 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
 
   showPopUP(context) {
     Future.delayed(Duration.zero, () {
-      CommonPopups().showSuccess(context, 'Enquiry Created Successfully',
+      CommonPopups().showSuccess(context, 'Enquiry edited Successfully',
           (shouldRoute) {
         Navigator.pop(context);
-        navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
+        if (enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.psa.type ||
+            enquiryDetailArgs?.enquiryType == EnquiryTypeEnum.kidsClub.type) {
+          navigatorKey.currentState?.pushNamed(RoutePaths.trackerAdmissions);
+        }
       });
     });
   }
@@ -1086,7 +1089,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           if (from != "payment") {
             showPopUP(context);
           } else {
-            navigatorKey.currentState?.pushNamed(
+            navigatorKey.currentState
+                ?.pushNamed(
               RoutePaths.payments,
               arguments: PaymentArguments(
                 phoneNo: '',
@@ -1094,7 +1098,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                 enquiryNo: enquiryDetailArgs?.enquiryNumber,
                 studentName: "${enquiryDetails.studentName} ",
               ),
-            );
+            )
+                .then((val) {
+              getEnquiryDetail(enquiryID: enquiryDetailArgs?.enquiryId ?? '');
+            });
           }
         }
       });

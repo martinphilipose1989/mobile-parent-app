@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -14,7 +16,9 @@ class AdmissionsViewModel extends BasePageViewModel {
   final GetAdmissionListUsecase getAdmissionListUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   AdmissionsViewModel(this.exceptionHandlerBinder, this.getAdmissionListUsecase,
-      this.flutterToastErrorPresenter);
+      this.flutterToastErrorPresenter) {
+    setupScrollListener();
+  }
 
   final ScrollController scrollController = ScrollController();
   final ScrollController closedAdmissionController = ScrollController();
@@ -22,6 +26,8 @@ class AdmissionsViewModel extends BasePageViewModel {
   BehaviorSubject<int> selectedTab = BehaviorSubject<int>.seeded(0);
 
   void setupScrollListener() {
+    log("setupScrollListener");
+
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -75,6 +81,7 @@ class AdmissionsViewModel extends BasePageViewModel {
       _getClosedAdmissionListResponse.stream;
 
   void reset() {
+    log("RESET");
     pageNumber = 1;
     closedAdmissionsPageNumber = 1;
     admissions.add([]);
