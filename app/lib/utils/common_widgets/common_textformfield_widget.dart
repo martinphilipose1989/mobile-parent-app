@@ -16,6 +16,7 @@ class CommonTextFormField extends StatelessWidget {
   final int? maxLines;
   final bool showSearchIcon;
   final Widget? prefix;
+  final Widget? suffix;
   final bool showAstreik;
   final bool readOnly;
   final int? maxLength;
@@ -35,6 +36,7 @@ class CommonTextFormField extends StatelessWidget {
     super.key,
     this.labelText,
     this.controller,
+    this.suffix,
     this.keyboardType = TextInputType.text,
     this.hintText,
     this.validator,

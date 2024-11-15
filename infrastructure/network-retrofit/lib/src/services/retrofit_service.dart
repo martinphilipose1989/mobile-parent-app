@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import '../model/request/finance/get_guardian_student_details_request.dart';
+import '../model/request/finance/get_siblings_request.dart';
+import '../model/request/finance/get_token_generator_request.dart';
+import '../model/response/communication/msg_category_entity.dart';
+import '../model/response/communication/msg_sub_category_entity.dart';
+import '../model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
+import '../model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
-import 'package:network_retrofit/src/model/request/finance/get_siblings_request.dart';
-import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_entity.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
@@ -21,10 +25,8 @@ import 'package:network_retrofit/src/model/response/enquiry_file_upload/download
 import 'package:network_retrofit/src/model/response/enquiry_file_upload/enquiry_file_upload_response_entity.dart';
 import 'package:network_retrofit/src/model/response/enquiry_timeline.dart/enquiry_timeline_response_entity.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
-import 'package:network_retrofit/src/model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
-import 'package:network_retrofit/src/model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/create_gatepass_entity_response.dart';
 import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
 import 'package:network_retrofit/src/model/response/gatepass/mdm_coreason_entity.dart';
@@ -82,6 +84,11 @@ abstract class RetrofitService {
           @Body()
           GetGuardianStudentDetailsRequest getGuardianStudentDetailsRequest);
 
+  @GET('/api/msg-categories')
+  Future<HttpResponse<MsgCategoryEntity>> createCategory();
+
+  @GET('/api/msg-sub-categories')
+  Future<HttpResponse<MsgSubCategoryEntity>> createSubCategory();
   @POST(
       '${NetworkProperties.financeBaseUrl}/finance/fee_collection/fee_details')
   Future<HttpResponse<GetPendingFeesEntity>> getPendingFees(

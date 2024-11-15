@@ -15,6 +15,16 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'ADMIN_BASE_URL')
   static const String adminBaseUrl = _EnvDev.adminBaseUrl;
+
+  @EnviedField(varName: 'TICKETING_BASE_URL')
+  static const String ticketingBaseUrl = _EnvDev.ticketingBaseUrl;
+
+  @EnviedField(varName: 'DISCIPLINARY_BASE_URL')
+  static const String disciplinarySlip = _EnvDev.disciplinarySlip;
+
+  @EnviedField(varName: 'ATTENDANCE_BASE_URL')
+  static const String attendance = _EnvDev.attendance;
+
   @EnviedField(varName: 'TRANSPORT_BASE_URL')
-  static const String transportUrl= _EnvDev.transportUrl;
+  static const String transportUrl = _EnvDev.transportUrl;
 }

@@ -58,12 +58,23 @@ class DashboardPageModel extends BasePageViewModel {
     {'name': 'Transport', 'image': AppImages.bus, 'isSelected': false}
   ];
 
-  final List enquiryAndAdmissionTemp = [
+  final List progress = [
+    {'name': 'Attendance', 'image': AppImages.attendance, 'isSelected': false},
     {
-      'name': 'Enquiries',
-      'image': AppImages.receiptSearch,
+      'name': 'Discipline Slips',
+      'image': AppImages.document,
       'isSelected': false
     },
+    {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
+    {
+      'name': 'Marksheet',
+      'image': AppImages.documentNormal,
+      'isSelected': false
+    }
+  ];
+
+  final List enquiryAndAdmissionTemp = [
+    {'name': 'Tickets', 'image': AppImages.receiptSearch, 'isSelected': false},
     {'name': 'Application', 'image': AppImages.cube, 'isSelected': false}
   ];
 
@@ -83,15 +94,19 @@ class DashboardPageModel extends BasePageViewModel {
       case 'order':
         return '';
       case 'transport':
-        return RoutePaths.myDutyPage;
-      case 'enquires':
-        return '';
+        return RoutePaths.ticketListPage;
+      case 'tickets':
+        return RoutePaths.ticketListPage;
       case 'application':
         return '';
       case 'payments':
         return RoutePaths.payments;
-      case 'new enrollments':
-        return '';
+      case '':
+        return RoutePaths.payments;
+      case 'attendance':
+        return RoutePaths.attendanceCalender;
+      case 'discipline slips':
+        return RoutePaths.disciplinarySlipPage;
       default:
         return '';
     }
@@ -140,7 +155,7 @@ class DashboardPageModel extends BasePageViewModel {
           selectedStudentId = tempList;
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
-            dashboardState.setValueOfSelectedStudent(tempList.first);
+          dashboardState.setValueOfSelectedStudent(tempList.first);
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {

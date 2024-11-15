@@ -31,34 +31,35 @@ class CustomDropdownButton extends StatefulWidget {
   final double leftPadding;
   final double topPadding;
   final double bottomPadding;
+  final String? hint;
 
-  const CustomDropdownButton({
-    super.key,
-    required this.items,
-    this.isMutiSelect,
-    required this.dropdownName,
-    required this.showAstreik,
-    this.idValidator,
-    this.intialValue,
-    this.isSearchable = false,
-    this.isDisable = false,
-    this.onIdSelection,
-    this.singleSelectItemSubject,
-    required this.showBorderColor,
-    this.displayZerothIndex = false,
-    this.width,
-    this.showDropDownWithId = false,
-    this.selectedValue,
-    this.itemsWithId,
-    this.dropDownId,
-    this.validator,
-    required this.onMultiSelect,
-    this.onSingleSelect,
-    this.topPadding = 0,
-    this.bottomPadding = 0,
-    this.rightPadding = 0,
-    this.leftPadding = 0,
-  });
+  const CustomDropdownButton(
+      {super.key,
+      required this.items,
+      this.isMutiSelect,
+      required this.dropdownName,
+      required this.showAstreik,
+      this.idValidator,
+      this.intialValue,
+      this.isSearchable = false,
+      this.isDisable = false,
+      this.onIdSelection,
+      this.singleSelectItemSubject,
+      required this.showBorderColor,
+      this.displayZerothIndex = false,
+      this.width,
+      this.showDropDownWithId = false,
+      this.selectedValue,
+      this.itemsWithId,
+      this.dropDownId,
+      this.validator,
+      required this.onMultiSelect,
+      this.onSingleSelect,
+      this.topPadding = 0,
+      this.bottomPadding = 0,
+      this.rightPadding = 0,
+      this.leftPadding = 0,
+      this.hint});
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -101,7 +102,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         singleSelectItemSubject.add(widget.items[0] ?? "");
       }
     }
-    if ( widget.isMutiSelect != null && widget.isMutiSelect == false) {
+    if (widget.isMutiSelect != null && widget.isMutiSelect == false) {
       singleSelectItemSubject =
           widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
     }
@@ -155,7 +156,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Select ',
+                          widget.hint ?? 'Select ',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

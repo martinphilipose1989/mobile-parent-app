@@ -3,8 +3,15 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:data/data.dart';
-import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_count_request_entity.dart';
+import 'package:network_retrofit/src/model/request/attendance/attendance_details_request_entity.dart';
+import 'package:network_retrofit/src/model/request/communication/create_communication_log_model_request_entity.dart';
+import 'package:network_retrofit/src/model/request/communication/create_ticket_request_entity.dart';
+import 'package:network_retrofit/src/model/request/communication/find_by_category_subcategory_request.dart';
+import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
+import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -22,21 +29,26 @@ import 'package:network_retrofit/src/model/request/finance/payment_order/student
 import 'package:network_retrofit/src/model/request/finance/store_payment/fee_id_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/get_store_payment_request.dart';
 import 'package:network_retrofit/src/model/request/finance/store_payment/payment_details_request.dart';
+import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_entity.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/attendance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
-
-import 'model/request/gatepass/create_gatepass_entity.dart';
-import 'model/request/move_next_stage_request.dart';
 import 'services/retrofit_service.dart';
 
 class NetworkAdapter implements NetworkPort {
   final RetrofitService apiService;
   final FinanceRetrofitService financeRetrofitService;
   final AdminRetorfitService adminRetorfitService;
+  final DisciplinaryRetorfitService disciplinaryRetorfitService;
+  final AttendanceRetorfitService attendanceRetorfitService;
+  final TicketRetrofitService ticketRetrofitService;
   final TransportService transportService;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
@@ -48,8 +60,11 @@ class NetworkAdapter implements NetworkPort {
   NetworkAdapter(
       {required this.apiService,
       required this.transportService,
+      required this.attendanceRetorfitService,
+      required this.disciplinaryRetorfitService,
       required this.financeRetrofitService,
-      required this.adminRetorfitService});
+      required this.adminRetorfitService,
+      required this.ticketRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -982,6 +997,7 @@ class NetworkAdapter implements NetworkPort {
     }, (r) => Right(r.data.transform()));
   }
 
+  @override
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id}) async {
     var response =
@@ -1106,6 +1122,234 @@ class NetworkAdapter implements NetworkPort {
         feeTypeIds: feeTypeIds,
         feeCategoryIds: feeCategoryIds,
         feeSubCategoryIds: feeSubCategoryIds));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
+      {required int pageSize, required int page}) async {
+    GetTicketListRequest getTicketListRequest =
+        GetTicketListRequest(page: page, pageSize: pageSize);
+    var response = await safeApiCall(ticketRetrofitService.getTicketsList(
+        getTicketListRequest: getTicketListRequest));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, MsgCategoryModel>> createCategory() async {
+    var response = await safeApiCall(apiService.createCategory());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory() async {
+    var response = await safeApiCall(apiService.createSubCategory());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CreateCommunicationModel>>
+      createCommunication() async {
+    var response =
+        await safeApiCall(ticketRetrofitService.createCommunication());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, FindByCategorySubCategoryModel>>
+      findByCategorySubCategory(
+          {required int categoryId, required int subCategoryId}) async {
+    FindByCategorySubCategoryRequest findByCategorySubCategoryRequest =
+        FindByCategorySubCategoryRequest(
+            categoryId: categoryId, subCategoryId: subCategoryId);
+    var response = await safeApiCall(
+        ticketRetrofitService.findByCategorySubCategory(
+            findByCategorySubCategoryRequest:
+                findByCategorySubCategoryRequest));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+      {required int studentId, int? academicYearID, DateTime? time}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.getDisciplinaryList(DisciplinaryListRequest(
+      studentId: studentId,
+    )));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
+      {required AcknowlegementRequestModel acknowledgementRequestModel}) async {
+    var response = await safeApiCall(
+        disciplinaryRetorfitService.postAcknowledge(AcknowlegementRequestEntity(
+            studentWarningId: acknowledgementRequestModel.studentWarningId,
+            userId: acknowledgementRequestModel.userId,
+            acknowledgementRole:
+                acknowledgementRequestModel.acknowledgementRole,
+            acknowledgementDate:
+                acknowledgementRequestModel.acknowledgementDate)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+      {required String communocationId}) async {
+    var response = await safeApiCall(ticketRetrofitService
+        .createCommunicationLog(communocationId: communocationId));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CoReasonsListResponseModel>>
+      getCoReasons() async {
+    var response =
+        await safeApiCall(disciplinaryRetorfitService.getCoReasonsList());
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
+      {required CreateCommunicationLogRequest
+          createCommunicationLogRequest}) async {
+    CreateCommunicationLogRequestEntity createCommunicationLogRequestEntity =
+        CreateCommunicationLogRequestEntity(
+            attachmentDetails: createCommunicationLogRequest.attachmentDetails,
+            comment: createCommunicationLogRequest.comment,
+            communicationId: createCommunicationLogRequest.communicationId,
+            createdAt: createCommunicationLogRequest.createdAt,
+            isDraft: createCommunicationLogRequest.isDraft,
+            rating: createCommunicationLogRequest.rating,
+            status: createCommunicationLogRequest.status,
+            updatedAt: createCommunicationLogRequest.updatedAt,
+            userId: createCommunicationLogRequest.userId);
+    var response = await safeApiCall(ticketRetrofitService.sendCommunication(
+        createCommunicationLogRequestEntity:
+            createCommunicationLogRequestEntity));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, CreateTicketModel>> createTicket(
+      {required CreateTicketRequest createTicketRequest}) async {
+    CreateTicketRequestEntity createTicketRequestEntity =
+        CreateTicketRequestEntity(
+            attachment: createTicketRequest.attachment,
+            categoryId: createTicketRequest.categoryId,
+            communication: createTicketRequest.communication,
+            parentId: createTicketRequest.parentId,
+            studentId: createTicketRequest.studentId,
+            subcategoryId: createTicketRequest.subcategoryId,
+            ticketTitle: createTicketRequest.ticketTitle);
+    var response = await safeApiCall(ticketRetrofitService.createTicket(
+        createTicketRequestEntity: createTicketRequestEntity));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
+      {required AttendanceCountRequestModel attendanceRequestModel}) async {
+    var response = await safeApiCall(attendanceRetorfitService
+        .getattendanceCount(AttendanceCountRequestEntity(
+            studentId: attendanceRequestModel.studentId,
+            attendanceDate: attendanceRequestModel.attendanceDate,
+            academicYearId: attendanceRequestModel.academicYearId,
+            pageSize: attendanceRequestModel.pageSize,
+            page: attendanceRequestModel.page)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>>
+      getAttendancedetail(
+          {required AttendanceDetailsRequestModel
+              attendanceRequestModel}) async {
+    //  var response = await safeApiCall(attendanceRetorfitService.getattendanceCount(AttendanceCountRequestEntity(studentId: attendanceRequestModel.studentId, attendanceDate: attendanceRequestModel.attendanceDate, academicYearId:attendanceRequestModel. academicYearId, pageSize: attendanceRequestModel.pageSize, page: attendanceRequestModel.page)));
+
+    var response = await safeApiCall(attendanceRetorfitService
+        .getattendanceDetail(AttendanceDetailsRequestEntity(
+            studentId: attendanceRequestModel.studentId,
+            attendanceStartDate: attendanceRequestModel.attendanceEndDate,
+            attendanceEndDate: attendanceRequestModel.attendanceStartDate)));
+    return response.fold(
+      (l) {
+        return Left(l);
+      },
+      (r) => Right(r.data.transform()),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
+      {required int id}) async {
+    var response = await safeApiCall(
+        adminRetorfitService.getStudentDetails(studentId: id));
     return response.fold(
       (l) {
         return Left(l);

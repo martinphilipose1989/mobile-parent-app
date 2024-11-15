@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/marketing/get_admission_vas_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -23,6 +22,26 @@ abstract class DomainModule {
   @lazySingleton
   GetStorePaymentUsecase getStorePayment(FinanceRepository repository) {
     return GetStorePaymentUsecase(repository);
+  }
+
+  @lazySingleton
+  AttendanceDetailUsecase getAttendanceDetails(
+      AttendanceRepository repository) {
+    return AttendanceDetailUsecase(
+      attendanceRepository: repository,
+    );
+  }
+
+  @lazySingleton
+  AttendanceCountUsecase getAttendanceList(AttendanceRepository repository) {
+    return AttendanceCountUsecase(
+      attendanceRepository: repository,
+    );
+  }
+
+  @lazySingleton
+  StudentDetailUseCase getStudentDetails(AdminRepository repo) {
+    return StudentDetailUseCase(repo);
   }
 
   @lazySingleton
@@ -69,11 +88,12 @@ abstract class DomainModule {
   GetMydutyListUsecase getMyDutyListUsecase(TransportRepository transportRepo) {
     return GetMydutyListUsecase(transportRepository: transportRepo);
   }
+
   @lazySingleton
-  GetAllBusStopsUsecase allBusStopsUsecase(
-     TransportRepository transportRepo) {
-    return   GetAllBusStopsUsecase(transportRepository: transportRepo);
+  GetAllBusStopsUsecase allBusStopsUsecase(TransportRepository transportRepo) {
+    return GetAllBusStopsUsecase(transportRepository: transportRepo);
   }
+
   // @lazySingleton
   // FetchStopLogsUsecase fetchStopLogsUsecase(
   //     TransportRepository transportRepo) {
@@ -383,6 +403,66 @@ abstract class DomainModule {
   @lazySingleton
   GetCouponsUsecase getCoupons(AdminRepository repository) {
     return GetCouponsUsecase(repository);
+  }
+
+  @lazySingleton
+  TicketListingUsecase getTicketsList(TicketingRepository repository) {
+    return TicketListingUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateCategoryUseCase createCategory(MDMRepository repository) {
+    return CreateCategoryUseCase(repository);
+  }
+
+  @lazySingleton
+  CreateSubCategoryUseCase createSubCategory(MDMRepository repository) {
+    return CreateSubCategoryUseCase(repository);
+  }
+
+  @lazySingleton
+  CreateNewCommunicationUsecase createCommunication(
+      TicketingRepository repository) {
+    return CreateNewCommunicationUsecase(repository);
+  }
+
+  @lazySingleton
+  FindByCategorySubCategoryUsecase findByCategorySubCategory(
+      TicketingRepository repository) {
+    return FindByCategorySubCategoryUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateCommunicationLogUsecase createCommunicationLog(
+      TicketingRepository repository) {
+    return CreateCommunicationLogUsecase(repository);
+  }
+
+  @lazySingleton
+  SendCommunicationUsecase sendCommunication(TicketingRepository repository) {
+    return SendCommunicationUsecase(repository);
+  }
+
+  @lazySingleton
+  CreateTicketUsecase createTicket(TicketingRepository repository) {
+    return CreateTicketUsecase(repository);
+  }
+
+  @lazySingleton
+  DisciplinarySlipListUsecase getDisciplinaryList(
+      DisciplinarySlipRepository repo) {
+    return DisciplinarySlipListUsecase(repo);
+  }
+
+  @lazySingleton
+  CreateAcknowledgementUsecase createAcknowledge(
+      DisciplinarySlipRepository repo) {
+    return CreateAcknowledgementUsecase(disciplinarySlipRepository: repo);
+  }
+
+  @lazySingleton
+  CoReasonsListUsecase coReasons(DisciplinarySlipRepository repo) {
+    return CoReasonsListUsecase(disciplinarySlipRepository: repo);
   }
 
   @lazySingleton

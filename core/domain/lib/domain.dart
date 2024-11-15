@@ -16,6 +16,12 @@ export 'src/repository/marketing/admission_repository.dart';
 export 'src/repository/marketing/registration_repository.dart';
 export 'src/repository/gatepass/gatepass_repository.dart';
 export 'src/repository/admin_repository.dart';
+export 'src/repository/ticketing_repository.dart';
+export 'src/repository/mdm_repository.dart';
+
+export 'src/repository/disciplinary_slip_repository.dart';
+export 'src/repository/attendance_repository.dart';
+
 export 'src/repository/transport_repository.dart';
 //use-cases
 export 'src/usecase/base/params.dart';
@@ -93,6 +99,25 @@ export 'src/usecase/finance/get_payment_order_usecase.dart';
 export 'src/usecase/finance/get_store_image_usecase.dart';
 export 'src/usecase/finance/get_payment_status_usecase.dart';
 export 'src/usecase/admin/get_coupons_usecase.dart';
+export 'src/usecase/communication/ticket_listing_usecase.dart';
+export 'src/usecase/communication/create_category_usecase.dart';
+export 'src/usecase/communication/create_communication_log_usecase.dart';
+export 'src/usecase/communication/create_new_communication.dart';
+export 'src/usecase/communication/create_sub_category_usecase.dart';
+export 'src/usecase/communication/find_by_category_sub_category_usecase.dart';
+export 'src/usecase/communication/send_communication_usecase.dart';
+export 'src/usecase/communication/create_ticket_usecase.dart';
+export 'src/usecase/student_detail/student_detail_usecase.dart';
+
+//disciplinarySlip
+export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';
+
+export 'src/usecase/disciplinarySlip/co_resons_list_usecase.dart';
+export 'src/usecase/disciplinarySlip/create_acknowledgement_usecase.dart';
+
+//attendance
+export 'src/usecase/attendance/attendance_count_usecase.dart';
+export 'src/usecase/attendance/attendanceDetailsUsecase.dart';
 export 'src/usecase/user/tokenresponse_usecase.dart';
 export 'src/usecase/user/user_role_permission_usecase.dart';
 export 'src/usecase/user/get_user_details_usecase.dart';

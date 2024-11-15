@@ -3,9 +3,13 @@ import 'dart:typed_data';
 
 import 'package:app/feature/admissions/admissions_page.dart';
 import 'package:app/feature/admissions_details/admissions_details_page.dart';
+import 'package:app/feature/attendance/attendance_calender/attendence_calender_page.dart';
+import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.dart';
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/create_ticket/create_ticket_page.dart';
+import 'package:app/feature/communication/communication_page.dart';
 import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
 import 'package:app/feature/detailsViewSchoolTour/details_view_school_tour_page.dart';
 import 'package:app/feature/editEnquiryDetails/edit_enquiry_details_page.dart';
@@ -21,12 +25,16 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/registration_details/registrations_details_page.dart';
+import 'package:app/feature/review_page/rate_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/tickets/ticket_list_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
+
 import 'package:app/molecules/payment_history/payment_details.dart';
 import 'package:app/molecules/payments_page.dart/coupon_list.dart';
+
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/v_a_s_details.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,6 +44,7 @@ import 'package:app/feature/vas/psa/psa_page.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
 import 'package:app/feature/vas/transport/transport_page.dart';
 
+import '../feature/disciplinarySlip/disciplinary_detail_page.dart';
 import '../feature/bus_route_list/bus_route_list_page_page.dart';
 import '../feature/my_duty/my_duty_page.dart';
 import '../feature/splash/splash_page.dart';
@@ -131,6 +140,14 @@ class AppRouter {
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesDetailsPage));
+      case RoutePaths.attendanceDetailspage:
+        return CupertinoPageRoute(
+            builder: (context) => AttendanceDetailsPage(
+                  attendanceDetailPageParameter:
+                      settings.arguments as AttendanceDetailPageParameter,
+                ),
+            settings:
+                const RouteSettings(name: RoutePaths.attendanceDetailspage));
 
       case RoutePaths.enquiriesTimelinePage:
         return CupertinoPageRoute(
@@ -141,6 +158,27 @@ class AppRouter {
                 ),
             settings:
                 const RouteSettings(name: RoutePaths.enquiriesTimelinePage));
+
+      case RoutePaths.disciplinarySlipPage:
+        return CupertinoPageRoute(
+            builder: (context) => const DisplinaryDetailsPage(),
+            settings:
+                const RouteSettings(name: RoutePaths.disciplinarySlipPage));
+
+      case RoutePaths.attendanceCalender:
+        return CupertinoPageRoute(
+            builder: (context) => const AttendanceCalenderPage(),
+            settings: const RouteSettings(name: RoutePaths.attendanceCalender));
+
+      case RoutePaths.ticketListPage:
+        return CupertinoPageRoute(
+            builder: (context) => const TicketListPage(),
+            settings: const RouteSettings(name: RoutePaths.ticketListPage));
+
+      case RoutePaths.createTicketPage:
+        return CupertinoPageRoute(
+            builder: (context) => const CreateTicketPage(),
+            settings: const RouteSettings(name: RoutePaths.createTicketPage));
 
       case RoutePaths.editEnquiriesDetailsPage:
         return CupertinoPageRoute(
@@ -310,6 +348,16 @@ class AppRouter {
           builder: (context) => StudentProfilePage(studentId: studentId),
           settings: const RouteSettings(name: RoutePaths.studentProfilePage),
         );
+      case RoutePaths.ratePage:
+        String id = settings.arguments as String;
+        return CupertinoPageRoute(
+            builder: (context) => RatePage(id: id),
+            settings: const RouteSettings(name: RoutePaths.ratePage));
+      case RoutePaths.communicationPage:
+        String id = settings.arguments as String;
+        return CupertinoPageRoute(
+            builder: (context) => CommunicationPage(id: id),
+            settings: const RouteSettings(name: RoutePaths.communicationPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

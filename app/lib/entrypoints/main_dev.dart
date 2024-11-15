@@ -10,22 +10,24 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.dev,
     values: const FlavorValues(
-      // apiBaseUrl: '',
-      financeBaseUrl: EnvDev.financeBaseUrl,
-      mdmBaseUrl: EnvDev.mdmBaseUrl,
-      adminBaseUrl: EnvDev.adminBaseUrl,
-      mdmToken: EnvDev.mdmToken,
-      authorizationEndpoint:
-          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
-      tokenEndpoint:
-          "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-      apiBaseUrl: NetworkProperties.baseURL,
-      secrets: AppSecrets.appSecretsDev,
-      logSqlStatements: true,
-      showLogs: true,
-      useFakeData: false,
-      transportUrl: EnvDev.transportUrl,
-    ),
+        // apiBaseUrl: '',
+        financeBaseUrl: EnvDev.financeBaseUrl,
+        mdmBaseUrl: EnvDev.mdmBaseUrl,
+        adminBaseUrl: EnvDev.adminBaseUrl,
+        mdmToken: EnvDev.mdmToken,
+        ticketingBaseUrl: EnvDev.ticketingBaseUrl,
+        secrets: AppSecrets.appSecretsDev,
+        logSqlStatements: true,
+        showLogs: true,
+        authorizationEndpoint:
+            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
+        tokenEndpoint:
+            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
+        apiBaseUrl: NetworkProperties.baseURL,
+        useFakeData: false,
+        transportUrl: EnvDev.transportUrl,
+        disciplinarySlip: EnvDev.disciplinarySlip,
+        attendance: EnvDev.attendance),
   );
   startApp();
 }

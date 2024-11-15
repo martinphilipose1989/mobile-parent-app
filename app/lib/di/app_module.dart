@@ -22,6 +22,14 @@ abstract class AppModule {
   @Named("adminBaseUrl")
   String get adminBaseUrl => FlavorConfig.instance.values.adminBaseUrl;
 
+  @Named("ticketBaseUrl")
+  String get ticketBaseUrl => FlavorConfig.instance.values.ticketingBaseUrl;
+
+  @Named("disciplinarySlip")
+  String get disciplinarySlip => FlavorConfig.instance.values.disciplinarySlip;
+
+  @Named("attendance")
+  String get attendance => FlavorConfig.instance.values.attendance;
   @Named("transportUrl")
   String get transportUrl => FlavorConfig.instance.values.transportUrl;
 

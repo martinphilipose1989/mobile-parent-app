@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_svg/svg.dart';
+
+import 'app_images.dart';
+
 class CommonPopups {
   // Private constructor
   CommonPopups._();
@@ -161,6 +165,28 @@ class CommonPopups {
     );
   }
 
+//
+  //showinfo
+  void showInfo(
+    BuildContext context, {
+    required Widget title,
+    required Widget child,
+    required bool barrierDismissible,
+  }) {
+    showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: title,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            content: child);
+      },
+    );
+  }
+
   // Private method to show a dialog
   void _showAppClosingAlert(
     BuildContext context, {
@@ -232,7 +258,22 @@ class CommonPopups {
     );
   }
 
-  _showConfirmDialog(BuildContext context,
+  Widget infoRow(BuildContext context, Color color, String text) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          AppImages.date,
+          color: color,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        CommonText(text: text),
+      ],
+    );
+  }
+
+  void _showConfirmDialog(BuildContext context,
       {required String message,
       required String message1,
       required String message2,

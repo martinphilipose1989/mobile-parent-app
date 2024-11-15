@@ -1,11 +1,16 @@
 import 'package:data/data.dart';
 import 'package:data/src/repository/admin_repository.dart';
 import 'package:data/src/repository/attachment_repository.dart';
+import 'package:data/src/repository/disciplinary_slip.dart';
 import 'package:data/src/repository/finance_repository.dart';
+import 'package:data/src/repository/mdm_repository.dart';
+import 'package:data/src/repository/ticketing_repository.dart';
 import 'package:data/src/repository/gatepass_repository.dart';
 import 'package:data/src/repository/transportImpl.dart';
 import 'package:data/src/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../repository/attendance_repository.dart';
 
 @module
 abstract class DataModule {
@@ -68,10 +73,32 @@ abstract class DataModule {
   }
 
   @lazySingleton
+  AttendanceRepository attendanceRepositoryProvider(NetworkPort network) {
+    return AttendanceRepositoryImpl(network);
+  }
+
+  @lazySingleton
   AdminRepository adminRepositoryProvider(NetworkPort networkPort) {
     return AdminRepositoryImpl(networkPort);
   }
 
+  @lazySingleton
+  TicketingRepository ticketingRepository(NetworkPort networkPort) {
+    return TicketingRepositoryImpl(networkPort);
+  }
+
+  @lazySingleton
+  MDMRepository mdmRepository(NetworkPort networkPort) {
+    return MDMRepositoryImpl(networkPort);
+  }
+
+  @lazySingleton
+  DisciplinarySlipRepository disciplinarySlipRepositoryProvider(
+      NetworkPort networkPort) {
+    return DisciplinarySlipRepositoryImpl(networkPort);
+  }
+
+  @lazySingleton
   GatepassRepository gatepassRepositoryProvider(NetworkPort networkPort) {
     return GatepassRepositoryImpl(networkPort: networkPort);
   }

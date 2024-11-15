@@ -35,10 +35,37 @@ export 'src/model/file/upload_file.dart';
 export 'src/const/file_type_enum.dart';
 export 'src/model/error/local_error.dart';
 export 'src/model/request/finance/payment_order/payment_order_request_model.dart';
+export 'src/model/request/attendance/attendance_count_request_model.dart';
+export 'src/model/request/attendance/attendance_deatils_request_model.dart';
 export 'src/model/response/finance/get_payment_order_response_model.dart';
+export 'src/model/response/attendance/attendanceResponseModel.dart';
 export 'src/model/response/finance/get_store_image_model.dart';
 export 'src/model/response/finance/get_payment_status_model.dart';
 export 'src/model/response/admin/get_coupons_model.dart';
+export 'src/model/response/admin/student_details/student_details_response_model.dart';
+export 'src/model/response/disciplinarySlip/disciplinary_slip_model.dart';
+export 'src/model/response/disciplinarySlip/acknowledgeResponseModel.dart';
+export 'src/model/response/disciplinarySlip/co_reasons_list_response_model.dart';
+export 'src/model/response/attendance/attendance_details_response_model.dart';
+
+//Communication start
+export 'src/model/response/communication/communication_list_model.dart';
+export 'src/model/response/communication/msg_categorymodel.dart';
+export 'src/model/response/communication/msg_sub_category_model.dart';
+export 'src/model/response/communication/create_communication_model.dart';
+export 'src/model/response/communication/find_by_category_sub_category_model.dart';
+export 'src/model/response/communication/create_communication_log_model.dart';
+export 'src/model/response/communication/send_communication_model.dart';
+export 'src/model/response/communication/create_ticket_model.dart';
+
+//request
+
+export 'src/model/request/communication/create_communication_log_model.dart';
+export 'src/model/request/communication/create_ticket_request.dart';
+
+// Communication end
+
+export 'src/model/request/disciplinary_slip/acknowledge/acknowledge_request_model.dart';
 
 export 'src/model/response/enquiry_list/enquiry_list_model.dart';
 export 'src/model/response/enquiry_list/enquiry_list_base.dart';

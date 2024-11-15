@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -17,11 +16,26 @@ abstract class NetworkPort {
   Future<Either<NetworkError, GetTokenGeneratorModel>> getTokenGenerator(
       {required int segmentLobId});
 
+  Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
+      {required AcknowlegementRequestModel acknowledgementRequestModel});
+
+  Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
+      {required AttendanceCountRequestModel attendanceRequestModel});
+
+  Future<Either<NetworkError, AttendanceDetailsResponseModel>>
+      getAttendancedetail(
+          {required AttendanceDetailsRequestModel attendanceRequestModel});
+
+  Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons();
+
   Future<Either<NetworkError, GetValidateOnPayModel>> getValidatePayNow(
       {required int paymentMode, required List studentFeeIds});
 
   Future<Either<NetworkError, GetStorePaymentModel>> getStorePayment(
       {required StorePaymentModelRequest storePaymentModelRequest});
+
+  Future<Either<NetworkError, DisciplinaryListModel>> getDisciplinaryList(
+      {required int studentId, int? academicYearID, DateTime? time});
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo});
@@ -245,6 +259,30 @@ abstract class NetworkPort {
       required String feeTypeIds,
       required String feeCategoryIds,
       required String feeSubCategoryIds});
+
+  Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
+      {required int pageSize, required int page});
+
+  Future<Either<NetworkError, MsgCategoryModel>> createCategory();
+  Future<Either<NetworkError, MsgSubCategoryModel>> createSubCategory();
+
+  Future<Either<NetworkError, CreateCommunicationModel>> createCommunication();
+
+  Future<Either<NetworkError, FindByCategorySubCategoryModel>>
+      findByCategorySubCategory(
+          {required int categoryId, required int subCategoryId});
+
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+      {required String communocationId});
+
+  Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
+      {required CreateCommunicationLogRequest createCommunicationLogRequest});
+
+  Future<Either<NetworkError, CreateTicketModel>> createTicket(
+      {required CreateTicketRequest createTicketRequest});
+
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
+      {required int id});
 
   Future<Either<NetworkError, UserRolePermissionResponse>>
       getUserRolePermissions({required UserRolePermissionRequest request});

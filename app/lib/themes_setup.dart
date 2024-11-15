@@ -35,6 +35,7 @@ class AppColors {
 
   // Additional Text Colors
   static const Color textDark = Color(0xFF212121);
+
   static const Color textGray = Color(0xFF666666);
   static const Color textLightGray = Color(0xFFA3A3A3);
   static const Color textLighterGray = Color(0xFFBDBDBD);
@@ -43,6 +44,13 @@ class AppColors {
   static const Color textPalerGray = Color(0xFFEBEBEB);
 
   static const Color listItem = Color(0xFFF7F7FF);
+  static const Color orange = Color(0xFFFF9500);
+  static const Color yellow = Color(0xFFCCA000);
+  static const Color closeTile = Color(0xFFF4F0EF);
+  static const Color lightgrey = Color(0xFFF5F5F7);
+  static const Color disable = Color(0xFFEBEBEB);
+
+  static const Color divider = Color(0xFFE0E0E0);
   static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color roseWhite = Color(0xFFF4F0EF);
   static const Color listItemDisabled = Color(0xFFF4F0EF);

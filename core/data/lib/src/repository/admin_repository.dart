@@ -17,4 +17,10 @@ class AdminRepositoryImpl extends AdminRepository {
         feeCategoryIds: feeCategoryIds,
         feeSubCategoryIds: feeSubCategoryIds);
   }
+
+  @override
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({required int id}) {
+    // TODO: implement getStudentDetail
+  return networkPort.getStudentDetail(id: id);
+  }
 }

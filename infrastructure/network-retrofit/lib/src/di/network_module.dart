@@ -5,12 +5,16 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
+import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:alice/alice.dart';
+
+import '../services/attendance_retrofit_service.dart';
 
 @module
 abstract class NetworkModule {
@@ -91,6 +95,13 @@ abstract class NetworkModule {
         dio,
         financeBaseUrl: financeBaseUrl,
       );
+  @lazySingleton
+  TicketRetrofitService providerTicketRetrofitService(
+          Dio dio, @Named('ticketBaseUrl') String ticketingBaseUrl) =>
+      TicketRetrofitService(
+        dio,
+        ticketingBaseUrl: ticketingBaseUrl,
+      );
 
   @lazySingleton
   AdminRetorfitService providerAdminFinanceRetrofitService(
@@ -98,18 +109,35 @@ abstract class NetworkModule {
       AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
 
   @lazySingleton
+  DisciplinaryRetorfitService providerDisciplinaryeRetrofitService(
+          Dio dio, @Named('disciplinarySlip') String disciplinaryBaseUrl) =>
+      DisciplinaryRetorfitService(dio,
+          disciplinaryBaseUrl: disciplinaryBaseUrl);
+
+  @lazySingleton
+  AttendanceRetorfitService providerAttendanceRetrofitService(
+          Dio dio, @Named('attendance') String attendancebaseUrl) =>
+      AttendanceRetorfitService(dio, attendanceBaseUrl: attendancebaseUrl);
+  @lazySingleton
   TransportService providerTransportRetrofitService(
-      Dio dio, @Named('transportUrl') String transportUrl) =>
-      TransportService(dio,transportUrl: transportUrl) ;
+          Dio dio, @Named('transportUrl') String transportUrl) =>
+      TransportService(dio, transportUrl: transportUrl);
 
   @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
           AdminRetorfitService adminRetorfitService,
-      TransportService transportService) =>
+          AttendanceRetorfitService attendanceRetorfitService,
+          DisciplinaryRetorfitService disciplinaryRetorfitService,
+          TransportService transportService,
+          TicketRetrofitService ticketRetrofitService) =>
       NetworkAdapter(
+          ticketRetrofitService: ticketRetrofitService,
+          attendanceRetorfitService: attendanceRetorfitService,
+          disciplinaryRetorfitService: disciplinaryRetorfitService,
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
-          financeRetrofitService: financeRetrofitService, transportService: transportService);
+          financeRetrofitService: financeRetrofitService,
+          transportService: transportService);
 }
