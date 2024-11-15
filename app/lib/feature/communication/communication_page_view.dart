@@ -198,20 +198,20 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                           ),
                                         ],
                                       ),
-                                      const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CommonText(
-                                            text: 'ERT :',
-                                            style: AppTypography.subtitle2,
-                                          ),
-                                          CommonText(
-                                            text: '20 july, 2024',
-                                            style: AppTypography.body2,
-                                          ),
-                                        ],
-                                      ),
+                                      // const Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     CommonText(
+                                      //       text: 'ERT :',
+                                      //       style: AppTypography.subtitle2,
+                                      //     ),
+                                      //     CommonText(
+                                      //       text: '20 july, 2024',
+                                      //       style: AppTypography.body2,
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

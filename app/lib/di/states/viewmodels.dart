@@ -140,8 +140,11 @@ final disciplinarySlipProvider =
 
 final ticketListProvider =
     ChangeNotifierProvider.autoDispose<TicketListViewModel>(
-  (ref) => TicketListViewModel(getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<TicketListingUsecase>(), getIt.get<SendCommunicationUsecase>()),
+  (ref) => TicketListViewModel(
+      getIt.get<FlutterExceptionHandlerBinder>(),
+      getIt.get<TicketListingUsecase>(),
+      getIt.get<SendCommunicationUsecase>(),
+      getIt.get<GetUserDetailsUsecase>()),
 );
 
 final createTicketProvider =
@@ -380,7 +383,8 @@ final communicationPageModelProvider =
         CommunicationPageModel(
             getIt.get<FlutterExceptionHandlerBinder>(),
             getIt.get<CreateCommunicationLogUsecase>(),
-            getIt.get<SendCommunicationUsecase>()));
+            getIt.get<SendCommunicationUsecase>(),
+            getIt.get<GetUserDetailsUsecase>()));
 final enquiriesAdmissionsJourneyProvider =
     AutoDisposeChangeNotifierProviderFamily<EnquiriesAdmissionsJourneyViewModel,
         EnquiryDetailArgs>(

@@ -11,8 +11,10 @@ class TicketListViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final TicketListingUsecase _ticketListingUsecase;
   final SendCommunicationUsecase _sendCommunicationUsecase;
+  final GetUserDetailsUsecase _getUserDetailsUsecase;
   TicketListViewModel(this.exceptionHandlerBinder, this._ticketListingUsecase,
-      this._sendCommunicationUsecase) {
+      this._sendCommunicationUsecase, this._getUserDetailsUsecase) {
+    getUserDetails();
     getTicketStatus();
   }
 
@@ -127,7 +129,7 @@ class TicketListViewModel extends BasePageViewModel {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
               status: status,
-              userId: "1"));
+              userId: userSubject.value.data?.id.toString()));
       RequestManager<SendCommunicationModel>(
         params,
         createCall: () => _sendCommunicationUsecase.execute(params: params),
@@ -141,6 +143,19 @@ class TicketListViewModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => _getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+      }
+    });
   }
 
   @override
