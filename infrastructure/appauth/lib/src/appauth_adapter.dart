@@ -68,7 +68,7 @@ class AppAuthAdapter implements AppAuthPort {
   @override
   Future<EndSessionResponse> logout({required String idTokenHint}) async {
     try {
-      log("LOGUT");
+      log("LOOGUT $idTokenHint");
       final logoutRequest = EndSessionRequest(
           discoveryUrl: _config.discoveryUrl,
           idTokenHint: idTokenHint,

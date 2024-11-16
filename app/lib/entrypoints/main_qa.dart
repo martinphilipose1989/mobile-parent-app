@@ -24,9 +24,9 @@ void main() async {
             "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
         transportUrl: EnvQA.transportUrl,
         discoveryUrl:
-            'https://sso.ampersandgroup.in/realms/ampersand-internal-dev/.well-known/openid-configuration',
+            'https://sso.ampersandgroup.in/realms/ampersand-external-dev/.well-known/openid-configuration',
         logoutEndpoint:
-            'https://sso.ampersandgroup.in/realms/ampersand-internal-dev/protocol/openid-connect/logout',
+            'https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/logout',
         showLogs: false),
   );
   startApp();
