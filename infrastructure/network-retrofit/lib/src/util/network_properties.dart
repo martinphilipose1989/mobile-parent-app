@@ -90,18 +90,18 @@ class NetworkProperties {
       "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
 
   static const String getVisitorDetails =
-      "${BASE_GATE_PASS}gate-management/visitor/{mobile}/{studentId}";
+      "${BASE_GATE_PASS}gate-management/visitor/{mobile}/viewGatepass";
 
   static const String requestGatePass =
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
 
   // key cloak
-  // static const String tokenIntroSpect =
-  //     "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
+  static const String tokenIntroSpect =
+      "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
 
   //UAT
-  static const String tokenIntroSpect =
-      "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
+  // static const String tokenIntroSpect =
+  //     "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
 
   static const String getBrandList = "$mdmBaseUrl/api/ac-brands";
 }
