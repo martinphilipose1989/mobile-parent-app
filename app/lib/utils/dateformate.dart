@@ -129,12 +129,13 @@ extension DateFormatExtension on String {
     }
   }
 
-  String formatTimeWithoutIntl() {
+  String? formatTimeWithoutIntl() {
     // Split the time string by space and colon
     List<String> parts = split(' ');
     List<String> timeParts = parts[0].split(':');
 
     // Concatenate hours and minutes, and keep the AM/PM part
+
     String formattedTime = '${timeParts[0]}:${timeParts[1]} ${parts[1]}';
 
     return formattedTime;

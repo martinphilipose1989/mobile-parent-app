@@ -90,7 +90,7 @@ class VisitorDetailsPageView
                               VisitorInfoCard(
                                 visitorName:
                                     "${visitor.visitorName ?? ''}  (#${visitor.gatePassNumber ?? "N/A"})",
-                                issuedOn: '${visitor.issuedDate}',
+                                issuedOn: visitor.issuedDate ?? '',
                                 // qrImagePath: AppImages.qrImage,
                                 qrImagePath: qrImageBytes,
                                 avatarImagePath:
@@ -114,7 +114,7 @@ class VisitorDetailsPageView
                               VisitorDetailsRow(
                                 title1: "Date",
                                 value1:
-                                    "${visitor.issuedDate?.replaceAll('-', '/')}",
+                                    "${visitor.issuedDate?.replaceAll('-', '/') ?? ''} ",
                                 title2: "Time",
                                 value2:
                                     visitor.outgoingTime?.isNotEmpty ?? false
@@ -137,7 +137,6 @@ class VisitorDetailsPageView
                                 title1: "Coming From",
                                 value1: visitor.comingFrom ?? '',
                               ),
-
                             ],
                           ),
                         ),
