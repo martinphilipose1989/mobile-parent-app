@@ -199,6 +199,7 @@ class EnquiryDetailEntity
     enquiryDetail.courseId = courseId;
     enquiryDetail.courseName = courseName;
     enquiryDetail.shiftId = shiftId;
+    enquiryDetail.streamId = streamId;
     return enquiryDetail;
   }
 }

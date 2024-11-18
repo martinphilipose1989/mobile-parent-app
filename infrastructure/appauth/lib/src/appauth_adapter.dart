@@ -66,14 +66,77 @@ class AppAuthAdapter implements AppAuthPort {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<EndSessionResponse> logout({required String idTokenHint}) async {
+    try {
+      log("LOOGUT $idTokenHint");
+      final logoutRequest = EndSessionRequest(
+          discoveryUrl: _config.discoveryUrl,
+          idTokenHint: idTokenHint,
+          postLogoutRedirectUrl: _config.logOutRedirectUri,
+          serviceConfiguration: AuthorizationServiceConfiguration(
+            authorizationEndpoint: _config.loginUrl,
+            tokenEndpoint: _config.tokenUrl,
+            endSessionEndpoint:
+                _config.logOutUrl?.isEmpty ?? false ? null : _config.logOutUrl,
+          ),
+          preferEphemeralSession: true);
+      final response = await _flutterAppAuth.endSession(logoutRequest);
+      log("LOGUT ${response.toString()}");
+      return response;
+    } catch (e) {
+      log("ERROR => $e");
+      throw LocalError(
+        errorType: ErrorType.appLogoutException,
+        message: 'Something went wrong',
+        cause: Exception(e),
+      );
+    }
   }
 
   @override
-  Future<void> refreshToken() {
-    // TODO: implement refreshToken
-    throw UnimplementedError();
+  Future<TokenResponse> refreshToken() async {
+    try {
+      final TokenRequest request = TokenRequest(
+        _config.clientId,
+        _config.appUri,
+        clientSecret: _config.clientSecret,
+        serviceConfiguration: AuthorizationServiceConfiguration(
+          authorizationEndpoint: _config.loginUrl,
+          tokenEndpoint: _config.tokenUrl,
+          endSessionEndpoint:
+              _config.logOutUrl?.isEmpty ?? false ? null : _config.logOutUrl,
+        ),
+        scopes: [
+          "openid",
+          "web-origins",
+          "acr",
+          "profile",
+          "roles",
+          "Ampersand_AD_Attribute",
+          "email"
+        ],
+      );
+      final response = await _flutterAppAuth.token(request);
+
+      return response;
+    } on FlutterAppAuthUserCancelledException catch (e) {
+      throw LocalError(
+        errorType: ErrorType.appAuthUserCancelled,
+        message: '',
+        cause: Exception(e.platformErrorDetails),
+      );
+    } on FlutterAppAuthPlatformException catch (e) {
+      throw LocalError(
+        errorType: ErrorType.appAuthPlatformException,
+        message: '',
+        cause: Exception(e.platformErrorDetails),
+      );
+    } catch (e) {
+      throw LocalError(
+        errorType: ErrorType.netServerMessage,
+        message: 'Something went wrong',
+        cause: Exception(e),
+      );
+    }
   }
 }

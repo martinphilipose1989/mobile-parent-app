@@ -209,8 +209,14 @@ class EnquiriesDetailsPageState
                                       model.selectedStreamEntity;
                                   model.ivtDetails?.value.shift =
                                       model.selectedShiftEntity;
+                                  model.ivtDetails?.value.grade =
+                                      model.selectedGradeEntity;
+                                  model.ivtDetails?.value.board =
+                                      model.selectedBoardEntity;
+
                                   ivtDetail = ivtDetail
                                       .restore(model.ivtDetails!.value);
+
                                   model.updateIvtDetails(
                                       enquiryID:
                                           widget.enquiryDetailArgs.enquiryId ??

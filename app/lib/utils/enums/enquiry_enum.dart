@@ -8,18 +8,16 @@ enum EnquiryTypeEnum {
   const EnquiryTypeEnum(this.type);
 }
 
+enum FeesTypeIdEnum {
+  admissionFees(1),
+  cafeteriaFees(2),
+  kidsClubFees(8),
+  psaFess(11),
+  registrationFees(12),
+  summerCampFees(13),
+  transportFees(15);
 
-// Fee type - id
-// Admission Fees - 1
-// Cafeteria Fees - 2
-// Kids Club Fees - 8
-// Post School Activity Fees (PSA) - 11
-// Registration Fees - 12
-// Summer Camp Fees. - 13 
-// Transport Fees - 15
+  final int id;
 
-// enum FeesTypeIdEnum {
-//   psa();
-
-//   final int id;
-// }
+  const FeesTypeIdEnum(this.id);
+}

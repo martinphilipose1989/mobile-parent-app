@@ -11,19 +11,24 @@ abstract class AppAuthModule {
 
   @singleton
   AppAuthConfig providerAuthConfig(
-    @Named("AuthUrl") String authUrl,
-    @Named("TokenUrl") String tokenUrl,
-    @Named("LogOutUrl") String? logOutUrl,
-    @Named("AppUri") String appRedirectUri,
-    @Named("ClientId") String clientId,
-    @Named("ClientSecret") String clientSecret,
-  ) {
+      @Named("AuthUrl") String authUrl,
+      @Named("TokenUrl") String tokenUrl,
+      @Named("LogOutUrl") String? logOutUrl,
+      @Named("AppUri") String appRedirectUri,
+      @Named("ClientId") String clientId,
+      @Named("ClientSecret") String clientSecret,
+      @Named("LogOutUri") String logOutRedirectUri,
+      @Named("DiscoveryUrl") String discoveryUrl) {
     return AppAuthConfig(
-        clientSecret: clientSecret,
-        appUri: appRedirectUri,
-        clientId: clientId,
-        loginUrl: authUrl,
-        tokenUrl: tokenUrl);
+      clientSecret: clientSecret,
+      appUri: appRedirectUri,
+      clientId: clientId,
+      loginUrl: authUrl,
+      tokenUrl: tokenUrl,
+      discoveryUrl: discoveryUrl,
+      logOutRedirectUri: logOutRedirectUri,
+      logOutUrl: logOutUrl,
+    );
   }
 
   @lazySingleton

@@ -10,9 +10,9 @@ import 'package:app/utils/app_typography.dart';
 
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:app/utils/data_status_widget.dart';
+
 import 'package:app/utils/enums/enquiry_enum.dart';
-import 'package:app/utils/no_data_found_widget.dart';
+
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -35,80 +35,132 @@ class VASDetails extends StatelessWidget {
               stream: model!.admissionVasDetailsResponse.stream,
               initialData: Resource.none(),
               dataBuilder: (context, vasData) {
-                return DataStatusWidget(
-                  status: vasData?.status ?? Status.none,
-                  loadingWidget: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: () => Center(
-                    child: NoDataFoundWidget(
-                      title: vasData?.dealSafeAppError?.error.message
-                                  .contains("internet") ??
-                              false
-                          ? "No Internet Connection"
-                          : "Something Went Wrong",
-                      subtitle: vasData?.dealSafeAppError?.error.message
-                                  .contains("internet") ??
-                              false
-                          ? "It seems you're offline. Please check your internet connection and try again."
-                          : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-                      onPressed: () {
-                        model.fetchVasAdmissionDetails();
-                      },
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommonText(
+                      text: "Other Value Added Services",
+                      style: AppTypography.subtitle1
+                          .copyWith(color: AppColors.textDark),
                     ),
-                  ),
-                  successWidget: () {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonText(
-                          text: "Other Value Added Services",
-                          style: AppTypography.subtitle1
-                              .copyWith(color: AppColors.textDark),
-                        ),
-                        Padding(
-                          padding: REdgeInsets.symmetric(vertical: 16.0),
-                          child: const Divider(color: AppColors.dividerColor),
-                        ),
-                        VasQuestions(
-                          question: "Would You Like To Opt For Transportation?",
-                          commonRadioButton: model.radioButtonTransport,
-                          vasOption: "Transport",
-                          model: model,
-                        ),
-                        VasQuestions(
-                          question: "Would You Like To Opt For Cafeteria?",
-                          commonRadioButton: model.radioButtonCafeteria,
-                          vasOption: "Cafeteria",
-                          model: model,
-                        ),
-                        if (model.enquiryDetailArgs?.enquiryType
-                                    ?.toLowerCase() ==
-                                EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
-                            model.enquiryDetailArgs?.enquiryType ==
-                                EnquiryTypeEnum.newAdmission.type) ...{
-                          VasQuestions(
-                            question:
-                                "Would You Like To Opt For PSA(Post School Activities)?",
-                            commonRadioButton: model.radioButtonPsa,
-                            vasOption: "Psa",
-                            model: model,
-                          ),
-                        },
-                        if (model.enquiryDetailArgs?.enquiryType ==
-                                EnquiryTypeEnum.psa.type ||
-                            model.enquiryDetailArgs?.enquiryType ==
-                                EnquiryTypeEnum.newAdmission.type) ...{
-                          VasQuestions(
-                            question: "Would You Like To Opt For Kids Club?",
-                            commonRadioButton: model.radioButtonKidsClub,
-                            vasOption: "KidsClub",
-                            model: model,
-                          )
-                        }
-                      ],
-                    );
-                  },
+                    Padding(
+                      padding: REdgeInsets.symmetric(vertical: 16.0),
+                      child: const Divider(color: AppColors.dividerColor),
+                    ),
+                    VasQuestions(
+                      question: "Would You Like To Opt For Transportation?",
+                      commonRadioButton: model.radioButtonTransport,
+                      vasOption: "Transport",
+                      model: model,
+                    ),
+                    VasQuestions(
+                      question: "Would You Like To Opt For Cafeteria?",
+                      commonRadioButton: model.radioButtonCafeteria,
+                      vasOption: "Cafeteria",
+                      model: model,
+                    ),
+                    if (model.enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                            EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
+                        model.enquiryDetailArgs?.enquiryType ==
+                            EnquiryTypeEnum.newAdmission.type) ...{
+                      VasQuestions(
+                        question:
+                            "Would You Like To Opt For PSA(Post School Activities)?",
+                        commonRadioButton: model.radioButtonPsa,
+                        vasOption: "Psa",
+                        model: model,
+                      ),
+                    },
+                    if (model.enquiryDetailArgs?.enquiryType ==
+                            EnquiryTypeEnum.psa.type ||
+                        model.enquiryDetailArgs?.enquiryType ==
+                            EnquiryTypeEnum.newAdmission.type) ...{
+                      VasQuestions(
+                        question: "Would You Like To Opt For Kids Club?",
+                        commonRadioButton: model.radioButtonKidsClub,
+                        vasOption: "KidsClub",
+                        model: model,
+                      )
+                    }
+                  ],
                 );
+
+                //  DataStatusWidget(
+                //   status: vasData?.status ?? Status.none,
+                //   loadingWidget: () =>
+                //       const Center(child: CircularProgressIndicator()),
+                //   errorWidget: () => Center(
+                //     child: NoDataFoundWidget(
+                //       title: vasData?.dealSafeAppError?.error.message
+                //                   .contains("internet") ??
+                //               false
+                //           ? "No Internet Connection"
+                //           : "Something Went Wrong",
+                //       subtitle: vasData?.dealSafeAppError?.error.message
+                //                   .contains("internet") ??
+                //               false
+                //           ? "It seems you're offline. Please check your internet connection and try again."
+                //           : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                //       onPressed: () {
+                //         model.fetchVasAdmissionDetails();
+                //       },
+                //     ),
+                //   ),
+                //   successWidget: () {
+                //     return
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         CommonText(
+                //           text: "Other Value Added Services",
+                //           style: AppTypography.subtitle1
+                //               .copyWith(color: AppColors.textDark),
+                //         ),
+                //         Padding(
+                //           padding: REdgeInsets.symmetric(vertical: 16.0),
+                //           child: const Divider(color: AppColors.dividerColor),
+                //         ),
+                //         VasQuestions(
+                //           question: "Would You Like To Opt For Transportation?",
+                //           commonRadioButton: model.radioButtonTransport,
+                //           vasOption: "Transport",
+                //           model: model,
+                //         ),
+                //         VasQuestions(
+                //           question: "Would You Like To Opt For Cafeteria?",
+                //           commonRadioButton: model.radioButtonCafeteria,
+                //           vasOption: "Cafeteria",
+                //           model: model,
+                //         ),
+                //         if (model.enquiryDetailArgs?.enquiryType
+                //                     ?.toLowerCase() ==
+                //                 EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
+                //             model.enquiryDetailArgs?.enquiryType ==
+                //                 EnquiryTypeEnum.newAdmission.type) ...{
+                //           VasQuestions(
+                //             question:
+                //                 "Would You Like To Opt For PSA(Post School Activities)?",
+                //             commonRadioButton: model.radioButtonPsa,
+                //             vasOption: "Psa",
+                //             model: model,
+                //           ),
+                //         },
+                //         if (model.enquiryDetailArgs?.enquiryType ==
+                //                 EnquiryTypeEnum.psa.type ||
+                //             model.enquiryDetailArgs?.enquiryType ==
+                //                 EnquiryTypeEnum.newAdmission.type) ...{
+                //           VasQuestions(
+                //             question: "Would You Like To Opt For Kids Club?",
+                //             commonRadioButton: model.radioButtonKidsClub,
+                //             vasOption: "KidsClub",
+                //             model: model,
+                //           )
+                //         }
+                //       ],
+                //     );
+
+                //   },
+                // );
               }),
     );
   }

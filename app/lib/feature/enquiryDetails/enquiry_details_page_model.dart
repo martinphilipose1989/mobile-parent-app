@@ -1026,11 +1026,15 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     enquiryTypeController.text = enquiryDetail.enquiryType ?? '';
     studentFirstNameController.text = detail.studentDetails?.firstName ?? '';
     studentLastNameController.text = detail.studentDetails?.lastName ?? '';
-    dobController.text =
-        (detail.studentDetails?.dob ?? '').replaceAll('-', '/');
-    studentDob = DateTime.parse(
-        (detail.studentDetails?.dob ?? DateTime.now().toString())
-            .replaceAll('-', '/'));
+
+    if (!(detail.studentDetails?.dob ?? '')
+        .toLowerCase()
+        .contains("invalid date")) {
+      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+          ? DateTime.parse((detail.studentDetails?.dob ?? ''))
+          : DateTime.now();
+    }
+    schoolLocationController.text = detail.schoolLocation?.value ?? '';
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
     selectedGradeSubject.add(detail.studentDetails?.grade?.value ?? '');
@@ -1049,10 +1053,32 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     ivtCourseSubject.add(detail.course?.value ?? '');
     ivtStreamSubject.add(detail.stream?.value ?? '');
     ivtShiftSubject.add(detail.shift?.value ?? '');
+    selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     parentTypeController.text = detail.enquirerParent ?? '';
-    globalIdController.text = detail.enquirerParent == "Father"
-        ? detail.parentDetails?.fatherDetails?.globalId ?? ''
-        : detail.parentDetails?.fatherDetails?.globalId ?? '';
+    fatherGlobalIdController.text =
+        detail.parentDetails?.fatherDetails?.globalId ?? '';
+    motherGlobalIdController.text =
+        detail.parentDetails?.motherDetails?.globalId ?? '';
+    studentsFatherFirstNameController.text =
+        detail.parentDetails?.fatherDetails?.firstName ?? '';
+    studentsFatherLastNameController.text =
+        detail.parentDetails?.fatherDetails?.lastName ?? '';
+    studentsFatherContactController.text =
+        detail.parentDetails?.fatherDetails?.mobile ?? '';
+    studentsFatherEmailController.text =
+        detail.parentDetails?.fatherDetails?.email ?? '';
+    studentsMotherFirstNameController.text =
+        detail.parentDetails?.motherDetails?.firstName ?? '';
+    studentsMotherLastNameController.text =
+        detail.parentDetails?.motherDetails?.lastName ?? '';
+    studentsMotherContactController.text =
+        detail.parentDetails?.motherDetails?.mobile ?? '';
+    studentsMotherEmailController.text =
+        detail.parentDetails?.motherDetails?.email ?? '';
+    selectedBoardEntity = detail.board;
+    selectedCourseEntity = detail.course;
+    selectedStreamEntity = detail.stream;
+    selectedShiftEntity = detail.shift;
   }
 
   showPopUP(context) {
