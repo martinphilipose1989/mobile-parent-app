@@ -68,28 +68,31 @@ class CreateEditGatePassPageView
                               },
                             ),
                             SizedBox(height: 12.h),
-                            StreamBuilder<
-                                    GetGuardianStudentDetailsStudentModel?>(
-                                stream: model.studentDataStream,
-                                builder: (context, snapshot) {
-                                  model.selectedStudent = snapshot.data;
-                                  model.studentNameController.text =
-                                      snapshot.data?.studentDisplayName ?? '';
-                                  return CommonTextFormField(
-                                    bottomPadding: 16,
-                                    showAstreik: true,
-                                    labelText: "Student Name",
-                                    readOnly: true,
-                                    controller: model.studentNameController,
-                                    keyboardType: TextInputType.name,
-                                    validator: (value) {
-                                      if (Validator.isEmpty(value!)) {
-                                        return "Student Name cannot be empty";
-                                      }
-                                      return null;
-                                    },
-                                  );
-                                }),
+                            if (model.selectedStudent != null)
+                              StreamBuilder<
+                                      GetGuardianStudentDetailsStudentModel?>(
+                                  stream: model.studentDataStream,
+                                  builder: (context, snapshot) {
+                                    model.selectedStudent = snapshot.data;
+                                    model.studentNameController.text =
+                                        snapshot.data?.studentDisplayName ?? '';
+                                    return CommonTextFormField(
+                                      bottomPadding: 16,
+                                      showAstreik: true,
+                                      labelText: "Student Name",
+                                      readOnly: true,
+                                      controller: model.studentNameController,
+                                      keyboardType: TextInputType.name,
+                                      validator: model.selectedStudent == null
+                                          ? null
+                                          : (value) {
+                                              if (Validator.isEmpty(value!)) {
+                                                return "Student Name cannot be empty";
+                                              }
+                                              return null;
+                                            },
+                                    );
+                                  }),
                             AppStreamBuilder<String>(
                                 stream: model.countryDialCode.stream,
                                 initialData: model.countryDialCode.value,

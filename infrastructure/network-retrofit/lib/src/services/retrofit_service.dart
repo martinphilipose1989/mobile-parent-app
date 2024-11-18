@@ -63,10 +63,7 @@ part 'retrofit_service.g.dart';
 abstract class RetrofitService {
   factory RetrofitService(Dio dio,
       {String? baseUrl, String? mdmBaseUrl, String? financeBaseUrl}) {
-    return _RetrofitService(
-      dio,
-      baseUrl: mdmBaseUrl,
-    );
+    return _RetrofitService(dio, baseUrl: mdmBaseUrl);
   }
 
   @POST('/api/ac-students/list-siblings')
@@ -490,7 +487,7 @@ abstract class RetrofitService {
 
   @GET(NetworkProperties.getVisitorDetails)
   Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Path("mobile") visitorMobileNumber, @Path("studentId") studentId,
+      @Path("mobile") visitorMobileNumber, @Query("studentId") studentId,
       {@Query('platform') required String platform});
 
   // key cloak

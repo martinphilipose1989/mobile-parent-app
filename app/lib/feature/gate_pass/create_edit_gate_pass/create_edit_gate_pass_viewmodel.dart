@@ -185,15 +185,16 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   var dashboardState = DashboardState();
 
   setStudentData(BuildContext context) {
-    debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent.id}");
+    if (dashboardState.selectedStudent?.id != null) {
+      debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent?.id}");
 
-    var selectedStudent = dashboardState.selectedStudent;
+      var selectedStudent = dashboardState.selectedStudent;
 
+      selectedStudent?.id ??= -1;
+      selectedStudent?.studentDisplayName ??= "";
 
-    selectedStudent.id ??= -1;
-    selectedStudent.studentDisplayName ??= "";
-
-    studentDataSubject.add(selectedStudent);
+      studentDataSubject.add(selectedStudent);
+    }
   }
 
   /// checkAndNavigateToVisitorDetails
