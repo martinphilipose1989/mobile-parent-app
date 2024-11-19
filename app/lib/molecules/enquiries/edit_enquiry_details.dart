@@ -361,7 +361,7 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if ((data ?? '') == "Father") ...[
+                  if ((model.selectedParentTypeSubject.value) == "Father") ...[
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Global ID',
@@ -801,6 +801,11 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                 );
               }
             }),
+        _detailItem(title: "Kids Club Type", subtitle: ivtDetail?.kidsClubType?.value ?? ''),
+        _detailItem(title: "Kids Club Batch", subtitle: ivtDetail?.kidsClubBatch?.value ?? ''),
+        _detailItem(title: "Kids Club Period Of Service", subtitle: ivtDetail?.kidsClubPeriodOfService?.value ?? ''),
+        _detailItem(title: "Kids Club Month", subtitle: ivtDetail?.kidsClubMonth?.value ?? ''),
+        _detailItem(title: "Kids Club From Cafeteria Opt For", subtitle: ivtDetail?.kidsClubFromCafeteriaOptFor?.value ?? ''),
       ],
     );
   }

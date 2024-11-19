@@ -13,7 +13,7 @@ class DashboardState extends BaseSingletonState {
 
   ///------- selected Student List --------///
 
-  late List<GetGuardianStudentDetailsStudentModel> _selectedStudentList;
+  late List<GetGuardianStudentDetailsStudentModel> _selectedStudentList = [];
 
   void setValueOfSelectedStudentList(
       List<GetGuardianStudentDetailsStudentModel> value) {
@@ -24,7 +24,8 @@ class DashboardState extends BaseSingletonState {
       _selectedStudentList;
 
   ///------- selected list --------///
-  late GetGuardianStudentDetailsStudentModel _selectedStudent;
+  late GetGuardianStudentDetailsStudentModel _selectedStudent =
+      GetGuardianStudentDetailsStudentModel();
 
   void setValueOfSelectedStudent(GetGuardianStudentDetailsStudentModel value) {
     _selectedStudent = value;

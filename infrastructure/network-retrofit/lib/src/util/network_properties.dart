@@ -76,8 +76,12 @@ class NetworkProperties {
 
   ////-----GATE PASS ----///
   /// GATE PASS API BASE:
+  // static const String BASE_GATE_PASS =
+  //     "https://gate-management-r26sp3mibq-uc.a.run.app/";
+
+  // UAT
   static const String BASE_GATE_PASS =
-      "https://gate-management-r26sp3mibq-uc.a.run.app/";
+      "https://gate-management-backend-869610231867.asia-south1.run.app/";
 
   /// GATE PASS API ENDPOINTS:
   static const String createVisitorGatePass =

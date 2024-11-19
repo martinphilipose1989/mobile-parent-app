@@ -20,4 +20,8 @@ abstract class UserRepository {
       UserRolePermissionResponse userRolePermissionResponse);
 
   Future<Either<LocalError, User>> getUserDetails();
+
+  Future<Either<LocalError, LogoutResponse>> logOut();
+
+  Future<Either<LocalError, bool>> clearSession();
 }

@@ -27,7 +27,11 @@ void main() async {
         useFakeData: false,
         transportUrl: EnvDev.transportUrl,
         disciplinarySlip: EnvDev.disciplinarySlip,
-        attendance: EnvDev.attendance),
+        attendance: EnvDev.attendance,
+        discoveryUrl:
+            'https://qa.vgos.org/realms/ampersand-external-qa/.well-known/openid-configuration',
+        logoutEndpoint:
+            'https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/logout'),
   );
   startApp();
 }

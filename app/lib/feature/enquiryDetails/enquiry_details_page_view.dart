@@ -424,7 +424,7 @@ class EnquiriesDetailsPageView
                                                                 if (snapshot
                                                                         ?.status ==
                                                                     Status
-                                                                        .error) {
+                                                                        .success) {
                                                                   return EditEnquiriesDetailsWidget(
                                                                     enquiryDetailArgs:
                                                                         enquiryDetailArgs,

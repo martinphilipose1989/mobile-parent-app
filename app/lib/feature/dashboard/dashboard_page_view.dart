@@ -4,6 +4,7 @@ import 'package:app/feature/dashboard/widgets/chips.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
+import 'package:app/navigation/route_paths.dart';
 
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
@@ -98,9 +99,11 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         onCallBack: (routeName) {
           var receivedRoutePath = model.returnRouteValue(routeName);
           Navigator.pushNamed(context, receivedRoutePath,
-              arguments: PaymentArguments(
-                phoneNo: model.mobileNo,
-              ));
+              arguments: receivedRoutePath == RoutePaths.payments
+                  ? PaymentArguments(
+                      phoneNo: model.mobileNo,
+                    )
+                  : null);
         },
       ),
     );
