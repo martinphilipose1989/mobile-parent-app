@@ -1,12 +1,10 @@
 import 'package:app/di/states/viewmodels.dart';
-
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
-
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
-
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -27,11 +25,14 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     return tabbarViewModelProvider;
   }
 
+  TabbarViewModel get model =>
+      ProviderScope.containerOf(context).read(tabbarViewModelProvider);
+
   @override
-  void onModelReady(TabbarViewModel model) {
-    // bind exception handler here.
-    model.tabController = TabController(length: 4, vsync: this);
-    model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  void didChangeDependencies() {
+    model.tabController =
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 4, vsync: this);
+    super.didChangeDependencies();
   }
 
   @override
@@ -48,38 +49,42 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   Widget buildView(BuildContext context, TabbarViewModel model) {
-    return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: model.tabController,
-      children: [
-        const DashboardPage(),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.green,
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.green,
-        ),
-        // BaseWidget<DashboardPageModel>(
-        //   builder: (contet, model, _) {
-        //     log("MODEL ${model?.userSubject.valueOrNull?.data?.phoneNumber}");
-        //     log("MODEL ${model?.dashboardState.selectedStudent?.id}");
+    return StreamBuilder<int>(
+        stream: model.indexSteam,
+        builder: (context, snapshot) {
+          return TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: model.tabController,
+            children: [
+              const DashboardPage(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.green,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.green,
+              ),
+              // BaseWidget<DashboardPageModel>(
+              //   builder: (contet, model, _) {
+              //     log("MODEL ${model?.userSubject.valueOrNull?.data?.phoneNumber}");
+              //     log("MODEL ${model?.dashboardState.selectedStudent?.id}");
 
-        //     return VisitorDetailsPage(
-        //       params: VisitorDetailsPageParams(
-        //           mobileNo: model?.userSubject.valueOrNull?.data?.phoneNumber,
-        //           studentId: model?.dashboardState.selectedStudent?.id,
-        //           routeFrom: RoutePaths.tabbar),
-        //     );
-        //   },
-        //   providerBase: dashboardViewModelProvider,
-        // ),
-        const CreateEditGatePassPage()
-      ],
-    );
+              //     return VisitorDetailsPage(
+              //       params: VisitorDetailsPageParams(
+              //           mobileNo: model?.userSubject.valueOrNull?.data?.phoneNumber,
+              //           studentId: model?.dashboardState.selectedStudent?.id,
+              //           routeFrom: RoutePaths.tabbar),
+              //     );
+              //   },
+              //   providerBase: dashboardViewModelProvider,
+              // ),
+              const CreateEditGatePassPage()
+            ],
+          );
+        });
   }
 
   @override
@@ -104,7 +109,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           children: [
             InkWell(
               onTap: () {
-                model.onItemTapped(0);
+                BOTTOM_NAV_INDEX = 0;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(
@@ -125,7 +131,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             ),
             InkWell(
               onTap: () {
-                model.onItemTapped(1);
+                BOTTOM_NAV_INDEX = 1;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(
@@ -146,7 +153,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             ),
             InkWell(
               onTap: () {
-                model.onItemTapped(2);
+                BOTTOM_NAV_INDEX = 2;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(
@@ -167,7 +175,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             ),
             InkWell(
               onTap: () {
-                model.onItemTapped(3);
+                BOTTOM_NAV_INDEX = 3;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(

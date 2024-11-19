@@ -149,6 +149,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         studentName: vehicleController.text,
         studentId: selectedStudent?.id,
         schoolId: selectedSchoolId,
+        companyName: "",
       ),
     );
 
@@ -310,7 +311,5 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         _uploadVisitorProfileUsecase = uploadVisitorProfileUsecase,
         _flutterToastErrorPresenter = flutterToastErrorPresenter,
         _getUserDetailsUsecase = getUserDetailsUsecase,
-        _getMdmAttributeUsecase = getMdmAttributeUsecase {
-    getUserDetails();
-  }
+        _getMdmAttributeUsecase = getMdmAttributeUsecase;
 }
