@@ -47,6 +47,7 @@ export 'src/model/response/disciplinarySlip/disciplinary_slip_model.dart';
 export 'src/model/response/disciplinarySlip/acknowledgeResponseModel.dart';
 export 'src/model/response/disciplinarySlip/co_reasons_list_response_model.dart';
 export 'src/model/response/attendance/attendance_details_response_model.dart';
+export 'src/model/response/school/school_response_model.dart';
 
 //Communication start
 export 'src/model/response/communication/communication_list_model.dart';
