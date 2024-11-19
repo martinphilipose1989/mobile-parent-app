@@ -22,6 +22,12 @@ abstract class NetworkPort {
   Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
       {required AttendanceCountRequestModel attendanceRequestModel});
 
+  Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
+      {required CreateIntimationRequestModel requestModel});
+
+
+
+
   Future<Either<NetworkError, AttendanceDetailsResponseModel>>
       getAttendancedetail(
           {required AttendanceDetailsRequestModel attendanceRequestModel});

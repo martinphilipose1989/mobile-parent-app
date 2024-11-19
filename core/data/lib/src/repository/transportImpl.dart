@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:domain/src/usecase/transport/create_intimation_usecase.dart';
 import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
@@ -35,6 +36,18 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
   @override
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList({required GetStaffListUseCaseParams staffListusecaseparams}) {
    return networkPort.getStaffList(params: staffListusecaseparams);
+  }
+
+  @override
+  Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation({required CreateIntimationUseCaseParams createIntimationUseCase}) {
+    // TODO: implement createIntimation
+   return networkPort.createIntimation(requestModel: CreateIntimationRequestModel(globalUserId:createIntimationUseCase.globalUserId ,globalStudentId: createIntimationUseCase.globalStudentId,fromDate: createIntimationUseCase.fromDate,
+     toDate: createIntimationUseCase.toDate,status: createIntimationUseCase.status,
+     initimationType:createIntimationUseCase.initimationType,
+     note: createIntimationUseCase.note,
+     fileAttachment:createIntimationUseCase.fileAttachment ,
+     approvalFlag:createIntimationUseCase.approvalFlag ,
+     approvedById: createIntimationUseCase.approvedById,));
   }
   
 }

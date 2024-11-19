@@ -2,6 +2,8 @@ import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/transport/get_staff_list_usecase.dart';
 import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
 
+import '../usecase/transport/create_intimation_usecase.dart';
+
 abstract class TransportRepository {
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
@@ -22,5 +24,10 @@ abstract class TransportRepository {
 
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
       {required GetStaffListUseCaseParams staffListusecaseparams});
+
+
+
+  Future<Either<NetworkError, CreateIntimationResponseModel>>createIntimation(
+      {required CreateIntimationUseCaseParams createIntimationUseCase});
 
 }

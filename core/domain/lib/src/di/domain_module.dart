@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/transport/create_intimation_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -356,6 +357,14 @@ abstract class DomainModule {
       RegistrationRepository registrationRepository) {
     return AddVasDetailUsecase(registrationRepository);
   }
+
+  @lazySingleton
+  CreateIntimationUsecase createIntimationUsecase(
+      TransportRepository transportRepository) {
+    return CreateIntimationUsecase(transportRepository: transportRepository);
+  }
+
+
 
   @lazySingleton
   RemoveVasDetailUsecase removeVasDetailUsecase(
