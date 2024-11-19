@@ -56,25 +56,28 @@ class CreateGatePassRequestEntity
   final int? studentId;
   @JsonKey(name: "school_id")
   final int? schoolId;
-  CreateGatePassRequestEntity({
-    required this.name,
-    required this.mobile,
-    required this.email,
-    required this.visitorTypeId,
-    required this.companyName,
-    required this.pointOfContact,
-    required this.otherPointOfContact,
-    required this.purposeOfVisitId,
-    required this.comingFrom,
-    required this.guestCount,
-    required this.profileImage,
-    required this.vehicleNumber,
-    required this.issuedDate,
-    required this.issuedTime,
-    required this.studentName,
-    this.studentId,
-    this.schoolId,
-  });
+  @JsonKey(name: "other_reason")
+  final String? otherReason;
+
+  CreateGatePassRequestEntity(
+      {required this.name,
+      required this.mobile,
+      required this.email,
+      required this.visitorTypeId,
+      required this.companyName,
+      required this.pointOfContact,
+      required this.otherPointOfContact,
+      required this.purposeOfVisitId,
+      required this.comingFrom,
+      required this.guestCount,
+      required this.profileImage,
+      required this.vehicleNumber,
+      required this.issuedDate,
+      required this.issuedTime,
+      required this.studentName,
+      this.studentId,
+      this.schoolId,
+      this.otherReason});
 
   factory CreateGatePassRequestEntity.fromJson(Map<String, dynamic> json) =>
       _$CreateGatePassRequestEntityFromJson(json);
@@ -86,12 +89,6 @@ class CreateGatePassRequestEntity
     }
     if (json['vehicle_number'] == null) {
       json.remove('vehicle_number');
-    }
-    if (json['student_id'] != null) {
-      json.remove('school_id');
-    }
-    if (json['school_id'] != null) {
-      json.remove('student_id');
     }
 
     return json;
@@ -112,7 +109,8 @@ class CreateGatePassRequestEntity
         purposeOfVisitId: purposeOfVisitId,
         visitorTypeId: visitorTypeId,
         studentId: studentId,
-        schoolId: schoolId);
+        schoolId: schoolId,
+        otherReason: otherReason);
   }
 
   @override
@@ -134,6 +132,7 @@ class CreateGatePassRequestEntity
         issuedTime: data.issuedTime,
         studentName: data.studentName,
         studentId: data.studentId,
-        schoolId: data.schoolId);
+        schoolId: data.schoolId,
+        otherReason: data.otherReason);
   }
 }

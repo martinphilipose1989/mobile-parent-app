@@ -30,6 +30,8 @@ class CreateGatePassModel {
 
   int? schoolId;
 
+  String? otherReason;
+
   CreateGatePassModel(
       {this.name,
       this.mobile,
@@ -47,5 +49,6 @@ class CreateGatePassModel {
       this.issuedTime,
       this.studentName,
       this.studentId,
-      this.schoolId});
+      this.schoolId,
+      this.otherReason});
 }

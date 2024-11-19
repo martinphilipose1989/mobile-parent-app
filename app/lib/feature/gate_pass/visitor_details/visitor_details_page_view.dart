@@ -10,6 +10,7 @@ import 'package:app/molecules/gate_managment/visitor_details/visitor_details_shi
 import 'package:app/molecules/gate_managment/visitor_details/visitor_info_card.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_primary_elevated_button.dart';
+import 'package:app/utils/constants/constants.dart';
 import 'package:app/utils/data_status_widget.dart';
 import 'package:app/utils/dateformate.dart';
 import 'package:app/utils/no_data_found_widget.dart';
@@ -114,7 +115,7 @@ class VisitorDetailsPageView
                               VisitorDetailsRow(
                                 title1: "Date",
                                 value1:
-                                    "${visitor.issuedDate?.replaceAll('-', '/') ?? ''} ",
+                                    "${visitor.vistDate?.replaceAll('-', '/') ?? ''} ",
                                 title2: "Time",
                                 value2:
                                     visitor.outgoingTime?.isNotEmpty ?? false
@@ -149,6 +150,7 @@ class VisitorDetailsPageView
                           title: "Close",
                           width: MediaQuery.of(context).size.width,
                           onPressed: () {
+                            BOTTOM_NAV_INDEX = 0;
                             Navigator.pushNamedAndRemoveUntil(
                                 context, RoutePaths.tabbar, (route) => false);
                           }),

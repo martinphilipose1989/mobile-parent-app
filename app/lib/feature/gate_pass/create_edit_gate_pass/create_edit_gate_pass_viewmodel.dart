@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
@@ -144,12 +146,13 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         profileImage: _uploadedFileResponse.valueOrNull?.data?.data?.filePath,
         guestCount: int.parse(guestCountController.text),
         vehicleNumber: vehicleController.text,
-        issuedDate: DateTime.now().toIso8601String().dateFormattodd_mm_yyyy(),
+        issuedDate: DateTime.now().dateFormatToyyyMMdd(),
         issuedTime: DateTime.now().toIso8601String().convertTo24HourFormat(),
         studentName: vehicleController.text,
         studentId: selectedStudent?.id,
         schoolId: selectedSchoolId,
         companyName: "",
+        otherReason: "",
       ),
     );
 
@@ -192,13 +195,13 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
     if (dashboardState.selectedStudent?.id != null) {
       debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent?.id}");
 
-      var selectedStudent = dashboardState.selectedStudent;
+      var selectStudent = dashboardState.selectedStudent;
 
-      selectedStudent?.id ??= -1;
-      selectedStudent?.studentDisplayName ??= "";
+      selectStudent?.id ??= -1;
+      selectStudent?.studentDisplayName ??= "";
 
-      studentDataSubject.add(selectedStudent);
-      if (studentDataSubject.hasValue) {
+      studentDataSubject.add(selectStudent);
+      if (selectStudent?.id != null) {
         studentNameController.text =
             studentDataSubject.valueOrNull?.studentDisplayName ?? '';
         selectedStudent = studentDataSubject.value;

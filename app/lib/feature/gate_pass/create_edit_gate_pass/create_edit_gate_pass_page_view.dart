@@ -133,6 +133,10 @@ class CreateEditGatePassPageView
                               showAstreik: true,
                               labelText: "Visit Date & Time",
                               controller: model.visitDateTimeController,
+                              // onTap: () async {
+                              //   await DateTimeUtils.pickDateTime(context,
+                              //       pickTime: true);
+                              // },
                             ),
                             CommonTextFormField(
                                 bottomPadding: 16,
@@ -303,6 +307,8 @@ class CreateEditGatePassPageView
                               if (model.formKey.currentState!.validate()) {
                                 model.createOrUpdateGatePass();
                               }
+                              // log(DateTimeUtils.getFormattedDate());
+                              // log(DateTimeUtils.getFormattedDateTime());
                             },
                           );
                         }),

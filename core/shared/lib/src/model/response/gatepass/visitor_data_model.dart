@@ -54,34 +54,36 @@ class VisitorDataModel {
 
   final int? visitorTypeId;
 
-  VisitorDataModel({
-    required this.id,
-    required this.pointOfContact,
-    required this.issuedDate,
-    required this.issuedTime,
-    required this.incomingTime,
-    required this.outgoingTime,
-    required this.visitStatus,
-    required this.visitorId,
-    required this.visitorName,
-    required this.visitorMobile,
-    required this.visitorEmail,
-    required this.visitorProfileImage,
-    required this.purposeOfVisitName,
-    required this.purposeOfVisitId,
-    required this.comingFrom,
-    required this.qrCode,
-    required this.visitorProfileImageImageUrl,
-    required this.visitorProfileImageFilePath,
-    this.visitorType = "Parent",
-    required this.guestCount,
-    required this.gatePassNumber,
-    required this.vehicleNumber,
-    required this.studentName,
-    required this.schoolVisitDate,
-    required this.otherPointOfContact,
-    required this.visitorTypeId,
-  });
+  final String? vistDate;
+
+  VisitorDataModel(
+      {required this.id,
+      required this.pointOfContact,
+      required this.issuedDate,
+      required this.issuedTime,
+      required this.incomingTime,
+      required this.outgoingTime,
+      required this.visitStatus,
+      required this.visitorId,
+      required this.visitorName,
+      required this.visitorMobile,
+      required this.visitorEmail,
+      required this.visitorProfileImage,
+      required this.purposeOfVisitName,
+      required this.purposeOfVisitId,
+      required this.comingFrom,
+      required this.qrCode,
+      required this.visitorProfileImageImageUrl,
+      required this.visitorProfileImageFilePath,
+      this.visitorType = "Parent",
+      required this.guestCount,
+      required this.gatePassNumber,
+      required this.vehicleNumber,
+      required this.studentName,
+      required this.schoolVisitDate,
+      required this.otherPointOfContact,
+      required this.visitorTypeId,
+      required this.vistDate});
 
   @override
   String toString() {
