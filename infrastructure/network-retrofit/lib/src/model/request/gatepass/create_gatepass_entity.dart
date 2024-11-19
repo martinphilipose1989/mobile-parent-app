@@ -54,7 +54,8 @@ class CreateGatePassRequestEntity
   final String? studentName;
   @JsonKey(name: "student_id")
   final int? studentId;
-
+  @JsonKey(name: "school_id")
+  final int? schoolId;
   CreateGatePassRequestEntity({
     required this.name,
     required this.mobile,
@@ -71,7 +72,8 @@ class CreateGatePassRequestEntity
     required this.issuedDate,
     required this.issuedTime,
     required this.studentName,
-    required this.studentId,
+    this.studentId,
+    this.schoolId,
   });
 
   factory CreateGatePassRequestEntity.fromJson(Map<String, dynamic> json) =>
@@ -84,6 +86,12 @@ class CreateGatePassRequestEntity
     }
     if (json['vehicle_number'] == null) {
       json.remove('vehicle_number');
+    }
+    if (json['student_id'] != null) {
+      json.remove('school_id');
+    }
+    if (json['school_id'] != null) {
+      json.remove('student_id');
     }
 
     return json;
@@ -102,28 +110,30 @@ class CreateGatePassRequestEntity
         pointOfContact: pointOfContact,
         profileImage: profileImage,
         purposeOfVisitId: purposeOfVisitId,
-        visitorTypeId: visitorTypeId);
+        visitorTypeId: visitorTypeId,
+        studentId: studentId,
+        schoolId: schoolId);
   }
 
   @override
   CreateGatePassRequestEntity restore(CreateGatePassModel data) {
     return CreateGatePassRequestEntity(
-      name: data.name,
-      email: data.email,
-      comingFrom: data.comingFrom,
-      companyName: data.companyName,
-      guestCount: data.guestCount,
-      mobile: data.mobile,
-      otherPointOfContact: data.otherPointOfContact,
-      pointOfContact: data.pointOfContact,
-      profileImage: data.profileImage,
-      purposeOfVisitId: data.purposeOfVisitId,
-      visitorTypeId: data.visitorTypeId,
-      vehicleNumber: data.vehicleNumber,
-      issuedDate: data.issuedDate,
-      issuedTime: data.issuedTime,
-      studentName: data.studentName,
-      studentId: data.studentId,
-    );
+        name: data.name,
+        email: data.email,
+        comingFrom: data.comingFrom,
+        companyName: data.companyName,
+        guestCount: data.guestCount,
+        mobile: data.mobile,
+        otherPointOfContact: data.otherPointOfContact,
+        pointOfContact: data.pointOfContact,
+        profileImage: data.profileImage,
+        purposeOfVisitId: data.purposeOfVisitId,
+        visitorTypeId: data.visitorTypeId,
+        vehicleNumber: data.vehicleNumber,
+        issuedDate: data.issuedDate,
+        issuedTime: data.issuedTime,
+        studentName: data.studentName,
+        studentId: data.studentId,
+        schoolId: data.schoolId);
   }
 }

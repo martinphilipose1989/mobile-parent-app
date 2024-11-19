@@ -100,7 +100,7 @@ class CommonTextFormField extends StatelessWidget {
                       hintText: hintText ?? '',
                       counterText: ""),
               onTap: onTap,
-              focusNode: focusNode,
+              focusNode: focusNode ?? FocusNode(),
               onFieldSubmitted: onFieldSubmitted,
             ),
           ),

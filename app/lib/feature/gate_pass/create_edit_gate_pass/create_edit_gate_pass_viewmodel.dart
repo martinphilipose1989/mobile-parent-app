@@ -5,6 +5,7 @@ import 'package:app/model/phone_number_details.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/constants/constants.dart';
 import 'package:app/utils/dateformate.dart';
@@ -27,6 +28,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   final CreateGatepassUsecase _createGatepassUsecase;
   final FlutterToastErrorPresenter _flutterToastErrorPresenter;
   final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetMdmAttributeUsecase _getMdmAttributeUsecase;
 
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
@@ -146,6 +148,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         issuedTime: DateTime.now().toIso8601String().convertTo24HourFormat(),
         studentName: vehicleController.text,
         studentId: selectedStudent?.id,
+        schoolId: selectedSchoolId,
       ),
     );
 
@@ -194,6 +197,11 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
       selectedStudent?.studentDisplayName ??= "";
 
       studentDataSubject.add(selectedStudent);
+      if (studentDataSubject.hasValue) {
+        studentNameController.text =
+            studentDataSubject.valueOrNull?.studentDisplayName ?? '';
+        selectedStudent = studentDataSubject.value;
+      }
     }
   }
 
@@ -247,23 +255,62 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
+        if (data.data?.statusId == null || data.data?.statusId == 0) {
+          getSchoolList();
+        }
       }
     });
   }
 
+  BehaviorSubject<Resource<List<MdmAttributeModel>>>
+      schoolLocationTypesAttribute =
+      BehaviorSubject<Resource<List<MdmAttributeModel>>>.seeded(
+          Resource.none());
+
+  int? selectedSchoolId;
+
+  void setSchoolId(String value) {
+    selectedSchoolId = schoolLocationTypesAttribute.valueOrNull?.data
+        ?.firstWhere((school) =>
+            school.attributes?.name?.toLowerCase() == value.toLowerCase())
+        .id;
+  }
+
+  void getSchoolList() {
+    schoolLocationTypesAttribute.add(Resource.loading());
+    final GetMdmAttributeUsecaseParams params =
+        GetMdmAttributeUsecaseParams(infoType: "schoolLocation");
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: _flutterToastErrorPresenter,
+      params: params,
+      createCall: (params) => _getMdmAttributeUsecase.execute(params: params),
+      onSuccess: (result) {
+        schoolLocationTypesAttribute.add(Resource.success(data: result?.data));
+      },
+      onError: (error) {
+        schoolLocationTypesAttribute.add(Resource.error(error: error));
+      },
+    );
+  }
+
   // Constructor
-  CreateEditGatePassViewModel({
-    required this.exceptionHandlerBinder,
-    required CreateGatepassUsecase createGatepassUsecase,
-    required ChooseFileUseCase chooseFileUseCase,
-    required GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase,
-    required UploadVisitorProfileUsecase uploadVisitorProfileUsecase,
-    required FlutterToastErrorPresenter flutterToastErrorPresenter,
-    required GetUserDetailsUsecase getUserDetailsUsecase,
-  })  : _createGatepassUsecase = createGatepassUsecase,
+  CreateEditGatePassViewModel(
+      {required this.exceptionHandlerBinder,
+      required CreateGatepassUsecase createGatepassUsecase,
+      required ChooseFileUseCase chooseFileUseCase,
+      required GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase,
+      required UploadVisitorProfileUsecase uploadVisitorProfileUsecase,
+      required FlutterToastErrorPresenter flutterToastErrorPresenter,
+      required GetUserDetailsUsecase getUserDetailsUsecase,
+      required GetMdmAttributeUsecase getMdmAttributeUsecase})
+      : _createGatepassUsecase = createGatepassUsecase,
         _chooseFileUseCase = chooseFileUseCase,
         _getPurposeOfVisitListUsecase = getPurposeOfVisitListUsecase,
         _uploadVisitorProfileUsecase = uploadVisitorProfileUsecase,
         _flutterToastErrorPresenter = flutterToastErrorPresenter,
-        _getUserDetailsUsecase = getUserDetailsUsecase;
+        _getUserDetailsUsecase = getUserDetailsUsecase,
+        _getMdmAttributeUsecase = getMdmAttributeUsecase {
+    getUserDetails();
+  }
 }

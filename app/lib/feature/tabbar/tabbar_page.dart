@@ -1,11 +1,10 @@
 import 'package:app/di/states/viewmodels.dart';
 
-import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
-import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
+
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
-import 'package:app/navigation/route_paths.dart';
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -59,17 +58,25 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           width: MediaQuery.of(context).size.width,
           color: Colors.green,
         ),
-        BaseWidget<DashboardPageModel>(
-          builder: (contet, model, _) {
-            return VisitorDetailsPage(
-              params: VisitorDetailsPageParams(
-                  mobileNo: model?.userSubject.valueOrNull?.data?.phoneNumber,
-                  studentId: model?.dashboardState.selectedStudent?.id,
-                  routeFrom: RoutePaths.tabbar),
-            );
-          },
-          providerBase: dashboardViewModelProvider,
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.green,
         ),
+        // BaseWidget<DashboardPageModel>(
+        //   builder: (contet, model, _) {
+        //     log("MODEL ${model?.userSubject.valueOrNull?.data?.phoneNumber}");
+        //     log("MODEL ${model?.dashboardState.selectedStudent?.id}");
+
+        //     return VisitorDetailsPage(
+        //       params: VisitorDetailsPageParams(
+        //           mobileNo: model?.userSubject.valueOrNull?.data?.phoneNumber,
+        //           studentId: model?.dashboardState.selectedStudent?.id,
+        //           routeFrom: RoutePaths.tabbar),
+        //     );
+        //   },
+        //   providerBase: dashboardViewModelProvider,
+        // ),
         const CreateEditGatePassPage()
       ],
     );
@@ -151,7 +158,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'View Gate Pass',
+                          text: 'Home',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

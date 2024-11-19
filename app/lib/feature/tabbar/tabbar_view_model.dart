@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +13,7 @@ class TabbarViewModel extends BasePageViewModel {
   late TabController tabController;
 
   void onItemTapped(int index) {
+    log("onItemTapped $index");
     tabController.index = index;
   }
 

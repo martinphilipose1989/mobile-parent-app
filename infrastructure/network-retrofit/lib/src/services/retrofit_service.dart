@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:network_retrofit/src/model/response/school/school_response_entity.dart';
+
 import '../model/request/finance/get_guardian_student_details_request.dart';
 import '../model/request/finance/get_siblings_request.dart';
 import '../model/request/finance/get_token_generator_request.dart';
@@ -488,7 +488,8 @@ abstract class RetrofitService {
 
   @GET(NetworkProperties.getVisitorDetails)
   Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Path("mobile") visitorMobileNumber, @Query("studentId") studentId,
+      @Path("mobile") visitorMobileNumber,
+      @Query("studentId") String? studentId,
       {@Query('platform') required String platform});
 
   // key cloak

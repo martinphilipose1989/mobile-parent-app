@@ -1449,7 +1449,7 @@ class NetworkAdapter implements NetworkPort {
       {required params}) async {
     var response = await safeApiCall(apiService.getVisitorDetails(
       params.mobile,
-      params.studentId,
+      params.studentId?.toString(),
       platform: platform,
     ));
     return response.fold((l) {

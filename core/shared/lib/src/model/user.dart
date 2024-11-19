@@ -4,5 +4,6 @@ class User {
   String? userName;
   String? email;
   String? phoneNumber;
-  User({this.id, this.userName, this.email, this.phoneNumber});
+  int? statusId;
+  User({this.id, this.userName, this.email, this.phoneNumber, this.statusId});
 }

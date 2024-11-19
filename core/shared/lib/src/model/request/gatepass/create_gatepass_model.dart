@@ -25,24 +25,27 @@ class CreateGatePassModel {
   String? issuedDate;
   String? issuedTime;
   String? studentName;
+
   int? studentId;
 
-  CreateGatePassModel({
-    this.name,
-    this.mobile,
-    this.email,
-    this.visitorTypeId,
-    this.companyName,
-    this.pointOfContact,
-    this.otherPointOfContact,
-    this.purposeOfVisitId,
-    this.comingFrom,
-    this.guestCount,
-    this.profileImage,
-    this.vehicleNumber,
-    this.issuedDate,
-    this.issuedTime,
-    this.studentName,
-    this.studentId,
-  });
+  int? schoolId;
+
+  CreateGatePassModel(
+      {this.name,
+      this.mobile,
+      this.email,
+      this.visitorTypeId,
+      this.companyName,
+      this.pointOfContact,
+      this.otherPointOfContact,
+      this.purposeOfVisitId,
+      this.comingFrom,
+      this.guestCount,
+      this.profileImage,
+      this.vehicleNumber,
+      this.issuedDate,
+      this.issuedTime,
+      this.studentName,
+      this.studentId,
+      this.schoolId});
 }

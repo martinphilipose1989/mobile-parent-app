@@ -44,13 +44,19 @@ class CreateEditGatePassPageState extends AppBasePageState<
         createEditGatePassViewModelProvider,
       );
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
+
   @override
-  void didChangeDependencies() {
+  void onModelReady(CreateEditGatePassViewModel model) {
+    // TODO: implement onModelReady
     model.setStudentData(context);
 
     /// api calls
     model.getPurposeOfVisitList();
     model.getUserDetails();
-    super.didChangeDependencies();
+    super.onModelReady(model);
   }
 }
