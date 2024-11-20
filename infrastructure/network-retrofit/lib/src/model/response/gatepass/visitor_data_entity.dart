@@ -85,7 +85,7 @@ class VisitorDataEntity
   @JsonKey(name: "visitor_type_id")
   final int? visitorTypeId;
 
-  @JsonKey(name: "visitor_date")
+  @JsonKey(name: "visit_date")
   final String? visitDate;
 
   VisitorDataEntity(
