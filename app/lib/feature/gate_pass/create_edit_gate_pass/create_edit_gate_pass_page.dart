@@ -1,5 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -28,6 +29,7 @@ class CreateEditGatePassPageState extends AppBasePageState<
   ProviderBase<CreateEditGatePassViewModel> provideBase() {
     return createEditGatePassViewModelProvider;
   }
+
   CreateEditGatePassViewModel get model =>
       ProviderScope.containerOf(context).read(
         createEditGatePassViewModelProvider,
@@ -41,5 +43,13 @@ class CreateEditGatePassPageState extends AppBasePageState<
     model.getPurposeOfVisitList();
     model.getUserDetails();
     super.didChangeDependencies();
+  }
+
+  @override
+  PreferredSizeWidget? buildAppbar(CreateEditGatePassViewModel model) {
+    return const CommonAppBar(
+        appbarTitle: "Create Gate Pass",
+        showBackButton: true,
+        notShowNotificationAndUserBatch: true);
   }
 }

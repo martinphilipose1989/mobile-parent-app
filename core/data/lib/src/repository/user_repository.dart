@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:services/services.dart';
@@ -182,6 +184,7 @@ class UserRepositoryImpl extends UserRepository {
           await secureStorageService.getFromDisk(secureStorageService.userId));
       final int statusId = int.parse(await secureStorageService
           .getFromDisk(secureStorageService.userStatus));
+
       return Right(
         User(
           id: userId,

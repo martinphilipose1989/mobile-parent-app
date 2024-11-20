@@ -91,7 +91,10 @@ class NetworkProperties {
       "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
 
   static const String getVisitorDetails =
-      "${BASE_GATE_PASS}gate-management/visitor/{mobile}/viewGatepass";
+      "${BASE_GATE_PASS}gate-management/gatepass";
+
+  static const String getGatePassDetails =
+      "${BASE_GATE_PASS}gate-management/gatepass/{gatepassId}";
 
   static const String requestGatePass =
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';

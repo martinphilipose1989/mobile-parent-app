@@ -39,6 +39,7 @@ class DashboardPageState
   void onModelReady(DashboardPageModel model) async {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    model.getUserDetails();
   }
 
   @override

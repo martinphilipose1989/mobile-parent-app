@@ -133,6 +133,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   BehaviorSubject<String> countryDialCode = BehaviorSubject.seeded("+91");
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  DateTime selectedDate = DateTime.now();
+
   void createGatePass() async {
     final params = CreateGatepassUsecaseParams(
       requestModel: CreateGatePassModel(
@@ -146,8 +148,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         profileImage: _uploadedFileResponse.valueOrNull?.data?.data?.filePath,
         guestCount: int.parse(guestCountController.text),
         vehicleNumber: vehicleController.text,
-        issuedDate: DateTime.now().dateFormatToyyyMMdd(),
-        issuedTime: DateTime.now().toIso8601String().convertTo24HourFormat(),
+        issuedDate: selectedDate.dateFormatToyyyMMdd(),
+        issuedTime: selectedDate.toIso8601String().convertTo24HourFormat(),
         studentName: vehicleController.text,
         studentId: selectedStudent?.id,
         schoolId: selectedSchoolId,
@@ -168,7 +170,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
           navigatorKey.currentContext!,
           "Gate pass created successfully",
           (value) {
-            _checkAndNavigateToVisitorDetails();
+            final gatePassId = data.data?.data?.id;
+            _checkAndNavigateToVisitorDetails(gatePassId!);
           },
         );
       } else if (data.status == Status.error) {
@@ -210,14 +213,16 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   }
 
   /// checkAndNavigateToVisitorDetails
-  void _checkAndNavigateToVisitorDetails() {
+  void _checkAndNavigateToVisitorDetails(String gatePassId) {
     var studentId = selectedStudent?.id;
-    if (studentId == null || studentId!.toString().isEmpty) return;
+    // if (studentId == null || studentId!.toString().isEmpty) return;
     // navigate to visitorDetailsPage
     navigatorKey.currentState?.pushNamed(RoutePaths.visitorDetailsPage,
         arguments: VisitorDetailsPageParams(
+            gatePassId: gatePassId,
             mobileNo: "${countryDialCode.value}${contactNumberController.text}",
-            studentId: studentId));
+            studentId: studentId,
+            routeFrom: RoutePaths.createEditGatePassPage));
   }
 
   getCountryCode({required String phoneNumber}) async {

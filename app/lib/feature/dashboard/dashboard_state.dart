@@ -33,4 +33,11 @@ class DashboardState extends BaseSingletonState {
 
   GetGuardianStudentDetailsStudentModel? get selectedStudent =>
       _selectedStudent;
+
+  @override
+  void dispose() {
+    _selectedStudent = null;
+    _selectedStudentList = null;
+    super.dispose();
+  }
 }

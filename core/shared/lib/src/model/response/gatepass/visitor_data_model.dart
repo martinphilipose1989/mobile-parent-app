@@ -56,6 +56,8 @@ class VisitorDataModel {
 
   final String? vistDate;
 
+  final String? dateOfVisit;
+
   VisitorDataModel(
       {required this.id,
       required this.pointOfContact,
@@ -83,7 +85,8 @@ class VisitorDataModel {
       required this.schoolVisitDate,
       required this.otherPointOfContact,
       required this.visitorTypeId,
-      required this.vistDate});
+      required this.vistDate,
+      required this.dateOfVisit});
 
   @override
   String toString() {

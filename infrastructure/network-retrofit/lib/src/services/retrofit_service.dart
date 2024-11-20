@@ -488,9 +488,13 @@ abstract class RetrofitService {
 
   @GET(NetworkProperties.getVisitorDetails)
   Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Path("mobile") visitorMobileNumber,
+      @Query("mobile") String visitorMobileNumber,
       @Query("studentId") String? studentId,
       {@Query('platform') required String platform});
+
+  @GET(NetworkProperties.getGatePassDetails)
+  Future<HttpResponse<VisitorDetailsResponseEntity>> getGatepassDetailsById(
+      @Path("gatepassId") String getpassID, @Query('platform') String platform);
 
   // key cloak
   @POST(NetworkProperties.tokenIntroSpect)

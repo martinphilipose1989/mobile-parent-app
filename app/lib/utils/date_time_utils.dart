@@ -1,6 +1,4 @@
-import 'package:app/utils/dateformate.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class DateTimeUtils {
   static DateTime? selectedDate;
@@ -8,7 +6,8 @@ class DateTimeUtils {
 
   /// Display the date picker and optionally the time picker
   static Future<void> pickDateTime(BuildContext context,
-      {bool pickTime = false}) async {
+      {bool pickTime = false,
+      void Function(DateTime selectedDateTime)? onSelect}) async {
     DateTime now = DateTime.now();
 
     // Show Date Picker
@@ -24,14 +23,18 @@ class DateTimeUtils {
 
     if (pickTime) {
       if (context.mounted) {
-        await pickTimePicker(context, pickedDate: selectedDate);
+        await pickTimePicker(context,
+            pickedDate: selectedDate, onSelect: onSelect);
       }
+    } else {
+      onSelect?.call(pickedDate);
     }
   }
 
   /// Display the time picker
   static Future<void> pickTimePicker(BuildContext context,
-      {DateTime? pickedDate}) async {
+      {DateTime? pickedDate,
+      void Function(DateTime selectedDateTime)? onSelect}) async {
     TimeOfDay nowTime = TimeOfDay.now();
 
     // Ensure valid time picker behavior
@@ -47,48 +50,13 @@ class DateTimeUtils {
 
     if (pickedTime == null) return;
     selectedTime = pickedTime;
-  }
-
-  /// Format the selected date and time into the desired display format
-  static String getFormattedDateTime() {
-    if (selectedDate == null || selectedTime == null) {
-      return DateTime.now().toIso8601String().dateFormatToDDMMYYYhhmma();
-    }
-
     DateTime combinedDateTime = DateTime(
         selectedDate!.year,
         selectedDate!.month,
         selectedDate!.day,
         selectedTime!.hour,
         selectedTime!.minute);
-
-    return combinedDateTime.toIso8601String().dateFormatToDDMMYYYhhmma();
-  }
-
-  /// Get the selected date in `dd-MM-yyyy` format
-  static String getFormattedDate() {
-    if (selectedDate == null) {
-      return DateTime.now().toIso8601String().dateFormattodd_mm_yyyy();
-    }
-    return selectedDate!.toIso8601String().dateFormattodd_mm_yyyy();
-  }
-
-  /// Get the selected time in `hh:mm:ss` format (24-hour format)
-  static String getFormattedTime() {
-    if (selectedTime == null) {
-      return DateTime.now().toIso8601String().convertTo24HourFormat();
-    }
-
-    final now = DateTime.now();
-    DateTime combinedDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      selectedTime!.hour,
-      selectedTime!.minute,
-    );
-
-    return combinedDateTime.toIso8601String().convertTo24HourFormat();
+    onSelect?.call(combinedDateTime);
   }
 }
 

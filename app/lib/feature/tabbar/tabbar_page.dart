@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/dashboard/dashbaord_view_model.dart';
+
 import 'package:app/feature/dashboard/dashboard_page.dart';
-import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
-import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
+
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
-import 'package:app/navigation/route_paths.dart';
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
@@ -36,7 +33,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   void didChangeDependencies() {
     model.tabController =
-        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 4, vsync: this);
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
     super.didChangeDependencies();
   }
 
@@ -67,27 +64,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                 width: MediaQuery.of(context).size.width,
                 color: Colors.green,
               ),
-              // Container(
-              //   height: MediaQuery.of(context).size.height,
-              //   width: MediaQuery.of(context).size.width,
-              //   color: Colors.green,
-              // ),
-              BaseWidget<DashboardPageModel>(
-                builder: (contet, model, _) {
-                  log("MODEL ${model?.userSubject.valueOrNull?.data?.phoneNumber}");
-                  log("MODEL ${model?.dashboardState.selectedStudent?.id}");
-
-                  return VisitorDetailsPage(
-                    params: VisitorDetailsPageParams(
-                        mobileNo:
-                            model?.userSubject.valueOrNull?.data?.phoneNumber,
-                        studentId: model?.dashboardState.selectedStudent?.id,
-                        routeFrom: RoutePaths.tabbar),
-                  );
-                },
-                providerBase: dashboardViewModelProvider,
-              ),
-              const CreateEditGatePassPage()
             ],
           );
         });
@@ -151,50 +127,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
                           text: 'Home',
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                BOTTOM_NAV_INDEX = 2;
-                model.onItemTapped(BOTTOM_NAV_INDEX);
-              },
-              child: AbsorbPointer(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Icon(Icons.home),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: CommonText(
-                          text: 'View Gate Pass',
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                BOTTOM_NAV_INDEX = 3;
-                model.onItemTapped(BOTTOM_NAV_INDEX);
-              },
-              child: AbsorbPointer(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Icon(Icons.school),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: CommonText(
-                          text: 'Gate Pass',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

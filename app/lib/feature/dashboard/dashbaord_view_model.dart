@@ -53,9 +53,40 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List trackerTemp = [
-    {'name': 'SR', 'image': AppImages.userSearch, 'isSelected': false},
-    {'name': 'Order', 'image': AppImages.gift, 'isSelected': false},
-    {'name': 'Transport', 'image': AppImages.bus, 'isSelected': false}
+    {
+      'name': 'SR',
+      'image': AppImages.userSearch,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'sr'
+    },
+    {
+      'name': 'Order',
+      'image': AppImages.gift,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'order'
+    },
+    {
+      'name': 'Transport',
+      'image': AppImages.bus,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'transport'
+    },
+    {
+      'name': 'View Gate Pass',
+      'image': AppImages.gift,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'view_gate_pass'
+    },
+    {
+      'name': 'Create Gate Pass',
+      'image': AppImages.admissionIcon,
+      'isSelected': false,
+      'key': 'create_gate_pass'
+    },
   ];
 
   final List progress = [
@@ -107,6 +138,10 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
         return RoutePaths.disciplinarySlipPage;
+      case 'view gate pass':
+        return RoutePaths.visitorDetailsPage;
+      case 'create gate pass':
+        return RoutePaths.createEditGatePassPage;
       default:
         return '';
     }
@@ -222,9 +257,35 @@ class DashboardPageModel extends BasePageViewModel {
       createCall: () => _getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
+        if (data.data?.statusId == 0) {
+          // final index = trackerTemp
+          //     .indexWhere((track) => track['key'] == 'create_gate_pass');
+          // log("index $index");
+          // if (index > -1) {
+          //   trackerTemp[index]['isActive'] = false;
+          // } else {
+          //   trackerTemp[index]['isActive'] = true;
+          // }
+          for (int index = 0; index < trackerTemp.length; index++) {
+            if (trackerTemp[index]['key'] == "create_gate_pass") {
+              trackerTemp[index]['isActive'] = false;
+            } else {
+              trackerTemp[index]['isActive'] = true;
+            }
+          }
+        }
+
+        log("message $trackerTemp");
         userSubject.add(Resource.success(data: data.data));
       }
     });
+  }
+
+  @override
+  void dispose() {
+    dashboardState.dispose();
+
+    super.dispose();
   }
 }
 

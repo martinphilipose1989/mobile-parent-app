@@ -113,8 +113,9 @@ class VisitorDetailsPageView
                               ),
                               SizedBox(height: 16.h),
                               VisitorDetailsRow(
-                                title1: "Date",
-                                value1:
+                                title1: "Date of Visit",
+                                value1: visitor.dateOfVisit
+                                        ?.replaceAll('-', '/') ??
                                     "${visitor.vistDate?.replaceAll('-', '/') ?? ''} ",
                                 title2: "Time",
                                 value2:

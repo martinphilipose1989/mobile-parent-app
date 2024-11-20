@@ -88,6 +88,9 @@ class VisitorDataEntity
   @JsonKey(name: "visit_date")
   final String? visitDate;
 
+  @JsonKey(name: "date_of_visit")
+  final String? dateOfVisit;
+
   VisitorDataEntity(
       {this.id,
       this.pointOfContact,
@@ -115,7 +118,8 @@ class VisitorDataEntity
       this.schoolVisitDate,
       this.otherPointOfContact,
       this.visitorTypeId,
-      this.visitDate});
+      this.visitDate,
+      this.dateOfVisit});
 
   factory VisitorDataEntity.fromJson(Map<String, dynamic> json) =>
       _$VisitorDataEntityFromJson(json);
@@ -156,6 +160,7 @@ class VisitorDataEntity
         schoolVisitDate: schoolVisitDate,
         otherPointOfContact: otherPointOfContact,
         visitorTypeId: visitorTypeId,
-        vistDate: visitDate);
+        vistDate: visitDate,
+        dateOfVisit: dateOfVisit);
   }
 }
