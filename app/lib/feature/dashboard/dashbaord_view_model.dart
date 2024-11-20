@@ -60,13 +60,13 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'sr'
     },
-    {
-      'name': 'Order',
-      'image': AppImages.gift,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'order'
-    },
+    // {
+    //   'name': 'Order',
+    //   'image': AppImages.gift,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'order'
+    // },
     {
       'name': 'Transport',
       'image': AppImages.bus,
