@@ -1,6 +1,8 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/marketing/upload_enquiry_document_usecase.dart';
 import 'package:domain/src/usecase/transport/get_staff_list_usecase.dart';
 import 'package:domain/src/usecase/transport/get_student_attandence_usecase.dart';
+import 'package:domain/src/usecase/transport/upload_intimation_file.dart';
 
 import '../usecase/transport/create_intimation_usecase.dart';
 
@@ -29,5 +31,13 @@ abstract class TransportRepository {
 
   Future<Either<NetworkError, CreateIntimationResponseModel>>createIntimation(
       {required CreateIntimationUseCaseParams createIntimationUseCase});
+
+
+
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>>uploadIntimationFile(
+      {required UploadIntimationFileUseCaseParams params});
+
+
+
 
 }

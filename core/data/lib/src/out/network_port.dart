@@ -168,6 +168,10 @@ abstract class NetworkPort {
       required String documentID,
       required File file});
 
+
+
+
+
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
       {required String enquiryID,
       required String documentID,
@@ -320,4 +324,13 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
       {required GetStaffListUseCaseParams params});
+
+
+
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile(
+      {
+        required int documentID,
+        required File file});
+
+
 }

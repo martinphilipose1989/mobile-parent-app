@@ -30,7 +30,7 @@ class CreateIntimationUseCaseParams extends Params{
   int? approvedById;
 
   CreateIntimationUseCaseParams(
-      this.globalUserId,
+      {this.globalUserId,
       this.globalStudentId,
       this.fromDate,
       this.toDate,
@@ -39,7 +39,7 @@ class CreateIntimationUseCaseParams extends Params{
       this.note,
       this.fileAttachment,
       this.approvalFlag,
-      this.approvedById);
+      this.approvedById});
 
   @override
   Either<AppError, bool> verify() {

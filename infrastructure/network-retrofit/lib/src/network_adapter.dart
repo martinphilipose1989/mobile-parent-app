@@ -1577,6 +1577,18 @@ class NetworkAdapter implements NetworkPort {
 
   }
 
+  @override
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile({ int? documentID, required File file}) async {
+    final response = await safeApiCall(
+
+attendanceRetorfitService.uploadIntimation(documentID: documentID, file: file)
+    );
+
+    return response.fold(
+          (error) => Left(error), (data) => Right(data.data.transform(),),);
+
+  }
+
  
 
 }

@@ -49,5 +49,10 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
      approvalFlag:createIntimationUseCase.approvalFlag ,
      approvedById: createIntimationUseCase.approvedById,));
   }
+
+  @override
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile({required UploadIntimationFileUseCaseParams params}) {
+   return networkPort.uploadIntimationFile(documentID: params.id, file: params.file);
+  }
   
 }

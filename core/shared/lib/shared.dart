@@ -201,6 +201,7 @@ export 'src/model/response/user/token_introspect_reponse.dart';
 export 'src/model/response/user/user_role_permission_response.dart';
 export 'src/model/request/user/user_role_permission_request.dart';
 export 'src/model/response/login/logout_response.dart';
+export 'src/model/response/transport/uploadIntimationFileResponseModel.dart';
 
 //utils
 export 'src/utils/validator.dart';
