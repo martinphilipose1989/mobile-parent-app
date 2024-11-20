@@ -10,7 +10,7 @@ class CreateIntimationUsecase
   @override
   Future<Either<NetworkError, CreateIntimationResponseModel>> execute({required CreateIntimationUseCaseParams params}) {
  return transportRepository.createIntimation(createIntimationUseCase: params);
-
+print(object)
   }
 
 

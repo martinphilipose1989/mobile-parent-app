@@ -1,17 +1,17 @@
 class NetworkProperties {
-  ///static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
+ static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
   // UAT
-  static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
-  // static const String financeBaseUrl =
-  //     "https://finance-r26sp3mibq-uc.a.run.app";
-  //UAT
+  //static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String financeBaseUrl =
-      "https://finance-backend-ndxpitoqla-el.a.run.app";
-  // static const String marketingBaseURL =
-  //     'https://marketing-r26sp3mibq-uc.a.run.app/';
+      "https://finance-r26sp3mibq-uc.a.run.app";
   //UAT
+  // static const String financeBaseUrl =
+  //     "https://finance-backend-ndxpitoqla-el.a.run.app";
   static const String marketingBaseURL =
-      'https://marketing-backend-ndxpitoqla-el.a.run.app/';
+      'https://marketing-r26sp3mibq-uc.a.run.app/';
+  //UAT
+  // static const String marketingBaseURL =
+  //     'https://marketing-backend-ndxpitoqla-el.a.run.app/';
   static const String transportBaseURL =
       'https://transport-219111640528.us-central1.run.app/';
   static const String schoolBoard = '/api/ac-boards';
@@ -57,17 +57,17 @@ class NetworkProperties {
   static const String relationWithChild =
       '/api/co-guardian-relationships?fields[1]=name';
 
-  // static const String enrollmentDetail =
-  //     'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
-  // UAT
   static const String enrollmentDetail =
-      'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
+      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
+  // UAT
+  // static const String enrollmentDetail =
+  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
 
-  // static const String subjetcList =
-  //     'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
-  //UAT
   static const String subjetcList =
-      'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
+      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
+  //UAT
+  // static const String subjetcList =
+  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
   // static const String requestGatePass =
   //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
@@ -76,12 +76,12 @@ class NetworkProperties {
 
   ////-----GATE PASS ----///
   /// GATE PASS API BASE:
-  // static const String BASE_GATE_PASS =
-  //     "https://gate-management-r26sp3mibq-uc.a.run.app/";
+  static const String BASE_GATE_PASS =
+      "https://gate-management-r26sp3mibq-uc.a.run.app/";
 
   // UAT
-  static const String BASE_GATE_PASS =
-      "https://gate-management-backend-869610231867.asia-south1.run.app/";
+  // static const String BASE_GATE_PASS =
+  //     "https://gate-management-backend-869610231867.asia-south1.run.app/";
 
   /// GATE PASS API ENDPOINTS:
   static const String createVisitorGatePass =

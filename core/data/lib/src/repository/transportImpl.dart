@@ -40,14 +40,8 @@ return networkPort.getBusStopsList(routeId: routeId, dayId: dayId, app: app);
 
   @override
   Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation({required CreateIntimationUseCaseParams createIntimationUseCase}) {
-    // TODO: implement createIntimation
-   return networkPort.createIntimation(requestModel: CreateIntimationRequestModel(globalUserId:createIntimationUseCase.globalUserId ,globalStudentId: createIntimationUseCase.globalStudentId,fromDate: createIntimationUseCase.fromDate,
-     toDate: createIntimationUseCase.toDate,status: createIntimationUseCase.status,
-     initimationType:createIntimationUseCase.initimationType,
-     note: createIntimationUseCase.note,
-     fileAttachment:createIntimationUseCase.fileAttachment ,
-     approvalFlag:createIntimationUseCase.approvalFlag ,
-     approvedById: createIntimationUseCase.approvedById,));
+
+   return networkPort.createIntimation(params:  createIntimationUseCase);
   }
 
   @override
