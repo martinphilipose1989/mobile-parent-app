@@ -39,17 +39,22 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 15, width: 10),
           title('Tracker'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              model.trackerTemp
-                  .where((e) => e['isActive'] == true)
-                  .map((track) => Chips(
-                        name: track['name'],
-                        image: track['image'],
-                        isSelected: track['isSelected'],
-                      ))
-                  .toList(),
-              model),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadTracker,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                return chipsList(
+                    context,
+                    model.trackerTemp
+                        .where((e) => e['isActive'] == true)
+                        .map((track) => Chips(
+                              name: track['name'],
+                              image: track['image'],
+                              isSelected: track['isSelected'],
+                            ))
+                        .toList(),
+                    model);
+              }),
           title('Child Progress/Academic Progress'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           chipsList(
@@ -108,7 +113,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               context,
               receivedRoutePath,
               arguments: VisitorDetailsPageParams(
-                  mobileNo: model.mobileNo,
+                  mobileNo: "+91${model.mobileNo}",
                   studentId: model.dashboardState.selectedStudent?.id),
             );
           } else {

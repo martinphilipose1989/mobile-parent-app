@@ -36,6 +36,7 @@ class VisitorDetailsPageView
     return AppStreamBuilder<Resource<VisitorDataModel>>(
         stream: model.visitorDetails,
         initialData: Resource.none(),
+        onData: (data) {},
         dataBuilder: (context, snapShotData) {
           log("message ${snapShotData?.data}");
           return DataStatusWidget(
@@ -47,12 +48,17 @@ class VisitorDetailsPageView
                                   .contains("internet") ??
                               false
                           ? "No Internet Connection"
-                          : "Something Went Wrong",
+                          : snapShotData?.dealSafeAppError?.error.message ??
+                              "Something Went Wrong",
                       subtitle: snapShotData?.dealSafeAppError?.error.message
                                   .contains("internet") ??
                               false
                           ? "It seems you're offline. Please check your internet connection and try again."
-                          : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                          : (snapShotData?.dealSafeAppError?.error.message
+                                      .isNotEmpty ??
+                                  false)
+                              ? ''
+                              : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
                       onPressed: () {
                         model.getVisitorDetails(
                           mobile: params?.mobileNo,

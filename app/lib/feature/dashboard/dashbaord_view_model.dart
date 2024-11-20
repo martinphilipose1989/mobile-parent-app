@@ -250,23 +250,22 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
+  BehaviorSubject<Resource<bool>> loadTracker =
+      BehaviorSubject.seeded(Resource.none());
   void getUserDetails() {
+    loadTracker.add(Resource.loading());
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
       createCall: () => _getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        if (data.data?.statusId == 0) {
-          // final index = trackerTemp
-          //     .indexWhere((track) => track['key'] == 'create_gate_pass');
-          // log("index $index");
-          // if (index > -1) {
-          //   trackerTemp[index]['isActive'] = false;
-          // } else {
-          //   trackerTemp[index]['isActive'] = true;
-          // }
-          for (int index = 0; index < trackerTemp.length; index++) {
+        for (int index = 0; index < trackerTemp.length; index++) {
+          if (data.data?.statusId != 0) {
+            // If statusId is not 0, set all isActive to true
+            trackerTemp[index]['isActive'] = true;
+          } else {
+            // If statusId is 0, only "create_gate_pass" should be false, others true
             if (trackerTemp[index]['key'] == "create_gate_pass") {
               trackerTemp[index]['isActive'] = false;
             } else {
@@ -274,6 +273,7 @@ class DashboardPageModel extends BasePageViewModel {
             }
           }
         }
+        loadTracker.add(Resource.success(data: true));
 
         log("message $trackerTemp");
         userSubject.add(Resource.success(data: data.data));
