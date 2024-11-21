@@ -8,7 +8,6 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' hide State;
 
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,15 +25,19 @@ class DisciplinarySlipListItem extends StatefulWidget {
   final String? discription;
   final String action;
   final int? id;
+  final int? disciplinaryId;
   final String color;
   final String slip;
-
 
   DisciplinarySlipListItem({
     super.key,
     required this.date,
     required this.discription,
-    required this.id, required this.color, required this.slip, required this.action,
+    required this.id,
+    required this.disciplinaryId,
+    required this.color,
+    required this.slip,
+    required this.action,
   });
 
   @override
@@ -58,11 +61,12 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
           child: Container(
             //  height: 150,
             padding: EdgeInsets.zero,
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               boxShadow: [],
               border: Border(
                 left: BorderSide(
-                  color: getColorFromJson(widget.color), // Change this to your desired color
+                  color: getColorFromJson(
+                      widget.color), // Change this to your desired color
                   width: 5.0, // Width of the colored border
                 ),
               ),
@@ -90,7 +94,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                           width: 5.h,
                         ),
                         CommonText(
-                          text: "Slip ${widget.id}",
+                          text: "Slip ${widget.disciplinaryId}",
                           style: AppTypography.caption
                               .copyWith(color: AppColors.titleNeutral5),
                         ),
@@ -183,14 +187,19 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                               visible: model.showExpansion.value,
                               child: Column(
                                 children: [
-                                  Row(crossAxisAlignment: CrossAxisAlignment.start,
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CommonText(
                                         text: "Disciplinary Action : ",
                                         style: AppTypography.body2.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      SizedBox(width:MediaQuery.of(context).size.width * 0.5 ,
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.5,
                                         child: CommonText(
                                           text: widget.action,
                                           maxLines: 2,
@@ -222,34 +231,43 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                                                   Resource<
                                                           AcknowlegementResponseModel>?
                                                       data) {
-                                                return data?.data?.data.acknowledgementRole=="Parent"?
-
-                                                CommonElevatedButton(onPressed: (){}, text: "Acknowledge",
-                                                  backgroundColor: AppColors.disable,
-                                                  textColor: AppColors.textGray,):
-                                                CommonElevatedButton(
-                                                  onPressed: () {
-                                                    model.acknowledgeSlip(
-                                                        model: AcknowlegementRequestModel(
-                                                            studentWarningId: 1,
-                                                            userId: 1,
-                                                            acknowledgementRole:
-                                                                "Parent",
-                                                            acknowledgementDate:
-                                                                DateTime
-                                                                    .now()));
-                                                    CommonPopups().showSuccess(
-                                                      context,
-                                                      "Acknowledged",
-                                                      (shouldRoute) {},
-                                                    );
-                                                  },
-                                                  text: "Acknowledge",
-                                                  backgroundColor:
-                                                      AppColors.primary,
-                                                  textColor:
-                                                      AppColors.primaryOn,
-                                                );
+                                                return data?.data?.data
+                                                            .acknowledgementRole ==
+                                                        "Parent"
+                                                    ? CommonElevatedButton(
+                                                        onPressed: () {},
+                                                        text: "Acknowledge",
+                                                        backgroundColor:
+                                                            AppColors.disable,
+                                                        textColor:
+                                                            AppColors.textGray,
+                                                      )
+                                                    : CommonElevatedButton(
+                                                        onPressed: () {
+                                                          model.acknowledgeSlip(
+                                                              model: AcknowlegementRequestModel(
+                                                                  studentWarningId:
+                                                                      widget.id ??
+                                                                          0,
+                                                                  userId: 1,
+                                                                  acknowledgementRole:
+                                                                      "Parent",
+                                                                  acknowledgementDate:
+                                                                      DateTime
+                                                                          .now()));
+                                                          CommonPopups()
+                                                              .showSuccess(
+                                                            context,
+                                                            "Acknowledged",
+                                                            (shouldRoute) {},
+                                                          );
+                                                        },
+                                                        text: "Acknowledge",
+                                                        backgroundColor:
+                                                            AppColors.primary,
+                                                        textColor:
+                                                            AppColors.primaryOn,
+                                                      );
                                               },
                                             );
                                           },
@@ -285,7 +303,9 @@ String dateFormatToDDMMYYYhhmma(String time) {
     return '';
   }
 }
+
 Color getColorFromJson(String jsonString) {
   Map<String, dynamic> parsedJson = json.decode(jsonString);
   String colorCode = parsedJson['color_code'];
-  return Color(int.parse(colorCode.replaceFirst('#', '0xFF')));}
+  return Color(int.parse(colorCode.replaceFirst('#', '0xFF')));
+}

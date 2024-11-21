@@ -74,7 +74,7 @@ class CommunicationPageModel extends BasePageViewModel {
 
   late String chatId;
 
-  String userId = '1';
+  late String userId;
   // calling validate on pay api
 
   final BehaviorSubject<Resource<GetCommunicationDetails>>
@@ -149,6 +149,7 @@ class CommunicationPageModel extends BasePageViewModel {
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
+        userId = userSubject.value.data?.id.toString() ?? "";
       }
     });
   }

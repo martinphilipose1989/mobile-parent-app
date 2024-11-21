@@ -19,25 +19,17 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
 
     if (options.uri.path.contains('api')) {
       options.headers.putIfAbsent("Authorization", () => "Bearer $mdmToken");
-    }
-
-    if (options.uri.path.contains('marketing') ||
-        options.uri.path.contains('gate-management') ||
-        options.uri.path.contains('transport')) {
-      final token = await sharedPreferencesService
-          .getFromDisk(sharedPreferencesService.accessTokenKey);
-      if (token != null && token.isNotEmpty) {
-        options.headers.putIfAbsent("Authorization", () => "Bearer $token");
-      }
-    }
-
-    if (options.uri.path.contains('/api')) {
-      log("Query params: ${options.listFormat}");
       if (options.uri.path.contains("%5B") ||
           options.uri.path.contains("%5D")) {
         String updatedUri = options.uri.toString();
         updatedUri = updatedUri.replaceAll("%5B", "[").replaceAll("%5D", "]");
         options.path = Uri.parse(updatedUri).path;
+      }
+    } else {
+      final token = await sharedPreferencesService
+          .getFromDisk(sharedPreferencesService.accessTokenKey);
+      if (token != null && token.isNotEmpty) {
+        options.headers.putIfAbsent("Authorization", () => "Bearer $token");
       }
     }
 

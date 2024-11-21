@@ -29,25 +29,27 @@ class DisplinaryDetailsPageView
                 height: 10.h,
               ),
               AppStreamBuilder<Resource<StudentDetailsResponseModel>>(
-                dataBuilder: (context,data){
-           return data?.status == Status.loading
-                    ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : DisciplinaryDetails(
-                    name: model.selectedStudent?.first.studentDisplayName ?? "",
-                  schoolName: data?.data?.data?.profile?.crtSchool,
-                  boardName:data?.data?.data?.profile?.crtBoard ,stream: data?.data?.data?.profile?.streamName,
-                  grade: data?.data?.data?.profile?.crtGrade,
-                  course: data?.data?.data?.profile?.courseName,
-                  shift: data?.data?.data?.profile?.crtShift,
-                  division: data?.data?.data?.profile?.crtDivision,
-                  house: data?.data?.data?.profile?.crtHouse,
-
-                );
-
+                dataBuilder: (context, data) {
+                  return data?.status == Status.loading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : DisciplinaryDetails(
+                          name:
+                              model.selectedStudent?.first.studentDisplayName ??
+                                  "",
+                          schoolName: data?.data?.data?.profile?.crtSchool,
+                          boardName: data?.data?.data?.profile?.crtBoard,
+                          stream: data?.data?.data?.profile?.streamName,
+                          grade: data?.data?.data?.profile?.crtGrade,
+                          course: data?.data?.data?.profile?.courseName,
+                          shift: data?.data?.data?.profile?.crtShift,
+                          division: data?.data?.data?.profile?.crtDivision,
+                          house: data?.data?.data?.profile?.crtHouse,
+                        );
                 },
-                stream: model!.studentDetails, initialData: Resource.none(),
+                stream: model!.studentDetails,
+                initialData: Resource.none(),
               ),
               const DisciplinarySlipList()
             ],

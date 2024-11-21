@@ -420,7 +420,10 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                               },
                               child: const Padding(
                                 padding: EdgeInsets.all(9.0),
-                                child: Icon(Icons.send_rounded),
+                                child: Icon(
+                                  Icons.send_rounded,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),

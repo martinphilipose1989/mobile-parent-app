@@ -2,8 +2,12 @@ import 'package:data/data.dart';
 
 import '../../../../../network_retrofit.dart';
 part 'student_detail_response_entity.g.dart';
+
 @JsonSerializable()
-class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDetailsResponseEntity,StudentDetailsResponseModel>{
+class StudentDetailsResponseEntity
+    implements
+        BaseLayerDataTransformer<StudentDetailsResponseEntity,
+            StudentDetailsResponseModel> {
   @JsonKey(name: "status")
   int status;
   @JsonKey(name: "data")
@@ -20,7 +24,8 @@ class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDe
     required this.success,
   });
 
-  factory StudentDetailsResponseEntity.fromJson(Map<String, dynamic> json) => _$StudentDetailsResponseEntityFromJson(json);
+  factory StudentDetailsResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$StudentDetailsResponseEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentDetailsResponseEntityToJson(this);
 
@@ -32,12 +37,17 @@ class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDe
 
   @override
   StudentDetailsResponseModel transform() {
-return StudentDetailsResponseModel(status: status, data: data?.transform(), message: message, success: success);
+    return StudentDetailsResponseModel(
+        status: status,
+        data: data?.transform(),
+        message: message,
+        success: success);
   }
 }
 
 @JsonSerializable()
-class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,StudentData>{
+class StudentDataEntity
+    implements BaseLayerDataTransformer<StudentDataEntity, StudentData> {
   @JsonKey(name: "profile")
   ProfileEntity? profile;
   @JsonKey(name: "parent")
@@ -54,7 +64,7 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
   @JsonKey(name: "academics")
   AcademicsEntity? academics;
 
-  StudentDataEntity ({
+  StudentDataEntity({
     required this.profile,
     required this.parent,
     required this.siblingsInfo,
@@ -64,7 +74,8 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
     required this.academics,
   });
 
-  factory StudentDataEntity.fromJson(Map<String, dynamic> json) => _$StudentDataEntityFromJson(json);
+  factory StudentDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$StudentDataEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentDataEntityToJson(this);
 
@@ -76,16 +87,21 @@ class StudentDataEntity implements BaseLayerDataTransformer<StudentDataEntity,St
 
   @override
   StudentData transform() {
-  return StudentData(profile: profile?.transform(), parent: parent?.map((e)=>e.transform()).toList(),
-      siblingsInfo: siblingsInfo?.map((e)=>e.transform()).toList(), contactInfo: contactInfo?.transform(),
-      guardianContactInfo: guardianContactInfo?.map((e)=>e.transform()).toList(),
-      documentInfo: documentInfo,
-      academics: academics?.transform());
+    return StudentData(
+        profile: profile?.transform(),
+        parent: parent?.map((e) => e.transform()).toList(),
+        siblingsInfo: siblingsInfo?.map((e) => e.transform()).toList(),
+        contactInfo: contactInfo?.transform(),
+        guardianContactInfo:
+            guardianContactInfo?.map((e) => e.transform()).toList(),
+        documentInfo: documentInfo,
+        academics: academics?.transform());
   }
 }
 
 @JsonSerializable()
-class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity ,Academics> {
+class AcademicsEntity
+    implements BaseLayerDataTransformer<AcademicsEntity, Academics> {
   @JsonKey(name: "house_allocation_name")
   String? houseAllocationName;
   @JsonKey(name: "division_allocation_name")
@@ -102,7 +118,8 @@ class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity ,Acade
     required this.crtDivId,
   });
 
-  factory AcademicsEntity.fromJson(Map<String, dynamic> json) => _$AcademicsEntityFromJson(json);
+  factory AcademicsEntity.fromJson(Map<String, dynamic> json) =>
+      _$AcademicsEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AcademicsEntityToJson(this);
 
@@ -114,14 +131,17 @@ class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity ,Acade
 
   @override
   Academics transform() {
- return Academics(houseAllocationName: houseAllocationName,
-     divisionAllocationName: divisionAllocationName,
-     crtHouseId: crtHouseId, crtDivId: crtDivId);
+    return Academics(
+        houseAllocationName: houseAllocationName,
+        divisionAllocationName: divisionAllocationName,
+        crtHouseId: crtHouseId,
+        crtDivId: crtDivId);
   }
 }
 
 @JsonSerializable()
-class ContactInfoEntity implements BaseLayerDataTransformer<ContactInfoEntity ,ContactInfo>{
+class ContactInfoEntity
+    implements BaseLayerDataTransformer<ContactInfoEntity, ContactInfo> {
   @JsonKey(name: "address")
   String? address;
   @JsonKey(name: "emergency_contact")
@@ -134,7 +154,8 @@ class ContactInfoEntity implements BaseLayerDataTransformer<ContactInfoEntity ,C
     required this.residentialInformation,
   });
 
-  factory ContactInfoEntity.fromJson(Map<String, dynamic> json) => _$ContactInfoEntityFromJson(json);
+  factory ContactInfoEntity.fromJson(Map<String, dynamic> json) =>
+      _$ContactInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContactInfoEntityToJson(this);
 
@@ -146,13 +167,19 @@ class ContactInfoEntity implements BaseLayerDataTransformer<ContactInfoEntity ,C
 
   @override
   ContactInfo transform() {
-return ContactInfo(address: address, emergencyContact:
-emergencyContact, residentialInformation: residentialInformation?.map((e)=>e.transform()).toList());
+    return ContactInfo(
+        address: address,
+        emergencyContact: emergencyContact,
+        residentialInformation:
+            residentialInformation?.map((e) => e.transform()).toList());
   }
 }
 
 @JsonSerializable()
-class ResidentialInformationEntity implements BaseLayerDataTransformer<ResidentialInformationEntity,ResidentialInformation> {
+class ResidentialInformationEntity
+    implements
+        BaseLayerDataTransformer<ResidentialInformationEntity,
+            ResidentialInformation> {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "type")
@@ -202,7 +229,8 @@ class ResidentialInformationEntity implements BaseLayerDataTransformer<Residenti
     required this.tagId,
   });
 
-  factory ResidentialInformationEntity.fromJson(Map<String, dynamic> json) => _$ResidentialInformationEntityFromJson(json);
+  factory ResidentialInformationEntity.fromJson(Map<String, dynamic> json) =>
+      _$ResidentialInformationEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResidentialInformationEntityToJson(this);
 
@@ -214,15 +242,30 @@ class ResidentialInformationEntity implements BaseLayerDataTransformer<Residenti
 
   @override
   ResidentialInformation transform() {
-   return ResidentialInformation(id: id, type: type, userId: userId, houseBuildingNo: houseBuildingNo, streetName: streetName, landmark: landmark, cityId: cityId,
-       stateId: stateId, countryId: countryId, city: city,
-       state: state, country: country, pincode: pincode,
-       addressId: addressId, tagId: tagId);
+    return ResidentialInformation(
+        id: id,
+        type: type,
+        userId: userId,
+        houseBuildingNo: houseBuildingNo,
+        streetName: streetName,
+        landmark: landmark,
+        cityId: cityId,
+        stateId: stateId,
+        countryId: countryId,
+        city: city,
+        state: state,
+        country: country,
+        pincode: pincode,
+        addressId: addressId,
+        tagId: tagId);
   }
 }
 
 @JsonSerializable()
-class GuardianContactInfoEntity implements BaseLayerDataTransformer<GuardianContactInfoEntity,GuardianContactInfo> {
+class GuardianContactInfoEntity
+    implements
+        BaseLayerDataTransformer<GuardianContactInfoEntity,
+            GuardianContactInfo> {
   @JsonKey(name: "relation")
   String? relation;
   @JsonKey(name: "guardian_relationship_id")
@@ -242,7 +285,8 @@ class GuardianContactInfoEntity implements BaseLayerDataTransformer<GuardianCont
     required this.preferredEmailNo,
   });
 
-  factory GuardianContactInfoEntity.fromJson(Map<String, dynamic> json) => _$GuardianContactInfoEntityFromJson(json);
+  factory GuardianContactInfoEntity.fromJson(Map<String, dynamic> json) =>
+      _$GuardianContactInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$GuardianContactInfoEntityToJson(this);
 
@@ -254,15 +298,17 @@ class GuardianContactInfoEntity implements BaseLayerDataTransformer<GuardianCont
 
   @override
   GuardianContactInfo transform() {
-   return GuardianContactInfo(relation: relation, guardianRelationshipId: guardianRelationshipId, guardianId: guardianId, preferredMobileNo: preferredMobileNo,
-       preferredEmailNo: preferredEmailNo);
+    return GuardianContactInfo(
+        relation: relation,
+        guardianRelationshipId: guardianRelationshipId,
+        guardianId: guardianId,
+        preferredMobileNo: preferredMobileNo,
+        preferredEmailNo: preferredEmailNo);
   }
 }
 
-
-
 @JsonSerializable()
-class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent>{
+class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent> {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "guardian_id")
@@ -310,7 +356,7 @@ class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent>{
   @JsonKey(name: "street_name")
   String? streetName;
   @JsonKey(name: "landmark")
- String? landmark;
+  String? landmark;
   @JsonKey(name: "city_id")
   int? cityId;
   @JsonKey(name: "country_id")
@@ -360,7 +406,8 @@ class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent>{
     required this.tagId,
   });
 
-  factory ParentEntity.fromJson(Map<String, dynamic> json) => _$ParentEntityFromJson(json);
+  factory ParentEntity.fromJson(Map<String, dynamic> json) =>
+      _$ParentEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ParentEntityToJson(this);
 
@@ -372,14 +419,44 @@ class ParentEntity implements BaseLayerDataTransformer<ParentEntity, Parent>{
 
   @override
   Parent transform() {
- return Parent(id: id, guardianId: guardianId, guardianRelationshipId: guardianRelationshipId,
-     relation: relation, globalNo: globalNo, firstName: firstName, lastName: lastName, adharNo: adharNo, panNo: panNo, designation: designation, occupation: occupation, organization: organization, qualification: qualification, address: address, area: area, pincode: pincode, mobileNo: mobileNo, email: email, isPreferredEmail: isPreferredEmail, isPreferredMobileNo: isPreferredMobileNo, isPreferredAddress: isPreferredAddress, userId: userId, streetName: streetName, landmark: landmark, cityId: cityId, countryId: countryId, stateId: stateId,
-     city: city, state: state, country: country, tagId: tagId);
+    return Parent(
+        id: id,
+        guardianId: guardianId,
+        guardianRelationshipId: guardianRelationshipId,
+        relation: relation,
+        globalNo: globalNo,
+        firstName: firstName,
+        lastName: lastName,
+        adharNo: adharNo,
+        panNo: panNo,
+        designation: designation,
+        occupation: occupation,
+        organization: organization,
+        qualification: qualification,
+        address: address,
+        area: area,
+        pincode: pincode,
+        mobileNo: mobileNo,
+        email: email,
+        isPreferredEmail: isPreferredEmail,
+        isPreferredMobileNo: isPreferredMobileNo,
+        isPreferredAddress: isPreferredAddress,
+        userId: userId,
+        streetName: streetName,
+        landmark: landmark,
+        cityId: cityId,
+        countryId: countryId,
+        stateId: stateId,
+        city: city,
+        state: state,
+        country: country,
+        tagId: tagId);
   }
 }
 
 @JsonSerializable()
-class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile> {
+class ProfileEntity
+    implements BaseLayerDataTransformer<ProfileEntity, Profile> {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "first_name")
@@ -522,7 +599,8 @@ class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile> {
     required this.profileImageUrl,
   });
 
-  factory ProfileEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
+  factory ProfileEntity.fromJson(Map<String, dynamic> json) =>
+      _$ProfileEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
 
@@ -534,22 +612,59 @@ class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile> {
 
   @override
   Profile transform() {
-return Profile(id: id, firstName: firstName, lastName: lastName, dob: dob, birthPlace: birthPlace, status: status, genderId: genderId, gender: gender, nationality: nationality, caste: caste, subCaste: subCaste, subCasteId: subCasteId, isParentsSeperated: isParentsSeperated, religion: religion, bloodGroup: bloodGroup, motherTongue: motherTongue, studentTypes: studentTypes, crtBoard: crtBoard, crtGrade: crtGrade,
-    crtDivision: crtDivision, crtDivId: crtDivId, crtBrandId: crtBrandId, brandName: brandName, crtEnrOn: crtEnrOn,
-    crtShift: crtShift, crtSchool: crtSchool, crtHouse: crtHouse, crtHouseId: crtHouseId,
-    emergencyContactNo: emergencyContactNo, profileImage: profileImage, academicYearId: academicYearId,
-    academicYearName: academicYearName, casteId: casteId, crtBoardId: crtBoardId,
-    crtGradeId: crtGradeId, crtShiftId: crtShiftId, crtSchoolId: crtSchoolId,
-    crtCourseId: crtCourseId, crtStreamId: crtStreamId, globalId: globalId,
-    studentTypeId: studentTypeId, courseName: courseName,
-    streamName: streamName, createdAt: createdAt,
-    updatedAt: updatedAt,
-    profileImageUrl: profileImageUrl);
+    return Profile(
+        id: id,
+        firstName: firstName,
+        lastName: lastName,
+        dob: dob,
+        birthPlace: birthPlace,
+        status: status,
+        genderId: genderId,
+        gender: gender,
+        nationality: nationality,
+        caste: caste,
+        subCaste: subCaste,
+        subCasteId: subCasteId,
+        isParentsSeperated: isParentsSeperated,
+        religion: religion,
+        bloodGroup: bloodGroup,
+        motherTongue: motherTongue,
+        studentTypes: studentTypes,
+        crtBoard: crtBoard,
+        crtGrade: crtGrade,
+        crtDivision: crtDivision,
+        crtDivId: crtDivId,
+        crtBrandId: crtBrandId,
+        brandName: brandName,
+        crtEnrOn: crtEnrOn,
+        crtShift: crtShift,
+        crtSchool: crtSchool,
+        crtHouse: crtHouse,
+        crtHouseId: crtHouseId,
+        emergencyContactNo: emergencyContactNo,
+        profileImage: profileImage,
+        academicYearId: academicYearId,
+        academicYearName: academicYearName,
+        casteId: casteId,
+        crtBoardId: crtBoardId,
+        crtGradeId: crtGradeId,
+        crtShiftId: crtShiftId,
+        crtSchoolId: crtSchoolId,
+        crtCourseId: crtCourseId,
+        crtStreamId: crtStreamId,
+        globalId: globalId,
+        studentTypeId: studentTypeId,
+        courseName: courseName,
+        streamName: streamName,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        profileImageUrl: profileImageUrl);
   }
 }
 
 @JsonSerializable()
-class SiblingsInfoEntity implements BaseLayerDataTransformer<SiblingsInfoEntity,SiblingsInfo>{
+class SiblingsInfoEntity
+    implements BaseLayerDataTransformer<SiblingsInfoEntity, SiblingsInfo> {
   @JsonKey(name: "global_id")
   int globalId;
   @JsonKey(name: "global_number")
@@ -567,7 +682,7 @@ class SiblingsInfoEntity implements BaseLayerDataTransformer<SiblingsInfoEntity,
   @JsonKey(name: "school_name")
   String? schoolName;
   @JsonKey(name: "grade_id")
-  String? gradeId;
+  int? gradeId;
 
   SiblingsInfoEntity({
     required this.globalId,
@@ -581,7 +696,8 @@ class SiblingsInfoEntity implements BaseLayerDataTransformer<SiblingsInfoEntity,
     required this.gradeId,
   });
 
-  factory SiblingsInfoEntity.fromJson(Map<String, dynamic> json) => _$SiblingsInfoEntityFromJson(json);
+  factory SiblingsInfoEntity.fromJson(Map<String, dynamic> json) =>
+      _$SiblingsInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$SiblingsInfoEntityToJson(this);
 
@@ -593,10 +709,15 @@ class SiblingsInfoEntity implements BaseLayerDataTransformer<SiblingsInfoEntity,
 
   @override
   SiblingsInfo transform() {
-return SiblingsInfo(globalId: globalId, globalNumber: globalNumber, isVibgyorStudent: isVibgyorStudent,
-    firstName: firstName,
-    lastName: lastName, genderId: genderId,
-    dob: dob, schoolName: schoolName,
-    gradeId: gradeId);
+    return SiblingsInfo(
+        globalId: globalId,
+        globalNumber: globalNumber,
+        isVibgyorStudent: isVibgyorStudent,
+        firstName: firstName,
+        lastName: lastName,
+        genderId: genderId,
+        dob: dob,
+        schoolName: schoolName,
+        gradeId: gradeId.toString());
   }
 }
