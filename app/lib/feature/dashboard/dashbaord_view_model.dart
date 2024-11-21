@@ -266,7 +266,8 @@ class DashboardPageModel extends BasePageViewModel {
             trackerTemp[index]['isActive'] = true;
           } else {
             // If statusId is 0, only "create_gate_pass" should be false, others true
-            if (trackerTemp[index]['key'] == "create_gate_pass") {
+            if (trackerTemp[index]['key'] == "create_gate_pass" ||
+                trackerTemp[index]['key'] == "transport") {
               trackerTemp[index]['isActive'] = false;
             } else {
               trackerTemp[index]['isActive'] = true;
