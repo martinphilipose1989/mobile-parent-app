@@ -95,7 +95,8 @@ final paymentsPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetValidatePayNowUseCase>(),
       getIt.get<GetPaymentOrderUsecase>(),
-      getIt.get<GetCouponsUsecase>()),
+      getIt.get<GetCouponsUsecase>(),
+      getIt.get<GetUserDetailsUsecase>()),
 );
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
@@ -375,8 +376,10 @@ final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
         getIt.get<GetPaymentStatusUsecase>()));
 
 final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
-    (ref) => RatePageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-        getIt.get<SendCommunicationUsecase>()));
+    (ref) => RatePageModel(
+        getIt.get<FlutterExceptionHandlerBinder>(),
+        getIt.get<SendCommunicationUsecase>(),
+        getIt.get<GetUserDetailsUsecase>()));
 
 final communicationPageModelProvider =
     ChangeNotifierProvider.autoDispose<CommunicationPageModel>((ref) =>

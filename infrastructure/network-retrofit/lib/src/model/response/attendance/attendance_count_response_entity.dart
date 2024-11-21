@@ -2,8 +2,12 @@ import 'package:data/data.dart';
 
 import '../../../../network_retrofit.dart';
 part 'attendance_count_response_entity.g.dart';
+
 @JsonSerializable()
-class AttendanceCountResponseEntity implements BaseLayerDataTransformer<AttendanceCountResponseEntity,AttendanceCountResponseModel>{
+class AttendanceCountResponseEntity
+    implements
+        BaseLayerDataTransformer<AttendanceCountResponseEntity,
+            AttendanceCountResponseModel> {
   @JsonKey(name: "status")
   int status;
   @JsonKey(name: "data")
@@ -20,7 +24,8 @@ class AttendanceCountResponseEntity implements BaseLayerDataTransformer<Attendan
     required this.success,
   });
 
-  factory AttendanceCountResponseEntity.fromJson(Map<String, dynamic> json) => _$AttendanceCountResponseEntityFromJson(json);
+  factory AttendanceCountResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceCountResponseEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceCountResponseEntityToJson(this);
 
@@ -32,14 +37,17 @@ class AttendanceCountResponseEntity implements BaseLayerDataTransformer<Attendan
 
   @override
   AttendanceCountResponseModel transform() {
-    return AttendanceCountResponseModel(status: status, data: data.transform(), message: message, success: success);
+    return AttendanceCountResponseModel(
+        status: status,
+        data: data.transform(),
+        message: message,
+        success: success);
   }
-
-
 }
 
 @JsonSerializable()
-class   AttendanceDataEntity implements BaseLayerDataTransformer<AttendanceDataEntity, AttendanceData> {
+class AttendanceDataEntity
+    implements BaseLayerDataTransformer<AttendanceDataEntity, AttendanceData> {
   @JsonKey(name: "student_id")
   int? studentId;
   @JsonKey(name: "total_days")
@@ -72,19 +80,20 @@ class   AttendanceDataEntity implements BaseLayerDataTransformer<AttendanceDataE
 
   @override
   AttendanceData transform() {
-    return AttendanceData(studentId: studentId,
+    return AttendanceData(
+        studentId: studentId,
         totalDays: totalDays,
         presentDaysCount: presentDaysCount,
         absentDaysCount: absentDaysCount,
-        attendanceSummary: attendanceSummary.map((e)=>e.transform()).toList());
+        attendanceSummary:
+            attendanceSummary.map((e) => e.transform()).toList());
   }
-
-
 }
 
-
 @JsonSerializable()
-class AttendanceSummaryEntity implements BaseLayerDataTransformer<AttendanceSummaryEntity,AttendanceSummary> {
+class AttendanceSummaryEntity
+    implements
+        BaseLayerDataTransformer<AttendanceSummaryEntity, AttendanceSummary> {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "academic_year_id")
@@ -96,7 +105,7 @@ class AttendanceSummaryEntity implements BaseLayerDataTransformer<AttendanceSumm
   @JsonKey(name: "shift_id")
   int? shiftId;
   @JsonKey(name: "division_id")
-  dynamic? divisionId;
+  dynamic divisionId;
   @JsonKey(name: "attendance_date")
   DateTime? attendanceDate;
   @JsonKey(name: "global_student_id")
@@ -125,7 +134,8 @@ class AttendanceSummaryEntity implements BaseLayerDataTransformer<AttendanceSumm
     required this.attendanceRemark,
   });
 
-  factory AttendanceSummaryEntity.fromJson(Map<String, dynamic> json) => _$AttendanceSummaryEntityFromJson(json);
+  factory AttendanceSummaryEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceSummaryEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceSummaryEntityToJson(this);
 
@@ -135,11 +145,20 @@ class AttendanceSummaryEntity implements BaseLayerDataTransformer<AttendanceSumm
     throw UnimplementedError();
   }
 
-
   @override
   AttendanceSummary transform() {
-    return AttendanceSummary(id: id??0, academicYearId: academicYearId??0, schoolId: schoolId??0, gradeId: gradeId??0, shiftId: shiftId??0, divisionId: divisionId??0, attendanceDate: attendanceDate??DateTime.now(), globalStudentId: globalStudentId??0, attendanceType: attendanceType??0, subjectId: subjectId??0, timetableId: timetableId??0, attendanceRemark: attendanceRemark??'');
+    return AttendanceSummary(
+        id: id ?? 0,
+        academicYearId: academicYearId ?? 0,
+        schoolId: schoolId ?? 0,
+        gradeId: gradeId ?? 0,
+        shiftId: shiftId ?? 0,
+        divisionId: divisionId ?? 0,
+        attendanceDate: attendanceDate ?? DateTime.now(),
+        globalStudentId: globalStudentId ?? 0,
+        attendanceType: attendanceType ?? 0,
+        subjectId: subjectId ?? 0,
+        timetableId: timetableId ?? 0,
+        attendanceRemark: attendanceRemark ?? '');
   }
-
-
 }

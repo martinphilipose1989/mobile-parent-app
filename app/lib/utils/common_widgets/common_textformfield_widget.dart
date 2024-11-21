@@ -97,8 +97,8 @@ class CommonTextFormField extends StatelessWidget {
                       prefixIconConstraints: prefixIconConstraints,
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 10),
-                      prefixIcon: prefix,
-                      suffix: suffix,
+                      //prefixIcon: prefix,
+                      suffixIcon: suffix,
                       hintText: hintText ?? '',
                       counterText: ""),
               onTap: onTap,
