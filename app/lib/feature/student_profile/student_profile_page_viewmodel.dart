@@ -15,6 +15,7 @@ class StudentProfilePageViewModel extends BasePageViewModel {
 
   final BehaviorSubject<Resource<GetStudentProfileData>>
       _studentProfileSubject = BehaviorSubject.seeded(Resource.none());
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
 
   Stream<Resource<GetStudentProfileData>> get studentProfileStream =>
       _studentProfileSubject.stream;

@@ -1,5 +1,6 @@
-import 'dart:io' show Platform, exit;
+import 'dart:io';
 
+import 'package:app/molecules/create_intimation/create_intimation_popup.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -365,6 +366,14 @@ class CommonPopups {
         );
       },
     );
+  }
+
+  showCreateIntimation(BuildContext context,{required int studentId,required int userId}){
+    showDialog(context: context, builder: (context){
+
+      return AlertDialog(contentPadding:EdgeInsets.all(10),content: Container(height:500.h,child: CreateIntimationPopup(userid: userId, schoolId: studentId,)));
+    });
+
   }
 
  showStaff(BuildContext context,{required StaffArgs args}){

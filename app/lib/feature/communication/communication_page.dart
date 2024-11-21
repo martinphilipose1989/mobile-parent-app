@@ -32,6 +32,7 @@ class CommunicationPageState
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.chatId = widget.id;
     model.getCommunicationDetails(widget.id);
+    model.getUserDetails();
   }
 
   @override

@@ -110,6 +110,8 @@ export 'src/usecase/communication/send_communication_usecase.dart';
 export 'src/usecase/communication/create_ticket_usecase.dart';
 export 'src/usecase/student_detail/student_detail_usecase.dart';
 export 'src/usecase/user/logout_usecase.dart';
+export 'src/usecase/transport/create_intimation_usecase.dart';
+export 'src/usecase/transport/upload_intimation_file.dart';
 
 //disciplinarySlip
 export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';

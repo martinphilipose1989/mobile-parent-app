@@ -28,8 +28,11 @@ export 'src/model/request/vas_detail_request.dart';
 export 'src/model/request/vas_enrollment_fee_calculation_request.dart';
 export 'src/model/request/vas_enrollment_request.dart';
 export 'src/model/request/fetch_stop_request.dart';
+export 'src/model/request/transport/create_intimation_request_entity.dart';
+
 //models
 export 'src/model/response/get_registreation_info/parent_info_entity.dart';
+export 'src/model/response/transport/create_intimation_response_entity.dart';
 export 'src/model/response/get_registreation_info/contact_details_entity.dart';
 export 'src/model/response/get_registreation_info/medical_details_entity.dart';
 export 'src/model/response/get_registreation_info/bank_details_entity.dart';

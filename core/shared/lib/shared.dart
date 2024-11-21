@@ -192,6 +192,9 @@ export 'src/model/response/transport/trip_response.dart';
 export 'src/model/response/transport/student_attendance_response_model.dart';
 export 'src/model/response/transport/get_student_profile_response.dart';
 export 'src/model/response/transport/staff_list_response_model.dart';
+export 'src/model/response/transport/create_intimation_response_model.dart';
+export 'src/model/request/transport/CreateIntimationRequestModel.dart';
+
 
 //login
 export 'src/model/response/login/auth_response.dart';
@@ -199,6 +202,7 @@ export 'src/model/response/user/token_introspect_reponse.dart';
 export 'src/model/response/user/user_role_permission_response.dart';
 export 'src/model/request/user/user_role_permission_request.dart';
 export 'src/model/response/login/logout_response.dart';
+export 'src/model/response/transport/uploadIntimationFileResponseModel.dart';
 
 //utils
 export 'src/utils/validator.dart';

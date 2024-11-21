@@ -91,6 +91,7 @@ class CommonTextFormField extends StatelessWidget {
               maxLines: maxLines ?? 1,
               decoration: decoration ??
                   InputDecoration(
+                      alignLabelWithHint: true,
                       filled: readOnly ? true : false,
                       fillColor: readOnly
                           ? Colors.grey.shade100
@@ -99,6 +100,7 @@ class CommonTextFormField extends StatelessWidget {
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 10),
                       prefixIcon: prefix,
+                      suffix: suffix,
                       hintText: hintText ?? '',
                       counterText: ""),
               onTap: onTap,
