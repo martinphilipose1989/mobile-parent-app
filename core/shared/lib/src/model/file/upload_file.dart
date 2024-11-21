@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:shared/src/const/file_status_enum.dart';
 
 class UploadFile {
+
+
   File? file;
   final String? name;
   final String? extention;

@@ -13,7 +13,7 @@ class CommonDatePickerWidget extends StatefulWidget {
   DateTime? lastDate;
   final bool isDisabled;
   final bool showAstreik;
-  final Function(DateTime?) onDateSelected;
+  final Function(DateTime?)? onDateSelected;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final bool isDOB;
@@ -23,7 +23,7 @@ class CommonDatePickerWidget extends StatefulWidget {
       this.initialDate,
       this.isDisabled = false,
       this.showAstreik = false,
-      required this.onDateSelected,
+   this.onDateSelected,
       this.validator,
       required this.controller,
       this.isDOB = false,
@@ -86,7 +86,7 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     );
     if (picked != null) {
       setState(() {
-        widget.onDateSelected(picked);
+        widget!.onDateSelected!(picked);
         widget.initialDate = picked;
         widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);
       });

@@ -38,6 +38,7 @@ import 'package:app/feature/vas/psa/psa_view_model.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
+import 'package:app/molecules/create_intimation/create_intimation_view_model.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -98,6 +99,17 @@ final paymentsPageModelProvider =
       getIt.get<GetCouponsUsecase>(),
       getIt.get<GetUserDetailsUsecase>()),
 );
+
+final createIntimationProvider =
+ChangeNotifierProvider.autoDispose<CreateIntimationViewModel>(
+      (ref) => CreateIntimationViewModel(
+
+    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(), createIntimationUsecase: getIt.get<CreateIntimationUsecase>(), uploadIntimationFileUseCase: getIt.get<UploadIntimationFileUseCase>(),
+  ),
+);
+
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
   (ref) => OtpPageModel(

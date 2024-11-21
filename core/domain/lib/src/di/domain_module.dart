@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:domain/src/usecase/transport/create_intimation_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -358,6 +359,18 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  CreateIntimationUsecase createIntimationUsecase(
+      TransportRepository transportRepository) {
+    return CreateIntimationUsecase(transportRepository: transportRepository);
+  }
+
+  @lazySingleton
+ UploadIntimationFileUseCase uploadIntimationFileUsecase(
+      TransportRepository transportRepository) {
+    return  UploadIntimationFileUseCase( transportRepository);
+  }
+
+  @lazySingleton
   RemoveVasDetailUsecase removeVasDetailUsecase(
       RegistrationRepository registrationRepository) {
     return RemoveVasDetailUsecase(registrationRepository);
@@ -514,6 +527,7 @@ abstract class DomainModule {
   @lazySingleton
   CreateGatepassUsecase createGatepassNUsecase(
       GatepassRepository gatePassRepository) {
+
     return CreateGatepassUsecase(gatePassRepository: gatePassRepository);
   }
 

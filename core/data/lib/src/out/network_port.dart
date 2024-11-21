@@ -22,6 +22,12 @@ abstract class NetworkPort {
   Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
       {required AttendanceCountRequestModel attendanceRequestModel});
 
+  Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
+      {required CreateIntimationRequestModel requestModel});
+
+
+
+
   Future<Either<NetworkError, AttendanceDetailsResponseModel>>
       getAttendancedetail(
           {required AttendanceDetailsRequestModel attendanceRequestModel});
@@ -161,6 +167,10 @@ abstract class NetworkPort {
       {required String enquiryID,
       required String documentID,
       required File file});
+
+
+
+
 
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
       {required String enquiryID,
@@ -314,4 +324,13 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
       {required GetStaffListUseCaseParams params});
+
+
+
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile(
+      {
+        required int documentID,
+        required File file});
+
+
 }
