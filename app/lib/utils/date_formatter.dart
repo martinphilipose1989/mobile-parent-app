@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class DateFormatter {
   static String formatDate(String dateString) {
     try {
@@ -16,4 +18,22 @@ class DateFormatter {
   static String _formatWithLeadingZero(int value) {
     return value < 10 ? '0$value' : value.toString();
   }
+
+
+
+
+  static String dateFormat(String date) {
+    try {
+      // Parse the input date string as a DateTime object
+      DateTime parsedDate = DateTime.parse(date);
+
+      // Format the parsed date to 'yyyy-MM-dd'
+      return DateFormat('yyyy-MM-dd').format(parsedDate);
+    } catch (e) {
+      // Return an empty string in case of parsing errors
+      return "";
+    }
+  }
+
+
 }
