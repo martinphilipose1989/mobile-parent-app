@@ -130,7 +130,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
         approvalFlag: "1",
         approvedById: 0,
-        note: "hi",
+        note: noteController.text,
         status: 1,
         fromDate: "2024-11-15",
         toDate: "2024-11-15",
