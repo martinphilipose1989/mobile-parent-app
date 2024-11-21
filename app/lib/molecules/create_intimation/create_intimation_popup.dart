@@ -6,6 +6,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/date_formatter.dart';
 import 'package:data/data.dart'hide State;
 import 'package:domain/domain.dart' hide State;
 
@@ -52,12 +53,21 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 SizedBox(
                   height: 20.h,
                 ),
+            CommonDatePickerWidget(
+              labelName: "Request Date",
+              isDisabled: false,
+              controller: model!.dateController,
+              onDateSelected: (selectedDate) {
+                print("Selected Date: $selectedDate");
+                model.dateController.text=DateFormatter.dateFormat(selectedDate.toString());
+              },
+            ),
 
-                CommonDatePickerWidget(
-                  isDisabled: true,
-                  controller: model!.dateController,
-
-                ),
+                // CommonDatePickerWidget(
+                //   isDisabled: true,
+                //   controller: model!.dateController,
+                //
+                // ),
 
                 // CommonTextFormField( decoration: InputDecoration(suffixIcon: IconButton(onPressed: () { _selectDate(context); }, icon: Icon(Icons.calendar_month,),),
                 //
@@ -86,7 +96,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                   labelText: "Note",
                   controller: model.noteController,
                   decoration: InputDecoration(
-
+hintText: "Enter Note",
                       // Default border when not focused
                       border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -109,6 +119,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 CommonTextFormField(
                     showAstreik: false,
                     labelText: "Attachment",
+                    hintText: "Add Attachment",
                     controller: model.attachmentController,
                     decoration: InputDecoration(
                         suffixIcon: IconButton(

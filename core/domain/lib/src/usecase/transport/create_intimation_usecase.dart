@@ -9,8 +9,9 @@ class CreateIntimationUsecase
 
   @override
   Future<Either<NetworkError, CreateIntimationResponseModel>> execute({required CreateIntimationUseCaseParams params}) {
- return transportRepository.createIntimation(createIntimationUseCase: params);
-print(object)
+    print("object");
+    return transportRepository.createIntimation(createIntimationUseCase: params);
+
   }
 
 
@@ -43,7 +44,8 @@ class CreateIntimationUseCaseParams extends Params{
 
   @override
   Either<AppError, bool> verify() {
-    // TODO: implement verify
-    throw UnimplementedError();
+  return right(true);
   }
+
+
 }

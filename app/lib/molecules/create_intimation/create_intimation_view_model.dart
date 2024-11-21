@@ -1,10 +1,15 @@
+import 'package:app/myapp.dart';
+import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared/shared.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../di/states/viewmodels.dart';
 import '../../errors/flutter_toast_error_presenter.dart';
 import '../../model/resource.dart';
 import '../../utils/api_response_handler.dart';
@@ -15,17 +20,21 @@ class CreateIntimationViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateIntimationUsecase createIntimationUsecase;
   final ChooseFileUseCase chooseFileUseCase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
+
 final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
 
-  CreateIntimationViewModel({
+  CreateIntimationViewModel( {
    required this.flutterToastErrorPresenter,
    required this.exceptionHandlerBinder,
   required  this.createIntimationUsecase,
   required  this.chooseFileUseCase,
   required  this.uploadIntimationFileUseCase,
-  });
+   required this.getUserDetailsUsecase,
 
+  }){  getUserDetails();}
 
+late User user;
   String filePath = "";
   final TextEditingController dateController = TextEditingController();
 
@@ -41,17 +50,17 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
   _uploadedFileResponse = BehaviorSubject.seeded(Resource.none());
   Stream<Resource<UploadIntimationFileResponseModel>> get uploadedFileResponse =>
       _uploadedFileResponse.stream;
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
+  Stream<Resource<User>> get userStream => userSubject.stream;
   final BehaviorSubject<Resource<CreateIntimationResponseModel>> intimationSubject =
   BehaviorSubject.seeded(Resource.none());
   Stream<Resource<CreateIntimationResponseModel>> get intimationStream =>
       intimationSubject.stream;
 
-
-
   void pickImage(UpoladFileTypeEnum fileTypeEnum) {
     print("before picking");
-    exceptionHandlerBinder?.handle(block: () {
+    exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
       RequestManager<UploadFile>(params,
           createCall: () => chooseFileUseCase.execute(params: params))
@@ -67,6 +76,19 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
       }).onError((error) {});
     }).execute();
   }
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+        user=data.data!;
+      }
+    });
+  }
+
 
   // Future<void> _selectDate(BuildContext context) async {
   //   final DateTime? picked = await showDatePicker(
@@ -97,7 +119,10 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
       _uploadedFileResponse.add(result);
     }).onError((error) {});
   }
-
+ List<GetGuardianStudentDetailsStudentModel>? selectedStudent=
+ProviderScope.containerOf(navigatorKey.currentContext!)
+      .read(dashboardViewModelProvider)
+      .selectedStudentId;
   void createIntimation() {
     intimationSubject.add(Resource.loading());
     print("create");
@@ -109,8 +134,8 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
         fromDate: "2024-11-15",
         toDate: "2024-11-15",
         initimationType: 3,
-        globalStudentId: 10,
-        globalUserId: 1,
+        globalStudentId: selectedStudent?.first.id,
+        globalUserId: userSubject.value.data?.id,
         fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
     );
 
