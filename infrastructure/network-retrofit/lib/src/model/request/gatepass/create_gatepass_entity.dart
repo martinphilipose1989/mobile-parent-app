@@ -54,25 +54,30 @@ class CreateGatePassRequestEntity
   final String? studentName;
   @JsonKey(name: "student_id")
   final int? studentId;
+  @JsonKey(name: "school_id")
+  final int? schoolId;
+  @JsonKey(name: "other_reason")
+  final String? otherReason;
 
-  CreateGatePassRequestEntity({
-    required this.name,
-    required this.mobile,
-    required this.email,
-    required this.visitorTypeId,
-    required this.companyName,
-    required this.pointOfContact,
-    required this.otherPointOfContact,
-    required this.purposeOfVisitId,
-    required this.comingFrom,
-    required this.guestCount,
-    required this.profileImage,
-    required this.vehicleNumber,
-    required this.issuedDate,
-    required this.issuedTime,
-    required this.studentName,
-    required this.studentId,
-  });
+  CreateGatePassRequestEntity(
+      {required this.name,
+      required this.mobile,
+      required this.email,
+      required this.visitorTypeId,
+      required this.companyName,
+      required this.pointOfContact,
+      required this.otherPointOfContact,
+      required this.purposeOfVisitId,
+      required this.comingFrom,
+      required this.guestCount,
+      required this.profileImage,
+      required this.vehicleNumber,
+      required this.issuedDate,
+      required this.issuedTime,
+      required this.studentName,
+      this.studentId,
+      this.schoolId,
+      this.otherReason});
 
   factory CreateGatePassRequestEntity.fromJson(Map<String, dynamic> json) =>
       _$CreateGatePassRequestEntityFromJson(json);
@@ -102,28 +107,32 @@ class CreateGatePassRequestEntity
         pointOfContact: pointOfContact,
         profileImage: profileImage,
         purposeOfVisitId: purposeOfVisitId,
-        visitorTypeId: visitorTypeId);
+        visitorTypeId: visitorTypeId,
+        studentId: studentId,
+        schoolId: schoolId,
+        otherReason: otherReason);
   }
 
   @override
   CreateGatePassRequestEntity restore(CreateGatePassModel data) {
     return CreateGatePassRequestEntity(
-      name: data.name,
-      email: data.email,
-      comingFrom: data.comingFrom,
-      companyName: data.companyName,
-      guestCount: data.guestCount,
-      mobile: data.mobile,
-      otherPointOfContact: data.otherPointOfContact,
-      pointOfContact: data.pointOfContact,
-      profileImage: data.profileImage,
-      purposeOfVisitId: data.purposeOfVisitId,
-      visitorTypeId: data.visitorTypeId,
-      vehicleNumber: data.vehicleNumber,
-      issuedDate: data.issuedDate,
-      issuedTime: data.issuedTime,
-      studentName: data.studentName,
-      studentId: data.studentId,
-    );
+        name: data.name,
+        email: data.email,
+        comingFrom: data.comingFrom,
+        companyName: data.companyName,
+        guestCount: data.guestCount,
+        mobile: data.mobile,
+        otherPointOfContact: data.otherPointOfContact,
+        pointOfContact: data.pointOfContact,
+        profileImage: data.profileImage,
+        purposeOfVisitId: data.purposeOfVisitId,
+        visitorTypeId: data.visitorTypeId,
+        vehicleNumber: data.vehicleNumber,
+        issuedDate: data.issuedDate,
+        issuedTime: data.issuedTime,
+        studentName: data.studentName,
+        studentId: data.studentId,
+        schoolId: data.schoolId,
+        otherReason: data.otherReason);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+
 import '../model/request/finance/get_guardian_student_details_request.dart';
 import '../model/request/finance/get_siblings_request.dart';
 import '../model/request/finance/get_token_generator_request.dart';
@@ -487,8 +488,13 @@ abstract class RetrofitService {
 
   @GET(NetworkProperties.getVisitorDetails)
   Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Path("mobile") visitorMobileNumber, @Query("studentId") studentId,
+      @Query("mobile") String visitorMobileNumber,
+      @Query("studentId") String? studentId,
       {@Query('platform') required String platform});
+
+  @GET(NetworkProperties.getGatePassDetails)
+  Future<HttpResponse<VisitorDetailsResponseEntity>> getGatepassDetailsById(
+      @Path("gatepassId") String getpassID, @Query('platform') String platform);
 
   // key cloak
   @POST(NetworkProperties.tokenIntroSpect)

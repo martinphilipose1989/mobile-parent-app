@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/profile_picker.dart';
-import 'package:app/utils/common_outline_button.dart';
 import 'package:app/utils/common_primary_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/country_picker_phone_text_field.dart';
 import 'package:app/utils/data_status_widget.dart';
+import 'package:app/utils/date_time_utils.dart';
+import 'package:app/utils/dateformate.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -67,15 +70,11 @@ class CreateEditGatePassPageView
                                 return null;
                               },
                             ),
-                            SizedBox(height: 12.h),
                             if (model.selectedStudent != null)
                               StreamBuilder<
                                       GetGuardianStudentDetailsStudentModel?>(
                                   stream: model.studentDataStream,
                                   builder: (context, snapshot) {
-                                    model.selectedStudent = snapshot.data;
-                                    model.studentNameController.text =
-                                        snapshot.data?.studentDisplayName ?? '';
                                     return CommonTextFormField(
                                       bottomPadding: 16,
                                       showAstreik: true,
@@ -137,15 +136,25 @@ class CreateEditGatePassPageView
                               showAstreik: true,
                               labelText: "Visit Date & Time",
                               controller: model.visitDateTimeController,
+                              onTap: () async {
+                                await DateTimeUtils.pickDateTime(context,
+                                    pickTime: true, onSelect: (value) {
+                                  log("VISIT DATE $value");
+                                  model.visitDateTimeController.text = value
+                                      .toIso8601String()
+                                      .dateFormatToDDMMYYYhhmma();
+                                  model.selectedDate = value;
+                                });
+                              },
                             ),
                             CommonTextFormField(
                                 bottomPadding: 16,
                                 showAstreik: true,
                                 labelText: "Point Of Contact",
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^[a-zA-Z\s]+$')),
-                                ],
+                                // inputFormatters: [
+                                //   FilteringTextInputFormatter.allow(
+                                //       RegExp(r'^[a-zA-Z\s]+$')),
+                                // ],
                                 validator: (value) {
                                   if (Validator.isEmpty(value!)) {
                                     return "Point of contact cannot be empty";
@@ -162,7 +171,7 @@ class CreateEditGatePassPageView
                                   status: data?.status ?? Status.none,
                                   loadingWidget: () => const SizedBox.shrink(),
                                   successWidget: () => CustomDropdownButton(
-                                    bottomPadding: 32,
+                                    bottomPadding: 16,
                                     items: data?.data?.data
                                             ?.map((e) => e.attributes?.name)
                                             .toList() ??
@@ -186,6 +195,53 @@ class CreateEditGatePassPageView
                                 );
                               },
                             ),
+                            if (model.userSubject.valueOrNull?.data?.statusId ==
+                                    0 ||
+                                model.userSubject.valueOrNull?.data?.statusId ==
+                                    null) ...{
+                              AppStreamBuilder<
+                                  Resource<List<MdmAttributeModel>>>(
+                                stream:
+                                    model.schoolLocationTypesAttribute.stream,
+                                initialData: Resource.none(),
+                                dataBuilder: (context, data) {
+                                  return DataStatusWidget(
+                                    status: data?.status ?? Status.none,
+                                    loadingWidget: () =>
+                                        const SizedBox.shrink(),
+                                    successWidget: () => CustomDropdownButton(
+                                      bottomPadding: 32,
+                                      items: data?.data
+                                              ?.map((e) => e.attributes?.name)
+                                              .toList() ??
+                                          [],
+                                      isMutiSelect: false,
+                                      dropdownName: "Select School",
+                                      showAstreik: true,
+                                      showBorderColor: true,
+                                      onMultiSelect: (_) {},
+                                      onSingleSelect: (value) {
+                                        model.setSchoolId(value);
+                                      },
+                                      validator: model.userSubject.valueOrNull
+                                                      ?.data?.statusId ==
+                                                  0 ||
+                                              model.userSubject.valueOrNull
+                                                      ?.data?.statusId ==
+                                                  null
+                                          ? (value) {
+                                              if (value == null ||
+                                                  Validator.isEmpty(value)) {
+                                                return "Select school cannot be empty";
+                                              }
+                                              return null;
+                                            }
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            },
                             CommonTextFormField(
                               bottomPadding: 16,
                               showAstreik: true,
@@ -239,14 +295,6 @@ class CreateEditGatePassPageView
               child: Row(
                 children: [
                   Expanded(
-                    child: CommonOutlineButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        title: "Cancel"),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
                     child: AppStreamBuilder<Resource<bool>>(
                         stream: model.loadingSubject.stream,
                         initialData: Resource.none(),
@@ -259,6 +307,8 @@ class CreateEditGatePassPageView
                               if (model.formKey.currentState!.validate()) {
                                 model.createOrUpdateGatePass();
                               }
+                              // log(DateTimeUtils.getFormattedDate());
+                              // log(DateTimeUtils.getFormattedDateTime());
                             },
                           );
                         }),

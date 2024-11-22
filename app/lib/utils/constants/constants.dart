@@ -3,3 +3,5 @@ final emojiRegExp = RegExp(
 
 /// gate pass
 const int CONST_VISITOR_PARENT_TYPE_ID = 16;
+int BOTTOM_NAV_INDEX = 0;
+

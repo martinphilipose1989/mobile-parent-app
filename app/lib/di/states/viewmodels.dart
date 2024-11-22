@@ -421,17 +421,18 @@ final createQrcodeViewModelProvider =
                 getIt.get<FlutterExceptionHandlerBinder>()));
 
 final createEditGatePassViewModelProvider =
-    ChangeNotifierProvider.autoDispose<CreateEditGatePassViewModel>((ref) =>
-        CreateEditGatePassViewModel(
-          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-          uploadVisitorProfileUsecase: getIt.get<UploadVisitorProfileUsecase>(),
-          getPurposeOfVisitListUsecase:
-              getIt.get<GetPurposeOfVisitListUsecase>(),
-          createGatepassUsecase: getIt.get<CreateGatepassUsecase>(),
-          chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
-          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-          getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
-        ));
+    ChangeNotifierProvider.autoDispose<CreateEditGatePassViewModel>(
+  (ref) => CreateEditGatePassViewModel(
+    getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    uploadVisitorProfileUsecase: getIt.get<UploadVisitorProfileUsecase>(),
+    getPurposeOfVisitListUsecase: getIt.get<GetPurposeOfVisitListUsecase>(),
+    createGatepassUsecase: getIt.get<CreateGatepassUsecase>(),
+    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+  ),
+);
 
 final visitorDetailsViewModelProvider =
     ChangeNotifierProvider.autoDispose<VisitorDetailsViewModel>((ref) =>

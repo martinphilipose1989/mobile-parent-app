@@ -10,6 +10,7 @@ import 'package:app/molecules/gate_managment/visitor_details/visitor_details_shi
 import 'package:app/molecules/gate_managment/visitor_details/visitor_info_card.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_primary_elevated_button.dart';
+import 'package:app/utils/constants/constants.dart';
 import 'package:app/utils/data_status_widget.dart';
 import 'package:app/utils/dateformate.dart';
 import 'package:app/utils/no_data_found_widget.dart';
@@ -35,6 +36,7 @@ class VisitorDetailsPageView
     return AppStreamBuilder<Resource<VisitorDataModel>>(
         stream: model.visitorDetails,
         initialData: Resource.none(),
+        onData: (data) {},
         dataBuilder: (context, snapShotData) {
           log("message ${snapShotData?.data}");
           return DataStatusWidget(
@@ -46,12 +48,17 @@ class VisitorDetailsPageView
                                   .contains("internet") ??
                               false
                           ? "No Internet Connection"
-                          : "Something Went Wrong",
+                          : snapShotData?.dealSafeAppError?.error.message ??
+                              "Something Went Wrong",
                       subtitle: snapShotData?.dealSafeAppError?.error.message
                                   .contains("internet") ??
                               false
                           ? "It seems you're offline. Please check your internet connection and try again."
-                          : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                          : (snapShotData?.dealSafeAppError?.error.message
+                                      .isNotEmpty ??
+                                  false)
+                              ? ''
+                              : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
                       onPressed: () {
                         model.getVisitorDetails(
                           mobile: params?.mobileNo,
@@ -112,9 +119,10 @@ class VisitorDetailsPageView
                               ),
                               SizedBox(height: 16.h),
                               VisitorDetailsRow(
-                                title1: "Date",
-                                value1:
-                                    "${visitor.issuedDate?.replaceAll('-', '/') ?? ''} ",
+                                title1: "Date of Visit",
+                                value1: visitor.dateOfVisit
+                                        ?.replaceAll('-', '/') ??
+                                    "${visitor.vistDate?.replaceAll('-', '/') ?? ''} ",
                                 title2: "Time",
                                 value2:
                                     visitor.outgoingTime?.isNotEmpty ?? false
@@ -149,6 +157,7 @@ class VisitorDetailsPageView
                           title: "Close",
                           width: MediaQuery.of(context).size.width,
                           onPressed: () {
+                            BOTTOM_NAV_INDEX = 0;
                             Navigator.pushNamedAndRemoveUntil(
                                 context, RoutePaths.tabbar, (route) => false);
                           }),

@@ -4,5 +4,11 @@ class User {
   String? userName;
   String? email;
   String? phoneNumber;
-  User({this.id, this.userName, this.email, this.phoneNumber});
+  int? statusId;
+  User({this.id, this.userName, this.email, this.phoneNumber, this.statusId});
+
+  @override
+  String toString() {
+    return "User(id: $id,userName: $userName,phoneNumber: $phoneNumber,statusId:$statusId)";
+  }
 }

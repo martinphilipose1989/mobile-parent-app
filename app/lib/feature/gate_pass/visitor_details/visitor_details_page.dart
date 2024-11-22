@@ -34,20 +34,18 @@ class VisitorDetailsPageState
 
   @override
   PreferredSizeWidget? buildAppbar(VisitorDetailsViewModel model) {
-    return widget.params?.routeFrom == RoutePaths.createEditGatePassPage
-        ? const CommonAppBar(
-            appbarTitle: "Visitor Details",
-            showBackButton: true,
-            notShowNotificationAndUserBatch: true)
-        : null;
+    return const CommonAppBar(
+        appbarTitle: "View GatePass",
+        showBackButton: false,
+        notShowNotificationAndUserBatch: true);
   }
 
   @override
   void onModelReady(VisitorDetailsViewModel model) {
     model.getVisitorDetails(
-      mobile: widget.params?.mobileNo,
-      studentId: widget.params?.studentId,
-    );
+        mobile: widget.params?.mobileNo,
+        studentId: widget.params?.studentId,
+        gatePassId: widget.params?.gatePassId);
     super.onModelReady(model);
   }
 }
@@ -56,9 +54,11 @@ class VisitorDetailsPageParams {
   final String? mobileNo;
   final dynamic studentId;
   final String routeFrom;
+  final String? gatePassId;
 
   VisitorDetailsPageParams(
       {required this.mobileNo,
       required this.studentId,
+      this.gatePassId,
       this.routeFrom = RoutePaths.tabbar});
 }

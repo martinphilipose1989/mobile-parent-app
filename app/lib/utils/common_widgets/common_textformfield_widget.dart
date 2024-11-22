@@ -31,35 +31,36 @@ class CommonTextFormField extends StatelessWidget {
   final double topPadding;
   final double bottomPadding;
   final BoxConstraints? prefixIconConstraints;
+  final bool enableInteractiveSelection;
 
-  const CommonTextFormField({
-    super.key,
-    this.labelText,
-    this.controller,
-    this.suffix,
-    this.keyboardType = TextInputType.text,
-    this.hintText,
-    this.validator,
-    this.obscureText = false,
-    this.readOnly = false,
-    this.decoration,
-    this.maxLines,
-    this.maxLength,
-    required this.showAstreik,
-    this.showSearchIcon = false,
-    this.prefix,
-    this.inputFormatters,
-    this.onTap,
-    this.focusNode,
-    this.onFieldSubmitted,
-    this.textInputAction,
-    this.onChanged,
-    this.topPadding = 0,
-    this.bottomPadding = 0,
-    this.rightPadding = 0,
-    this.leftPadding = 0,
-    this.prefixIconConstraints,
-  });
+  const CommonTextFormField(
+      {super.key,
+      this.labelText,
+      this.controller,
+      this.suffix,
+      this.keyboardType = TextInputType.text,
+      this.hintText,
+      this.validator,
+      this.obscureText = false,
+      this.readOnly = false,
+      this.decoration,
+      this.maxLines,
+      this.maxLength,
+      required this.showAstreik,
+      this.showSearchIcon = false,
+      this.prefix,
+      this.inputFormatters,
+      this.onTap,
+      this.focusNode,
+      this.onFieldSubmitted,
+      this.textInputAction,
+      this.onChanged,
+      this.topPadding = 0,
+      this.bottomPadding = 0,
+      this.rightPadding = 0,
+      this.leftPadding = 0,
+      this.prefixIconConstraints,
+      this.enableInteractiveSelection = false});
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +76,7 @@ class CommonTextFormField extends StatelessWidget {
           SizedBox(
             //height: 48.h,
             child: TextFormField(
+              enableInteractiveSelection: enableInteractiveSelection,
               inputFormatters: inputFormatters,
               onChanged: onChanged,
               controller: controller,
@@ -102,7 +104,7 @@ class CommonTextFormField extends StatelessWidget {
                       hintText: hintText ?? '',
                       counterText: ""),
               onTap: onTap,
-              focusNode: focusNode,
+              focusNode: focusNode ?? FocusNode(),
               onFieldSubmitted: onFieldSubmitted,
             ),
           ),

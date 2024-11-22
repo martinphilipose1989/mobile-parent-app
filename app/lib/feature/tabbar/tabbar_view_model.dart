@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
@@ -8,10 +11,17 @@ class TabbarViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
 
   TabbarViewModel(this.exceptionHandlerBinder);
+
   late TabController tabController;
 
+  final BehaviorSubject<int> indexSubject = BehaviorSubject<int>();
+
+  Stream<int> get indexSteam => indexSubject.stream;
+
   void onItemTapped(int index) {
+    log("onItemTapped $index");
     tabController.index = index;
+    indexSubject.add(index);
   }
 
   String getPageName(int value) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:services/services.dart';
@@ -149,8 +151,13 @@ class UserRepositoryImpl extends UserRepository {
       final savePhoneNumber = secureStorageService.saveToDisk(
           secureStorageService.userPhoneNumber,
           userRolePermissionResponse.data?.user?.mobileNo);
+      // 0 stands for enquiry i.e user child is not opted for admisson
+      final saveStatusId = secureStorageService.saveToDisk(
+          secureStorageService.userStatus,
+          userRolePermissionResponse.data?.user?.statusId ?? 0);
 
-      await Future.wait([saveUserName, saveEmail, saveUserId, savePhoneNumber]);
+      await Future.wait(
+          [saveUserName, saveEmail, saveUserId, savePhoneNumber, saveStatusId]);
 
       return Right(userRolePermissionResponse);
     } catch (error) {
@@ -175,12 +182,18 @@ class UserRepositoryImpl extends UserRepository {
           .getFromDisk(secureStorageService.userPhoneNumber);
       final int userId = int.parse(
           await secureStorageService.getFromDisk(secureStorageService.userId));
-      return Right(User(
-        id: userId,
-        email: emailId,
-        phoneNumber: userPhoneNumber,
-        userName: userName,
-      ));
+      final int statusId = int.parse(await secureStorageService
+          .getFromDisk(secureStorageService.userStatus));
+
+      return Right(
+        User(
+          id: userId,
+          email: emailId,
+          phoneNumber: userPhoneNumber,
+          userName: userName,
+          statusId: statusId,
+        ),
+      );
     } catch (error) {
       return Left(
         LocalError(

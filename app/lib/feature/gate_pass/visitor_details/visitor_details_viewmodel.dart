@@ -25,12 +25,12 @@ class VisitorDetailsViewModel extends BasePageViewModel {
       _visitorDetailsResponse.stream;
 
   Future<void> getVisitorDetails(
-      {required String? mobile, required dynamic studentId}) async {
+      {required String? mobile,
+      required dynamic studentId,
+      String? gatePassId}) async {
     _exceptionHandlerBinder.handle(block: () {
       GetVisitorDetailsUseCaseParams params = GetVisitorDetailsUseCaseParams(
-        mobile: mobile,
-        studentId: studentId,
-      );
+          mobile: mobile, studentId: studentId, gatePassId: gatePassId);
       RequestManager<VisitorDetailsResponseModel>(
         params,
         createCall: () => _getVisitorDetailsUseCase.execute(params: params),

@@ -12,7 +12,7 @@ class VisitorDataEntity
   @JsonKey(name: "point_of_contact")
   final String? pointOfContact;
 
-    @JsonKey(name: "issued_date")
+  @JsonKey(name: "issued_date")
   final String? issuedDate;
 
   @JsonKey(name: "issued_time")
@@ -85,34 +85,41 @@ class VisitorDataEntity
   @JsonKey(name: "visitor_type_id")
   final int? visitorTypeId;
 
-  VisitorDataEntity({
-    this.id,
-    this.pointOfContact,
-    this.issuedDate,
-    this.incomingTime,
-    this.outgoingTime,
-    this.visitStatus,
-    this.visitorId,
-    this.visitorName,
-    this.visitorMobile,
-    this.visitorEmail,
-    this.visitorProfileImage,
-    this.purposeOfVisitName,
-    this.purposeOfVisitId,
-    this.comingFrom,
-    this.qrCode,
-    this.visitorProfileImageFilePath,
-    this.visitorProfileImageImageUrl,
-    this.visitorType,
-    this.guestCount,
-    this.gatePassNumber,
-    this.vehicleNumber,
-    this.issuedTime,
-    this.studentName,
-    this.schoolVisitDate,
-    this.otherPointOfContact,
-    this.visitorTypeId,
-  });
+  @JsonKey(name: "visit_date")
+  final String? visitDate;
+
+  @JsonKey(name: "date_of_visit")
+  final String? dateOfVisit;
+
+  VisitorDataEntity(
+      {this.id,
+      this.pointOfContact,
+      this.issuedDate,
+      this.incomingTime,
+      this.outgoingTime,
+      this.visitStatus,
+      this.visitorId,
+      this.visitorName,
+      this.visitorMobile,
+      this.visitorEmail,
+      this.visitorProfileImage,
+      this.purposeOfVisitName,
+      this.purposeOfVisitId,
+      this.comingFrom,
+      this.qrCode,
+      this.visitorProfileImageFilePath,
+      this.visitorProfileImageImageUrl,
+      this.visitorType,
+      this.guestCount,
+      this.gatePassNumber,
+      this.vehicleNumber,
+      this.issuedTime,
+      this.studentName,
+      this.schoolVisitDate,
+      this.otherPointOfContact,
+      this.visitorTypeId,
+      this.visitDate,
+      this.dateOfVisit});
 
   factory VisitorDataEntity.fromJson(Map<String, dynamic> json) =>
       _$VisitorDataEntityFromJson(json);
@@ -127,32 +134,33 @@ class VisitorDataEntity
   @override
   VisitorDataModel transform() {
     return VisitorDataModel(
-      id: id,
-      incomingTime: incomingTime,
-      issuedDate: issuedDate,
-      outgoingTime: outgoingTime,
-      pointOfContact: pointOfContact,
-      purposeOfVisitName: purposeOfVisitName,
-      visitStatus: visitStatus,
-      visitorEmail: visitorEmail,
-      visitorId: visitorId,
-      visitorMobile: visitorMobile,
-      visitorName: visitorName,
-      visitorProfileImage: visitorProfileImage,
-      purposeOfVisitId: purposeOfVisitId,
-      comingFrom: comingFrom,
-      qrCode: qrCode,
-      visitorProfileImageFilePath: visitorProfileImageFilePath,
-      visitorProfileImageImageUrl: visitorProfileImageImageUrl,
-      visitorType: visitorType ?? "Parent",
-      guestCount: guestCount,
-      vehicleNumber: vehicleNumber,
-      gatePassNumber: gatePassNumber,
-      issuedTime: issuedTime,
-      studentName: studentName,
-      schoolVisitDate: schoolVisitDate,
-      otherPointOfContact: otherPointOfContact,
-      visitorTypeId: visitorTypeId,
-    );
+        id: id,
+        incomingTime: incomingTime,
+        issuedDate: issuedDate,
+        outgoingTime: outgoingTime,
+        pointOfContact: pointOfContact,
+        purposeOfVisitName: purposeOfVisitName,
+        visitStatus: visitStatus,
+        visitorEmail: visitorEmail,
+        visitorId: visitorId,
+        visitorMobile: visitorMobile,
+        visitorName: visitorName,
+        visitorProfileImage: visitorProfileImage,
+        purposeOfVisitId: purposeOfVisitId,
+        comingFrom: comingFrom,
+        qrCode: qrCode,
+        visitorProfileImageFilePath: visitorProfileImageFilePath,
+        visitorProfileImageImageUrl: visitorProfileImageImageUrl,
+        visitorType: visitorType ?? "Parent",
+        guestCount: guestCount,
+        vehicleNumber: vehicleNumber,
+        gatePassNumber: gatePassNumber,
+        issuedTime: issuedTime,
+        studentName: studentName,
+        schoolVisitDate: schoolVisitDate,
+        otherPointOfContact: otherPointOfContact,
+        visitorTypeId: visitorTypeId,
+        vistDate: visitDate,
+        dateOfVisit: dateOfVisit);
   }
 }

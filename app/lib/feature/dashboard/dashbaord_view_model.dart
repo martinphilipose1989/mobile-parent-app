@@ -53,9 +53,40 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List trackerTemp = [
-    {'name': 'SR', 'image': AppImages.userSearch, 'isSelected': false},
-    {'name': 'Order', 'image': AppImages.gift, 'isSelected': false},
-    {'name': 'Transport', 'image': AppImages.bus, 'isSelected': false}
+    {
+      'name': 'SR',
+      'image': AppImages.userSearch,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'sr'
+    },
+    // {
+    //   'name': 'Order',
+    //   'image': AppImages.gift,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'order'
+    // },
+    {
+      'name': 'Transport',
+      'image': AppImages.bus,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'transport'
+    },
+    {
+      'name': 'View Gate Pass',
+      'image': AppImages.gift,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'view_gate_pass'
+    },
+    {
+      'name': 'Create Gate Pass',
+      'image': AppImages.admissionIcon,
+      'isSelected': false,
+      'key': 'create_gate_pass'
+    },
   ];
 
   final List progress = [
@@ -107,6 +138,10 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
         return RoutePaths.disciplinarySlipPage;
+      case 'view gate pass':
+        return RoutePaths.visitorDetailsPage;
+      case 'create gate pass':
+        return RoutePaths.createEditGatePassPage;
       default:
         return '';
     }
@@ -215,16 +250,43 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
+  BehaviorSubject<Resource<bool>> loadTracker =
+      BehaviorSubject.seeded(Resource.none());
   void getUserDetails() {
+    loadTracker.add(Resource.loading());
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
       createCall: () => _getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
+        for (int index = 0; index < trackerTemp.length; index++) {
+          if (data.data?.statusId != 0) {
+            // If statusId is not 0, set all isActive to true
+            trackerTemp[index]['isActive'] = true;
+          } else {
+            // If statusId is 0, only "create_gate_pass" should be false, others true
+            if (trackerTemp[index]['key'] == "create_gate_pass" ||
+                trackerTemp[index]['key'] == "transport") {
+              trackerTemp[index]['isActive'] = false;
+            } else {
+              trackerTemp[index]['isActive'] = true;
+            }
+          }
+        }
+        loadTracker.add(Resource.success(data: true));
+
+        log("message $trackerTemp");
         userSubject.add(Resource.success(data: data.data));
       }
     });
+  }
+
+  @override
+  void dispose() {
+    dashboardState.dispose();
+
+    super.dispose();
   }
 }
 

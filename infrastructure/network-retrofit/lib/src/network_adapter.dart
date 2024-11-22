@@ -33,6 +33,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_enti
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
+import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/attendance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
@@ -40,6 +41,7 @@ import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
+import 'package:retrofit/dio.dart';
 import 'services/retrofit_service.dart';
 
 class NetworkAdapter implements NetworkPort {
@@ -1409,23 +1411,24 @@ class NetworkAdapter implements NetworkPort {
       apiService.createVisitorGatePass(
         platform: platform,
         CreateGatePassRequestEntity(
-          name: request.name,
-          companyName: request.companyName,
-          comingFrom: request.comingFrom,
-          email: request.email,
-          guestCount: request.guestCount,
-          mobile: request.mobile,
-          otherPointOfContact: request.otherPointOfContact,
-          pointOfContact: request.pointOfContact,
-          profileImage: request.profileImage,
-          purposeOfVisitId: request.purposeOfVisitId,
-          visitorTypeId: request.visitorTypeId,
-          vehicleNumber: request.vehicleNumber,
-          issuedDate: request.issuedDate,
-          issuedTime: request.issuedTime,
-          studentName: request.studentName,
-          studentId: request.studentId,
-        ),
+            name: request.name,
+            companyName: request.companyName,
+            comingFrom: request.comingFrom,
+            email: request.email,
+            guestCount: request.guestCount,
+            mobile: request.mobile,
+            otherPointOfContact: request.otherPointOfContact,
+            pointOfContact: request.pointOfContact,
+            profileImage: request.profileImage,
+            purposeOfVisitId: request.purposeOfVisitId,
+            visitorTypeId: request.visitorTypeId,
+            vehicleNumber: request.vehicleNumber,
+            issuedDate: request.issuedDate,
+            issuedTime: request.issuedTime,
+            studentName: request.studentName,
+            studentId: request.studentId,
+            schoolId: request.schoolId,
+            otherReason: request.otherReason),
       ),
     );
 
@@ -1448,11 +1451,18 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
       {required params}) async {
-    var response = await safeApiCall(apiService.getVisitorDetails(
-      params.mobile,
-      params.studentId,
-      platform: platform,
-    ));
+    Either<NetworkError, HttpResponse<VisitorDetailsResponseEntity>>? response;
+    if (params.gatePassId != null) {
+      response = await safeApiCall(
+          apiService.getGatepassDetailsById(params.gatePassId!, 'app'));
+    } else {
+      response = await safeApiCall(apiService.getVisitorDetails(
+        "${params.mobile}",
+        params.studentId == null ? null : "${params.studentId}",
+        platform: platform,
+      ));
+    }
+
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

@@ -90,7 +90,9 @@ class VisitorDetailsResponseEntity
           studentName: data?.studentName,
           schoolVisitDate: data?.schoolVisitDate,
           otherPointOfContact: data?.otherPointOfContact,
-          visitorTypeId: data?.visitorTypeId),
+          visitorTypeId: data?.visitorTypeId,
+          vistDate: data?.visitDate,
+          dateOfVisit: data?.dateOfVisit),
     );
   }
 }
