@@ -19,15 +19,14 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   final GetAllBusStopsUsecase getAllBusStopsUsecase;
   final GetStudentAttendanceUseCase getStudentAttendanceUseCase;
 
-final FetchStopLogsUsecase fetchStopLogsUsecase;
+  final FetchStopLogsUsecase fetchStopLogsUsecase;
 
-  BusRouteListPageViewModel({
-    required this.exceptionHandlerBinder,
-    required this.getStudentAttendanceUseCase,
-    required this.flutterToastErrorPresenter,
-    required this.getAllBusStopsUsecase,
-    required this.fetchStopLogsUsecase
-  });
+  BusRouteListPageViewModel(
+      {required this.exceptionHandlerBinder,
+      required this.getStudentAttendanceUseCase,
+      required this.flutterToastErrorPresenter,
+      required this.getAllBusStopsUsecase,
+      required this.fetchStopLogsUsecase});
 
   TripResult? trip;
   late Timer timer;
@@ -52,7 +51,7 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
   Stream<bool> get loadingStream => _loadingSubject.stream;
 
   Stream<bool> get hasMorePagesStream => hasMorePagesSubject.stream;
-  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent = [];
 
   Stream<Resource<List<RouteStopMappingModel>>> get busStopsListStream =>
       _busStopsListSubject.stream;
@@ -77,7 +76,7 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
         _busStopsListSubject
             .add(Resource.success(data: result?.data?.routeStopMapping));
         _loadingSubject.add(false);
-  fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
+        fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
         _busStopsListSubject.add(Resource.error(data: null, error: error));
@@ -98,9 +97,9 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
           getStudentAttendanceUseCase.execute(params: params),
       onSuccess: (result) {
         studentAttendanceSubject.add(Resource.success(data: result));
-        print("======studentName"+ "${result?.data?.firstName}");
+        print("======studentName" + "${result?.data?.firstName}");
         _loadingSubject.add(false);
-        print( studentAttendanceSubject.value.data?.data?.firstName);
+        print(studentAttendanceSubject.value.data?.data?.firstName);
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
@@ -119,8 +118,7 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
 
   void fetchBusStopLogs(List<RouteStopMappingModel> a) {
     final FetchStopLogsParams params = FetchStopLogsParams(
-      routeId: int.parse(trip?.id ?? ''),platform: "app"
-    );
+        routeId: int.parse(trip?.id ?? ''), platform: "app");
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
@@ -144,6 +142,9 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
 
         fetchBusStopLogsSubject
             .add(Resource.success(data: results?.data ?? []));
+        if (fetchBusStopLogsSubject.valueOrNull?.data?.isNotEmpty ?? false) {
+          busLogsEmpty = false;
+        }
       },
       onError: (error) {
         fetchBusStopLogsSubject.add(Resource.error(data: null, error: error));
@@ -151,7 +152,8 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
     );
   }
 
-  int updatedRouteIndex = 0;
+  int? updatedRouteIndex;
+  bool busLogsEmpty = true;
 
   // RouteStopMappingModel? currentStop;
   // RouteStopMappingModel? nextStop;
@@ -164,8 +166,14 @@ final FetchStopLogsUsecase fetchStopLogsUsecase;
       if (i != a.length - 1) {
         if (a[i].stopComplete && a[i + 1].stopComplete) {
           updatedRouteIndex = i + 1;
+          log("updatRoute updatedRouteIndex $updatedRouteIndex");
           // currentStop = a[updatedRouteIndex];
           // nextStop = a[updatedRouteIndex + 1];
+          //break;
+        } else {
+          updatedRouteIndex ??= 0;
+          log("updatRoute esle updatedRouteIndex $updatedRouteIndex");
+          //  break;
         }
       }
     }

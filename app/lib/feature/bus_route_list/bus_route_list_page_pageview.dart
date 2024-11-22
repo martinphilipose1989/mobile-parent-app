@@ -40,7 +40,6 @@ class BusRouteListPageView
                     model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
                 startTime: model.trip?.shiftName ?? '',
                 totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
-
         Expanded(
             child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
                 stream: model.busStopsListStream,
@@ -116,16 +115,35 @@ class BusRouteListPageView
                                                   child: Column(
                                                     children: [
                                                       BaseWidget(
-                                                        builder: (BuildContext context, StaffListViewModel? staffmodel, Widget? child) {
-                                                          return    _trackBus(onTap:(){
-                                                            print("taaappppppppeeedddd");
+                                                        builder: (BuildContext
+                                                                context,
+                                                            StaffListViewModel?
+                                                                staffmodel,
+                                                            Widget? child) {
+                                                          return _trackBus(
+                                                              onTap: () {
+                                                            print(
+                                                                "taaappppppppeeedddd");
 
- staffmodel?.getStaffList(routeId: int.parse(model.trip?.id??""), app: 'app');
+                                                            staffmodel?.getStaffList(
+                                                                routeId: int
+                                                                    .parse(model
+                                                                            .trip
+                                                                            ?.id ??
+                                                                        ""),
+                                                                app: 'app');
 
-                                                         CommonPopups().showStaff(context,  args: StaffArgs(routeId:int.parse(model.trip?.id??"")));
-                                                        }); },
-                                                      providerBase: staffListViewModelProvider,
-
+                                                            CommonPopups().showStaff(
+                                                                context,
+                                                                args: StaffArgs(
+                                                                    routeId: int.parse(model
+                                                                            .trip
+                                                                            ?.id ??
+                                                                        "")));
+                                                          });
+                                                        },
+                                                        providerBase:
+                                                            staffListViewModelProvider,
                                                       ),
 
                                                       /// bus TackingListWidget
@@ -313,7 +331,7 @@ class BusRouteListPageView
                               text: busStopsListData
                                       ?.data?[index].stop?.stopName ??
                                   '',
-                              color: index <= model.updatedRouteIndex
+                              color: index <= (model.updatedRouteIndex ?? 0)
                                   ? AppColors.primary
                                   : AppColors.textLightGray,
                               style: AppTypography.subtitle2),
@@ -352,9 +370,12 @@ class BusRouteListPageView
             text: "Track Bus",
             style: AppTypography.subtitle1,
           ),
-          InkWell(child: SvgPicture.asset(AppImages.trackBus),onTap: (){
-            onTap();
-          },)
+          InkWell(
+            child: SvgPicture.asset(AppImages.trackBus),
+            onTap: () {
+              onTap();
+            },
+          )
         ],
       ),
     );
@@ -415,7 +436,8 @@ class TimelineTile extends StatelessWidget {
                           alignment: Alignment.center,
                           children: [
                             Visibility(
-                              visible: index <= model.updatedRouteIndex,
+                              visible: model.busLogsEmpty == false &&
+                                  index <= (model.updatedRouteIndex ?? 0),
                               replacement: Container(
                                 alignment: Alignment.bottomCenter,
                                 padding: const EdgeInsets.all(4),
@@ -450,7 +472,9 @@ class TimelineTile extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Container(
-                                  color: index <= model.updatedRouteIndex
+                                  color: model.busLogsEmpty == false &&
+                                          index <=
+                                              (model.updatedRouteIndex ?? 0)
                                       ? AppColors.primary
                                       : AppColors.textLightGray,
                                   width: lineWidth,
@@ -460,8 +484,11 @@ class TimelineTile extends StatelessWidget {
                                         Column(
                                           children: [
                                             Container(
-                                              color: index <=
-                                                      model.updatedRouteIndex
+                                              color: model.busLogsEmpty ==
+                                                          false &&
+                                                      index <=
+                                                          (model.updatedRouteIndex ??
+                                                              0)
                                                   ? AppColors.primary
                                                   : AppColors.textLightGray,
                                               height: 5.h,
@@ -473,7 +500,8 @@ class TimelineTile extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (index == model.updatedRouteIndex) ...{
+                              if (model.busLogsEmpty == false &&
+                                  index == model.updatedRouteIndex) ...{
                                 SizedBox(height: 24.h),
                                 Stack(
                                   clipBehavior: Clip.none,
@@ -515,13 +543,13 @@ class TimelineTile extends StatelessWidget {
                                           Container(
                                             constraints: BoxConstraints(
                                               minWidth:
-                                              MediaQuery.sizeOf(context)
-                                                  .width *
-                                                  0.0,
+                                                  MediaQuery.sizeOf(context)
+                                                          .width *
+                                                      0.0,
                                               maxWidth:
-                                              MediaQuery.sizeOf(context)
-                                                  .width *
-                                                  0.5,
+                                                  MediaQuery.sizeOf(context)
+                                                          .width *
+                                                      0.5,
                                             ),
                                             decoration: const BoxDecoration(
                                               color: AppColors.primaryLighter,
@@ -533,13 +561,13 @@ class TimelineTile extends StatelessWidget {
                                                 vertical: 6, horizontal: 10),
                                             child: CommonText(
                                               text:
-                                              "Currently at $stopName \n(Updated 1 mins ago)",
+                                                  "Currently at $stopName \n(Updated 1 mins ago)",
                                               maxLines: 3,
                                               style: AppTypography.smallCaption
                                                   .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurfaceVariant),
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurfaceVariant),
                                             ),
                                           ),
                                         ],
