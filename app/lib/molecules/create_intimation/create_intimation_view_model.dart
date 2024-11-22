@@ -1,5 +1,6 @@
 import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,7 +130,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
         approvalFlag: "1",
         approvedById: 0,
-        note: "hi",
+        note: noteController.text,
         status: 1,
         fromDate: "2024-11-15",
         toDate: "2024-11-15",
@@ -148,6 +149,8 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
         print(data?.data);
         print("create_1");
         intimationSubject.add(Resource.success());
+        Navigator.pop(navigatorKey.currentContext!);
+        CommonPopups().showSuccess(navigatorKey.currentContext!, "Raised Intimation",(tr){} );
       },
       onError: (error) {
         print(error?.error);
