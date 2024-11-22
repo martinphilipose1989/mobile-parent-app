@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/tansport/student_details_row_widget.dart';
@@ -232,7 +234,8 @@ class BusRouteListPageView
 
           var data = snapshot?.data?.data;
           var studentId = snapshot?.data?.data?.studentId;
-          var attendanceListItem = attendanceList.first;
+          var attendanceListItem =
+              attendanceList.isNotEmpty ? attendanceList.first : null;
 
           return StudentDetailsRowWidget(
               name: data?.firstName ?? "",

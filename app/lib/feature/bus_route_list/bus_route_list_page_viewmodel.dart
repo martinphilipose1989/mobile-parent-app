@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
+import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/permission_handler.dart';
@@ -51,6 +52,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   Stream<bool> get loadingStream => _loadingSubject.stream;
 
   Stream<bool> get hasMorePagesStream => hasMorePagesSubject.stream;
+  DashboardState dashBoardState = DashboardState();
   late List<GetGuardianStudentDetailsStudentModel>? selectedStudent = [];
 
   Stream<Resource<List<RouteStopMappingModel>>> get busStopsListStream =>
@@ -87,8 +89,10 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   void getStudentAttendance() async {
     _loadingSubject.add(true);
+
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
-        GetStudentAttendanceUsecaseParams(studentId: selectedStudent?.first.id);
+        GetStudentAttendanceUsecaseParams(
+            studentId: dashBoardState.selectedStudent?.id);
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -97,13 +101,13 @@ class BusRouteListPageViewModel extends BasePageViewModel {
           getStudentAttendanceUseCase.execute(params: params),
       onSuccess: (result) {
         studentAttendanceSubject.add(Resource.success(data: result));
-        print("======studentName" + "${result?.data?.firstName}");
+
         _loadingSubject.add(false);
-        print(studentAttendanceSubject.value.data?.data?.firstName);
+
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
-        _busStopsListSubject.add(Resource.error(data: null, error: error));
+        studentAttendanceSubject.add(Resource.error(data: null, error: error));
         _loadingSubject.add(false);
       },
     );
