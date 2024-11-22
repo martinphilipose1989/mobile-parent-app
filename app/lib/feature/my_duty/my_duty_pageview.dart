@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
@@ -44,7 +45,8 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
      children: [
    InkWell(child: SvgPicture.asset(AppImages.duty_list),
    onTap: (){
-     CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
+   //  ProviderScope.containerOf(context).read(createIntimationProvider).pickImage(UpoladFileTypeEnum.image);
+CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
    },
    
    ),

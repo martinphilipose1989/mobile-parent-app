@@ -30,7 +30,7 @@ class MyDutyPageState
         .read(dashboardViewModelProvider)
         .selectedStudentId;
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    //getViewModel()
+   model.getMyDutyList();
 
     super.onModelReady(model);
   }

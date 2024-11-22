@@ -371,7 +371,7 @@ class CommonPopups {
   showCreateIntimation(BuildContext context,{required int studentId,required int userId}){
     showDialog(context: context, builder: (context){
 
-      return AlertDialog(contentPadding:EdgeInsets.all(10),content: Container(height:500.h,child: CreateIntimationPopup(userid: userId, schoolId: studentId,)));
+      return AlertDialog(contentPadding:EdgeInsets.all(10),content: Container(height:400.h,child: CreateIntimationPopup(userid: userId, schoolId: studentId,)));
     });
 
   }

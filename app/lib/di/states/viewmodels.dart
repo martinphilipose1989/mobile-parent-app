@@ -101,15 +101,15 @@ final paymentsPageModelProvider =
 );
 
 final createIntimationProvider =
-ChangeNotifierProvider.autoDispose<CreateIntimationViewModel>(
-      (ref) => CreateIntimationViewModel(
-
-    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
-    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(), createIntimationUsecase: getIt.get<CreateIntimationUsecase>(), uploadIntimationFileUseCase: getIt.get<UploadIntimationFileUseCase>(),
-  ),
+    ChangeNotifierProvider.autoDispose<CreateIntimationViewModel>(
+  (ref) => CreateIntimationViewModel(
+      chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      createIntimationUsecase: getIt.get<CreateIntimationUsecase>(),
+      uploadIntimationFileUseCase: getIt.get<UploadIntimationFileUseCase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>()),
 );
-
 
 final otpPageModelProvider = ChangeNotifierProvider.autoDispose<OtpPageModel>(
   (ref) => OtpPageModel(

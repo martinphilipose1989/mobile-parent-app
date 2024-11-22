@@ -23,7 +23,7 @@ abstract class NetworkPort {
       {required AttendanceCountRequestModel attendanceRequestModel});
 
   Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
-      {required CreateIntimationRequestModel requestModel});
+      {required CreateIntimationUseCaseParams params });
 
 
 

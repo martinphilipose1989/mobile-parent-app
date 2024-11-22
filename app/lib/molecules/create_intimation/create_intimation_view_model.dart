@@ -1,10 +1,16 @@
+import 'package:app/myapp.dart';
+import 'package:app/utils/common_widgets/common_date_picker.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared/shared.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../di/states/viewmodels.dart';
 import '../../errors/flutter_toast_error_presenter.dart';
 import '../../model/resource.dart';
 import '../../utils/api_response_handler.dart';
@@ -15,17 +21,21 @@ class CreateIntimationViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateIntimationUsecase createIntimationUsecase;
   final ChooseFileUseCase chooseFileUseCase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
+
 final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
 
-  CreateIntimationViewModel({
+  CreateIntimationViewModel( {
    required this.flutterToastErrorPresenter,
    required this.exceptionHandlerBinder,
   required  this.createIntimationUsecase,
   required  this.chooseFileUseCase,
   required  this.uploadIntimationFileUseCase,
-  });
+   required this.getUserDetailsUsecase,
 
+  }){  getUserDetails();}
 
+late User user;
   String filePath = "";
   final TextEditingController dateController = TextEditingController();
 
@@ -41,29 +51,45 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
   _uploadedFileResponse = BehaviorSubject.seeded(Resource.none());
   Stream<Resource<UploadIntimationFileResponseModel>> get uploadedFileResponse =>
       _uploadedFileResponse.stream;
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
+  Stream<Resource<User>> get userStream => userSubject.stream;
   final BehaviorSubject<Resource<CreateIntimationResponseModel>> intimationSubject =
   BehaviorSubject.seeded(Resource.none());
   Stream<Resource<CreateIntimationResponseModel>> get intimationStream =>
       intimationSubject.stream;
 
-
-
   void pickImage(UpoladFileTypeEnum fileTypeEnum) {
-    exceptionHandlerBinder?.handle(block: () {
+    print("before picking");
+    exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
       RequestManager<UploadFile>(params,
           createCall: () => chooseFileUseCase.execute(params: params))
           .asFlow()
           .listen((result) {
         _pickFrontFileResponse.add(result);
+        print("after picking");
         if (result.status == Status.success) {
+          print("after on success picking");
           print(result.data);
           uploadIntimationfile(uploadFile: result.data);
         }
       }).onError((error) {});
     }).execute();
   }
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+        user=data.data!;
+      }
+    });
+  }
+
 
   // Future<void> _selectDate(BuildContext context) async {
   //   final DateTime? picked = await showDatePicker(
@@ -94,27 +120,25 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
       _uploadedFileResponse.add(result);
     }).onError((error) {});
   }
-
-
-
-  void createIntimation({required CreateIntimationRequestModel createIntimationmodel}) {
+ List<GetGuardianStudentDetailsStudentModel>? selectedStudent=
+ProviderScope.containerOf(navigatorKey.currentContext!)
+      .read(dashboardViewModelProvider)
+      .selectedStudentId;
+  void createIntimation() {
     intimationSubject.add(Resource.loading());
-
+    print("create");
     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
-        approvalFlag: createIntimationmodel.approvalFlag,
-        approvedById: createIntimationmodel.approvedById,
-        note: createIntimationmodel.note,
-        status: createIntimationmodel.status,
-        fromDate: createIntimationmodel.fromDate,
-        toDate: createIntimationmodel.toDate,
-        initimationType: createIntimationmodel.initimationType,
-        globalStudentId: createIntimationmodel.globalStudentId,
-        globalUserId: createIntimationmodel.globalUserId,
+        approvalFlag: "1",
+        approvedById: 0,
+        note: noteController.text,
+        status: 1,
+        fromDate: "2024-11-15",
+        toDate: "2024-11-15",
+        initimationType: 3,
+        globalStudentId: selectedStudent?.first.id,
+        globalUserId: userSubject.value.data?.id,
         fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
     );
-
-
-
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
@@ -122,12 +146,49 @@ final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
       params: params,
       createCall: (params) => createIntimationUsecase.execute(params: params),
       onSuccess: (data) {
+        print(data?.data);
+        print("create_1");
         intimationSubject.add(Resource.success());
+        Navigator.pop(navigatorKey.currentContext!);
+        CommonPopups().showSuccess(navigatorKey.currentContext!, "Raised Intimation",(tr){} );
       },
       onError: (error) {
+        print(error?.error);
         intimationSubject.add(Resource.error());
       },
     );
   }
+
+//   void createIntimation({required CreateIntimationRequestModel createIntimationmodel}) {
+//     intimationSubject.add(Resource.loading());
+// print("create");
+//     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
+//         approvalFlag: createIntimationmodel.approvalFlag,
+//         approvedById: createIntimationmodel.approvedById,
+//         note: createIntimationmodel.note,
+//         status: createIntimationmodel.status,
+//         fromDate: createIntimationmodel.fromDate,
+//         toDate: createIntimationmodel.toDate,
+//         initimationType: createIntimationmodel.initimationType,
+//         globalStudentId: createIntimationmodel.globalStudentId,
+//         globalUserId: createIntimationmodel.globalUserId,
+//         fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
+//     );
+//
+//     ApiResponseHandler.apiCallHandler(
+//       exceptionHandlerBinder: exceptionHandlerBinder,
+//       flutterToastErrorPresenter: flutterToastErrorPresenter,
+//       params: params,
+//       createCall: (params) => createIntimationUsecase.execute(params: params),
+//       onSuccess: (data) {
+//         print(data?.data);
+//         intimationSubject.add(Resource.success());
+//       },
+//       onError: (error) {
+//         print(error?.error);
+//         intimationSubject.add(Resource.error());
+//       },
+//     );
+//   }
 
 }
