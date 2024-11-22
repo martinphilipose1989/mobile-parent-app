@@ -1278,6 +1278,7 @@ class NetworkAdapter implements NetworkPort {
             updatedAt: createCommunicationLogRequest.updatedAt,
             userId: createCommunicationLogRequest.userId);
     var response = await safeApiCall(ticketRetrofitService.sendCommunication(
+        app: "app",
         createCommunicationLogRequestEntity:
             createCommunicationLogRequestEntity));
     return response.fold(
@@ -1570,7 +1571,18 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
       {required CreateIntimationUseCaseParams params}) async {
-    final response = await safeApiCall(attendanceRetorfitService.createIntimation(CreateIntimationRequestEntity(globalStudentId: params.globalStudentId,globalUserId: params.globalUserId,fromDate: params.fromDate,toDate: params.toDate,status: params.status,initimationType: params.initimationType,note: params.note,fileAttachment: params.fileAttachment,approvalFlag: params.approvalFlag,approvedById: params.approvedById)));
+    final response = await safeApiCall(attendanceRetorfitService
+        .createIntimation(CreateIntimationRequestEntity(
+            globalStudentId: params.globalStudentId,
+            globalUserId: params.globalUserId,
+            fromDate: params.fromDate,
+            toDate: params.toDate,
+            status: params.status,
+            initimationType: params.initimationType,
+            note: params.note,
+            fileAttachment: params.fileAttachment,
+            approvalFlag: params.approvalFlag,
+            approvedById: params.approvedById)));
 
     return response.fold(
       (error) => Left(error),

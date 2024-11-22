@@ -29,6 +29,7 @@ class RatePageState extends AppBasePageState<RatePageModel, RatePage> {
   void onModelReady(RatePageModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.chatId = widget.id;
+    model.getUserDetails();
   }
 
   @override
