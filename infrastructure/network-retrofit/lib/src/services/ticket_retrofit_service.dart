@@ -45,7 +45,8 @@ abstract class TicketRetrofitService {
   Future<HttpResponse<SendCommunicationEntity>> sendCommunication(
       {@Body()
       required CreateCommunicationLogRequestEntity
-          createCommunicationLogRequestEntity});
+          createCommunicationLogRequestEntity,
+      @Query("platform") required String app});
 
   @POST('communication')
   Future<HttpResponse<CreateTicketEntity>> createTicket(

@@ -132,6 +132,7 @@ class CommunicationPageModel extends BasePageViewModel {
         if (result.status == Status.success) {
           _sendCommunicationModelSubject
               .add(Resource.success(data: result.data));
+          commentController.clear();
           getCommunicationDetails(communocationId);
         }
       }).onError((error) {
