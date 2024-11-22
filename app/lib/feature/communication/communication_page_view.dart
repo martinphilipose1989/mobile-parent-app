@@ -288,6 +288,11 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
+                                                      const CommonText(
+                                                          softWrap: true,
+                                                          style: AppTypography
+                                                              .subtitle2,
+                                                          text: "You"),
                                                       CommonText(
                                                           softWrap: true,
                                                           style: AppTypography

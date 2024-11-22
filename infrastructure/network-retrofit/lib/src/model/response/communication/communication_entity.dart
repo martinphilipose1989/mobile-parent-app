@@ -173,7 +173,7 @@ class CommunicationEntityDatum
         createdBy: createdBy,
         dataValueCreatedAt: datumCreatedAt,
         date: date,
-        id: id,
+        id: datumId,
         isPublished: isPublished,
         isResponseRequired: isResponseRequired,
         lobs: lobs,
