@@ -31,7 +31,7 @@ final String name;
             name: name,
          title: "$schoolName|$boardName",
          subtitle: "$course| $shift| $division| $house",
-         subtitle2: "$stream|NA"),
+         subtitle2: "stream:$stream"),
         const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),

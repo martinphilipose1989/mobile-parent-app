@@ -78,7 +78,7 @@ class _AttendanceDetailsPageState extends AppBasePageState<
 }
 
 class AttendanceDetailPageParameter {
-  List<String>? studentId;
+  List<dynamic>? studentId;
   String? toDate;
   String? fromDate;
 

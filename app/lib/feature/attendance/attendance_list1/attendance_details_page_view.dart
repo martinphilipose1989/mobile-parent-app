@@ -44,6 +44,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                                         child: CircularProgressIndicator(),
                                       )
                                     : AttendanceDetails(
+                                  name:"${data?.data?.data?.profile?.firstName} ${data?.data?.data?.profile?.lastName}",
                                         schoolName: data
                                             ?.data?.data?.profile?.crtSchool,
                                         boardName:
@@ -67,9 +68,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                                             .first
                                             .attendanceDate
                                             .toString()),
-                                        name: model.selectedStudent?.first
-                                                .studentDisplayName ??
-                                            "",
+
                                       );
                               },
                               stream: model.studentDetails,

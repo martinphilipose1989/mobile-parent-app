@@ -22,7 +22,7 @@ abstract class AttendanceRetorfitService {
       baseUrl: attendanceBaseUrl,
     );
   }
- @POST( "academics/attendance/get-attendance-summary")
+ @POST( "academics/attendance/get-mobile-attendance-summary")
   Future<HttpResponse<AttendanceCountResponseEntity>> getattendanceCount(
       @Body() AttendanceCountRequestEntity attendanceCountRequestEntity);
 

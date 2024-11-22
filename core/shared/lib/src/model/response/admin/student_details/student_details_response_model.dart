@@ -1,8 +1,8 @@
 class StudentDetailsResponseModel {
-  int status;
+  int? status;
  StudentData? data;
-  String message;
-  bool success;
+  String? message;
+  bool? success;
 
   StudentDetailsResponseModel({
     required this.status,
@@ -15,22 +15,12 @@ class StudentDetailsResponseModel {
 
 class StudentData {
   Profile? profile;
-  List<Parent>? parent;
-  List<SiblingsInfo>? siblingsInfo;
-  ContactInfo? contactInfo;
-  List<GuardianContactInfo>? guardianContactInfo;
 
-  List<dynamic>? documentInfo;
   Academics? academics;
 
   StudentData({
     required this.profile,
-    required this.parent,
-    required this.siblingsInfo,
-    required this.contactInfo,
-    required this.guardianContactInfo,
 
-    required this.documentInfo,
     required this.academics,
   });
 
@@ -51,18 +41,7 @@ class Academics {
 
 }
 
-class ContactInfo {
-  String? address;
-  String? emergencyContact;
-  List<ResidentialInformation>? residentialInformation;
 
-  ContactInfo({
-    required this.address,
-    required this.emergencyContact,
-    required this.residentialInformation,
-  });
-
-}
 
 class ResidentialInformation {
   int? id;
@@ -190,7 +169,7 @@ class Parent {
 }
 
 class Profile {
-  int id;
+  int? id;
   String? firstName;
   String? lastName;
   DateTime? dob;

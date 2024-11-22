@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'attendance_calender_page_view.dart';
@@ -27,16 +28,13 @@ class _AttendanceCalenderPageState
     model.selectedStudent = ProviderScope.containerOf(context)
         .read(dashboardViewModelProvider)
         .selectedStudentId;
+
+
     if (model.selectedStudent!.isEmpty ||    model.selectedStudent?.first.id==null) {
       return;
     }
  else  {
-      model.getAttendanceList(
-          model: AttendanceCountRequestModel(
-        studentId: model.selectedStudent?.first.id ?? 0,
-        attendanceDate: "2024-10",
-        academicYearId: 25,
-      ));
+
       model.getStudentDetail(id: model.selectedStudent?.first.id);
     }
 
