@@ -54,6 +54,8 @@ class AttendanceList extends StatelessWidget {
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, int index) {
+                        final period=   snapshot.data!.data.data.first.attendanceDetails;
+
 //print( "-----------"+snapshot.data?.data.data[index].attendanceDetails.toString());
                         return snapshot.status == Status.loading
                             ? CircularProgressIndicator()
@@ -85,8 +87,11 @@ class AttendanceList extends StatelessWidget {
                                         ? const CommonText(
                                             text: "Bus Attendance")
                                         : CommonText(
-                                            text:
-                                                "Period${snapshot.data!.data.data.first.attendanceDetails?[index].period}"),
+                                            text:(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
+                                                "${snapshot.data!.data.data.first.attendanceDetails?[index].period}":"Period ${period?.map((e){
+
+return period.indexOf(e)+1;
+                                                })}"),
                                     CommonText(
                                         text: snapshot
                                                 .data
