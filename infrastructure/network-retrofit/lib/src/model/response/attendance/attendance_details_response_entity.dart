@@ -87,22 +87,8 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
   int? globalStudentId;
   @JsonKey(name: "attendance_details")
   List<AttendanceDetailEntity>? attendanceDetails;
-  @JsonKey(name: "intimations_details")
-  List<IntimationsDetailEntity>? intimationsDetails;
-  @JsonKey(name: "board_name")
-  String? boardName;
-  @JsonKey(name: "brand_name")
-  String? brandName;
-  @JsonKey(name: "grade_name")
-  String? gradeName;
-  @JsonKey(name: "division_name")
-  String? divisionName;
-  @JsonKey(name: "shift_name")
-  String? shiftName;
-  @JsonKey(name: "school_name")
-  String? schoolName;
-  @JsonKey(name: "academic_year_name")
-  String? academicYearName;
+
+
 
   AttendanceDetailDataEntity({
     required this.id,
@@ -116,14 +102,8 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
     required this.attendanceDate,
     required this.globalStudentId,
     required this.attendanceDetails,
-    required this.intimationsDetails,
-    required this.boardName,
-    required this.brandName,
-    required this.gradeName,
-    required this.divisionName,
-    required this.shiftName,
-    required this.schoolName,
-    required this.academicYearName,
+
+
   });
 
   factory AttendanceDetailDataEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailDataEntityFromJson(json);
@@ -148,57 +128,41 @@ return AttendanceDetailsData(id: id, academicYearId: academicYearId, schoolId: s
 @JsonSerializable()
 class AttendanceDetailEntity {
   @JsonKey(name: "id")
-  int id;
+  int? id;
   @JsonKey(name: "attendance_id")
-  int attendanceId;
+  int? attendanceId;
   @JsonKey(name: "attendance_type")
   int? attendanceType;
-  @JsonKey(name: "subject_id")
-  int? subjectId;
   @JsonKey(name: "timetable_id")
   int? timetableId;
+  @JsonKey(name: "timetable_detail_id")
+  int? timetableDetailId;
+  @JsonKey(name: "start_time")
+  String? startTime;
+  @JsonKey(name: "subject_id")
+  int? subjectId;
+  @JsonKey(name: "end_time")
+  String? endTime;
   @JsonKey(name: "global_student_id")
   int? globalStudentId;
   @JsonKey(name: "attendance_remark")
   String? attendanceRemark;
-  @JsonKey(name: "start_time")
-  String? startTime;
-  @JsonKey(name: "end_time")
-  String? endTime;
-  @JsonKey(name: "day_id")
-  int? dayId;
   @JsonKey(name: "period")
-  int? period;
-  @JsonKey(name: "subject_name")
-  String? subjectName;
-  @JsonKey(name: "first_name")
-  String? firstName;
-  @JsonKey(name: "middle_name")
-  String? middleName;
-  @JsonKey(name: "last_name")
-  String? lastName;
-  @JsonKey(name: "enr_on")
-  String? enrOn;
+  String? period;
 
   AttendanceDetailEntity({
-    required this.id,
-    required this.attendanceId,
-    required this.attendanceType,
-    required this.subjectId,
-    required this.timetableId,
-    required this.globalStudentId,
-    required this.attendanceRemark,
-    required this.startTime,
-    required this.endTime,
-    required this.dayId,
-    required this.period,
-    required this.subjectName,
-    required this.firstName,
-    required this.middleName,
-    required this.lastName,
-    required this.enrOn,
+    this.id,
+    this.attendanceId,
+    this.attendanceType,
+    this.timetableId,
+    this.timetableDetailId,
+    this.startTime,
+    this.subjectId,
+    this.endTime,
+    this.globalStudentId,
+    this.attendanceRemark,
+    this.period,
   });
-
   factory AttendanceDetailEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceDetailEntityToJson(this);
@@ -221,53 +185,6 @@ return AttendanceDetail(id: id, attendanceId: attendanceId,
 }
 
 
-
-
-@JsonSerializable()
-class IntimationsDetailEntity implements BaseLayerDataTransformer<IntimationsDetailEntity,IntimationsDetail>{
-  @JsonKey(name: "id")
-  int id;
-  @JsonKey(name: "global_user_id")
-  int globalUserId;
-  @JsonKey(name: "global_student_id")
-  int globalStudentId;
-  @JsonKey(name: "from_date")
-  DateTime fromDate;
-  @JsonKey(name: "to_date")
-  DateTime toDate;
-  @JsonKey(name: "intimation_status")
-  int intimationStatus;
-  @JsonKey(name: "initimation_type")
-  int initimationType;
-  @JsonKey(name: "intimation_note")
-  String intimationNote;
-
-  IntimationsDetailEntity({
-    required this.id,
-    required this.globalUserId,
-    required this.globalStudentId,
-    required this.fromDate,
-    required this.toDate,
-    required this.intimationStatus,
-    required this.initimationType,
-    required this.intimationNote,
-  });
-
-  factory IntimationsDetailEntity.fromJson(Map<String, dynamic> json) => _$IntimationsDetailEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$IntimationsDetailEntityToJson(this);
-
-  @override
-  IntimationsDetailEntity restore(IntimationsDetail data) {
-    // TODO: implement restore
-    throw UnimplementedError();
-  }
-
-  @override
-  IntimationsDetail transform() {
-  return IntimationsDetail(id: id, globalUserId: globalUserId, globalStudentId: globalStudentId, fromDate: fromDate, toDate: toDate, intimationStatus: intimationStatus, initimationType: initimationType, intimationNote: intimationNote);
-  }
-}
 
 
 

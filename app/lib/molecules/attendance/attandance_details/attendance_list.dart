@@ -6,6 +6,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../../feature/attendance/attendance_list1/attendance_details_view_model.dart';
@@ -101,8 +102,8 @@ class AttendanceList extends StatelessWidget {
                                 ));
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 20,
+                        return  SizedBox(
+                          height: 20.h,
                         );
                       },
                       itemCount: snapshot!
