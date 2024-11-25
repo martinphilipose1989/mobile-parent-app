@@ -86,6 +86,7 @@ class _CalendarState extends State<Calendar> {
                       Navigator.pushNamed(
                           context, RoutePaths.attendanceDetailspage,
                           arguments: AttendanceDetailPageParameter(
+                            academicyearId: model?.academicId,
                               studentId: [model?.selectedStudent?.first.id],
                               toDate: converter(selectedDate),
                               fromDate: converter(selectedDate)));

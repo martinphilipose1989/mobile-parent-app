@@ -75,7 +75,7 @@ class AttendanceList extends StatelessWidget {
                                                     .first
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
-                                                3) ||
+                                                5) ||
                                             (snapshot
                                                     .data
                                                     ?.data
@@ -83,15 +83,17 @@ class AttendanceList extends StatelessWidget {
                                                     .first
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
-                                                4)
+                                                6)
                                         ? const CommonText(
                                             text: "Bus Attendance")
                                         : CommonText(
-                                            text:(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
-                                                "${snapshot.data!.data.data.first.attendanceDetails?[index].period}":"Period ${period?.map((e){
-
-return period.indexOf(e)+1;
-                                                })}"),
+                                            text:
+                                            //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
+                                             //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
+                                        "Period ${period?.map((e){
+                                      //  return  "${period.indexOf(e) + 1}";
+return (period.indexOf(e)+1).toString();
+                                                }).join(", ")}"),
                                     CommonText(
                                         text: snapshot
                                                 .data

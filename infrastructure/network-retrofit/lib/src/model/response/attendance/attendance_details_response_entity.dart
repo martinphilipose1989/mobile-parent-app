@@ -64,7 +64,7 @@ return AttendanceResponseData(data: data.map((e)=>e.transform()).toList());
 }
 
 @JsonSerializable()
-class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceDetailDataEntity,AttendanceDetailsData>{
+class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceDetailDataEntity,AttendanceDetailsData> {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "academic_year_id")
@@ -89,7 +89,6 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
   List<AttendanceDetailEntity>? attendanceDetails;
 
 
-
   AttendanceDetailDataEntity({
     required this.id,
     required this.academicYearId,
@@ -106,7 +105,8 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
 
   });
 
-  factory AttendanceDetailDataEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailDataEntityFromJson(json);
+  factory AttendanceDetailDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceDetailDataEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceDetailDataEntityToJson(this);
 
@@ -118,8 +118,18 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
 
   @override
   AttendanceDetailsData transform() {
-return AttendanceDetailsData(id: id, academicYearId: academicYearId, schoolId: schoolId, brandId: brandId, boardId: boardId, gradeId: gradeId, shiftId: shiftId, divisionId: divisionId, attendanceDate: attendanceDate, globalStudentId: globalStudentId,
-    attendanceDetails: attendanceDetails?.map((e)=>e.transform()).toList(), intimationsDetails: intimationsDetails?.map((e)=>e.transform()).toList(), boardName: boardName, brandName: brandName, gradeName: gradeName, divisionName: divisionName, shiftName: shiftName, schoolName: schoolName, academicYearName: academicYearName);
+    return AttendanceDetailsData(id: id,
+      academicYearId: academicYearId,
+      schoolId: schoolId,
+      brandId: brandId,
+      boardId: boardId,
+      gradeId: gradeId,
+      shiftId: shiftId,
+      divisionId: divisionId,
+      attendanceDate: attendanceDate,
+      globalStudentId: globalStudentId,
+      attendanceDetails: attendanceDetails?.map((e) => e.transform())
+          .toList());
   }
 }
 
@@ -179,8 +189,7 @@ return AttendanceDetail(id: id, attendanceId: attendanceId,
     attendanceType: attendanceType, subjectId: subjectId,
     timetableId: timetableId, globalStudentId: globalStudentId,
     attendanceRemark: attendanceRemark, startTime: startTime,
-    endTime: endTime, subjectName: subjectName, firstName: firstName,
-    middleName: middleName, lastName: lastName, enrOn: enrOn, dayId: dayId, period: period);
+    endTime: endTime,  period: period, );
   }
 }
 

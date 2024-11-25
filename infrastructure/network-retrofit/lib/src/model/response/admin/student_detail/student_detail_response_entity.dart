@@ -188,7 +188,7 @@ class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile>{
   int? studentTypeId;
   @JsonKey(name: "course_name")
   String? courseName;
-  @JsonKey(name: "stream_name")
+  @JsonKey(name: "stream_name",defaultValue: "NA")
   String? streamName;
   @JsonKey(name: "created_at")
   dynamic? createdAt;

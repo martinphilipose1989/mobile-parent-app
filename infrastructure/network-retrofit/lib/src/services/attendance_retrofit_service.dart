@@ -26,7 +26,7 @@ abstract class AttendanceRetorfitService {
   Future<HttpResponse<AttendanceCountResponseEntity>> getattendanceCount(
       @Body() AttendanceCountRequestEntity attendanceCountRequestEntity);
 
-  @POST( "academics/attendance/list")
+  @POST( "academics/attendance/get-transport-attendance-list")
   Future<HttpResponse<AttendanceDetailsResponseEntity>> getattendanceDetail(
       @Body() AttendanceDetailsRequestEntity attendanceDetailsResponeEntity);
 

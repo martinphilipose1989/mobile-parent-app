@@ -58,13 +58,7 @@ class AttendanceDetailsData {
     required this.globalStudentId,
     required this.attendanceDetails,
 
-    required this.boardName,
-    required this.brandName,
-    required this.gradeName,
-    required this.divisionName,
-    required this.shiftName,
-    required this.schoolName,
-    required this.academicYearName,
+
   });
 
 }
@@ -79,8 +73,8 @@ class AttendanceDetail {
   String? attendanceRemark;
   String? startTime;
   String? endTime;
-  int? dayId;
-  int? period;
+
+  String? period;
 
   AttendanceDetail({
     required this.id,
@@ -92,7 +86,7 @@ class AttendanceDetail {
     required this.attendanceRemark,
     required this.startTime,
     required this.endTime,
-    required this.dayId,
+
     required this.period,
 
   });
