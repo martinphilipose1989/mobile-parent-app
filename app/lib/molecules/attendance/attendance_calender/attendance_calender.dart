@@ -49,7 +49,7 @@ class AttendanceCalender extends StatelessWidget {
             name: name ?? "",
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house",
-            subtitle2: "$stream|NA"),
+            subtitle2: "Stream: $stream"),
         SizedBox(height: 20.h, width: double.infinity),
         BaseWidget(
           builder: (BuildContext context, AttendanceCalenderViewModel? model,
@@ -60,6 +60,9 @@ class AttendanceCalender extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    SizedBox(height: 350.h, child: const Calendar()),
+                    SizedBox(height: 20.h, width: double.infinity),
                     const Padding(
                       padding: EdgeInsets.only(left: 5),
                       child: CommonText(
@@ -70,8 +73,8 @@ class AttendanceCalender extends StatelessWidget {
                     SizedBox(height: 20.h, width: double.infinity),
                     snapshot?.status == Status.loading
                         ? const Center(child: CircularProgressIndicator())
-                        : snapshot?.data?.data.attendanceSummary != []
-                            ? Row(
+                        :
+                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -98,7 +101,7 @@ class AttendanceCalender extends StatelessWidget {
                                   )
                                 ],
                               )
-                            : CommonText(text: "No data Available"),
+                      ,
                     SizedBox(height: 10.h, width: double.infinity)
                   ],
                 );
@@ -109,7 +112,7 @@ class AttendanceCalender extends StatelessWidget {
           providerBase: attendanceCalenderProvider,
         ),
         SizedBox(height: 20.h, width: double.infinity),
-        SizedBox(height: 350.h, child: const Calendar())
+
       ],
     );
   }

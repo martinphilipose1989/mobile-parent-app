@@ -18,6 +18,7 @@ void main() async {
         attendance: '',
         financeBaseUrl: '',
         ticketingBaseUrl: '',
+        showLogs: true,
         secrets: AppSecrets.appSecretsProd,
         authorizationEndpoint:
             "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",

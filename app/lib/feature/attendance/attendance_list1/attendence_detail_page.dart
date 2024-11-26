@@ -40,6 +40,7 @@ class _AttendanceDetailsPageState extends AppBasePageState<
         model: AttendanceDetailsRequestModel(
             studentId: [
               model.selectedStudent?.first.id.toString() ?? "10"],
+            academicYearId: widget.attendanceDetailPageParameter.academicyearId,
             attendanceStartDate:
                 widget.attendanceDetailPageParameter.fromDate.toString(),
             attendanceEndDate:
@@ -78,17 +79,19 @@ class _AttendanceDetailsPageState extends AppBasePageState<
 }
 
 class AttendanceDetailPageParameter {
-  List<String>? studentId;
+  List<dynamic>? studentId;
   String? toDate;
   String? fromDate;
+  int? academicyearId;
 
-  AttendanceDetailPageParameter({this.studentId, this.toDate, this.fromDate}); // toJson method
+  AttendanceDetailPageParameter({this.studentId, this.toDate, this.fromDate,  this.academicyearId}); // toJson method
   Map<String, dynamic> toJson() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return {
       'studentId': studentId,
       'toDate': toDate,
       'fromDate': fromDate,
+      'academicyearId':academicyearId
     };
 
   }
@@ -101,6 +104,7 @@ class AttendanceDetailPageParameter {
           .toList(),
       toDate: json['toDate'],
       fromDate: json['fromDate'],
+      academicyearId:json['academicyearId']
     );
   }
 }

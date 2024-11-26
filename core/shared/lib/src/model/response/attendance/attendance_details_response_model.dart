@@ -36,7 +36,7 @@ class AttendanceDetailsData {
   DateTime? attendanceDate;
   int? globalStudentId;
   List<AttendanceDetail>? attendanceDetails;
-  List<IntimationsDetail>? intimationsDetails;
+
   String? boardName;
   String?  brandName;
   String?  gradeName;
@@ -57,21 +57,15 @@ class AttendanceDetailsData {
     required this.attendanceDate,
     required this.globalStudentId,
     required this.attendanceDetails,
-    required this.intimationsDetails,
-    required this.boardName,
-    required this.brandName,
-    required this.gradeName,
-    required this.divisionName,
-    required this.shiftName,
-    required this.schoolName,
-    required this.academicYearName,
+
+
   });
 
 }
 
 class AttendanceDetail {
-  int id;
-  int attendanceId;
+  int? id;
+  int? attendanceId;
   int? attendanceType;
   int? subjectId;
   int? timetableId;
@@ -79,13 +73,8 @@ class AttendanceDetail {
   String? attendanceRemark;
   String? startTime;
   String? endTime;
-  int? dayId;
-  int? period;
-  String? subjectName;
-  String? firstName;
-  String? middleName;
-  String? lastName;
-  String? enrOn;
+
+  String? period;
 
   AttendanceDetail({
     required this.id,
@@ -97,39 +86,16 @@ class AttendanceDetail {
     required this.attendanceRemark,
     required this.startTime,
     required this.endTime,
-    required this.dayId,
+
     required this.period,
-    required this.subjectName,
-    required this.firstName,
-    required this.middleName,
-    required this.lastName,
-    required this.enrOn,
+
   });
 
 }
 
 
-class IntimationsDetail {
-  int id;
-  int globalUserId;
-  int globalStudentId;
-  DateTime fromDate;
-  DateTime toDate;
-  int intimationStatus;
-  int initimationType;
-  String intimationNote;
 
-  IntimationsDetail({
-    required this.id,
-    required this.globalUserId,
-    required this.globalStudentId,
-    required this.fromDate,
-    required this.toDate,
-    required this.intimationStatus,
-    required this.initimationType,
-    required this.intimationNote,
-  });
 
-}
+
 
 

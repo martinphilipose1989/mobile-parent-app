@@ -35,5 +35,9 @@ class DateFormatter {
     }
   }
 
+  static String convertDateToYearMonth(DateTime date) {
+    // Format the DateTime object to 'yyyy-MM'
+    return DateFormat('yyyy-MM').format(date);
+  }
 
 }
