@@ -49,7 +49,7 @@ class AttendanceCalender extends StatelessWidget {
             name: name ?? "",
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house",
-            subtitle2: "{$stream}NA"),
+            subtitle2: "Stream: $stream"),
         SizedBox(height: 20.h, width: double.infinity),
         BaseWidget(
           builder: (BuildContext context, AttendanceCalenderViewModel? model,
