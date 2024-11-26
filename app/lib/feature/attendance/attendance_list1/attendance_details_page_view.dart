@@ -71,7 +71,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
 
                                       );
                               },
-                              stream: model.studentDetails,
+                              stream: model.studentDetails ,
                               initialData: Resource.none(),
                             ),
                             SizedBox(
