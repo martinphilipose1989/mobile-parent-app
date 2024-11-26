@@ -27,7 +27,7 @@ void main() async {
             'https://sso.ampersandgroup.in/realms/ampersand-external-dev/.well-known/openid-configuration',
         logoutEndpoint:
             'https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/logout',
-        showLogs: true),
+        showLogs: false),
   );
   startApp();
 }
