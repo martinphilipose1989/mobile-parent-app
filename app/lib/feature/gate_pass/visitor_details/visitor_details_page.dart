@@ -2,6 +2,7 @@ import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page_view.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_viewmodel.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,18 +35,17 @@ class VisitorDetailsPageState
   @override
   PreferredSizeWidget? buildAppbar(VisitorDetailsViewModel model) {
     return const CommonAppBar(
-      appbarTitle: "Visitor Details",
-      showBackButton: true,
-      notShowNotificationAndUserBatch: true,
-    );
+        appbarTitle: "View GatePass",
+        showBackButton: false,
+        notShowNotificationAndUserBatch: true);
   }
 
   @override
   void onModelReady(VisitorDetailsViewModel model) {
     model.getVisitorDetails(
-      mobile: widget.params?.mobileNo,
-      studentId: widget.params?.studentId,
-    );
+        mobile: widget.params?.mobileNo,
+        studentId: widget.params?.studentId,
+        gatePassId: widget.params?.gatePassId);
     super.onModelReady(model);
   }
 }
@@ -53,9 +53,12 @@ class VisitorDetailsPageState
 class VisitorDetailsPageParams {
   final String? mobileNo;
   final dynamic studentId;
+  final String routeFrom;
+  final String? gatePassId;
 
-  VisitorDetailsPageParams({
-    required this.mobileNo,
-    required this.studentId,
-  });
+  VisitorDetailsPageParams(
+      {required this.mobileNo,
+      required this.studentId,
+      this.gatePassId,
+      this.routeFrom = RoutePaths.tabbar});
 }

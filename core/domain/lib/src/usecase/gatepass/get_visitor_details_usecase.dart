@@ -18,12 +18,13 @@ class GetVisitorDetailsUseCase extends BaseUseCase<NetworkError,
 class GetVisitorDetailsUseCaseParams extends Params {
   final String? mobile;
   final dynamic studentId;
+  final String? gatePassId;
 
-  GetVisitorDetailsUseCaseParams({
-    super.reloading,
-    required this.mobile,
-    required this.studentId,
-  });
+  GetVisitorDetailsUseCaseParams(
+      {super.reloading,
+      required this.mobile,
+      required this.studentId,
+      this.gatePassId});
 
   @override
   Either<AppError, bool> verify() {

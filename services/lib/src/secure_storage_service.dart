@@ -13,6 +13,7 @@ class SecureStorageService {
   final String userEmail = "userEmail";
   final String userId = "userId";
   final String userPhoneNumber = "userPhoneNumber";
+  final String userStatus = "userStatus";
 
   Future<void> clearPreferences() async {
     await _storage.deleteAll();

@@ -96,7 +96,8 @@ final paymentsPageModelProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<GetValidatePayNowUseCase>(),
       getIt.get<GetPaymentOrderUsecase>(),
-      getIt.get<GetCouponsUsecase>()),
+      getIt.get<GetCouponsUsecase>(),
+      getIt.get<GetUserDetailsUsecase>()),
 );
 
 final createIntimationProvider =
@@ -387,8 +388,10 @@ final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
         getIt.get<GetPaymentStatusUsecase>()));
 
 final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
-    (ref) => RatePageModel(getIt.get<FlutterExceptionHandlerBinder>(),
-        getIt.get<SendCommunicationUsecase>()));
+    (ref) => RatePageModel(
+        getIt.get<FlutterExceptionHandlerBinder>(),
+        getIt.get<SendCommunicationUsecase>(),
+        getIt.get<GetUserDetailsUsecase>()));
 
 final communicationPageModelProvider =
     ChangeNotifierProvider.autoDispose<CommunicationPageModel>((ref) =>
@@ -418,17 +421,18 @@ final createQrcodeViewModelProvider =
                 getIt.get<FlutterExceptionHandlerBinder>()));
 
 final createEditGatePassViewModelProvider =
-    ChangeNotifierProvider.autoDispose<CreateEditGatePassViewModel>((ref) =>
-        CreateEditGatePassViewModel(
-          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-          uploadVisitorProfileUsecase: getIt.get<UploadVisitorProfileUsecase>(),
-          getPurposeOfVisitListUsecase:
-              getIt.get<GetPurposeOfVisitListUsecase>(),
-          createGatepassUsecase: getIt.get<CreateGatepassUsecase>(),
-          chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
-          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-          getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
-        ));
+    ChangeNotifierProvider.autoDispose<CreateEditGatePassViewModel>(
+  (ref) => CreateEditGatePassViewModel(
+    getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    uploadVisitorProfileUsecase: getIt.get<UploadVisitorProfileUsecase>(),
+    getPurposeOfVisitListUsecase: getIt.get<GetPurposeOfVisitListUsecase>(),
+    createGatepassUsecase: getIt.get<CreateGatepassUsecase>(),
+    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+  ),
+);
 
 final visitorDetailsViewModelProvider =
     ChangeNotifierProvider.autoDispose<VisitorDetailsViewModel>((ref) =>

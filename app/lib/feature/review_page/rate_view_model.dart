@@ -14,8 +14,10 @@ class RatePageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
 
   final SendCommunicationUsecase _sendCommunicationUsecase;
+  final GetUserDetailsUsecase _getUserDetailsUsecase;
 
-  RatePageModel(this.exceptionHandlerBinder, this._sendCommunicationUsecase);
+  RatePageModel(this.exceptionHandlerBinder, this._sendCommunicationUsecase,
+      this._getUserDetailsUsecase);
 
   BehaviorSubject<int> selectedRatingValue = BehaviorSubject<int>.seeded(0);
 
@@ -55,7 +57,7 @@ class RatePageModel extends BasePageViewModel {
               isDraft: false,
               updatedAt: DateTime.now(),
               status: "closed",
-              userId: "1"));
+              userId: userSubject.value.data?.id.toString()));
       RequestManager<SendCommunicationModel>(
         params,
         createCall: () => _sendCommunicationUsecase.execute(params: params),
@@ -68,5 +70,18 @@ class RatePageModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => _getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+      }
+    });
   }
 }

@@ -19,13 +19,13 @@ class MsgSubCategoryDatumModel {
 }
 
 class MsgSubModelAttributesModel {
-  int categoryId;
-  String name;
-  String notice;
+  int? categoryId;
+  String? name;
+  String? notice;
   String? noticeDetails;
   dynamic workFlowId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   MsgSubModelAttributesModel({
     required this.categoryId,

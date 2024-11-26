@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
+import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
@@ -36,16 +39,22 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 15, width: 10),
           title('Tracker'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.trackerTemp.length,
-                (i) => Chips(
-                    name: model.trackerTemp[i]['name'],
-                    image: model.trackerTemp[i]['image'],
-                    isSelected: model.trackerTemp[i]['isSelected']),
-              ),
-              model),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadTracker,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                return chipsList(
+                    context,
+                    model.trackerTemp
+                        .where((e) => e['isActive'] == true)
+                        .map((track) => Chips(
+                              name: track['name'],
+                              image: track['image'],
+                              isSelected: track['isSelected'],
+                            ))
+                        .toList(),
+                    model);
+              }),
           title('Child Progress/Academic Progress'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           chipsList(
@@ -98,12 +107,22 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         chipValues: chipValues,
         onCallBack: (routeName) {
           var receivedRoutePath = model.returnRouteValue(routeName);
-          Navigator.pushNamed(context, receivedRoutePath,
-              arguments: receivedRoutePath == RoutePaths.payments
-                  ? PaymentArguments(
-                      phoneNo: model.mobileNo,
-                    )
-                  : null);
+
+          if (receivedRoutePath == RoutePaths.visitorDetailsPage) {
+            Navigator.pushNamed(
+              context,
+              receivedRoutePath,
+              arguments: VisitorDetailsPageParams(
+                  mobileNo: "+91${model.mobileNo}",
+                  studentId: model.dashboardState.selectedStudent?.id),
+            );
+          } else {
+            Navigator.pushNamed(
+              context,
+              receivedRoutePath,
+              arguments: PaymentArguments(phoneNo: model.mobileNo),
+            );
+          }
         },
       ),
     );
@@ -143,21 +162,23 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           const SizedBox(
             width: 10,
           ),
-          BaseWidget(
-            providerBase: userViewModelProvider,
-            builder: (context, model, _) {
-              return AppStreamBuilder<Resource<User>>(
-                stream: model!.userStream,
-                initialData: Resource.none(),
-                dataBuilder: (context, userModel) {
-                  return CommonText(
-                    text: 'Hello, ${userModel?.data?.userName ?? ''}',
-                    style: AppTypography.subtitle2,
-                  );
-                },
-              );
-            },
-          )
+          Builder(builder: (context) {
+            return BaseWidget(
+              providerBase: dashboardViewModelProvider,
+              builder: (context, model, _) {
+                return AppStreamBuilder<Resource<User>>(
+                  stream: model!.userStream,
+                  initialData: Resource.none(),
+                  dataBuilder: (context, userModel) {
+                    return CommonText(
+                      text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                      style: AppTypography.subtitle2,
+                    );
+                  },
+                );
+              },
+            );
+          })
         ]),
         SizedBox(
           child: AppStreamBuilder<ParentStudentStatusEnum>(

@@ -30,15 +30,6 @@ class CreateEditGatePassPageState extends AppBasePageState<
     return createEditGatePassViewModelProvider;
   }
 
-  // @override
-  // PreferredSizeWidget? buildAppbar(CreateEditGatePassViewModel model) {
-  //   return const CommonAppBar(
-  //     appbarTitle: "Create Gate-Pass",
-  //     showBackButton: true,
-  //     notShowNotificationAndUserBatch: true,
-  //   );
-  // }
-
   CreateEditGatePassViewModel get model =>
       ProviderScope.containerOf(context).read(
         createEditGatePassViewModelProvider,
@@ -52,5 +43,13 @@ class CreateEditGatePassPageState extends AppBasePageState<
     model.getPurposeOfVisitList();
     model.getUserDetails();
     super.didChangeDependencies();
+  }
+
+  @override
+  PreferredSizeWidget? buildAppbar(CreateEditGatePassViewModel model) {
+    return const CommonAppBar(
+        appbarTitle: "Create Gate Pass",
+        showBackButton: true,
+        notShowNotificationAndUserBatch: true);
   }
 }

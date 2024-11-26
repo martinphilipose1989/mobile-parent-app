@@ -448,9 +448,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           psaDetails?.add(result.data?.data ?? PSADetail());
           selectedValue.add(selectedValue.value + 1);
           isLoading.value = false;
-          getEnquiryDetail(enquiryID: enquiryID);
+          getPsaDetails(enquiryID: enquiryID);
         }
         if (result.status == Status.error) {
+          isLoading.value = false;
+
           flutterToastErrorPresenter.show(
               result.dealSafeAppError!.throwable,
               navigatorKey.currentContext!,
@@ -478,6 +480,7 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
           ivtDetails?.add(result.data?.data ?? IVTDetail());
           isLoading.value = false;
           selectedValue.add(selectedValue.value + 1);
+          getIvtDetails(enquiryID: enquiryID);
         }
         if (result.status == Status.error) {
           isLoading.value = false;

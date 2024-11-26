@@ -82,7 +82,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 providerBase: userViewModelProvider,
                 builder: (context, model, _) => GestureDetector(
                   onTap: () {
-                    model.logOut();
+                    model?.logOut();
                   },
                   child: Container(
                       height: 32.h,
@@ -94,15 +94,21 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                         border: Border.all(color: AppColors.primary),
                         color: AppColors.primary.withOpacity(0.2),
                       ),
-                      child: AppStreamBuilder<Resource<User>>(
-                          stream: model!.userStream,
-                          initialData: Resource.none(),
-                          dataBuilder: (context, data) {
-                            return CommonText(
-                              text: data?.data?.userName?.getInitials() ?? '',
-                              style: const TextStyle(color: AppColors.primary),
-                            );
-                          })),
+                      child: BaseWidget(
+                        providerBase: dashboardViewModelProvider,
+                        builder: (context, dasboardModel, _) =>
+                            AppStreamBuilder<Resource<User>>(
+                                stream: dasboardModel!.userStream,
+                                initialData: Resource.none(),
+                                dataBuilder: (context, data) {
+                                  return CommonText(
+                                    text: data?.data?.userName?.getInitials() ??
+                                        '',
+                                    style: const TextStyle(
+                                        color: AppColors.primary),
+                                  );
+                                }),
+                      )),
                 ),
               )
             ],

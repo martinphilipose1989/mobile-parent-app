@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
@@ -5,6 +7,7 @@ import 'package:app/model/phone_number_details.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/constants/constants.dart';
 import 'package:app/utils/dateformate.dart';
@@ -27,6 +30,7 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   final CreateGatepassUsecase _createGatepassUsecase;
   final FlutterToastErrorPresenter _flutterToastErrorPresenter;
   final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetMdmAttributeUsecase _getMdmAttributeUsecase;
 
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
@@ -129,6 +133,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   BehaviorSubject<String> countryDialCode = BehaviorSubject.seeded("+91");
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  DateTime selectedDate = DateTime.now();
+
   void createGatePass() async {
     final params = CreateGatepassUsecaseParams(
       requestModel: CreateGatePassModel(
@@ -142,10 +148,13 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
         profileImage: _uploadedFileResponse.valueOrNull?.data?.data?.filePath,
         guestCount: int.parse(guestCountController.text),
         vehicleNumber: vehicleController.text,
-        issuedDate: DateTime.now().toIso8601String().dateFormattodd_mm_yyyy(),
-        issuedTime: DateTime.now().toIso8601String().convertTo24HourFormat(),
+        issuedDate: selectedDate.dateFormatToyyyMMdd(),
+        issuedTime: selectedDate.toIso8601String().convertTo24HourFormat(),
         studentName: vehicleController.text,
         studentId: selectedStudent?.id,
+        schoolId: selectedSchoolId,
+        companyName: "",
+        otherReason: "",
       ),
     );
 
@@ -161,7 +170,8 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
           navigatorKey.currentContext!,
           "Gate pass created successfully",
           (value) {
-            _checkAndNavigateToVisitorDetails();
+            final gatePassId = data.data?.data?.id;
+            _checkAndNavigateToVisitorDetails(gatePassId!);
           },
         );
       } else if (data.status == Status.error) {
@@ -185,26 +195,34 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
   var dashboardState = DashboardState();
 
   setStudentData(BuildContext context) {
-    debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent.id}");
+    if (dashboardState.selectedStudent?.id != null) {
+      debugPrint("selectedStudent.id:  ${dashboardState.selectedStudent?.id}");
 
-    var selectedStudent = dashboardState.selectedStudent;
+      var selectStudent = dashboardState.selectedStudent;
 
+      selectStudent?.id ??= -1;
+      selectStudent?.studentDisplayName ??= "";
 
-    selectedStudent.id ??= -1;
-    selectedStudent.studentDisplayName ??= "";
-
-    studentDataSubject.add(selectedStudent);
+      studentDataSubject.add(selectStudent);
+      if (selectStudent?.id != null) {
+        studentNameController.text =
+            studentDataSubject.valueOrNull?.studentDisplayName ?? '';
+        selectedStudent = studentDataSubject.value;
+      }
+    }
   }
 
   /// checkAndNavigateToVisitorDetails
-  void _checkAndNavigateToVisitorDetails() {
+  void _checkAndNavigateToVisitorDetails(String gatePassId) {
     var studentId = selectedStudent?.id;
-    if (studentId == null || studentId!.toString().isEmpty) return;
+    // if (studentId == null || studentId!.toString().isEmpty) return;
     // navigate to visitorDetailsPage
     navigatorKey.currentState?.pushNamed(RoutePaths.visitorDetailsPage,
         arguments: VisitorDetailsPageParams(
+            gatePassId: gatePassId,
             mobileNo: "${countryDialCode.value}${contactNumberController.text}",
-            studentId: studentId));
+            studentId: studentId,
+            routeFrom: RoutePaths.createEditGatePassPage));
   }
 
   getCountryCode({required String phoneNumber}) async {
@@ -246,23 +264,60 @@ class CreateEditGatePassViewModel extends BasePageViewModel {
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
+        if (data.data?.statusId == null || data.data?.statusId == 0) {
+          getSchoolList();
+        }
       }
     });
   }
 
+  BehaviorSubject<Resource<List<MdmAttributeModel>>>
+      schoolLocationTypesAttribute =
+      BehaviorSubject<Resource<List<MdmAttributeModel>>>.seeded(
+          Resource.none());
+
+  int? selectedSchoolId;
+
+  void setSchoolId(String value) {
+    selectedSchoolId = schoolLocationTypesAttribute.valueOrNull?.data
+        ?.firstWhere((school) =>
+            school.attributes?.name?.toLowerCase() == value.toLowerCase())
+        .id;
+  }
+
+  void getSchoolList() {
+    schoolLocationTypesAttribute.add(Resource.loading());
+    final GetMdmAttributeUsecaseParams params =
+        GetMdmAttributeUsecaseParams(infoType: "schoolLocation");
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: _flutterToastErrorPresenter,
+      params: params,
+      createCall: (params) => _getMdmAttributeUsecase.execute(params: params),
+      onSuccess: (result) {
+        schoolLocationTypesAttribute.add(Resource.success(data: result?.data));
+      },
+      onError: (error) {
+        schoolLocationTypesAttribute.add(Resource.error(error: error));
+      },
+    );
+  }
+
   // Constructor
-  CreateEditGatePassViewModel({
-    required this.exceptionHandlerBinder,
-    required CreateGatepassUsecase createGatepassUsecase,
-    required ChooseFileUseCase chooseFileUseCase,
-    required GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase,
-    required UploadVisitorProfileUsecase uploadVisitorProfileUsecase,
-    required FlutterToastErrorPresenter flutterToastErrorPresenter,
-    required GetUserDetailsUsecase getUserDetailsUsecase,
-  })  : _createGatepassUsecase = createGatepassUsecase,
+  CreateEditGatePassViewModel(
+      {required this.exceptionHandlerBinder,
+      required CreateGatepassUsecase createGatepassUsecase,
+      required ChooseFileUseCase chooseFileUseCase,
+      required GetPurposeOfVisitListUsecase getPurposeOfVisitListUsecase,
+      required UploadVisitorProfileUsecase uploadVisitorProfileUsecase,
+      required FlutterToastErrorPresenter flutterToastErrorPresenter,
+      required GetUserDetailsUsecase getUserDetailsUsecase,
+      required GetMdmAttributeUsecase getMdmAttributeUsecase})
+      : _createGatepassUsecase = createGatepassUsecase,
         _chooseFileUseCase = chooseFileUseCase,
         _getPurposeOfVisitListUsecase = getPurposeOfVisitListUsecase,
         _uploadVisitorProfileUsecase = uploadVisitorProfileUsecase,
         _flutterToastErrorPresenter = flutterToastErrorPresenter,
-        _getUserDetailsUsecase = getUserDetailsUsecase;
+        _getUserDetailsUsecase = getUserDetailsUsecase,
+        _getMdmAttributeUsecase = getMdmAttributeUsecase;
 }

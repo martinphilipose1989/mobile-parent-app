@@ -37,20 +37,19 @@ class DisciplinarySlipList extends StatelessWidget {
                             return DisciplinarySlipListItem(
                               date: data.data!.data.data[index].date.toString(),
                               discription:
-                                  data?.data!.data.data[index].description,
-                              id: data
-                                  ?.data!.data.data[index].disciplinarySlipId,
-                              color: data?.data!.data.data[index]
-                                      .disciplinarySlipDescription ??
-                                  "",
-                              slip: data?.data!.data.data[index]
-                                      .disciplinarySlip ??
-                                  "Warning Slip",
-                              action: data?.data!.data.data[index]
-                                      .disciplinaryAction ??
-                                  "",
+                                  data.data!.data.data[index].description,
+                              disciplinaryId: data
+                                  .data!.data.data[index].disciplinarySlipId,
+                              id: data.data!.data.data[index].id,
+                              color: data.data!.data.data[index]
+                                  .disciplinarySlipDescription,
+                              slip:
+                                  data.data!.data.data[index].disciplinarySlip,
+                              action: data
+                                  .data!.data.data[index].disciplinaryAction,
                             );
                           }
+                          return const SizedBox.shrink();
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(

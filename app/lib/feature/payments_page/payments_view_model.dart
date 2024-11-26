@@ -15,8 +15,13 @@ class PaymentsPageModel extends BasePageViewModel {
   final GetValidatePayNowUseCase _getValidatePayNowUseCase;
   final GetPaymentOrderUsecase _getPaymentOrderUsecase;
   final GetCouponsUsecase _getCouponsUsecase;
-  PaymentsPageModel(this.exceptionHandlerBinder, this._getValidatePayNowUseCase,
-      this._getPaymentOrderUsecase, this._getCouponsUsecase);
+  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  PaymentsPageModel(
+      this.exceptionHandlerBinder,
+      this._getValidatePayNowUseCase,
+      this._getPaymentOrderUsecase,
+      this._getCouponsUsecase,
+      this._getUserDetailsUsecase);
 
   final BehaviorSubject<String> selectedPaymentType =
       BehaviorSubject<String>.seeded('');
@@ -179,9 +184,9 @@ class PaymentsPageModel extends BasePageViewModel {
                     ),
                   ),
                   additionalInfo: AdditionalInfo(
-                      customerEmail: '',
-                      customerName: '',
-                      customerContact: phoneNo.toString()),
+                      customerEmail: userSubject.value.data?.email,
+                      customerName: userSubject.value.data?.userName,
+                      customerContact: userSubject.value.data?.phoneNumber),
                   device: null)));
 
       RequestManager<GetPaymentOrderResponseModel>(
@@ -263,6 +268,19 @@ class PaymentsPageModel extends BasePageViewModel {
     amount.text = newTotalAmount.toString();
     finalAmount.value = newTotalAmount.toString();
     selectedFees.add(getPendingFeesFeeModel);
+  }
+
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => _getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+      }
+    });
   }
 
   @override

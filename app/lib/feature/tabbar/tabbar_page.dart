@@ -1,11 +1,12 @@
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/create_qrcode/create_qrcode_page.dart';
+
 import 'package:app/feature/dashboard/dashboard_page.dart';
-import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
-import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
+
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -26,17 +27,18 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     return tabbarViewModelProvider;
   }
 
+  TabbarViewModel get model =>
+      ProviderScope.containerOf(context).read(tabbarViewModelProvider);
+
   @override
-  void onModelReady(TabbarViewModel model) {
-    // bind exception handler here.
-    model.tabController = TabController(length: 4, vsync: this);
-    model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  void didChangeDependencies() {
+    model.tabController =
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
+    super.didChangeDependencies();
   }
 
   @override
   Future<bool> onBackPressed({param}) {
-    // TODO: implement onBackPressed
-
     return super.onBackPressed(param: true);
   }
 
@@ -49,26 +51,22 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   Widget buildView(BuildContext context, TabbarViewModel model) {
-    return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: model.tabController,
-      children: [
-        const DashboardPage(),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.green,
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.purple,
-        ),
-
-        // const VisitorDetailsPage(),
-        const CreateEditGatePassPage()
-      ],
-    );
+    return StreamBuilder<int>(
+        stream: model.indexSteam,
+        builder: (context, snapshot) {
+          return TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: model.tabController,
+            children: [
+              const DashboardPage(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.green,
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -93,7 +91,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           children: [
             InkWell(
               onTap: () {
-                model.onItemTapped(0);
+                BOTTOM_NAV_INDEX = 0;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(
@@ -114,7 +113,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             ),
             InkWell(
               onTap: () {
-                model.onItemTapped(1);
+                BOTTOM_NAV_INDEX = 1;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
               },
               child: AbsorbPointer(
                 child: Column(
@@ -127,48 +127,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
                           text: 'Home',
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                model.onItemTapped(2);
-              },
-              child: AbsorbPointer(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Icon(Icons.home),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: CommonText(
-                          text: 'View Gate Pass',
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                model.onItemTapped(3);
-              },
-              child: AbsorbPointer(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Icon(Icons.school),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: CommonText(
-                          text: 'Gate Pass',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

@@ -62,19 +62,19 @@ class MsgSubCategoryModelDatum extends BaseLayerDataTransformer<
 class Attributes
     extends BaseLayerDataTransformer<Attributes, MsgSubModelAttributesModel> {
   @JsonKey(name: "category_id")
-  int categoryId;
+  int? categoryId;
   @JsonKey(name: "name")
-  String name;
+  String? name;
   @JsonKey(name: "notice")
-  String notice;
+  String? notice;
   @JsonKey(name: "notice_details")
   String? noticeDetails;
   @JsonKey(name: "work_flow_id")
   dynamic workFlowId;
   @JsonKey(name: "createdAt")
-  DateTime createdAt;
+  DateTime? createdAt;
   @JsonKey(name: "updatedAt")
-  DateTime updatedAt;
+  DateTime? updatedAt;
 
   Attributes({
     required this.categoryId,
