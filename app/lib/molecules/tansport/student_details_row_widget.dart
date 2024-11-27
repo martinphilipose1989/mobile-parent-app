@@ -29,11 +29,12 @@ class StudentDetailsRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isPresent = status == "persent" || status == "present";
+    bool isPresent = status == "Present" || status == "present";
     return GestureDetector(
       onTap: () => onPressed?.call(),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+
+     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: AppColors.surface_1,
@@ -74,7 +75,7 @@ class StudentDetailsRowWidget extends StatelessWidget {
             CommonElevatedButton(
                 width: 100,
                 onPressed: () {},
-                text: isPresent ? "Present" : "Absent",
+                text: status??"present",
                 textColor: AppColors.primaryOn,
                 backgroundColor:
                     isPresent ? AppColors.success : AppColors.failure)
