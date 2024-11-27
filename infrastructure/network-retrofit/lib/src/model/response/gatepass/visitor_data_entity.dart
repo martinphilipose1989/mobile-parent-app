@@ -58,7 +58,7 @@ class VisitorDataEntity
   @JsonKey(name: "visitor_profile_image_file_path")
   final String? visitorProfileImageFilePath;
 
-  @JsonKey(name: "visitor_profile_image_image_url")
+  @JsonKey(name: "visitor_profile_image_url")
   final String? visitorProfileImageImageUrl;
 
   @JsonKey(name: "visitor_type")
