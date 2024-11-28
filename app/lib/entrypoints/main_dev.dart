@@ -17,6 +17,7 @@ void main() async {
         mdmToken: EnvDev.mdmToken,
         ticketingBaseUrl: EnvDev.ticketingBaseUrl,
         secrets: AppSecrets.appSecretsDev,
+        keyCloakIntrospectUrl: EnvDev.introspectUrl,
         logSqlStatements: true,
         showLogs: true,
         authorizationEndpoint:

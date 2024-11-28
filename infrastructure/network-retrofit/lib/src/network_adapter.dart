@@ -38,6 +38,7 @@ import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/attendance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
@@ -52,6 +53,7 @@ class NetworkAdapter implements NetworkPort {
   final AttendanceRetorfitService attendanceRetorfitService;
   final TicketRetrofitService ticketRetrofitService;
   final TransportService transportService;
+  final KeyCloakService keyCloakService;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
 
@@ -67,7 +69,8 @@ class NetworkAdapter implements NetworkPort {
       required this.disciplinaryRetorfitService,
       required this.financeRetrofitService,
       required this.adminRetorfitService,
-      required this.ticketRetrofitService});
+      required this.ticketRetrofitService,
+      required this.keyCloakService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -874,7 +877,7 @@ class NetworkAdapter implements NetworkPort {
       required String clientId,
       required String clientSecret}) async {
     final response = await safeApiCall(
-        apiService.introspectToken(token, clientId, clientSecret));
+        keyCloakService.introspectToken(token, clientId, clientSecret));
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
@@ -1350,10 +1353,12 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
-      {required int id,}) async {
-    var response = await safeApiCall(
-        adminRetorfitService.getStudentDetails(studentId: id,));
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({
+    required int id,
+  }) async {
+    var response = await safeApiCall(adminRetorfitService.getStudentDetails(
+      studentId: id,
+    ));
     return response.fold(
       (l) {
         return Left(l);
@@ -1536,7 +1541,8 @@ class NetworkAdapter implements NetworkPort {
     final response = await safeApiCall(
       transportService.getStudentAttendance(
         studentId: params.studentId,
-        platform: platform, attendanceType: params.attendanceType,
+        platform: platform,
+        attendanceType: params.attendanceType,
       ),
     );
 

@@ -18,6 +18,7 @@ void main() async {
         ticketingBaseUrl: EnvQA.ticketingBaseUrl,
         secrets: AppSecrets.appSecretsQA,
         disciplinarySlip: EnvQA.disciplinarySlip,
+        keyCloakIntrospectUrl: EnvQA.introspectUrl,
         authorizationEndpoint:
             "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/auth",
         tokenEndpoint:

@@ -1,5 +1,5 @@
 class NetworkProperties {
- static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
+  static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
   // UAT
   //static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String financeBaseUrl =
@@ -15,8 +15,8 @@ class NetworkProperties {
   static const String transportBaseURL =
       'https://transport-219111640528.us-central1.run.app/';
   //UAT
- // static const String transportBaseURL =
- //     'https://transport-backend-869610231867.asia-south1.run.app/';
+  // static const String transportBaseURL =
+  //     'https://transport-backend-869610231867.asia-south1.run.app/';
   static const String schoolBoard = '/api/ac-boards';
   static const String grade = '/api/ac-grades';
   static const String gender = '/api/genders';
@@ -100,14 +100,6 @@ class NetworkProperties {
 
   static const String requestGatePass =
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
-
-  // key cloak
-  static const String tokenIntroSpect =
-      "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
-
-  //UAT
-  // static const String tokenIntroSpect =
-  //     "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
 
   static const String getBrandList = "$mdmBaseUrl/api/ac-brands";
 }

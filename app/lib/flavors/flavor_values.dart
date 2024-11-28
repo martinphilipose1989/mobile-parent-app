@@ -20,6 +20,7 @@ class FlavorValues {
   final String transportUrl;
 
   final String discoveryUrl;
+  final String keyCloakIntrospectUrl;
 
   const FlavorValues({
     required this.transportUrl,
@@ -35,6 +36,7 @@ class FlavorValues {
     required this.authorizationEndpoint,
     required this.tokenEndpoint,
     required this.discoveryUrl,
+    required this.keyCloakIntrospectUrl,
     this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,

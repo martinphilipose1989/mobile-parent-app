@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
@@ -124,6 +125,11 @@ abstract class NetworkModule {
       TransportService(dio, transportUrl: transportUrl);
 
   @lazySingleton
+  KeyCloakService providerKeyCloakService(
+          Dio dio, @Named('KeyCloakUrl') String keyCloak) =>
+      KeyCloakService(dio, keyCloak: keyCloak);
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
@@ -131,7 +137,8 @@ abstract class NetworkModule {
           AttendanceRetorfitService attendanceRetorfitService,
           DisciplinaryRetorfitService disciplinaryRetorfitService,
           TransportService transportService,
-          TicketRetrofitService ticketRetrofitService) =>
+          TicketRetrofitService ticketRetrofitService,
+          KeyCloakService keyCloakService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -139,5 +146,6 @@ abstract class NetworkModule {
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
           financeRetrofitService: financeRetrofitService,
-          transportService: transportService);
+          transportService: transportService,
+          keyCloakService: keyCloakService);
 }

@@ -496,14 +496,6 @@ abstract class RetrofitService {
   Future<HttpResponse<VisitorDetailsResponseEntity>> getGatepassDetailsById(
       @Path("gatepassId") String getpassID, @Query('platform') String platform);
 
-  // key cloak
-  @POST(NetworkProperties.tokenIntroSpect)
-  @FormUrlEncoded()
-  Future<HttpResponse<TokenIntrospectionResponseEntity>> introspectToken(
-      @Field("token") String token,
-      @Field("client_id") String clientId,
-      @Field("client_secret") String clientSecret);
-
   @POST(NetworkProperties.subjetcList)
   Future<HttpResponse<SubjectListResponseEntity>> getSubjectList({
     @Body() required SubjectListingRequest subjectListingRequest,
