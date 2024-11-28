@@ -110,11 +110,19 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List feesTemp = [
-    {'name': 'Payments', 'image': AppImages.walletAdd, 'isSelected': false},
+    {
+      'name': 'Payments',
+      'image': AppImages.walletAdd,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'payment'
+    },
     {
       'name': 'New Enrollment',
       'image': AppImages.activity,
-      'isSelected': false
+      'isSelected': false,
+      'isActive': false,
+      'key': 'enrollment'
     },
   ];
 
@@ -264,6 +272,7 @@ class DashboardPageModel extends BasePageViewModel {
           if (data.data?.statusId != 0) {
             // If statusId is not 0, set all isActive to true
             trackerTemp[index]['isActive'] = true;
+            feesTemp[index]['isActive'] = true;
           } else {
             // If statusId is 0, only "create_gate_pass" should be false, others true
             if (trackerTemp[index]['key'] == "create_gate_pass" ||

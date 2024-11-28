@@ -60,4 +60,14 @@ abstract class AppModule {
 
   @Named("DiscoveryUrl")
   String get discoveryUrl => FlavorConfig.instance.values.discoveryUrl;
+
+  @Named("KeyCloakUrl")
+  String get keyCloakIntrospectUrl =>
+      FlavorConfig.instance.values.keyCloakIntrospectUrl;
+
+  @Named("GateUrl")
+  String get gateUrl => FlavorConfig.instance.values.gateUrl;
+
+  @Named("MarketingUrl")
+  String get marketingUrl => FlavorConfig.instance.values.marketingUrl;
 }

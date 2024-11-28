@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/network_retrofit.dart';
+import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
@@ -75,4 +77,9 @@ abstract class FinanceRetrofitService {
   @POST('/finance/payment/fetch-status/orderId')
   Future<HttpResponse<PaymentStatusEntity>> getPaymentStatus(
       @Body() GetPaymentStatusRequest getPaymentStatusRequest);
+
+  @POST('/finance/fee_payment/finance/calculate')
+  Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
+      {@Body()
+      required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
 }

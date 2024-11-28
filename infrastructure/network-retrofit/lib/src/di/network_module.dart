@@ -7,6 +7,9 @@ import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
+import 'package:network_retrofit/src/services/keycloak_service.dart';
+import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
@@ -82,26 +85,17 @@ abstract class NetworkModule {
 
   @lazySingleton
   RetrofitService providerRetrofitService(
-          Dio dio,
-          @Named('mdmBaseUrl') String mdmBaseUrl,
-          @Named('financeBaseUrl') String financeBaseUrl) =>
-      RetrofitService(dio,
-          financeBaseUrl: financeBaseUrl, mdmBaseUrl: mdmBaseUrl);
+          Dio dio, @Named('mdmBaseUrl') String mdmBaseUrl) =>
+      RetrofitService(dio, mdmBaseUrl: mdmBaseUrl);
 
   @lazySingleton
   FinanceRetrofitService providerFinanceRetrofitService(
           Dio dio, @Named('financeBaseUrl') String financeBaseUrl) =>
-      FinanceRetrofitService(
-        dio,
-        financeBaseUrl: financeBaseUrl,
-      );
+      FinanceRetrofitService(dio, financeBaseUrl: financeBaseUrl);
   @lazySingleton
   TicketRetrofitService providerTicketRetrofitService(
           Dio dio, @Named('ticketBaseUrl') String ticketingBaseUrl) =>
-      TicketRetrofitService(
-        dio,
-        ticketingBaseUrl: ticketingBaseUrl,
-      );
+      TicketRetrofitService(dio, ticketingBaseUrl: ticketingBaseUrl);
 
   @lazySingleton
   AdminRetorfitService providerAdminFinanceRetrofitService(
@@ -124,6 +118,21 @@ abstract class NetworkModule {
       TransportService(dio, transportUrl: transportUrl);
 
   @lazySingleton
+  KeyCloakService providerKeyCloakService(
+          Dio dio, @Named('KeyCloakUrl') String keyCloak) =>
+      KeyCloakService(dio, keyCloak: keyCloak);
+
+  @lazySingleton
+  GatemanagementService providerGatemanagementService(
+          Dio dio, @Named('GateUrl') String gateUrl) =>
+      GatemanagementService(dio, gateUrl: gateUrl);
+
+  @lazySingleton
+  MarketingSerivce providerMarketingSerivce(
+          Dio dio, @Named('MarketingUrl') String marketingUrl) =>
+      MarketingSerivce(dio, marketingUrl: marketingUrl);
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
@@ -131,7 +140,10 @@ abstract class NetworkModule {
           AttendanceRetorfitService attendanceRetorfitService,
           DisciplinaryRetorfitService disciplinaryRetorfitService,
           TransportService transportService,
-          TicketRetrofitService ticketRetrofitService) =>
+          TicketRetrofitService ticketRetrofitService,
+          KeyCloakService keyCloakService,
+          GatemanagementService gatemanagementService,
+          MarketingSerivce marketingSerivce) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -139,5 +151,8 @@ abstract class NetworkModule {
           adminRetorfitService: adminRetorfitService,
           apiService: retrofitService,
           financeRetrofitService: financeRetrofitService,
-          transportService: transportService);
+          transportService: transportService,
+          keyCloakService: keyCloakService,
+          gatemanagementService: gatemanagementService,
+          marketingSerivce: marketingSerivce);
 }

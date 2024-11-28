@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
@@ -37,24 +35,28 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 15, width: 10),
           const Tracker(),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          title('Tracker'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          AppStreamBuilder<Resource<bool>>(
-              stream: model.loadTracker,
-              initialData: Resource.none(),
-              dataBuilder: (context, value) {
-                return chipsList(
-                    context,
-                    model.trackerTemp
-                        .where((e) => e['isActive'] == true)
-                        .map((track) => Chips(
-                              name: track['name'],
-                              image: track['image'],
-                              isSelected: track['isSelected'],
-                            ))
-                        .toList(),
-                    model);
-              }),
+          if (model.trackerTemp
+              .where((tracker) => tracker['isActive'] == true)
+              .isNotEmpty) ...[
+            title('Tracker'),
+            CommonSizedBox.sizedBox(height: 10, width: 10),
+            AppStreamBuilder<Resource<bool>>(
+                stream: model.loadTracker,
+                initialData: Resource.none(),
+                dataBuilder: (context, value) {
+                  return chipsList(
+                      context,
+                      model.trackerTemp
+                          .where((e) => e['isActive'] == true)
+                          .map((track) => Chips(
+                                name: track['name'],
+                                image: track['image'],
+                                isSelected: track['isSelected'],
+                              ))
+                          .toList(),
+                      model);
+                }),
+          ],
           title('Child Progress/Academic Progress'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           chipsList(
@@ -81,19 +83,26 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               ),
               model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          title('Fees'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.feesTemp.length,
-                (i) => Chips(
-                    name: model.feesTemp[i]['name'],
-                    image: model.feesTemp[i]['image'],
-                    isSelected: model.feesTemp[i]['isSelected']),
-              ),
-              model),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
+          if (model.feesTemp
+              .where((fee) => fee['isActive'] == true)
+              .isNotEmpty) ...[
+            title('Fees'),
+            CommonSizedBox.sizedBox(height: 10, width: 10),
+            chipsList(
+                context,
+                model.feesTemp
+                    .where((e) => e['isActive'] == true)
+                    .map(
+                      (fees) => Chips(
+                        name: fees['name'],
+                        image: fees['image'],
+                        isSelected: fees['isSelected'],
+                      ),
+                    )
+                    .toList(),
+                model),
+            CommonSizedBox.sizedBox(height: 10, width: 10),
+          ],
         ],
       ),
     );

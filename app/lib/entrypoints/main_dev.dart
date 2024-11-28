@@ -4,7 +4,6 @@ import 'package:app/flavors/flavor.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
-import 'package:network_retrofit/util/network_properties.dart';
 
 void main() async {
   FlavorConfig.initialize(
@@ -17,21 +16,20 @@ void main() async {
         mdmToken: EnvDev.mdmToken,
         ticketingBaseUrl: EnvDev.ticketingBaseUrl,
         secrets: AppSecrets.appSecretsDev,
+        keyCloakIntrospectUrl: EnvDev.introspectUrl,
         logSqlStatements: true,
         showLogs: true,
-        authorizationEndpoint:
-            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
-        tokenEndpoint:
-            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-        apiBaseUrl: NetworkProperties.baseURL,
+        authorizationEndpoint: EnvDev.authorizationEndpoint,
+        tokenEndpoint: EnvDev.tokenEndpoint,
+        apiBaseUrl: '',
         useFakeData: false,
         transportUrl: EnvDev.transportUrl,
         disciplinarySlip: EnvDev.disciplinarySlip,
         attendance: EnvDev.attendance,
-        discoveryUrl:
-            'https://qa.vgos.org/realms/ampersand-external-qa/.well-known/openid-configuration',
-        logoutEndpoint:
-            'https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/logout'),
+        discoveryUrl: EnvDev.discoveryUrl,
+        logoutEndpoint: EnvDev.logoutEndpoint,
+        gateUrl: EnvDev.gateBaseUrl,
+        marketingUrl: EnvDev.marketingBaseUrl),
   );
   startApp();
 }
