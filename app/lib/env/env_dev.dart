@@ -57,4 +57,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'GATE_BASE_URL')
   static const String gateBaseUrl = _EnvDev.gateBaseUrl;
+
+  @EnviedField(varName: 'MARKETING_BASE_URL')
+  static const String marketingBaseUrl = _EnvDev.marketingBaseUrl;
 }

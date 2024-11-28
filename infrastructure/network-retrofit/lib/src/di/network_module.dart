@@ -9,6 +9,7 @@ import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dar
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
 import 'package:network_retrofit/src/services/keycloak_service.dart';
+import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
@@ -136,6 +137,11 @@ abstract class NetworkModule {
       GatemanagementService(dio, gateUrl: gateUrl);
 
   @lazySingleton
+  MarketingSerivce providerMarketingSerivce(
+          Dio dio, @Named('MarketingUrl') String marketingUrl) =>
+      MarketingSerivce(dio, marketingUrl: marketingUrl);
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
@@ -145,7 +151,8 @@ abstract class NetworkModule {
           TransportService transportService,
           TicketRetrofitService ticketRetrofitService,
           KeyCloakService keyCloakService,
-          GatemanagementService gatemanagementService) =>
+          GatemanagementService gatemanagementService,
+          MarketingSerivce marketingSerivce) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -155,5 +162,6 @@ abstract class NetworkModule {
           financeRetrofitService: financeRetrofitService,
           transportService: transportService,
           keyCloakService: keyCloakService,
-          gatemanagementService: gatemanagementService);
+          gatemanagementService: gatemanagementService,
+          marketingSerivce: marketingSerivce);
 }

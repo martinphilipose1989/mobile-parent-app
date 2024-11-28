@@ -67,4 +67,7 @@ abstract class AppModule {
 
   @Named("GateUrl")
   String get gateUrl => FlavorConfig.instance.values.gateUrl;
+
+  @Named("MarketingUrl")
+  String get marketingUrl => FlavorConfig.instance.values.marketingUrl;
 }
