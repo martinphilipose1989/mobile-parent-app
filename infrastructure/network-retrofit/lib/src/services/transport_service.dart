@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
 import 'package:network_retrofit/src/model/response/transport/student_attendance_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -13,17 +14,16 @@ part 'transport_service.g.dart';
 // const String transportBaseUrl =
 //     "https://transport-219111640528.us-central1.run.app/";
 const String _getMyDutyList = "transport-service/parent/route-list";
-const String _getCheckList = "transport-service/mobile-app/check-list";
-const String _createIncidentReport = "transport-service/mobile-app/check-list";
-const String _getStudentListByRoute =
-    "transport-service/mobile-app/student-list";
+
 const String _getStudentProfile =
     "transport-service/parent/student-profile/{studentId}";
-const String _getStaffList ='transport-service/parent/staff-contacts/{route_id}';
+const String _getStaffList =
+    'transport-service/parent/staff-contacts/{route_id}';
 const String _getStudentattendance =
     "transport-service/parent/student-attandence/{student_id}/{attendance_type}";
-const String _fetchStopsLogs="transport-service/parent/fetch-stop-logs";
+const String _fetchStopsLogs = "transport-service/parent/fetch-stop-logs";
 const String _getBusStopsList = 'transport-service/parent/bus-stops';
+const String _fetchStops = "transport-service/route/fetch-stops";
 
 @RestApi()
 abstract class TransportService {
@@ -63,27 +63,26 @@ abstract class TransportService {
     @Query("platform") required String platform,
   });
 
-
-
   @GET(_getStaffList)
   Future<HttpResponse<StaffListResponseEntity>> getStaffList({
     @Path("route_id") required int schoolId,
     @Query("platform") required String platform,
   });
 
-
   @GET(_fetchStopsLogs)
-  Future<HttpResponse<FetchStopLogsEntity>> fetchStopLogs(
-      {@Query("route_id") required int routeId,
-        @Query("platform") required String platform,
-      });
+  Future<HttpResponse<FetchStopLogsEntity>> fetchStopLogs({
+    @Query("route_id") required int routeId,
+    @Query("platform") required String platform,
+  });
+
+  @POST('${_fetchStops}transport-service/route/fetch-stops')
+  Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
+      {@Body() required FetchStopRequest fetchStopRequest});
 
 // @GET(_getBearerList)
 // Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(
 //     @Path('studentId') int studentId);
 //
-
-
 
 // @GET(_getSchoolContacts)
 // Future<HttpResponse<GetSchoolContactResponseEntity>> getSchoolContacts(

@@ -12,8 +12,7 @@ import '../model/response/finance/get_token_generator/get_token_generator_respon
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
-import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_entity.dart';
-import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
+
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/admission_list/admission_list_response_entity.dart';
@@ -28,11 +27,9 @@ import 'package:network_retrofit/src/model/response/enquiry_timeline.dart/enquir
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
 import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
-import 'package:network_retrofit/src/model/response/gatepass/create_gatepass_entity_response.dart';
-import 'package:network_retrofit/src/model/response/gatepass/create_qrcode_response.dart';
+
 import 'package:network_retrofit/src/model/response/gatepass/mdm_coreason_entity.dart';
-import 'package:network_retrofit/src/model/response/gatepass/upload_file_response_entity.dart';
-import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
+
 import 'package:network_retrofit/src/model/response/get_admission_journey/admission_journey_base_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_enquiry_detail/enquiry_stage_update.dart';
@@ -536,10 +533,10 @@ abstract class RetrofitService {
     @Path("enquiryId") required String enquiryID,
   });
 
-  @POST(
-      '${NetworkProperties.transportBaseURL}transport-service/route/fetch-stops')
-  Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
-      {@Body() required FetchStopRequest fetchStopRequest});
+  // @POST(
+  //     '${NetworkProperties.transportBaseURL}transport-service/route/fetch-stops')
+  // Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
+  //     {@Body() required FetchStopRequest fetchStopRequest});
 
   @POST(
       '${NetworkProperties.mdmBaseUrl}/api/rbac-role-permissions/role-permissions-for-external')

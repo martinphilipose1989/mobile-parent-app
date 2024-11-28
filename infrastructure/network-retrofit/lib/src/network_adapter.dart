@@ -1000,7 +1000,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, FetchStopResponseModel>> fetchStops(
       {required FetchStopRequest fetchStopRequest}) async {
     var response = await safeApiCall(
-        apiService.fetchStops(fetchStopRequest: fetchStopRequest));
+        transportService.fetchStops(fetchStopRequest: fetchStopRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

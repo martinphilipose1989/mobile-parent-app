@@ -12,8 +12,8 @@ class NetworkProperties {
   //UAT
   // static const String marketingBaseURL =
   //     'https://marketing-backend-ndxpitoqla-el.a.run.app/';
-  static const String transportBaseURL =
-      'https://transport-219111640528.us-central1.run.app/';
+  // static const String transportBaseURL =
+  //     'https://transport-219111640528.us-central1.run.app/';
   //UAT
   // static const String transportBaseURL =
   //     'https://transport-backend-869610231867.asia-south1.run.app/';
@@ -71,35 +71,8 @@ class NetworkProperties {
   //UAT
   // static const String subjetcList =
   //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
-  // static const String requestGatePass =
-  //     "https://gate-management-r26sp3mibq-uc.a.run.app/gate-management/gatepass/cross-platform/create";
 
   static const String mdmModule = "$mdmBaseUrl/api/co-reasons";
-
-  ////-----GATE PASS ----///
-  /// GATE PASS API BASE:
-  // static const String BASE_GATE_PASS =
-  //     "https://gate-management-r26sp3mibq-uc.a.run.app/";
-
-  // UAT
-  // static const String BASE_GATE_PASS =
-  //     "https://gate-management-backend-869610231867.asia-south1.run.app/";
-
-  /// GATE PASS API ENDPOINTS:
-  // static const String createVisitorGatePass =
-  //     "${BASE_GATE_PASS}gate-management/gatepass/cross-platform/create";
-  // //  "${BASE_GATE_PASS}gate-management/visitor/create";
-  // static const String uploadProfileImage =
-  //     "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
-
-  // static const String getVisitorDetails =
-  //     "${BASE_GATE_PASS}gate-management/gatepass";
-
-  // static const String getGatePassDetails =
-  //     "${BASE_GATE_PASS}gate-management/gatepass/{gatepassId}";
-
-  // static const String requestGatePass =
-  //     'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
 
   static const String getBrandList = "$mdmBaseUrl/api/ac-brands";
 }
