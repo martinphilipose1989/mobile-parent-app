@@ -2,21 +2,13 @@ class NetworkProperties {
   static const String mdmBaseUrl = "https://ampersand-r26sp3mibq-uc.a.run.app";
   // UAT
   //static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
-  static const String financeBaseUrl =
-      "https://finance-r26sp3mibq-uc.a.run.app";
-  //UAT
-  // static const String financeBaseUrl =
-  //     "https://finance-backend-ndxpitoqla-el.a.run.app";
+
   static const String marketingBaseURL =
       'https://marketing-r26sp3mibq-uc.a.run.app/';
   //UAT
   // static const String marketingBaseURL =
   //     'https://marketing-backend-ndxpitoqla-el.a.run.app/';
-  // static const String transportBaseURL =
-  //     'https://transport-219111640528.us-central1.run.app/';
-  //UAT
-  // static const String transportBaseURL =
-  //     'https://transport-backend-869610231867.asia-south1.run.app/';
+
   static const String schoolBoard = '/api/ac-boards';
   static const String grade = '/api/ac-grades';
   static const String gender = '/api/genders';

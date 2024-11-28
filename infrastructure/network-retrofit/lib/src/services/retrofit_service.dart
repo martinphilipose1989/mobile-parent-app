@@ -84,15 +84,6 @@ abstract class RetrofitService {
 
   @GET('/api/msg-sub-categories')
   Future<HttpResponse<MsgSubCategoryEntity>> createSubCategory();
-  @POST(
-      '${NetworkProperties.financeBaseUrl}/finance/fee_collection/fee_details')
-  Future<HttpResponse<GetPendingFeesEntity>> getPendingFees(
-      @Body() GetPendingFeesRequest getPendingFeesRequest);
-
-  @POST(
-      '${NetworkProperties.financeBaseUrl}/finance/transactions/brand_codes/mobile/list')
-  Future<HttpResponse<SchoolNamesEntity>> getSchoolNames(
-      @Body() SchoolNamesRequest schoolNamesRequest);
 
   @GET(
       '${NetworkProperties.marketingBaseURL}marketing/app/enquiry/enquiry-list')
@@ -508,11 +499,11 @@ abstract class RetrofitService {
           {@Header("Authorization") required String token,
           @Body() required VasDetailRequest transportEnrollmentDetail});
 
-  @POST(
-      '${NetworkProperties.financeBaseUrl}/finance/fee_payment/finance/calculate')
-  Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
-      {@Body()
-      required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
+  // @POST(
+  //     '${NetworkProperties.financeBaseUrl}/finance/fee_payment/finance/calculate')
+  // Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
+  //     {@Body()
+  //     required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
 
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas/add')

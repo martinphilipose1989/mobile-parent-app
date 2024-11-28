@@ -955,8 +955,8 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, VasOptionResponse>> calculateFees(
       {required VasEnrollmentFeeCalculationRequest
           feeCalculationRequest}) async {
-    var response = await safeApiCall(
-        apiService.calculateFee(feeCalculationRequest: feeCalculationRequest));
+    var response = await safeApiCall(financeRetrofitService.calculateFee(
+        feeCalculationRequest: feeCalculationRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
