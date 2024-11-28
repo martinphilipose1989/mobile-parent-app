@@ -33,11 +33,10 @@ class StudentDetailsRowWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => onPressed?.call(),
       child: Container(
-
-     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: AppColors.surface_1,
+          color: AppColors.roseWhite,
           boxShadow: const [
             BoxShadow(
               color: Color(0x4C4E6438),
@@ -75,7 +74,7 @@ class StudentDetailsRowWidget extends StatelessWidget {
             CommonElevatedButton(
                 width: 100,
                 onPressed: () {},
-                text: status??"present",
+                text: status ?? "present",
                 textColor: AppColors.primaryOn,
                 backgroundColor:
                     isPresent ? AppColors.success : AppColors.failure)
