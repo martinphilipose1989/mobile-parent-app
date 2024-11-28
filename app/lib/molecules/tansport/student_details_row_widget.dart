@@ -63,7 +63,7 @@ class StudentDetailsRowWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CommonText(
-                      text: "$name $lname",
+                      text: "${name ?? ''} ${lname ?? ''}",
                       style: AppTypography.subtitle2,
                     ),
                     CommonText(text: desc ?? "", style: AppTypography.body2)
@@ -71,13 +71,16 @@ class StudentDetailsRowWidget extends StatelessWidget {
                 ),
               ],
             ),
-            CommonElevatedButton(
-                width: 100,
-                onPressed: () {},
-                text: status ?? "present",
-                textColor: AppColors.primaryOn,
-                backgroundColor:
-                    isPresent ? AppColors.success : AppColors.failure)
+            Visibility(
+              visible: status?.isNotEmpty ?? false,
+              child: CommonElevatedButton(
+                  width: 100,
+                  onPressed: () {},
+                  text: status ?? "present",
+                  textColor: AppColors.primaryOn,
+                  backgroundColor:
+                      isPresent ? AppColors.success : AppColors.failure),
+            )
           ],
         ),
       ),

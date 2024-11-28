@@ -88,11 +88,12 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   }
 
   void getStudentAttendance() async {
-    _loadingSubject.add(true);
+    //  _loadingSubject.add(true);
 
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
-            studentId: dashBoardState.selectedStudent?.id, attendanceType: int.parse(trip?.routeType==1?"5":"6"));
+            studentId: dashBoardState.selectedStudent?.id,
+            attendanceType: int.parse(trip?.routeType == '1' ? "5" : "6"));
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -102,13 +103,13 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       onSuccess: (result) {
         studentAttendanceSubject.add(Resource.success(data: result));
 
-        _loadingSubject.add(false);
+        //   _loadingSubject.add(false);
 
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
         studentAttendanceSubject.add(Resource.error(data: null, error: error));
-        _loadingSubject.add(false);
+        //  _loadingSubject.add(false);
       },
     );
   }
