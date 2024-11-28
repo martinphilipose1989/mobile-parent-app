@@ -54,4 +54,7 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'KEY_INTROSPECT_URL')
   static const String introspectUrl = _EnvQA.introspectUrl;
+
+  @EnviedField(varName: 'GATE_BASE_URL')
+  static const String gateBaseUrl = _EnvQA.gateBaseUrl;
 }

@@ -64,4 +64,7 @@ abstract class AppModule {
   @Named("KeyCloakUrl")
   String get keyCloakIntrospectUrl =>
       FlavorConfig.instance.values.keyCloakIntrospectUrl;
+
+  @Named("GateUrl")
+  String get gateUrl => FlavorConfig.instance.values.gateUrl;
 }

@@ -19,16 +19,13 @@ void main() async {
         secrets: AppSecrets.appSecretsQA,
         disciplinarySlip: EnvQA.disciplinarySlip,
         keyCloakIntrospectUrl: EnvQA.introspectUrl,
-        authorizationEndpoint:
-            "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/auth",
-        tokenEndpoint:
-            "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token",
+        authorizationEndpoint: EnvQA.authorizationEndpoint,
+        tokenEndpoint: EnvQA.tokenEndpoint,
         transportUrl: EnvQA.transportUrl,
-        discoveryUrl:
-            'https://sso.ampersandgroup.in/realms/ampersand-external-dev/.well-known/openid-configuration',
-        logoutEndpoint:
-            'https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/logout',
-        showLogs: false),
+        discoveryUrl: EnvQA.discoveryUrl,
+        logoutEndpoint: EnvQA.logoutEndpoint,
+        gateUrl: EnvQA.gateBaseUrl,
+        showLogs: true),
   );
   startApp();
 }

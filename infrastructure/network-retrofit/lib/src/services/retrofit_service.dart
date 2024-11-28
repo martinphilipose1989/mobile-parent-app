@@ -50,7 +50,7 @@ import 'package:network_retrofit/src/model/response/slots_detail/slots_entity.da
 import 'package:network_retrofit/src/model/response/subject_selection/subject_detail_response_entity.dart';
 import 'package:network_retrofit/src/model/response/summer_camp_enrollment_detail/summer_camp_enrollment_response_entity.dart';
 import 'package:network_retrofit/src/model/response/transport_enrollment_detail/transport_enrollment_response_entity.dart';
-import 'package:network_retrofit/src/model/response/user/token_introspection_response.dart';
+
 import 'package:network_retrofit/src/model/response/user/user_role_permission_response_entity.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import 'package:network_retrofit/src/util/network_properties.dart';
@@ -477,25 +477,6 @@ abstract class RetrofitService {
       {@Body() required VasOptionRequest vasOptionRequest,
       @Path("enquiryId") required String enquiryID});
 
-  @POST(NetworkProperties.requestGatePass)
-  Future<HttpResponse<CreateQrcodeResponseEntity>> requestGatePass(
-      @Body() CreateQrcodeRequestEntity requestBody);
-
-  @POST(NetworkProperties.createVisitorGatePass)
-  Future<HttpResponse<CreateGatePassResponseEntity>> createVisitorGatePass(
-      @Body() CreateGatePassRequestEntity requestBody,
-      {@Query('platform') required String platform});
-
-  @GET(NetworkProperties.getVisitorDetails)
-  Future<HttpResponse<VisitorDetailsResponseEntity>> getVisitorDetails(
-      @Query("mobile") String visitorMobileNumber,
-      @Query("studentId") String? studentId,
-      {@Query('platform') required String platform});
-
-  @GET(NetworkProperties.getGatePassDetails)
-  Future<HttpResponse<VisitorDetailsResponseEntity>> getGatepassDetailsById(
-      @Path("gatepassId") String getpassID, @Query('platform') String platform);
-
   @POST(NetworkProperties.subjetcList)
   Future<HttpResponse<SubjectListResponseEntity>> getSubjectList({
     @Body() required SubjectListingRequest subjectListingRequest,
@@ -571,12 +552,6 @@ abstract class RetrofitService {
   Future<HttpResponse<MoveToNextStageEnquiryResponseEntity>>
       moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
           @Body() MoveToNextStageEnquiryRequestEntity body);
-
-  @POST(NetworkProperties.uploadProfileImage)
-  @MultiPart()
-  Future<HttpResponse<UploadFileResponseEntity>> uploadProfileImage(
-      @Part(name: "file") File file,
-      {@Query('platform') required String platform});
 
   @GET(NetworkProperties.mdmModule)
   Future<HttpResponse<MdmCoReasonEntity>> getPurposeOfVisitList(

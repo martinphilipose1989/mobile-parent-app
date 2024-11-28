@@ -7,6 +7,7 @@ import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
+import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
 import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
@@ -130,6 +131,11 @@ abstract class NetworkModule {
       KeyCloakService(dio, keyCloak: keyCloak);
 
   @lazySingleton
+  GatemanagementService providerGatemanagementService(
+          Dio dio, @Named('GateUrl') String gateUrl) =>
+      GatemanagementService(dio, gateUrl: gateUrl);
+
+  @lazySingleton
   NetworkPort providerNetworkService(
           RetrofitService retrofitService,
           FinanceRetrofitService financeRetrofitService,
@@ -138,7 +144,8 @@ abstract class NetworkModule {
           DisciplinaryRetorfitService disciplinaryRetorfitService,
           TransportService transportService,
           TicketRetrofitService ticketRetrofitService,
-          KeyCloakService keyCloakService) =>
+          KeyCloakService keyCloakService,
+          GatemanagementService gatemanagementService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -147,5 +154,6 @@ abstract class NetworkModule {
           apiService: retrofitService,
           financeRetrofitService: financeRetrofitService,
           transportService: transportService,
-          keyCloakService: keyCloakService);
+          keyCloakService: keyCloakService,
+          gatemanagementService: gatemanagementService);
 }

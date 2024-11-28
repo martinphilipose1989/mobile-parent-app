@@ -10,29 +10,27 @@ void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.dev,
     values: const FlavorValues(
-        // apiBaseUrl: '',
-        financeBaseUrl: EnvDev.financeBaseUrl,
-        mdmBaseUrl: EnvDev.mdmBaseUrl,
-        adminBaseUrl: EnvDev.adminBaseUrl,
-        mdmToken: EnvDev.mdmToken,
-        ticketingBaseUrl: EnvDev.ticketingBaseUrl,
-        secrets: AppSecrets.appSecretsDev,
-        keyCloakIntrospectUrl: EnvDev.introspectUrl,
-        logSqlStatements: true,
-        showLogs: true,
-        authorizationEndpoint:
-            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/auth",
-        tokenEndpoint:
-            "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token",
-        apiBaseUrl: NetworkProperties.baseURL,
-        useFakeData: false,
-        transportUrl: EnvDev.transportUrl,
-        disciplinarySlip: EnvDev.disciplinarySlip,
-        attendance: EnvDev.attendance,
-        discoveryUrl:
-            'https://qa.vgos.org/realms/ampersand-external-qa/.well-known/openid-configuration',
-        logoutEndpoint:
-            'https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/logout'),
+      // apiBaseUrl: '',
+      financeBaseUrl: EnvDev.financeBaseUrl,
+      mdmBaseUrl: EnvDev.mdmBaseUrl,
+      adminBaseUrl: EnvDev.adminBaseUrl,
+      mdmToken: EnvDev.mdmToken,
+      ticketingBaseUrl: EnvDev.ticketingBaseUrl,
+      secrets: AppSecrets.appSecretsDev,
+      keyCloakIntrospectUrl: EnvDev.introspectUrl,
+      logSqlStatements: true,
+      showLogs: true,
+      authorizationEndpoint: EnvDev.authorizationEndpoint,
+      tokenEndpoint: EnvDev.tokenEndpoint,
+      apiBaseUrl: NetworkProperties.baseURL,
+      useFakeData: false,
+      transportUrl: EnvDev.transportUrl,
+      disciplinarySlip: EnvDev.disciplinarySlip,
+      attendance: EnvDev.attendance,
+      discoveryUrl: EnvDev.discoveryUrl,
+      logoutEndpoint: EnvDev.logoutEndpoint,
+      gateUrl: EnvDev.gateBaseUrl,
+    ),
   );
   startApp();
 }
