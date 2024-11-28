@@ -84,11 +84,12 @@ android {
     signingConfigs {
 
         release {
-            storeFile file(System.getenv("KEY_STORE_PATH") ?: "keyStore/upload-keystore.jks")
+            storeFile file(System.getenv("KEY_STORE_PATH") ?: "keyStore/app_key.jks")
             storePassword System.getenv("RELEASE_STORE_PASSWORD")
            keyAlias System.getenv("RELEASE_KEY_ALIAS")
             keyPassword System.getenv("RELEASE_KEY_PASSWORD")
         }
+
 
 
     }

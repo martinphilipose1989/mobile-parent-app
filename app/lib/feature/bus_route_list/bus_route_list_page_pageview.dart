@@ -33,146 +33,138 @@ class BusRouteListPageView
 
   @override
   Widget build(BuildContext context, BusRouteListPageViewModel model) {
-    return Column(
-      children: [
-        Padding(
-            padding: const EdgeInsets.all(16),
-            child: ArrivalInfoTile(
-                vehicleNumber:
-                    model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
-                startTime: model.trip?.shiftName ?? '',
-                totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
-        Expanded(
-            child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
-                stream: model.busStopsListStream,
-                initialData: Resource.none(),
-                dataBuilder: (context, busStopsListData) {
-                  return CommonRefreshIndicator(
-                      onRefresh: () {
-                        return model.refreshMyDutyList();
-                      },
-                      child: DataStatusWidget(
-                          status: busStopsListData?.status ?? Status.none,
-                          loadingWidget: () => const Center(
-                                child: CircularProgressIndicator(),
+    return Column(children: [
+      Padding(
+          padding: const EdgeInsets.all(16),
+          child: ArrivalInfoTile(
+              vehicleNumber:
+                  model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
+              startTime: model.trip?.shiftName ?? '',
+              totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
+      Expanded(
+          child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
+              stream: model.busStopsListStream,
+              initialData: Resource.none(),
+              dataBuilder: (context, busStopsListData) {
+                return CommonRefreshIndicator(
+                    onRefresh: () {
+                      return model.refreshMyDutyList();
+                    },
+                    child: DataStatusWidget(
+                        status: busStopsListData?.status ?? Status.none,
+                        loadingWidget: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                        errorWidget: () => Center(
+                              child: NoDataFoundWidget(
+                                title: busStopsListData
+                                            ?.dealSafeAppError?.error.message
+                                            .contains("internet") ??
+                                        false
+                                    ? "No Internet Connection"
+                                    : "Something Went Wrong",
+                                subtitle: busStopsListData
+                                            ?.dealSafeAppError?.error.message
+                                            .contains("internet") ??
+                                        false
+                                    ? "It seems you're offline. Please check your internet connection and try again."
+                                    : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                onPressed: () {
+                                  model.refreshMyDutyList();
+                                },
                               ),
-                          errorWidget: () => Center(
-                                child: NoDataFoundWidget(
-                                  title: busStopsListData
-                                              ?.dealSafeAppError?.error.message
-                                              .contains("internet") ??
-                                          false
-                                      ? "No Internet Connection"
-                                      : "Something Went Wrong",
-                                  subtitle: busStopsListData
-                                              ?.dealSafeAppError?.error.message
-                                              .contains("internet") ??
-                                          false
-                                      ? "It seems you're offline. Please check your internet connection and try again."
-                                      : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-                                  onPressed: () {
-                                    model.refreshMyDutyList();
-                                  },
-                                ),
-                              ),
-                          successWidget: () {
-                            return AppStreamBuilder<bool>(
-                                stream: model.hasMorePagesStream,
-                                initialData: model.hasMorePagesSubject.value,
-                                dataBuilder: (context, hasMorePage) {
-                                  return NotificationListener<
-                                          ScrollNotification>(
-                                      onNotification: (scrollNotification) {
-                                        if (scrollNotification.metrics.pixels ==
-                                            scrollNotification
-                                                .metrics.maxScrollExtent) {
-                                          //model.loadMoreVisitorList();
-                                        }
-                                        return false;
-                                      },
-                                      child: AppStreamBuilder<bool>(
-                                          stream: model.loadingStream,
-                                          initialData: false,
-                                          dataBuilder: (context, isLoading) {
-                                            // final itemCount = (busStopsListData
-                                            //             ?.data?.length ??
-                                            //         0) +
-                                            //     (isLoading! && hasMorePage!
-                                            //         ? 1
-                                            //         : 0);
-                                            return SingleChildScrollView(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              child: Visibility(
-                                                visible: busStopsListData
-                                                        ?.data?.isEmpty ??
-                                                    false,
-                                                replacement:
-                                                    CommonRefreshIndicator(
-                                                  isChildScrollable: true,
-                                                  onRefresh: () {
-                                                    return model
-                                                        .refreshMyDutyList();
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      BaseWidget(
-                                                        builder: (BuildContext
-                                                                context,
-                                                            StaffListViewModel?
-                                                                staffmodel,
-                                                            Widget? child) {
-                                                          return _trackBus(
-                                                              onTap: () {
-                                                            print(
-                                                                "taaappppppppeeedddd");
+                            ),
+                        successWidget: () {
+                          return AppStreamBuilder<bool>(
+                              stream: model.hasMorePagesStream,
+                              initialData: model.hasMorePagesSubject.value,
+                              dataBuilder: (context, hasMorePage) {
+                                return NotificationListener<
+                                        ScrollNotification>(
+                                    onNotification: (scrollNotification) {
+                                      if (scrollNotification.metrics.pixels ==
+                                          scrollNotification
+                                              .metrics.maxScrollExtent) {
+                                        //model.loadMoreVisitorList();
+                                      }
+                                      return false;
+                                    },
+                                    child: AppStreamBuilder<bool>(
+                                        stream: model.loadingStream,
+                                        initialData: false,
+                                        dataBuilder: (context, isLoading) {
+                                          // final itemCount = (busStopsListData
+                                          //             ?.data?.length ??
+                                          //         0) +
+                                          //     (isLoading! && hasMorePage!
+                                          //         ? 1
+                                          //         : 0);
+                                          return Visibility(
+                                            visible: busStopsListData
+                                                    ?.data?.isEmpty ??
+                                                false,
+                                            replacement:
+                                                CommonRefreshIndicator(
+                                              isChildScrollable: true,
+                                              onRefresh: () {
+                                                return model
+                                                    .refreshMyDutyList();
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  BaseWidget(
+                                                    builder: (BuildContext
+                                                            context,
+                                                        StaffListViewModel?
+                                                            staffmodel,
+                                                        Widget? child) {
+                                                      return _trackBus(
+                                                          onTap: () {
+                                                        staffmodel?.getStaffList(
+                                                            routeId: int
+                                                                .parse(model
+                                                                        .trip
+                                                                        ?.id ??
+                                                                    ""),
+                                                            app: 'app');
 
-                                                            staffmodel?.getStaffList(
-                                                                routeId: int
-                                                                    .parse(model
-                                                                            .trip
-                                                                            ?.id ??
-                                                                        ""),
-                                                                app: 'app');
-
-                                                            CommonPopups().showStaff(
-                                                                context,
-                                                                args: StaffArgs(
-                                                                    routeId: int.parse(model
-                                                                            .trip
-                                                                            ?.id ??
-                                                                        "")));
-                                                          });
-                                                        },
-                                                        providerBase:
-                                                            staffListViewModelProvider,
-                                                      ),
-
-                                                      /// bus TackingListWidget
-                                                      _busTackingListWidget(
-                                                        busStopsListData,
-                                                        model,
-                                                        context,
-                                                      ),
-                                                      _studentDetailsBottomWidget(
-                                                        model,
-                                                        context,
-                                                      ),
-                                                    ],
+                                                        CommonPopups().showStaff(
+                                                            context,
+                                                            args: StaffArgs(
+                                                                routeId: int.parse(model
+                                                                        .trip
+                                                                        ?.id ??
+                                                                    "")));
+                                                      });
+                                                    },
+                                                    providerBase:
+                                                        staffListViewModelProvider,
                                                   ),
-                                                ),
-                                                child: const NoDataFoundWidget(
-                                                  title:
-                                                      "No Bus Stops List Found",
-                                                ),
+
+                                                  /// bus TackingListWidget
+                                                  _busTackingListWidget(
+                                                    busStopsListData,
+                                                    model,
+                                                    context,
+                                                  ),
+                                                  _studentDetailsBottomWidget(
+                                                    model,
+                                                    context,
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                          }));
-                                });
-                          }));
-                })),
-      ],
-    );
+                                            ),
+                                            child: const NoDataFoundWidget(
+                                              title:
+                                                  "No Bus Stops List Found",
+                                            ),
+                                          );
+                                        }));
+                              });
+                        }));
+              })),
+    ],
+        );
   }
 
   void navigateToBusRouteDetails(
@@ -228,29 +220,34 @@ class BusRouteListPageView
         initialData: Resource.none(),
         dataBuilder: (context, snapshot) {
           List<AttendanceLogDetailsResponse>? attendanceList =
-              snapshot?.data?.data?.attendanceList ?? [];
-          //// attendanceList empty or null
-          // if (attendanceList.isEmpty) return const SizedBox.shrink();
-
+              snapshot?.data?.data?.attendanceList;
           var data = snapshot?.data?.data;
           var studentId = snapshot?.data?.data?.studentId;
-          var attendanceListItem =
-              attendanceList.isNotEmpty ? attendanceList.first : null;
+          // var attendanceListItem =
+          // attendanceList!.isNotEmpty ? attendanceList.first : null;
+          //// attendanceList empty or null
+if (snapshot?.status==Status.loading)
+{return CircularProgressIndicator();}
+else
+return Container(
+    child:
+    //Text("hi i am attendance"));
+             StudentDetailsRowWidget(
+                name: data?.firstName,
+                desc: "Regular Student",
+                status:  data?.attendanceList?.first.attendanceRemark,
+                lname: data?.lastName,
+                image: '',
+                id: studentId,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.studentProfilePage,
+                    arguments: studentId,
+                  );
+                }));
 
-          return StudentDetailsRowWidget(
-              name: data?.firstName ?? "",
-              desc: "Regular Student",
-              status: attendanceListItem?.attendanceRemark ?? "",
-              lname: data?.lastName ?? "",
-              image: '',
-              id: studentId,
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  RoutePaths.studentProfilePage,
-                  arguments: studentId,
-                );
-              });
+
         });
   }
 
@@ -259,108 +256,110 @@ class BusRouteListPageView
     BusRouteListPageViewModel model,
     BuildContext context,
   ) {
-    return ListView.separated(
-        shrinkWrap: true,
-        itemCount: busStopsListData?.data?.length ?? 0,
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 8.h);
-        },
-        itemBuilder: (context, index) {
-          return AppStreamBuilder<double>(
-              stream: model.distanceStream,
-              initialData: model.distanceSubject.value,
-              onData: (distance) {
-                if (distance > 0) {
-                  // model
-                  //     .updateLiveLocationStatus(
-                  //         false);
-                  // model.enableLiveLocation =
-                  //     false;
-                  // model
-                  //     .distanceSubject
-                  //     .add(0);
-                  // navigateToBusRouteDetails(
-                  //     context:
-                  //         context,
-                  //     busStopsListData:
-                  //         busStopsListData,
-                  //     index: index,
-                  //     model: model);
-                }
-              },
-              dataBuilder: (context, distanceBetweenBusAndStop) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InkWell(
-                    onTap: () {
-                      navigateToBusRouteDetails(
-                          context: context,
-                          busStopsListData: busStopsListData,
-                          index: index,
-                          model: model);
-                    },
-                    child: TimelineTile(
-                      model: model,
-                      index: index,
-                      stopid: busStopsListData?.data?[index].stop?.id ?? 0,
-                      isActive: true,
-                      lineWidth: 3.w,
-                      stopName:
-                          busStopsListData?.data?[index].stop?.stopName ?? '',
-                      circleColor: AppColors.primary,
-                      leadingChild: Column(children: [
-                        CommonText(
-                            text: model.convertTo12HourFormat(
-                                busStopsListData?.data?[index].approxTime ??
-                                    ""),
-                            style: AppTypography.caption,
-                            color: AppColors.textGray),
-                        // CommonText(
-                        //     text:
-                        //         "7:00 Am",
-                        //     style: AppTypography
-                        //         .caption,
-                        //     color: index ==
-                        //             0
-                        //         ? AppColors
-                        //             .success
-                        //         : AppColors
-                        //             .failure),
-                      ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+    return Expanded(
+      child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: busStopsListData?.data?.length ?? 0,
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 8.h);
+          },
+          itemBuilder: (context, index) {
+            return AppStreamBuilder<double>(
+                stream: model.distanceStream,
+                initialData: model.distanceSubject.value,
+                onData: (distance) {
+                  if (distance > 0) {
+                    // model
+                    //     .updateLiveLocationStatus(
+                    //         false);
+                    // model.enableLiveLocation =
+                    //     false;
+                    // model
+                    //     .distanceSubject
+                    //     .add(0);
+                    // navigateToBusRouteDetails(
+                    //     context:
+                    //         context,
+                    //     busStopsListData:
+                    //         busStopsListData,
+                    //     index: index,
+                    //     model: model);
+                  }
+                },
+                dataBuilder: (context, distanceBetweenBusAndStop) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: InkWell(
+                      onTap: () {
+                        navigateToBusRouteDetails(
+                            context: context,
+                            busStopsListData: busStopsListData,
+                            index: index,
+                            model: model);
+                      },
+                      child: TimelineTile(
+                        model: model,
+                        index: index,
+                        stopid: busStopsListData?.data?[index].stop?.id ?? 0,
+                        isActive: true,
+                        lineWidth: 3.w,
+                        stopName:
+                            busStopsListData?.data?[index].stop?.stopName ?? '',
+                        circleColor: AppColors.primary,
+                        leadingChild: Column(children: [
                           CommonText(
-                              text: busStopsListData
-                                      ?.data?[index].stop?.stopName ??
-                                  '',
-                              color: index <= (model.updatedRouteIndex ?? 0)
-                                  ? AppColors.primary
-                                  : AppColors.textLightGray,
-                              style: AppTypography.subtitle2),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SvgPicture.asset(AppImages.userOutlineIcon),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              CommonText(
-                                  text:
-                                      "${busStopsListData?.data?[index].totalStudents} Students",
-                                  color: AppColors.textGray,
-                                  style: AppTypography.caption),
-                            ],
-                          ),
-                          if (index == 0)
-                            Expanded(child: Container(height: 100.h))
-                        ],
+                              text: model.convertTo12HourFormat(
+                                  busStopsListData?.data?[index].approxTime ??
+                                      ""),
+                              style: AppTypography.caption,
+                              color: AppColors.textGray),
+                          // CommonText(
+                          //     text:
+                          //         "7:00 Am",
+                          //     style: AppTypography
+                          //         .caption,
+                          //     color: index ==
+                          //             0
+                          //         ? AppColors
+                          //             .success
+                          //         : AppColors
+                          //             .failure),
+                        ]),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CommonText(
+                                text: busStopsListData
+                                        ?.data?[index].stop?.stopName ??
+                                    '',
+                                color: index <= (model.updatedRouteIndex ?? 0)
+                                    ? AppColors.primary
+                                    : AppColors.textLightGray,
+                                style: AppTypography.subtitle2),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                SvgPicture.asset(AppImages.userOutlineIcon),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                CommonText(
+                                    text:
+                                        "${busStopsListData?.data?[index].totalStudents} Students",
+                                    color: AppColors.textGray,
+                                    style: AppTypography.caption),
+                              ],
+                            ),
+                            if (index == 0)
+                              Expanded(child: Container(height: 100.h))
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
-        });
+                  );
+                });
+          }),
+    );
   }
 
   Widget _trackBus({required void Function() onTap}) {

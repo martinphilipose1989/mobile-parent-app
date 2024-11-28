@@ -10,20 +10,20 @@ import '../model/response/transport/trip_response_entity.dart';
 
 part 'transport_service.g.dart';
 
-const String transportBaseUrl =
-    "https://transport-219111640528.us-central1.run.app/";
-const String _getMyDutyList = "${transportBaseUrl}transport-service/parent/route-list";
+// const String transportBaseUrl =
+//     "https://transport-219111640528.us-central1.run.app/";
+const String _getMyDutyList = "transport-service/parent/route-list";
 const String _getCheckList = "transport-service/mobile-app/check-list";
 const String _createIncidentReport = "transport-service/mobile-app/check-list";
 const String _getStudentListByRoute =
     "transport-service/mobile-app/student-list";
 const String _getStudentProfile =
-    "${transportBaseUrl}transport-service/parent/student-profile/{studentId}";
+    "transport-service/parent/student-profile/{studentId}";
 const String _getStaffList ='transport-service/parent/staff-contacts/{route_id}';
 const String _getStudentattendance =
-    "${transportBaseUrl}transport-service/parent/student-attandence/{studentId}";
+    "transport-service/parent/student-attandence/{student_id}/{attendance_type}";
 const String _fetchStopsLogs="transport-service/parent/fetch-stop-logs";
-const String _getBusStopsList = '${transportBaseUrl}transport-service/parent/bus-stops';
+const String _getBusStopsList = 'transport-service/parent/bus-stops';
 
 @RestApi()
 abstract class TransportService {
@@ -58,7 +58,8 @@ abstract class TransportService {
 
   @GET(_getStudentattendance)
   Future<HttpResponse<StudentAttendanceResponseEntity>> getStudentAttendance({
-    @Path("studentId") required int studentId,
+    @Path("student_id") required int studentId,
+    @Path("attendance_type") required int? attendanceType,
     @Query("platform") required String platform,
   });
 

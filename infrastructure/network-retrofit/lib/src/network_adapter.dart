@@ -1351,9 +1351,9 @@ class NetworkAdapter implements NetworkPort {
 
   @override
   Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
-      {required int id}) async {
+      {required int id,}) async {
     var response = await safeApiCall(
-        adminRetorfitService.getStudentDetails(studentId: id));
+        adminRetorfitService.getStudentDetails(studentId: id,));
     return response.fold(
       (l) {
         return Left(l);
@@ -1536,7 +1536,7 @@ class NetworkAdapter implements NetworkPort {
     final response = await safeApiCall(
       transportService.getStudentAttendance(
         studentId: params.studentId,
-        platform: platform,
+        platform: platform, attendanceType: params.attendanceType,
       ),
     );
 
