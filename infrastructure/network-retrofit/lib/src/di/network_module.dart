@@ -85,26 +85,17 @@ abstract class NetworkModule {
 
   @lazySingleton
   RetrofitService providerRetrofitService(
-          Dio dio,
-          @Named('mdmBaseUrl') String mdmBaseUrl,
-          @Named('financeBaseUrl') String financeBaseUrl) =>
-      RetrofitService(dio,
-          financeBaseUrl: financeBaseUrl, mdmBaseUrl: mdmBaseUrl);
+          Dio dio, @Named('mdmBaseUrl') String mdmBaseUrl) =>
+      RetrofitService(dio, mdmBaseUrl: mdmBaseUrl);
 
   @lazySingleton
   FinanceRetrofitService providerFinanceRetrofitService(
           Dio dio, @Named('financeBaseUrl') String financeBaseUrl) =>
-      FinanceRetrofitService(
-        dio,
-        financeBaseUrl: financeBaseUrl,
-      );
+      FinanceRetrofitService(dio, financeBaseUrl: financeBaseUrl);
   @lazySingleton
   TicketRetrofitService providerTicketRetrofitService(
           Dio dio, @Named('ticketBaseUrl') String ticketingBaseUrl) =>
-      TicketRetrofitService(
-        dio,
-        ticketingBaseUrl: ticketingBaseUrl,
-      );
+      TicketRetrofitService(dio, ticketingBaseUrl: ticketingBaseUrl);
 
   @lazySingleton
   AdminRetorfitService providerAdminFinanceRetrofitService(

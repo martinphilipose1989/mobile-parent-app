@@ -3,7 +3,6 @@ import 'package:app/flavors/flavor.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
-import 'package:network_retrofit/util/network_properties.dart';
 
 void main() async {
   FlavorConfig.initialize(
@@ -25,7 +24,7 @@ void main() async {
       marketingUrl: '',
       authorizationEndpoint: "",
       tokenEndpoint: "",
-      apiBaseUrl: NetworkProperties.baseURL,
+      apiBaseUrl: "",
       disciplinarySlip: '',
       discoveryUrl: '',
       logoutEndpoint: '',
