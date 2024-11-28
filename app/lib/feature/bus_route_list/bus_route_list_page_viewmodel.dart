@@ -171,13 +171,13 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       if (i != a.length - 1) {
         if (a[i].stopComplete && a[i + 1].stopComplete) {
           updatedRouteIndex = i + 1;
-          log("updatRoute updatedRouteIndex $updatedRouteIndex");
+
           // currentStop = a[updatedRouteIndex];
           // nextStop = a[updatedRouteIndex + 1];
           //break;
         } else {
           updatedRouteIndex ??= 0;
-          log("updatRoute esle updatedRouteIndex $updatedRouteIndex");
+
           //  break;
         }
       }
