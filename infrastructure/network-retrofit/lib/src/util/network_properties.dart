@@ -52,18 +52,6 @@ class NetworkProperties {
   static const String relationWithChild =
       '/api/co-guardian-relationships?fields[1]=name';
 
-  static const String enrollmentDetail =
-      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/studentProfile/getEnrollmentDetail';
-  // UAT
-  // static const String enrollmentDetail =
-  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/studentProfile/getEnrollmentDetail';
-
-  static const String subjetcList =
-      'https://admin-panel-backend-r26sp3mibq-uc.a.run.app/admin/school-subject/fetch-school-subjects';
-  //UAT
-  // static const String subjetcList =
-  //     'https://admin-panel-backend-ndxpitoqla-el.a.run.app/admin/school-subject/fetch-school-subjects';
-
   static const String mdmModule = "$mdmBaseUrl/api/co-reasons";
 
   static const String getBrandList = "$mdmBaseUrl/api/ac-brands";

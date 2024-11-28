@@ -829,7 +829,7 @@ class NetworkAdapter implements NetworkPort {
       {required GetSiblingDetailRequest getSiblingDetailRequest}) async {
     log(getSiblingDetailRequest.enrollmentNumber.toString(),
         name: "GET SIBLING DETAIL");
-    var response = await safeApiCall(apiService.getSiblingDetail(
+    var response = await safeApiCall(adminRetorfitService.getSiblingDetail(
         getSiblingDetailRequest: getSiblingDetailRequest));
     return response.fold((l) {
       return Left(l);
@@ -889,7 +889,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, SubjectListResponse>> getSubjectList(
       {required SubjectListingRequest subjectListingRequest}) async {
-    var response = await safeApiCall(apiService.getSubjectList(
+    var response = await safeApiCall(adminRetorfitService.getSubjectList(
         subjectListingRequest: subjectListingRequest));
     return response.fold((l) {
       return Left(l);

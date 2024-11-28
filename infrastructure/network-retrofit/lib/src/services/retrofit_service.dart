@@ -10,8 +10,6 @@ import '../model/response/communication/msg_sub_category_entity.dart';
 import '../model/response/finance/get_guardian_student_details/get_guardian_student_details_entity.dart';
 import '../model/response/finance/get_token_generator/get_token_generator_response_entity.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:network_retrofit/src/model/request/finance/get_pending_fees_request.dart';
-import 'package:network_retrofit/src/model/request/finance/get_school_name_request.dart';
 
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
@@ -24,9 +22,6 @@ import 'package:network_retrofit/src/model/response/enquiry_file_upload/delete_e
 import 'package:network_retrofit/src/model/response/enquiry_file_upload/download_enquiry_file_response_entity.dart';
 import 'package:network_retrofit/src/model/response/enquiry_file_upload/enquiry_file_upload_response_entity.dart';
 import 'package:network_retrofit/src/model/response/enquiry_timeline.dart/enquiry_timeline_response_entity.dart';
-import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
-import 'package:network_retrofit/src/model/response/finance/get_pending_fees/get_pending_fees_entity.dart';
-import 'package:network_retrofit/src/model/response/finance/get_school_names/get_school_names_response.dart';
 
 import 'package:network_retrofit/src/model/response/gatepass/mdm_coreason_entity.dart';
 
@@ -449,10 +444,6 @@ abstract class RetrofitService {
     @Header("Authorization") required String token,
   });
 
-  @POST(NetworkProperties.enrollmentDetail)
-  Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
-      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest});
-
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/subject-details')
   Future<HttpResponse<SubjectDetailResponseEntity>> selectOptionalSubject(
@@ -464,11 +455,6 @@ abstract class RetrofitService {
   Future<HttpResponse<VasOptionResponseEntity>> addVASOption(
       {@Body() required VasOptionRequest vasOptionRequest,
       @Path("enquiryId") required String enquiryID});
-
-  @POST(NetworkProperties.subjetcList)
-  Future<HttpResponse<SubjectListResponseEntity>> getSubjectList({
-    @Body() required SubjectListingRequest subjectListingRequest,
-  });
 
   @POST('${NetworkProperties.mdmBaseUrl}/api/fc-fees-masters/psa-details')
   Future<HttpResponse<PsaEnrollmentDetailResponseEntity>>
@@ -499,12 +485,6 @@ abstract class RetrofitService {
           {@Header("Authorization") required String token,
           @Body() required VasDetailRequest transportEnrollmentDetail});
 
-  // @POST(
-  //     '${NetworkProperties.financeBaseUrl}/finance/fee_payment/finance/calculate')
-  // Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
-  //     {@Body()
-  //     required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
-
   @POST(
       '${NetworkProperties.marketingBaseURL}marketing/admission/{enquiryId}/vas/add')
   Future<HttpResponse<VasOptionResponseEntity>> addVASDetail(
@@ -523,11 +503,6 @@ abstract class RetrofitService {
   Future<HttpResponse<VasOptionResponseEntity>> makePaymentRequest({
     @Path("enquiryId") required String enquiryID,
   });
-
-  // @POST(
-  //     '${NetworkProperties.transportBaseURL}transport-service/route/fetch-stops')
-  // Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
-  //     {@Body() required FetchStopRequest fetchStopRequest});
 
   @POST(
       '${NetworkProperties.mdmBaseUrl}/api/rbac-role-permissions/role-permissions-for-external')
