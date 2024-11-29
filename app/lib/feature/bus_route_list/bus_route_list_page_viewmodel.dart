@@ -93,7 +93,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
             studentId: dashBoardState.selectedStudent?.id,
-            attendanceType: int.parse(trip?.routeType == '1' ? "5" : "6"));
+            attendanceType: trip?.routeType == '1' ? 5 : 6);
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
