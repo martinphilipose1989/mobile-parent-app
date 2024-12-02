@@ -53,6 +53,9 @@ late User user;
       _uploadedFileResponse.stream;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
+  final BehaviorSubject<Resource<bool>> loadingSubject =
+  BehaviorSubject.seeded(Resource.none());
+
   Stream<Resource<User>> get userStream => userSubject.stream;
   final BehaviorSubject<Resource<CreateIntimationResponseModel>> intimationSubject =
   BehaviorSubject.seeded(Resource.none());
@@ -124,8 +127,50 @@ late User user;
 ProviderScope.containerOf(navigatorKey.currentContext!)
       .read(dashboardViewModelProvider)
       .selectedStudentId;
+
+
+  // void createIntimation() {
+  //   intimationSubject.add(Resource.loading());
+  //
+  //   print("create");
+  //   CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
+  //       approvalFlag: "1",
+  //       approvedById: 0,
+  //       note: noteController.text,
+  //       status: 1,
+  //       fromDate: "2024-11-15",
+  //       toDate: "2024-11-15",
+  //       initimationType: 3,
+  //       globalStudentId: selectedStudent?.first.id,
+  //       globalUserId: userSubject.value.data?.id,
+  //       fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
+  //   );
+  //
+  //   intimationSubject.add(Resource.loading());
+  //   ApiResponseHandler.apiCallHandler(
+  //     exceptionHandlerBinder: exceptionHandlerBinder,
+  //     flutterToastErrorPresenter: flutterToastErrorPresenter,
+  //     params: params,
+  //     createCall: (params) => createIntimationUsecase.execute(params: params),
+  //
+  //     onSuccess: (data) {
+  //       print(data?.data);
+  //
+  //       intimationSubject.add(Resource.success());
+  //
+  //       Navigator.pop(navigatorKey.currentContext!);
+  // CommonPopups().showSuccess(navigatorKey.currentContext!, "Raised Intimation",(tr){} );
+  //     },
+  //     onError: (error) {
+  //       print(error?.error);
+  //       intimationSubject.add(Resource.error());
+  //     },
+  //   );
+  // }
+
   void createIntimation() {
     intimationSubject.add(Resource.loading());
+
     print("create");
     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
         approvalFlag: "1",
@@ -140,55 +185,24 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
         fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
     );
 
-    ApiResponseHandler.apiCallHandler(
-      exceptionHandlerBinder: exceptionHandlerBinder,
-      flutterToastErrorPresenter: flutterToastErrorPresenter,
-      params: params,
-      createCall: (params) => createIntimationUsecase.execute(params: params),
-      onSuccess: (data) {
-        print(data?.data);
-        print("create_1");
-        intimationSubject.add(Resource.success());
-        Navigator.pop(navigatorKey.currentContext!);
-        CommonPopups().showSuccess(navigatorKey.currentContext!, "Raised Intimation",(tr){} );
-      },
-      onError: (error) {
-        print(error?.error);
-        intimationSubject.add(Resource.error());
-      },
-    );
-  }
+    intimationSubject.add(Resource.loading());
+    RequestManager(
+      params,
+      createCall: () => createIntimationUsecase.execute(
+        params: params,
+      ),
+    ).asFlow().listen((data) {
+      if (data.status == Status.loading) {
+        CommonPopups().showloading(navigatorKey.currentContext!);
+      }
+      if (data.status == Status.success) {
+        loadingSubject.add(Resource.loading(data: false));
 
-//   void createIntimation({required CreateIntimationRequestModel createIntimationmodel}) {
-//     intimationSubject.add(Resource.loading());
-// print("create");
-//     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
-//         approvalFlag: createIntimationmodel.approvalFlag,
-//         approvedById: createIntimationmodel.approvedById,
-//         note: createIntimationmodel.note,
-//         status: createIntimationmodel.status,
-//         fromDate: createIntimationmodel.fromDate,
-//         toDate: createIntimationmodel.toDate,
-//         initimationType: createIntimationmodel.initimationType,
-//         globalStudentId: createIntimationmodel.globalStudentId,
-//         globalUserId: createIntimationmodel.globalUserId,
-//         fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
-//     );
-//
-//     ApiResponseHandler.apiCallHandler(
-//       exceptionHandlerBinder: exceptionHandlerBinder,
-//       flutterToastErrorPresenter: flutterToastErrorPresenter,
-//       params: params,
-//       createCall: (params) => createIntimationUsecase.execute(params: params),
-//       onSuccess: (data) {
-//         print(data?.data);
-//         intimationSubject.add(Resource.success());
-//       },
-//       onError: (error) {
-//         print(error?.error);
-//         intimationSubject.add(Resource.error());
-//       },
-//     );
-//   }
-
+        CommonPopups().showSuccess(
+            navigatorKey.currentContext!, "Raised Intimation", (tr) {
+              Navigator.pop(navigatorKey.currentContext!);
+              Navigator.pop(navigatorKey.currentContext!);
+        });
+      }
+    });}
 }

@@ -35,28 +35,34 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 15, width: 10),
           const Tracker(),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          if (model.trackerTemp
-              .where((tracker) => tracker['isActive'] == true)
-              .isNotEmpty) ...[
-            title('Tracker'),
-            CommonSizedBox.sizedBox(height: 10, width: 10),
-            AppStreamBuilder<Resource<bool>>(
-                stream: model.loadTracker,
-                initialData: Resource.none(),
-                dataBuilder: (context, value) {
-                  return chipsList(
-                      context,
-                      model.trackerTemp
-                          .where((e) => e['isActive'] == true)
-                          .map((track) => Chips(
-                                name: track['name'],
-                                image: track['image'],
-                                isSelected: track['isSelected'],
-                              ))
-                          .toList(),
-                      model);
-                }),
-          ],
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.trackerTemp
+                    .where((tracker) => tracker['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Tracker'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          model.trackerTemp
+                              .where((e) => e['isActive'] == true)
+                              .map((track) => Chips(
+                                    name: track['name'],
+                                    image: track['image'],
+                                    isSelected: track['isSelected'],
+                                  ))
+                              .toList(),
+                          model)
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
           title('Child Progress/Academic Progress'),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           chipsList(
@@ -83,26 +89,36 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               ),
               model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          if (model.feesTemp
-              .where((fee) => fee['isActive'] == true)
-              .isNotEmpty) ...[
-            title('Fees'),
-            CommonSizedBox.sizedBox(height: 10, width: 10),
-            chipsList(
-                context,
-                model.feesTemp
-                    .where((e) => e['isActive'] == true)
-                    .map(
-                      (fees) => Chips(
-                        name: fees['name'],
-                        image: fees['image'],
-                        isSelected: fees['isSelected'],
-                      ),
-                    )
-                    .toList(),
-                model),
-            CommonSizedBox.sizedBox(height: 10, width: 10),
-          ],
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.feesTemp
+                    .where((fees) => fees['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Fees'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          model.feesTemp
+                              .where((e) => e['isActive'] == true)
+                              .map(
+                                (fees) => Chips(
+                                  name: fees['name'],
+                                  image: fees['image'],
+                                  isSelected: fees['isSelected'],
+                                ),
+                              )
+                              .toList(),
+                          model)
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
         ],
       ),
     );

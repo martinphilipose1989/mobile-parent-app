@@ -258,37 +258,52 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  BehaviorSubject<Resource<bool>> loadTracker =
+  BehaviorSubject<Resource<bool>> loadAdmissionMenus =
       BehaviorSubject.seeded(Resource.none());
   void getUserDetails() {
-    loadTracker.add(Resource.loading());
+    loadAdmissionMenus.add(Resource.loading());
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
       createCall: () => _getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        for (int index = 0; index < trackerTemp.length; index++) {
-          if (data.data?.statusId != 0) {
-            // If statusId is not 0, set all isActive to true
-            trackerTemp[index]['isActive'] = true;
-            feesTemp[index]['isActive'] = true;
-          } else {
-            // If statusId is 0, only "create_gate_pass" should be false, others true
-            if (trackerTemp[index]['key'] == "create_gate_pass" ||
-                trackerTemp[index]['key'] == "transport") {
-              trackerTemp[index]['isActive'] = false;
-            } else {
-              trackerTemp[index]['isActive'] = true;
-            }
-          }
-        }
-        loadTracker.add(Resource.success(data: true));
+        applyActivationRules(data);
 
-        log("message $trackerTemp");
+        loadAdmissionMenus.add(Resource.success(data: true));
+
         userSubject.add(Resource.success(data: data.data));
       }
     });
+  }
+
+  void applyActivationRules(Resource<User> data) {
+    int maxLength = trackerTemp.length > feesTemp.length
+        ? trackerTemp.length
+        : feesTemp.length;
+
+    for (int index = 0; index < maxLength; index++) {
+      if (index < trackerTemp.length) {
+        if (data.data?.statusId != 0) {
+          trackerTemp[index]['isActive'] = true;
+        } else {
+          if (trackerTemp[index]['key'] == "create_gate_pass" ||
+              trackerTemp[index]['key'] == "transport") {
+            trackerTemp[index]['isActive'] = false;
+          } else {
+            trackerTemp[index]['isActive'] = true;
+          }
+        }
+      }
+
+      if (index < feesTemp.length) {
+        if (data.data?.statusId != 0) {
+          feesTemp[index]['isActive'] = true;
+        } else {
+          feesTemp[index]['isActive'] = true;
+        }
+      }
+    }
   }
 
   @override

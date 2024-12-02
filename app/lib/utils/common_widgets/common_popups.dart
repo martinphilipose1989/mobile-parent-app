@@ -4,6 +4,7 @@ import 'package:app/molecules/create_intimation/create_intimation_popup.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/dialog/staff_list_popup.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class CommonPopups {
   }
 
   // Method to show a success popup
+
   void showSuccess(BuildContext context, String message,
       Function(bool shouldRoute) onChanged,
       {String? popParameter}) {
@@ -383,6 +385,13 @@ class CommonPopups {
     });
 
 }
+showloading(BuildContext context,){
+showDialog(context: context,   builder: (BuildContext context) {
+  return AlertDialog(content: Container(
+    child :CommonAppLoader(),height: MediaQuery.of(context).size.height*0.2,width:MediaQuery.of(context).size.width*0.2 ,),);
+});
+}
+
   _showAlertDialog(BuildContext context,
       {required String message,
       required Function(bool shouldRoute) onChanged}) {

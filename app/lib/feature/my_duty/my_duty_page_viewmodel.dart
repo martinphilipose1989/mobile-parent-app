@@ -20,10 +20,9 @@ class MyDutyPageViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final GetMydutyListUsecase getMydutyListUsecase;
 
-
   final BehaviorSubject<String> selectedTripStatus =
       BehaviorSubject.seeded("up coming trips");
- List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
+  List<GetGuardianStudentDetailsStudentModel>? selectedStudent = [];
 
   final tripStatusType = [
     const ToggleOption<String>(
@@ -39,8 +38,6 @@ class MyDutyPageViewModel extends BasePageViewModel {
   final _tripListSubject =
       BehaviorSubject<Resource<List<TripResult>>>.seeded(Resource.none());
 
-
-
   Stream<bool> get loadingStream => _loadingSubject.stream;
   Stream<bool> get hasMorePagesStream => hasMorePagesSubject.stream;
   Stream<Resource<List<TripResult>>> get tripListStream =>
@@ -48,24 +45,28 @@ class MyDutyPageViewModel extends BasePageViewModel {
 
   final throttleDuration = const Duration(milliseconds: 300);
 
-  MyDutyPageViewModel(
-      {required this.exceptionHandlerBinder,
-      required this.flutterToastErrorPresenter,
-      required this.getMydutyListUsecase,
-}) {
+  MyDutyPageViewModel({
+    required this.exceptionHandlerBinder,
+    required this.flutterToastErrorPresenter,
+    required this.getMydutyListUsecase,
+  }) {
     getMyDutyList();
   }
 
   void getMyDutyList() {
-    if (selectedStudent!.isEmpty ||    selectedStudent?.first.id==null)
+    if (selectedStudent!.isEmpty || selectedStudent?.first.id == null) {
       return;
+    }
     _loadingSubject.add(true);
     if (_pageSubject.value == 1) {
       _tripListSubject.add(Resource.loading(data: null));
     }
 
     final GetMydutyListParams params = GetMydutyListParams(
-        pageNo: _pageSubject.value, dayId: DateTime.now().weekday, studentId: selectedStudent?.first.id??-1, app: "app");
+        pageNo: _pageSubject.value,
+        dayId: DateTime.now().weekday,
+        studentId: selectedStudent?.first.id ?? -1,
+        app: "app");
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
@@ -98,8 +99,6 @@ class MyDutyPageViewModel extends BasePageViewModel {
     );
   }
 
-
-
   void startRouteCall(TripResult tripResult) {
     List<TripResult> a = _tripListSubject.value.data ?? [];
     for (var value in a) {
@@ -108,7 +107,6 @@ class MyDutyPageViewModel extends BasePageViewModel {
       }
     }
     _tripListSubject.add(Resource.success(data: a));
-
   }
 
   void stopLoader(TripResult tripResult) {
@@ -129,8 +127,6 @@ class MyDutyPageViewModel extends BasePageViewModel {
     _loadingSubject.add(false);
     getMyDutyList();
   }
-
-
 
   @override
   void dispose() {
