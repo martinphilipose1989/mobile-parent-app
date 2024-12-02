@@ -22,8 +22,8 @@ import '../../../utils/common_widgets/common_primary_elevated_button.dart';
 class TripListTileHeader extends StatelessWidget {
   const TripListTileHeader(
       {super.key,
-      this.tripStatus = "upcoming",
-      this.buttonTitle = "Start",
+      this.tripStatus = "Upcoming",
+      this.buttonTitle = "Track",
       this.trip});
 
   final String tripStatus;
@@ -63,7 +63,7 @@ class TripListTileHeader extends StatelessWidget {
             ],
           ),
         ),
-        tripStatus == "upcoming"
+        tripStatus == "Upcoming"
             ? BaseWidget<MyDutyPageViewModel>(
                 builder: (context, model, child) {//return Text("hello");
 

@@ -16,7 +16,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart' ;
+import '../../model/resource.dart';
 import '../../utils/common_widgets/app_images.dart';
+import '../../utils/common_widgets/common_popups.dart';
+import '../../utils/stream_builder/app_stream_builder.dart';
 
 class CreateIntimationPopup extends StatefulWidget {
   final int userid;
@@ -63,30 +66,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
               },
             ),
 
-                // CommonDatePickerWidget(
-                //   isDisabled: true,
-                //   controller: model!.dateController,
-                //
-                // ),
 
-                // CommonTextFormField( decoration: InputDecoration(suffixIcon: IconButton(onPressed: () { _selectDate(context); }, icon: Icon(Icons.calendar_month,),),
-                //
-                //
-                //    // Default border when not focused
-                //    border: OutlineInputBorder(
-                //    borderRadius: BorderRadius.circular(8.0), // Rounded corners
-                //    borderSide: BorderSide(
-                //    color: Colors.grey,
-                //    width: 1.0,
-                //    ))),
-                //     validator: (value) {
-                //       if (value == null || value.trim().isEmpty) {
-                //         return "date cannot be empty"; // Error message
-                //       }
-                //       return null; // Input is valid
-                //     }
-                //    ,controller:dateController,showAstreik: true,hintText: 'DD/MM/YYYY',labelText: "Request Date",)
-                //    ,
 
                 SizedBox(
                   height: 16.h,
@@ -149,32 +129,65 @@ hintText: "Enter Note",
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CommonElevatedButton(
-                      width: 90.w,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      text: "Cancel",
-                      backgroundColor: AppColors.disableNeutral80,
+                    Expanded(
+                      child: CommonElevatedButton(
+                       // width: 90.w,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: "Cancel",
+                        backgroundColor: AppColors.disableNeutral80,
+                      ),
                     ),
-                    const SizedBox(
-                      width: 10,
+                   SizedBox(
+                      width: 10.h,
                     ),
-                    CommonElevatedButton(
-                      padding: EdgeInsets.only(left: 5,right: 5),
-                      textStyle: AppTypography.button.copyWith(color: AppColors.surface_1),
-                      width: 90.w,
-                      onPressed: () {
-                        model.createIntimation();
-                            //createIntimationmodel: CreateIntimationRequestModel(globalUserId: 1,globalStudentId: 10,fromDate:model.dateController.text,toDate: model.dateController.text,status: 0,note: model.noteController.text,approvalFlag: "1",approvedById: 0 ,initimationType: 3,));
+                    Expanded(
+                      child: AppStreamBuilder<Resource<CreateIntimationResponseModel>>(
+                        stream: model.intimationSubject.stream, // Your stream to listen to
+                        dataBuilder: (context, snapshot) {
+                          // Check the state of the stream
+                          if (snapshot?.data?.status == Status.loading) {
+                            // Show CircularProgressIndicator when loading
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          // else if (snapshot?.data?.status == Status.success) {
+                          //   // Show success content (if applicable)
+                          //   CommonPopups().showSuccess(context, "Raised Intimation",(tr){} );
+                          //
+                          // } else if (snapshot?.data?.status == Status.error) {
+                          //   // Show error message (if applicable)
+                          //   CommonPopups().showError(context, "something went Wrong",(tr){} );
+                          //
+                          // }
 
-                   print("done");
-                 //    Navigator.pop(context);
-                      },
-                      text: "Submit",
-                      textColor: Colors.white,
-                      backgroundColor: AppColors.primary,
+                          // Default UI
+                          return ElevatedButton(
+                            onPressed: model.createIntimation,
+                            child: Text("Submit"),
+                          );
+                        }, initialData: Resource.none(),
+                      ),
                     )
+             //    Expanded(
+             //          child: CommonElevatedButton(
+             //            padding: EdgeInsets.only(left: 5,right: 5),
+             //            textStyle: AppTypography.button.copyWith(color: AppColors.surface_1),
+             //          //  width: 90.w,
+             //            onPressed: () {
+             //              model.createIntimation();
+             //                  //createIntimationmodel: CreateIntimationRequestModel(globalUserId: 1,globalStudentId: 10,fromDate:model.dateController.text,toDate: model.dateController.text,status: 0,note: model.noteController.text,approvalFlag: "1",approvedById: 0 ,initimationType: 3,));
+             //
+             //                             print("done");
+             //                           //    Navigator.pop(context);
+             //            },
+             //            text: "Submit",
+             //            textColor: Colors.white,
+             //            backgroundColor: AppColors.primary,
+             //          ),
+             // )
                   ],
                 ),
               ],
