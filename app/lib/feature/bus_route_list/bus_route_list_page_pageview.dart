@@ -33,138 +33,139 @@ class BusRouteListPageView
 
   @override
   Widget build(BuildContext context, BusRouteListPageViewModel model) {
-    return Column(children: [
-      Padding(
-          padding: const EdgeInsets.all(16),
-          child: ArrivalInfoTile(
-              vehicleNumber:
-                  model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
-              startTime: model.trip?.shiftName ?? '',
-              totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
-      Expanded(
-          child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
-              stream: model.busStopsListStream,
-              initialData: Resource.none(),
-              dataBuilder: (context, busStopsListData) {
-                return CommonRefreshIndicator(
-                    onRefresh: () {
-                      return model.refreshMyDutyList();
-                    },
-                    child: DataStatusWidget(
-                        status: busStopsListData?.status ?? Status.none,
-                        loadingWidget: () => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                        errorWidget: () => Center(
-                              child: NoDataFoundWidget(
-                                title: busStopsListData
-                                            ?.dealSafeAppError?.error.message
-                                            .contains("internet") ??
-                                        false
-                                    ? "No Internet Connection"
-                                    : "Something Went Wrong",
-                                subtitle: busStopsListData
-                                            ?.dealSafeAppError?.error.message
-                                            .contains("internet") ??
-                                        false
-                                    ? "It seems you're offline. Please check your internet connection and try again."
-                                    : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-                                onPressed: () {
-                                  model.refreshMyDutyList();
-                                },
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(16),
+            child: ArrivalInfoTile(
+                vehicleNumber:
+                    model.trip?.routeBusUserMapping?[0].bus?.busNumber ?? '',
+                startTime: model.trip?.shiftName ?? '',
+                totalStudents: model.trip?.studentStopsMappings?.length ?? 0)),
+        Expanded(
+            child: AppStreamBuilder<Resource<List<RouteStopMappingModel>>>(
+                stream: model.busStopsListStream,
+                initialData: Resource.none(),
+                dataBuilder: (context, busStopsListData) {
+                  return CommonRefreshIndicator(
+                      onRefresh: () {
+                        return model.refreshMyDutyList();
+                      },
+                      child: DataStatusWidget(
+                          status: busStopsListData?.status ?? Status.none,
+                          loadingWidget: () => const Center(
+                                child: CircularProgressIndicator(),
                               ),
-                            ),
-                        successWidget: () {
-                          return AppStreamBuilder<bool>(
-                              stream: model.hasMorePagesStream,
-                              initialData: model.hasMorePagesSubject.value,
-                              dataBuilder: (context, hasMorePage) {
-                                return NotificationListener<
-                                        ScrollNotification>(
-                                    onNotification: (scrollNotification) {
-                                      if (scrollNotification.metrics.pixels ==
-                                          scrollNotification
-                                              .metrics.maxScrollExtent) {
-                                        //model.loadMoreVisitorList();
-                                      }
-                                      return false;
-                                    },
-                                    child: AppStreamBuilder<bool>(
-                                        stream: model.loadingStream,
-                                        initialData: false,
-                                        dataBuilder: (context, isLoading) {
-                                          // final itemCount = (busStopsListData
-                                          //             ?.data?.length ??
-                                          //         0) +
-                                          //     (isLoading! && hasMorePage!
-                                          //         ? 1
-                                          //         : 0);
-                                          return Visibility(
-                                            visible: busStopsListData
-                                                    ?.data?.isEmpty ??
-                                                false,
-                                            replacement:
-                                                CommonRefreshIndicator(
-                                              isChildScrollable: true,
-                                              onRefresh: () {
-                                                return model
-                                                    .refreshMyDutyList();
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  BaseWidget(
-                                                    builder: (BuildContext
-                                                            context,
-                                                        StaffListViewModel?
-                                                            staffmodel,
-                                                        Widget? child) {
-                                                      return _trackBus(
-                                                          onTap: () {
-                                                        staffmodel?.getStaffList(
-                                                            routeId: int
-                                                                .parse(model
-                                                                        .trip
-                                                                        ?.id ??
-                                                                    ""),
-                                                            app: 'app');
+                          errorWidget: () => Center(
+                                child: NoDataFoundWidget(
+                                  title: busStopsListData
+                                              ?.dealSafeAppError?.error.message
+                                              .contains("internet") ??
+                                          false
+                                      ? "No Internet Connection"
+                                      : "Something Went Wrong",
+                                  subtitle: busStopsListData
+                                              ?.dealSafeAppError?.error.message
+                                              .contains("internet") ??
+                                          false
+                                      ? "It seems you're offline. Please check your internet connection and try again."
+                                      : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                  onPressed: () {
+                                    model.refreshMyDutyList();
+                                  },
+                                ),
+                              ),
+                          successWidget: () {
+                            return AppStreamBuilder<bool>(
+                                stream: model.hasMorePagesStream,
+                                initialData: model.hasMorePagesSubject.value,
+                                dataBuilder: (context, hasMorePage) {
+                                  return NotificationListener<
+                                          ScrollNotification>(
+                                      onNotification: (scrollNotification) {
+                                        if (scrollNotification.metrics.pixels ==
+                                            scrollNotification
+                                                .metrics.maxScrollExtent) {
+                                          //model.loadMoreVisitorList();
+                                        }
+                                        return false;
+                                      },
+                                      child: AppStreamBuilder<bool>(
+                                          stream: model.loadingStream,
+                                          initialData: false,
+                                          dataBuilder: (context, isLoading) {
+                                            // final itemCount = (busStopsListData
+                                            //             ?.data?.length ??
+                                            //         0) +
+                                            //     (isLoading! && hasMorePage!
+                                            //         ? 1
+                                            //         : 0);
+                                            return Visibility(
+                                              visible: busStopsListData
+                                                      ?.data?.isEmpty ??
+                                                  false,
+                                              replacement:
+                                                  CommonRefreshIndicator(
+                                                isChildScrollable: true,
+                                                onRefresh: () {
+                                                  return model
+                                                      .refreshMyDutyList();
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    BaseWidget(
+                                                      builder: (BuildContext
+                                                              context,
+                                                          StaffListViewModel?
+                                                              staffmodel,
+                                                          Widget? child) {
+                                                        return _trackBus(
+                                                            onTap: () {
+                                                          staffmodel?.getStaffList(
+                                                              routeId: int
+                                                                  .parse(model
+                                                                          .trip
+                                                                          ?.id ??
+                                                                      ""),
+                                                              app: 'app');
 
-                                                        CommonPopups().showStaff(
-                                                            context,
-                                                            args: StaffArgs(
-                                                                routeId: int.parse(model
-                                                                        .trip
-                                                                        ?.id ??
-                                                                    "")));
-                                                      });
-                                                    },
-                                                    providerBase:
-                                                        staffListViewModelProvider,
-                                                  ),
+                                                          CommonPopups().showStaff(
+                                                              context,
+                                                              args: StaffArgs(
+                                                                  routeId: int.parse(
+                                                                      model.trip
+                                                                              ?.id ??
+                                                                          "")));
+                                                        });
+                                                      },
+                                                      providerBase:
+                                                          staffListViewModelProvider,
+                                                    ),
 
-                                                  /// bus TackingListWidget
-                                                  _busTackingListWidget(
-                                                    busStopsListData,
-                                                    model,
-                                                    context,
-                                                  ),
-                                                  _studentDetailsBottomWidget(
-                                                    model,
-                                                    context,
-                                                  ),
-                                                ],
+                                                    /// bus TackingListWidget
+                                                    _busTackingListWidget(
+                                                      busStopsListData,
+                                                      model,
+                                                      context,
+                                                    ),
+                                                    _studentDetailsBottomWidget(
+                                                      model,
+                                                      context,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            child: const NoDataFoundWidget(
-                                              title:
-                                                  "No Bus Stops List Found",
-                                            ),
-                                          );
-                                        }));
-                              });
-                        }));
-              })),
-    ],
-        );
+                                              child: const NoDataFoundWidget(
+                                                title:
+                                                    "No Bus Stops List Found",
+                                              ),
+                                            );
+                                          }));
+                                });
+                          }));
+                })),
+      ],
+    );
   }
 
   void navigateToBusRouteDetails(
@@ -226,16 +227,15 @@ class BusRouteListPageView
           // var attendanceListItem =
           // attendanceList!.isNotEmpty ? attendanceList.first : null;
           //// attendanceList empty or null
-if (snapshot?.status==Status.loading)
-{return CircularProgressIndicator();}
-else
-return Container(
-    child:
-    //Text("hi i am attendance"));
-             StudentDetailsRowWidget(
+          if (snapshot?.status == Status.loading) {
+            return const CircularProgressIndicator();
+          } else {
+            return StudentDetailsRowWidget(
                 name: data?.firstName,
                 desc: "Regular Student",
-                status:  data?.attendanceList?.first.attendanceRemark,
+                status: data?.attendanceList?.isNotEmpty ?? true
+                    ? data?.attendanceList?.first.attendanceRemark
+                    : '',
                 lname: data?.lastName,
                 image: '',
                 id: studentId,
@@ -245,9 +245,8 @@ return Container(
                     RoutePaths.studentProfilePage,
                     arguments: studentId,
                   );
-                }));
-
-
+                });
+          }
         });
   }
 

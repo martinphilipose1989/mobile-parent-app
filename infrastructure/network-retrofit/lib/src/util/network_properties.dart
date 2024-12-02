@@ -92,8 +92,11 @@ static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
   static const String uploadProfileImage =
       "${BASE_GATE_PASS}gate-management/visitor/upload-profile-image";
 
-  static const String getVisitorDetails =
-      "${BASE_GATE_PASS}gate-management/gatepass";
+//   // // static const String marketingBaseURL =
+//   // //     'https://marketing-r26sp3mibq-uc.a.run.app/';
+//   // //UAT
+//   // // static const String marketingBaseURL =
+//   // //     'https://marketing-backend-ndxpitoqla-el.a.run.app/';
 
   static const String getGatePassDetails =
       "${BASE_GATE_PASS}gate-management/gatepass/{gatepassId}";
@@ -102,12 +105,12 @@ static const String mdmBaseUrl = "https://mdm-strapi-uat.ampersandgroup.in";
       'https://gate-management-backend-869610231867.asia-south1.run.app/gate-management/gatepass/cross-platform/create';
 
   // key cloak
-  // static const String tokenIntroSpect =
-  //     "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
+  static const String tokenIntroSpect =
+      "https://qa.vgos.org/realms/ampersand-external-qa/protocol/openid-connect/token/introspect";
 
   //UAT
-  static const String tokenIntroSpect =
-      "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
+  // static const String tokenIntroSpect =
+  //     "https://sso.ampersandgroup.in/realms/ampersand-external-dev/protocol/openid-connect/token/introspect";
 
   static const String getBrandList = "$mdmBaseUrl/api/ac-brands";
 }

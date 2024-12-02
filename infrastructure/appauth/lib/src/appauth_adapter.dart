@@ -19,6 +19,7 @@ class AppAuthAdapter implements AppAuthPort {
       final AuthorizationTokenRequest request = AuthorizationTokenRequest(
           _config.clientId, _config.appUri,
           clientSecret: _config.clientSecret,
+          preferEphemeralSession: true,
           serviceConfiguration: AuthorizationServiceConfiguration(
               authorizationEndpoint: _config.loginUrl,
               tokenEndpoint: _config.tokenUrl,

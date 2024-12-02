@@ -27,4 +27,37 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'TRANSPORT_BASE_URL')
   static const String transportUrl = _EnvDev.transportUrl;
+
+  @EnviedField(varName: 'KEY_CLOAK_AUTH_URL')
+  static const String authorizationEndpoint = _EnvDev.authorizationEndpoint;
+
+  @EnviedField(varName: 'KEY_CLOAK_TOKEN_URL')
+  static const String tokenEndpoint = _EnvDev.tokenEndpoint;
+
+  @EnviedField(varName: 'KEY_CLOAK_LOGOUT_URL')
+  static const String logoutEndpoint = _EnvDev.logoutEndpoint;
+
+  @EnviedField(varName: 'KEY_CLOAK_DISCOVERY_URL')
+  static const String discoveryUrl = _EnvDev.discoveryUrl;
+
+  @EnviedField(varName: 'KEY_CLOAK_REDIRECT_URI')
+  static const String appRedirectUri = _EnvDev.appRedirectUri;
+
+  @EnviedField(varName: 'KEY_CLOAK_LOGOUT_REDIRECT_URI')
+  static const String logoutRedirectUri = _EnvDev.logoutRedirectUri;
+
+  @EnviedField(varName: 'KEY_CLOAK_CLIENTID')
+  static const String clientId = _EnvDev.clientId;
+
+  @EnviedField(varName: 'KEY_CLOAK_CLIENT_SECRET')
+  static const String clientSecret = _EnvDev.clientSecret;
+
+  @EnviedField(varName: 'KEY_INTROSPECT_URL')
+  static const String introspectUrl = _EnvDev.introspectUrl;
+
+  @EnviedField(varName: 'GATE_BASE_URL')
+  static const String gateBaseUrl = _EnvDev.gateBaseUrl;
+
+  @EnviedField(varName: 'MARKETING_BASE_URL')
+  static const String marketingBaseUrl = _EnvDev.marketingBaseUrl;
 }
