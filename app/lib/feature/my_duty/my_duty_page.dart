@@ -48,7 +48,7 @@ class MyDutyPageState
   @override
   PreferredSizeWidget? buildAppbar(MyDutyPageViewModel model) {
     return const CommonAppBar(
-      appbarTitle: "My Duty",
+      appbarTitle: "Track Bus",
       showBackButton: true,
     );
   }
