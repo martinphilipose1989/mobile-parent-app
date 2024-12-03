@@ -207,7 +207,7 @@ class Profile {
   int? crtShiftId;
   int? crtSchoolId;
   int? crtCourseId;
-  String? crtStreamId;
+  dynamic? crtStreamId;
   int? globalId;
   int? studentTypeId;
   String? courseName;
