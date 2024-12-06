@@ -14,6 +14,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:collection/collection.dart';
 
 @injectable
 class CafeteriaDetailViewModel extends BasePageViewModel {
@@ -50,9 +51,6 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   Stream<Resource<VasOptionResponse>> get calculateCafeteriaFee =>
       _calculateCafeteriaFee.stream;
 
-  final cafeteriaOptions = [];
-
-  BehaviorSubject<List<String>> terms = BehaviorSubject.seeded([]);
   ValueNotifier<bool> showLoader = ValueNotifier(false);
 
   final CommonRadioButton<String> radioButtonFeeOption =
@@ -65,6 +63,12 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   int feeCategoryId = 0;
 
   BehaviorSubject<bool> isEnroll = BehaviorSubject.seeded(false);
+
+  List<String> feeCategoryType = [];
+  BehaviorSubject<String> selectedFeeCategoryType = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedPeriodOfService = BehaviorSubject.seeded('');
 
   Future<void> getCafeteriaDetail() async {
     exceptionHandlerBinder.handle(block: () {
@@ -101,9 +105,9 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   }
 
   void setData(CafeteriaEnrollmentResponseModel data) {
-    (data.data?.feeCategory ?? []).forEach((element) {
-      cafeteriaOptions.add(element.feeCategory ?? '');
-    });
+    for (var element in (data.data?.feeCategory ?? [])) {
+      feeCategoryType.add(element.feeCategory ?? '');
+    }
   }
 
   Future<void> calculateFees() async {
@@ -190,5 +194,55 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error);
       });
     }).execute();
+  }
+
+  void setPeriodOfService(String value) {
+    selectedPeriodOfService.value = value;
+    periodOfServiceID = cafeteriaEnrollmentDetail.value.data?.periodOfService
+            ?.firstWhereOrNull((e) =>
+                e.feeCategory == radioButtonFeeOption.selectedItem &&
+                e.periodOfService == value)
+            ?.periodOfServiceId ??
+        0;
+    resetFees();
+  }
+
+  void setCategoryType(String value) {
+    final category = cafeteriaEnrollmentDetail.value.data?.feeCategory
+        ?.firstWhereOrNull((element) => (element.feeCategory ?? '') == value);
+
+    feeCategoryId = category?.feeCategoryId ?? 0;
+    feeSubTypeID = category?.feeSubTypeId ?? 0;
+
+    List<String> options = [];
+    for (PeriodOfServiceModel element
+        in (cafeteriaEnrollmentDetail.value.data?.periodOfService ?? [])) {
+      if (element.feeCategory == value) {
+        options.add(element.periodOfService ?? '');
+      }
+    }
+
+    periodOfService.add(options);
+    if (radioButtonFeeOption.selectedItem != value) {
+      if ((radioButtonTerm.selectedItem ?? '').isNotEmpty) {
+        radioButtonTerm.selectItem("");
+        periodOfServiceID = 0;
+      }
+    }
+    resetFees();
+  }
+
+  void resetFees() {
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
+  }
+
+  void reset() {
+    radioButtonFeeOption.selectItem("");
+    radioButtonTerm.selectItem("");
+    feeSubTypeID = 0;
+    periodOfServiceID = 0;
+    fee.value = '';
   }
 }

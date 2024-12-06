@@ -7,7 +7,7 @@ import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:collection/collection.dart';
+
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,65 +86,18 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                               text: "Opt For",
                               style: AppTypography.subtitle2,
                             ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
+                            SizedBox(height: 10.h),
                             Column(
                               children: List.generate(
-                                model.cafeteriaOptions.length,
+                                model.feeCategoryType.length,
                                 (index) {
                                   return CommonRadioButtonWidget<String>(
                                     commonRadioButton:
                                         model.radioButtonFeeOption,
-                                    value: model.cafeteriaOptions[index],
-                                    title: model.cafeteriaOptions[index],
+                                    value: model.feeCategoryType[index],
+                                    title: model.feeCategoryType[index],
                                     onOptionSelected: (value) {
-                                      List<String> options = [];
-                                      model.feeCategoryId = model
-                                              .cafeteriaEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.feeCategory
-                                              ?.firstWhereOrNull((element) =>
-                                                  (element.feeCategory ?? '') ==
-                                                  value)
-                                              ?.feeCategoryId ??
-                                          0;
-                                      model.feeSubTypeID = model
-                                              .cafeteriaEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.feeCategory
-                                              ?.firstWhereOrNull((element) =>
-                                                  (element.feeCategory ?? '') ==
-                                                  value)
-                                              ?.feeSubTypeId ??
-                                          0;
-
-                                      (model.cafeteriaEnrollmentDetail.value
-                                                  .data?.periodOfService ??
-                                              [])
-                                          .forEach((element) {
-                                        if (element.feeCategory == value) {
-                                          options.add(
-                                              element.periodOfService ?? '');
-                                        }
-                                      });
-                                      if (model.radioButtonFeeOption
-                                              .selectedItem !=
-                                          value) {
-                                        if ((model.radioButtonTerm
-                                                    .selectedItem ??
-                                                '')
-                                            .isNotEmpty) {
-                                          model.radioButtonTerm.selectItem("");
-                                          model.periodOfServiceID = 0;
-                                        }
-                                      }
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = "";
-                                      }
-                                      model.terms.add(options);
+                                      model.setCategoryType(value!);
                                     },
                                   );
                                 },
@@ -161,38 +114,22 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                               height: 10.h,
                             ),
                             AppStreamBuilder<List<String>>(
-                                stream: model.terms,
-                                initialData: [],
+                                stream: model.periodOfService,
+                                initialData: const <String>[],
                                 dataBuilder: (context, snapshot) {
                                   return Column(
                                     children: List.generate(
-                                      model.terms.value.length,
+                                      model.periodOfService.value.length,
                                       (index) {
                                         return CommonRadioButtonWidget(
                                           commonRadioButton:
                                               model.radioButtonTerm,
-                                          value: model.terms.value[index],
-                                          title: model.terms.value[index],
+                                          value: model
+                                              .periodOfService.value[index],
+                                          title: model
+                                              .periodOfService.value[index],
                                           onOptionSelected: (value) {
-                                            model.periodOfServiceID = model
-                                                    .cafeteriaEnrollmentDetail
-                                                    .value
-                                                    .data
-                                                    ?.periodOfService
-                                                    ?.firstWhereOrNull((element) =>
-                                                        ((element.feeCategory ??
-                                                                    '') ==
-                                                                model
-                                                                    .radioButtonFeeOption
-                                                                    .selectedItem &&
-                                                            (element.periodOfService ??
-                                                                    '') ==
-                                                                value))
-                                                    ?.periodOfServiceId ??
-                                                0;
-                                            if (model.fee.value.isNotEmpty) {
-                                              model.fee.value = "";
-                                            }
+                                            model.setPeriodOfService(value!);
                                           },
                                         );
                                       },
@@ -247,13 +184,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                               flex: 1,
                                               child: CommonElevatedButton(
                                                 onPressed: () {
-                                                  model.radioButtonFeeOption
-                                                      .selectItem("");
-                                                  model.radioButtonTerm
-                                                      .selectItem("");
-                                                  model.feeSubTypeID = 0;
-                                                  model.periodOfServiceID = 0;
-                                                  model.fee.value = "";
+                                                  model.reset();
                                                 },
                                                 text: "Reset",
                                                 backgroundColor:
