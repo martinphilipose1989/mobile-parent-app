@@ -152,11 +152,14 @@ class KidsClubViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
           vasEnrollmentRequest: VasEnrollmentRequest(
-              kidsClubAmount: int.parse(fee.value),
-              kidsClubType: feeSubTypeID,
-              kidsClubCafeteriaOptFor: feeCategoryID,
-              kidsClubPeriodOfService: periodOfServiceID,
-              kidsClubMonth: batchID),
+              kidsClub: VasCategorySelection(
+                  amount: int.parse(fee.value),
+                  feeSubTypeId: feeSubTypeID,
+                  feeCategoryId: feeCategoryID,
+                  batchId: batchID,
+                  feeTypeId: FeesTypeIdEnum.kidsClubFees.id,
+                  periodOfServiceId: periodOfServiceID,
+                  feeSubcategoryId: feeSubCategoryID)),
           enquiryID: enquiryDetailArgs?.enquiryId ?? '',
           type: "KidsClub");
       RequestManager<VasOptionResponse>(params,

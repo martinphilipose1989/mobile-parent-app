@@ -948,8 +948,9 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, TransportEnrollmentResponseModel>>
       getTransportEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
-    var response = await safeApiCall(apiService.getTransportEnrollmentDetail(
-        transportEnrollmentDetail: vasDetailRequest, token: mdmToken));
+    // transportEnrollmentDetail: vasDetailRequest,
+    var response = await safeApiCall(
+        apiService.getTransportEnrollmentDetail(token: mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1003,8 +1004,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, FetchStopResponseModel>> fetchStops(
       {required FetchStopRequest fetchStopRequest}) async {
-    var response = await safeApiCall(
-        transportService.fetchStops(fetchStopRequest: fetchStopRequest));
+    var response = await safeApiCall(transportService.fetchStops(
+        fetchStopRequest: fetchStopRequest, platform: 'app'));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

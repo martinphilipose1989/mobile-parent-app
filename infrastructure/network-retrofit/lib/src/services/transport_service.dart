@@ -11,8 +11,6 @@ import '../model/response/transport/trip_response_entity.dart';
 
 part 'transport_service.g.dart';
 
-// const String transportBaseUrl =
-//     "https://transport-219111640528.us-central1.run.app/";
 const String _getMyDutyList = "transport-service/parent/route-list";
 
 const String _getStudentProfile =
@@ -30,12 +28,6 @@ abstract class TransportService {
   factory TransportService(Dio dio, {String? transportUrl}) {
     return _TransportService(dio, baseUrl: transportUrl);
   }
-
-  // @GET(_getCheckList)
-  // Future<HttpResponse<CheckListResponseEntity>> getAllCheckList(
-  //     @Query("page") int page,
-  //     @Query("limit") int limit,
-  //     @Query("day_id") int dayId);
 
   @GET(_getStudentProfile)
   Future<HttpResponse<GetStudentProfileResponseEntity>> getStudentProfile(
@@ -75,16 +67,8 @@ abstract class TransportService {
     @Query("platform") required String platform,
   });
 
-  @POST('${_fetchStops}transport-service/route/fetch-stops')
+  @POST(_fetchStops)
   Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
-      {@Body() required FetchStopRequest fetchStopRequest});
-
-// @GET(_getBearerList)
-// Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(
-//     @Path('studentId') int studentId);
-//
-
-// @GET(_getSchoolContacts)
-// Future<HttpResponse<GetSchoolContactResponseEntity>> getSchoolContacts(
-//     @Path('schoolId') int schoolId);
+      {@Body() required FetchStopRequest fetchStopRequest,
+      @Query('platform') required String platform});
 }

@@ -208,12 +208,14 @@ class PsaDetailViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
           vasEnrollmentRequest: VasEnrollmentRequest(
-              psaSubType: feeSubTypeID,
-              psaCategory: feeCategoryID,
-              psaSubCategory: feeSubCategoryID,
-              psaPeriodOfService: periodOfServiceID,
-              psaBatch: batchID,
-              psaAmount: int.parse(fee.value)),
+              psa: VasCategorySelection(
+                  amount: int.parse(fee.value),
+                  batchId: batchID,
+                  feeCategoryId: feeCategoryID,
+                  feeSubTypeId: feeSubTypeID,
+                  periodOfServiceId: periodOfServiceID,
+                  feeSubcategoryId: feeSubCategoryID,
+                  feeTypeId: FeesTypeIdEnum.psaFess.id)),
           enquiryID: enquiryDetailArgs?.enquiryId ?? '',
           type: "Psa");
       RequestManager<VasOptionResponse>(params,

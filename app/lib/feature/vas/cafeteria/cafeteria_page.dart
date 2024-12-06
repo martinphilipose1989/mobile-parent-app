@@ -10,13 +10,14 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPage extends BasePage<CafeteriaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const CafeteriaPage({super.key,this.enquiryDetailArgs});
+  const CafeteriaPage({super.key, this.enquiryDetailArgs});
 
   @override
   CafeteriaPageState createState() => CafeteriaPageState();
 }
 
-class CafeteriaPageState extends AppBasePageState<CafeteriaDetailViewModel, CafeteriaPage> {
+class CafeteriaPageState
+    extends AppBasePageState<CafeteriaDetailViewModel, CafeteriaPage> {
   @override
   ProviderBase<CafeteriaDetailViewModel> provideBase() {
     return cafeteriaPageModelProvider;
@@ -25,8 +26,8 @@ class CafeteriaPageState extends AppBasePageState<CafeteriaDetailViewModel, Cafe
   @override
   void onModelReady(CafeteriaDetailViewModel model) {
     // bind exception handler here.
-    model.getCafeteriaDetail();
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
+    model.getCafeteriaDetail();
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
   }
 
@@ -48,5 +49,4 @@ class CafeteriaPageState extends AppBasePageState<CafeteriaDetailViewModel, Cafe
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
-
 }

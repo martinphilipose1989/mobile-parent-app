@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:data/data.dart';
@@ -25,13 +28,12 @@ class TransportDetailViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   TransportDetailViewModel(
-    this.exceptionHandlerBinder,
-    this.getTransportEnrollmentDetailUsecase,
-    this.calculateFeesUsecase,
-    this.addVasDetailUsecase,
-    this.fetchStopsUsecase,
-    this.flutterToastErrorPresenter
-  );
+      this.exceptionHandlerBinder,
+      this.getTransportEnrollmentDetailUsecase,
+      this.calculateFeesUsecase,
+      this.addVasDetailUsecase,
+      this.fetchStopsUsecase,
+      this.flutterToastErrorPresenter);
 
   BehaviorSubject<List<String>> busType = BehaviorSubject.seeded([]);
 
@@ -63,13 +65,18 @@ class TransportDetailViewModel extends BasePageViewModel {
 
   BehaviorSubject<bool> showLoader = BehaviorSubject.seeded(false);
   BehaviorSubject<String> fee = BehaviorSubject.seeded('');
-  
 
-  final PublishSubject<Resource<TransportEnrollmentResponseModel>> _fetchTransportEnrollmentDetail = PublishSubject();
-  Stream<Resource<TransportEnrollmentResponseModel>> get fetchTransportEnrollmentDetail => _fetchTransportEnrollmentDetail.stream;
-  final PublishSubject<Resource<VasOptionResponse>> _calculateTransportFee = PublishSubject();
-  Stream<Resource<VasOptionResponse>> get calculateTransportFee => _calculateTransportFee.stream;
-  BehaviorSubject<TransportEnrollmentResponseModel> transportEnrollmentDetail = BehaviorSubject.seeded(TransportEnrollmentResponseModel());
+  final PublishSubject<Resource<TransportEnrollmentResponseModel>>
+      _fetchTransportEnrollmentDetail = PublishSubject();
+  Stream<Resource<TransportEnrollmentResponseModel>>
+      get fetchTransportEnrollmentDetail =>
+          _fetchTransportEnrollmentDetail.stream;
+  final PublishSubject<Resource<VasOptionResponse>> _calculateTransportFee =
+      PublishSubject();
+  Stream<Resource<VasOptionResponse>> get calculateTransportFee =>
+      _calculateTransportFee.stream;
+  BehaviorSubject<TransportEnrollmentResponseModel> transportEnrollmentDetail =
+      BehaviorSubject.seeded(TransportEnrollmentResponseModel());
 
   int batchID = 0;
   int periodOfServiceID = 0;
@@ -80,25 +87,28 @@ class TransportDetailViewModel extends BasePageViewModel {
 
   Future<void> getTransportEnrollmentDetail() async {
     exceptionHandlerBinder.handle(block: () {
-      GetTransportEnrollmentDetailUsecaseParams params = GetTransportEnrollmentDetailUsecaseParams(
-        vasDetailRequest: VasDetailRequest(
-          schoolId: 1,
-          boardId: 3,
-          academicYearId: 25,
-          courseId: 1,
-          gradeId: 5,
-      ));
-      RequestManager<TransportEnrollmentResponseModel>(
-        params,
-        createCall: () => getTransportEnrollmentDetailUsecase.execute(params: params))
+      GetTransportEnrollmentDetailUsecaseParams params =
+          GetTransportEnrollmentDetailUsecaseParams(
+              vasDetailRequest: VasDetailRequest(
+                  schoolId: enquiryDetailArgs?.schoolId,
+                  boardId: enquiryDetailArgs?.boardId,
+                  academicYearId: enquiryDetailArgs?.academicYearId,
+                  courseId: enquiryDetailArgs?.courseId,
+                  gradeId: enquiryDetailArgs?.gradeId,
+                  streamId: enquiryDetailArgs?.streamId));
+      RequestManager<TransportEnrollmentResponseModel>(params,
+              createCall: () =>
+                  getTransportEnrollmentDetailUsecase.execute(params: params))
           .asFlow()
           .listen((event) {
         _fetchTransportEnrollmentDetail.add(event);
         if (event.status == Status.success) {
-          transportEnrollmentDetail.add(event.data ?? TransportEnrollmentResponseModel());
+          transportEnrollmentDetail
+              .add(event.data ?? TransportEnrollmentResponseModel());
           setData(transportEnrollmentDetail.value);
-        } if(event.status == Status.error) {
-          print("Error");
+        }
+        if (event.status == Status.error) {
+          log("Error");
         }
       }).onError((error) {
         exceptionHandlerBinder.showError(error);
@@ -106,43 +116,51 @@ class TransportDetailViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> fetchStop({bool forBothWay = false,String? routeType}) async {
+  BehaviorSubject<List<StopDetail>> stopList = BehaviorSubject.seeded([]);
+
+  Future<void> fetchStop({bool forBothWay = false, String? routeType}) async {
     exceptionHandlerBinder.handle(block: () {
       FetchStopsUsecaseParams params = FetchStopsUsecaseParams(
-        fetchStopRequest: FetchStopRequest(
-          schoolId: 10,
-          busType: radioButtonBusType.selectedItem == "Non AC" ? "2" : "1",
-          routeType: forBothWay? routeType : radioButtonOneWayRouteType.selectedItem == "Pickup Point To School" ? "1":"2",
+          fetchStopRequest: FetchStopRequest(
+        schoolId: enquiryDetailArgs?.schoolId,
+        busType: radioButtonBusType.selectedItem == "Non AC" ? "2" : "1",
+        routeType: forBothWay
+            ? routeType
+            : radioButtonOneWayRouteType.selectedItem ==
+                    "Pickup Point To School"
+                ? "1"
+                : "2",
       ));
       showLoader.value = true;
-      RequestManager<FetchStopResponseModel>(
-        params,
-        createCall: () => fetchStopsUsecase.execute(params: params))
+      RequestManager<FetchStopResponseModel>(params,
+              createCall: () => fetchStopsUsecase.execute(params: params))
           .asFlow()
           .listen((event) {
         if (event.status == Status.success) {
           showLoader.value = false;
           List<String> routes = [];
-          (event.data?.data??[]).forEach((element){routes.add(element.stopName??'');});
-          if(!forBothWay){
-            if(radioButtonOneWayRouteType.selectedItem == "Pickup Point To School"){
+          stopList.add(event.data?.data ?? []);
+          (event.data?.data ?? []).forEach((element) {
+            routes.add(element.stopName ?? '');
+          });
+          if (!forBothWay) {
+            if (radioButtonOneWayRouteType.selectedItem ==
+                "Pickup Point To School") {
               dropPointOneWay.text = "School";
               oneWayPickupPoint.add(routes);
-            }
-            else{
+            } else {
               pickupPointOneWay.text = "School";
               oneWayDropPoint.add(routes);
             }
-          }
-          else{
-            if(routeType == "1"){
+          } else {
+            if (routeType == "1") {
               oneWayPickupPoint.add(routes);
-            }
-            else{
+            } else {
               oneWayDropPoint.add(routes);
             }
           }
-        } if(event.status == Status.error) {
+        }
+        if (event.status == Status.error) {
           print("Error");
           showLoader.value = false;
         }
@@ -153,88 +171,170 @@ class TransportDetailViewModel extends BasePageViewModel {
     }).execute();
   }
 
-  void setData(TransportEnrollmentResponseModel transportEnrollmentDetail){
-    (transportEnrollmentDetail.data?.feeSubType??[]).forEach((element){
-      busType.value.add(element.feeSubType??'');
-    });
+  void setData(TransportEnrollmentResponseModel transportEnrollmentDetail) {
+    for (var element in (transportEnrollmentDetail.data?.feeSubType ?? [])) {
+      busType.value.add(element.feeSubType ?? '');
+    }
   }
 
-  Future<void> calculateFees() async{
-    exceptionHandlerBinder.handle(block: (){
+  Future<void> calculateFees() async {
+    exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
-        feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-          schoolId: 1,
-          boardId: 3,
-          gradeId: 5,
-          courseId: 1,
-          academicYearId: 25,
-          feeSubTypeId: feeSubTypeID,
-          feeCategoryId: feeCategoryID,
-          feeSubCategoryEnd: (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
-          feeSubCategoryStart: (!feeSubCategoryStart.isEmptyOrNull()) ? "Zone1" : null
-        )
-      );
+          feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
+              schoolId: enquiryDetailArgs?.schoolId,
+              boardId: enquiryDetailArgs?.boardId,
+              gradeId: enquiryDetailArgs?.gradeId,
+              courseId: enquiryDetailArgs?.courseId,
+              academicYearId: enquiryDetailArgs?.academicYearId,
+              feeSubTypeId: feeSubTypeID,
+              feeCategoryId: feeCategoryID,
+              periodOfServiceId: periodOfServiceID,
+              shiftId: enquiryDetailArgs?.shiftId,
+              streamId: enquiryDetailArgs?.streamId,
+              feeTypeId: FeesTypeIdEnum.transportFees.id,
+              feeSubCategoryEnd:
+                  (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
+              feeSubCategoryStart: selectedZone?.zoneName));
       showLoader.add(true);
-      RequestManager<VasOptionResponse>(
-        params, 
-        createCall: ()=> calculateFeesUsecase.execute(params: params)
-      ).asFlow().listen((event){
+      RequestManager<VasOptionResponse>(params,
+              createCall: () => calculateFeesUsecase.execute(params: params))
+          .asFlow()
+          .listen((event) {
         _calculateTransportFee.add(event);
-        if(event.status == Status.loading || event.status == Status.none){
+        if (event.status == Status.loading || event.status == Status.none) {
           showLoader.value = true;
         }
-        if(event.status == Status.success){
+        if (event.status == Status.success) {
           var amount = event.data?.data?["amount"].toString();
-          fee.add(amount??'0');
+          fee.add(amount ?? '0');
           showLoader.add(false);
         }
-        if(event.status == Status.error) {
+        if (event.status == Status.error) {
           showLoader.add(false);
           print("Error");
         }
-      }).onError((error){
+      }).onError((error) {
         showLoader.add(false);
         exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
 
-  Future<void> enrollTransport() async{
-    exceptionHandlerBinder.handle(block: (){
+  Future<void> enrollTransport() async {
+    exceptionHandlerBinder.handle(block: () {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
-        vasEnrollmentRequest: VasEnrollmentRequest(
-          transportAmount: int.parse(fee.value),
-          transportBusType: feeSubTypeID,
-          transportServiceType: feeCategoryID,
-          transportRouteType: radioButtonOneWayRouteType.selectedItem == "Pickup Point To School" ? "1":"2",
-          transportDropPoint: (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
-          transportPickupPoint: (!feeSubCategoryStart.isEmptyOrNull()) ? "Zone1" : null
-        ),
-         enquiryID: enquiryDetailArgs?.enquiryId??'',
-        type: "Transport"
-      );
-      RequestManager<VasOptionResponse>(
-        params, 
-        createCall: ()=> addVasDetailUsecase.execute(params: params)
-      ).asFlow().listen((event){
-        if(event.status == Status.loading || event.status == Status.loading){
+          vasEnrollmentRequest: VasEnrollmentRequest(
+              transport: Transport(
+                  amount: int.parse(fee.value),
+                  feeSubTypeId: feeSubTypeID,
+                  feeCategoryId: feeCategoryID,
+                  feeTypeId: FeesTypeIdEnum.transportFees.id,
+                  periodOfServiceId: periodOfServiceID,
+                  pickupPoint: selectedZone?.zoneName,
+                  stopDetails: [
+                VasStopDetail(
+                    shiftId: selectedZone?.shiftId,
+                    routeId: selectedZone?.routeId.toString(),
+                    stopId: selectedZone?.id)
+              ])
+              // transportAmount: int.parse(fee.value),
+              // transportBusType: feeSubTypeID,
+              // transportServiceType: feeCategoryID,
+              // transportRouteType: radioButtonOneWayRouteType.selectedItem ==
+              //         "Pickup Point To School"
+              //     ? "1"
+              //     : "2",
+              // transportDropPoint:
+              //     (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
+              // transportPickupPoint: selectedZone?.zoneName,
+              ),
+          enquiryID: enquiryDetailArgs?.enquiryId ?? '',
+          type: "Transport");
+      RequestManager<VasOptionResponse>(params,
+              createCall: () => addVasDetailUsecase.execute(params: params))
+          .asFlow()
+          .listen((event) {
+        if (event.status == Status.loading || event.status == Status.loading) {
           showLoader.value = true;
         }
-        if(event.status == Status.success){
-          Navigator.pop(navigatorKey.currentContext!,true);
-          ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(const SnackBar(
-            content: CommonText(text: "Transport Details added successfully",)));
-        }
-        else{
+        if (event.status == Status.success) {
+          Navigator.pop(navigatorKey.currentContext!, true);
+          ScaffoldMessenger.of(navigatorKey.currentContext!)
+              .showSnackBar(const SnackBar(
+                  content: CommonText(
+            text: "Transport Details added successfully",
+          )));
+        } else {
           showLoader.value = false;
           flutterToastErrorPresenter.show(
-            event.dealSafeAppError!.throwable, navigatorKey.currentContext!, event.dealSafeAppError?.error.message??'');
+              event.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              event.dealSafeAppError?.error.message ?? '');
         }
-      }).onError((error){
+      }).onError((error) {
         showLoader.value = false;
         exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
 
+  BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
+
+  StopDetail? selectedZone;
+
+  void filterPeriodService() {
+    log("radioButtonBusType ${radioButtonBusType.selectedItem}");
+
+    log("feeSubTypeID $feeSubTypeID");
+    log("radioButtonServiceType ${radioButtonServiceType.selectedItem}");
+
+    log("feeCategoryID $feeCategoryID");
+    final selectedZone = stopList.value.firstWhere((stop) =>
+        stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+    final list = transportEnrollmentDetail.value.data?.periodOfService
+        ?.where((ps) =>
+            (ps.feeSubTypeId == feeSubTypeID) &&
+            (ps.feeCategoryId == feeCategoryID) &&
+            (ps.feeSubcategory?.toLowerCase() ==
+                selectedZone.zoneName?.toLowerCase()))
+        .toList();
+
+    if (list?.isNotEmpty ?? false) {
+      periodOfService.value =
+          list!.map((e) => e.periodOfService ?? '').toList();
+    }
+
+    log("periodOfService $periodOfService");
+
+    //oneWayPickupPoint.value.toSet().toList().firstWhere(test);
+
+    log("zone $selectedZone");
+  }
+
+  void setPeriodOfService(String value) {
+    periodOfServiceID = transportEnrollmentDetail.value.data?.periodOfService
+            ?.firstWhere((ps) =>
+                ps.periodOfService?.toLowerCase() == value.toLowerCase())
+            .periodOfServiceId ??
+        0;
+    log("periodOfServiceID $periodOfServiceID");
+  }
 }
+
+
+/**
+ * 
+ * {"academic_year_id":25,
+ * "board_id":3,
+ * "course_id":5,
+ * "shift_id":1,
+ * "stream_id":1,
+ * "grade_id":1,
+ * "school_id":26,
+ * "fee_type_id":15,
+ * "fee_sub_type_id":22,
+ * "fee_category_id":39,
+ * "fee_subcategory_start":"Zone 2",
+ * "period_of_service_id":8}
+ * 
+ */

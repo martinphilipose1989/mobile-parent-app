@@ -52,17 +52,26 @@ class VasEnrollmentFeeCalculationRequest {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+
     data['board_id'] = boardId;
+
     data['course_id'] = courseId;
+
     data['shift_id'] = shiftId;
     data['stream_id'] = streamId;
     data['grade_id'] = gradeId;
     data['school_id'] = schoolId;
-    data['batch_id'] = batchId;
+    if (batchId != null) {
+      data['batch_id'] = batchId;
+    }
     data['fee_type_id'] = feeTypeId;
-    data['fee_sub_type_id'] = feeSubTypeId;
+    if (feeSubTypeId != null) {
+      data['fee_sub_type_id'] = feeSubTypeId;
+    }
     data['fee_category_id'] = feeCategoryId;
-    data['fee_subcategory_id'] = feeSubcategoryId;
+    if (feeSubcategoryId != null) {
+      data['fee_subcategory_id'] = feeSubcategoryId;
+    }
     data['period_of_service_id'] = periodOfServiceId;
     data['academic_year_id'] = academicYearId;
     if (feeSubCategoryStart != null) {
