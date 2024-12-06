@@ -13,6 +13,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:collection/collection.dart';
 
 @injectable
 class KidsClubViewModel extends BasePageViewModel {
@@ -48,14 +49,22 @@ class KidsClubViewModel extends BasePageViewModel {
   BehaviorSubject<bool> showLoader = BehaviorSubject.seeded(false);
   BehaviorSubject<String> fee = BehaviorSubject.seeded('');
   EnquiryDetailArgs? enquiryDetailArgs;
-  List<String> kidsClubOptions = [];
-  BehaviorSubject<String> selectedKidsClubType = BehaviorSubject.seeded('');
-  BehaviorSubject<List<String>> month = BehaviorSubject.seeded([]);
-  BehaviorSubject<String> selectedMonth = BehaviorSubject.seeded('');
+
+  List<String> feeSubType = [];
+  BehaviorSubject<String> selectedFeeSubType = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> feeCategoryType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedFeeCategoryType = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> feeSubCategoryType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedFeeSubCategoryType =
+      BehaviorSubject.seeded('');
+
   BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedPeriodOfService = BehaviorSubject.seeded('');
-  BehaviorSubject<List<String>> cafeteriaOptFor = BehaviorSubject.seeded([]);
-  BehaviorSubject<String> selectedCafeteriaOptFor = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> batchType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedBatch = BehaviorSubject.seeded('');
 
   int batchID = 0;
   int feeCategoryID = 0;
@@ -100,7 +109,7 @@ class KidsClubViewModel extends BasePageViewModel {
 
   void setData(KidsClubEnrollmentResponseModel data) {
     for (var element in (data.data?.feeSubType ?? [])) {
-      kidsClubOptions.add(element.feeSubType ?? '');
+      feeSubType.add(element.feeSubType ?? '');
     }
   }
 
@@ -189,5 +198,143 @@ class KidsClubViewModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error);
       });
     }).execute();
+  }
+
+  void setFeeSubTypeId(String value) {
+    // Update the selected fee sub-type
+    selectedFeeSubType.value = value;
+
+    // Retrieve the feeSubTypeId, defaulting to 0 if not found
+    feeSubTypeID = kidsClubEnrollmentDetail.value.data?.feeSubType
+            ?.firstWhereOrNull((element) => element.feeSubType == value)
+            ?.feeSubTypeId ??
+        0;
+
+    // Filter and map the fee categories associated with the fee sub-type
+    List<String> options = [];
+    for (FeeCategoryModel element
+        in (kidsClubEnrollmentDetail.value.data?.feeCategory ?? [])) {
+      if (element.feeSubType == value) {
+        options.add(element.feeCategory ?? '');
+      }
+    }
+
+    // Update summerFeeCategoryType
+    feeCategoryType.add(options);
+    reset();
+  }
+
+  void setCategoryTypeId(value) {
+    selectedFeeCategoryType.value = value;
+    feeCategoryID = kidsClubEnrollmentDetail.value.data?.feeCategory
+            ?.firstWhereOrNull((element) => element.feeCategory == value)
+            ?.feeCategoryId ??
+        0;
+    List<String> options = [];
+    for (FeeSubCategoryModel element
+        in (kidsClubEnrollmentDetail.value.data?.feeSubCategory ?? [])) {
+      if (element.feeCategory == value &&
+          element.feeSubType == selectedFeeSubType.value) {
+        options.add(element.feeSubcategory ?? '');
+      }
+    }
+
+    feeSubCategoryType.add(options);
+
+    resetFees();
+  }
+
+  void setSubCategoryTypeId(value) {
+    selectedFeeSubCategoryType.value = value;
+    feeSubCategoryID = kidsClubEnrollmentDetail.value.data?.feeSubCategory
+            ?.firstWhereOrNull((element) => element.feeSubcategory == value)
+            ?.feeSubcategoryId ??
+        0;
+    List<String> options = [];
+    for (BatchModel element
+        in (kidsClubEnrollmentDetail.value.data?.batches ?? [])) {
+      if (element.feeSubcategory == value &&
+          element.feeSubType == selectedFeeSubType.value &&
+          element.feeCategory == selectedFeeCategoryType.value) {
+        options.add(element.batchName ?? '');
+      }
+    }
+
+    batchType.add(options);
+
+    resetFees();
+  }
+
+  void setBatchId(value) {
+    selectedBatch.value = value;
+    batchID = kidsClubEnrollmentDetail.value.data?.batches
+            ?.firstWhereOrNull((element) => element.batchName == value)
+            ?.batchId ??
+        0;
+    List<String> options = [];
+    for (BatchModel element
+        in (kidsClubEnrollmentDetail.value.data?.batches ?? [])) {
+      if (element.feeSubcategory == selectedFeeSubCategoryType.value &&
+          element.feeSubType == selectedFeeSubType.value &&
+          element.feeCategory == selectedFeeCategoryType.value &&
+          element.batchName == value) {
+        options.add(element.periodOfService ?? '');
+      }
+    }
+
+    periodOfService.add(options);
+    resetFees();
+  }
+
+  void setPeriodOfService(String value) {
+    selectedPeriodOfService.value = value;
+    periodOfServiceID = kidsClubEnrollmentDetail.value.data?.periodOfService
+            ?.firstWhereOrNull((e) => e.periodOfService == value)
+            ?.periodOfServiceId ??
+        0;
+    resetFees();
+  }
+
+  void resetFees() {
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
+  }
+
+  void resetBatch() {
+    batchID = 0;
+    //  batchType.value.clear();
+    selectedBatch.value = '';
+  }
+
+  void resetPeriodOfService() {
+    // periodOfService.value.clear();
+    periodOfServiceID = 0;
+    selectedPeriodOfService.value = '';
+  }
+
+  reset({bool isResetSubType = false}) {
+    if (isResetSubType) {
+      feeSubTypeID = 0;
+      selectedFeeSubType.value = '';
+    }
+
+    feeCategoryID = 0;
+    selectedFeeCategoryType.value = '';
+
+    feeSubCategoryType.value.clear();
+    selectedFeeSubCategoryType.value = '';
+    feeSubCategoryID = 0;
+
+    periodOfServiceID = 0;
+    periodOfService.value.clear();
+    selectedPeriodOfService.value = '';
+
+    batchType.value.clear();
+    selectedBatch.value = '';
+    batchID = 0;
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
   }
 }

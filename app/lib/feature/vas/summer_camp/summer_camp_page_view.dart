@@ -7,7 +7,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:collection/collection.dart';
+
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,246 +91,109 @@ class SummerCampDetailPageView
                               height: 15.h,
                             ),
                             CustomDropdownButton(
-                              items: model.summerCampType,
-                              isMutiSelect: false,
-                              dropdownName: 'Summer Camp Type',
+                              items: model.feeSubType,
+                              dropdownName: 'PSA Sub Type',
                               showAstreik: false,
                               showBorderColor: false,
-                              singleSelectItemSubject:
-                                  model.selectedSummerCampType,
-                              onMultiSelect: (List<String> selectedValues) {},
-                              onSingleSelect: (selectedValue) {
-                                if (model.selectedSummerCampType.value ==
-                                    selectedValue) {
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              singleSelectItemSubject: model.selectedFeeSubType,
+                              onSingleSelect: (value) {
+                                if (model.selectedFeeSubType.value == value) {
                                   return;
                                 }
-                                model.selectedSummerCampType.value =
-                                    selectedValue;
-                                model.feeSubTypeID = model
-                                        .summerCampEnrollmentDetail
-                                        .value
-                                        .data
-                                        ?.feeSubType
-                                        ?.firstWhereOrNull(
-                                          (element) =>
-                                              element.feeSubType ==
-                                              selectedValue,
-                                        )
-                                        ?.feeSubTypeId ??
-                                    0;
-                                List<String> options = [];
-                                (model.summerCampEnrollmentDetail.value.data
-                                            ?.feeSubCategory ??
-                                        [])
-                                    .forEach((element) {
-                                  if (element.feeSubType == selectedValue) {
-                                    options.add(element.feeSubcategory ?? '');
-                                  }
-                                });
-                                model.summerCampActivity.add(options);
-                                model.selectedSummerCamptActivity.value = '';
-                                model.feeSubCategoryID = 0;
-                                model.summerCampDuration.value.clear();
-                                model.selectedSummerCampDuration.value = '';
-                                model.periodOfServiceID = 0;
-                                model.summerCampBatch.value.clear();
-                                model.selectedSummerCampBatch.value = '';
-                                model.batchID = 0;
-                                if (model.fee.value.isNotEmpty) {
-                                  model.fee.value = '';
-                                }
+                                model.setFeeSubTypeId(value);
                               },
                             ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                            SizedBox(height: 15.h),
                             AppStreamBuilder<List<String>>(
-                                stream: model.summerCampActivity,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
+                                initialData: const <String>[],
+                                stream: model.feeCategoryType,
+                                dataBuilder: (context, feeCategoryType) {
                                   return CustomDropdownButton(
-                                    items: model.summerCampActivity.value,
-                                    isMutiSelect: false,
-                                    dropdownName: 'Summer Camp Activity',
+                                    items: feeCategoryType ?? [],
+                                    dropdownName: 'PSA Category Type',
                                     showAstreik: false,
                                     showBorderColor: false,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
                                     singleSelectItemSubject:
-                                        model.selectedSummerCamptActivity,
-                                    onSingleSelect: (selectedValue) {
-                                      if (model.selectedSummerCamptActivity
-                                              .value ==
-                                          selectedValue) {
+                                        model.selectedFeeCategoryType,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedFeeCategoryType.value ==
+                                          value) {
                                         return;
                                       }
-                                      model.selectedSummerCamptActivity.value =
-                                          selectedValue;
-                                      model.feeSubCategoryID = model
-                                              .summerCampEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.feeSubCategory
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedSummerCampType
-                                                            .value &&
-                                                    element.feeSubcategory ==
-                                                        selectedValue,
-                                              )
-                                              ?.feeCategoryId ??
-                                          0;
-                                      List<String> options = [];
-                                      (model.summerCampEnrollmentDetail.value
-                                                  .data?.periodOfService ??
-                                              [])
-                                          .forEach((element) {
-                                        if (element.feeSubType ==
-                                                model.selectedSummerCampType
-                                                    .value &&
-                                            element.feeSubcategory ==
-                                                selectedValue) {
-                                          options.add(
-                                              element.periodOfService ?? '');
-                                        }
-                                      });
-                                      model.summerCampDuration.add(options);
-                                      model.selectedSummerCampDuration.value =
-                                          '';
-                                      model.periodOfServiceID = 0;
-                                      model.summerCampBatch.value.clear();
-                                      model.selectedSummerCampBatch.value = '';
-                                      model.batchID = 0;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
-                                      }
+                                      model.setCategoryTypeId(value);
                                     },
                                   );
                                 }),
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                            SizedBox(height: 15.h),
                             AppStreamBuilder<List<String>>(
-                                stream: model.summerCampDuration,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
+                                initialData: const <String>[],
+                                stream: model.feeSubCategoryType,
+                                dataBuilder: (context, feeSubCategoryType) {
                                   return CustomDropdownButton(
-                                    items: model.summerCampDuration.value,
-                                    isMutiSelect: false,
-                                    dropdownName: 'Summer Camp Duration',
+                                    items: feeSubCategoryType ?? [],
+                                    dropdownName: 'PSA Sub Category',
                                     showAstreik: false,
                                     showBorderColor: false,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
                                     singleSelectItemSubject:
-                                        model.selectedSummerCampDuration,
-                                    onSingleSelect: (selectedValue) {
-                                      if (model.selectedSummerCampDuration
+                                        model.selectedFeeSubCategoryType,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedFeeSubCategoryType
                                               .value ==
-                                          selectedValue) {
+                                          value) {
                                         return;
                                       }
-                                      model.selectedSummerCampDuration.value =
-                                          selectedValue;
-                                      model.periodOfServiceID = model
-                                              .summerCampEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.periodOfService
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedSummerCampType
-                                                            .value &&
-                                                    element.feeSubcategory ==
-                                                        model
-                                                            .selectedSummerCamptActivity
-                                                            .value &&
-                                                    element.periodOfService ==
-                                                        selectedValue,
-                                              )
-                                              ?.periodOfServiceId ??
-                                          0;
-                                      List<String> options = [];
-                                      (model.summerCampEnrollmentDetail.value
-                                                  .data?.batches ??
-                                              [])
-                                          .forEach((element) {
-                                        if (element.feeSubType ==
-                                                model
-                                                    .selectedSummerCampType.value &&
-                                            element.feeSubcategory ==
-                                                model
-                                                    .selectedSummerCamptActivity
-                                                    .value &&
-                                            element.periodOfService ==
-                                                selectedValue) {
-                                          options.add(element.batchName ?? '');
-                                        }
-                                      });
-                                      model.summerCampBatch.add(options);
-                                      model.selectedSummerCampBatch.value = '';
-                                      model.batchID = 0;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
-                                      }
+                                      model.setSubCategoryTypeId(value);
                                     },
                                   );
                                 }),
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                            SizedBox(height: 15.h),
                             AppStreamBuilder<List<String>>(
-                                stream: model.summerCampBatch,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
+                                initialData: const <String>[],
+                                stream: model.batchType,
+                                dataBuilder: (context, batchType) {
                                   return CustomDropdownButton(
-                                    items: model.summerCampBatch.value,
-                                    isMutiSelect: false,
-                                    dropdownName: 'Batch Number',
+                                    items: batchType ?? [],
+                                    dropdownName: 'PSA Batch',
                                     showAstreik: false,
                                     showBorderColor: false,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
                                     singleSelectItemSubject:
-                                        model.selectedSummerCampBatch,
-                                    onSingleSelect: (selectedValue) {
-                                      if (model.selectedSummerCampBatch.value ==
-                                          selectedValue) {
+                                        model.selectedBatch,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedBatch.value == value) {
                                         return;
                                       }
-                                      model.selectedSummerCampBatch.value =
-                                          selectedValue;
-                                      model.batchID = model
-                                              .summerCampEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.batches
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedSummerCampType
-                                                            .value &&
-                                                    element.feeSubcategory ==
-                                                        model
-                                                            .selectedSummerCamptActivity
-                                                            .value &&
-                                                    element.periodOfService ==
-                                                        model
-                                                            .selectedSummerCampDuration
-                                                            .value &&
-                                                    element.batchName ==
-                                                        selectedValue,
-                                              )
-                                              ?.batchId ??
-                                          0;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
+                                      model.setBatchId(value);
+                                    },
+                                  );
+                                }),
+                            SizedBox(height: 15.h),
+                            AppStreamBuilder<List<String>>(
+                                initialData: const <String>[],
+                                stream: model.periodOfService,
+                                dataBuilder: (context, periodOfService) {
+                                  return CustomDropdownButton(
+                                    items: periodOfService ?? [],
+                                    dropdownName: 'Period Of Service',
+                                    showAstreik: false,
+                                    showBorderColor: false,
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
+                                    singleSelectItemSubject:
+                                        model.selectedPeriodOfService,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedPeriodOfService.value ==
+                                          value) {
+                                        return;
                                       }
+                                      model.setPeriodOfService(value);
                                     },
                                   );
                                 }),
@@ -385,27 +248,8 @@ class SummerCampDetailPageView
                                               flex: 1,
                                               child: CommonElevatedButton(
                                                 onPressed: () {
-                                                  model.selectedSummerCampType
-                                                      .value = '';
-                                                  model.feeSubTypeID = 0;
-                                                  model.summerCampActivity.value
-                                                      .clear();
-                                                  model
-                                                      .selectedSummerCamptActivity
-                                                      .value = '';
-                                                  model.feeSubCategoryID = 0;
-                                                  model.summerCampDuration.value
-                                                      .clear();
-                                                  model
-                                                      .selectedSummerCampDuration
-                                                      .value = '';
-                                                  model.periodOfServiceID = 0;
-                                                  model.summerCampBatch.value
-                                                      .clear();
-                                                  model.selectedSummerCampBatch
-                                                      .value = '';
-                                                  model.batchID = 0;
-                                                  model.fee.value = '';
+                                                  model.reset(
+                                                      isResetSubType: true);
                                                 },
                                                 text: "Reset",
                                                 backgroundColor:

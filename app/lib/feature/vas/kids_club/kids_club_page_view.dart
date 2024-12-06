@@ -87,241 +87,109 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                               height: 10.h,
                             ),
                             CustomDropdownButton(
-                              items: model.kidsClubOptions,
-                              isMutiSelect: false,
+                              items: model.feeSubType,
                               dropdownName: 'Kids Club Type',
                               showAstreik: false,
                               showBorderColor: false,
-                              onMultiSelect: (List<String> selectedValues) {},
-                              onSingleSelect: (selectedValue) {
-                                if (model.selectedKidsClubType.value ==
-                                    selectedValue) {
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              singleSelectItemSubject: model.selectedFeeSubType,
+                              onSingleSelect: (value) {
+                                if (model.selectedFeeSubType.value == value) {
                                   return;
                                 }
-                                model.selectedKidsClubType.value =
-                                    selectedValue;
-                                model.feeSubTypeID = model
-                                        .kidsClubEnrollmentDetail
-                                        .value
-                                        .data
-                                        ?.feeSubType
-                                        ?.firstWhereOrNull(
-                                          (element) =>
-                                              element.feeSubType ==
-                                              selectedValue,
-                                        )
-                                        ?.feeSubTypeId ??
-                                    0;
-                                List<String> options = [];
-                                (model.kidsClubEnrollmentDetail.value.data
-                                            ?.batches ??
-                                        [])
-                                    .forEach((element) {
-                                  if (element.feeSubType == selectedValue) {
-                                    if (!options.contains(element.batchName)) {
-                                      options.add(element.batchName ?? '');
-                                    }
-                                  }
-                                });
-                                model.month.add(options);
-                                model.selectedMonth.value = '';
-                                model.batchID = 0;
-                                model.periodOfService.value.clear();
-                                model.selectedPeriodOfService.value = '';
-                                model.periodOfServiceID = 0;
-                                model.cafeteriaOptFor.value.clear();
-                                model.selectedCafeteriaOptFor.value = '';
-                                model.feeCategoryID = 0;
-                                if (model.fee.value.isNotEmpty) {
-                                  model.fee.value = '';
-                                }
+                                model.setFeeSubTypeId(value);
                               },
                             ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                            SizedBox(height: 15.h),
                             AppStreamBuilder<List<String>>(
-                                stream: model.month,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
+                                initialData: const <String>[],
+                                stream: model.feeCategoryType,
+                                dataBuilder: (context, feeCategoryType) {
                                   return CustomDropdownButton(
-                                    items: model.month.value,
-                                    isMutiSelect: false,
-                                    dropdownName: 'Batches',
+                                    items: feeCategoryType ?? [],
+                                    dropdownName: 'Month',
                                     showAstreik: false,
                                     showBorderColor: false,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
                                     singleSelectItemSubject:
-                                        model.selectedMonth,
-                                    onSingleSelect: (selectedValue) {
-                                      if (model.selectedMonth.value ==
-                                          selectedValue) {
+                                        model.selectedFeeCategoryType,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedFeeCategoryType.value ==
+                                          value) {
                                         return;
                                       }
-                                      model.selectedMonth.value = selectedValue;
-                                      model.batchID = model
-                                              .kidsClubEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.batches
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedKidsClubType
-                                                            .value &&
-                                                    element.batchName ==
-                                                        selectedValue,
-                                              )
-                                              ?.batchId ??
-                                          0;
-                                      List<String> options = [];
-                                      (model.kidsClubEnrollmentDetail.value.data
-                                                  ?.periodOfService ??
-                                              [])
-                                          .forEach((element) {
-                                        if (element.feeSubType ==
-                                                model.selectedKidsClubType
-                                                    .value &&
-                                            element.batchName ==
-                                                selectedValue) {
-                                          if (!options.contains(
-                                              element.periodOfService)) {
-                                            options.add(
-                                                element.periodOfService ?? '');
-                                          }
-                                        }
-                                      });
-                                      model.periodOfService.add(options);
-                                      model.selectedPeriodOfService.value = '';
-                                      model.periodOfServiceID = 0;
-                                      model.cafeteriaOptFor.value.clear();
-                                      model.selectedCafeteriaOptFor.value = '';
-                                      model.feeCategoryID = 0;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
-                                      }
+                                      model.setCategoryTypeId(value);
                                     },
                                   );
                                 }),
-                            SizedBox(
-                              height: 15.h,
-                            ),
+                            SizedBox(height: 15.h),
                             AppStreamBuilder<List<String>>(
-                                stream: model.periodOfService,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
+                                initialData: const <String>[],
+                                stream: model.feeSubCategoryType,
+                                dataBuilder: (context, feeSubCategoryType) {
                                   return CustomDropdownButton(
-                                    items: model.periodOfService.value,
+                                    items: feeSubCategoryType ?? [],
+                                    dropdownName: 'From Cafeteria Opt for',
+                                    showAstreik: false,
+                                    showBorderColor: false,
                                     isMutiSelect: false,
+                                    onMultiSelect: (_) {},
+                                    singleSelectItemSubject:
+                                        model.selectedFeeSubCategoryType,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedFeeSubCategoryType
+                                              .value ==
+                                          value) {
+                                        return;
+                                      }
+                                      model.setSubCategoryTypeId(value);
+                                    },
+                                  );
+                                }),
+                            SizedBox(height: 15.h),
+                            AppStreamBuilder<List<String>>(
+                                initialData: const <String>[],
+                                stream: model.batchType,
+                                dataBuilder: (context, batchType) {
+                                  return CustomDropdownButton(
+                                    items: batchType ?? [],
+                                    dropdownName: 'Batch',
+                                    showAstreik: false,
+                                    showBorderColor: false,
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
+                                    singleSelectItemSubject:
+                                        model.selectedBatch,
+                                    onSingleSelect: (value) {
+                                      if (model.selectedBatch.value == value) {
+                                        return;
+                                      }
+                                      model.setBatchId(value);
+                                    },
+                                  );
+                                }),
+                            SizedBox(height: 15.h),
+                            AppStreamBuilder<List<String>>(
+                                initialData: const <String>[],
+                                stream: model.periodOfService,
+                                dataBuilder: (context, periodOfService) {
+                                  return CustomDropdownButton(
+                                    items: periodOfService ?? [],
                                     dropdownName: 'Period Of Service',
                                     showAstreik: false,
                                     showBorderColor: false,
+                                    isMutiSelect: false,
+                                    onMultiSelect: (_) {},
                                     singleSelectItemSubject:
                                         model.selectedPeriodOfService,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
-                                    onSingleSelect: (selectedValue) {
+                                    onSingleSelect: (value) {
                                       if (model.selectedPeriodOfService.value ==
-                                          selectedValue) {
+                                          value) {
                                         return;
                                       }
-                                      model.selectedPeriodOfService.value =
-                                          selectedValue;
-                                      model.periodOfServiceID = model
-                                              .kidsClubEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.periodOfService
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedKidsClubType
-                                                            .value &&
-                                                    element.batchName ==
-                                                        model.selectedMonth
-                                                            .value &&
-                                                    element.periodOfService ==
-                                                        selectedValue,
-                                              )
-                                              ?.periodOfServiceId ??
-                                          0;
-                                      List<String> options = [];
-                                      for (var element in (model
-                                              .kidsClubEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.feeCategory ??
-                                          [])) {
-                                        if (element.feeSubType ==
-                                                model.selectedKidsClubType
-                                                    .value &&
-                                            element.periodOfService ==
-                                                model.selectedPeriodOfService
-                                                    .value) {
-                                          if (!options
-                                              .contains(element.feeCategory)) {
-                                            options.add(
-                                                element.periodOfService ?? '');
-                                          }
-                                        }
-                                      }
-                                      model.cafeteriaOptFor.add(options);
-                                      model.selectedCafeteriaOptFor.value = '';
-                                      model.feeCategoryID = 0;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
-                                      }
-                                    },
-                                  );
-                                }),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            AppStreamBuilder<List<String>>(
-                                stream: model.cafeteriaOptFor,
-                                initialData: [],
-                                dataBuilder: (context, snapshot) {
-                                  return CustomDropdownButton(
-                                    items: model.cafeteriaOptFor.value,
-                                    isMutiSelect: false,
-                                    dropdownName: 'From Cafeteria Opt For',
-                                    showAstreik: false,
-                                    showBorderColor: false,
-                                    onMultiSelect:
-                                        (List<String> selectedValues) {},
-                                    singleSelectItemSubject:
-                                        model.selectedCafeteriaOptFor,
-                                    onSingleSelect: (selectedValue) {
-                                      if (model.selectedCafeteriaOptFor.value ==
-                                          selectedValue) {
-                                        return;
-                                      }
-                                      model.feeCategoryID = model
-                                              .kidsClubEnrollmentDetail
-                                              .value
-                                              .data
-                                              ?.feeCategory
-                                              ?.firstWhereOrNull(
-                                                (element) =>
-                                                    element.feeSubType ==
-                                                        model
-                                                            .selectedKidsClubType
-                                                            .value &&
-                                                    element.periodOfService ==
-                                                        model
-                                                            .selectedPeriodOfService
-                                                            .value,
-                                              )
-                                              ?.feeCategoryId ??
-                                          0;
-                                      model.selectedCafeteriaOptFor.value =
-                                          selectedValue;
-                                      if (model.fee.value.isNotEmpty) {
-                                        model.fee.value = '';
-                                      }
+                                      model.setPeriodOfService(value);
                                     },
                                   );
                                 }),
@@ -376,24 +244,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                               flex: 1,
                                               child: CommonElevatedButton(
                                                 onPressed: () {
-                                                  model.selectedKidsClubType
-                                                      .value = '';
-                                                  model.feeSubTypeID = 0;
-                                                  model.month.value.clear();
-                                                  model.selectedMonth.value =
-                                                      '';
-                                                  model.batchID = 0;
-                                                  model.periodOfService.value
-                                                      .clear();
-                                                  model.selectedPeriodOfService
-                                                      .value = '';
-                                                  model.periodOfServiceID = 0;
-                                                  model.cafeteriaOptFor.value
-                                                      .clear();
-                                                  model.selectedCafeteriaOptFor
-                                                      .value = '';
-                                                  model.feeCategoryID = 0;
-                                                  model.fee.value = '';
+                                                  model.reset();
                                                 },
                                                 text: "Reset",
                                                 backgroundColor:
