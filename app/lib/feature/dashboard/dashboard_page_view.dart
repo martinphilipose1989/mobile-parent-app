@@ -6,10 +6,12 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
@@ -31,6 +33,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 10, width: 10),
           introductionTile(model, context),
           CommonSizedBox.sizedBox(height: 15, width: 10),
+
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
           const Tracker(),

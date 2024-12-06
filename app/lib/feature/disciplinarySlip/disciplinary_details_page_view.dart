@@ -38,14 +38,14 @@ class DisplinaryDetailsPageView
                           name:
                               model.selectedStudent?.first.studentDisplayName ??
                                   "",
-                          schoolName: data?.data?.data?.profile?.crtSchool,
+                          schoolName: data?.data?.data?.profile?.crtSchool??"NA",
                           boardName: data?.data?.data?.profile?.crtBoard,
-                          stream: data?.data?.data?.profile?.streamName,
-                          grade: data?.data?.data?.profile?.crtGrade,
-                          course: data?.data?.data?.profile?.courseName,
-                          shift: data?.data?.data?.profile?.crtShift,
-                          division: data?.data?.data?.profile?.crtDivision,
-                          house: data?.data?.data?.profile?.crtHouse,
+                          stream: data?.data?.data?.profile?.streamName??"NA",
+                          grade: data?.data?.data?.profile?.crtGrade??"NA",
+                          course: data?.data?.data?.profile?.courseName??"NA",
+                          shift: data?.data?.data?.profile?.crtShift??"NA",
+                          division: data?.data?.data?.profile?.crtDivision??"NA",
+                          house: data?.data?.data?.profile?.crtHouse??"NA",
                         );
                 },
                 stream: model!.studentDetails,

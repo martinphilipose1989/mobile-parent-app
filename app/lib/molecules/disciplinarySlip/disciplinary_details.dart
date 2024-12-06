@@ -51,7 +51,7 @@ class DisciplinaryDetails extends StatelessWidget {
             name: name,
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house",
-            subtitle2: "$stream"),
+            subtitle2: "Stream: $stream"),
         SizedBox(
           height: 20.h,
         ),

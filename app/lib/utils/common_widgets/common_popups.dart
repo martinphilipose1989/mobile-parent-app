@@ -6,6 +6,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/common_widgets/dialog/force_update/force_update_popup.dart';
 import 'package:app/utils/common_widgets/dialog/staff_list_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,16 +116,17 @@ class CommonPopups {
       onChanged: onChanged,
     );
   }
+/////showforceupdate
 
-  // Private method to show a dialog
   void _showDialog(BuildContext context,
-      {required IconData icon,
-      required Color iconColor,
-      required String message,
-      required String buttonText,
-      required bool barrierDismissible,
-      dynamic popParameter,
-      required Function(bool shouldRoute) onChanged}) {
+      {
+        required IconData icon,
+        required Color iconColor,
+        required String message,
+        required String buttonText,
+        required bool barrierDismissible,
+        dynamic popParameter,
+        required Function(bool shouldRoute) onChanged}) {
     showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
@@ -165,6 +167,24 @@ class CommonPopups {
             ],
           ),
         );
+      },
+    );
+  }
+  // Private method to show a dialog
+  void showForceUpdate(BuildContext context,
+      {
+        required IconData icon,
+      required Color iconColor,
+      required String message,
+      required String buttonText,
+      required bool barrierDismissible,
+      dynamic popParameter,
+      required Function(bool shouldRoute) onChanged}) {
+    showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return ForceUpdatePopup(icon: icon, iconColor: iconColor, message: message, buttonText: buttonText, barrierDismissible: barrierDismissible, onChanged: onChanged);
       },
     );
   }
