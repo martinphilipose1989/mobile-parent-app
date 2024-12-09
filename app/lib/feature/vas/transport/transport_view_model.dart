@@ -17,6 +17,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:collection/collection.dart';
 
 @injectable
 class TransportDetailViewModel extends BasePageViewModel {
@@ -35,7 +36,9 @@ class TransportDetailViewModel extends BasePageViewModel {
       this.fetchStopsUsecase,
       this.flutterToastErrorPresenter);
 
-  BehaviorSubject<List<String>> busType = BehaviorSubject.seeded([]);
+//  BehaviorSubject<List<String>> busType = BehaviorSubject.seeded([]);
+  List<String> feeSubType = [];
+  BehaviorSubject<String> selectedFeeSubType = BehaviorSubject.seeded('');
 
   BehaviorSubject<List<String>> serviceType = BehaviorSubject.seeded([]);
 
@@ -172,8 +175,9 @@ class TransportDetailViewModel extends BasePageViewModel {
   }
 
   void setData(TransportEnrollmentResponseModel transportEnrollmentDetail) {
+    feeSubType.clear();
     for (var element in (transportEnrollmentDetail.data?.feeSubType ?? [])) {
-      busType.value.add(element.feeSubType ?? '');
+      feeSubType.add(element.feeSubType ?? '');
     }
   }
 
@@ -223,38 +227,41 @@ class TransportDetailViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
           vasEnrollmentRequest: VasEnrollmentRequest(
-              transport: Transport(
-            amount: int.parse(fee.value),
-            feeSubTypeId: feeSubTypeID,
-            feeCategoryId: feeCategoryID,
-            feeTypeId: FeesTypeIdEnum.transportFees.id,
-            periodOfServiceId: periodOfServiceID,
-            pickupPoint: selectedPickUpZone?.zoneName,
-            stopDetails:
-                radioButtonServiceType.selectedItem?.toLowerCase() == "both way"
-                    ? [
-                        VasStopDetail(
-                            shiftId: selectedPickUpZone?.shiftId,
-                            routeId: selectedPickUpZone?.routeId.toString(),
-                            stopId: selectedPickUpZone?.id),
-                        VasStopDetail(
-                            shiftId: selectedDropZone?.shiftId,
-                            routeId: selectedDropZone?.routeId.toString(),
-                            stopId: selectedDropZone?.id)
-                      ]
-                    : [],
-          )
-              // transportAmount: int.parse(fee.value),
-              // transportBusType: feeSubTypeID,
-              // transportServiceType: feeCategoryID,
-              // transportRouteType: radioButtonOneWayRouteType.selectedItem ==
-              //         "Pickup Point To School"
-              //     ? "1"
-              //     : "2",
-              // transportDropPoint:
-              //     (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
-              // transportPickupPoint: selectedZone?.zoneName,
-              ),
+            transport: Transport(
+              amount: int.parse(fee.value),
+              feeSubTypeId: feeSubTypeID,
+              feeCategoryId: feeCategoryID,
+              feeTypeId: FeesTypeIdEnum.transportFees.id,
+              periodOfServiceId: periodOfServiceID,
+              pickupPoint: selectedPickUpZone?.zoneName,
+              stopDetails: radioButtonServiceType.selectedItem?.toLowerCase() ==
+                      "both way"
+                  ? [
+                      VasStopDetail(
+                          shiftId: selectedPickUpZone?.shiftId,
+                          routeId: selectedPickUpZone?.routeId.toString(),
+                          stopId: selectedPickUpZone?.id),
+                      VasStopDetail(
+                          shiftId: selectedDropZone?.shiftId,
+                          routeId: selectedDropZone?.routeId.toString(),
+                          stopId: selectedDropZone?.id)
+                    ]
+                  : radioButtonOneWayRouteType.selectedItem ==
+                          "Pickup Point To School"
+                      ? [
+                          VasStopDetail(
+                              shiftId: selectedPickUpZone?.shiftId,
+                              routeId: selectedPickUpZone?.routeId.toString(),
+                              stopId: selectedPickUpZone?.id)
+                        ]
+                      : [
+                          VasStopDetail(
+                              shiftId: selectedPickUpZone?.shiftId,
+                              routeId: selectedPickUpZone?.routeId.toString(),
+                              stopId: selectedPickUpZone?.id)
+                        ],
+            ),
+          ),
           enquiryID: enquiryDetailArgs?.enquiryId ?? '',
           type: "Transport");
       RequestManager<VasOptionResponse>(params,
@@ -323,9 +330,42 @@ class TransportDetailViewModel extends BasePageViewModel {
                 ps.periodOfService?.toLowerCase() == value.toLowerCase())
             .periodOfServiceId ??
         0;
-    log("periodOfServiceID $periodOfServiceID");
   }
-}
+
+  void setFeeSubType(String selectedValue) {
+    List<String> options = [];
+    (transportEnrollmentDetail.value.data?.feeCategory ?? [])
+        .forEach((element) {
+      if (element.feeSubType == selectedValue) {
+        options.add(element.feeCategory ?? '');
+      }
+    });
+    feeSubTypeID = transportEnrollmentDetail.value.data?.feeSubType
+            ?.firstWhereOrNull((element) =>
+                element.feeSubType == radioButtonBusType.selectedItem)
+            ?.feeSubTypeId ??
+        0;
+    serviceType.add(options);
+  }
+
+  void setFeeCategory(String selectedValue) {
+    if ((radioButtonServiceType.selectedItem ?? '').toLowerCase() ==
+        "both way") {
+      fetchStop(forBothWay: true, routeType: "1");
+      fetchStop(forBothWay: true, routeType: "2");
+      if (!feeSubCategoryStart.isEmptyOrNull() ||
+          !feeSubCategoryEnd.isEmptyOrNull()) {
+        feeSubCategoryStart = null;
+        feeSubCategoryEnd = null;
+      }
+    }
+    feeCategoryID = transportEnrollmentDetail.value.data?.feeCategory
+            ?.firstWhereOrNull((element) =>
+                element.feeCategory == radioButtonServiceType.selectedItem)
+            ?.feeCategoryId ??
+        0;
+  }
+}  
 
 /**
  * 

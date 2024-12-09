@@ -1,16 +1,19 @@
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
+
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:app/utils/string_extension.dart';
-import 'package:collection/collection.dart';
+
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,6 +48,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Total Fees
                               AppStreamBuilder<String>(
                                   stream: model.fee,
                                   initialData: model.fee.value,
@@ -95,329 +99,18 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Column(
-                                children: List.generate(
-                                  model.busType.value.length,
-                                  (index) {
-                                    return CommonRadioButtonWidget(
-                                      commonRadioButton:
-                                          model.radioButtonBusType,
-                                      value: model.busType.value[index],
-                                      title: model.busType.value[index],
-                                      onOptionSelected: (value) {
-                                        List<String> options = [];
-                                        (model.transportEnrollmentDetail.value
-                                                    .data?.feeCategory ??
-                                                [])
-                                            .forEach((element) {
-                                          if (element.feeSubType == value) {
-                                            options
-                                                .add(element.feeCategory ?? '');
-                                          }
-                                        });
-                                        model.feeSubTypeID = model
-                                                .transportEnrollmentDetail
-                                                .value
-                                                .data
-                                                ?.feeSubType
-                                                ?.firstWhereOrNull((element) =>
-                                                    element.feeSubType ==
-                                                    model.radioButtonBusType
-                                                        .selectedItem)
-                                                ?.feeSubTypeId ??
-                                            0;
-                                        model.serviceType.add(options);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              const CommonText(
-                                text: "Select The Service Type",
-                                style: AppTypography.subtitle2,
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              AppStreamBuilder<List<String>>(
-                                  stream: model.serviceType,
-                                  initialData: model.serviceType.value,
-                                  dataBuilder: (context, data) {
-                                    return Column(
-                                      children: List.generate(
-                                        model.serviceType.value.length,
-                                        (index) {
-                                          return CommonRadioButtonWidget(
-                                            commonRadioButton:
-                                                model.radioButtonServiceType,
-                                            value:
-                                                model.serviceType.value[index],
-                                            title:
-                                                model.serviceType.value[index],
-                                            onOptionSelected: (value) {
-                                              if ((model.radioButtonServiceType
-                                                              .selectedItem ??
-                                                          '')
-                                                      .toLowerCase() ==
-                                                  "both way") {
-                                                model.fetchStop(
-                                                    forBothWay: true,
-                                                    routeType: "1");
-                                                model.fetchStop(
-                                                    forBothWay: true,
-                                                    routeType: "2");
-                                                if (!model.feeSubCategoryStart
-                                                        .isEmptyOrNull() ||
-                                                    !model.feeSubCategoryEnd
-                                                        .isEmptyOrNull()) {
-                                                  model.feeSubCategoryStart =
-                                                      null;
-                                                  model.feeSubCategoryEnd =
-                                                      null;
-                                                }
-                                              }
-                                              model.feeCategoryID = model
-                                                      .transportEnrollmentDetail
-                                                      .value
-                                                      .data
-                                                      ?.feeCategory
-                                                      ?.firstWhereOrNull((element) =>
-                                                          element.feeCategory ==
-                                                          model
-                                                              .radioButtonServiceType
-                                                              .selectedItem)
-                                                      ?.feeCategoryId ??
-                                                  0;
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }),
-                              AppStreamBuilder<String?>(
-                                stream: model
-                                    .radioButtonServiceType.selectedItemStream,
-                                initialData:
-                                    model.radioButtonServiceType.selectedItem,
-                                dataBuilder: (context, data) {
-                                  return (data ?? '').toLowerCase() == "one way"
-                                      ? Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: 15.h,
-                                            ),
-                                            const CommonText(
-                                              text: "Choose One Way Route",
-                                              style: AppTypography.subtitle2,
-                                            ),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            Column(
-                                              children: List.generate(
-                                                model.onWayRouteType.length,
-                                                (index) {
-                                                  return CommonRadioButtonWidget(
-                                                    commonRadioButton: model
-                                                        .radioButtonOneWayRouteType,
-                                                    value: model
-                                                        .onWayRouteType[index],
-                                                    title: model
-                                                        .onWayRouteType[index],
-                                                    onOptionSelected: (value) {
-                                                      model.fetchStop();
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 15.h,
-                                            ),
-                                            AppStreamBuilder<String?>(
-                                              stream: model
-                                                  .radioButtonOneWayRouteType
-                                                  .selectedItemStream,
-                                              initialData: model
-                                                  .radioButtonOneWayRouteType
-                                                  .selectedItem,
-                                              dataBuilder: (context, data) {
-                                                return ((data ?? '') ==
-                                                        'Pickup Point To School')
-                                                    ? Column(
-                                                        children: [
-                                                          AppStreamBuilder<
-                                                              List<String>>(
-                                                            stream: model
-                                                                .oneWayPickupPoint,
-                                                            initialData: model
-                                                                .oneWayPickupPoint
-                                                                .value,
-                                                            dataBuilder:
-                                                                (context,
-                                                                    data) {
-                                                              return CustomDropdownButton(
-                                                                items: model
-                                                                    .oneWayPickupPoint
-                                                                    .value
-                                                                    .toSet()
-                                                                    .toList(),
-                                                                isMutiSelect:
-                                                                    false,
-                                                                dropdownName:
-                                                                    "Pickup Point",
-                                                                showAstreik:
-                                                                    true,
-                                                                showBorderColor:
-                                                                    true,
-                                                                onMultiSelect:
-                                                                    (selectedValues) {},
-                                                                onSingleSelect:
-                                                                    (selectedValue) {
-                                                                  model.feeSubCategoryStart =
-                                                                      selectedValue;
-                                                                  model
-                                                                      .filterPeriodService();
-                                                                },
-                                                              );
-                                                            },
-                                                          ),
-                                                          SizedBox(
-                                                            height: 15.h,
-                                                          ),
-                                                          const CommonTextFormField(
-                                                            showAstreik: false,
-                                                            labelText:
-                                                                "Drop Point",
-                                                            readOnly: true,
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : ((data ?? '') ==
-                                                            "School to Drop Point")
-                                                        ? Column(
-                                                            children: [
-                                                              const CommonTextFormField(
-                                                                showAstreik:
-                                                                    false,
-                                                                labelText:
-                                                                    "Pickup Point",
-                                                                readOnly: true,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              AppStreamBuilder<
-                                                                  List<String>>(
-                                                                stream: model
-                                                                    .oneWayPickupPoint,
-                                                                initialData: model
-                                                                    .oneWayPickupPoint
-                                                                    .value,
-                                                                dataBuilder:
-                                                                    (context,
-                                                                        data) {
-                                                                  return CustomDropdownButton(
-                                                                    items: model
-                                                                        .oneWayDropPoint
-                                                                        .value
-                                                                        .toSet()
-                                                                        .toList(),
-                                                                    isMutiSelect:
-                                                                        false,
-                                                                    dropdownName:
-                                                                        "Drop Point",
-                                                                    showAstreik:
-                                                                        true,
-                                                                    showBorderColor:
-                                                                        true,
-                                                                    onMultiSelect:
-                                                                        (selectedValues) {},
-                                                                    onSingleSelect:
-                                                                        (selectedValue) {
-                                                                      model.feeSubCategoryStart =
-                                                                          selectedValue;
-                                                                    },
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ],
-                                                          )
-                                                        : const SizedBox
-                                                            .shrink();
-                                              },
-                                            )
-                                          ],
-                                        )
-                                      : ((data ?? '').toLowerCase() ==
-                                              'both way')
-                                          ? Column(
-                                              children: [
-                                                AppStreamBuilder<List<String>>(
-                                                  stream:
-                                                      model.oneWayPickupPoint,
-                                                  initialData: model
-                                                      .oneWayPickupPoint.value,
-                                                  dataBuilder: (context, data) {
-                                                    return CustomDropdownButton(
-                                                      items: model
-                                                          .oneWayPickupPoint
-                                                          .value
-                                                          .toSet()
-                                                          .toList(),
-                                                      isMutiSelect: false,
-                                                      dropdownName:
-                                                          "Pickup Point",
-                                                      showAstreik: true,
-                                                      showBorderColor: true,
-                                                      onMultiSelect:
-                                                          (selectedValues) {},
-                                                      onSingleSelect:
-                                                          (selectedValue) {
-                                                        model.feeSubCategoryStart =
-                                                            selectedValue;
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                  height: 15.h,
-                                                ),
-                                                AppStreamBuilder<List<String>>(
-                                                  stream:
-                                                      model.oneWayPickupPoint,
-                                                  initialData: model
-                                                      .oneWayPickupPoint.value,
-                                                  dataBuilder: (context, data) {
-                                                    return CustomDropdownButton(
-                                                      items: model
-                                                          .oneWayDropPoint
-                                                          .value,
-                                                      isMutiSelect: false,
-                                                      dropdownName:
-                                                          "Drop Point",
-                                                      showAstreik: true,
-                                                      showBorderColor: true,
-                                                      onMultiSelect:
-                                                          (selectedValues) {},
-                                                      onSingleSelect:
-                                                          (selectedValue) {
-                                                        model.feeSubCategoryEnd =
-                                                            selectedValue;
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox.shrink();
-                                },
-                              ),
+
+                              const SelectBusType(),
+                              SizedBox(height: 15.h),
+                              const SelectServiceType(),
+                              SizedBox(height: 15.h),
+                              const ChooseOneWayToRoute(),
+                              SizedBox(height: 15.h),
+
+                              const RoutePoints(),
+
+                              const BothWayRoutes(),
+
                               if ((model.radioButtonBusType.selectedItem
                                           ?.isNotEmpty ??
                                       false) &&
@@ -534,5 +227,280 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
             ],
           );
         });
+  }
+}
+
+class SelectBusType extends StatelessWidget {
+  const SelectBusType({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+      providerBase: transportPageModelProvider,
+      builder: (context, model, _) => Column(
+        children: List.generate(
+          model!.feeSubType.length,
+          (index) {
+            return CommonRadioButtonWidget(
+              commonRadioButton: model.radioButtonBusType,
+              value: model.feeSubType[index],
+              title: model.feeSubType[index],
+              onOptionSelected: (value) {
+                model.setFeeSubType(value!);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SelectServiceType extends StatelessWidget {
+  const SelectServiceType({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, _) {
+          return Visibility(
+            visible: model!.serviceType.value.isNotEmpty,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CommonText(
+                  text: "Select The Service Type",
+                  style: AppTypography.subtitle2,
+                ),
+                SizedBox(height: 10.h),
+                AppStreamBuilder(
+                  stream: model.serviceType,
+                  initialData: const <String>[],
+                  dataBuilder: (context, services) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: model.serviceType.value.length,
+                      itemBuilder: (context, index) {
+                        return CommonRadioButtonWidget(
+                          commonRadioButton: model.radioButtonServiceType,
+                          value: model.serviceType.value[index],
+                          title: model.serviceType.value[index],
+                          onOptionSelected: (value) {
+                            model.setFeeCategory(value!);
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+        providerBase: transportPageModelProvider);
+  }
+}
+
+class ChooseOneWayToRoute extends StatelessWidget {
+  const ChooseOneWayToRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, child) {
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "one way",
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 15.h),
+                      const CommonText(
+                        text: "Choose One Way Route",
+                        style: AppTypography.subtitle2,
+                      ),
+                      SizedBox(height: 10.h),
+                      Column(
+                        children: List.generate(
+                          model.onWayRouteType.length,
+                          (index) {
+                            return CommonRadioButtonWidget(
+                              commonRadioButton:
+                                  model.radioButtonOneWayRouteType,
+                              value: model.onWayRouteType[index],
+                              title: model.onWayRouteType[index],
+                              onOptionSelected: (value) {
+                                model.fetchStop();
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        },
+        providerBase: transportPageModelProvider);
+  }
+}
+
+class RoutePoints extends StatelessWidget {
+  const RoutePoints({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, _) {
+          return AppStreamBuilder<String?>(
+            stream: model!.radioButtonOneWayRouteType.selectedItemStream,
+            initialData: model.radioButtonOneWayRouteType.selectedItem,
+            dataBuilder: (context, oneWayRoute) {
+              return switch (oneWayRoute) {
+                'Pickup Point To School' => const PickUpPointToSchool(),
+                'School to Drop Point' => const SchoolToDropPoint(),
+                null => const SizedBox(),
+                _ => const SizedBox(),
+              };
+            },
+          );
+        },
+        providerBase: transportPageModelProvider);
+  }
+}
+
+class PickUpPointToSchool extends StatelessWidget {
+  const PickUpPointToSchool({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, _) {
+          return Column(
+            children: [
+              AppStreamBuilder(
+                  stream: model!.oneWayPickupPoint,
+                  initialData: model.oneWayPickupPoint.value,
+                  dataBuilder: (context, oneWayList) {
+                    return CustomDropdownButton(
+                      items: oneWayList?.toSet().toList() ?? [],
+                      dropdownName: "Pickup Point",
+                      showAstreik: true,
+                      showBorderColor: true,
+                      isMutiSelect: false,
+                      onMultiSelect: (_) {},
+                      onSingleSelect: (selectedValue) {
+                        model.filterPeriodService(routeType: "pickup");
+                      },
+                    );
+                  }),
+              SizedBox(height: 15.h),
+              const CommonTextFormField(
+                showAstreik: false,
+                labelText: "Drop Point",
+                readOnly: true,
+              ),
+            ],
+          );
+        },
+        providerBase: transportPageModelProvider);
+  }
+}
+
+class SchoolToDropPoint extends StatelessWidget {
+  const SchoolToDropPoint({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, _) {
+          return Column(
+            children: [
+              const CommonTextFormField(
+                showAstreik: false,
+                labelText: "Pickup Point",
+                readOnly: true,
+              ),
+              SizedBox(height: 15.h),
+              AppStreamBuilder(
+                  stream: model!.oneWayDropPoint,
+                  initialData: model.oneWayDropPoint.value,
+                  dataBuilder: (context, oneWayList) {
+                    return CustomDropdownButton(
+                      items: oneWayList?.toSet().toList() ?? [],
+                      dropdownName: "Drop Point",
+                      showAstreik: true,
+                      showBorderColor: true,
+                      isMutiSelect: false,
+                      onMultiSelect: (_) {},
+                      onSingleSelect: (selectedValue) {
+                        model.filterPeriodService(routeType: "drop");
+                      },
+                    );
+                  }),
+            ],
+          );
+        },
+        providerBase: transportPageModelProvider);
+  }
+}
+
+class BothWayRoutes extends StatelessWidget {
+  const BothWayRoutes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseWidget(
+        builder: (context, model, _) {
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "both way",
+                  child: Column(
+                    children: [
+                      AppStreamBuilder(
+                          stream: model.oneWayPickupPoint,
+                          initialData: model.oneWayPickupPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CustomDropdownButton(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Pickup Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(routeType: "pickup");
+                              },
+                            );
+                          }),
+                      SizedBox(height: 15.h),
+                      AppStreamBuilder(
+                          stream: model.oneWayDropPoint,
+                          initialData: model.oneWayDropPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CustomDropdownButton(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Drop Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(routeType: "drop");
+                              },
+                            );
+                          }),
+                    ],
+                  ),
+                );
+              });
+        },
+        providerBase: transportPageModelProvider);
   }
 }
