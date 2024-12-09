@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -15,6 +13,7 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:collection/collection.dart';
 
 @injectable
 class PsaDetailViewModel extends BasePageViewModel {
@@ -35,17 +34,22 @@ class PsaDetailViewModel extends BasePageViewModel {
 
   BehaviorSubject<String> fee = BehaviorSubject.seeded('');
   BehaviorSubject<bool> showLoader = BehaviorSubject.seeded(false);
-  List<String> psaOptions = [];
-  BehaviorSubject<String> selectedPsaSubType = BehaviorSubject.seeded('');
 
-  BehaviorSubject<List<String>> psaCategory = BehaviorSubject.seeded([]);
-  BehaviorSubject<String> selectedPsaCategory = BehaviorSubject.seeded('');
-  BehaviorSubject<List<String>> psaSubCategory = BehaviorSubject.seeded([]);
-  BehaviorSubject<String> selectedPsaSubCategory = BehaviorSubject.seeded('');
+  List<String> feeSubType = [];
+  BehaviorSubject<String> selectedFeeSubType = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> feeCategoryType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedFeeCategoryType = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> feeSubCategoryType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedFeeSubCategoryType =
+      BehaviorSubject.seeded('');
+
   BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedPeriodOfService = BehaviorSubject.seeded('');
-  BehaviorSubject<List<String>> psaBatch = BehaviorSubject.seeded([]);
-  BehaviorSubject<String> selectedPsaBatch = BehaviorSubject.seeded('');
+
+  BehaviorSubject<List<String>> batchType = BehaviorSubject.seeded([]);
+  BehaviorSubject<String> selectedBatch = BehaviorSubject.seeded('');
 
   int batchID = 0;
   int feeCategoryID = 0;
@@ -76,24 +80,15 @@ class PsaDetailViewModel extends BasePageViewModel {
 
   Future<void> getPsaDetail() async {
     exceptionHandlerBinder.handle(block: () {
-      // GetPsaEnrollmentDetailUsecaseParams params =
-      //     GetPsaEnrollmentDetailUsecaseParams(
-      //         vasDetailRequest: VasDetailRequest(
-      //   schoolId: 7,
-      //   boardId: 3,
-      //   academicYearId: 25,
-      //   courseId: 1,
-      //   gradeId: 4,
-      // ));
       GetPsaEnrollmentDetailUsecaseParams params =
           GetPsaEnrollmentDetailUsecaseParams(
               vasDetailRequest: VasDetailRequest(
-        schoolId: enquiryDetailArgs?.schoolId,
-        boardId: enquiryDetailArgs?.boardId,
-        academicYearId: enquiryDetailArgs?.academicYearId,
-        courseId: enquiryDetailArgs?.courseId,
-        gradeId: enquiryDetailArgs?.gradeId,
-      ));
+                  schoolId: enquiryDetailArgs?.schoolId,
+                  boardId: enquiryDetailArgs?.boardId,
+                  academicYearId: enquiryDetailArgs?.academicYearId,
+                  courseId: enquiryDetailArgs?.courseId,
+                  gradeId: enquiryDetailArgs?.gradeId,
+                  streamId: enquiryDetailArgs?.streamId));
       RequestManager<PsaEnrollmentDetailResponseModel>(params,
               createCall: () =>
                   getPsaEnrollmentDetailUsecase.execute(params: params))
@@ -119,34 +114,13 @@ class PsaDetailViewModel extends BasePageViewModel {
 
   void setData(PsaEnrollmentDetailResponseModel data) {
     for (var element in (data.data?.feeSubType ?? [])) {
-      psaOptions.add(element.feeSubType ?? '');
+      feeSubType.add(element.feeSubType ?? '');
     }
   }
 
-  // feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-  //   schoolId: 7,
-  //   boardId: 3,
-  //   courseId: 1,
-  //   gradeId: 4,
-  //   feeCategoryId: feeCategoryID,
-  //   feeSubcategoryId: feeSubCategoryID,
-  //   feeSubTypeId: feeSubTypeID,
-  //   batchId: batchID,
-  //   periodOfServiceId: periodOfServiceID
-  // )
   Future<void> calculateFees() async {
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
-          //     feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-          //   schoolId: 2,
-          //   boardId: 3,
-          //   gradeId: 3,
-          //   feeTypeId: 2,
-          //   feeSubTypeId: 25,
-          //   feeCategoryId: 2,
-          //   periodOfServiceId: 7,
-          //   academicYearId: 25,
-          // )
           feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
         schoolId: enquiryDetailArgs?.schoolId,
         boardId: enquiryDetailArgs?.boardId,
@@ -161,20 +135,6 @@ class PsaDetailViewModel extends BasePageViewModel {
         feeTypeId: FeesTypeIdEnum.psaFess.id,
         shiftId: enquiryDetailArgs?.shiftId,
         streamId: enquiryDetailArgs?.streamId,
-
-        // schoolId: 26, // enquiryDetailArgs?.schoolId,
-        // boardId: 3, // enquiryDetailArgs?.boardId,
-        // courseId: 4, // enquiryDetailArgs?.courseId,
-        // gradeId: 8, //enquiryDetailArgs?.gradeId,
-        // feeCategoryId: 19, //feeCategoryID,
-        // feeSubcategoryId: 16, //feeSubCategoryID,
-        // feeSubTypeId: 32, //feeSubTypeID,
-        // feeTypeId: FeesTypeIdEnum.psaFess.id,
-        // shiftId: 2, // shiftId
-        // streamId: 1, // streamId
-        // academicYearId: 25, // enquiryDetailArgs?.academicYearId,
-        // batchId: 1, // batchID,
-        // periodOfServiceId: 1 // periodOfServiceID
       ));
       showLoader.value = true;
       RequestManager<VasOptionResponse>(params,
@@ -207,12 +167,14 @@ class PsaDetailViewModel extends BasePageViewModel {
     exceptionHandlerBinder.handle(block: () {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
           vasEnrollmentRequest: VasEnrollmentRequest(
-              psaSubType: feeSubTypeID,
-              psaCategory: feeCategoryID,
-              psaSubCategory: feeSubCategoryID,
-              psaPeriodOfService: periodOfServiceID,
-              psaBatch: batchID,
-              psaAmount: int.parse(fee.value)),
+              psa: VasCategorySelection(
+                  amount: int.parse(fee.value),
+                  batchId: batchID,
+                  feeCategoryId: feeCategoryID,
+                  feeSubTypeId: feeSubTypeID,
+                  periodOfServiceId: periodOfServiceID,
+                  feeSubcategoryId: feeSubCategoryID,
+                  feeTypeId: FeesTypeIdEnum.psaFess.id)),
           enquiryID: enquiryDetailArgs?.enquiryId ?? '',
           type: "Psa");
       RequestManager<VasOptionResponse>(params,
@@ -242,5 +204,143 @@ class PsaDetailViewModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error);
       });
     }).execute();
+  }
+
+  void setFeeSubTypeId(String value) {
+    // Update the selected fee sub-type
+    selectedFeeSubType.value = value;
+
+    // Retrieve the feeSubTypeId, defaulting to 0 if not found
+    feeSubTypeID = psaEnrollmentDetail.value.data?.feeSubType
+            ?.firstWhereOrNull((element) => element.feeSubType == value)
+            ?.feeSubTypeId ??
+        0;
+
+    // Filter and map the fee categories associated with the fee sub-type
+    List<String> options = [];
+    for (FeeCategoryModel element
+        in (psaEnrollmentDetail.value.data?.feeCategory ?? [])) {
+      if (element.feeSubType == value) {
+        options.add(element.feeCategory ?? '');
+      }
+    }
+
+    // Update summerFeeCategoryType
+    feeCategoryType.add(options);
+    reset();
+  }
+
+  void setCategoryTypeId(value) {
+    selectedFeeCategoryType.value = value;
+    feeCategoryID = psaEnrollmentDetail.value.data?.feeCategory
+            ?.firstWhereOrNull((element) => element.feeCategory == value)
+            ?.feeCategoryId ??
+        0;
+    List<String> options = [];
+    for (FeeSubCategoryModel element
+        in (psaEnrollmentDetail.value.data?.feeSubCategory ?? [])) {
+      if (element.feeCategory == value &&
+          element.feeSubType == selectedFeeSubType.value) {
+        options.add(element.feeSubcategory ?? '');
+      }
+    }
+
+    feeSubCategoryType.add(options);
+
+    resetFees();
+  }
+
+  void setSubCategoryTypeId(value) {
+    selectedFeeSubCategoryType.value = value;
+    feeSubCategoryID = psaEnrollmentDetail.value.data?.feeSubCategory
+            ?.firstWhereOrNull((element) => element.feeSubcategory == value)
+            ?.feeSubcategoryId ??
+        0;
+    List<String> options = [];
+    for (BatchModel element
+        in (psaEnrollmentDetail.value.data?.batches ?? [])) {
+      if (element.feeSubcategory == value &&
+          element.feeSubType == selectedFeeSubType.value &&
+          element.feeCategory == selectedFeeCategoryType.value) {
+        options.add(element.batchName ?? '');
+      }
+    }
+
+    batchType.add(options);
+
+    resetFees();
+  }
+
+  void setBatchId(value) {
+    selectedBatch.value = value;
+    batchID = psaEnrollmentDetail.value.data?.batches
+            ?.firstWhereOrNull((element) => element.batchName == value)
+            ?.batchId ??
+        0;
+    List<String> options = [];
+    for (BatchModel element
+        in (psaEnrollmentDetail.value.data?.batches ?? [])) {
+      if (element.feeSubcategory == selectedFeeSubCategoryType.value &&
+          element.feeSubType == selectedFeeSubType.value &&
+          element.feeCategory == selectedFeeCategoryType.value &&
+          element.batchName == value) {
+        options.add(element.periodOfService ?? '');
+      }
+    }
+
+    periodOfService.add(options);
+    resetFees();
+  }
+
+  void setPeriodOfService(String value) {
+    selectedPeriodOfService.value = value;
+    periodOfServiceID = psaEnrollmentDetail.value.data?.periodOfService
+            ?.firstWhereOrNull((e) => e.periodOfService == value)
+            ?.periodOfServiceId ??
+        0;
+    resetFees();
+  }
+
+  void resetFees() {
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
+  }
+
+  void resetBatch() {
+    batchID = 0;
+    //  batchType.value.clear();
+    selectedBatch.value = '';
+  }
+
+  void resetPeriodOfService() {
+    // periodOfService.value.clear();
+    periodOfServiceID = 0;
+    selectedPeriodOfService.value = '';
+  }
+
+  reset({bool isResetSubType = false}) {
+    if (isResetSubType) {
+      feeSubTypeID = 0;
+      selectedFeeSubType.value = '';
+    }
+
+    feeCategoryID = 0;
+    selectedFeeCategoryType.value = '';
+
+    feeSubCategoryType.value.clear();
+    selectedFeeSubCategoryType.value = '';
+    feeSubCategoryID = 0;
+
+    periodOfServiceID = 0;
+    periodOfService.value.clear();
+    selectedPeriodOfService.value = '';
+
+    batchType.value.clear();
+    selectedBatch.value = '';
+    batchID = 0;
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
   }
 }

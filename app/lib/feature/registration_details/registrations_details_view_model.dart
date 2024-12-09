@@ -2260,6 +2260,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
       CommonRadioButton<String>(null);
   final CommonRadioButton<String> radioButtonPsa =
       CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonSummerCamp =
+      CommonRadioButton<String>(null);
 
   addParentDetails(ParentInfo parentDetails) {
     fatherFirstNameController.text =
@@ -3509,6 +3511,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           final optCafeteria = data.data?.data?.optedForCafeteria;
           final optKidsClub = data.data?.data?.optedForKidsClub;
           final optPsa = data.data?.data?.optedForPsa;
+          final optSummerCamp = data.data?.data?.optedForSummerCamp;
 
           if (optTransport != null) {
             radioButtonTransport.selectItem(optTransport ? 'Yes' : 'No');
@@ -3521,6 +3524,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           }
           if (optPsa != null) {
             radioButtonPsa.selectItem(optPsa ? 'Yes' : 'No');
+          }
+          if (optSummerCamp != null) {
+            radioButtonSummerCamp.selectItem(optSummerCamp ? 'Yes' : 'No');
           }
         } else if (data.status == Status.error) {
           admissionVasDetailsResponse

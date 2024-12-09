@@ -3,33 +3,38 @@ import 'package:network_retrofit/network_retrofit.dart';
 
 part 'stop_detail_entity.g.dart';
 
-@JsonSerializable(explicitToJson: true,fieldRename: FieldRename.snake)
-class StopDetailEntity extends BaseLayerDataTransformer<StopDetailEntity,StopDetail>{
-    int? id;
-    String? stopName;
-    String? zoneName;
-    int? schoolId;
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+class StopDetailEntity
+    extends BaseLayerDataTransformer<StopDetailEntity, StopDetail> {
+  int? id;
+  String? stopName;
+  String? zoneName;
+  int? schoolId;
+  int? routeId;
+  int? shiftId;
 
-    StopDetailEntity({
-        this.id,
-        this.stopName,
-        this.zoneName,
-        this.schoolId,
-    });
+  StopDetailEntity(
+      {this.id,
+      this.stopName,
+      this.zoneName,
+      this.schoolId,
+      this.routeId,
+      this.shiftId});
 
-    factory StopDetailEntity.fromJson(Map<String, dynamic> json) =>
+  factory StopDetailEntity.fromJson(Map<String, dynamic> json) =>
       _$StopDetailEntityFromJson(json);
 
-    Map<String, dynamic> toJson() => _$StopDetailEntityToJson(this);
+  Map<String, dynamic> toJson() => _$StopDetailEntityToJson(this);
 
-    @override
+  @override
   StopDetail transform() {
     StopDetail stopDetail = StopDetail(
-      id: id,
-      schoolId: schoolId,
-      stopName: stopName,
-      zoneName: zoneName,
-    );
+        id: id,
+        schoolId: schoolId,
+        stopName: stopName,
+        zoneName: zoneName,
+        routeId: routeId,
+        shiftId: shiftId);
     return stopDetail;
   }
 }
