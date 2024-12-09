@@ -53,52 +53,54 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return BaseWidget(
-      builder: (BuildContext context, AttendanceCalenderViewModel? model, Widget? child) { return Scaffold(
-        body: Center(
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _Header(
-                  selectedMonth: selectedMonth,
-                  selectedDate: selectedDate,
-                  onChange: (value) => setState(() {
-                    selectedMonth = value;
-                    model?.selectedmonth=selectedMonth;
-                    print(selectedMonth.toString());
-                   model?.getAttendanceList(model:  AttendanceCountRequestModel(
-                        studentId: model?.selectedStudent?.first.id,
-                        attendanceDate:
-                        DateFormatter.convertDateToYearMonth(selectedMonth),
-                        academicYearId:model?.academicId??26
-                     ));
-
-
-                  }),
-                ),
-                Expanded(
-                  child: _Body(
-                    selectedDate: selectedDate,
+      builder: (BuildContext context, AttendanceCalenderViewModel? model,
+          Widget? child) {
+        return Scaffold(
+          body: Center(
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _Header(
                     selectedMonth: selectedMonth,
-                    selectDate: (DateTime value) => setState(() {
-                      selectedDate = value;
-
-                      Navigator.pushNamed(
-                          context, RoutePaths.attendanceDetailspage,
-                          arguments: AttendanceDetailPageParameter(
-                            academicyearId: model?.academicId,
-                              studentId: [model?.selectedStudent?.first.id],
-                              toDate: converter(selectedDate),
-                              fromDate: converter(selectedDate)));
+                    selectedDate: selectedDate,
+                    onChange: (value) => setState(() {
+                      selectedMonth = value;
+                      model?.selectedmonth = selectedMonth;
+                      debugPrint(selectedMonth.toString());
+                      model?.getAttendanceList(
+                          model: AttendanceCountRequestModel(
+                              studentId: model?.selectedStudent?.first.id,
+                              attendanceDate:
+                                  DateFormatter.convertDateToYearMonth(
+                                      selectedMonth),
+                              academicYearId: model?.academicId ?? 26));
                     }),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: _Body(
+                      selectedDate: selectedDate,
+                      selectedMonth: selectedMonth,
+                      selectDate: (DateTime value) => setState(() {
+                        selectedDate = value;
+
+                        Navigator.pushNamed(
+                            context, RoutePaths.attendanceDetailspage,
+                            arguments: AttendanceDetailPageParameter(
+                                academicyearId: model?.academicId,
+                                studentId: [model?.selectedStudent?.first.id],
+                                toDate: converter(selectedDate),
+                                fromDate: converter(selectedDate)));
+                      }),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ); }, providerBase: attendanceCalenderProvider,
-
+        );
+      },
+      providerBase: attendanceCalenderProvider,
     );
   }
 }
@@ -325,8 +327,6 @@ class CalendarDayData {
   });
 }
 
-
-
 String intToMonth(int month) {
   switch (month) {
     case 1:
@@ -357,6 +357,7 @@ String intToMonth(int month) {
       return "Invalid month";
   }
 }
+
 String intToDay(int day) {
   switch (day) {
     case 1:

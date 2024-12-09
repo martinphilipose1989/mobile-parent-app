@@ -59,11 +59,11 @@ class CommonWebViewState extends State<CommonWebView> {
           if (url != null) {
             if (url.toString().contains('success')) {
               // Handle successful payment
-              print("Payment successful!");
+              debugPrint("Payment successful!");
               Navigator.pop(context, true);
             } else if (url.toString().contains('failure')) {
               // Handle failed payment
-              print("Payment failed!");
+              debugPrint("Payment failed!");
               Navigator.pop(context, false);
             }
           }
@@ -112,19 +112,19 @@ class WebView extends StatelessWidget {
     return CommonWebView(
       url: webViewLink,
       onPageFinished: (url) {
-        print("onPageFinished - $url");
+        debugPrint("onPageFinished - $url");
       },
       onWebViewCreated: (controller) {},
       onUpdateVisitedHistory: (controller, url) {
-        print("onUpdateVisitedHistory - $url");
+        debugPrint("onUpdateVisitedHistory - $url");
         if (url != null) {
           if (url.toString().contains('success')) {
             // Handle successful payment
-            print("Payment successful!");
+            debugPrint("Payment successful!");
             Navigator.pop(context, true);
           } else if (url.toString().contains('failure')) {
             // Handle failed payment
-            print("Payment failed!");
+            debugPrint("Payment failed!");
             Navigator.pop(context, false);
           }
         }

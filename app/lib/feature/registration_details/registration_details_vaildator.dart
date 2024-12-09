@@ -154,7 +154,7 @@ class RegistrationDetailsValidator {
     } else {
       // Form is valid, proceed with submission
       model.saveStudentDetail();
-      print('All fields are valid');
+      debugPrint('All fields are valid');
     }
   }
 
@@ -549,7 +549,7 @@ class RegistrationDetailsValidator {
     //   for (var field in preference2) {
     //     if (field['field'].toString().contains('Email')) {
     //       if(field['controller']!.text.trim().isNotEmpty){
-    //         print("Should not validate:${field['controller']!.text.trim().isNotEmpty}");
+    //         debugPrint("Should not validate:${field['controller']!.text.trim().isNotEmpty}");
     //         validationResult = AppValidators.validateEmail(
     //           field['controller']!.text.trim(),
     //         );

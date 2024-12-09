@@ -22,7 +22,6 @@ abstract class ApiResponseHandler {
         createCall: () => createCall(params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
-          log("message ${result.data}");
           onSuccess(result.data);
         } else if (result.status == Status.error) {
           onError(result.dealSafeAppError);
@@ -43,11 +42,10 @@ abstract class ApiResponseHandler {
   static void _displayError(
       {required AppError? appError,
       required FlutterToastErrorPresenter flutterToastErrorPresenter}) {
-    log("${appError?.error.message}");
     switch (appError?.error.code) {
       case 401:
         // navigate to splash screen and show dialog
-        log("========== 401 ===========");
+
         flutterToastErrorPresenter.show(appError!.throwable,
             navigatorKey.currentContext!, "Session Expired please login again");
       case 408: // Connection Timeout

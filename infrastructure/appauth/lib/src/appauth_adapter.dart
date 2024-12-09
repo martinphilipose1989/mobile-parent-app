@@ -35,29 +35,21 @@ class AppAuthAdapter implements AppAuthPort {
             "email"
           ]);
       final response = await _flutterAppAuth.authorizeAndExchangeCode(request);
-      log("${response.accessToken}");
+
       return response;
     } on FlutterAppAuthUserCancelledException catch (e) {
-      log(e.code);
-      log("${e.details}");
-      log("${e.message}");
-
       throw LocalError(
         errorType: ErrorType.appAuthUserCancelled,
         message: '',
         cause: Exception(e.platformErrorDetails),
       );
     } on FlutterAppAuthPlatformException catch (e) {
-      log(e.code);
-      log("${e.details}");
-      log("${e.message}");
       throw LocalError(
         errorType: ErrorType.appAuthPlatformException,
         message: '',
         cause: Exception(e.platformErrorDetails),
       );
     } catch (e) {
-      log("$e");
       throw LocalError(
         errorType: ErrorType.unknown,
         message: '',
@@ -69,7 +61,6 @@ class AppAuthAdapter implements AppAuthPort {
   @override
   Future<EndSessionResponse> logout({required String idTokenHint}) async {
     try {
-      log("LOOGUT $idTokenHint");
       final logoutRequest = EndSessionRequest(
           discoveryUrl: _config.discoveryUrl,
           idTokenHint: idTokenHint,
@@ -82,10 +73,8 @@ class AppAuthAdapter implements AppAuthPort {
           ),
           preferEphemeralSession: true);
       final response = await _flutterAppAuth.endSession(logoutRequest);
-      log("LOGUT ${response.toString()}");
       return response;
     } catch (e) {
-      log("ERROR => $e");
       throw LocalError(
         errorType: ErrorType.appLogoutException,
         message: 'Something went wrong',

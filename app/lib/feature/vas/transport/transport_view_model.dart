@@ -214,7 +214,7 @@ class TransportDetailViewModel extends BasePageViewModel {
         }
         if (event.status == Status.error) {
           showLoader.add(false);
-          print("Error");
+          debugPrint("Error");
         }
       }).onError((error) {
         showLoader.add(false);

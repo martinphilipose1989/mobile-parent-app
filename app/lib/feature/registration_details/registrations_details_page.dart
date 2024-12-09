@@ -352,7 +352,6 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                         'enquiry');
                             RegistrationDetailsValidator validator =
                                 RegistrationDetailsValidator(model);
-                            log("VALUE ${model.showWidget.value}");
                             if (model.showWidget.value == 0) {
                               validator.validateStudentFields(context);
                             } else if (model.showWidget.value == 1) {
@@ -367,7 +366,6 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                               if (widget.enquiryDetailArgs?.isFrom ==
                                   "enquiry") {
                                 //  model.showPopUP(context);
-                                log('5 SHOWPOPUP');
                                 model.moveToNextStage();
                               } else {
                                 if (model.editRegistrationDetails.value) {
@@ -390,8 +388,6 @@ class _RegistrationsDetailsPageState extends AppBasePageState<
                                             const Duration(milliseconds: 500),
                                         curve: Curves.linear);
                                   } else {
-                                    log('5 no enq SHOWPOPUP');
-
                                     model.moveToNextStage();
                                   }
                                 }

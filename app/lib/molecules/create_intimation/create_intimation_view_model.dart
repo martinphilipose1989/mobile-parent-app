@@ -23,19 +23,20 @@ class CreateIntimationViewModel extends BasePageViewModel {
   final ChooseFileUseCase chooseFileUseCase;
   final GetUserDetailsUsecase getUserDetailsUsecase;
 
-final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
+  final UploadIntimationFileUseCase? uploadIntimationFileUseCase;
 
-  CreateIntimationViewModel( {
-   required this.flutterToastErrorPresenter,
-   required this.exceptionHandlerBinder,
-  required  this.createIntimationUsecase,
-  required  this.chooseFileUseCase,
-  required  this.uploadIntimationFileUseCase,
-   required this.getUserDetailsUsecase,
+  CreateIntimationViewModel({
+    required this.flutterToastErrorPresenter,
+    required this.exceptionHandlerBinder,
+    required this.createIntimationUsecase,
+    required this.chooseFileUseCase,
+    required this.uploadIntimationFileUseCase,
+    required this.getUserDetailsUsecase,
+  }) {
+    getUserDetails();
+  }
 
-  }){  getUserDetails();}
-
-late User user;
+  late User user;
   String filePath = "";
   final TextEditingController dateController = TextEditingController();
 
@@ -43,43 +44,42 @@ late User user;
   final TextEditingController attachmentController = TextEditingController();
 
   final PublishSubject<Resource<UploadFile>> _pickFrontFileResponse =
-  PublishSubject();
+      PublishSubject();
   Stream<Resource<UploadFile?>> get pickFrontFileResponse =>
       _pickFrontFileResponse.stream;
 
   final BehaviorSubject<Resource<UploadIntimationFileResponseModel>>
-  _uploadedFileResponse = BehaviorSubject.seeded(Resource.none());
-  Stream<Resource<UploadIntimationFileResponseModel>> get uploadedFileResponse =>
-      _uploadedFileResponse.stream;
+      _uploadedFileResponse = BehaviorSubject.seeded(Resource.none());
+  Stream<Resource<UploadIntimationFileResponseModel>>
+      get uploadedFileResponse => _uploadedFileResponse.stream;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   final BehaviorSubject<Resource<bool>> loadingSubject =
-  BehaviorSubject.seeded(Resource.none());
+      BehaviorSubject.seeded(Resource.none());
 
   Stream<Resource<User>> get userStream => userSubject.stream;
-  final BehaviorSubject<Resource<CreateIntimationResponseModel>> intimationSubject =
-  BehaviorSubject.seeded(Resource.none());
+  final BehaviorSubject<Resource<CreateIntimationResponseModel>>
+      intimationSubject = BehaviorSubject.seeded(Resource.none());
   Stream<Resource<CreateIntimationResponseModel>> get intimationStream =>
       intimationSubject.stream;
 
   void pickImage(UpoladFileTypeEnum fileTypeEnum) {
-    print("before picking");
+    debugPrint("before picking");
     exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
       RequestManager<UploadFile>(params,
-          createCall: () => chooseFileUseCase.execute(params: params))
+              createCall: () => chooseFileUseCase.execute(params: params))
           .asFlow()
           .listen((result) {
         _pickFrontFileResponse.add(result);
-        print("after picking");
+        debugPrint("after picking");
         if (result.status == Status.success) {
-          print("after on success picking");
-          print(result.data);
           uploadIntimationfile(uploadFile: result.data);
         }
       }).onError((error) {});
     }).execute();
   }
+
   void getUserDetails() {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
@@ -88,11 +88,10 @@ late User user;
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
-        user=data.data!;
+        user = data.data!;
       }
     });
   }
-
 
   // Future<void> _selectDate(BuildContext context) async {
   //   final DateTime? picked = await showDatePicker(
@@ -111,7 +110,8 @@ late User user;
   //
   //   }}
   void uploadIntimationfile({UploadFile? uploadFile}) {
-    final params = UploadIntimationFileUseCaseParams(  file: uploadFile!.file!,id: 0);
+    final params =
+        UploadIntimationFileUseCaseParams(file: uploadFile!.file!, id: 0);
 
     RequestManager(
       params,
@@ -123,16 +123,16 @@ late User user;
       _uploadedFileResponse.add(result);
     }).onError((error) {});
   }
- List<GetGuardianStudentDetailsStudentModel>? selectedStudent=
-ProviderScope.containerOf(navigatorKey.currentContext!)
-      .read(dashboardViewModelProvider)
-      .selectedStudentId;
 
+  List<GetGuardianStudentDetailsStudentModel>? selectedStudent =
+      ProviderScope.containerOf(navigatorKey.currentContext!)
+          .read(dashboardViewModelProvider)
+          .selectedStudentId;
 
   // void createIntimation() {
   //   intimationSubject.add(Resource.loading());
   //
-  //   print("create");
+  //   debugPrint("create");
   //   CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
   //       approvalFlag: "1",
   //       approvedById: 0,
@@ -154,7 +154,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
   //     createCall: (params) => createIntimationUsecase.execute(params: params),
   //
   //     onSuccess: (data) {
-  //       print(data?.data);
+  //       debugPrint(data?.data);
   //
   //       intimationSubject.add(Resource.success());
   //
@@ -162,7 +162,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
   // CommonPopups().showSuccess(navigatorKey.currentContext!, "Raised Intimation",(tr){} );
   //     },
   //     onError: (error) {
-  //       print(error?.error);
+  //       debugPrint(error?.error);
   //       intimationSubject.add(Resource.error());
   //     },
   //   );
@@ -171,7 +171,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
   void createIntimation() {
     intimationSubject.add(Resource.loading());
 
-    print("create");
+    debugPrint("create");
     CreateIntimationUseCaseParams params = CreateIntimationUseCaseParams(
         approvalFlag: "1",
         approvedById: 0,
@@ -182,8 +182,7 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
         initimationType: 3,
         globalStudentId: selectedStudent?.first.id,
         globalUserId: userSubject.value.data?.id,
-        fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment
-    );
+        fileAttachment: _uploadedFileResponse.value.data?.data?.fileAttachment);
 
     intimationSubject.add(Resource.loading());
     RequestManager(
@@ -200,9 +199,10 @@ ProviderScope.containerOf(navigatorKey.currentContext!)
 
         CommonPopups().showSuccess(
             navigatorKey.currentContext!, "Raised Intimation", (tr) {
-              Navigator.pop(navigatorKey.currentContext!);
-              Navigator.pop(navigatorKey.currentContext!);
+          Navigator.pop(navigatorKey.currentContext!);
+          Navigator.pop(navigatorKey.currentContext!);
         });
       }
-    });}
+    });
+  }
 }

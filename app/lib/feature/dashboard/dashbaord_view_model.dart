@@ -215,7 +215,6 @@ class DashboardPageModel extends BasePageViewModel {
         createCall: () => tokenresponseUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
-          log("tokenresponseUsecase ${result.data.toString()}");
           getUserProfile(
               request: UserRolePermissionRequest(
                   email: result.data?.email, service: "mobile_app"));
@@ -237,7 +236,6 @@ class DashboardPageModel extends BasePageViewModel {
             getUserRoleBasePermissionUsecase.execute(params: params),
       ).asFlow().listen((result) async {
         if (result.status == Status.success) {
-          log("getUserRoleBasePermissionUsecase ${result.data}");
           SharedPreferenceHelper.saveString(
               mobileNumber, "${result.data?.data?.user?.mobileNo}");
           final statusId = result.data?.data?.user?.statusId ?? 0;

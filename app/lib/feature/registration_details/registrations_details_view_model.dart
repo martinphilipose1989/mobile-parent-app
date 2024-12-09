@@ -1170,7 +1170,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BehaviorSubject<String> siblingGrades = BehaviorSubject.seeded('');
 
   Future<void> getSiblingDetails({required String enrollmentNumber}) async {
-    log("enrollmentNumber $enrollmentNumber");
     GetSiblingDetailRequest request = GetSiblingDetailRequest(
       enrollmentNumber: enrollmentNumber,
     );
@@ -1215,9 +1214,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             )));
           }
         },
-        onDone: () {
-          log("ONDONE");
-        },
+        onDone: () {},
       );
     }).execute();
   }
@@ -1946,7 +1943,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             final fileName =
                 '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
-            log("File Path: ${file.path}");
             await file.writeAsBytes(result.data ?? Uint8List(0));
             isLoading.value = false;
             OpenFilex.open(file.path);
@@ -1957,7 +1953,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           } catch (e) {
             isLoading.value = false;
-            log(e.toString());
             ScaffoldMessenger.of(context!).showSnackBar(
               SnackBar(content: Text('Error: $e')),
             );
@@ -3475,7 +3470,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
       moveStageSubject.stream;
   void moveToNextStage({String from = "payment"}) {
-    log("message ${enquiryDetails?.currentStage}");
     moveStageSubject.add(Resource.loading());
     MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
       enquiryId: "${enquiryDetailArgs?.enquiryId}",

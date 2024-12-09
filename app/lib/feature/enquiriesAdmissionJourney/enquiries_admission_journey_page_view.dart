@@ -271,7 +271,6 @@ class EnquiriesAdmissionsJourneyPageView
                               .where((e) => e['isActive'] == true)
                               .toList(),
                           onTap: (index) {
-                            log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
                             final isRegistrationNotActive = model
                                         .menuData.first['name']
                                         .toString()
@@ -279,8 +278,6 @@ class EnquiriesAdmissionsJourneyPageView
                                     'registration' &&
                                 model.menuData.first['isActive'] == false;
                             if (isRegistrationNotActive) {
-                              log("model.menuData ${model.menuData[index]['id']} ${model.menuData[index]}");
-
                               actionOnMenu(model.menuData[index]['id'] + 1,
                                   context, model);
                             } else {
@@ -307,9 +304,6 @@ class EnquiriesAdmissionsJourneyPageView
   }
 
   void setEnquiryDetailsArgs(EnquiriesAdmissionsJourneyViewModel model) {
-    log("model.enquiryDetail?.brandId ${model.enquiryDetail?.brandId}");
-    log("model.enquiryDetail?.brandName ${model.enquiryDetail?.brandName}");
-
     enquiryDetail.brandId = model.enquiryDetail?.brandId;
     enquiryDetail.brandName = model.enquiryDetail?.brandName;
     enquiryDetail.schoolId = model.enquiryDetail?.schoolId;

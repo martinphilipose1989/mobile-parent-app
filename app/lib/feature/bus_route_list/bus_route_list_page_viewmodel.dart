@@ -65,7 +65,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     if (_pageSubject.value == 1) {
       _busStopsListSubject.add(Resource.loading(data: null));
     }
-    print("trip_id=====" + "${trip?.id}");
+    debugPrint("trip_id=====" + "${trip?.id}");
     final GetAllBusStopsParams params = GetAllBusStopsParams(
         routeId: trip?.id ?? '', dayId: DateTime.now().weekday, app: 'app');
 
@@ -171,13 +171,11 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       if (i != a.length - 1) {
         if (a[i].stopComplete && a[i + 1].stopComplete) {
           updatedRouteIndex = i + 1;
-          log("updatRoute updatedRouteIndex $updatedRouteIndex");
           // currentStop = a[updatedRouteIndex];
           // nextStop = a[updatedRouteIndex + 1];
           //break;
         } else {
           updatedRouteIndex ??= 0;
-          log("updatRoute esle updatedRouteIndex $updatedRouteIndex");
           //  break;
         }
       }
@@ -218,14 +216,11 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   void trackLiveLocation() {
     PermissionHandlerService permission = PermissionHandlerService();
-    log("enableLiveLocation $enableLiveLocation");
 
     // Check if location tracking is enabled
     if (enableLiveLocation) {
       // If already subscribed, return to avoid duplicate subscriptions
       _positionSubscription ??= permission.liveLocation().listen((position) {
-        log("New position: $position");
-
         // Call checkBusProximity whenever a new position is received
         checkBusProximity(
             latitude: position.latitude, longitude: position.longitude);

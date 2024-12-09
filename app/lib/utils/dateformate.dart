@@ -23,7 +23,6 @@ extension DateFormate on DateTime {
 extension DateFormatExtension on String {
   String dateFormatDdMMyyyy() {
     try {
-      log("message $this");
       DateTime dateTime = DateTime.parse(this);
       return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
     } catch (e) {
@@ -33,7 +32,6 @@ extension DateFormatExtension on String {
 
   String dateFormatDdMMyyyyWithSlash() {
     try {
-      log("message $this");
       DateTime dateTime = DateTime.parse(this);
       return '${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year}';
     } catch (e) {

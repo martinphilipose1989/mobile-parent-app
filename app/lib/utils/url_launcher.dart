@@ -16,7 +16,7 @@ class UrlLauncher {
           SnackBar(content: Text('Could not launch $url')),
         );
       } else {
-        print('Could not launch $url');
+        debugPrint('Could not launch $url');
       }
     }
   }
@@ -36,7 +36,7 @@ class UrlLauncher {
           SnackBar(content: Text('Could not launch $url')),
         );
       } else {
-        print('Could not launch $url');
+        debugPrint('Could not launch $url');
       }
     }
   }
@@ -56,7 +56,7 @@ class UrlLauncher {
           SnackBar(content: Text('Could not launch $email')),
         );
       } else {
-        print('Could not launch $email');
+        debugPrint('Could not launch $email');
       }
     }
   }
@@ -77,7 +77,7 @@ class UrlLauncher {
           SnackBar(content: Text('Could not launch $phoneNumber')),
         );
       } else {
-        print('Could not launch $phoneNumber');
+        debugPrint('Could not launch $phoneNumber');
       }
     }
   }

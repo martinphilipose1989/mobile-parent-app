@@ -54,9 +54,10 @@ class AttendanceList extends StatelessWidget {
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, int index) {
-                        final period=   snapshot.data!.data.data.first.attendanceDetails;
+                        final period =
+                            snapshot.data!.data.data.first.attendanceDetails;
 
-//print( "-----------"+snapshot.data?.data.data[index].attendanceDetails.toString());
+//debugPrint( "-----------"+snapshot.data?.data.data[index].attendanceDetails.toString());
                         return snapshot.status == Status.loading
                             ? CircularProgressIndicator()
                             : Container(
@@ -88,12 +89,13 @@ class AttendanceList extends StatelessWidget {
                                             text: "Bus Attendance")
                                         : CommonText(
                                             text:
-                                            //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
-                                             //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
-                                        "Period ${period?.map((e){
-                                      //  return  "${period.indexOf(e) + 1}";
-return (period.indexOf(e)+1).toString();
-                                                }).join(", ")}"),
+                                                //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
+                                                //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
+                                                "Period ${period?.map((e) {
+                                            //  return  "${period.indexOf(e) + 1}";
+                                            return (period.indexOf(e) + 1)
+                                                .toString();
+                                          }).join(", ")}"),
                                     CommonText(
                                         text: snapshot
                                                 .data
@@ -109,7 +111,7 @@ return (period.indexOf(e)+1).toString();
                                 ));
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return  SizedBox(
+                        return SizedBox(
                           height: 20.h,
                         );
                       },

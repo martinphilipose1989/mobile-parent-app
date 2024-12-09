@@ -2,6 +2,7 @@ import 'package:app/molecules/attendance/attendance_calender/calendar.dart';
 import 'package:app/utils/date_formatter.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,8 +26,8 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
       _getAttendancelist;
 
   late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
- DateTime selectedmonth=DateTime.now();
-    // DateTime.parse(DateFormat('yyyy-MM').format(DateTime.now()));
+  DateTime selectedmonth = DateTime.now();
+  // DateTime.parse(DateFormat('yyyy-MM').format(DateTime.now()));
   late int? academicId;
   void getAttendanceList({required AttendanceCountRequestModel model}) {
     exceptionHandlerBinder.handle(block: () {
@@ -61,16 +62,14 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
         if (result.status == Status.success) {
           _studentDetails.add(result);
 
-          print(selectedmonth);
           academicId = result?.data?.data?.profile?.academicYearId;
           getAttendanceList(
               model: AttendanceCountRequestModel(
                   studentId: selectedStudent?.first.id,
                   attendanceDate:
-                     DateFormatter.convertDateToYearMonth(selectedmonth),
+                      DateFormatter.convertDateToYearMonth(selectedmonth),
                   academicYearId:
                       result?.data?.data?.profile!.academicYearId ?? 26));
-
         }
 
         if (result.status == Status.error) {}
