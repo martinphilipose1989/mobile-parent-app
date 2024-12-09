@@ -30,14 +30,12 @@ class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
                 controller: model.controller,
                 onTap: (index) {
                   model.selectedTab.add(index);
-                  log("INDEX $index");
                   if (index == 0) {
                     if (model.admissions.value.isEmpty) {
                       model.fetchAdmissionList();
                     }
                   }
                   if (index == 1) {
-                    log("message ${model.closedAdmissions.value.isEmpty}");
                     if (model.closedAdmissions.value.isEmpty) {
                       model.fetchClosedAdmissionList();
                     }

@@ -82,7 +82,6 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
               ),
               onCallBack: (contentType) {
                 model.switchTabsPaymentHistory.add(contentType);
-                debugPrint(contentType.toString());
               },
             ),
           ),

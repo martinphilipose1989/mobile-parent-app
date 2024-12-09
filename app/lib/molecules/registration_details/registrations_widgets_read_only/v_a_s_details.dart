@@ -212,7 +212,6 @@ class VasQuestions extends StatelessWidget {
                       }
                     });
                   } else if (vasOption == 'Psa') {
-                    log("message ${model.enquiryDetailArgs}");
                     Navigator.pushNamed(
                       context,
                       RoutePaths.psaDetailPage,

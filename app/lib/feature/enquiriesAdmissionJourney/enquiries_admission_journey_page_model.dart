@@ -134,8 +134,6 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
         if (result.status == Status.success) {
-          log("_fetchEnquiryDetail ${result.data?.data.toString()}");
-
           enquiryDetail = result.data?.data;
         }
         if (result.status == Status.error) {

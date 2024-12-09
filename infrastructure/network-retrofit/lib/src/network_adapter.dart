@@ -255,11 +255,6 @@ class NetworkAdapter implements NetworkPort {
     return response.fold((l) {
       return Left(l);
     }, (r) {
-      var data = r.data.data?.schoolLocation?.value ?? '';
-      var transformData = r.data.transform();
-      print("School Location: $data");
-      print(
-          "Transformed School Location: ${transformData.data?.schoolLocation?.value}");
       return Right(r.data.transform());
     });
   }
@@ -831,8 +826,6 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail(
       {required GetSiblingDetailRequest getSiblingDetailRequest}) async {
-    log(getSiblingDetailRequest.enrollmentNumber.toString(),
-        name: "GET SIBLING DETAIL");
     var response = await safeApiCall(adminRetorfitService.getSiblingDetail(
         getSiblingDetailRequest: getSiblingDetailRequest));
     return response.fold((l) {

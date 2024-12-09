@@ -99,7 +99,7 @@ You can supply either a list of ThemeData objects to the themes property or a li
         try {
           selectedTheme = themes![storedThemeIndex];
         } catch (e) {
-          print(
+          debugPrint(
               '''WARNING: You have changed your number of themes. Because of this we will clear your previously selected
         theme and broadcast the first theme in your list of themes.''');
           _sharedPreferences.themeIndex = null;

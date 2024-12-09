@@ -139,7 +139,6 @@ class CreateEditGatePassPageView
                               onTap: () async {
                                 await DateTimeUtils.pickDateTime(context,
                                     pickTime: true, onSelect: (value) {
-                                  log("VISIT DATE $value");
                                   model.visitDateTimeController.text = value
                                       .toIso8601String()
                                       .dateFormatToDDMMYYYhhmma();

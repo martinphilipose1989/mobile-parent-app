@@ -26,12 +26,10 @@ class LocalError extends BaseError {
             error: error, throwable: cause, type: ErrorType.filePickerFailed);
 
       case ErrorType.imagePickerFailed:
-        print("==case=imagePickerFailed=");
         return AppError(
             error: error, throwable: cause, type: ErrorType.imagePickerFailed);
 
       case ErrorType.imagePickerCancelled:
-        print("==case=imagePickerCancelled=");
         return AppError(
             error: error,
             throwable: cause,

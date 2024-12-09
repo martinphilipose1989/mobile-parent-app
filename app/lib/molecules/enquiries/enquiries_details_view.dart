@@ -130,7 +130,6 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
   }
 
   Widget getAdmissionDetails({NewAdmissionDetail? newAdmissionDetail}) {
-    log("getAdmissionDetails ${newAdmissionDetail.toString()}");
     return Column(
       children: [
         _detailItem(
@@ -260,11 +259,21 @@ class EnquiriesDetailsViewWidget extends StatelessWidget {
         _detailItem(title: "Course", subtitle: ivtDetail?.course?.value ?? ''),
         _detailItem(title: "Stream", subtitle: ivtDetail?.stream?.value ?? ''),
         _detailItem(title: "Shift", subtitle: ivtDetail?.shift?.value ?? ''),
-        _detailItem(title: "Kids Club Type", subtitle: ivtDetail?.kidsClubType?.value ?? ''),
-        _detailItem(title: "Kids Club Batch", subtitle: ivtDetail?.kidsClubBatch?.value ?? ''),
-        _detailItem(title: "Kids Club Period Of Service", subtitle: ivtDetail?.kidsClubPeriodOfService?.value ?? ''),
-        _detailItem(title: "Kids Club Month", subtitle: ivtDetail?.kidsClubMonth?.value ?? ''),
-        _detailItem(title: "Kids Club From Cafeteria Opt For", subtitle: ivtDetail?.kidsClubFromCafeteriaOptFor?.value ?? ''),
+        _detailItem(
+            title: "Kids Club Type",
+            subtitle: ivtDetail?.kidsClubType?.value ?? ''),
+        _detailItem(
+            title: "Kids Club Batch",
+            subtitle: ivtDetail?.kidsClubBatch?.value ?? ''),
+        _detailItem(
+            title: "Kids Club Period Of Service",
+            subtitle: ivtDetail?.kidsClubPeriodOfService?.value ?? ''),
+        _detailItem(
+            title: "Kids Club Month",
+            subtitle: ivtDetail?.kidsClubMonth?.value ?? ''),
+        _detailItem(
+            title: "Kids Club From Cafeteria Opt For",
+            subtitle: ivtDetail?.kidsClubFromCafeteriaOptFor?.value ?? ''),
         const SizedBox(
           height: 10,
         ),

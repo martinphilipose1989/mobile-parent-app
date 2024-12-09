@@ -85,7 +85,6 @@ class PsaDetailViewModel extends BasePageViewModel {
       //   courseId: 1,
       //   gradeId: 4,
       // ));
-      log("DEVELOPER ${enquiryDetailArgs.toString()}");
       GetPsaEnrollmentDetailUsecaseParams params =
           GetPsaEnrollmentDetailUsecaseParams(
               vasDetailRequest: VasDetailRequest(

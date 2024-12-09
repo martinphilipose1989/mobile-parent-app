@@ -361,7 +361,6 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   void moveToNextStage({String from = "payment"}) {
-    log("message ${enquiryDetails.value.currentStage}");
     moveStageSubject.add(Resource.loading());
     MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
       enquiryId: "${enquiryDetailArgs.enquiryId}",

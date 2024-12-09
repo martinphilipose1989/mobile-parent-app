@@ -15,8 +15,6 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    log("message ${options.uri.path}");
-
     if (options.uri.path.contains('api')) {
       options.headers.putIfAbsent("Authorization", () => "Bearer $mdmToken");
       if (options.uri.path.contains("%5B") ||
