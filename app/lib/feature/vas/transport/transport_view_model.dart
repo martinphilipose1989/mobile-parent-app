@@ -192,9 +192,8 @@ class TransportDetailViewModel extends BasePageViewModel {
               shiftId: enquiryDetailArgs?.shiftId,
               streamId: enquiryDetailArgs?.streamId,
               feeTypeId: FeesTypeIdEnum.transportFees.id,
-              feeSubCategoryEnd:
-                  (!feeSubCategoryEnd.isEmptyOrNull()) ? "Zone2" : null,
-              feeSubCategoryStart: selectedZone?.zoneName));
+              feeSubCategoryEnd: selectedDropZone?.zoneName,
+              feeSubCategoryStart: selectedPickUpZone?.zoneName));
       showLoader.add(true);
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))
@@ -225,18 +224,26 @@ class TransportDetailViewModel extends BasePageViewModel {
       AddVasDetailUsecaseParams params = AddVasDetailUsecaseParams(
           vasEnrollmentRequest: VasEnrollmentRequest(
               transport: Transport(
-                  amount: int.parse(fee.value),
-                  feeSubTypeId: feeSubTypeID,
-                  feeCategoryId: feeCategoryID,
-                  feeTypeId: FeesTypeIdEnum.transportFees.id,
-                  periodOfServiceId: periodOfServiceID,
-                  pickupPoint: selectedZone?.zoneName,
-                  stopDetails: [
-                VasStopDetail(
-                    shiftId: selectedZone?.shiftId,
-                    routeId: selectedZone?.routeId.toString(),
-                    stopId: selectedZone?.id)
-              ])
+            amount: int.parse(fee.value),
+            feeSubTypeId: feeSubTypeID,
+            feeCategoryId: feeCategoryID,
+            feeTypeId: FeesTypeIdEnum.transportFees.id,
+            periodOfServiceId: periodOfServiceID,
+            pickupPoint: selectedPickUpZone?.zoneName,
+            stopDetails:
+                radioButtonServiceType.selectedItem?.toLowerCase() == "both way"
+                    ? [
+                        VasStopDetail(
+                            shiftId: selectedPickUpZone?.shiftId,
+                            routeId: selectedPickUpZone?.routeId.toString(),
+                            stopId: selectedPickUpZone?.id),
+                        VasStopDetail(
+                            shiftId: selectedDropZone?.shiftId,
+                            routeId: selectedDropZone?.routeId.toString(),
+                            stopId: selectedDropZone?.id)
+                      ]
+                    : [],
+          )
               // transportAmount: int.parse(fee.value),
               // transportBusType: feeSubTypeID,
               // transportServiceType: feeCategoryID,
@@ -280,23 +287,26 @@ class TransportDetailViewModel extends BasePageViewModel {
 
   BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
 
-  StopDetail? selectedZone;
+  StopDetail? selectedPickUpZone;
+  StopDetail? selectedDropZone;
 
-  void filterPeriodService() {
-    log("radioButtonBusType ${radioButtonBusType.selectedItem}");
+  void filterPeriodService({required String routeType}) {
+    if (radioButtonServiceType.selectedItem?.toLowerCase() == "both way") {
+      if (routeType == "pickup") {
+        selectedPickUpZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+      } else {
+        selectedDropZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+      }
+    } else {}
 
-    log("feeSubTypeID $feeSubTypeID");
-    log("radioButtonServiceType ${radioButtonServiceType.selectedItem}");
-
-    log("feeCategoryID $feeCategoryID");
-    final selectedZone = stopList.value.firstWhere((stop) =>
-        stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
     final list = transportEnrollmentDetail.value.data?.periodOfService
         ?.where((ps) =>
             (ps.feeSubTypeId == feeSubTypeID) &&
             (ps.feeCategoryId == feeCategoryID) &&
             (ps.feeSubcategory?.toLowerCase() ==
-                selectedZone.zoneName?.toLowerCase()))
+                selectedPickUpZone?.zoneName?.toLowerCase()))
         .toList();
 
     if (list?.isNotEmpty ?? false) {
@@ -304,11 +314,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           list!.map((e) => e.periodOfService ?? '').toList();
     }
 
-    log("periodOfService $periodOfService");
-
     //oneWayPickupPoint.value.toSet().toList().firstWhere(test);
-
-    log("zone $selectedZone");
   }
 
   void setPeriodOfService(String value) {
@@ -320,7 +326,6 @@ class TransportDetailViewModel extends BasePageViewModel {
     log("periodOfServiceID $periodOfServiceID");
   }
 }
-
 
 /**
  * 
