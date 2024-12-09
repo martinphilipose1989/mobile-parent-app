@@ -536,12 +536,7 @@ class RegistrationsDetailsPageView
       case 7:
         return const VASDetails();
       default:
-        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
-            stream: model.enquiryDetail,
-            initialData: Resource.none(),
-            dataBuilder: (context, result) {
-              return model.showPopUP(context);
-            });
+        return const SizedBox();
     }
   }
 
