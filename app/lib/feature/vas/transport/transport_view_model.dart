@@ -298,6 +298,7 @@ class TransportDetailViewModel extends BasePageViewModel {
   StopDetail? selectedDropZone;
 
   void filterPeriodService({required String routeType}) {
+    List<PeriodOfServiceModel>? list;
     if (radioButtonServiceType.selectedItem?.toLowerCase() == "both way") {
       if (routeType == "pickup") {
         selectedPickUpZone = stopList.value.firstWhere((stop) =>
@@ -306,15 +307,25 @@ class TransportDetailViewModel extends BasePageViewModel {
         selectedDropZone = stopList.value.firstWhere((stop) =>
             stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
       }
-    } else {}
-
-    final list = transportEnrollmentDetail.value.data?.periodOfService
-        ?.where((ps) =>
-            (ps.feeSubTypeId == feeSubTypeID) &&
-            (ps.feeCategoryId == feeCategoryID) &&
-            (ps.feeSubcategory?.toLowerCase() ==
-                selectedPickUpZone?.zoneName?.toLowerCase()))
-        .toList();
+    } else {
+      if (radioButtonOneWayRouteType.selectedItem == "Pickup Point To School") {
+        list = transportEnrollmentDetail.value.data?.periodOfService
+            ?.where((ps) =>
+                (ps.feeSubTypeId == feeSubTypeID) &&
+                (ps.feeCategoryId == feeCategoryID) &&
+                (ps.feeSubcategory?.toLowerCase() ==
+                    selectedPickUpZone?.zoneName?.toLowerCase()))
+            .toList();
+      } else {
+        list = transportEnrollmentDetail.value.data?.periodOfService
+            ?.where((ps) =>
+                (ps.feeSubTypeId == feeSubTypeID) &&
+                (ps.feeCategoryId == feeCategoryID) &&
+                (ps.feeSubcategory?.toLowerCase() ==
+                    selectedDropZone?.zoneName?.toLowerCase()))
+            .toList();
+      }
+    }
 
     if (list?.isNotEmpty ?? false) {
       periodOfService.value =

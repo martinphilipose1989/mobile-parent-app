@@ -148,7 +148,6 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                             child: CommonElevatedButton(
                                               onPressed: () {
                                                 model.calculateFees();
-                                                // model.filterPeriodService();
                                               },
                                               text: "Calculate",
                                               backgroundColor: AppColors.accent,
