@@ -33,19 +33,19 @@ abstract class FinanceRetrofitService {
       baseUrl: financeBaseUrl,
     );
   }
-  @POST('/finance/fee_collection/get-academic-years')
+  @POST('/finance/fee_collection/get-academic-years?platform=app')
   Future<HttpResponse<GetAcademicYearResponseEntity>> getAcademicYear(
       @Body() GetAcademicYearRequest getAcademicYearRequest);
 
-  @POST('/finance/fee_payment/validate_payment_for_fees')
+  @POST('/finance/fee_payment/validate_payment_for_fees?platform=app')
   Future<HttpResponse<GetValidateOnPayEntity>> getValidatePayNow(
       @Body() GetValidatePayNowRequest getValidatePayNowRequest);
 
-  @POST('/finance/fee_payment/store_fee_payment')
+  @POST('/finance/fee_payment/store_fee_payment?platform=app')
   Future<HttpResponse<GetStorePaymentResponseEntity>> getStorePayment(
       @Body() GetStorePaymentRequest getStorePaymentRequest);
 
-  @POST('/finance/fee_collection/fee_details')
+  @POST('/finance/fee_collection/fee_details?platform=app')
   Future<HttpResponse<GetPendingFeesEntity>> getPendingFees(
       @Body() GetPendingFeesRequest getPendingFeesRequest);
 
@@ -55,30 +55,30 @@ abstract class FinanceRetrofitService {
 
   @GET('/finance/transactions/payments/{id}')
   Future<HttpResponse<GetTransactionTypeEntity>> getTransactionType(
-      @Path('id') int id);
+      @Path('id') int id, @Query('platform') String app);
 
-  @POST('/finance/transactions/fees_collected')
+  @POST('/finance/transactions/fees_collected?platform=app')
   Future<HttpResponse<GetTransactiontypefeesCollectedEntity>>
       getTransactionTypeFeesCollected(
           @Body()
           GetTransactionTypeFeesCollectesRequest
               getTransactionTypeFeesCollectesRequest);
 
-  @POST('/finance/payment/order')
+  @POST('/finance/payment/order?platform=app')
   Future<HttpResponse<GetPaymentOrderEntity>> getPaymentOrder(
       @Body() PaymentOrderRequestModel paymentOrderRequestModel);
 
-  @POST('/finance/transactions/store_file')
+  @POST('/finance/transactions/store_file?platform=app')
   @MultiPart()
   Future<HttpResponse<GetStoreImageEntity>> setStoreImage(
       {@Part(name: 'file') required File file,
       @Part(name: 'fileName') required String fileName});
 
-  @POST('/finance/payment/fetch-status/orderId')
+  @POST('/finance/payment/fetch-status/orderId?platform=app')
   Future<HttpResponse<PaymentStatusEntity>> getPaymentStatus(
       @Body() GetPaymentStatusRequest getPaymentStatusRequest);
 
-  @POST('/finance/fee_payment/finance/calculate')
+  @POST('/finance/fee_payment/finance/calculate?platform=app')
   Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
       {@Body()
       required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
