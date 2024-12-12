@@ -143,7 +143,7 @@ class AdmissionsDetailsPageView
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.all(16),
+            margin:  EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -176,7 +176,7 @@ class AdmissionsDetailsPageView
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CommonText(
+                    CommonText(
                       text: 'Admission Journey',
                       style: AppTypography.subtitle1,
                     ),

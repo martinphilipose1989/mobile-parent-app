@@ -4,6 +4,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Tracker extends StatelessWidget {
@@ -23,7 +24,7 @@ class Tracker extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CommonText(
+             CommonText(
               text: "Tracker",
               style: AppTypography.subtitle1,
             ),
@@ -58,20 +59,20 @@ class Tracker extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 36,
+        height: 36.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(width: 1, color: const Color(0xff666666)),
             color: Colors.white),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding:  EdgeInsets.symmetric(horizontal: 10.0.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(icon),
-              const SizedBox(
-                width: 5,
+              SvgPicture.asset(icon,height: 20.h,),
+         SizedBox(
+                width: 5.w,
               ),
               CommonText(
                 text: title,

@@ -48,7 +48,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 SizedBox(
                   height: 16.h,
                 ),
-                const Text(
+    Text(
                   "Raise Intimation",
                   style: AppTypography.h5,
                 ),

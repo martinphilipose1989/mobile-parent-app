@@ -15,7 +15,7 @@ class MedicalDetail extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CommonText(
+         CommonText(
           text: "Medical Information",
           style: AppTypography.subtitle1,
         ),

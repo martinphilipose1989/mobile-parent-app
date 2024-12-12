@@ -60,7 +60,7 @@ class DisciplinaryDetails extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CommonText(
+          CommonText(
                 text: "Disciplinary Slip",
                 style: AppTypography.subtitle1,
               ),
@@ -154,7 +154,7 @@ class DisciplinaryDetails extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  title: const Text(
+                                  title:Text(
                                     "Slip Information",
                                     style: AppTypography.h6,
                                   ),

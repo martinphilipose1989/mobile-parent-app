@@ -51,7 +51,7 @@ class DisplinaryDetailsPageView
                 stream: model!.studentDetails,
                 initialData: Resource.none(),
               ),
-              const DisciplinarySlipList()
+           const  DisciplinarySlipList()
             ],
           );
         },

@@ -61,7 +61,7 @@ class SummerCampDetailPageView extends BasePageViewWidget<SummerCampDetailViewMo
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const CommonText(
+                                     CommonText(
                                       text: "Calculated Amount",
                                       style: AppTypography.body2,
                                     ),

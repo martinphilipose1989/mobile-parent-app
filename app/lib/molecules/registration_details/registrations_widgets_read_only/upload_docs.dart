@@ -24,7 +24,7 @@ class UploadDocs extends StatelessWidget {
           color: Colors.grey.shade200,
           padding: const EdgeInsets.all(20),
           alignment: Alignment.center,
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CommonText(

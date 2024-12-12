@@ -64,7 +64,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const CommonText(text: "Calculated Amount",style: AppTypography.body2,),
+                           CommonText(text: "Calculated Amount",style: AppTypography.body2,),
                                       CommonText(text: model.fee.value,style: AppTypography.h6.copyWith(color: AppColors.primary),)
                                     ],
                                   ),
@@ -73,7 +73,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                             }
                           ),
                           SizedBox(height: 16.h,),
-                          const CommonText(text: "Select Bus Type",style: AppTypography.subtitle2,),
+                CommonText(text: "Select Bus Type",style: AppTypography.subtitle2,),
                           SizedBox(height: 10.h,),
                           Column(
                             children: List.generate(
@@ -100,7 +100,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                             ),
                           ),
                           SizedBox(height: 15.h,),
-                          const CommonText(
+              CommonText(
                             text: "Select The Service Type",
                             style: AppTypography.subtitle2,
                           ),
@@ -145,7 +145,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel>{
                               return (data??'').toLowerCase() == "one way" ? Column(
                                 children: [
                                   SizedBox(height: 15.h,),
-                                  const CommonText(
+                   CommonText(
                                     text: "Choose One Way Route",
                                     style: AppTypography.subtitle2,
                                   ),

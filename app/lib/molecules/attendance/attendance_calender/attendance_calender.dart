@@ -63,7 +63,7 @@ class AttendanceCalender extends StatelessWidget {
 
                     SizedBox(height: 350.h, child: const Calendar()),
                     SizedBox(height: 20.h, width: double.infinity),
-                    const Padding(
+                   Padding(
                       padding: EdgeInsets.only(left: 5),
                       child: CommonText(
                         text: "Attendance",

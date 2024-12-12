@@ -72,7 +72,7 @@ class HighlightListState extends State<HighlightList> {
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     Text(
                       widget.chipValues[index].name ?? "",
-                      style: TextStyle(
+                      style: TextStyle(fontSize: 10.sp,
                         color: isSelected
                             ? Theme.of(context).colorScheme.primary
                             : Colors.black,

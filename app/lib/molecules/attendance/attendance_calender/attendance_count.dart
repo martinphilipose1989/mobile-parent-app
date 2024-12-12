@@ -19,7 +19,7 @@ class AttendanceCountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-        height: 50.h,
+      //  height: 50.h,
         decoration: BoxDecoration(
             color: AppColors.lightgrey,
             borderRadius: BorderRadius.circular(8)),

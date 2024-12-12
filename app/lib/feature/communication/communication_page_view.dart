@@ -40,9 +40,9 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset(AppImages.ticket),
+                                  SvgPicture.asset(AppImages.ticket,height: 20.h,),
                                   CommonSizedBox.sizedBox(
-                                      height: 10, width: 10),
+                                      height: 10.h, width: 10.w),
                                   CommonText(
                                     text: getCommunicationDetailsdata
                                             .data?.data?.ticketNumber ??
@@ -84,7 +84,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                             child: ListView(
                           children: [
                             SizedBox(
-                              height: 256.h,
+
                               child: Card(
                                 elevation: 2,
                                 color: AppColors.listItem,
@@ -94,15 +94,15 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Row(crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Image.asset(AppImages.avatar2),
-                                          const SizedBox(height: 5, width: 10),
+                                        SizedBox(height: 5, width: 5.w),
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               CommonText(
                                                 text:
@@ -113,13 +113,10 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                                         "",
                                                 style: AppTypography.subtitle2,
                                               ),
-                                              const CommonText(
-                                                text: '',
-                                                style: AppTypography.caption,
-                                              )
+
                                             ],
                                           ),
-                                          const Spacer(),
+                                         const Spacer(),
                                           CommonText(
                                             text: model.formatDateTime(
                                                 date:
@@ -132,13 +129,13 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                                             .data?.data?.time ??
                                                         ''),
                                             style: AppTypography.caption
-                                                .copyWith(fontSize: 10),
+                                                .copyWith(fontSize: 10.sp),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(height: 5, width: 10),
-                                      const Divider(),
-                                      const SizedBox(height: 5, width: 10),
+                                   SizedBox(height: 5.h, width: 10.w),
+                                    Divider(thickness: 2.w,),
+                                 SizedBox(height: 5.h, width: 10.w),
                                       CommonText(
                                         text: getCommunicationDetailsdata
                                                 .data
@@ -157,10 +154,10 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                             '',
                                         style: AppTypography.body2,
                                       ),
-                                      const SizedBox(height: 5, width: 10),
+                               SizedBox(height: 5.h, width: 10.w),
                                       SizedBox(
                                         width: 300,
-                                        height: 20,
+                                        // height: 20,
                                         child: CommonText(
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
@@ -175,7 +172,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonText(
+                             CommonText(
                                             text: 'Priority :',
                                             style: AppTypography.subtitle2,
                                           ),
@@ -216,7 +213,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonText(
+                                  CommonText(
                                             text: 'Assigned To :',
                                             style: AppTypography.subtitle2,
                                           ),
@@ -288,7 +285,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      const CommonText(
+                                              CommonText(
                                                           softWrap: true,
                                                           style: AppTypography
                                                               .subtitle2,

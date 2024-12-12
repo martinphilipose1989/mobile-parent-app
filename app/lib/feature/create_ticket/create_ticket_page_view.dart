@@ -92,7 +92,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                               false),
                       child: Column(
                         children: [
-                          const Row(
+                      Row(
                             children: [
                               CommonText(
                                 text: 'Instructions',
@@ -100,7 +100,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                               ),
                             ],
                           ),
-                          const CommonText(
+          CommonText(
                             text:
                                 'Now You Can Request/Check This From Menu > Fees > Payment Details ',
                             style: AppTypography.body2,

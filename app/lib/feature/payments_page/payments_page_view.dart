@@ -165,7 +165,7 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                       })),
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
-            const CommonText(
+        CommonText(
               text: 'Select payment Method',
               style: AppTypography.body2,
             ),

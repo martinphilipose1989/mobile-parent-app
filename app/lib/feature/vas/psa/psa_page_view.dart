@@ -61,7 +61,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const CommonText(
+                            CommonText(
                                       text: "Calculated Amount",
                                       style: AppTypography.body2,
                                     ),
@@ -78,7 +78,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                         SizedBox(
                           height: 16.h,
                         ),
-                        const CommonText(
+              CommonText(
                           text: "Select Post School Activity",
                           style: AppTypography.subtitle2,
                         ),

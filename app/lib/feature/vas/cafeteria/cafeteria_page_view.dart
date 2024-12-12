@@ -59,7 +59,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel>{
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonText(
+                                          CommonText(
                                             text: "Calculated Amount",
                                             style: AppTypography.body2,
                                           ),
@@ -77,7 +77,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel>{
                               SizedBox(
                                 height: 16.h,
                               ),
-                              const CommonText(
+                           CommonText(
                                 text: "Opt For",
                                 style: AppTypography.subtitle2,
                               ),
@@ -118,7 +118,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel>{
                               SizedBox(
                                 height: 15.h,
                               ),
-                              const CommonText(
+                     CommonText(
                                 text: "Period Of Service",
                                 style: AppTypography.subtitle2,
                               ),
