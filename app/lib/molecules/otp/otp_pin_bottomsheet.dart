@@ -62,7 +62,7 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CommonText(
+           CommonText(
                       text: 'Login into your account',
                       style: AppTypography.subtitle1,
                     ),
@@ -76,7 +76,7 @@ class _OtpPinBottomsheetState extends State<OtpPinBottomsheet>
                   ],
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),
-                const CommonText(
+      CommonText(
                   text: 'Enter 6 digit code sent on your phone number',
                   style: AppTypography.caption,
                 )

@@ -21,7 +21,7 @@ class ParentDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Father's Details",
               style: AppTypography.subtitle2,
             ),
@@ -75,7 +75,7 @@ class ParentDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Mother's Details",
               style: AppTypography.subtitle2,
             ),
@@ -129,7 +129,7 @@ class ParentDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Gurdian's Details",
               style: AppTypography.subtitle2,
             ),
@@ -182,7 +182,7 @@ class ParentDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title: CommonText(
               text: "Sibling's Details",
               style: AppTypography.subtitle2,
             ),
@@ -197,7 +197,7 @@ class ParentDetail extends StatelessWidget {
                       thickness: 1,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
-                    const CommonText(
+           CommonText(
                       text: 'For Sibling 1',
                       style: AppTypography.subtitle2,
                     ),

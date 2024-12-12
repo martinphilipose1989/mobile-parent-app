@@ -24,7 +24,7 @@ final BankDetails? bankDetails;
                 width: 1,
               )),
           child: ExpansionTile(
-              title: const CommonText(
+              title: CommonText(
                 text: "Bank Details",
                 style: AppTypography.subtitle2,
               ),
@@ -57,7 +57,7 @@ final BankDetails? bankDetails;
           thickness: 1,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        const CommonText(
+ CommonText(
           text: "UPI Info",
           style: AppTypography.subtitle1,
         ),

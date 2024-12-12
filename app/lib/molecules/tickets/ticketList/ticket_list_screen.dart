@@ -6,6 +6,7 @@ import 'package:app/molecules/tickets/ticketList/close_ticket_list_page.dart';
 import 'package:app/molecules/tickets/ticketList/open_ticket_list_page.dart';
 import 'package:app/molecules/tickets/ticketList/review_ticket_list_page.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -95,7 +96,8 @@ class TicketListScreen extends StatelessWidget {
                   Navigator.pushNamed(context, RoutePaths.createTicketPage);
                 },
                 text: "Create New Ticket",
-                textColor: Colors.black,
+            textStyle: AppTypography.subtitle2.copyWith(color: Colors.black),
+
               )
             ],
           );

@@ -149,7 +149,7 @@ class EnquiriesAdmissionsJourneyPageView
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CommonText(
+        CommonText(
                     text: 'Admission Journey',
                     style: AppTypography.subtitle1,
                   ),

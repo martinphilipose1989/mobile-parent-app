@@ -53,12 +53,12 @@ class BottomPhoneEmailSheet extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CommonText(
+              CommonText(
                 text: 'Login into your account',
                 style: AppTypography.subtitle1,
               ),
               CommonSizedBox.sizedBox(height: 10, width: 10),
-              const CommonText(
+  CommonText(
                 text:
                     'Welcome! please enter your credentials to Continue Your Journey',
                 style: AppTypography.caption,
@@ -102,7 +102,7 @@ class BottomPhoneEmailSheet extends StatelessWidget {
               },
             ),
             CommonSizedBox.sizedBox(height: 10, width: 10),
-            const Align(
+         Align(
               alignment: Alignment.center,
               child: CommonText(
                   textAlign: TextAlign.left,

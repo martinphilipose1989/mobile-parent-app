@@ -363,11 +363,11 @@ class BusRouteListPageView
 
   Widget _trackBus({required void Function() onTap}) {
     return Container(
-      padding: const EdgeInsets.only(left: 22.0, right: 22.0),
+      padding:  EdgeInsets.only(left: 22.0, right: 22.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CommonText(
+  CommonText(
             text: "Track Bus",
             style: AppTypography.subtitle1,
           ),

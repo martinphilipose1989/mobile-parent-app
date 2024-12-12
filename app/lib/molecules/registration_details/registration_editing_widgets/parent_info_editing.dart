@@ -38,7 +38,7 @@ class ParentInfoEditing extends StatelessWidget {
                   width: 1,
                 )),
             child: ExpansionTile(
-                title: const CommonText(
+                title:  CommonText(
                   text: "Father's Details",
                   style: AppTypography.subtitle2,
                 ),
@@ -475,7 +475,7 @@ class ParentInfoEditing extends StatelessWidget {
                   width: 1,
                 )),
             child: ExpansionTile(
-                title: const CommonText(
+                title:  CommonText(
                   text: "Mother's Details",
                   style: AppTypography.subtitle2,
                 ),
@@ -910,7 +910,7 @@ class ParentInfoEditing extends StatelessWidget {
                   width: 1,
                 )),
             child: ExpansionTile(
-                title: const CommonText(
+                title:  CommonText(
                   text: "Guardian's Details",
                   style: AppTypography.subtitle2,
                 ),
@@ -1227,7 +1227,7 @@ class ParentInfoEditing extends StatelessWidget {
                   width: 1,
                 )),
             child: ExpansionTile(
-                title: const CommonText(
+                title:  CommonText(
                   text: "Sibling's Details",
                   style: AppTypography.subtitle2,
                 ),
@@ -1242,12 +1242,12 @@ class ParentInfoEditing extends StatelessWidget {
                           thickness: 1,
                         ),
                         CommonSizedBox.sizedBox(height: 10, width: 10),
-                        const CommonText(
+                       CommonText(
                           text: 'For Sibling 1',
                           style: AppTypography.subtitle2,
                         ),
                         CommonSizedBox.sizedBox(height: 10, width: 10),
-                        const CommonText(
+       CommonText(
                           text: 'Is Sibling',
                           style: AppTypography.subtitle2,
                         ),
@@ -1513,7 +1513,7 @@ class ParentInfoEditing extends StatelessWidget {
                   )
                 ]),
           ),
-          const Align(
+  Align(
             alignment: Alignment.topLeft,
             child: CommonText(
               text: "Are Parent's Separated?",
@@ -1548,7 +1548,7 @@ class ParentInfoEditing extends StatelessWidget {
               dataBuilder: (context, data) {
                 return Visibility(
                   visible: data == 'Yes',
-                  child: const Align(
+                  child:  Align(
                     alignment: Alignment.topLeft,
                     child: CommonText(
                       text: "Who Has The Custody Of the Child?",

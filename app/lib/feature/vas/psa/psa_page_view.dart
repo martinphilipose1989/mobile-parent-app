@@ -19,79 +19,74 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
   @override
   Widget build(BuildContext context, PsaDetailViewModel model) {
     return AppStreamBuilder<bool>(
-        stream: model.showLoader,
-        initialData: model.showLoader.value,
-        dataBuilder: (context, data) {
-          return Stack(
-            children: [
-              AppStreamBuilder<Resource<PsaEnrollmentDetailResponseModel>>(
-                  stream: model.fetchPsaEnrollmentDetail,
-                  initialData: Resource.none(),
-                  dataBuilder: (context, data) {
-                    if (data?.status == Status.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (data?.status == Status.success) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.w, vertical: 16.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppStreamBuilder<String>(
-                                stream: model.fee,
-                                initialData: model.fee.value,
-                                dataBuilder: (context, snapshot) {
-                                  return Visibility(
-                                    visible: model.fee.value.isNotEmpty,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: AppColors.textDark
-                                                  .withOpacity(0.22),
-                                              blurRadius: 10,
-                                              spreadRadius: 0,
-                                              offset: const Offset(0, 2)),
-                                        ],
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w, vertical: 12.h),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const CommonText(
-                                            text: "Calculated Amount",
-                                            style: AppTypography.body2,
-                                          ),
-                                          CommonText(
-                                            text: model.fee.value,
-                                            style: AppTypography.h6.copyWith(
-                                                color: AppColors.primary),
+      stream: model.showLoader,
+      initialData: model.showLoader.value,
+      dataBuilder: (context,data) {
+        return Stack(
+          children: [
+            AppStreamBuilder<Resource<PsaEnrollmentDetailResponseModel>>(
+              stream: model.fetchPsaEnrollmentDetail,
+              initialData: Resource.none(),
+              dataBuilder: (context, data) {
+                if (data?.status == Status.loading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if(data?.status == Status.success){
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppStreamBuilder<String>(
+                          stream: model.fee,
+                          initialData: model.fee.value,
+                          dataBuilder: (context, snapshot) {
+                            return Visibility(
+                              visible: model.fee.value.isNotEmpty,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: AppColors.textDark.withOpacity(0.22),
+                                        blurRadius: 10,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 2)),
+                                  ],
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                            CommonText(
+                                      text: "Calculated Amount",
+                                      style: AppTypography.body2,
+                                    ),
+                                    CommonText(
+                                      text: model.fee.value,
+                                      style: AppTypography.h6.copyWith(color: AppColors.primary),
+
                                           )
                                         ],
                                       ),
                                     ),
                                   );
                                 }),
-                            SizedBox(
-                              height: 16.h,
-                            ),
-                            const CommonText(
-                              text: "Select Post School Activity",
-                              style: AppTypography.subtitle2,
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            CustomDropdownButton(
-                              items: model.feeSubType,
+                        SizedBox(
+                          height: 16.h,
+                        ),
+              CommonText(
+                          text: "Select Post School Activity",
+                          style: AppTypography.subtitle2,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        CustomDropdownButton(
+                          items: model.feeSubType,
                               dropdownName: 'PSA Sub Type',
                               showAstreik: false,
                               showBorderColor: false,

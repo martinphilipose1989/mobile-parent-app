@@ -55,51 +55,50 @@ class CommonTicketCloseContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    height: 10,
+             SizedBox(
+                    height: 10.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Row(children: [
-                          SvgPicture.asset(AppImages.ticket),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            ticketNo,
-                            style: AppTypography.caption.copyWith(
-                                color: AppColors.textGray,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          Divider(
-                            thickness: 2,
-                            height: 2.h,
-                            color: AppColors.divider,
-                          ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          SvgPicture.asset(AppImages.stop),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            status ?? "Open",
-                            style: AppTypography.caption.copyWith(
-                                color: AppColors.textGray,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ]),
-                      ),
+                      Row(children: [
+                        SvgPicture.asset(AppImages.ticket,height: 14.h,),
+                                             SizedBox(
+                          width: 10.w,
+                        ),
+                        Text(
+                          ticketNo,
+                          style: AppTypography.caption.copyWith(
+                              color: AppColors.textGray,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Divider(
+                          thickness: 2.w,
+                          height: 2.h,
+                          color: AppColors.divider,
+                        ),
+                        SizedBox(
+                          width: 10.h,
+                        ),
+                        SvgPicture.asset(AppImages.stop,height: 14.h,),
+                  SizedBox(
+                          width: 10.w,
+                        ),
+                        Text(
+                          status ?? "Open",
+                          style: AppTypography.caption.copyWith(
+                              color: AppColors.textGray,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ]),
+
                       SizedBox(
-                        height: 20.h,
+                        width: 70.h,
                       ),
-                      Flexible(
+                    Expanded(
                         child: Text(
                           time,
                           style: AppTypography.caption.copyWith(
@@ -116,16 +115,16 @@ class CommonTicketCloseContainer extends StatelessWidget {
                     text: title,
                     style: AppTypography.subtitle2,
                   ),
-                  const SizedBox(
-                    height: 2,
+               SizedBox(
+                    height: 2.h,
                   ),
                   CommonText(
                     text: subtitle,
                     style:
                         AppTypography.body2.copyWith(color: AppColors.textGray),
                   ),
-                  const SizedBox(
-                    height: 10,
+               SizedBox(
+                    height: 10.h,
                   ),
                   Container(
                       height: 32.h,
@@ -138,10 +137,11 @@ class CommonTicketCloseContainer extends StatelessWidget {
                                 CircleAvatar(
                                   child: SvgPicture.asset(
                                     AppImages.avatar,
-                                    height: 32,
-                                    width: 32,
+                                    height: 32.h,
+                                    width: 32.w,
                                   ),
                                 ),
+                                SizedBox(width: 5.w,),
                                 CommonText(
                                   text: name,
                                   style: AppTypography.subtitle2
@@ -176,14 +176,14 @@ class CommonTicketCloseContainer extends StatelessWidget {
                                           .secondary),
                                   badgeContent:
                                       Text(communicationCount.toString()),
-                                  child: SvgPicture.asset(AppImages.messages),
+                                  child: SvgPicture.asset(AppImages.messages,height: 20.h,),
                                 )),
                           ])),
-                  const Divider(
-                    thickness: 2,
+               Divider(
+                    thickness: 2.w,
                   ),
-                  const SizedBox(
-                    height: 10,
+       SizedBox(
+                    height: 10.h,
                   ),
                   InkWell(
                       onTap: () {

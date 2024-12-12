@@ -31,7 +31,7 @@ class ContactInfoEditing extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title: CommonText(
               text: "Emergency Contact",
               style: AppTypography.subtitle2,
             ),
@@ -75,7 +75,7 @@ class ContactInfoEditing extends StatelessWidget {
               width: 1,
             )),
         child:  ExpansionTile(
-            title: const CommonText(
+            title: CommonText(
               text: "Point Of Contact",
               style: AppTypography.subtitle2,
             ),
@@ -260,7 +260,7 @@ class ContactInfoEditing extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Residential Details",
               style: AppTypography.subtitle2,
             ),
@@ -388,7 +388,7 @@ class ContactInfoEditing extends StatelessWidget {
                         );
                       }
                     ),
-                    const CommonText(
+           CommonText(
                       text: "Is Permanent Address Same As Present?",
                       style: AppTypography.subtitle2,
                     ),

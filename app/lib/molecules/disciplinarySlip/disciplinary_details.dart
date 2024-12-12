@@ -51,7 +51,7 @@ class DisciplinaryDetails extends StatelessWidget {
             name: name,
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house",
-            subtitle2: "$stream"),
+            subtitle2: "Stream: $stream"),
         SizedBox(
           height: 20.h,
         ),
@@ -60,7 +60,7 @@ class DisciplinaryDetails extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CommonText(
+          CommonText(
                 text: "Disciplinary Slip",
                 style: AppTypography.subtitle1,
               ),
@@ -154,7 +154,7 @@ class DisciplinaryDetails extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  title: const Text(
+                                  title:Text(
                                     "Slip Information",
                                     style: AppTypography.h6,
                                   ),

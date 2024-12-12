@@ -51,16 +51,16 @@ class CommonTicketContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
-              height: 10,
+SizedBox(
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(children: [
-                  SvgPicture.asset(AppImages.ticket),
-                  const SizedBox(
-                    width: 10,
+                  SvgPicture.asset(AppImages.ticket,height: 16.h,),
+              SizedBox(
+                    width: 10.w,
                   ),
                   Text(
                     ticketNo,
@@ -68,19 +68,19 @@ class CommonTicketContainer extends StatelessWidget {
                         color: AppColors.textGray, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
-                    width: 10.h,
+                    width: 10.w,
                   ),
                   Divider(
-                    thickness: 2,
+                    thickness: 2.w,
                     height: 2.h,
                     color: Colors.black54,
                   ),
                   SizedBox(
-                    width: 10.h,
+                    width: 10.w,
                   ),
-                  SvgPicture.asset(statusIcon ?? AppImages.status_open),
-                  const SizedBox(
-                    width: 10,
+                  SvgPicture.asset(statusIcon ?? AppImages.status_open,height: 16.h,),
+       SizedBox(
+                    width: 10.w,
                   ),
                   Text(
                     status ?? "Open",
@@ -107,15 +107,15 @@ class CommonTicketContainer extends StatelessWidget {
               text: title,
               style: AppTypography.subtitle2,
             ),
-            const SizedBox(
-              height: 2,
+         SizedBox(
+              height: 2.h,
             ),
             CommonText(
               text: subtitle,
               style: AppTypography.body2.copyWith(color: AppColors.textGray),
             ),
-            const SizedBox(
-              height: 10,
+     SizedBox(
+              height: 10.h,
             ),
             Container(
                 height: 32.h,
@@ -128,10 +128,11 @@ class CommonTicketContainer extends StatelessWidget {
                           CircleAvatar(
                             child: SvgPicture.asset(
                               AppImages.avatar,
-                              height: 32,
-                              width: 32,
+                              height: 32.h,
+                              width: 32.w,
                             ),
                           ),
+                          SizedBox(width: 5.w,),
                           CommonText(
                             text: name,
                             style: AppTypography.subtitle2
@@ -163,7 +164,7 @@ class CommonTicketContainer extends StatelessWidget {
                                 badgeColor:
                                     Theme.of(context).colorScheme.secondary),
                             badgeContent: Text(communicationCount.toString()),
-                            child: SvgPicture.asset(AppImages.messages),
+                            child: SvgPicture.asset(AppImages.messages,height: 20.h,),
                           )),
                     ]))
           ],

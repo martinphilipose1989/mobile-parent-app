@@ -67,7 +67,7 @@ class SummerCampDetailPageView
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonText(
+                                           CommonText(
                                             text: "Calculated Amount",
                                             style: AppTypography.body2,
                                           ),
