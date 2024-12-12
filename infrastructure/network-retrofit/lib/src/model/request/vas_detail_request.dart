@@ -15,6 +15,7 @@ class VasDetailRequest {
     this.academicYearId,
   });
 
+
   factory VasDetailRequest.fromJson(Map<String, dynamic> json) =>
       VasDetailRequest(
         schoolId: json["school_id"],
