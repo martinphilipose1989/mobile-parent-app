@@ -1008,7 +1008,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id}) async {
     var response =
-        await safeApiCall(financeRetrofitService.getTransactionType(id));
+        await safeApiCall(financeRetrofitService.getTransactionType(id, "app"));
     return response.fold(
       (l) {
         return Left(l);
