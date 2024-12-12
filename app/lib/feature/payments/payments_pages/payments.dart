@@ -11,6 +11,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -138,6 +139,7 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                                 Navigator.pushNamed(
                                     context, RoutePaths.paymentsPage,
                                     arguments: PaymentPageeArguments(
+                                        modules: widget.paymentArguments.module,
                                         finalPaymentModelList:
                                             model.finalPaymentModelList,
                                         selectedPendingFessList:
@@ -179,13 +181,14 @@ class PaymentArguments {
   final String? enquiryNo;
   final String? studentName;
   final String phoneNo;
+  final Modules module;
 
-  PaymentArguments({
-    required this.phoneNo,
-    this.enquiryId,
-    this.enquiryNo,
-    this.studentName,
-  });
+  PaymentArguments(
+      {required this.phoneNo,
+      this.enquiryId,
+      this.enquiryNo,
+      this.studentName,
+      this.module = Modules.finance});
 
   @override
   String toString() {

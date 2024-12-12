@@ -990,6 +990,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
               RoutePaths.payments,
               arguments: PaymentArguments(
                 phoneNo: '',
+                module: Modules.admission,
                 enquiryId: enquiryDetailArgs?.enquiryId,
                 enquiryNo: enquiryDetailArgs?.enquiryNumber,
                 studentName: "${enquiryDetailArgs?.studentName} ",

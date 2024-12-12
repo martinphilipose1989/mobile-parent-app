@@ -12,6 +12,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +118,7 @@ class PaymentsPageState
                   if (value.status == Status.success) {
                     if (stringValue ==
                         'Current Date Cheque / Post Dated Cheque / ...') {
+                      model.modules = widget.paymentPageeArguments.modules;
                       Navigator.pushNamed(context, RoutePaths.chequePayment,
                           arguments: model);
                     }
@@ -159,10 +161,16 @@ class PaymentsPageState
                                   context,
                                   'Payment\nSuccessfull!',
                                   (shouldRoute) {
-                                    Navigator.popUntil(
-                                        context,
-                                        ModalRoute.withName(
-                                            RoutePaths.payments));
+                                    if (widget.paymentPageeArguments.modules ==
+                                        Modules.admission) {
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          RoutePaths.tabbar, (route) => false);
+                                    } else {
+                                      Navigator.popUntil(
+                                          context,
+                                          ModalRoute.withName(
+                                              RoutePaths.payments));
+                                    }
                                   },
                                 );
                               } else {
@@ -281,8 +289,10 @@ class PaymentsPageState
 class PaymentPageeArguments {
   final List<GetPendingFeesPaymentModeModel> finalPaymentModelList;
   final List<GetPendingFeesFeeModel> selectedPendingFessList;
+  final Modules? modules;
 
   PaymentPageeArguments(
       {required this.finalPaymentModelList,
-      required this.selectedPendingFessList});
+      required this.selectedPendingFessList,
+      this.modules});
 }
