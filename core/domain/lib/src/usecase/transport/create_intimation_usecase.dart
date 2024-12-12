@@ -1,24 +1,21 @@
 import '../../../domain.dart';
 import '../base/base_usecase.dart';
 
-class CreateIntimationUsecase
-    extends BaseUseCase<NetworkError, CreateIntimationUseCaseParams, CreateIntimationResponseModel> {
+class CreateIntimationUsecase extends BaseUseCase<NetworkError,
+    CreateIntimationUseCaseParams, CreateIntimationResponseModel> {
   final TransportRepository transportRepository;
 
   CreateIntimationUsecase({required this.transportRepository});
 
   @override
-  Future<Either<NetworkError, CreateIntimationResponseModel>> execute({required CreateIntimationUseCaseParams params}) {
-    print("object");
-    return transportRepository.createIntimation(createIntimationUseCase: params);
-
+  Future<Either<NetworkError, CreateIntimationResponseModel>> execute(
+      {required CreateIntimationUseCaseParams params}) {
+    return transportRepository.createIntimation(
+        createIntimationUseCase: params);
   }
-
-
-
 }
 
-class CreateIntimationUseCaseParams extends Params{
+class CreateIntimationUseCaseParams extends Params {
   int? globalUserId;
   int? globalStudentId;
   String? fromDate;
@@ -44,8 +41,6 @@ class CreateIntimationUseCaseParams extends Params{
 
   @override
   Either<AppError, bool> verify() {
-  return right(true);
+    return right(true);
   }
-
-
 }

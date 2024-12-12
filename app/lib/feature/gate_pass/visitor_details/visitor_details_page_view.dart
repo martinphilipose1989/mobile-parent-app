@@ -38,7 +38,6 @@ class VisitorDetailsPageView
         initialData: Resource.none(),
         onData: (data) {},
         dataBuilder: (context, snapShotData) {
-          log("message ${snapShotData?.data}");
           return DataStatusWidget(
               status: snapShotData?.status ?? Status.none,
               loadingWidget: () => const VisitorDetailsPageShimmer(),

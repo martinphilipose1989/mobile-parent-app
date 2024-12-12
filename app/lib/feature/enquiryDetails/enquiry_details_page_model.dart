@@ -852,8 +852,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                 '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
             await file.writeAsBytes(result.data ?? Uint8List(0));
-            log('$fullPath/$fileName');
-            log("File Downloaded");
             isLoading.value = false;
             OpenFilex.open(file.path);
             ScaffoldMessenger.of(context!).showSnackBar(
@@ -862,7 +860,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                       Text('File downloaded successfully at: ${file.path}')),
             );
           } catch (e) {
-            log(e.toString());
             isLoading.value = false;
             ScaffoldMessenger.of(context!).showSnackBar(
               SnackBar(content: Text('Error: $e')),

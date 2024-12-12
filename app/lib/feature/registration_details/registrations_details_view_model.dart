@@ -1170,7 +1170,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   BehaviorSubject<String> siblingGrades = BehaviorSubject.seeded('');
 
   Future<void> getSiblingDetails({required String enrollmentNumber}) async {
-    log("enrollmentNumber $enrollmentNumber");
     GetSiblingDetailRequest request = GetSiblingDetailRequest(
       enrollmentNumber: enrollmentNumber,
     );
@@ -1215,9 +1214,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             )));
           }
         },
-        onDone: () {
-          log("ONDONE");
-        },
+        onDone: () {},
       );
     }).execute();
   }
@@ -1946,7 +1943,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             final fileName =
                 '${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
             final file = File('$fullPath/$fileName');
-            log("File Path: ${file.path}");
             await file.writeAsBytes(result.data ?? Uint8List(0));
             isLoading.value = false;
             OpenFilex.open(file.path);
@@ -1957,7 +1953,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
             );
           } catch (e) {
             isLoading.value = false;
-            log(e.toString());
             ScaffoldMessenger.of(context!).showSnackBar(
               SnackBar(content: Text('Error: $e')),
             );
@@ -2264,6 +2259,8 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   final CommonRadioButton<String> radioButtonKidsClub =
       CommonRadioButton<String>(null);
   final CommonRadioButton<String> radioButtonPsa =
+      CommonRadioButton<String>(null);
+  final CommonRadioButton<String> radioButtonSummerCamp =
       CommonRadioButton<String>(null);
 
   addParentDetails(ParentInfo parentDetails) {
@@ -3473,7 +3470,6 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
   Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
       moveStageSubject.stream;
   void moveToNextStage({String from = "payment"}) {
-    log("message ${enquiryDetails?.currentStage}");
     moveStageSubject.add(Resource.loading());
     MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
       enquiryId: "${enquiryDetailArgs?.enquiryId}",
@@ -3515,6 +3511,7 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           final optCafeteria = data.data?.data?.optedForCafeteria;
           final optKidsClub = data.data?.data?.optedForKidsClub;
           final optPsa = data.data?.data?.optedForPsa;
+          final optSummerCamp = data.data?.data?.optedForSummerCamp;
 
           if (optTransport != null) {
             radioButtonTransport.selectItem(optTransport ? 'Yes' : 'No');
@@ -3527,6 +3524,9 @@ class RegistrationsDetailsViewModel extends BasePageViewModel {
           }
           if (optPsa != null) {
             radioButtonPsa.selectItem(optPsa ? 'Yes' : 'No');
+          }
+          if (optSummerCamp != null) {
+            radioButtonSummerCamp.selectItem(optSummerCamp ? 'Yes' : 'No');
           }
         } else if (data.status == Status.error) {
           admissionVasDetailsResponse

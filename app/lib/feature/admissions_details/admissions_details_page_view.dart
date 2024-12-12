@@ -33,7 +33,6 @@ class AdmissionsDetailsPageView
   actionOnMenu(
       String key, BuildContext context, AdmissionsDetailsViewModel model) {
     setEnquiryDetailsArgs(model);
-    log("KEY $key");
     switch (key) {
       case 'schooltour':
         model.showMenuOnFloatingButton.add(false);
@@ -42,7 +41,6 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.detailsViewSchoolTourPage,
                     arguments: admissionDetail)
                 .then((value) {
-                log("detailsViewSchoolTourPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
                 model.getAdmissionJourney(
@@ -54,7 +52,6 @@ class AdmissionsDetailsPageView
                 'enquiryDetailArgs': admissionDetail,
               }).then(
                 (value) {
-                  log("scheduleSchoolTourPage");
                   model.getEnquiryDetail(
                       enquiryID: admissionDetail.enquiryId ?? '');
                   model.getAdmissionJourney(
@@ -81,7 +78,6 @@ class AdmissionsDetailsPageView
                 .pushNamed(RoutePaths.competencyTestDetailPage,
                     arguments: admissionDetail)
                 .then((value) {
-                log("competencyTestDetailPage");
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
                 model.getAdmissionJourney(
@@ -92,8 +88,6 @@ class AdmissionsDetailsPageView
                 arguments: {
                     'enquiryDetailArgs': admissionDetail
                   }).then((value) {
-                log("scheduleCompetencyTest");
-
                 model.getEnquiryDetail(
                     enquiryID: admissionDetail.enquiryId ?? '');
                 model.getAdmissionJourney(
@@ -106,15 +100,12 @@ class AdmissionsDetailsPageView
             .pushNamed(RoutePaths.enquiriesTimelinePage,
                 arguments: admissionDetail)
             .then((_) {
-          log("enquiriesTimelinePage");
-
           model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
           model.getAdmissionJourney(
               enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
         });
       case 'registration':
         model.showMenuOnFloatingButton.add(false);
-        log("registrationDetails");
         setEnquiryDetailsArgs(model);
 
         return Navigator.of(context)
@@ -136,7 +127,6 @@ class AdmissionsDetailsPageView
 
   @override
   Widget build(BuildContext context, AdmissionsDetailsViewModel model) {
-    log("model.enquiryDetails.value.enquiryType ${model.enquiryDetailArgs.enquiryType}");
     return Stack(
       children: [
         SingleChildScrollView(
@@ -412,10 +402,6 @@ class AdmissionsDetailsPageView
   }
 
   void setEnquiryDetailsArgs(AdmissionsDetailsViewModel model) {
-    log("admissionDetail.brandId ${model.enquiryDetails.value.brandId}");
-    log("admissionDetail.brandName ${model.enquiryDetails.value.brandName}");
-    log("admissionDetail.streamId ${model.enquiryDetails.value.streamId}");
-    log("admissionDetail.shiftId ${model.enquiryDetails.value.shiftId}");
     admissionDetail.brandId = model.enquiryDetails.value.brandId;
     admissionDetail.brandName = model.enquiryDetails.value.brandName;
     admissionDetail.schoolId = model.enquiryDetails.value.schoolId;

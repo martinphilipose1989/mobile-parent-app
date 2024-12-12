@@ -66,13 +66,6 @@ class RegistrationsDetailsPageView
               );
       case 1:
         model.showMenuOnFloatingButton.add(false);
-        log("message ${PaymentArguments(
-          phoneNo: model.enquiryDetails?.parentMobile ?? '',
-          enquiryId: enquiryDetailArgs?.enquiryId,
-          enquiryNo: enquiryDetailArgs?.enquiryNumber,
-          studentName:
-              "${model.enquiryDetails?.studentFirstName} ${model.enquiryDetails?.studentLastName}",
-        )}");
         model.makePaymentRequest("${model.enquiryDetailArgs?.enquiryId}");
       case 2:
         model.showMenuOnFloatingButton.add(false);
@@ -536,12 +529,7 @@ class RegistrationsDetailsPageView
       case 7:
         return const VASDetails();
       default:
-        return AppStreamBuilder<Resource<EnquiryDetailBase>>(
-            stream: model.enquiryDetail,
-            initialData: Resource.none(),
-            dataBuilder: (context, result) {
-              return model.showPopUP(context);
-            });
+        return const SizedBox();
     }
   }
 

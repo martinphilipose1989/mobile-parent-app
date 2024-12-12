@@ -301,9 +301,10 @@ abstract class RetrofitService {
   // TRANSPORT
   @POST('/api/fc-fees-masters/transport-details')
   Future<HttpResponse<TransportEnrollmentResponseEntity>>
-      getTransportEnrollmentDetail(
-          {@Header("Authorization") required String token,
-          @Body() required VasDetailRequest transportEnrollmentDetail});
+      getTransportEnrollmentDetail({
+    @Header("Authorization") required String token,
+    @Body() VasDetailRequest? transportEnrollmentDetail,
+  });
 
   // RBAC
   @POST('/api/rbac-role-permissions/role-permissions-for-external')

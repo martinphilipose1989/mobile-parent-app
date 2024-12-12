@@ -65,6 +65,7 @@ class PermissionHandlerService {
     }
     return true;
   }
+
   Future<bool> requestLocationPermission(
       Function(bool value) onPermanentlyClosedCall) async {
     PermissionStatus status = await Permission.location.request();
@@ -73,8 +74,7 @@ class PermissionHandlerService {
       onPermanentlyClosedCall.call(true);
     } else {
       Position position = await getUserLocation();
-      log("LOCATION ${position.latitude}");
-      log("LOCATION ${position.longitude}");
+
       return true;
     }
     return false;
@@ -90,6 +90,7 @@ class PermissionHandlerService {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
+
   Stream<Position> liveLocation() {
     const LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,

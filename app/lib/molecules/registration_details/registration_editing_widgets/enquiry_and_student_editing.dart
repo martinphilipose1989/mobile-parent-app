@@ -172,7 +172,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                         controller: model.dobController,
                         onDateSelected: (newDate) {
                           model.studentDob = newDate;
-                          print("###Changed Date: ${model.studentDob}");
+                          debugPrint("###Changed Date: ${model.studentDob}");
                         },
                       ),
                       const SizedBox(

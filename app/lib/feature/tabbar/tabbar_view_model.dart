@@ -19,13 +19,11 @@ class TabbarViewModel extends BasePageViewModel {
   Stream<int> get indexSteam => indexSubject.stream;
 
   void onItemTapped(int index) {
-    log("onItemTapped $index");
     tabController.index = index;
     indexSubject.add(index);
   }
 
   String getPageName(int value) {
-    print(value);
     switch (value) {
       case 0:
         return 'Dashboard';

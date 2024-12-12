@@ -255,11 +255,6 @@ class NetworkAdapter implements NetworkPort {
     return response.fold((l) {
       return Left(l);
     }, (r) {
-      var data = r.data.data?.schoolLocation?.value ?? '';
-      var transformData = r.data.transform();
-      print("School Location: $data");
-      print(
-          "Transformed School Location: ${transformData.data?.schoolLocation?.value}");
       return Right(r.data.transform());
     });
   }
@@ -831,8 +826,6 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail(
       {required GetSiblingDetailRequest getSiblingDetailRequest}) async {
-    log(getSiblingDetailRequest.enrollmentNumber.toString(),
-        name: "GET SIBLING DETAIL");
     var response = await safeApiCall(adminRetorfitService.getSiblingDetail(
         getSiblingDetailRequest: getSiblingDetailRequest));
     return response.fold((l) {
@@ -948,8 +941,9 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, TransportEnrollmentResponseModel>>
       getTransportEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
-    var response = await safeApiCall(apiService.getTransportEnrollmentDetail(
-        transportEnrollmentDetail: vasDetailRequest, token: mdmToken));
+    // transportEnrollmentDetail: vasDetailRequest,
+    var response = await safeApiCall(
+        apiService.getTransportEnrollmentDetail(token: mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1003,8 +997,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, FetchStopResponseModel>> fetchStops(
       {required FetchStopRequest fetchStopRequest}) async {
-    var response = await safeApiCall(
-        transportService.fetchStops(fetchStopRequest: fetchStopRequest));
+    var response = await safeApiCall(transportService.fetchStops(
+        fetchStopRequest: fetchStopRequest, platform: 'app'));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1014,7 +1008,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetTransactionTypeModel>> getTransactionType(
       {required int id}) async {
     var response =
-        await safeApiCall(financeRetrofitService.getTransactionType(id));
+        await safeApiCall(financeRetrofitService.getTransactionType(id, "app"));
     return response.fold(
       (l) {
         return Left(l);
