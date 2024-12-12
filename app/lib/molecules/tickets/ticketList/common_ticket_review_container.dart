@@ -62,9 +62,9 @@ class CommonTicketReviewContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(children: [
-                        SvgPicture.asset(AppImages.ticket),
-                        const SizedBox(
-                          width: 10,
+                        SvgPicture.asset(AppImages.ticket,height: 16.h,),
+                SizedBox(
+                          width: 10.w,
                         ),
                         Text(
                           ticketNo,
@@ -73,7 +73,7 @@ class CommonTicketReviewContainer extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                         SizedBox(
-                          width: 10.h,
+                          width: 10.w,
                         ),
                         Divider(
                           thickness: 2,
@@ -81,9 +81,9 @@ class CommonTicketReviewContainer extends StatelessWidget {
                           color: AppColors.divider,
                         ),
                         SizedBox(
-                          width: 10.h,
+                          width: 10.w,
                         ),
-                        SvgPicture.asset(AppImages.status_open),
+                        SvgPicture.asset(AppImages.status_open,height: 16.h,),
                         const SizedBox(
                           width: 10,
                         ),
@@ -122,8 +122,8 @@ class CommonTicketReviewContainer extends StatelessWidget {
                     style:
                         AppTypography.body2.copyWith(color: AppColors.textGray),
                   ),
-                  const SizedBox(
-                    height: 10,
+       SizedBox(
+                    height: 10.h,
                   ),
                   Container(
                       height: 32.h,
@@ -139,6 +139,9 @@ class CommonTicketReviewContainer extends StatelessWidget {
                                     height: 32,
                                     width: 32,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 5.w,
                                 ),
                                 CommonText(
                                   text: name,
@@ -174,7 +177,7 @@ class CommonTicketReviewContainer extends StatelessWidget {
                                           .secondary),
                                   badgeContent:
                                       Text(communicationCount.toString()),
-                                  child: SvgPicture.asset(AppImages.messages),
+                                  child: SvgPicture.asset(AppImages.messages,height: 20.h,),
                                 )),
                           ])),
                   const Divider(

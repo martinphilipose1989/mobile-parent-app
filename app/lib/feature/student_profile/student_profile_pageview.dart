@@ -107,7 +107,7 @@ class StudentProfilePageView
                     SizedBox(height: 16.h),
                     Column(
                       children: [
-                        const CommonText(
+                CommonText(
                             text: "Bearers", style: AppTypography.subtitle2),
                         SizedBox(height: 16.h),
 

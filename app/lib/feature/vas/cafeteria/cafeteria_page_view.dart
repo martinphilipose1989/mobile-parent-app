@@ -65,7 +65,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonText(
+                                          CommonText(
                                             text: "Calculated Amount",
                                             style: AppTypography.body2,
                                           ),
@@ -78,15 +78,17 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                       ),
                                     ),
                                   );
-                                }),
-                            SizedBox(
-                              height: 16.h,
-                            ),
-                            const CommonText(
-                              text: "Opt For",
-                              style: AppTypography.subtitle2,
-                            ),
-                            SizedBox(height: 10.h),
+                                }
+                              ),
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                           CommonText(
+                                text: "Opt For",
+                                style: AppTypography.subtitle2,
+                              ),
+                              SizedBox(
+                                height: 10.h),
                             Column(
                               children: List.generate(
                                 model.feeCategoryType.length,
@@ -98,22 +100,22 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                     title: model.feeCategoryType[index],
                                     onOptionSelected: (value) {
                                       model.setCategoryType(value!);
-                                    },
-                                  );
-                                },
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            const CommonText(
-                              text: "Period Of Service",
-                              style: AppTypography.subtitle2,
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            AppStreamBuilder<List<String>>(
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                     CommonText(
+                                text: "Period Of Service",
+                                style: AppTypography.subtitle2,
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              AppStreamBuilder<List<String>>(
                                 stream: model.periodOfService,
                                 initialData: const <String>[],
                                 dataBuilder: (context, snapshot) {

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/no_data_found_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,7 @@ class CloseTicketListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return list.isEmpty
-        ? const Center(
-            child: CommonText(text: 'No Closed tickets available'),
-          )
+        ?NoDataFoundWidget(title: 'No Closed tickets Available')
         : ListView.builder(
             shrinkWrap: true,
             itemCount: list.length,

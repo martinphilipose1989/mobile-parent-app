@@ -21,7 +21,7 @@ class MedicalDetailsEditing extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonText(
+         CommonText(
             text: "Medical Information",
             style: AppTypography.subtitle1,
           ),
@@ -32,7 +32,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             color: AppColors.textPaleGray,
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          const CommonText(
+      CommonText(
             text: "Has the child ever been hospitalized?",
             style: AppTypography.subtitle1,
           ),
@@ -104,7 +104,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             },
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const CommonText(
+     CommonText(
             text: "Physical Disabilities",
             style: AppTypography.subtitle1,
           ),
@@ -139,7 +139,7 @@ class MedicalDetailsEditing extends StatelessWidget {
           ),
           
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const CommonText(
+   CommonText(
             text: "Medical History",
             style: AppTypography.subtitle1,
           ),
@@ -173,7 +173,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             },
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const CommonText(
+CommonText(
             text: "Allergies",
             style: AppTypography.subtitle1,
           ),
@@ -232,7 +232,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             }
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const CommonText(
+      CommonText(
             text: "Personalised Learning Needs",
             style: AppTypography.subtitle1,
           ),

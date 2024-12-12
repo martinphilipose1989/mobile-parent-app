@@ -27,7 +27,7 @@ class BankDetailsEditing extends StatelessWidget {
                 width: 1,
               )),
           child: ExpansionTile(
-              title: const CommonText(
+              title: CommonText(
                 text: "Bank Info",
                 style: AppTypography.subtitle2,
               ),
@@ -102,7 +102,7 @@ class BankDetailsEditing extends StatelessWidget {
           thickness: 1,
         ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        const CommonText(
+    CommonText(
           text: "UPI Info",
           style: AppTypography.subtitle1,
         ),
@@ -117,12 +117,12 @@ class BankDetailsEditing extends StatelessWidget {
                    ),
          ),
         CommonSizedBox.sizedBox(height: 10, width: 10),
-        const CommonText(
+    CommonText(
           text: "UnderTaking",
           style: AppTypography.subtitle1,
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
-        const CommonText(
+ CommonText(
           softWrap: true,
           text:
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.",

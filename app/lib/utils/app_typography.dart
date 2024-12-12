@@ -1,102 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTypography {
   // Define text styles
-  static const TextStyle h1 = TextStyle(
+  static  TextStyle h1 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w300, // Light
-    fontSize: 96,
+    fontSize: 96.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle h2 = TextStyle(
+  static  TextStyle h2 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w300, // Light
-    fontSize: 60,
+    fontSize: 60.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle h3 = TextStyle(
+  static  TextStyle h3 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 48,
+    fontSize: 48.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle h4 = TextStyle(
+  static  TextStyle h4 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 34,
+    fontSize: 34.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle h5 = TextStyle(
+  static TextStyle h5 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 24,
+    fontSize: 24.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle h6 = TextStyle(
+  static TextStyle h6 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w500, // Medium
-    fontSize: 20,
+    fontSize: 20.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle subtitle1 = TextStyle(
+  static  TextStyle subtitle1 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 16,
+    fontSize: 16.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle subtitle2 = TextStyle(
+  static TextStyle subtitle2 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w500, // Medium
-    fontSize: 14,
+    fontSize: 14.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle body1 = TextStyle(
+  static  TextStyle body1 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 16,
+    fontSize: 16.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle body2 = TextStyle(
+  static TextStyle body2 = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 14,
+    fontSize: 14.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle button = TextStyle(
+  static  TextStyle button = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w500, // Medium
-    fontSize: 14,
+    fontSize: 14.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle caption = TextStyle(
+  static  TextStyle caption = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 12,
+    fontSize: 12.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle smallCaption = TextStyle(
+  static  TextStyle smallCaption = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.w400, // Regular
-    fontSize: 10,
+    fontSize: 10.sp,
     textBaseline: TextBaseline.alphabetic,
   );
 
-  static const TextStyle overline = TextStyle(
+  static  TextStyle overline = TextStyle(
     fontFamily: 'Graphik',
     fontWeight: FontWeight.normal, // Regular
-    fontSize: 10,
+    fontSize: 10.sp,
     textBaseline: TextBaseline.alphabetic,
     letterSpacing: 1.5,
   );

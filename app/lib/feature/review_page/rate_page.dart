@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../base/app_base_page.dart';
+import '../../utils/app_typography.dart';
 
 class RatePage extends BasePage<RatePageModel> {
   final String id;
@@ -51,13 +52,13 @@ class RatePageState extends AppBasePageState<RatePageModel, RatePage> {
   Widget? buildBottomNavigationBar(RatePageModel model) {
     // TODO: implement buildBottomNavigationBar
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: CommonElevatedButton(
         onPressed: () {
           model.sendCommunication(widget.id);
         },
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        text: "Submit",
+        text: "Submit",textStyle:AppTypography.subtitle2.copyWith(color: Colors.black),
         textColor: Colors.black,
       ),
     );

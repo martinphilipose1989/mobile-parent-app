@@ -25,7 +25,7 @@ this.subtitle2});
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 90.h,
+
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: AppColors.listItem,

@@ -22,7 +22,7 @@ class ContactDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title: CommonText(
               text: "Emergency Contact",
               style: AppTypography.subtitle2,
             ),
@@ -50,7 +50,7 @@ class ContactDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Point Of Contact",
               style: AppTypography.subtitle2,
             ),
@@ -68,7 +68,7 @@ class ContactDetail extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            const CommonText(
+                 CommonText(
                               text: 'Preference 1',
                               style: AppTypography.body2,
                             ),
@@ -94,7 +94,7 @@ class ContactDetail extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            const CommonText(
+                   CommonText(
                               text: 'Preference 2',
                               style: AppTypography.body2,
                             ),
@@ -138,7 +138,7 @@ class ContactDetail extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: "Residential Details",
               style: AppTypography.subtitle2,
             ),

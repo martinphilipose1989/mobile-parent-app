@@ -1,5 +1,6 @@
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,8 +59,8 @@ class DisciplinarySlipList extends StatelessWidget {
                         },
                         itemCount: data!.data!.data.data.length,
                       )
-                    : const Center(
-                        child: CommonText(text: "No data Available"));
+                 
+                : NoDataFoundWidget(title: "No Slip Available",);
           },
         );
       },

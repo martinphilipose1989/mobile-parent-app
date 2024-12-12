@@ -45,7 +45,7 @@ insetPadding: EdgeInsets.zero,
                       Row(mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                       const   CommonText(
+                      CommonText(
                               text: "Bus Personnel", style: AppTypography.h6),
                           IconButton(
                             onPressed: () {

@@ -31,7 +31,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: 'Enquiry Details',
               style: AppTypography.subtitle2,
             ),
@@ -76,7 +76,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title: const CommonText(
+            title:  CommonText(
               text: 'Student Details',
               style: AppTypography.subtitle2,
             ),

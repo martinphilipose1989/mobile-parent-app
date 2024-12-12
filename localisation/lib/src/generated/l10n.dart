@@ -53,7 +53,7 @@ class Strings {
   /// `MyAppName`
   String get appName {
     return Intl.message(
-      'Hubblehox - Finance',
+      'Hubble Orion',
       name: 'appName',
       desc: '',
       args: [],

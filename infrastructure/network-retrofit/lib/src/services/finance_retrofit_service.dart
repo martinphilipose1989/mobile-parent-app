@@ -49,7 +49,7 @@ abstract class FinanceRetrofitService {
   Future<HttpResponse<GetPendingFeesEntity>> getPendingFees(
       @Body() GetPendingFeesRequest getPendingFeesRequest);
 
-  @POST('/finance/transactions/brand_codes/mobile/list')
+  @POST('/finance/transactions/brand_codes/mobile/list?platform=app')
   Future<HttpResponse<SchoolNamesEntity>> getSchoolNames(
       @Body() SchoolNamesRequest schoolNamesRequest);
 

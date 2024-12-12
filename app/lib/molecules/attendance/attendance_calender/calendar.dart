@@ -1,9 +1,11 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/attendance/attendance_calender/attendance_calender_view_model.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -126,16 +128,16 @@ class _Body extends StatelessWidget {
 
     return Column(
       children: [
-        const Row(
+      Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('M'),
-            Text('T'),
-            Text('W'),
-            Text('T'),
-            Text('F'),
-            Text('S'),
-            Text('S'),
+            Text('M',style: TextStyle(fontSize: 10.sp),),
+            Text('T',style: TextStyle(fontSize: 10.sp)),
+            Text('W',style: TextStyle(fontSize: 10.sp)),
+            Text('T',style: TextStyle(fontSize: 10.sp)),
+            Text('F',style: TextStyle(fontSize: 10.sp)),
+            Text('S',style: TextStyle(fontSize: 10.sp)),
+            Text('S',style: TextStyle(fontSize: 10.sp)),
           ],
         ),
         const SizedBox(height: 10),
@@ -190,7 +192,7 @@ class _RowItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         alignment: Alignment.center,
-        height: 35,
+        height: 35.h,
         decoration: isSelected
             ? BoxDecoration(
                 color: Theme.of(context).primaryColor, shape: BoxShape.circle)
@@ -206,7 +208,7 @@ class _RowItem extends StatelessWidget {
         child: Text(
           number.toString(),
           style: TextStyle(
-              fontSize: 14,
+              fontSize: 10.sp,
               color: isPassed
                   ? isActiveMonth
                       ? Colors.grey
@@ -239,26 +241,28 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonText(text: "Select date"),
+          SizedBox(height: 10.h,),
+       CommonText(text: "Select Date",style: AppTypography.subtitle2.copyWith(fontSize: 8.sp),),
           Row(
             children: [
               Expanded(
                 child: Text(
                   '${intToDay(selectedDate!.weekday)} ${intToMonth(selectedMonth.month)} ${selectedDate!.day}',
                   textAlign: TextAlign.left,
+                  style: AppTypography.subtitle2,
                 ),
               ),
               IconButton(
                 onPressed: () {
                   onChange(selectedMonth.addMonth(-1));
                 },
-                icon: const Icon(Icons.arrow_left_sharp),
+                icon:  Icon(Icons.arrow_left_sharp,size: 26.h,),
               ),
               IconButton(
                 onPressed: () {
                   onChange(selectedMonth.addMonth(1));
                 },
-                icon: const Icon(Icons.arrow_right_sharp),
+                icon:  Icon(Icons.arrow_right_sharp,size: 26.h,),
               ),
             ],
           ),

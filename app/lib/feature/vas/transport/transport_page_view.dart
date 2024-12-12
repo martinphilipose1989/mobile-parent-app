@@ -69,15 +69,12 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                 offset: const Offset(0, 2)),
                                           ],
                                         ),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16.w, vertical: 12.h),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const CommonText(
-                                              text: "Calculated Amount",
-                                              style: AppTypography.body2,
+
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                           CommonText(text: "Calculated Amount",style: AppTypography.body2,
                                             ),
                                             CommonText(
                                               text: model.fee.value,
@@ -89,12 +86,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                       ),
                                     );
                                   }),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              const CommonText(
-                                text: "Select Bus Type",
-                                style: AppTypography.subtitle2,
+                          SizedBox(height: 16.h,),
+                CommonText(text: "Select Bus Type",style: AppTypography.subtitle2,
                               ),
                               SizedBox(
                                 height: 10.h,
@@ -268,11 +261,12 @@ class SelectServiceType extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CommonText(
-                  text: "Select The Service Type",
-                  style: AppTypography.subtitle2,
-                ),
-                SizedBox(height: 10.h),
+              CommonText(
+                            text: "Select The Service Type",
+                            style: AppTypography.subtitle2,
+                          ),
+                          SizedBox(
+                            height: 10.h),
                 AppStreamBuilder(
                   stream: model.serviceType,
                   initialData: const <String>[],
@@ -318,11 +312,12 @@ class ChooseOneWayToRoute extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15.h),
-                      const CommonText(
-                        text: "Choose One Way Route",
-                        style: AppTypography.subtitle2,
-                      ),
-                      SizedBox(height: 10.h),
+                   CommonText(
+                                    text: "Choose One Way Route",
+                                    style: AppTypography.subtitle2,
+                                  ),
+                                  SizedBox(
+                                    height: 10.h),
                       Column(
                         children: List.generate(
                           model.onWayRouteType.length,

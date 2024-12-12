@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.app">
+    package="com.hubblehox.hubbleorion">
     <uses-permission android:name="android.permission.INTERNET"/>
      <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -22,7 +22,7 @@
     </queries>
    
    <application
-        android:label="Hubblehox - Parent App"
+        android:label="Hubble Orion"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true">
         <activity

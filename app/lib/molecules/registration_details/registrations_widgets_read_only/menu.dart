@@ -31,7 +31,7 @@ class Menu extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CommonText(
+           CommonText(
             text: 'Apply Action',
             style: AppTypography.subtitle2,
           ),

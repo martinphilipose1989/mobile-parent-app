@@ -10,6 +10,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class RatePageView extends BasePageViewWidget<RatePageModel> {
@@ -44,7 +45,7 @@ class RatePageView extends BasePageViewWidget<RatePageModel> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SvgPicture.asset(
+                          SvgPicture.asset(width: MediaQuery.of(context).size.width,
                             data! == 0
                                 ? AppImages.rate1
                                 : data == 1
@@ -60,7 +61,9 @@ class RatePageView extends BasePageViewWidget<RatePageModel> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment:   ResponsiveBreakpoints.of(context).isMobile
+                                  ? MainAxisAlignment.spaceBetween
+                                  : MainAxisAlignment.spaceAround,
                               children: [
                                 InkWell(
                                   onTap: () => model.updateRatingValue(0),
