@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/webview/webview_pageview.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
 
@@ -24,9 +25,9 @@ class WebviewPage extends BasePage<WebviewModel> {
 class _WebviewPageState extends AppBasePageState<WebviewModel, WebviewPage> {
   @override
   void onModelReady(WebviewModel model) {
-    log("URL ${widget.webviewArguments.paymentsLink}");
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.webViewUrl = widget.webviewArguments.paymentsLink;
+    model.enquiryDetailArgs = widget.webviewArguments.enquiryDetailArgs;
     if (mounted && widget.webviewArguments.module == null) {
       model.timer = Timer.periodic(
         Duration(seconds: model.timerSeconds),
@@ -56,6 +57,11 @@ class WebviewArguments {
   final String paymentsLink;
   final String? orderId;
   final Modules? module;
+  final EnquiryDetailArgs? enquiryDetailArgs;
 
-  WebviewArguments({required this.paymentsLink, this.orderId, this.module});
+  WebviewArguments(
+      {required this.paymentsLink,
+      this.orderId,
+      this.module,
+      this.enquiryDetailArgs});
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app/dependencies.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
@@ -108,22 +109,13 @@ class AdmissionsDetailsPageView
       case 'registration':
         model.showMenuOnFloatingButton.add(false);
         setEnquiryDetailsArgs(model);
+        final String frontEndUrl =
+            getIt.get<String>(instanceName: "FrontEndUrl");
         return Navigator.pushNamed(context, RoutePaths.webview,
             arguments: WebviewArguments(
                 paymentsLink:
-                    "https://frontend-marketing-r26sp3mibq-uc.a.run.app/enquiries/registration/${admissionDetail.enquiryId}/?platform=mobile&authToken=${model.userSubject.value.token}",
+                    "$frontEndUrl${admissionDetail.enquiryId}/?platform=mobile&authToken=${model.userSubject.value.token}",
                 module: Modules.admission));
-      // return Navigator.of(context)
-      //     .pushNamed(RoutePaths.registrationDetails, arguments: {
-      //   "routeFrom": "admission",
-      //   "enquiryDetailArgs": admissionDetail,
-      //   "enquiryDetail": model.enquiryDetails.value,
-      //   "editRegistrationDetails": true
-      // }).then((_) {
-      //   model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
-      //   model.getAdmissionJourney(
-      //       enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
-      // });
 
       default:
         return null;

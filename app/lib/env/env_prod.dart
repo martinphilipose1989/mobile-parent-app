@@ -60,4 +60,7 @@ abstract class EnvProd {
 
   @EnviedField(varName: 'MARKETING_BASE_URL')
   static const String marketingBaseUrl = _EnvProd.marketingBaseUrl;
+
+  @EnviedField(varName: 'FRONTEND_URL')
+  static const String frontEndUrl = _EnvProd.frontEndUrl;
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -16,6 +17,8 @@ class WebviewModel extends BasePageViewModel {
   late String webViewUrl;
   late Timer timer;
   int timerSeconds = 10;
+
+  EnquiryDetailArgs? enquiryDetailArgs;
 
   InAppWebViewController? webViewController;
 

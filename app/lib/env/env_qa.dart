@@ -60,4 +60,7 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'MARKETING_BASE_URL')
   static const String marketingBaseUrl = _EnvQA.marketingBaseUrl;
+
+  @EnviedField(varName: 'FRONTEND_URL')
+  static const String frontEndUrl = _EnvQA.frontEndUrl;
 }
