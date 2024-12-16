@@ -57,6 +57,7 @@ class PaymentsPageModel extends BasePageViewModel {
   int? couponShowMore;
   // FOR REDIRECTION AFTER PAYMENT SUCCESS
   Modules? modules;
+  String? dynamicPaymentType;
 
   final List<String> feesType = [
     'Registration Fees',
@@ -160,7 +161,10 @@ class PaymentsPageModel extends BasePageViewModel {
               orders: Orders(
                   amount: int.parse(amount.text),
                   currency: "INR",
-                  paymentGateway: "razorpay",
+                  paymentGateway:
+                      dynamicPaymentType?.toLowerCase() == "grayquest"
+                          ? "grayQuest"
+                          : dynamicPaymentType?.toLowerCase(),
                   receipt: "RCPT#123",
                   lobId: selectedFees.value[0].lobSegmentId,
                   transactionTypeId: 1,
@@ -191,7 +195,6 @@ class PaymentsPageModel extends BasePageViewModel {
                       customerName: userSubject.value.data?.userName,
                       customerContact: userSubject.value.data?.phoneNumber),
                   device: null)));
-
       RequestManager<GetPaymentOrderResponseModel>(
         params,
         createCall: () => _getPaymentOrderUsecase.execute(params: params),

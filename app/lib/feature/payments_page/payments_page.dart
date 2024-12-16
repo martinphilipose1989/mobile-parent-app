@@ -3,6 +3,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/webview/webview_page.dart';
+import 'package:app/flavors/flavor_config.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -55,6 +56,7 @@ class PaymentsPageState
         .value
         .toString();
     model.finalAmount.value = model.amount.text;
+    model.getUserDetails();
   }
 
   @override
@@ -141,8 +143,12 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
-                                      paymentsLink:
-                                          value.data?.data?.paymentLink ?? '',
+                                      paymentsLink: model.dynamicPaymentType ==
+                                                  "Billdesk" ||
+                                              model.dynamicPaymentType ==
+                                                  "GrayQuest"
+                                          ? "${FlavorConfig.instance.values.financeBaseUrl}/finance/${value.data?.data?.paymentLink}"
+                                          : value.data?.data?.paymentLink ?? '',
                                       orderId:
                                           value.data?.data?.order?.id ?? ''))
                               .then(
@@ -229,6 +235,11 @@ class PaymentsPageState
                                                     .setProviderIdAndServiceProvider(
                                                         stringValue ?? '');
                                                 break;
+                                              case 'Billdesk':
+                                                model
+                                                    .setProviderIdAndServiceProvider(
+                                                        stringValue ?? '');
+                                                break;
                                               default:
                                             }
                                             if (stringValue ==
@@ -236,6 +247,8 @@ class PaymentsPageState
                                               model.getValidateOnPay(
                                                   model.selectedPaymentMode);
                                             } else {
+                                              model.dynamicPaymentType =
+                                                  stringValue;
                                               model.getPaymentOrder(
                                                   model.selectedPaymentMode,
                                                   model.serviceProviderId);

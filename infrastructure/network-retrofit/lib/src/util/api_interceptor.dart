@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -30,7 +29,6 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
         options.headers.putIfAbsent("Authorization", () => "Bearer $token");
       }
     }
-
     return handler.next(options);
   }
 
@@ -38,5 +36,12 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
   Future onResponse(
       Response response, ResponseInterceptorHandler handler) async {
     handler.next(response);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    // TODO: implement onError
+    super.onError(err, handler);
+    // logoutOnTokenExpiry.add(true);
   }
 }

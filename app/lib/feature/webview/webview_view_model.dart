@@ -4,6 +4,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -15,6 +16,8 @@ class WebviewModel extends BasePageViewModel {
   late String webViewUrl;
   late Timer timer;
   int timerSeconds = 10;
+
+  InAppWebViewController? webViewController;
 
   // Calling students list
 
@@ -38,5 +41,11 @@ class WebviewModel extends BasePageViewModel {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

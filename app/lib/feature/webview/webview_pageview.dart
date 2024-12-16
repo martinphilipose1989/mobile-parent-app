@@ -29,8 +29,25 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
         return CommonWebView(
           url: model.webViewUrl,
           onPageFinished: (url) {},
-          onWebViewCreated: (controller) {},
-          onUpdateVisitedHistory: (controller, url) {},
+          onLoadStop: (controller, url) {},
+          onWebViewCreated: (controller) {
+            model.webViewController = controller;
+          },
+          onUpdateVisitedHistory: (controller, url) {
+            if (url != null) {
+              if (url.toString().contains('success')) {
+                // Handle successful payment
+                model.timer.cancel();
+                Navigator.pop(context, true);
+                url = null;
+              } else if (url.toString().contains('failure')) {
+                // Handle failed payment
+                model.timer.cancel();
+                Navigator.pop(context, false);
+                url = null;
+              }
+            }
+          },
         );
       },
     );
