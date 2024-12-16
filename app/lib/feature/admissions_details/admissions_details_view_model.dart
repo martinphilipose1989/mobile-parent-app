@@ -23,6 +23,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final EnquiryDetailArgs enquiryDetailArgs;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final MoveToNextStageUsecase moveToNextStageUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
 
   AdmissionsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -31,7 +32,9 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.enquiryDetailArgs,
       this.flutterToastErrorPresenter,
       this.moveToNextStageUsecase,
-      this.makePaymentRequestUsecase) {
+      this.makePaymentRequestUsecase,
+      this.getUserDetailsUsecase) {
+    getUserDetails();
     initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
@@ -398,5 +401,20 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
       });
     }).execute();
+  }
+
+  // USER DETAILS
+  BehaviorSubject<User> userSubject = BehaviorSubject();
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(data.data!);
+      }
+    });
   }
 }

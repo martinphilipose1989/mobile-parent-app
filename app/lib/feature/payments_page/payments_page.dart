@@ -141,8 +141,10 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
-                                      value.data?.data?.paymentLink ?? '',
-                                      value.data?.data?.order?.id ?? ''))
+                                      paymentsLink:
+                                          value.data?.data?.paymentLink ?? '',
+                                      orderId:
+                                          value.data?.data?.order?.id ?? ''))
                               .then(
                             (value) {
                               if (value == true) {

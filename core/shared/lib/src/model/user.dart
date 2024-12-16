@@ -5,7 +5,14 @@ class User {
   String? email;
   String? phoneNumber;
   int? statusId;
-  User({this.id, this.userName, this.email, this.phoneNumber, this.statusId});
+  String? token;
+  User(
+      {this.id,
+      this.userName,
+      this.email,
+      this.phoneNumber,
+      this.statusId,
+      this.token});
 
   @override
   String toString() {
