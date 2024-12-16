@@ -122,66 +122,92 @@ class CouponList extends StatelessWidget {
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
-                        : ListView(
-                            children: List.generate(
-                              (data.data?.data?.length ?? 0),
-                              (index) {
-                                FetchCouponsDataModel fetchCouponsDataModel =
-                                    data.data!.data![index];
-                                return AppStreamBuilder<bool>(
-                                  stream: model.showMore,
-                                  initialData: model.showMore.value,
-                                  dataBuilder: (context, data) {
-                                    return SizedBox(
-                                      height:
-                                          data! && index == model.couponShowMore
+                        : data.data?.data?.isEmpty == true
+                            ? const Center(
+                                child:
+                                    CommonText(text: 'No Coupons Available.'),
+                              )
+                            : ListView(
+                                children: List.generate(
+                                  (data.data?.data?.length ?? 0),
+                                  (index) {
+                                    FetchCouponsDataModel
+                                        fetchCouponsDataModel =
+                                        data.data!.data![index];
+                                    return AppStreamBuilder<bool>(
+                                      stream: model.showMore,
+                                      initialData: model.showMore.value,
+                                      dataBuilder: (context, data) {
+                                        return SizedBox(
+                                          height: data! &&
+                                                  index == model.couponShowMore
                                               ? 270.h
                                               : 200.h,
-                                      width: 350.w,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Card(
-                                          elevation: 2,
+                                          width: 350.w,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
+                                            child: Card(
+                                              elevation: 2,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    // Image.asset(
-                                                    //     AppImages.sbiBankIcon),
-                                                    // CommonSizedBox.sizedBox(
-                                                    //     height: 10, width: 10),
-                                                    CustomPaint(
-                                                        painter: DashRectPainter(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .primary,
-                                                            strokeWidth: 1.5,
-                                                            gap: 3),
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          height: 40.h,
-                                                          width: 145.w,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0),
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.2)),
+                                                    Row(
+                                                      children: [
+                                                        // Image.asset(
+                                                        //     AppImages.sbiBankIcon),
+                                                        // CommonSizedBox.sizedBox(
+                                                        //     height: 10, width: 10),
+                                                        CustomPaint(
+                                                            painter: DashRectPainter(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                                strokeWidth:
+                                                                    1.5,
+                                                                gap: 3),
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              height: 40.h,
+                                                              width: 145.w,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.2)),
+                                                              child: CommonText(
+                                                                text: fetchCouponsDataModel
+                                                                        .couponCode ??
+                                                                    "",
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .primary),
+                                                              ),
+                                                            )),
+                                                        const Spacer(),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context,
+                                                                fetchCouponsDataModel);
+                                                          },
                                                           child: CommonText(
-                                                            text: fetchCouponsDataModel
-                                                                    .couponCode ??
-                                                                "",
+                                                            text: 'Apply',
                                                             style: AppTypography
                                                                 .subtitle2
                                                                 .copyWith(
@@ -190,82 +216,68 @@ class CouponList extends StatelessWidget {
                                                                         .colorScheme
                                                                         .primary),
                                                           ),
-                                                        )),
-                                                    const Spacer(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    CommonSizedBox.sizedBox(
+                                                        height: 10, width: 10),
+                                                    CommonText(
+                                                      text: fetchCouponsDataModel
+                                                              .description ??
+                                                          '',
+                                                      style: AppTypography
+                                                          .subtitle2,
+                                                    ),
+                                                    CommonSizedBox.sizedBox(
+                                                        height: 10, width: 10),
+                                                    const Divider(),
+                                                    CommonSizedBox.sizedBox(
+                                                        height: 10, width: 10),
+                                                    CommonText(
+                                                      text: fetchCouponsDataModel
+                                                              .termsAndConditions ??
+                                                          '',
+                                                      style:
+                                                          AppTypography.caption,
+                                                      overflow: data &&
+                                                              index ==
+                                                                  model
+                                                                      .couponShowMore
+                                                          ? TextOverflow.visible
+                                                          : TextOverflow
+                                                              .ellipsis,
+                                                    ),
+                                                    CommonSizedBox.sizedBox(
+                                                        height: 10, width: 10),
                                                     InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(context,
-                                                            fetchCouponsDataModel);
+                                                        model.couponShowMore =
+                                                            index;
+                                                        model.showMore
+                                                            .add(!data);
                                                       },
                                                       child: CommonText(
-                                                        text: 'Apply',
+                                                        text: data &&
+                                                                index ==
+                                                                    model
+                                                                        .couponShowMore
+                                                            ? '- Show Less'
+                                                            : '+ Show More',
                                                         style: AppTypography
-                                                            .subtitle2
-                                                            .copyWith(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .primary),
+                                                            .caption,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                                CommonSizedBox.sizedBox(
-                                                    height: 10, width: 10),
-                                                CommonText(
-                                                  text: fetchCouponsDataModel
-                                                          .description ??
-                                                      '',
-                                                  style:
-                                                      AppTypography.subtitle2,
-                                                ),
-                                                CommonSizedBox.sizedBox(
-                                                    height: 10, width: 10),
-                                                const Divider(),
-                                                CommonSizedBox.sizedBox(
-                                                    height: 10, width: 10),
-                                                CommonText(
-                                                  text: fetchCouponsDataModel
-                                                          .termsAndConditions ??
-                                                      '',
-                                                  style: AppTypography.caption,
-                                                  overflow: data &&
-                                                          index ==
-                                                              model
-                                                                  .couponShowMore
-                                                      ? TextOverflow.visible
-                                                      : TextOverflow.ellipsis,
-                                                ),
-                                                CommonSizedBox.sizedBox(
-                                                    height: 10, width: 10),
-                                                InkWell(
-                                                  onTap: () {
-                                                    model.couponShowMore =
-                                                        index;
-                                                    model.showMore.add(!data);
-                                                  },
-                                                  child: CommonText(
-                                                    text: data &&
-                                                            index ==
-                                                                model
-                                                                    .couponShowMore
-                                                        ? '- Show Less'
-                                                        : '+ Show More',
-                                                    style:
-                                                        AppTypography.caption,
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                            ),
-                          );
+                                ),
+                              );
                   },
                 ))
               ],

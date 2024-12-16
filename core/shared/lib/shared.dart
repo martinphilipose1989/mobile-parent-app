@@ -195,7 +195,6 @@ export 'src/model/response/transport/staff_list_response_model.dart';
 export 'src/model/response/transport/create_intimation_response_model.dart';
 export 'src/model/request/transport/CreateIntimationRequestModel.dart';
 
-
 //login
 export 'src/model/response/login/auth_response.dart';
 export 'src/model/response/user/token_introspect_reponse.dart';
@@ -206,3 +205,5 @@ export 'src/model/response/transport/uploadIntimationFileResponseModel.dart';
 
 //utils
 export 'src/utils/validator.dart';
+
+export 'src/model/app_erroe_stream.dart';

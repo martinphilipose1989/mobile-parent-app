@@ -9,6 +9,7 @@ class CommonWebView extends StatefulWidget {
   final void Function(String url)? onPageStarted;
   final void Function(String url)? onPageFinished;
   final void Function(InAppWebViewController controller, Uri? url)? onLoadError;
+  final void Function(InAppWebViewController controller, Uri? url)? onLoadStop;
   final void Function(InAppWebViewController controller, Uri? url)?
       onLoadHttpError;
   final void Function(InAppWebViewController controller, Uri? url)?
@@ -19,6 +20,7 @@ class CommonWebView extends StatefulWidget {
     required this.url,
     this.headers,
     this.onWebViewCreated,
+    this.onLoadStop,
     this.onPageStarted,
     this.onPageFinished,
     this.onLoadError,
@@ -55,17 +57,9 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onPageStarted!(url.toString());
           }
         },
-        onLoadStop: (controller, url) async {
-          if (url != null) {
-            if (url.toString().contains('success')) {
-              // Handle successful payment
-              debugPrint("Payment successful!");
-              Navigator.pop(context, true);
-            } else if (url.toString().contains('failure')) {
-              // Handle failed payment
-              debugPrint("Payment failed!");
-              Navigator.pop(context, false);
-            }
+        onLoadStop: (controller, url) {
+          if (widget.onLoadStop != null) {
+            widget.onLoadStop!(controller, url);
           }
         },
         onLoadError: (controller, url, code, message) {
@@ -96,39 +90,6 @@ class CommonWebViewState extends State<CommonWebView> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class WebView extends StatelessWidget {
-  final String webViewLink;
-  const WebView({
-    super.key,
-    required this.webViewLink,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonWebView(
-      url: webViewLink,
-      onPageFinished: (url) {
-        debugPrint("onPageFinished - $url");
-      },
-      onWebViewCreated: (controller) {},
-      onUpdateVisitedHistory: (controller, url) {
-        debugPrint("onUpdateVisitedHistory - $url");
-        if (url != null) {
-          if (url.toString().contains('success')) {
-            // Handle successful payment
-            debugPrint("Payment successful!");
-            Navigator.pop(context, true);
-          } else if (url.toString().contains('failure')) {
-            // Handle failed payment
-            debugPrint("Payment failed!");
-            Navigator.pop(context, false);
-          }
-        }
-      },
     );
   }
 }
