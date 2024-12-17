@@ -26,7 +26,8 @@ void main() async {
         logoutEndpoint: EnvProd.logoutEndpoint,
         gateUrl: EnvProd.gateBaseUrl,
         marketingUrl: EnvProd.marketingBaseUrl,
-        showLogs: false),
+        showLogs: false,
+        frontEndUrl: EnvProd.frontEndUrl),
   );
   startApp();
 }

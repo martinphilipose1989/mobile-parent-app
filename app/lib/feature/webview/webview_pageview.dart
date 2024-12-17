@@ -1,6 +1,10 @@
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/common_webview.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +49,19 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
                 model.timer.cancel();
                 Navigator.pop(context, false);
                 url = null;
+              }
+              // For VAS Selection Sucess after coupon applied
+              else if (url.path.contains("enquiries/mobile_submitted")) {
+                navigatorKey.currentState?.pushNamed(
+                  RoutePaths.payments,
+                  arguments: PaymentArguments(
+                    phoneNo: '',
+                    module: Modules.admission,
+                    enquiryId: model.enquiryDetailArgs?.enquiryId,
+                    enquiryNo: model.enquiryDetailArgs?.enquiryNumber,
+                    studentName: "${model.enquiryDetailArgs?.studentName} ",
+                  ),
+                );
               }
             }
           },

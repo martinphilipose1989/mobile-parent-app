@@ -46,6 +46,8 @@ class ChequePageState extends AppBasePageState<ChequePageModel, ChequePage>
         .map((e) =>
             FeeTypeList(id: e.id ?? 0, name: e.feeDisplayName, selected: false))
         .toList();
+    // FOR REDIRECTION AFTER PAYMENT SUCCESS
+    model.modules = widget.paymentsPageModel.modules;
   }
 
   @override
