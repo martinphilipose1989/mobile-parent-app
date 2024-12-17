@@ -1,4 +1,5 @@
 import 'package:app/themes_setup.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,11 @@ class MyApp extends StatelessWidget {
                 initialData: logoutOnTokenExpiry.value,
                 onData: (value) {
                   if (value) {
-                    print("");
+                    CommonPopups().showError(
+                        context, "Session Expired Please login!!!", (_) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RoutePaths.splash, (_) => false);
+                    });
                   }
                 },
                 dataBuilder: (context, data) {
