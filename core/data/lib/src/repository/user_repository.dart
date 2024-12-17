@@ -184,17 +184,15 @@ class UserRepositoryImpl extends UserRepository {
           await secureStorageService.getFromDisk(secureStorageService.userId));
       final int statusId = int.parse(await secureStorageService
           .getFromDisk(secureStorageService.userStatus));
-      final String token = await secureStorageService
-          .getFromDisk(secureStorageService.accessTokenKey);
 
       return Right(
         User(
-            id: userId,
-            email: emailId,
-            phoneNumber: userPhoneNumber,
-            userName: userName,
-            statusId: statusId,
-            token: token),
+          id: userId,
+          email: emailId,
+          phoneNumber: userPhoneNumber,
+          userName: userName,
+          statusId: statusId,
+        ),
       );
     } catch (error) {
       return Left(
