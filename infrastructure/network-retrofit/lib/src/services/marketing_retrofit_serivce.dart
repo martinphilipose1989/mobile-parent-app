@@ -35,57 +35,49 @@ abstract class MarketingSerivce {
       {@Query('phone') required String phone,
       @Query('pageNumber') required int pageNumber,
       @Query('pageSize') required int pageSize,
-      @Query('status') required String status,
-      @Query('platform') required String platform});
+      @Query('status') required String status});
 
   @GET('marketing/app/enquiry/{enquiryID}')
-  Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail(
-      {@Path('enquiryID') required String enquiryID,
-      @Query('platform') required String platform});
+  Future<HttpResponse<EnquiryResponseEntity>> getEnquiryDetail({
+    @Path('enquiryID') required String enquiryID,
+  });
 
   @GET('marketing/enquiry/{enquiryID}/timeline')
-  Future<HttpResponse<EnquiryTimeLineResponseEntity>> getEnquiryTimeline(
-      {@Path('enquiryID') required String enquiryID,
-      @Query('platform') required String platform});
+  Future<HttpResponse<EnquiryTimeLineResponseEntity>> getEnquiryTimeline({
+    @Path('enquiryID') required String enquiryID,
+  });
 
   @GET('marketing/app/enquiry/{enquiryID}/admission-journey')
   Future<HttpResponse<AdmissionJourneyBaseEntity>> getAdmissionJourney(
       {@Path('enquiryID') required String enquiryID,
-      @Query('type') required String type,
-      @Query('platform') required String platform});
+      @Query('type') required String type});
 
   @GET('marketing/app/enquiry/{enquiryID}/new-admission')
   Future<HttpResponse<NewAdmissionEntity>> getNewAdmissionDetail(
-      {@Path('enquiryID') required String enquiryID,
-      @Query('platform') required String platform});
+      {@Path('enquiryID') required String enquiryID});
 
   @PATCH('marketing/app/enquiry/{enquiryID}/new-admission')
   Future<HttpResponse<NewAdmissionEntity>> updateNewAdmissionDetail(
       {@Path('enquiryID') required String enquiryID,
-      @Body() required NewAdmissionDetailEntity newAdmissionDetail,
-      @Query('platform') required String platform});
+      @Body() required NewAdmissionDetailEntity newAdmissionDetail});
 
   @GET('marketing/app/enquiry/{enquiryID}/psa')
   Future<HttpResponse<PsaBaseResponseEntity>> getPsaDetail(
-      {@Path('enquiryID') required String enquiryID,
-      @Query('platform') required String platform});
+      {@Path('enquiryID') required String enquiryID});
 
   @PATCH('marketing/app/enquiry/{enquiryID}/psa')
   Future<HttpResponse<PsaBaseResponseEntity>> updatePsaDetail(
       {@Path('enquiryID') required String enquiryID,
-      @Body() required PsaDetailResponseEntity psaDetail,
-      @Query('platform') required String platform});
+      @Body() required PsaDetailResponseEntity psaDetail});
 
   @GET('marketing/app/enquiry/{enquiryID}/kids-club')
   Future<HttpResponse<IvtBaseResponseEntity>> getIvtDetail(
-      {@Path('enquiryID') required String enquiryID,
-      @Query('platform') required String platform});
+      {@Path('enquiryID') required String enquiryID});
 
   @PATCH('marketing/app/enquiry/{enquiryID}/kids-club')
   Future<HttpResponse<IvtBaseResponseEntity>> updateIvtDetail(
       {@Path('enquiryID') required String enquiryID,
-      @Body() required IvtDetailResponseEntity ivtDetail,
-      @Query('platform') required String platform});
+      @Body() required IvtDetailResponseEntity ivtDetail});
 
   @GET('marketing/school-visit/{enquiryID}')
   Future<HttpResponse<SchoolVisitEntity>> getSchoolVisitDetail(
@@ -151,60 +143,53 @@ abstract class MarketingSerivce {
       downloadEnquiryDocument(
           {@Path('enquiryID') required String enquiryID,
           @Path('documentID') required String documentID,
-          @Query('download') required String download,
-          @Query('platform') required String platform});
+          @Query('download') required String download});
 
   @GET('{file_url}')
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadFile(
-      {@Path('file_url') required String fileUrl,
-      @Query('platform') required String platform});
+      {@Path('file_url') required String fileUrl});
 
   @PATCH('marketing/enquiry/{enquiryID}/document/{documentID}')
   Future<HttpResponse<DeleteEnquiryFileResponseEntity>> deleteEnquiryDocument(
       {@Path('enquiryID') required String enquiryID,
       @Path('documentID') required String documentID,
       @Query('delete') required String delete,
-      @Query('verify') required String verify,
-      @Query('platform') required String platform});
+      @Query('verify') required String verify});
 
   @POST('marketing/enquiry/{enquiryID}/upload-document/{documentID}')
   @MultiPart()
-  Future<HttpResponse<EnquiryFileUploadResponseEntity>> uploadEnquiryDocument(
-      {@Path('enquiryID') required String enquiryID,
-      @Path('documentID') required String documentID,
-      @Part(name: 'file') required File file,
-      @Query('platform') required String platform});
+  Future<HttpResponse<EnquiryFileUploadResponseEntity>> uploadEnquiryDocument({
+    @Path('enquiryID') required String enquiryID,
+    @Path('documentID') required String documentID,
+    @Part(name: 'file') required File file,
+  });
 
   @PATCH('marketing/app/registration/{enquiryId}/parent-details')
   Future<HttpResponse<SingleResponse>> updateParentDetails(
       {@Path('enquiryId') required String enquiryId,
-      @Body() required ParentInfoEntity parentInfo,
-      @Query('platform') required String platform});
+      @Body() required ParentInfoEntity parentInfo});
 
   @PATCH('marketing/app/registration/{enquiryId}/contact-details')
   Future<HttpResponse<SingleResponse>> updateContactDetails(
       {@Path('enquiryId') required String enquiryId,
-      @Body() required ContactDetailsEntity contactDetails,
-      @Query('platform') required String platform});
+      @Body() required ContactDetailsEntity contactDetails});
 
   @PATCH('marketing/app/registration/{enquiryId}/medical-details')
   Future<HttpResponse<SingleResponse>> updateMedicalDetails(
       {@Path('enquiryId') required String enquiryId,
-      @Body() required MedicalDetailsEntity medicalDetails,
-      @Query('platform') required String platform});
+      @Body() required MedicalDetailsEntity medicalDetails});
 
   @PATCH('marketing/app/registration/{enquiryId}/bank-details')
   Future<HttpResponse<SingleResponse>> updateBankDetails(
       {@Path('enquiryId') required String enquiryId,
-      @Body() required BankDetailsEntity bankDetails,
-      @Query('platform') required String platform});
+      @Body() required BankDetailsEntity bankDetails});
 
   @GET('marketing/app/registration/{enquiryId}')
-  Future<HttpResponse<SingleResponse>> getRegistrationDetail(
-      {@Path("enquiryId") required String enquiryId,
-      @Query("infoType") required String infoType,
-      @Query('platform') required String platform});
+  Future<HttpResponse<SingleResponse>> getRegistrationDetail({
+    @Path("enquiryId") required String enquiryId,
+    @Query("infoType") required String infoType,
+  });
 
   @GET('marketing/school-visit/slots')
   Future<HttpResponse<SlotsEntity>> getSchoolVisitSlots(
@@ -221,42 +206,35 @@ abstract class MarketingSerivce {
   @POST('marketing/admission/{enquiryId}/subject-details')
   Future<HttpResponse<SubjectDetailResponseEntity>> selectOptionalSubject(
       {@Body() required List<SubjectSelectionRequest> subjectSelectionRequest,
-      @Path("enquiryId") required String enquiryID,
-      @Query('platform') required String platform});
+      @Path("enquiryId") required String enquiryID});
 
   @POST('marketing/admission/{enquiryId}/vas-options')
   Future<HttpResponse<VasOptionResponseEntity>> addVASOption(
       {@Body() required VasOptionRequest vasOptionRequest,
-      @Path("enquiryId") required String enquiryID,
-      @Query('platform') required String platform});
+      @Path("enquiryId") required String enquiryID});
 
   @POST('marketing/admission/{enquiryId}/vas/add')
   Future<HttpResponse<VasOptionResponseEntity>> addVASDetail(
       {@Body() required VasEnrollmentRequest vasEnrollmentRequest,
       @Path("enquiryId") required String enquiryID,
-      @Query("type") required String type,
-      @Query('platform') required String platform});
+      @Query("type") required String type});
 
   @POST('marketing/admission/{enquiryId}/vas/remove')
   Future<HttpResponse<VasOptionResponseEntity>> removeVasDetail(
       {@Path("enquiryId") required String enquiryID,
-      @Query("type") required String type,
-      @Query('platform') required String platform});
+      @Query("type") required String type});
 
   @POST('marketing/admission/{enquiryId}/payment-request')
-  Future<HttpResponse<VasOptionResponseEntity>> makePaymentRequest(
-      {@Path("enquiryId") required String enquiryID,
-      @Query('platform') required String platform});
+  Future<HttpResponse<VasOptionResponseEntity>> makePaymentRequest({
+    @Path("enquiryId") required String enquiryID,
+  });
 
   @PATCH("marketing/enquiry/{enquiryId}/move-to-next-stage")
   Future<HttpResponse<MoveToNextStageEnquiryResponseEntity>>
-      moveToNextStageEnquiry(
-          @Path("enquiryId") String enquiryId,
-          @Body() MoveToNextStageEnquiryRequestEntity body,
-          @Query('platform') String platform);
+      moveToNextStageEnquiry(@Path("enquiryId") String enquiryId,
+          @Body() MoveToNextStageEnquiryRequestEntity body);
 
   @GET("marketing/admission/{enquiryId}")
   Future<HttpResponse<AdmissionVasDetailsResponseEntity>>
-      fetchadmissionVasDetails(@Path("enquiryId") String enquiryId,
-          @Query('platform') String platform);
+      fetchadmissionVasDetails(@Path("enquiryId") String enquiryId);
 }

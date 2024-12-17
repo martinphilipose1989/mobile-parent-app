@@ -29,8 +29,7 @@ void main() async {
         discoveryUrl: EnvDev.discoveryUrl,
         logoutEndpoint: EnvDev.logoutEndpoint,
         gateUrl: EnvDev.gateBaseUrl,
-        marketingUrl: EnvDev.marketingBaseUrl,
-        frontEndUrl: EnvDev.frontEndUrl),
+        marketingUrl: EnvDev.marketingBaseUrl),
   );
   startApp();
 }

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/cheque_page/fee_type_list.dart';
-import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/permission_handler.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -82,9 +81,6 @@ class ChequePageModel extends BasePageViewModel {
       BehaviorSubject<bool>.seeded(false);
 
   final PermissionHandlerService permissionHandler = PermissionHandlerService();
-
-  // FOR REDIRECTION AFTER PAYMENT SUCCESS
-  Modules? modules;
 
   void _addChequeControllers() {
     tokenNumberControllers.add(TextEditingController());
