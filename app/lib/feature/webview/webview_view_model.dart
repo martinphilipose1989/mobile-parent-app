@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -18,6 +19,8 @@ class WebviewModel extends BasePageViewModel {
   int timerSeconds = 10;
 
   InAppWebViewController? webViewController;
+
+  EnquiryDetailArgs? enquiryDetailArgs;
 
   // Calling students list
 

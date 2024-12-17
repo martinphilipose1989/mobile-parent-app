@@ -13,6 +13,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class PaymentsPageState
         .value
         .toString();
     model.finalAmount.value = model.amount.text;
+    model.modules = widget.paymentPageeArguments.modules;
     model.getUserDetails();
   }
 
@@ -141,12 +143,14 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
-                                      model.dynamicPaymentType == "Billdesk" ||
+                                      paymentsLink: model.dynamicPaymentType ==
+                                                  "Billdesk" ||
                                               model.dynamicPaymentType ==
                                                   "GrayQuest"
                                           ? "${FlavorConfig.instance.values.financeBaseUrl}/finance/${value.data?.data?.paymentLink}"
                                           : value.data?.data?.paymentLink ?? '',
-                                      value.data?.data?.order?.id ?? ''))
+                                      orderId:
+                                          value.data?.data?.order?.id ?? ''))
                               .then(
                             (value) {
                               if (value == true) {
@@ -165,10 +169,16 @@ class PaymentsPageState
                                   context,
                                   'Payment\nSuccessfull!',
                                   (shouldRoute) {
-                                    Navigator.popUntil(
-                                        context,
-                                        ModalRoute.withName(
-                                            RoutePaths.payments));
+                                    if (widget.paymentPageeArguments.modules ==
+                                        Modules.admission) {
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          RoutePaths.tabbar, (route) => false);
+                                    } else {
+                                      Navigator.popUntil(
+                                          context,
+                                          ModalRoute.withName(
+                                              RoutePaths.payments));
+                                    }
                                   },
                                 );
                               } else {
@@ -294,8 +304,10 @@ class PaymentsPageState
 class PaymentPageeArguments {
   final List<GetPendingFeesPaymentModeModel> finalPaymentModelList;
   final List<GetPendingFeesFeeModel> selectedPendingFessList;
+  final Modules? modules;
 
   PaymentPageeArguments(
       {required this.finalPaymentModelList,
-      required this.selectedPendingFessList});
+      required this.selectedPendingFessList,
+      this.modules});
 }
