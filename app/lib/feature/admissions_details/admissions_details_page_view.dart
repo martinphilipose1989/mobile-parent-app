@@ -113,6 +113,7 @@ class AdmissionsDetailsPageView
             getIt.get<String>(instanceName: "FrontEndUrl");
         return Navigator.pushNamed(context, RoutePaths.webview,
             arguments: WebviewArguments(
+                enquiryDetailArgs: admissionDetail,
                 paymentsLink:
                     "$frontEndUrl${admissionDetail.enquiryId}/?platform=mobile&authToken=${model.userSubject.value.token}",
                 module: Modules.admission));
