@@ -1,4 +1,3 @@
-import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -42,6 +41,8 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     // TODO: implement onError
     super.onError(err, handler);
-    // logoutOnTokenExpiry.add(true);
+    if (err.response?.statusCode == 401) {
+      //  logoutOnTokenExpiry.add(true);
+    }
   }
 }
