@@ -22,7 +22,6 @@ class WebviewPage extends BasePage<WebviewModel> {
 class _WebviewPageState extends AppBasePageState<WebviewModel, WebviewPage> {
   @override
   void onModelReady(WebviewModel model) {
-    log("URL ${widget.webviewArguments.paymentsLink}");
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.webViewUrl = widget.webviewArguments.paymentsLink;
     if (mounted) {
