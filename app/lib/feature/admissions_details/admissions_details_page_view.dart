@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:app/dependencies.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
-import 'package:app/feature/webview/webview_page.dart';
 
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/menu.dart';
@@ -109,13 +107,18 @@ class AdmissionsDetailsPageView
       case 'registration':
         model.showMenuOnFloatingButton.add(false);
         setEnquiryDetailsArgs(model);
-        final String frontEndUrl =
-            getIt.get<String>(instanceName: "FrontEndUrl");
-        return Navigator.pushNamed(context, RoutePaths.webview,
-            arguments: WebviewArguments(
-                paymentsLink:
-                    "$frontEndUrl${admissionDetail.enquiryId}/?platform=mobile&authToken=${model.userSubject.value.token}",
-                module: Modules.admission));
+
+        return Navigator.of(context)
+            .pushNamed(RoutePaths.registrationDetails, arguments: {
+          "routeFrom": "admission",
+          "enquiryDetailArgs": admissionDetail,
+          "enquiryDetail": model.enquiryDetails.value,
+          "editRegistrationDetails": true
+        }).then((_) {
+          model.getEnquiryDetail(enquiryID: admissionDetail.enquiryId ?? '');
+          model.getAdmissionJourney(
+              enquiryID: admissionDetail.enquiryId ?? '', type: 'admission');
+        });
 
       default:
         return null;
@@ -130,7 +133,7 @@ class AdmissionsDetailsPageView
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.all(16),
+            margin:  EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

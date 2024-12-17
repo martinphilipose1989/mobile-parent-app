@@ -70,7 +70,4 @@ abstract class AppModule {
 
   @Named("MarketingUrl")
   String get marketingUrl => FlavorConfig.instance.values.marketingUrl;
-
-  @Named("FrontEndUrl")
-  String get frontEndUrl => FlavorConfig.instance.values.frontEndUrl;
 }

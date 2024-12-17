@@ -1126,7 +1126,6 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
               RoutePaths.payments,
               arguments: PaymentArguments(
                 phoneNo: '',
-                module: Modules.enquiry,
                 enquiryId: enquiryDetailArgs?.enquiryId,
                 enquiryNo: enquiryDetailArgs?.enquiryNumber,
                 studentName: "${enquiryDetails.studentName} ",

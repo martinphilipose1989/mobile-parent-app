@@ -21,5 +21,3 @@ enum FeesTypeIdEnum {
 
   const FeesTypeIdEnum(this.id);
 }
-
-enum Modules { admission, enquiry, finance, ticketing, gatepass }
