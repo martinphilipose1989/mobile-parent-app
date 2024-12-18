@@ -55,12 +55,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Scaffold.of(context).openDrawer();
                   },
-                  child: SvgPicture.asset(
-                    AppImages.menuHamburgerLogo,
-                    height: 24.h,
-                    width: 24.w,
-                  ),
-                )),
+                  child: const Icon(Icons.menu_outlined))),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,
