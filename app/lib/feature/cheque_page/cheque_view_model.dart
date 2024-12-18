@@ -200,7 +200,7 @@ class ChequePageModel extends BasePageViewModel {
 
   String formatDateToYYYYMMDD(String date) {
     // Assuming the input date is in 'dd/MM/yyyy' format
-    DateTime parsedDate = DateTime.parse(date);
+    DateTime parsedDate = DateFormat("dd/MM/yyyy").parse(date);
 
     // Format the parsed date to 'YYYY-mm-dd'
     String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);

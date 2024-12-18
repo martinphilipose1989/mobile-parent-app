@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -17,13 +18,13 @@ class CommonDatePickerWidget extends StatefulWidget {
     super.key,
     this.labelName,
     this.initialDate,
+    this.lastDate,
     this.isDisabled = false,
     this.showAstreik = false,
     this.onDateSelected,
-    this.validator,
     required this.controller,
+    this.validator,
     this.isDOB = false,
-    this.lastDate,
   });
 
   @override
@@ -55,7 +56,8 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
     );
 
     if (picked != null) {
-      widget.controller.text = formatDateToDDMMYYYY(picked); // Update controller
+      widget.controller.text =
+          formatDateToDDMMYYYY(picked); // Update controller
       widget.onDateSelected?.call(picked); // Notify listener
       setState(() {
         widget.initialDate = picked; // Update the internal state
@@ -74,7 +76,8 @@ class CommonDatePickerWidgetState extends State<CommonDatePickerWidget> {
           decoration: InputDecoration(
             hintText: '[DD/MM/YYYY]',
             suffixIcon: IconButton(
-              icon: Icon(Icons.calendar_today), // Replace with Svg if needed
+              icon: const Icon(
+                  Icons.calendar_today), // Replace with Svg if needed
               onPressed: () {
                 if (!widget.isDisabled) {
                   _selectDate(context);
