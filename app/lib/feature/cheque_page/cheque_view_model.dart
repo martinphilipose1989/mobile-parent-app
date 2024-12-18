@@ -208,6 +208,11 @@ class ChequePageModel extends BasePageViewModel {
     return formattedDate;
   }
 
+  bool isValidDateFormat(String date) {
+    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    return regex.hasMatch(date);
+  }
+
   final BehaviorSubject<Resource<GetStorePaymentModel>> _getStorePaymentModel =
       BehaviorSubject<Resource<GetStorePaymentModel>>();
 
@@ -221,7 +226,9 @@ class ChequePageModel extends BasePageViewModel {
           paymentModeId: int.parse(chequeTypeControllers[i].text),
           amount: int.parse(amountControllers[i].text),
           chequeNo: chequeNumberControllers[i].text,
-          chequeDate: formatDateToYYYYMMDD(chequeDateControllers[i].text),
+          chequeDate: isValidDateFormat(chequeDateControllers[i].text)
+              ? chequeDateControllers[i].text
+              : formatDateToYYYYMMDD(chequeDateControllers[i].text),
           issuerName: issueNameControllers[i].text,
           issuerIfsc: ifscCodeControllers[i].text,
           chequeImage: chequeImage[i].text,
