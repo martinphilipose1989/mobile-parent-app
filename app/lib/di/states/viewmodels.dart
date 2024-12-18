@@ -173,13 +173,15 @@ final createTicketProvider =
 final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
     AdmissionsDetailsViewModel, EnquiryDetailArgs>(
   (ref, args) => AdmissionsDetailsViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetAdmissionJourneyUsecase>(),
-      getIt.get<GetEnquiryDetailUseCase>(),
-      args,
-      getIt.get<FlutterToastErrorPresenter>(),
-      getIt.get<MoveToNextStageUsecase>(),
-      getIt.get<MakePaymentRequestUsecase>()),
+    getIt.get<FlutterExceptionHandlerBinder>(),
+    getIt.get<GetAdmissionJourneyUsecase>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
+    args,
+    getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<MoveToNextStageUsecase>(),
+    getIt.get<MakePaymentRequestUsecase>(),
+    getIt.get<GetUserDetailsUsecase>(),
+  ),
 );
 
 final registrationsDetailsProvider =

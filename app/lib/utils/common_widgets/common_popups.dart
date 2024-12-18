@@ -45,13 +45,14 @@ class CommonPopups {
 
   // Method to show an error popup
   void showError(BuildContext context, String message,
-      Function(bool shouldRoute) onChanged) {
+      Function(bool shouldRoute) onChanged,
+      {bool barrierDismissible = true}) {
     _showDialog(context,
         icon: Icons.error,
         iconColor: Colors.red,
         message: message,
         buttonText: 'OK',
-        barrierDismissible: true,
+        barrierDismissible: barrierDismissible,
         onChanged: onChanged);
   }
 
@@ -119,61 +120,7 @@ class CommonPopups {
 /////showforceupdate
 
   void _showDialog(BuildContext context,
-      {
-        required IconData icon,
-        required Color iconColor,
-        required String message,
-        required String buttonText,
-        required bool barrierDismissible,
-        dynamic popParameter,
-        required Function(bool shouldRoute) onChanged}) {
-    showDialog(
-      context: context,
-      barrierDismissible: barrierDismissible,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                icon,
-                color: Theme.of(context).colorScheme.primary,
-                size: 60,
-              ),
-              const SizedBox(height: 15),
-              CommonText(
-                text: message,
-                textAlign: TextAlign.center,
-                style: AppTypography.subtitle1
-                    .copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                  height: 40.h,
-                  width: 80.w,
-                  child: CommonElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context, popParameter);
-                      onChanged(true);
-                    },
-                    text: 'Ok',
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    textStyle: AppTypography.subtitle2.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
-                  ))
-            ],
-          ),
-        );
-      },
-    );
-  }
-  // Private method to show a dialog
-  void showForceUpdate(BuildContext context,
-      {
-        required IconData icon,
+      {required IconData icon,
       required Color iconColor,
       required String message,
       required String buttonText,
@@ -184,7 +131,69 @@ class CommonPopups {
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
-        return ForceUpdatePopup(icon: icon, iconColor: iconColor, message: message, buttonText: buttonText, barrierDismissible: barrierDismissible, onChanged: onChanged);
+        return PopScope(
+          canPop: barrierDismissible,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 60,
+                ),
+                const SizedBox(height: 15),
+                CommonText(
+                  text: message,
+                  textAlign: TextAlign.center,
+                  style: AppTypography.subtitle1
+                      .copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                    height: 40.h,
+                    width: 80.w,
+                    child: CommonElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, popParameter);
+                        onChanged(true);
+                      },
+                      text: 'Ok',
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      textStyle: AppTypography.subtitle2.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary),
+                    ))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Private method to show a dialog
+  void showForceUpdate(BuildContext context,
+      {required IconData icon,
+      required Color iconColor,
+      required String message,
+      required String buttonText,
+      required bool barrierDismissible,
+      dynamic popParameter,
+      required Function(bool shouldRoute) onChanged}) {
+    showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return ForceUpdatePopup(
+            icon: icon,
+            iconColor: iconColor,
+            message: message,
+            buttonText: buttonText,
+            barrierDismissible: barrierDismissible,
+            onChanged: onChanged);
       },
     );
   }
@@ -390,27 +399,51 @@ class CommonPopups {
     );
   }
 
-  showCreateIntimation(BuildContext context,{required int studentId,required int userId}){
-    showDialog(context: context, builder: (context){
-
-      return AlertDialog(contentPadding:EdgeInsets.all(10),content: Container(height:400.h,child: CreateIntimationPopup(userid: userId, schoolId: studentId,)));
-    });
-
+  showCreateIntimation(BuildContext context,
+      {required int studentId, required int userId}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              contentPadding: EdgeInsets.all(10),
+              content: Container(
+                  height: 400.h,
+                  child: CreateIntimationPopup(
+                    userid: userId,
+                    schoolId: studentId,
+                  )));
+        });
   }
 
- showStaff(BuildContext context,{required StaffArgs args}){
-    showDialog(context: context, builder: (context){
+  showStaff(BuildContext context, {required StaffArgs args}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              content: Container(
+                  height: 300.h,
+                  child: StaffListPopup(
+                    args: args,
+                  )));
+        });
+  }
 
-      return AlertDialog(contentPadding:EdgeInsets.zero,content: Container(height:300.h,child: StaffListPopup(args: args,)));
-    });
-
-}
-showloading(BuildContext context,){
-showDialog(context: context,   builder: (BuildContext context) {
-  return AlertDialog(content: Container(
-    child :CommonAppLoader(),height: MediaQuery.of(context).size.height*0.2,width:MediaQuery.of(context).size.width*0.2 ,),);
-});
-}
+  showloading(
+    BuildContext context,
+  ) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              child: CommonAppLoader(),
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.width * 0.2,
+            ),
+          );
+        });
+  }
 
   _showAlertDialog(BuildContext context,
       {required String message,

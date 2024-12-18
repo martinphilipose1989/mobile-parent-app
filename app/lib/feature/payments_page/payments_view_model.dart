@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:app/model/resource.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,9 @@ class PaymentsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> showMore = BehaviorSubject<bool>.seeded(false);
 
   int? couponShowMore;
+
+  // FOR REDIRECTION AFTER PAYMENT SUCCESS
+  Modules? modules;
   String? dynamicPaymentType;
 
   final List<String> feesType = [
