@@ -200,12 +200,17 @@ class ChequePageModel extends BasePageViewModel {
 
   String formatDateToYYYYMMDD(String date) {
     // Assuming the input date is in 'dd/MM/yyyy' format
-    DateTime parsedDate = DateTime.parse(date);
+    DateTime parsedDate = DateFormat("dd/MM/yyyy").parse(date);
 
     // Format the parsed date to 'YYYY-mm-dd'
     String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
 
     return formattedDate;
+  }
+
+  bool isValidDateFormat(String date) {
+    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    return regex.hasMatch(date);
   }
 
   final BehaviorSubject<Resource<GetStorePaymentModel>> _getStorePaymentModel =
@@ -221,7 +226,9 @@ class ChequePageModel extends BasePageViewModel {
           paymentModeId: int.parse(chequeTypeControllers[i].text),
           amount: int.parse(amountControllers[i].text),
           chequeNo: chequeNumberControllers[i].text,
-          chequeDate: formatDateToYYYYMMDD(chequeDateControllers[i].text),
+          chequeDate: isValidDateFormat(chequeDateControllers[i].text)
+              ? chequeDateControllers[i].text
+              : formatDateToYYYYMMDD(chequeDateControllers[i].text),
           issuerName: issueNameControllers[i].text,
           issuerIfsc: ifscCodeControllers[i].text,
           chequeImage: chequeImage[i].text,
