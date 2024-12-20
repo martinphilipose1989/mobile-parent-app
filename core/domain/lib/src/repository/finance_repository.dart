@@ -48,4 +48,7 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
       {required String orderId});
+
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId});
 }

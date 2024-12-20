@@ -23,10 +23,7 @@ abstract class NetworkPort {
       {required AttendanceCountRequestModel attendanceRequestModel});
 
   Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
-      {required CreateIntimationUseCaseParams params });
-
-
-
+      {required CreateIntimationUseCaseParams params});
 
   Future<Either<NetworkError, AttendanceDetailsResponseModel>>
       getAttendancedetail(
@@ -167,10 +164,6 @@ abstract class NetworkPort {
       {required String enquiryID,
       required String documentID,
       required File file});
-
-
-
-
 
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
       {required String enquiryID,
@@ -325,12 +318,9 @@ abstract class NetworkPort {
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
       {required GetStaffListUseCaseParams params});
 
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>>
+      uploadIntimationFile({required int documentID, required File file});
 
-
-  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile(
-      {
-        required int documentID,
-        required File file});
-
-
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId});
 }

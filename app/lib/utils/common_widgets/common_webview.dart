@@ -14,19 +14,20 @@ class CommonWebView extends StatefulWidget {
       onLoadHttpError;
   final void Function(InAppWebViewController controller, Uri? url)?
       onUpdateVisitedHistory;
+  final VoidCallback? onBackButtonPressed;
 
-  const CommonWebView({
-    super.key,
-    required this.url,
-    this.headers,
-    this.onWebViewCreated,
-    this.onLoadStop,
-    this.onPageStarted,
-    this.onPageFinished,
-    this.onLoadError,
-    this.onLoadHttpError,
-    this.onUpdateVisitedHistory,
-  });
+  const CommonWebView(
+      {super.key,
+      required this.url,
+      this.headers,
+      this.onWebViewCreated,
+      this.onLoadStop,
+      this.onPageStarted,
+      this.onPageFinished,
+      this.onLoadError,
+      this.onLoadHttpError,
+      this.onUpdateVisitedHistory,
+      this.onBackButtonPressed});
 
   @override
   CommonWebViewState createState() => CommonWebViewState();
@@ -39,6 +40,20 @@ class CommonWebViewState extends State<CommonWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () async {
+            bool canGoBack = await _webViewController.canGoBack();
+            if (canGoBack) {
+              _webViewController.goBack();
+            } else {
+              if (context.mounted) {
+                Navigator.pop(context);
+                widget.onBackButtonPressed?.call();
+              }
+            }
+          },
+        ),
         title: const Text(''),
       ),
       body: InAppWebView(

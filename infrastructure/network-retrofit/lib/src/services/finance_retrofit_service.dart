@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -28,10 +29,7 @@ part 'finance_retrofit_service.g.dart';
 @RestApi()
 abstract class FinanceRetrofitService {
   factory FinanceRetrofitService(Dio dio, {String? financeBaseUrl}) {
-    return _FinanceRetrofitService(
-      dio,
-      baseUrl: financeBaseUrl,
-    );
+    return _FinanceRetrofitService(dio, baseUrl: financeBaseUrl);
   }
   @POST('/finance/fee_collection/get-academic-years?platform=app')
   Future<HttpResponse<GetAcademicYearResponseEntity>> getAcademicYear(
@@ -82,4 +80,9 @@ abstract class FinanceRetrofitService {
   Future<HttpResponse<VasOptionResponseEntity>> calculateFee(
       {@Body()
       required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
+
+  @POST('/finance/payment/failure')
+  Future<HttpResponse<dynamic>> cancelPaymentRequest(
+      @Query('paymentgateway') String paymentGateway,
+      @Body() CancelPaymentRequestEntity cancelPaymentRequestEntity);
 }

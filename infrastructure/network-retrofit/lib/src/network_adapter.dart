@@ -10,6 +10,7 @@ import 'package:network_retrofit/src/model/request/communication/find_by_categor
 import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
+import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -1626,6 +1627,19 @@ class NetworkAdapter implements NetworkPort {
       (data) => Right(
         data.data.transform(),
       ),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.cancelPaymentRequest(
+            paymentGateway, CancelPaymentRequestEntity(orderId: orderId)));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(data.data.transform()),
     );
   }
 }

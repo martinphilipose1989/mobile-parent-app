@@ -93,7 +93,8 @@ class DashboardPageModel extends BasePageViewModel {
     {
       'name': 'Student Profile',
       'image': AppImages.personIcon,
-      'isSelected': false
+      'isSelected': false,
+      'key': 'student_profile'
     },
     // Coming Soon Features
     // {
@@ -147,7 +148,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.payments;
       case '':
         return RoutePaths.payments;
-      case 'attendance':
+      case 'student profile':
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
         return RoutePaths.disciplinarySlipPage;

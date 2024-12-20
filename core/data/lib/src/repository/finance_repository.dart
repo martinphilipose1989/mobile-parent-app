@@ -101,6 +101,10 @@ class FinanceRepositoryImpl extends FinanceRepository {
     return networkPort.getPaymentStatus(orderId: orderId);
   }
 
-
-  
+  @override
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId}) {
+    return networkPort.cancelPaymentRequest(
+        paymentGateway: paymentGateway, orderId: orderId);
+  }
 }

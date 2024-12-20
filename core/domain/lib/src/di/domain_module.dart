@@ -365,9 +365,9 @@ abstract class DomainModule {
   }
 
   @lazySingleton
- UploadIntimationFileUseCase uploadIntimationFileUsecase(
+  UploadIntimationFileUseCase uploadIntimationFileUsecase(
       TransportRepository transportRepository) {
-    return  UploadIntimationFileUseCase( transportRepository);
+    return UploadIntimationFileUseCase(transportRepository);
   }
 
   @lazySingleton
@@ -527,7 +527,6 @@ abstract class DomainModule {
   @lazySingleton
   CreateGatepassUsecase createGatepassNUsecase(
       GatepassRepository gatePassRepository) {
-
     return CreateGatepassUsecase(gatePassRepository: gatePassRepository);
   }
 
@@ -552,5 +551,11 @@ abstract class DomainModule {
   @lazySingleton
   LogoutUsecase logoutUsecase(UserRepository userRepository) {
     return LogoutUsecase(userRepository: userRepository);
+  }
+
+  @lazySingleton
+  CancelPaymentUsecase cancelPaymentUsecase(
+      FinanceRepository financeRepository) {
+    return CancelPaymentUsecase(financeRepository: financeRepository);
   }
 }
