@@ -117,13 +117,13 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'payment'
     },
-    {
-      'name': 'New Enrollment',
-      'image': AppImages.activity,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'enrollment'
-    },
+    // {
+    //   'name': 'New Enrollment',
+    //   'image': AppImages.activity,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'enrollment'
+    // },
   ];
 
   String returnRouteValue(String routeValue) {
@@ -298,7 +298,7 @@ class DashboardPageModel extends BasePageViewModel {
         if (data.data?.statusId != 0) {
           feesTemp[index]['isActive'] = true;
         } else {
-          feesTemp[index]['isActive'] = true;
+          feesTemp[index]['isActive'] = false;
         }
       }
     }

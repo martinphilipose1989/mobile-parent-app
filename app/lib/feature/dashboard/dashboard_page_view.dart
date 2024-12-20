@@ -7,7 +7,6 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 import 'package:app/navigation/route_paths.dart';
 
-
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
@@ -38,59 +37,61 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 15, width: 10),
           const Tracker(),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          AppStreamBuilder<Resource<bool>>(
-              stream: model.loadAdmissionMenus,
-              initialData: Resource.none(),
-              dataBuilder: (context, value) {
-                if (model.trackerTemp
-                    .where((tracker) => tracker['isActive'] == true)
-                    .isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      title('Tracker'),
-                      CommonSizedBox.sizedBox(height: 10, width: 10),
-                      chipsList(
-                          context,
-                          model.trackerTemp
-                              .where((e) => e['isActive'] == true)
-                              .map((track) => Chips(
-                                    name: track['name'],
-                                    image: track['image'],
-                                    isSelected: track['isSelected'],
-                                  ))
-                              .toList(),
-                          model)
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              }),
-          title('Child Progress/Academic Progress'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.progress.length,
-                (i) => Chips(
-                    name: model.progress[i]['name'],
-                    image: model.progress[i]['image'],
-                    isSelected: model.progress[i]['isSelected']),
-              ),
-              model),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          title('Enquiry & Admission'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.enquiryAndAdmissionTemp.length,
-                (i) => Chips(
-                    name: model.enquiryAndAdmissionTemp[i]['name'],
-                    image: model.enquiryAndAdmissionTemp[i]['image'],
-                    isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
-              ),
-              model),
+          // AppStreamBuilder<Resource<bool>>(
+          //     stream: model.loadAdmissionMenus,
+          //     initialData: Resource.none(),
+          //     dataBuilder: (context, value) {
+          //       if (model.trackerTemp
+          //           .where((tracker) => tracker['isActive'] == true)
+          //           .isNotEmpty) {
+          //         return Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             title('Tracker'),
+          //             CommonSizedBox.sizedBox(height: 10, width: 10),
+          //             chipsList(
+          //                 context,
+          //                 model.trackerTemp
+          //                     .where((e) => e['isActive'] == true)
+          //                     .map((track) => Chips(
+          //                           name: track['name'],
+          //                           image: track['image'],
+          //                           isSelected: track['isSelected'],
+          //                         ))
+          //                     .toList(),
+          //                 model)
+          //           ],
+          //         );
+          //       }
+          //       return const SizedBox.shrink();
+          //     }),
+
+          // title('Child Progress/Academic Progress'),
+          // CommonSizedBox.sizedBox(height: 10, width: 10),
+          // chipsList(
+          //     context,
+          //     List.generate(
+          //       model.progress.length,
+          //       (i) => Chips(
+          //           name: model.progress[i]['name'],
+          //           image: model.progress[i]['image'],
+          //           isSelected: model.progress[i]['isSelected']),
+          //     ),
+          //     model),
+
+          // CommonSizedBox.sizedBox(height: 10, width: 10),
+          // title('Enquiry & Admission'),
+          // CommonSizedBox.sizedBox(height: 10, width: 10),
+          // chipsList(
+          //     context,
+          //     List.generate(
+          //       model.enquiryAndAdmissionTemp.length,
+          //       (i) => Chips(
+          //           name: model.enquiryAndAdmissionTemp[i]['name'],
+          //           image: model.enquiryAndAdmissionTemp[i]['image'],
+          //           isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
+          //     ),
+          //     model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,

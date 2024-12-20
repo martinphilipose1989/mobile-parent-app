@@ -15,19 +15,16 @@ class UpdateNewAdmissionUsecase extends BaseUseCase<BaseError,
     required UpdateNewAdmissionUsecaseUseCaseParams params,
   }) {
     return _enquiryRepository.updateNewAdmissionDetail(
-      enquiryID: params.enquiryID,
-      newAdmissionDetail: params.newAdmissionDetail
-    );
+        enquiryID: params.enquiryID,
+        newAdmissionDetail: params.newAdmissionDetail);
   }
 }
 
 class UpdateNewAdmissionUsecaseUseCaseParams extends Params {
   final String enquiryID;
   final NewAdmissionDetailEntity newAdmissionDetail;
-  UpdateNewAdmissionUsecaseUseCaseParams({
-    required this.enquiryID,
-    required this.newAdmissionDetail
-  });
+  UpdateNewAdmissionUsecaseUseCaseParams(
+      {required this.enquiryID, required this.newAdmissionDetail});
 
   @override
   Either<AppError, bool> verify() {

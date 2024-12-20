@@ -1,8 +1,8 @@
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
 import 'package:domain/domain.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:rxdart/rxdart.dart';
-
 import 'enquiry_base_viewmodel.dart';
 
 class EnquiryNewAdmissionPageViewModel extends EnquiryBaseViewModel {
@@ -21,47 +21,64 @@ class EnquiryNewAdmissionPageViewModel extends EnquiryBaseViewModel {
   Stream<Resource<NewAdmissionBase>> get newAdmissionDetail =>
       _newAdmissionDetail.stream;
 
-  BehaviorSubject<bool> isLoading = BehaviorSubject.seeded(false);
+  BehaviorSubject<NewAdmissionDetail>? newAdmissionDetails =
+      BehaviorSubject<NewAdmissionDetail>.seeded(NewAdmissionDetail());
 
-  @override
-  void getEnquiryDetailByType(
+  void updateNewAdmissionEnquirDetails(
+      {required String enquiryId,
+      required NewAdmissionDetailEntity newAdmissionDetail}) {
+    _newAdmissionDetail.add(Resource.loading());
+    isLoading.add(true);
+    UpdateNewAdmissionUsecaseUseCaseParams params =
+        UpdateNewAdmissionUsecaseUseCaseParams(
+            enquiryID: enquiryId, newAdmissionDetail: newAdmissionDetail);
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) =>
+            updateNewAdmissionUsecase.execute(params: params),
+        onSuccess: (result) {
+          _newAdmissionDetail.add(Resource.success(data: result));
+          newAdmissionDetails?.add(result?.data ?? NewAdmissionDetail());
+          selectedTabValue.add(selectedTabValue.value + 1);
+          isLoading.add(false);
+          getEnquiryDetails(enquiryId: enquiryId);
+        },
+        onError: (error) {
+          _newAdmissionDetail.add(Resource.error(error: error));
+          isLoading.add(false);
+        });
+  }
+
+  void getNewAdmissionEnquiry(
       {required String enquiryID, bool isEdit = false}) {
     _newAdmissionDetail.add(Resource.loading());
     GetNewAdmissionDetailUseCaseParams params =
         GetNewAdmissionDetailUseCaseParams(enquiryID: enquiryID);
+
     ApiResponseHandler.apiCallHandler(
-      exceptionHandlerBinder: exceptionHandlerBinder,
-      flutterToastErrorPresenter: flutterToastErrorPresenter,
-      params: params,
-      createCall: (params) =>
-          getNewAdmissionDetailUseCase.execute(params: params),
-      onSuccess: (result) {
-        _newAdmissionDetail.add(Resource.success(data: result));
-      },
-      onError: (error) {
-        _newAdmissionDetail.add(Resource.error(error: error));
-      },
-    );
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) =>
+            getNewAdmissionDetailUseCase.execute(params: params),
+        onSuccess: (result) {
+          _newAdmissionDetail.add(Resource.success(data: result));
+          newAdmissionDetails?.add(result?.data ?? NewAdmissionDetail());
+          if (isEdit) {
+            setNewAdmissionEnquiry(
+                newAdmissionDetail:
+                    newAdmissionDetails?.value ?? NewAdmissionDetail());
+          }
+        },
+        onError: (error) {
+          _newAdmissionDetail.add(Resource.error(error: error));
+        });
   }
 
-  // @override
-  // void updateEnquiryDetails<NewAdmissionDetailEntity>(
-  //     {required String enquiryId,
-  //     required NewAdmissionDetailEntity enquiryDetails}) {
-  //   UpdateNewAdmissionUsecaseUseCaseParams params =
-  //       UpdateNewAdmissionUsecaseUseCaseParams(
-  //           enquiryID: enquiryId, newAdmissionDetail: enquiryDetails);
-
-  //   ApiResponseHandler.apiCallHandler(
-  //       exceptionHandlerBinder: exceptionHandlerBinder,
-  //       flutterToastErrorPresenter: flutterToastErrorPresenter,
-  //       params: params,
-  //       createCall: (params) =>
-  //           updateNewAdmissionUsecase.execute(params: params),
-  //       onSuccess: (result) {},
-  //       onError: (error) {});
-  // }
-
-  @override
-  void setEnquiryDetailByType<T>({required T enquiryDetails}) {}
+  void setNewAdmissionEnquiry(
+      {required NewAdmissionDetail newAdmissionDetail}) {
+    enquiryDetailArgs;
+  }
 }

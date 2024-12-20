@@ -325,15 +325,11 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       {required String enquiryID, bool isEdit = false}) async {
     exceptionHandlerBinder.handle(block: () {
       GetNewAdmissionDetailUseCaseParams params =
-          GetNewAdmissionDetailUseCaseParams(
-        enquiryID: enquiryID,
-      );
+          GetNewAdmissionDetailUseCaseParams(enquiryID: enquiryID);
 
       RequestManager<NewAdmissionBase>(
         params,
-        createCall: () => getNewAdmissionDetailUseCase.execute(
-          params: params,
-        ),
+        createCall: () => getNewAdmissionDetailUseCase.execute(params: params),
       ).asFlow().listen((result) {
         _newAdmissionDetail.add(result);
         removeRegistrationMenu();
