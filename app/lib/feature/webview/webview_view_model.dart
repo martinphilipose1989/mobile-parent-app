@@ -41,7 +41,7 @@ class WebviewModel extends BasePageViewModel {
         _getPaymentStatusModel.add(result);
         timerSeconds = 5;
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

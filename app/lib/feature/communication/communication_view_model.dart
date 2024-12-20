@@ -99,7 +99,7 @@ class CommunicationPageModel extends BasePageViewModel {
               .add(Resource.success(data: result.data));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -136,7 +136,7 @@ class CommunicationPageModel extends BasePageViewModel {
           getCommunicationDetails(communocationId);
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

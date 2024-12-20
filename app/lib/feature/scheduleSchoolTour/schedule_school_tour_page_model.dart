@@ -20,11 +20,20 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
 
-  ScheduleSchoolTourPageModel(this.exceptionHandlerBinder,this.createSchoolVisitUseCase,this.getSchoolVisitSlotsUseCase,this.rescheduleSchoolVisitUseCase,this.flutterToastErrorPresenter, this.getEnquiryDetailUseCase);
-  
-  final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
-  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
-  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
+  ScheduleSchoolTourPageModel(
+      this.exceptionHandlerBinder,
+      this.createSchoolVisitUseCase,
+      this.getSchoolVisitSlotsUseCase,
+      this.rescheduleSchoolVisitUseCase,
+      this.flutterToastErrorPresenter,
+      this.getEnquiryDetailUseCase);
+
+  final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots =
+      BehaviorSubject<List<SlotsDetail>>.seeded([]);
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail =
+      PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail =>
+      _fetchEnquiryDetail.stream;
 
   final formKey = GlobalKey<FormState>();
   final dateSubject = BehaviorSubject<String>();
@@ -45,16 +54,22 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
   DateFormat dateFormat = DateFormat('d MMM yyyy');
   DateFormat dateFormat1 = DateFormat('yyyy-MM-dd');
 
-  PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
+  PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail =
+      PublishSubject();
   final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
   Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
-  final PublishSubject<Resource<SchoolVisitDetailBase>> _scheduleSchoolVisit = PublishSubject();
-  Stream<Resource<SchoolVisitDetailBase>> get scheduleSchoolVisit => _scheduleSchoolVisit.stream;
-  void getDefaultDate(){
+  final PublishSubject<Resource<SchoolVisitDetailBase>> _scheduleSchoolVisit =
+      PublishSubject();
+  Stream<Resource<SchoolVisitDetailBase>> get scheduleSchoolVisit =>
+      _scheduleSchoolVisit.stream;
+  void getDefaultDate() {
     selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
 
-  Future<void> scheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
+  Future<void> scheduleSchoolTour(
+      {required String enquiryID,
+      required String slotid,
+      required String Date}) async {
     exceptionHandlerBinder.handle(block: () {
       SchoolCreationRequest request = SchoolCreationRequest(
         schoolVisitDate: selectedDate,
@@ -73,25 +88,31 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _scheduleSchoolVisit.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       });
     }).execute();
   }
 
-  Future<void> rescheduleSchoolTour({required String enquiryID,required String slotid, required String Date}) async {
+  Future<void> rescheduleSchoolTour(
+      {required String enquiryID,
+      required String slotid,
+      required String Date}) async {
     exceptionHandlerBinder.handle(block: () {
       RescheduleSchoolVisitRequest request = RescheduleSchoolVisitRequest(
         schoolVisitDate: selectedDate,
         slotId: slotId,
         comment: commentController.text,
       );
-      RescheduleSchoolVisitUseCaseParams params = RescheduleSchoolVisitUseCaseParams(
+      RescheduleSchoolVisitUseCaseParams params =
+          RescheduleSchoolVisitUseCaseParams(
         schoolCreationRequest: request,
         enquiryID: enquiryID,
       );
@@ -103,23 +124,25 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _scheduleSchoolVisit.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
 
-  Future<void> fetchTimeSlotsSchoolVisit(String date,String enquiryID) async {
+  Future<void> fetchTimeSlotsSchoolVisit(String date, String enquiryID) async {
     exceptionHandlerBinder.handle(block: () {
-      GetSchoolVisitSlotsUsecaseParams params = GetSchoolVisitSlotsUsecaseParams(
+      GetSchoolVisitSlotsUsecaseParams params =
+          GetSchoolVisitSlotsUsecaseParams(
         enquiryID: enquiryID,
         date: date,
       );
@@ -130,20 +153,22 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _timeSlots.add(result);
-        if(result.status == Status.success){
-          schoolVisitTimeSlots.add(result.data?.data??[]);
-          if((result.data?.data??[]).isNotEmpty){
+        if (result.status == Status.success) {
+          schoolVisitTimeSlots.add(result.data?.data ?? []);
+          if ((result.data?.data ?? []).isNotEmpty) {
             slotId = result.data?.data?[0].id ?? '';
             selectedTime = result.data?.data?[0].slot ?? '';
           }
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -158,22 +183,18 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
     notifyListeners();
   }
 
-  String validateForm() {    
+  String validateForm() {
     if (selectedDate.isEmpty) {
       return 'Please select date';
-    }
-    else if (slotId.isEmpty) {
+    } else if (slotId.isEmpty) {
       return "Please select time";
-    }
-    else {
+    } else {
       return "";
     }
   }
 
-
   Future<void> getEnquiryDetail({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
-
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
         enquiryID: enquiryID,
       );
@@ -186,18 +207,16 @@ class ScheduleSchoolTourPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
 
-
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-              result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
-
-
-
 }

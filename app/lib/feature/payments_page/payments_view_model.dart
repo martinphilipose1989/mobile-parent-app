@@ -102,7 +102,7 @@ class PaymentsPageModel extends BasePageViewModel {
             result.data?.data?.lastTransactionDetailModel?.customerBankName ??
                 "";
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -133,7 +133,7 @@ class PaymentsPageModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchCouponsListModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -203,7 +203,7 @@ class PaymentsPageModel extends BasePageViewModel {
         if (result.status == Status.success) {}
         _getPaymentOrderResponseModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

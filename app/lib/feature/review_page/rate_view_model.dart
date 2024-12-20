@@ -67,7 +67,7 @@ class RatePageModel extends BasePageViewModel {
               .add(Resource.success(data: result.data));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

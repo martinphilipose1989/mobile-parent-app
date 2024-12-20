@@ -4,14 +4,17 @@ import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+
 @injectable
 class CommonTimeModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
 
   CommonTimeModel(this.exceptionHandlerBinder);
   final BehaviorSubject<int> selectedTime = BehaviorSubject<int>.seeded(0);
-  final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
-  final BehaviorSubject<List<SlotsDetail>> competencyTestTimeSlots = BehaviorSubject<List<SlotsDetail>>.seeded([]);
+  final BehaviorSubject<List<SlotsDetail>> schoolVisitTimeSlots =
+      BehaviorSubject<List<SlotsDetail>>.seeded([]);
+  final BehaviorSubject<List<SlotsDetail>> competencyTestTimeSlots =
+      BehaviorSubject<List<SlotsDetail>>.seeded([]);
   final List<String> timeList = [
     '10:00 AM',
     '11:00 AM',
@@ -34,9 +37,8 @@ class CommonTimeModel extends BasePageViewModel {
 //     ).asFlow().listen((result) {
 //         competencyTestTimeSlots.add(result.data?.data??[]);
 //     }).onError((error) {
-//       exceptionHandlerBinder.showError(error!);
+//       // exceptionHandlerBinder.showError(error!);
 //     });
 //   });
 // }
-  
 }

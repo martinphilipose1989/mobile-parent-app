@@ -103,7 +103,7 @@ class SummerCampDetailViewModel extends BasePageViewModel {
               event.dealSafeAppError?.error.message ?? '');
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -155,7 +155,7 @@ class SummerCampDetailViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.add(false);
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -201,7 +201,7 @@ class SummerCampDetailViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.value = false;
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }

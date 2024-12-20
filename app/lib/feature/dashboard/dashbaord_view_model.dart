@@ -90,18 +90,23 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List progress = [
-    {'name': 'Attendance', 'image': AppImages.attendance, 'isSelected': false},
     {
-      'name': 'Discipline Slips',
-      'image': AppImages.document,
+      'name': 'Student Profile',
+      'image': AppImages.personIcon,
       'isSelected': false
     },
-    {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
-    {
-      'name': 'Marksheet',
-      'image': AppImages.documentNormal,
-      'isSelected': false
-    }
+    // Coming Soon Features
+    // {
+    //   'name': 'Discipline Slips',
+    //   'image': AppImages.document,
+    //   'isSelected': false
+    // },
+    // {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
+    // {
+    //   'name': 'Marksheet',
+    //   'image': AppImages.documentNormal,
+    //   'isSelected': false
+    // }
   ];
 
   final List enquiryAndAdmissionTemp = [
@@ -202,7 +207,7 @@ class DashboardPageModel extends BasePageViewModel {
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -220,7 +225,7 @@ class DashboardPageModel extends BasePageViewModel {
                   email: result.data?.email, service: "mobile_app"));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -251,7 +256,7 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

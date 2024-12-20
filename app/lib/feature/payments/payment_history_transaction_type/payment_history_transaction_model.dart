@@ -45,7 +45,7 @@ class PaymentHistoryTransactionModel extends BasePageViewModel {
         }
         _getTransactionTypeModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

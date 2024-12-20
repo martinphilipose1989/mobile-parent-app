@@ -40,66 +40,73 @@ class _PaymentHistoryStudentLedgerState
           CommonSizedBox.sizedBox(height: 10, width: 10),
           SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: fees.length,
-              itemBuilder: (context, index) {
-                domain.GetPendingFeesFeeModel fee = fees[index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutePaths.paymentDetails,
-                        arguments: fee);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CommonText(
-                              text: fee.feeId != null
-                                  ? fee.feeDisplayName ?? ''
-                                  : fee.instrumentNumber ?? '',
-                              style: AppTypography.subtitle2,
-                            ),
-                            CommonText(
-                              text:
-                                  DateFormatter.formatDate(fee.createdOn ?? ''),
-                              style: AppTypography.caption,
-                            ),
-                          ],
+            child: fees.isEmpty
+                ? CommonText(
+                    text: 'No Student Ledger Found',
+                    style: AppTypography.subtitle2,
+                  )
+                : ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: fees.length,
+                    itemBuilder: (context, index) {
+                      domain.GetPendingFeesFeeModel fee = fees[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutePaths.paymentDetails,
+                              arguments: fee);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CommonText(
+                                    text: fee.feeId != null
+                                        ? fee.feeDisplayName ?? ''
+                                        : fee.instrumentNumber ?? '',
+                                    style: AppTypography.subtitle2,
+                                  ),
+                                  CommonText(
+                                    text: DateFormatter.formatDate(
+                                        fee.createdOn ?? ''),
+                                    style: AppTypography.caption,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  CommonText(
+                                    text: CurrencyFormatter.formatToRupee(
+                                        fee.amount ?? ''),
+                                    style: AppTypography.subtitle2.copyWith(
+                                        color: fee.feeId != null
+                                            ? AppColors.failure
+                                            : AppColors.success),
+                                  ),
+                                  CommonSizedBox.sizedBox(
+                                      height: 10, width: 20),
+                                  const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 15,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        Row(
-                          children: [
-                            CommonText(
-                              text: CurrencyFormatter.formatToRupee(
-                                  fee.amount ?? ''),
-                              style: AppTypography.subtitle2.copyWith(
-                                  color: fee.feeId != null
-                                      ? AppColors.failure
-                                      : AppColors.success),
-                            ),
-                            CommonSizedBox.sizedBox(height: 10, width: 20),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 15,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        height: 1,
+                        thickness: 1,
+                      );
+                    },
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  height: 1,
-                  thickness: 1,
-                );
-              },
-            ),
           ),
         ],
       ),

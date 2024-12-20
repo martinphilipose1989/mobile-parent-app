@@ -58,7 +58,7 @@ class PaymentHistoryModel extends BasePageViewModel {
         }
         _getAcademicYearModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -111,7 +111,7 @@ class PaymentHistoryModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _getTransactiontypefeesCollectedModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -138,7 +138,7 @@ class PaymentHistoryModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _getStudentLedger.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -164,9 +164,9 @@ class PaymentHistoryModel extends BasePageViewModel {
         createCall: () => _getPendingFeesUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _getFeesTypeModel.add(result);
-        groupByFeeType(result.data!.data!.fees ?? []);
+        groupByFeeType(result.data?.data?.fees ?? []);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -199,6 +199,7 @@ class PaymentHistoryModel extends BasePageViewModel {
 
   String calculateTotalAmount(List<GetPendingFeesFeeModel> fees) {
     int totalAmount = 0;
+    if (fees.isEmpty) return CurrencyFormatter.formatToRupee('0');
     for (var fee in fees) {
       totalAmount += int.tryParse(fee.amount?.split('.')[0] ?? '') ?? 0;
     }

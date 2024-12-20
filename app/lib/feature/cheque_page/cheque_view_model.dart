@@ -277,7 +277,7 @@ class ChequePageModel extends BasePageViewModel {
         if (result.status == Status.success) {}
         _getStorePaymentModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -300,7 +300,7 @@ class ChequePageModel extends BasePageViewModel {
         _getTokenGeneratorModel.add(result);
         tokenNumberControllers[index].text = result.data?.data?.number ?? '';
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

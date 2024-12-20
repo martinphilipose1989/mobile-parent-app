@@ -372,7 +372,7 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                             .spaceBetween,
                                                     children: [
                                                       const Text(
-                                                          'Reallocation (Transport)',
+                                                          'Reallocation', // 'Reallocation (Transport)',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .green)),

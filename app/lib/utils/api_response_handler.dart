@@ -30,7 +30,7 @@ abstract class ApiResponseHandler {
               flutterToastErrorPresenter: flutterToastErrorPresenter);
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
         onError(AppError(
             throwable: Exception(), error: error, type: ErrorType.unknown));
       });
