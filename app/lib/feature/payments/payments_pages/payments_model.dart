@@ -228,6 +228,7 @@ class PaymentsModel extends BasePageViewModel {
       }
     }
     studentIDs = tempList;
+
     getAcademicYear();
   }
 
