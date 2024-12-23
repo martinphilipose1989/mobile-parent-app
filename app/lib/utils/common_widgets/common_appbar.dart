@@ -1,8 +1,10 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/extension/string_formatter.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -68,7 +70,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
                   onTap: () {
-                    Scaffold.of(context).openDrawer();
+                    Navigator.pushNamed(context, RoutePaths.notificationPage);
                   },
                   child: SvgPicture.asset(AppImages.notificationLogo),
                 ),
@@ -77,7 +79,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 providerBase: userViewModelProvider,
                 builder: (context, model, _) => GestureDetector(
                   onTap: () {
-                    model?.logOut();
+                    CommonPopups().showError(
+                      context,
+                      "Are you sure you want to logout?",
+                      (shouldRoute) {
+                        model?.logOut();
+                      },
+                    );
                   },
                   child: Container(
                       height: 32.h,
