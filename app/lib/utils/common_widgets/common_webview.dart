@@ -58,7 +58,7 @@ class CommonWebViewState extends State<CommonWebView> {
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
-          url: Uri.parse(widget.url),
+          url: WebUri(widget.url), // Uri.parse(widget.url),
           headers: widget.headers,
         ),
         onWebViewCreated: (controller) {
@@ -77,14 +77,14 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onLoadStop!(controller, url);
           }
         },
-        onLoadError: (controller, url, code, message) {
+        onReceivedError: (controller, req, error) {
           if (widget.onLoadError != null) {
-            widget.onLoadError!(controller, url);
+            widget.onLoadError!(controller, req.url);
           }
         },
-        onLoadHttpError: (controller, url, statusCode, description) {
+        onReceivedHttpError: (controller, req, error) {
           if (widget.onLoadHttpError != null) {
-            widget.onLoadHttpError!(controller, url);
+            widget.onLoadHttpError!(controller, req.url);
           }
         },
         onUpdateVisitedHistory: (controller, url, isReload) {
@@ -92,17 +92,11 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onUpdateVisitedHistory!(controller, url);
           }
         },
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
-            mediaPlaybackRequiresUserGesture: false,
-          ),
-          android: AndroidInAppWebViewOptions(
-            useHybridComposition: true,
-          ),
-          ios: IOSInAppWebViewOptions(
-            allowsInlineMediaPlayback: true,
-          ),
+        initialSettings: InAppWebViewSettings(
+          mediaPlaybackRequiresUserGesture: false,
+          useShouldOverrideUrlLoading: true,
+          useHybridComposition: true,
+          allowsInlineMediaPlayback: true,
         ),
       ),
     );
