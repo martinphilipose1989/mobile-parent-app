@@ -17,9 +17,9 @@ class CommonSearchableDropDown extends StatefulWidget {
   final Function(List<String> selectedValues) onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
   final BehaviorSubject<String>? singleSelectItemSubject;
-  const CommonSearchableDropDown({
-    super.key,
-    required this.items,
+  const CommonSearchableDropDown(
+      {super.key,
+      required this.items,
       required this.isMutiSelect,
       required this.dropdownName,
       required this.showAstreik,
@@ -28,16 +28,15 @@ class CommonSearchableDropDown extends StatefulWidget {
       this.width,
       required this.onMultiSelect,
       this.onSingleSelect,
-      this.singleSelectItemSubject
-  });
+      this.singleSelectItemSubject});
 
   @override
-  State<CommonSearchableDropDown> createState() => _CommonSearchableDropDownState();
+  State<CommonSearchableDropDown> createState() =>
+      _CommonSearchableDropDownState();
 }
 
 class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
-
-    BehaviorSubject<List<String>> selectedItemsSubject =
+  BehaviorSubject<List<String>> selectedItemsSubject =
       BehaviorSubject<List<String>>.seeded([]);
 
   late BehaviorSubject<String> singleSelectItemSubject;
@@ -53,8 +52,8 @@ class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
       selectedItemsSubject.add(addedZerothIndex);
     }
     if (!widget.isMutiSelect) {
-      singleSelectItemSubject = widget.singleSelectItemSubject ??
-          BehaviorSubject<String>.seeded('');
+      singleSelectItemSubject =
+          widget.singleSelectItemSubject ?? BehaviorSubject<String>.seeded('');
     }
   }
 
@@ -70,38 +69,42 @@ class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
       clipBehavior: Clip.none,
       children: [
         DropdownSearch<String>(
-          items: widget.items,
+          items: (filter, _) => widget.items,
           // asyncItems: (text) {
-            
+
           // },
           onChanged: (value) {
             widget.onSingleSelect!(value ?? "");
             singleSelectItemSubject.add(value ?? "");
           },
           selectedItem: singleSelectItemSubject.value == ''
-                    ? null
-                    : singleSelectItemSubject.value,
-          dropdownButtonProps: DropdownButtonProps(
-            constraints: BoxConstraints(
-              maxWidth: widget.width ?? 100.w,
-              minHeight: 40.h,
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            color: Colors.white,
-            icon: const Icon(
-              Icons.keyboard_arrow_down_sharp,
-              color: Colors.black,
-            ),
-            iconSize: 14.r,
-          ),
-          dropdownDecoratorProps: const DropDownDecoratorProps(),
+              ? null
+              : singleSelectItemSubject.value,
+
+          // dropdownButtonProps: DropdownButtonProps(
+          //   constraints: BoxConstraints(
+          //     maxWidth: widget.width ?? 100.w,
+          //     minHeight: 40.h,
+          //   ),
+          //   padding: EdgeInsets.symmetric(horizontal: 14.w),
+          //   color: Colors.white,
+          //   icon: const Icon(
+          //     Icons.keyboard_arrow_down_sharp,
+          //     color: Colors.black,
+          //   ),
+          //   iconSize: 14.r,
+          // ),
+
+          // dropdownDecoratorProps: const DropDownDecoratorProps(),
+          decoratorProps: DropDownDecoratorProps(),
           popupProps: PopupProps.dialog(
             dialogProps: DialogProps(
-              contentPadding: EdgeInsets.symmetric(horizontal: 14.w,vertical: 20.h), 
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 20.h),
             ),
-            showSearchBox: true,            
+            showSearchBox: true,
             fit: FlexFit.tight,
-            itemBuilder: (context, item, isSelected) {
+            itemBuilder: (context, item, isDisabled, isSelected) {
               return CommonText(
                 text: item,
                 style: const TextStyle(
@@ -114,34 +117,34 @@ class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
           ),
         ),
         Positioned(
-              left: 6,
-              top: -11,
-              child: widget.dropdownName != ''
-                  ? Container(
-                      color: Colors
-                          .white, // Match the background color to avoid overlap
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        children: [
-                          CommonText(
-                            text: widget.dropdownName,
-                            style: AppTypography.caption
-                                .copyWith(color: AppColors.textNeutral35),
-                          ),
-                          widget.showAstreik
-                              ? CommonText(
-                                  text: ' *',
-                                  style: AppTypography.caption.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.failure,
-                                      fontSize: 12.sp),
-                                )
-                              : const SizedBox.shrink(),
-                        ],
+          left: 6,
+          top: -11,
+          child: widget.dropdownName != ''
+              ? Container(
+                  color: Colors
+                      .white, // Match the background color to avoid overlap
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    children: [
+                      CommonText(
+                        text: widget.dropdownName,
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.textNeutral35),
                       ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+                      widget.showAstreik
+                          ? CommonText(
+                              text: ' *',
+                              style: AppTypography.caption.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.failure,
+                                  fontSize: 12.sp),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
       ],
     );
   }
