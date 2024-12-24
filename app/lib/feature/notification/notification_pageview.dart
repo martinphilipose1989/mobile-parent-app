@@ -141,7 +141,7 @@ class NotificationPageView
 
                 model.fetchNotification(
                     notificationRequestModel: NotificationRequestModel(
-                        userId: 305,
+                        userId: 305,//for time being
                         userType: 2,
                         type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
 
