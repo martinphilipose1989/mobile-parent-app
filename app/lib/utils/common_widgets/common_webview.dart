@@ -48,8 +48,8 @@ class CommonWebViewState extends State<CommonWebView> {
               _webViewController.goBack();
             } else {
               if (context.mounted) {
-                Navigator.pop(context);
                 widget.onBackButtonPressed?.call();
+                Navigator.pop(context);
               }
             }
           },
