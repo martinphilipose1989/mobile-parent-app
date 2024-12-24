@@ -26,8 +26,8 @@ void main() async {
         logoutEndpoint: EnvQA.logoutEndpoint,
         gateUrl: EnvQA.gateBaseUrl,
         marketingUrl: EnvQA.marketingBaseUrl,
-        showLogs: false,
-        frontEndUrl: EnvQA.frontEndUrl),
+        showLogs: true,
+        frontEndUrl: EnvQA.frontEndUrl, notificationUrl: EnvQA.notificationUrl),
   );
   startApp();
 }

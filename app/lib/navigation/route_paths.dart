@@ -13,6 +13,8 @@ class RoutePaths {
   static const String admissionsDetails = '/admissionsDetails';
   static const String registrationDetails = '/registrationDetails';
   static const String attendanceCalender = '/attendanceCalender';
+  static const String notification = '/notification';
+
 
 // Related to enquireies from dashboard
   static const String enquiriesPage = '/enquiriesPage';

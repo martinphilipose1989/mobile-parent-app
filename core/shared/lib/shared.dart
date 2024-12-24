@@ -202,6 +202,10 @@ export 'src/model/response/user/user_role_permission_response.dart';
 export 'src/model/request/user/user_role_permission_request.dart';
 export 'src/model/response/login/logout_response.dart';
 export 'src/model/response/transport/uploadIntimationFileResponseModel.dart';
+////////notification
+export 'src/model/request/notification/notification_request_model.dart';
+export 'src/model/response/notification/NotificationResponseModel.dart';
+
 
 //utils
 export 'src/utils/validator.dart';

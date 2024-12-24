@@ -20,6 +20,7 @@ import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
 import 'package:app/feature/gate_pass/visitor_details/qr_details.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
+import 'package:app/feature/notification/notification_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/payments_page/payments_page.dart';
@@ -58,6 +59,13 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const SplashPage(),
             settings: const RouteSettings(name: RoutePaths.splash));
+      case RoutePaths.notification:
+        return CupertinoPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => const NotificationPage(),
+           settings: const RouteSettings(
+
+               name: RoutePaths.notification));
       case RoutePaths.tabbar:
         return CupertinoPageRoute(
             builder: (context) => const TabbarPage(),

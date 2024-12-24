@@ -10,6 +10,7 @@ import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
 import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
+import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
@@ -113,6 +114,10 @@ abstract class NetworkModule {
           Dio dio, @Named('attendance') String attendancebaseUrl) =>
       AttendanceRetorfitService(dio, attendanceBaseUrl: attendancebaseUrl);
   @lazySingleton
+ NotificationSerivce notificationService(
+      Dio dio, @Named('notificationUrl') String notificationBaseUrl) =>
+      NotificationSerivce (dio, notificationUrl:  notificationBaseUrl);
+  @lazySingleton
   TransportService providerTransportRetrofitService(
           Dio dio, @Named('transportUrl') String transportUrl) =>
       TransportService(dio, transportUrl: transportUrl);
@@ -143,7 +148,8 @@ abstract class NetworkModule {
           TicketRetrofitService ticketRetrofitService,
           KeyCloakService keyCloakService,
           GatemanagementService gatemanagementService,
-          MarketingSerivce marketingSerivce) =>
+          MarketingSerivce marketingSerivce,
+      NotificationSerivce notificationService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -154,5 +160,5 @@ abstract class NetworkModule {
           transportService: transportService,
           keyCloakService: keyCloakService,
           gatemanagementService: gatemanagementService,
-          marketingSerivce: marketingSerivce);
+          marketingSerivce: marketingSerivce, notificationSerivce: notificationService);
 }

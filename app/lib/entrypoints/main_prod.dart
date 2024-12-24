@@ -27,7 +27,7 @@ void main() async {
         gateUrl: EnvProd.gateBaseUrl,
         marketingUrl: EnvProd.marketingBaseUrl,
         showLogs: false,
-        frontEndUrl: EnvProd.frontEndUrl),
+        frontEndUrl: EnvProd.frontEndUrl, notificationUrl: EnvProd.notificationUrl),
   );
   startApp();
 }

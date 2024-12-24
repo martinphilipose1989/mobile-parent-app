@@ -45,7 +45,8 @@ class UserRepositoryImpl extends UserRepository {
               accessTokenExpirationDateTime:
                   result.accessTokenExpirationDateTime,
               idToken: result.idToken,
-              refreshToken: result.refreshToken),
+              refreshToken: result.refreshToken
+          ),
         );
       }
 
@@ -135,7 +136,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<LocalError, UserRolePermissionResponse>> storeUserResponse(
-      UserRolePermissionResponse userRolePermissionResponse) async {
+      UserRolePermissionResponse userRolePermissionResponse ) async {
     try {
       final saveUserName = secureStorageService.saveToDisk(
           secureStorageService.userName,

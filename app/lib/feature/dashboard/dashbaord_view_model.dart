@@ -129,7 +129,7 @@ class DashboardPageModel extends BasePageViewModel {
   String returnRouteValue(String routeValue) {
     switch (routeValue) {
       case 'sr':
-        return '';
+        return RoutePaths.notification;
       case 'order':
         return '';
       case 'transport':

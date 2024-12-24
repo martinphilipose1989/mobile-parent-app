@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:shared/shared.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -18,6 +19,11 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
       {required AcknowlegementRequestModel acknowledgementRequestModel});
+
+
+  Future<Either<NetworkError, NotificationResponseModel>> getNotification(
+      {required NotificationRequestModel notificationRequestModel});
+
 
   Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
       {required AttendanceCountRequestModel attendanceRequestModel});

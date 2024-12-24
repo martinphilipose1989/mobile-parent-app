@@ -73,4 +73,9 @@ abstract class AppModule {
 
   @Named("FrontEndUrl")
   String get frontEndUrl => FlavorConfig.instance.values.frontEndUrl;
+
+
+  @Named("notificationUrl")
+  String get notificationUrl => FlavorConfig.instance.values.notificationUrl;
+
 }

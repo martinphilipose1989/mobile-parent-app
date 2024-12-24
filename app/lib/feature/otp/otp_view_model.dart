@@ -54,7 +54,7 @@ class OtpPageModel extends BasePageViewModel {
               break;
             case Status.error:
               // Handle error, show error UI or messages
-              // CommonPopups().showError(
+              // CommonPopups().showError(vn
               //   AppService.navigatorKey!.currentContext!,
               //   "${result.dealSafeAppError?.error.message}",
               //   (shouldRoute) {},
