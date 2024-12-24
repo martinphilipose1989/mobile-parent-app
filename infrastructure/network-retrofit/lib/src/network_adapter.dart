@@ -1639,7 +1639,44 @@ class NetworkAdapter implements NetworkPort {
 
     return response.fold(
       (error) => Left(error),
-      (data) => Right(data.data.transform()),
+      (data) => Right(data.data),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> downloadTransactionHistory(
+      {required String id, required String fileType}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadTransactionHistory(id, fileType));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(data.data),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> downloadFeeTypeTransactions(
+      {required String urlKey}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadFeeTypeTransactions(urlKey));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(data.data),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> downloadStudentLedger(
+      {required String urlKey}) async {
+    // final response =
+    //     await safeApiCall(financeRetrofitService.downloadStudentLedger(urlKey));
+
+    // return response.fold(
+    //   (error) => Left(error),
+    //   (data) => Right(data.data),
+    // );
+    throw UnimplementedError();
   }
 }

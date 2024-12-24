@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
+import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -85,4 +86,20 @@ abstract class FinanceRetrofitService {
   Future<HttpResponse<dynamic>> cancelPaymentRequest(
       @Query('paymentgateway') String paymentGateway,
       @Body() CancelPaymentRequestEntity cancelPaymentRequestEntity);
+
+  // ************* Payment History ************ //
+
+  // Transaction Type
+  @GET("/finance/transactions/reciept/{id}")
+  Future<dynamic> downloadTransactionHistory(
+      @Path("id") String id, @Query("file_type") String fileType);
+
+  // Fee Type Transactions
+  @GET("/finance/student-fees/transactions/{url_key}")
+  Future<dynamic> downloadFeeTypeTransactions(@Path("url_key") String urlKey);
+
+  // Ledger
+  @GET("/finance/student-fees/export-data")
+  Future<dynamic> downloadStudentLedger(
+      @Body() StudentLedgerDownloadRequestEntity body);
 }

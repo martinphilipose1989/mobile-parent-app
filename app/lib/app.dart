@@ -1,4 +1,4 @@
-//import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:dependency_injection/dependency_injection.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,9 @@ import 'myapp.dart';
 void startApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies(DependencyConfigurationContext());
-//  final alice = getIt<Alice>();
+  final alice = getIt<Alice>();
 
-//  alice.setNavigatorKey(navigatorKey);
+  alice.setNavigatorKey(navigatorKey);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

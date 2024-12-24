@@ -58,7 +58,8 @@ class CommonWebViewState extends State<CommonWebView> {
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
-          url: WebUri(widget.url), // Uri.parse(widget.url),
+          url: Uri.parse(
+              widget.url), // IOS COMPATIBLE VERSION  WebUri(widget.url),,
           headers: widget.headers,
         ),
         onWebViewCreated: (controller) {
@@ -77,27 +78,51 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onLoadStop!(controller, url);
           }
         },
-        onReceivedError: (controller, req, error) {
+        onLoadError: (controller, url, code, message) {
           if (widget.onLoadError != null) {
-            widget.onLoadError!(controller, req.url);
+            widget.onLoadError!(controller, url);
           }
         },
-        onReceivedHttpError: (controller, req, error) {
+        onLoadHttpError: (controller, url, statusCode, description) {
           if (widget.onLoadHttpError != null) {
-            widget.onLoadHttpError!(controller, req.url);
+            widget.onLoadHttpError!(controller, url);
           }
         },
+        // IOS COMPATIBLE VERSION
+        // onReceivedError: (controller, req, error) {
+        //   if (widget.onLoadError != null) {
+        //     widget.onLoadError!(controller, req.url);
+        //   }
+        // },
+        // onReceivedHttpError: (controller, req, error) {
+        //   if (widget.onLoadHttpError != null) {
+        //     widget.onLoadHttpError!(controller, req.url);
+        //   }
+        // },
         onUpdateVisitedHistory: (controller, url, isReload) {
           if (widget.onUpdateVisitedHistory != null) {
             widget.onUpdateVisitedHistory!(controller, url);
           }
         },
-        initialSettings: InAppWebViewSettings(
-          mediaPlaybackRequiresUserGesture: false,
-          useShouldOverrideUrlLoading: true,
-          useHybridComposition: true,
-          allowsInlineMediaPlayback: true,
+        initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(
+            useShouldOverrideUrlLoading: true,
+            mediaPlaybackRequiresUserGesture: false,
+          ),
+          android: AndroidInAppWebViewOptions(
+            useHybridComposition: true,
+          ),
+          ios: IOSInAppWebViewOptions(
+            allowsInlineMediaPlayback: true,
+          ),
         ),
+        // IOS COMPATIBLE
+        // initialSettings: InAppWebViewSettings(
+        //   mediaPlaybackRequiresUserGesture: false,
+        //   useShouldOverrideUrlLoading: true,
+        //   useHybridComposition: true,
+        //   allowsInlineMediaPlayback: true,
+        // ),
       ),
     );
   }
