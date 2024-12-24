@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:domain/domain.dart';
 
 import '../out/network_port.dart';
@@ -106,5 +108,23 @@ class FinanceRepositoryImpl extends FinanceRepository {
       {required String paymentGateway, required String orderId}) {
     return networkPort.cancelPaymentRequest(
         paymentGateway: paymentGateway, orderId: orderId);
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
+      {required String urlKey}) {
+    return networkPort.downloadFeeTypeTransactions(urlKey: urlKey);
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body}) {
+    return networkPort.downloadStudentLedger(body: body);
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
+      {required String id, required String fileType}) {
+    return networkPort.downloadTransactionHistory(id: id, fileType: fileType);
   }
 }

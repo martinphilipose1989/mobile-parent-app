@@ -11,6 +11,7 @@ import 'package:network_retrofit/src/model/request/communication/get_ticket_list
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
 import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
+import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -1644,39 +1645,37 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, dynamic>> downloadTransactionHistory(
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
       {required String id, required String fileType}) async {
     final response = await safeApiCall(
         financeRetrofitService.downloadTransactionHistory(id, fileType));
 
-    return response.fold(
-      (error) => Left(error),
-      (data) => Right(data.data),
-    );
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
   }
 
   @override
-  Future<Either<NetworkError, dynamic>> downloadFeeTypeTransactions(
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
       {required String urlKey}) async {
     final response = await safeApiCall(
         financeRetrofitService.downloadFeeTypeTransactions(urlKey));
 
-    return response.fold(
-      (error) => Left(error),
-      (data) => Right(data.data),
-    );
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
   }
 
   @override
-  Future<Either<NetworkError, dynamic>> downloadStudentLedger(
-      {required String urlKey}) async {
-    // final response =
-    //     await safeApiCall(financeRetrofitService.downloadStudentLedger(urlKey));
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body}) async {
+    StudentLedgerDownloadRequestEntity restoreObj =
+        StudentLedgerDownloadRequestEntity();
 
-    // return response.fold(
-    //   (error) => Left(error),
-    //   (data) => Right(data.data),
-    // );
-    throw UnimplementedError();
+    final response = await safeApiCall(
+        financeRetrofitService.downloadStudentLedger(restoreObj.restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
   }
 }

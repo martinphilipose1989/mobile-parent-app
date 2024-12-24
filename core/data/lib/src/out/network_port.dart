@@ -324,12 +324,12 @@ abstract class NetworkPort {
   Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
       {required String paymentGateway, required String orderId});
 
-  Future<Either<NetworkError, dynamic>> downloadTransactionHistory(
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
       {required String id, required String fileType});
 
-  Future<Either<NetworkError, dynamic>> downloadFeeTypeTransactions(
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
       {required String urlKey});
 
-  Future<Either<NetworkError, dynamic>> downloadStudentLedger(
-      {required String urlKey});
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body});
 }
