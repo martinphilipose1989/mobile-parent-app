@@ -131,35 +131,38 @@ class NotificationPageView
           SizedBox(
             height: 10.w,
           ),
-          CommonTabPage(
-            firstTabTitle: "Unread()",
-            onFirstTabChange: () {
-              model.pageNumber=1;
-              model.selectedValue.add(0);
+          AppStreamBuilder<Resource<List<NotificationDetail>>>(
+   dataBuilder: (BuildContext context,notification){
+  return CommonTabPage(
+              firstTabTitle: "Unread(${notification?.data?.length??0})",
+              onFirstTabChange: () {
+                model.pageNumber=1;
+                model.selectedValue.add(0);
 
-              model.fetchNotification(
-                  notificationRequestModel: NotificationRequestModel(
-                      userId: 305,
-                      userType: 2,
-                      type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
+                model.fetchNotification(
+                    notificationRequestModel: NotificationRequestModel(
+                        userId: 305,
+                        userType: 2,
+                        type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
 
-                      limit: 10,
-                      page: model.pageNumber));
-            },
-            onSecondTabChange: () {
-              model.pageNumber=1;
-              model.selectedValue.add(1);
-              model.fetchNotification(
-                  notificationRequestModel: NotificationRequestModel(
-                      userId: 305,
-                      userType: 2,
-                      type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
-                      limit: 10,
-                      page: model.pageNumber));
-            },
-            secondTabTitle: "Read()",
-            // tabController: model.tabController,
-            selectedValue: model.selectedValue, tabController: null,
+                        limit: 10,
+                        page: model.pageNumber));
+              },
+              onSecondTabChange: () {
+                model.pageNumber=1;
+                model.selectedValue.add(1);
+                model.fetchNotification(
+                    notificationRequestModel: NotificationRequestModel(
+                        userId: 305,
+                        userType: 2,
+                        type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
+                        limit: 10,
+                        page: model.pageNumber));
+              },
+              secondTabTitle: "Read(${notification?.data?.length??0})",
+              // tabController: model.tabController,
+              selectedValue: model.selectedValue, tabController: null,
+            );}, stream: model.notificationStream, initialData: Resource.none(),
           ),
           Expanded(
             child: Padding(

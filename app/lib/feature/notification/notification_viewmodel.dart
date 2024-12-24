@@ -97,11 +97,10 @@ int userType=2;
           print("after loading 1");
           return;
         }
-       // print("after loading 2");
-        if (!isLastPage()) {
+
           print("after loading 2");
           pageNumber++;
-          isLoading.add(true);
+          isLoading.add(false);
           fetchNotification(
               notificationRequestModel: NotificationRequestModel(
                   userId: userId,
@@ -109,10 +108,7 @@ int userType=2;
                   type: getType(selectedStatusValue.value, selectedValue.value),
                   limit: 10,
                   page: pageNumber));
-        }
-        // else{
-        //   _updatenotificationList(notificationList);
-        // }
+
       }
     });
   }
