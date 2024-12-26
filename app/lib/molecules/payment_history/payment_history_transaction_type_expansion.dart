@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/payments/payment_history_transaction_type/payment_history_transaction_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
@@ -122,7 +124,19 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                 Row(
                                   children: [
                                     const Spacer(),
-                                    SvgPicture.asset(AppImages.eyeIcon),
+                                    InkWell(
+                                      onTap: () {
+                                        log('Download transaction history ${transactionModel.getTransactiontypefeesCollectedModel?.first.feeUrlKey}');
+                                        String feeUrlKey = transactionModel
+                                                .transactionUrlKey ??
+                                            '';
+                                        model.paymentHistoryModel
+                                            .downloadTransactionHistory(
+                                                fileType: 'pdf', id: feeUrlKey);
+                                      },
+                                      child:
+                                          SvgPicture.asset(AppImages.eyeIcon),
+                                    ),
                                     CommonSizedBox.sizedBox(
                                         height: 10, width: 20),
                                     SvgPicture.asset(AppImages.downloadIcon),

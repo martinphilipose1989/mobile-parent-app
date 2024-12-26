@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:app/di/states/viewmodels.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/date_formatter.dart';
 import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -34,7 +38,18 @@ class _PaymentHistoryStudentLedgerState
               const Spacer(),
               SvgPicture.asset(AppImages.eyeIcon),
               CommonSizedBox.sizedBox(height: 10, width: 20),
-              SvgPicture.asset(AppImages.downloadIcon),
+              InkWell(
+                  onTap: () {
+                    ProviderScope.containerOf(context)
+                        .read(paymentHistoryProvider)
+                        .downloadStudentLedger(
+                            feesType: 'ledger',
+                            fileType: 'pdf',
+                            transaction: [],
+                            studentFeesId: [fees[1].studentFeeId ?? 0],
+                            sendMail: true);
+                  },
+                  child: SvgPicture.asset(AppImages.downloadIcon)),
             ],
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),

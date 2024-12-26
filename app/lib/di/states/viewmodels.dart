@@ -361,10 +361,17 @@ final chequePageModelProvider =
 final paymentHistoryProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryModel>((ref) =>
         PaymentHistoryModel(
-            getIt.get<FlutterExceptionHandlerBinder>(),
-            getIt.get<GetAcademicYearUsecase>(),
-            getIt.get<GetTransactionTypeFeesCollectedUsecase>(),
-            getIt.get<GetPendingFeesUsecase>()));
+            flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+            exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+            getAcademicYearUsecase: getIt.get<GetAcademicYearUsecase>(),
+            getTransactionTypeFeesCollectedUsecase:
+                getIt.get<GetTransactionTypeFeesCollectedUsecase>(),
+            getPendingFeesUsecase: getIt.get<GetPendingFeesUsecase>(),
+            downloadFeeTypeUsecase: getIt.get<DownloadFeeTypeUsecase>(),
+            downloadStudentLedgerUsecase:
+                getIt.get<DownloadStudentLedgerUsecase>(),
+            downloadTransactionHistoryUsecase:
+                getIt.get<DownloadTransactionHistoryUsecase>()));
 
 final paymentHistoryTransactionProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryTransactionModel>(

@@ -101,6 +101,7 @@ class TransactionModel {
   final String? postedAmount;
   final String? paymentMode;
   List<GetTransactionTypeDatumModel>? getTransactiontypefeesCollectedModel;
+  final String? transactionUrlKey;
 
   TransactionModel(
       {this.detailsCustomerBankName,
@@ -122,5 +123,6 @@ class TransactionModel {
       this.exchangeRate,
       this.postedAmount,
       this.paymentMode,
-      this.getTransactiontypefeesCollectedModel});
+      this.getTransactiontypefeesCollectedModel,
+      this.transactionUrlKey});
 }

@@ -21,6 +21,7 @@ class PaymentHistoryFeesView
                 child: CircularProgressIndicator(),
               )
             : PaymentHistoryFeesTypeExpansion(
+                model: model.paymentHistoryModel,
                 groupedModels: model.paymentHistoryModel.groupedModels);
       },
     );

@@ -24,11 +24,18 @@ class DownloadStudentLedgerUsecase extends BaseUseCase<BaseError,
 }
 
 class DownloadStudentLedgerUsecaseParams extends Params {
-  List<int>? studentFeesId;
-  String? fileType;
-  String? feesType;
-  List<int>? transaction;
-  bool? sendMail;
+  final List<int>? studentFeesId;
+  final String? fileType;
+  final String? feesType;
+  final List<int>? transaction;
+  final bool? sendMail;
+
+  DownloadStudentLedgerUsecaseParams(
+      {this.studentFeesId,
+      this.fileType,
+      this.feesType,
+      this.transaction,
+      this.sendMail});
 
   @override
   Either<AppError, bool> verify() {

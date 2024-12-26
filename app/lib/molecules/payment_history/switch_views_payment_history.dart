@@ -19,16 +19,10 @@ class SwitchViewPaymentHistory extends BasePageViewWidget<PaymentHistoryModel> {
         initialData: model.switchTabsPaymentHistory.value,
         dataBuilder: (context, data) {
           return data == 0
-              ? PaymentHistoryTransactionPage(
-                  paymentHistoryModel: model,
-                )
+              ? PaymentHistoryTransactionPage(paymentHistoryModel: model)
               : data == 1
-                  ? PaymentHistoryFeesPage(
-                      paymentHistoryModel: model,
-                    )
-                  : PaymentHistoryStudentLedgerPage(
-                      paymentHistoryModel: model,
-                    );
+                  ? PaymentHistoryFeesPage(paymentHistoryModel: model)
+                  : PaymentHistoryStudentLedgerPage(paymentHistoryModel: model);
         },
       ),
     );

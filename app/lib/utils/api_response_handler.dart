@@ -31,6 +31,7 @@ abstract class ApiResponseHandler {
         }
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
+        log("ERROR ==> $error");
         onError(AppError(
             throwable: Exception(), error: error, type: ErrorType.unknown));
       });

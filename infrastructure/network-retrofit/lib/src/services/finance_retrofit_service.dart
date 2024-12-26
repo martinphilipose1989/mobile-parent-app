@@ -90,7 +90,7 @@ abstract class FinanceRetrofitService {
   // ************* Payment History ************ //
 
   // Transaction Type
-  @GET("/finance/transactions/reciept/{id}")
+  @GET("/finance/transactions/receipt/{id}")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadTransactionHistory(
       @Path("id") String id, @Query("file_type") String fileType);
@@ -102,7 +102,7 @@ abstract class FinanceRetrofitService {
       @Path("url_key") String urlKey);
 
   // Ledger
-  @GET("/finance/student-fees/export-data")
+  @POST("/finance/student-fees/export-data")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadStudentLedger(
       @Body() StudentLedgerDownloadRequestEntity body);
