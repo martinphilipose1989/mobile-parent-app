@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/molecules/payments_page.dart/payments_page_radio_button.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -123,6 +125,8 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                                     .toString();
                                               }
                                             : () {
+                                                log("APPLY ${data[index].academicYearId}");
+
                                                 Navigator.pushNamed(context,
                                                         RoutePaths.couponList,
                                                         arguments: data[index])
@@ -165,7 +169,7 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                       })),
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
-        CommonText(
+            CommonText(
               text: 'Select payment Method',
               style: AppTypography.body2,
             ),

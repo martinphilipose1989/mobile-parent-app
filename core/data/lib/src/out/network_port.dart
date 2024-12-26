@@ -261,7 +261,9 @@ abstract class NetworkPort {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds});
+      required String feeSubCategoryIds,
+      required String academicYrsId,
+      required String feeSubTypeIds});
 
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
       {required int pageSize, required int page});

@@ -1141,12 +1141,16 @@ class NetworkAdapter implements NetworkPort {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds}) async {
+      required String feeSubCategoryIds,
+      required String academicYrsId,
+      required String feeSubTypeIds}) async {
     var response = await safeApiCall(adminRetorfitService.getCoupons(
         studentId: studentId,
         feeTypeIds: feeTypeIds,
         feeCategoryIds: feeCategoryIds,
-        feeSubCategoryIds: feeSubCategoryIds));
+        feeSubCategoryIds: feeSubCategoryIds,
+        academicYrsId: academicYrsId,
+        feeSubTypeIds: feeSubTypeIds));
     return response.fold(
       (l) {
         return Left(l);

@@ -121,12 +121,14 @@ class CommonWebViewState extends State<CommonWebView> {
         //   ),
         // ),
         // IOS COMPATIBLE
+        shouldOverrideUrlLoading: (controller, action) async {
+          return NavigationActionPolicy.ALLOW;
+        },
         initialSettings: InAppWebViewSettings(
-          mediaPlaybackRequiresUserGesture: false,
-          useShouldOverrideUrlLoading: true,
-          useHybridComposition: true,
-          allowsInlineMediaPlayback: true,
-        ),
+            mediaPlaybackRequiresUserGesture: false,
+            useShouldOverrideUrlLoading: true,
+            useHybridComposition: true,
+            allowsInlineMediaPlayback: true),
       ),
     );
   }

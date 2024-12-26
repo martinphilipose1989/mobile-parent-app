@@ -9,6 +9,7 @@ import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/date_formatter.dart';
+import 'package:app/utils/enums/finance_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
@@ -98,14 +99,6 @@ class _PaymentHistoryFeesTypeExpansionState
                                                 const Spacer(),
                                                 InkWell(
                                                     onTap: () {
-                                                      // for (var element1
-                                                      //     in widget
-                                                      //         .groupedModels) {
-                                                      //   for (var element
-                                                      //       in element1.fees) {
-                                                      //     log('ID ${element1.feeType} URL KEY ${element.urlKey} LEN ${element1.fees.length}');
-                                                      //   }
-                                                      // }
                                                       if (widget.groupedModels
                                                           .isNotEmpty) {
                                                         final String? urlKey =
@@ -127,8 +120,26 @@ class _PaymentHistoryFeesTypeExpansionState
                                                         AppImages.eyeIcon)),
                                                 CommonSizedBox.sizedBox(
                                                     height: 10, width: 20),
-                                                SvgPicture.asset(
-                                                    AppImages.downloadIcon),
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (widget.groupedModels
+                                                        .isNotEmpty) {
+                                                      final String? urlKey =
+                                                          widget
+                                                              .groupedModels[i]
+                                                              .fees
+                                                              .first
+                                                              .urlKey;
+                                                      log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
+                                                      widget.model
+                                                          .downloadFeeType(
+                                                              urlKey:
+                                                                  urlKey ?? '');
+                                                    }
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                      AppImages.downloadIcon),
+                                                ),
                                               ],
                                             ),
                                             CommonSizedBox.sizedBox(
@@ -142,6 +153,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                       fees = widget
                                                           .groupedModels[i]
                                                           .fees[index];
+
                                                   return Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -199,9 +211,23 @@ class _PaymentHistoryFeesTypeExpansionState
                                                             .formatToRupee(
                                                                 fees.amount ??
                                                                     ""),
+                                                        color: TransactionStausEnum
+                                                                    .success
+                                                                    .id ==
+                                                                fees
+                                                                    .transactionStatus
+                                                            ? AppColors.success
+                                                            : TransactionStausEnum
+                                                                        .failure
+                                                                        .id ==
+                                                                    fees
+                                                                        .transactionStatus
+                                                                ? AppColors
+                                                                    .failure
+                                                                : AppColors
+                                                                    .textDark,
                                                         style: AppTypography
-                                                            .subtitle2
-                                                            .copyWith(),
+                                                            .subtitle2,
                                                       ),
                                                     ],
                                                   );
