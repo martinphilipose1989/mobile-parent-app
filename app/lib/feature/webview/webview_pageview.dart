@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
@@ -45,6 +47,12 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
           onLoadStop: (controller, url) {},
           onWebViewCreated: (controller) {
             model.webViewController = controller;
+          },
+          onLoadHttpError: (cont, uri) {
+            log("URI ${uri?.path}");
+          },
+          onLoadError: (controller, url) {
+            log("URL $url");
           },
           onUpdateVisitedHistory: (controller, url) {
             if (url != null) {

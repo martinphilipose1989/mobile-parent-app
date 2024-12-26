@@ -40,13 +40,23 @@ class _PaymentHistoryStudentLedgerState
               CommonSizedBox.sizedBox(height: 10, width: 20),
               InkWell(
                   onTap: () {
+                    final studentFeesIdList = fees
+                        .where((fee) => fee.studentFeeId != null)
+                        .map((e) => e.studentFeeId!)
+                        .toList();
+
+                    final transactionIdList = fees
+                        .where((fee) => fee.transactionId != null)
+                        .map((e) => e.transactionId!)
+                        .toList();
+
                     ProviderScope.containerOf(context)
                         .read(paymentHistoryProvider)
                         .downloadStudentLedger(
                             feesType: 'ledger',
                             fileType: 'pdf',
-                            transaction: [],
-                            studentFeesId: [fees[1].studentFeeId ?? 0],
+                            transaction: transactionIdList,
+                            studentFeesId: studentFeesIdList,
                             sendMail: true);
                   },
                   child: SvgPicture.asset(AppImages.downloadIcon)),

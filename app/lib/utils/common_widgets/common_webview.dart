@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -58,8 +60,8 @@ class CommonWebViewState extends State<CommonWebView> {
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
-          url: Uri.parse(
-              widget.url), // IOS COMPATIBLE VERSION  WebUri(widget.url),,
+          url:
+              WebUri(widget.url), // IOS COMPATIBLE VERSION  WebUri(widget.url),
           headers: widget.headers,
         ),
         onWebViewCreated: (controller) {
@@ -78,51 +80,53 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onLoadStop!(controller, url);
           }
         },
-        onLoadError: (controller, url, code, message) {
-          if (widget.onLoadError != null) {
-            widget.onLoadError!(controller, url);
-          }
-        },
-        onLoadHttpError: (controller, url, statusCode, description) {
-          if (widget.onLoadHttpError != null) {
-            widget.onLoadHttpError!(controller, url);
-          }
-        },
-        // IOS COMPATIBLE VERSION
-        // onReceivedError: (controller, req, error) {
+        // onLoadError: (controller, url, code, message) {
         //   if (widget.onLoadError != null) {
-        //     widget.onLoadError!(controller, req.url);
+        //     widget.onLoadError!(controller, url);
         //   }
         // },
-        // onReceivedHttpError: (controller, req, error) {
+        // onLoadHttpError: (controller, url, statusCode, description) {
         //   if (widget.onLoadHttpError != null) {
-        //     widget.onLoadHttpError!(controller, req.url);
+        //     widget.onLoadHttpError!(controller, url);
         //   }
         // },
+        // IOS COMPATIBLE VERSION
+        onReceivedError: (controller, req, error) {
+          log("onReceivedHttpError: PATH ${req.url.path} DESC ${error.description}");
+          if (widget.onLoadError != null) {
+            widget.onLoadError!(controller, req.url);
+          }
+        },
+        onReceivedHttpError: (controller, req, error) {
+          log("onReceivedHttpError: PATH ${req.url.path} ERROR ${error.statusCode}");
+          if (widget.onLoadHttpError != null) {
+            widget.onLoadHttpError!(controller, req.url);
+          }
+        },
         onUpdateVisitedHistory: (controller, url, isReload) {
           if (widget.onUpdateVisitedHistory != null) {
             widget.onUpdateVisitedHistory!(controller, url);
           }
         },
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
-            mediaPlaybackRequiresUserGesture: false,
-          ),
-          android: AndroidInAppWebViewOptions(
-            useHybridComposition: true,
-          ),
-          ios: IOSInAppWebViewOptions(
-            allowsInlineMediaPlayback: true,
-          ),
-        ),
-        // IOS COMPATIBLE
-        // initialSettings: InAppWebViewSettings(
-        //   mediaPlaybackRequiresUserGesture: false,
-        //   useShouldOverrideUrlLoading: true,
-        //   useHybridComposition: true,
-        //   allowsInlineMediaPlayback: true,
+        // initialOptions: InAppWebViewGroupOptions(
+        //   crossPlatform: InAppWebViewOptions(
+        //     useShouldOverrideUrlLoading: true,
+        //     mediaPlaybackRequiresUserGesture: false,
+        //   ),
+        //   android: AndroidInAppWebViewOptions(
+        //     useHybridComposition: true,
+        //   ),
+        //   ios: IOSInAppWebViewOptions(
+        //     allowsInlineMediaPlayback: true,
+        //   ),
         // ),
+        // IOS COMPATIBLE
+        initialSettings: InAppWebViewSettings(
+          mediaPlaybackRequiresUserGesture: false,
+          useShouldOverrideUrlLoading: true,
+          useHybridComposition: true,
+          allowsInlineMediaPlayback: true,
+        ),
       ),
     );
   }

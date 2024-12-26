@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
@@ -193,25 +194,38 @@ class PaymentHistoryModel extends BasePageViewModel {
 
   void groupByFeeType(List<GetPendingFeesFeeModel> fees) {
     // Grouping logic
+
     Map<String, List<GetPendingFeesFeeModel>> groupedByFeeType = {};
+    Map<String, String> feeIdToFeeTypeMap = {};
 
     for (var item in fees) {
-      String feeType = item.feeType ?? "";
+      // Earlier group by fee Type was done by feeType, now it is done by feeId
+      String feeId = item.feeId.toString();
+      String feeType = item.feeType.toString();
 
-      if (groupedByFeeType.containsKey(feeType)) {
-        groupedByFeeType[feeType]!.add(item);
+      // Maintain a mapping of feeId to feeType for display
+      feeIdToFeeTypeMap[feeId] = feeType;
+
+      if (groupedByFeeType.containsKey(feeId)) {
+        groupedByFeeType[feeId]!.add(item);
       } else {
-        groupedByFeeType[feeType] = [item];
+        groupedByFeeType[feeId] = [item];
       }
+
+      log("Grouped by fee type: ${item.feeType} ${item.feeId}");
     }
 
     // Convert the grouped map to a list of Model objects
-    _groupedModels = groupedByFeeType.entries
-        .map((entry) => GroupByFeeTypeModel(
-            feeType: entry.key,
-            fees: entry.value,
-            totalAmount: calculateTotalAmount(entry.value)))
-        .toList();
+    _groupedModels = groupedByFeeType.entries.map((entry) {
+      // Use the feeType from the mapping for display
+      String feeDisplayName = feeIdToFeeTypeMap[entry.key] ?? '';
+      return GroupByFeeTypeModel(
+        feeType: entry.key,
+        fees: entry.value,
+        feeDisplayName: feeDisplayName,
+        totalAmount: calculateTotalAmount(entry.value),
+      );
+    }).toList();
   }
 
   String calculateTotalAmount(List<GetPendingFeesFeeModel> fees) {

@@ -64,7 +64,8 @@ class _PaymentHistoryFeesTypeExpansionState
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CommonText(
-                                          text: widget.groupedModels[i].feeType,
+                                          text:
+                                              "${widget.groupedModels[i].feeDisplayName}",
                                           style: AppTypography.subtitle2,
                                         ),
                                         const Divider(
@@ -97,6 +98,14 @@ class _PaymentHistoryFeesTypeExpansionState
                                                 const Spacer(),
                                                 InkWell(
                                                     onTap: () {
+                                                      // for (var element1
+                                                      //     in widget
+                                                      //         .groupedModels) {
+                                                      //   for (var element
+                                                      //       in element1.fees) {
+                                                      //     log('ID ${element1.feeType} URL KEY ${element.urlKey} LEN ${element1.fees.length}');
+                                                      //   }
+                                                      // }
                                                       if (widget.groupedModels
                                                           .isNotEmpty) {
                                                         final String? urlKey =
@@ -106,7 +115,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                                 .fees
                                                                 .first
                                                                 .urlKey;
-
+                                                        log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
                                                         widget.model
                                                             .downloadFeeType(
                                                                 urlKey:
