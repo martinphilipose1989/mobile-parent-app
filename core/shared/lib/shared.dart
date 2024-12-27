@@ -206,6 +206,7 @@ export 'src/model/response/transport/uploadIntimationFileResponseModel.dart';
 export 'src/model/request/notification/notification_request_model.dart';
 export 'src/model/response/notification/NotificationResponseModel.dart';
 
+export 'src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 
 //utils
 export 'src/utils/validator.dart';

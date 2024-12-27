@@ -5,9 +5,13 @@ class GroupByFeeTypeModel {
   final String feeType;
   final List<GetPendingFeesFeeModel> fees;
   final String? totalAmount;
+  final String? feeDisplayName;
 
   GroupByFeeTypeModel(
-      {required this.feeType, required this.fees, this.totalAmount});
+      {required this.feeType,
+      required this.fees,
+      this.totalAmount,
+      this.feeDisplayName});
 
   GroupByFeeTypeModel copyWith({
     final String? feeType,

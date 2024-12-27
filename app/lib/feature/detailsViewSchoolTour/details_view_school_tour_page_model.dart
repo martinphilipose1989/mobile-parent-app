@@ -16,20 +16,23 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetSchoolVisitDetailUseCase getSchoolVisitDetailUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  DetailsViewSchoolTourPageModel(this.exceptionHandlerBinder,this.getSchoolVisitDetailUsecase,this.flutterToastErrorPresenter);
-  
-  final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail = PublishSubject();
-  final PublishSubject<Resource<SchoolVisitDetailBase>> _schoolVisitDetailResponse = PublishSubject();
-  Stream<Resource<SchoolVisitDetailBase>> get schoolVisitDetailResponse => _schoolVisitDetailResponse.stream;
-  BehaviorSubject<SchoolVisitDetail> schoolVisitDetailData = BehaviorSubject.seeded(SchoolVisitDetail());
+  DetailsViewSchoolTourPageModel(this.exceptionHandlerBinder,
+      this.getSchoolVisitDetailUsecase, this.flutterToastErrorPresenter);
+
+  final PublishSubject<Resource<SchoolVisitDetail>> schoolVisitDetail =
+      PublishSubject();
+  final PublishSubject<Resource<SchoolVisitDetailBase>>
+      _schoolVisitDetailResponse = PublishSubject();
+  Stream<Resource<SchoolVisitDetailBase>> get schoolVisitDetailResponse =>
+      _schoolVisitDetailResponse.stream;
+  BehaviorSubject<SchoolVisitDetail> schoolVisitDetailData =
+      BehaviorSubject.seeded(SchoolVisitDetail());
 
   Future<void> getSchoolVisitDetail(String enquiryID) async {
-      exceptionHandlerBinder.handle(block: () {
-      
-      GetSchoolVisitDetailUseCaseParams params = GetSchoolVisitDetailUseCaseParams(
-        enquiryID: enquiryID
-      );
-      
+    exceptionHandlerBinder.handle(block: () {
+      GetSchoolVisitDetailUseCaseParams params =
+          GetSchoolVisitDetailUseCaseParams(enquiryID: enquiryID);
+
       RequestManager<SchoolVisitDetailBase>(
         params,
         createCall: () => getSchoolVisitDetailUsecase.execute(
@@ -37,17 +40,20 @@ class DetailsViewSchoolTourPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _schoolVisitDetailResponse.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           schoolVisitDetail.add(Resource.success(data: result.data?.data));
-          schoolVisitDetailData.value = result.data?.data??SchoolVisitDetail();
+          schoolVisitDetailData.value =
+              result.data?.data ?? SchoolVisitDetail();
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

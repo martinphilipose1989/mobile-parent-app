@@ -366,6 +366,10 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => CommunicationPage(id: id),
             settings: const RouteSettings(name: RoutePaths.communicationPage));
+      case RoutePaths.notificationPage:
+        return CupertinoPageRoute(
+            builder: (context) => const NotificationPage(),
+            settings: const RouteSettings(name: RoutePaths.notificationPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

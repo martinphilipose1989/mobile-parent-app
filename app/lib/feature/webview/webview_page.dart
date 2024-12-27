@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
@@ -28,7 +27,7 @@ class _WebviewPageState extends AppBasePageState<WebviewModel, WebviewPage> {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.webViewUrl = widget.webviewArguments.paymentsLink;
     model.enquiryDetailArgs = widget.webviewArguments.enquiryDetailArgs;
-    if (mounted && widget.webviewArguments.module == null) {
+    if (mounted && model.enquiryDetailArgs == null) {
       model.timer = Timer.periodic(
         Duration(seconds: model.timerSeconds),
         (timer) => model.getPaymentStatus(widget.webviewArguments.orderId!),
@@ -43,8 +42,7 @@ class _WebviewPageState extends AppBasePageState<WebviewModel, WebviewPage> {
 
   @override
   Widget buildView(BuildContext context, WebviewModel model) {
-    // TODO: implement buildView
-    return WebviewPageView(provideBase());
+    return WebviewPageView(provideBase(), widget.webviewArguments);
   }
 
   @override
@@ -58,10 +56,12 @@ class WebviewArguments {
   final String? orderId;
   final Modules? module;
   final EnquiryDetailArgs? enquiryDetailArgs;
+  final String? paymentType;
 
   WebviewArguments(
       {required this.paymentsLink,
       this.orderId,
       this.module,
-      this.enquiryDetailArgs});
+      this.enquiryDetailArgs,
+      this.paymentType});
 }

@@ -43,27 +43,29 @@ class GetTransactionTypeDatum extends BaseLayerDataTransformer<
   final String? feeType;
   @JsonKey(name: "feeDetails")
   final FeeDetailsEntity? feeDetails;
+  @JsonKey(name: "fee_url_key")
+  final String? feeUrlKey;
 
-  GetTransactionTypeDatum({
-    this.paymentId,
-    this.studentFeeId,
-    this.transactionId,
-    this.paidAmount,
-    this.paymentStatus,
-    this.feeId,
-    this.feeAmount,
-    this.paid,
-    this.pending,
-    this.adjustment,
-    this.wOff,
-    this.discount,
-    this.dueDate,
-    this.tax1,
-    this.tax2,
-    this.tax3,
-    this.feeType,
-    this.feeDetails,
-  });
+  GetTransactionTypeDatum(
+      {this.paymentId,
+      this.studentFeeId,
+      this.transactionId,
+      this.paidAmount,
+      this.paymentStatus,
+      this.feeId,
+      this.feeAmount,
+      this.paid,
+      this.pending,
+      this.adjustment,
+      this.wOff,
+      this.discount,
+      this.dueDate,
+      this.tax1,
+      this.tax2,
+      this.tax3,
+      this.feeType,
+      this.feeDetails,
+      this.feeUrlKey});
 
   factory GetTransactionTypeDatum.fromJson(Map<String, dynamic> json) =>
       _$GetTransactionTypeDatumFromJson(json);
@@ -72,7 +74,6 @@ class GetTransactionTypeDatum extends BaseLayerDataTransformer<
 
   @override
   GetTransactionTypeDatumModel transform() {
-    // TODO: implement transform
     return GetTransactionTypeDatumModel(
         adjustment: adjustment,
         discount: discount,
@@ -91,6 +92,7 @@ class GetTransactionTypeDatum extends BaseLayerDataTransformer<
         tax2: tax2,
         tax3: tax3,
         transactionId: transactionId,
-        wOff: wOff);
+        wOff: wOff,
+        feeUrlKey: feeUrlKey);
   }
 }

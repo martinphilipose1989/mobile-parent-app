@@ -9,7 +9,7 @@ class AppImages {
   static const String defaultBus = "assets/images/default_bus.webp";
   static const String globalLogo = 'assets/images/global.svg';
   static const String notificationLogo = 'assets/images/Icon button-1.svg';
-  static const String menuHamburgerLogo = 'assets/images/collapsed.svg';
+  static const String menuHamburgerLogo = 'assets/images/menuIcon.svg';
   static const String addPerson = 'assets/images/icon-1.svg';
   static const String bookmarkLogo = 'assets/images/icon-2.svg';
   static const String bookLogo = 'assets/images/icon-3.svg';

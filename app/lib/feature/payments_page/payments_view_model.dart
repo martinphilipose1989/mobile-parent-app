@@ -55,6 +55,7 @@ class PaymentsPageModel extends BasePageViewModel {
   final BehaviorSubject<bool> showMore = BehaviorSubject<bool>.seeded(false);
 
   int? couponShowMore;
+
   // FOR REDIRECTION AFTER PAYMENT SUCCESS
   Modules? modules;
   String? dynamicPaymentType;
@@ -101,7 +102,7 @@ class PaymentsPageModel extends BasePageViewModel {
             result.data?.data?.lastTransactionDetailModel?.customerBankName ??
                 "";
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -119,20 +120,25 @@ class PaymentsPageModel extends BasePageViewModel {
       {required String feeCategoryIds,
       required String feeSubCategoryIds,
       required String feeTypeIds,
-      required String studentId}) {
+      required String studentId,
+      required String academicYrsId,
+      required String feeSubTypeIds}) {
     exceptionHandlerBinder.handle(block: () {
       GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
-          feeCategoryIds: feeCategoryIds,
-          feeSubCategoryIds: feeSubCategoryIds,
-          feeTypeIds: feeTypeIds,
-          studentId: studentId);
+        feeCategoryIds: feeCategoryIds,
+        feeSubCategoryIds: feeSubCategoryIds,
+        feeTypeIds: feeTypeIds,
+        studentId: studentId,
+        academicYrsId: academicYrsId,
+        feeSubTypeIds: feeSubTypeIds,
+      );
       RequestManager<FetchCouponsListModel>(
         params,
         createCall: () => _getCouponsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _fetchCouponsListModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -202,7 +208,7 @@ class PaymentsPageModel extends BasePageViewModel {
         if (result.status == Status.success) {}
         _getPaymentOrderResponseModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

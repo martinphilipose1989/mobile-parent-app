@@ -72,7 +72,7 @@ class CreateTicketViewModel extends BasePageViewModel {
         _getCategoryModelResponse
             .add(Resource.success(data: result.data?.data));
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -93,7 +93,7 @@ class CreateTicketViewModel extends BasePageViewModel {
         if (result.status == Status.success) {}
       }).onError((error) {
         //loadingIndicator.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -118,7 +118,7 @@ class CreateTicketViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         //loadingIndicator.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -158,7 +158,7 @@ class CreateTicketViewModel extends BasePageViewModel {
         _createTicketModelSubject.add(Resource.success(data: result.data));
       }).onError((error) {
         //loadingIndicator.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

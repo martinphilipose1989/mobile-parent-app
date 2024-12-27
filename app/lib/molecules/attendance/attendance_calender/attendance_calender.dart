@@ -60,10 +60,9 @@ class AttendanceCalender extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     SizedBox(height: 350.h, child: const Calendar()),
                     SizedBox(height: 20.h, width: double.infinity),
-                   Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 5),
                       child: CommonText(
                         text: "Attendance",
@@ -71,37 +70,38 @@ class AttendanceCalender extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h, width: double.infinity),
-                    snapshot?.status == Status.loading
-                        ? const Center(child: CircularProgressIndicator())
-                        :
-                             Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  AttendanceCountTile(
-                                    count:
-                                        snapshot?.data?.data.totalDays ?? "0",
-                                    countType: 'Total Days',
-                                    textColor:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                  AttendanceCountTile(
-                                    count:
-                                        snapshot?.data?.data.presentDaysCount ??
-                                            "0",
-                                    countType: 'Present Days',
-                                    textColor: AppColors.success,
-                                  ),
-                                  AttendanceCountTile(
-                                    count:
-                                        snapshot?.data?.data.absentDaysCount ??
-                                            "0",
-                                    countType: 'Absent Days',
-                                    textColor: AppColors.failure,
-                                  )
-                                ],
-                              )
-                      ,
+                    // snapshot?.status == Status.loading
+                    //     ? const Center(child: CircularProgressIndicator())
+                    //     :
+                    //          Row(
+                    //             mainAxisAlignment:
+                    //                 MainAxisAlignment.spaceEvenly,
+                    //             children: [
+                    //               AttendanceCountTile(
+                    //                 count:
+                    //                     snapshot?.data?.data.totalDays ?? "0",
+                    //                 countType: 'Total Days',
+                    //                 textColor:
+                    //                     Theme.of(context).colorScheme.primary,
+                    //               ),
+                    //               AttendanceCountTile(
+                    //                 count:
+                    //                     snapshot?.data?.data.presentDaysCount ??
+                    //                         "0",
+                    //                 countType: 'Present Days',
+                    //                 textColor: AppColors.success,
+                    //               ),
+                    //               AttendanceCountTile(
+                    //                 count:
+                    //                     snapshot?.data?.data.absentDaysCount ??
+                    //                         "0",
+                    //                 countType: 'Absent Days',
+                    //                 textColor: AppColors.failure,
+                    //               )
+                    //             ],
+                    //           )
+                    //   ,
+                    const Text("Coming Soon!!!"),
                     SizedBox(height: 10.h, width: double.infinity)
                   ],
                 );
@@ -112,7 +112,6 @@ class AttendanceCalender extends StatelessWidget {
           providerBase: attendanceCalenderProvider,
         ),
         SizedBox(height: 20.h, width: double.infinity),
-
       ],
     );
   }

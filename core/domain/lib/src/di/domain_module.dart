@@ -1,5 +1,7 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/transport/create_intimation_usecase.dart';
+import 'package:domain/src/usecase/finance/download_fee_type_usecase.dart';
+import 'package:domain/src/usecase/finance/download_student_ledger_usecase.dart';
+import 'package:domain/src/usecase/finance/download_transaction_history_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -369,9 +371,9 @@ abstract class DomainModule {
   }
 
   @lazySingleton
- UploadIntimationFileUseCase uploadIntimationFileUsecase(
+  UploadIntimationFileUseCase uploadIntimationFileUsecase(
       TransportRepository transportRepository) {
-    return  UploadIntimationFileUseCase( transportRepository);
+    return UploadIntimationFileUseCase(transportRepository);
   }
 
   @lazySingleton
@@ -531,7 +533,6 @@ abstract class DomainModule {
   @lazySingleton
   CreateGatepassUsecase createGatepassNUsecase(
       GatepassRepository gatePassRepository) {
-
     return CreateGatepassUsecase(gatePassRepository: gatePassRepository);
   }
 
@@ -556,5 +557,30 @@ abstract class DomainModule {
   @lazySingleton
   LogoutUsecase logoutUsecase(UserRepository userRepository) {
     return LogoutUsecase(userRepository: userRepository);
+  }
+
+  @lazySingleton
+  CancelPaymentUsecase cancelPaymentUsecase(
+      FinanceRepository financeRepository) {
+    return CancelPaymentUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  DownloadStudentLedgerUsecase downloadStudentLedgerUsecase(
+      FinanceRepository financeRepository) {
+    return DownloadStudentLedgerUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  DownloadFeeTypeUsecase downloadFeeTypeUsecase(
+      FinanceRepository financeRepository) {
+    return DownloadFeeTypeUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  DownloadTransactionHistoryUsecase downloadTransactionHistoryUsecase(
+      FinanceRepository financeRepository) {
+    return DownloadTransactionHistoryUsecase(
+        financeRepository: financeRepository);
   }
 }

@@ -64,7 +64,7 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -92,17 +92,17 @@ class CancelSchoolTourPageModel extends BasePageViewModel {
               result.dealSafeAppError?.error.message ?? '');
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
 
   bool validateForm() {
     if (selectedReason.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select reason."));
+      // exceptionHandlerBinder.showError(Exception("Please select reason."));
       return false;
     } else if (controller.text.trim().isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please enter your comment."));
+      // exceptionHandlerBinder.showError(Exception("Please enter your comment."));
       return false;
     } else {
       return true;

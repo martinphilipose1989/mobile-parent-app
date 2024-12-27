@@ -175,14 +175,15 @@ final createTicketProvider =
 final admissionsDetailsProvider = AutoDisposeChangeNotifierProviderFamily<
     AdmissionsDetailsViewModel, EnquiryDetailArgs>(
   (ref, args) => AdmissionsDetailsViewModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetAdmissionJourneyUsecase>(),
-      getIt.get<GetEnquiryDetailUseCase>(),
-      args,
-      getIt.get<FlutterToastErrorPresenter>(),
-      getIt.get<MoveToNextStageUsecase>(),
-      getIt.get<MakePaymentRequestUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
+    getIt.get<FlutterExceptionHandlerBinder>(),
+    getIt.get<GetAdmissionJourneyUsecase>(),
+    getIt.get<GetEnquiryDetailUseCase>(),
+    args,
+    getIt.get<FlutterToastErrorPresenter>(),
+    getIt.get<MoveToNextStageUsecase>(),
+    getIt.get<MakePaymentRequestUsecase>(),
+    getIt.get<GetUserDetailsUsecase>(),
+  ),
 );
 
 final registrationsDetailsProvider =
@@ -362,10 +363,17 @@ final chequePageModelProvider =
 final paymentHistoryProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryModel>((ref) =>
         PaymentHistoryModel(
-            getIt.get<FlutterExceptionHandlerBinder>(),
-            getIt.get<GetAcademicYearUsecase>(),
-            getIt.get<GetTransactionTypeFeesCollectedUsecase>(),
-            getIt.get<GetPendingFeesUsecase>()));
+            flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+            exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+            getAcademicYearUsecase: getIt.get<GetAcademicYearUsecase>(),
+            getTransactionTypeFeesCollectedUsecase:
+                getIt.get<GetTransactionTypeFeesCollectedUsecase>(),
+            getPendingFeesUsecase: getIt.get<GetPendingFeesUsecase>(),
+            downloadFeeTypeUsecase: getIt.get<DownloadFeeTypeUsecase>(),
+            downloadStudentLedgerUsecase:
+                getIt.get<DownloadStudentLedgerUsecase>(),
+            downloadTransactionHistoryUsecase:
+                getIt.get<DownloadTransactionHistoryUsecase>()));
 
 final paymentHistoryTransactionProvider =
     ChangeNotifierProvider.autoDispose<PaymentHistoryTransactionModel>(
@@ -386,9 +394,13 @@ final paymentHistoryStudentLedgerProvider =
               getIt.get<FlutterExceptionHandlerBinder>(),
             ));
 
-final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
-    (ref) => WebviewModel(getIt.get<FlutterExceptionHandlerBinder>(),
-        getIt.get<GetPaymentStatusUsecase>()));
+final webViewProvider =
+    ChangeNotifierProvider.autoDispose<WebviewModel>((ref) => WebviewModel(
+          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+          cancelPaymentUsecase: getIt.get<CancelPaymentUsecase>(),
+          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+          getPaymentStatusUsecase: getIt.get<GetPaymentStatusUsecase>(),
+        ));
 
 final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
     (ref) => RatePageModel(

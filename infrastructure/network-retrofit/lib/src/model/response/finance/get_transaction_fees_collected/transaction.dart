@@ -44,6 +44,8 @@ class Transaction
   final String? postedAmount;
   @JsonKey(name: "payment_mode")
   final String? paymentMode;
+  @JsonKey(name: "transaction_url_key")
+  final String? transactionUrlKey;
 
   Transaction(
       {this.detailsCustomerBankName,
@@ -64,7 +66,8 @@ class Transaction
       this.currencyId,
       this.exchangeRate,
       this.postedAmount,
-      this.paymentMode});
+      this.paymentMode,
+      this.transactionUrlKey});
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
@@ -93,6 +96,7 @@ class Transaction
         transactionDate: transactionDate,
         transactionId: transactionId,
         paymentMode: paymentMode,
-        transactionStatus: transactionStatus);
+        transactionStatus: transactionStatus,
+        transactionUrlKey: transactionUrlKey);
   }
 }

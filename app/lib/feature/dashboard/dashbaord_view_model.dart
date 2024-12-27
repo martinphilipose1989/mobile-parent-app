@@ -90,18 +90,24 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List progress = [
-    {'name': 'Attendance', 'image': AppImages.attendance, 'isSelected': false},
     {
-      'name': 'Discipline Slips',
-      'image': AppImages.document,
-      'isSelected': false
+      'name': 'Student Profile',
+      'image': AppImages.personIcon,
+      'isSelected': false,
+      'key': 'student_profile'
     },
-    {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
-    {
-      'name': 'Marksheet',
-      'image': AppImages.documentNormal,
-      'isSelected': false
-    }
+    // Coming Soon Features
+    // {
+    //   'name': 'Discipline Slips',
+    //   'image': AppImages.document,
+    //   'isSelected': false
+    // },
+    // {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
+    // {
+    //   'name': 'Marksheet',
+    //   'image': AppImages.documentNormal,
+    //   'isSelected': false
+    // }
   ];
 
   final List enquiryAndAdmissionTemp = [
@@ -117,13 +123,13 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'payment'
     },
-    {
-      'name': 'New Enrollment',
-      'image': AppImages.activity,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'enrollment'
-    },
+    // {
+    //   'name': 'New Enrollment',
+    //   'image': AppImages.activity,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'enrollment'
+    // },
   ];
 
   String returnRouteValue(String routeValue) {
@@ -142,7 +148,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.payments;
       case '':
         return RoutePaths.payments;
-      case 'attendance':
+      case 'student profile':
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
         return RoutePaths.disciplinarySlipPage;
@@ -202,7 +208,7 @@ class DashboardPageModel extends BasePageViewModel {
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -220,7 +226,7 @@ class DashboardPageModel extends BasePageViewModel {
                   email: result.data?.email, service: "mobile_app"));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -251,7 +257,7 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -298,7 +304,7 @@ class DashboardPageModel extends BasePageViewModel {
         if (data.data?.statusId != 0) {
           feesTemp[index]['isActive'] = true;
         } else {
-          feesTemp[index]['isActive'] = true;
+          feesTemp[index]['isActive'] = false;
         }
       }
     }

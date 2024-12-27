@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localisation/strings.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:shared/shared.dart';
 
 import 'package:themes/themes.dart';
 

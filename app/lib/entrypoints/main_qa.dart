@@ -27,7 +27,8 @@ void main() async {
         gateUrl: EnvQA.gateBaseUrl,
         marketingUrl: EnvQA.marketingBaseUrl,
         showLogs: true,
-        frontEndUrl: EnvQA.frontEndUrl, notificationUrl: EnvQA.notificationUrl),
+        frontEndUrl: EnvQA.frontEndUrl,
+        notificationUrl: EnvQA.notificationUrl),
   );
   startApp();
 }

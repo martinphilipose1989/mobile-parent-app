@@ -56,6 +56,7 @@ class PaymentsPageState
         .value
         .toString();
     model.finalAmount.value = model.amount.text;
+    model.modules = widget.paymentPageeArguments.modules;
     model.getUserDetails();
   }
 
@@ -120,7 +121,6 @@ class PaymentsPageState
                   if (value.status == Status.success) {
                     if (stringValue ==
                         'Current Date Cheque / Post Dated Cheque / ...') {
-                      model.modules = widget.paymentPageeArguments.modules;
                       Navigator.pushNamed(context, RoutePaths.chequePayment,
                           arguments: model);
                     }
@@ -143,6 +143,8 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
+                                      paymentType: model.dynamicPaymentType
+                                          ?.toLowerCase(),
                                       paymentsLink: model.dynamicPaymentType ==
                                                   "Billdesk" ||
                                               model.dynamicPaymentType ==

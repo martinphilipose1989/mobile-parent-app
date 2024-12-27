@@ -51,7 +51,7 @@ class CommonPopups {
         icon: Icons.error,
         iconColor: Colors.red,
         message: message,
-        buttonText: 'OK',
+        buttonText: 'Confirm',
         barrierDismissible: barrierDismissible,
         onChanged: onChanged);
   }

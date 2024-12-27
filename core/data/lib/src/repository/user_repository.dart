@@ -185,7 +185,7 @@ class UserRepositoryImpl extends UserRepository {
           await secureStorageService.getFromDisk(secureStorageService.userId));
       final int statusId = int.parse(await secureStorageService
           .getFromDisk(secureStorageService.userStatus));
-      final String token = await secureStorageService
+      final token = await secureStorageService
           .getFromDisk(secureStorageService.accessTokenKey);
 
       return Right(

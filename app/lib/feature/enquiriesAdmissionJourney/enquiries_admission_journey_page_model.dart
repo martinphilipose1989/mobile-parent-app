@@ -13,7 +13,6 @@ import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:injectable/injectable.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -116,7 +115,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -145,7 +144,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

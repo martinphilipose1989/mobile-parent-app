@@ -102,7 +102,7 @@ class KidsClubViewModel extends BasePageViewModel {
               event.dealSafeAppError?.error.message ?? '');
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -152,7 +152,7 @@ class KidsClubViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.value = false;
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -195,7 +195,7 @@ class KidsClubViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.value = false;
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }

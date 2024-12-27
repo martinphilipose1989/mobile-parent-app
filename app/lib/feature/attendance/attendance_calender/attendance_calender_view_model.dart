@@ -41,7 +41,7 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
         _getAttendancelist.add(result);
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -74,7 +74,7 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
 
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

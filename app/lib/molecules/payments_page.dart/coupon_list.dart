@@ -21,6 +21,8 @@ class CouponList extends StatelessWidget {
     return BaseWidget<PaymentsPageModel>(
         onModelReady: (model) {
           model.getCouponsList(
+              academicYrsId: getPendingFeesFeeModel.academicYearId.toString(),
+              feeSubTypeIds: getPendingFeesFeeModel.feeSubTypeId.toString(),
               feeCategoryIds: getPendingFeesFeeModel.feeCategoryIds ?? "",
               feeSubCategoryIds: getPendingFeesFeeModel.feeSubCategoryIds ?? "",
               feeTypeIds: getPendingFeesFeeModel.feeTypeId.toString(),

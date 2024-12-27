@@ -139,7 +139,6 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                                 Navigator.pushNamed(
                                     context, RoutePaths.paymentsPage,
                                     arguments: PaymentPageeArguments(
-                                        modules: widget.paymentArguments.module,
                                         finalPaymentModelList:
                                             model.finalPaymentModelList,
                                         selectedPendingFessList:

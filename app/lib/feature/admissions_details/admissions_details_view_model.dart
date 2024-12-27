@@ -34,7 +34,6 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.moveToNextStageUsecase,
       this.makePaymentRequestUsecase,
       this.getUserDetailsUsecase) {
-    getUserDetails();
     initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
@@ -123,7 +122,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -167,7 +166,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -351,7 +350,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
             .asFlow()
             .listen((data) {
           if (data.status == Status.error) {
-            exceptionHandlerBinder.showError(data.dealSafeAppError!);
+            // exceptionHandlerBinder.showError(data.dealSafeAppError!);
             vasSubject.add(Resource.error(error: data.dealSafeAppError));
           }
           if (data.status == Status.success) {
@@ -375,7 +374,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         createCall: () => moveToNextStageUsecase.execute(params: params),
       ).asFlow().listen((data) {
         if (data.status == Status.error) {
-          exceptionHandlerBinder.showError(data.dealSafeAppError!);
+          // exceptionHandlerBinder.showError(data.dealSafeAppError!);
           moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
         }
         if (data.status == Status.success) {
