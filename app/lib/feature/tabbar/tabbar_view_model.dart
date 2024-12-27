@@ -48,16 +48,16 @@ class TabbarViewModel extends BasePageViewModel {
   final List<DrawerItems> progressItems = [
     DrawerItems(menu:'Attendance',route: RoutePaths.attendanceCalender ),
     DrawerItems(menu:'Disciplinary Slip', route: RoutePaths.disciplinarySlipPage ),
-    DrawerItems(menu:'Performance', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Performance',  ),
     DrawerItems(menu:'MarkSheet', ),
 
 
 
   ];
   final List<DrawerItems> dailyDiary = [
-    DrawerItems(menu:'Class Update',route: RoutePaths.attendanceCalender ),
-    DrawerItems(menu:'Assignments', route: RoutePaths.disciplinarySlipPage ),
-    DrawerItems(menu:'Circulars', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Class Update', ),
+    DrawerItems(menu:'Assignments',  ),
+    DrawerItems(menu:'Circulars',  ),
   ];
 
   final List<DrawerItems> parentServices = [
@@ -70,8 +70,8 @@ class TabbarViewModel extends BasePageViewModel {
   ];
 
   final List<DrawerItems> infoItems = [
-    DrawerItems(menu:'Brochers ',route: RoutePaths.attendanceCalender ),
-    DrawerItems(menu:'Personal/Academic', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Brochers ', ),
+    DrawerItems(menu:'Personal/Academic',  ),
     DrawerItems(menu:'Academics' ),
     DrawerItems(menu:'Refferal', route: RoutePaths.myDutyPage ),
     DrawerItems(menu:'Scholars' ),
