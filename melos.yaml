@@ -42,3 +42,6 @@ scripts:
 
   test:
     exec: flutter test --exclude-tags=golden
+
+  upgrade:
+    exec: flutter pub upgrade  

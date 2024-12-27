@@ -30,11 +30,10 @@ abstract class ApiResponseHandler {
               flutterToastErrorPresenter: flutterToastErrorPresenter);
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
-        // flutterToastErrorPresenter.show(
-        //     error, navigatorKey.currentContext!, "Something went wrong!!!");
-        // onError(AppError(
-        //     throwable: Exception(), error: error, type: ErrorType.unknown));
+        // exceptionHandlerBinder.showError(error!);
+        log("ERROR ==> $error");
+        onError(AppError(
+            throwable: Exception(), error: error, type: ErrorType.unknown));
       });
     }).execute();
   }
@@ -44,8 +43,6 @@ abstract class ApiResponseHandler {
       required FlutterToastErrorPresenter flutterToastErrorPresenter}) {
     switch (appError?.error.code) {
       case 401:
-        // navigate to splash screen and show dialog
-
         flutterToastErrorPresenter.show(appError!.throwable,
             navigatorKey.currentContext!, "Session Expired please login again");
       case 408: // Connection Timeout

@@ -115,7 +115,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -144,7 +144,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -255,6 +255,7 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
             RoutePaths.payments,
             arguments: PaymentArguments(
               phoneNo: '',
+              module: Modules.enquiry,
               enquiryId: enquiryDetailArgs.enquiryId,
               enquiryNo: enquiryDetailArgs.enquiryNumber,
               studentName: "${enquiryDetailArgs.studentName} ",

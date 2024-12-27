@@ -115,6 +115,7 @@ class NewAdmissionDetailEntity extends BaseLayerDataTransformer<
     // newAdmissionDetail.brandId = brandId;
     // newAdmissionDetail.brandName = brandName;
     newAdmissionDetail.brand = brand?.transform();
+
     return newAdmissionDetail;
   }
 

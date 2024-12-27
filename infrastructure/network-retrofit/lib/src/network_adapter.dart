@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:data/data.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/attendance/attendance_count_request_entity.dart';
@@ -12,6 +10,8 @@ import 'package:network_retrofit/src/model/request/communication/find_by_categor
 import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
+import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
+import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -231,7 +231,8 @@ class NetworkAdapter implements NetworkPort {
         phone: phone,
         pageNumber: pageNumber,
         pageSize: pageSize,
-        status: status));
+        status: status,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -240,8 +241,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, AdmissionJourneyBase>> getAdmissionJourney(
       {required String enquiryID, required String type}) async {
-    var response = await safeApiCall(
-        marketingSerivce.getAdmissionJourney(enquiryID: enquiryID, type: type));
+    var response = await safeApiCall(marketingSerivce.getAdmissionJourney(
+        enquiryID: enquiryID, type: type, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -250,8 +251,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, NewAdmissionBase>> getNewAdmissionDetail(
       {required String enquiryID}) async {
-    var response = await safeApiCall(
-        marketingSerivce.getNewAdmissionDetail(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.getNewAdmissionDetail(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -264,7 +265,9 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required NewAdmissionDetailEntity newAdmissionDetail}) async {
     var response = await safeApiCall(marketingSerivce.updateNewAdmissionDetail(
-        enquiryID: enquiryID, newAdmissionDetail: newAdmissionDetail));
+        enquiryID: enquiryID,
+        newAdmissionDetail: newAdmissionDetail,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -273,8 +276,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, PsaResponse>> getPsaDetail(
       {required String enquiryID}) async {
-    var response =
-        await safeApiCall(marketingSerivce.getPsaDetail(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.getPsaDetail(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -285,7 +288,7 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required PsaDetailResponseEntity psaDetail}) async {
     var response = await safeApiCall(marketingSerivce.updatePsaDetail(
-        enquiryID: enquiryID, psaDetail: psaDetail));
+        enquiryID: enquiryID, psaDetail: psaDetail, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -294,8 +297,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, IVTBase>> getIvtDetail(
       {required String enquiryID}) async {
-    var response =
-        await safeApiCall(marketingSerivce.getIvtDetail(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.getIvtDetail(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -306,7 +309,7 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required IvtDetailResponseEntity ivtDetails}) async {
     var response = await safeApiCall(marketingSerivce.updateIvtDetail(
-        enquiryID: enquiryID, ivtDetail: ivtDetails));
+        enquiryID: enquiryID, ivtDetail: ivtDetails, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -455,8 +458,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, EnquiryDetailBase>> getEnquiryDetail(
       {required String enquiryID}) async {
-    var response = await safeApiCall(
-        marketingSerivce.getEnquiryDetail(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.getEnquiryDetail(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -465,8 +468,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, EnquiryTimeLineBase>> getEnquiryTimeline(
       {required String enquiryID}) async {
-    var response = await safeApiCall(
-        marketingSerivce.getEnquiryTimeline(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.getEnquiryTimeline(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -478,7 +481,10 @@ class NetworkAdapter implements NetworkPort {
       required String documentID,
       required String download}) async {
     var response = await safeApiCall(marketingSerivce.downloadEnquiryDocument(
-        enquiryID: enquiryID, documentID: documentID, download: download));
+        enquiryID: enquiryID,
+        documentID: documentID,
+        download: download,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -504,7 +510,8 @@ class NetworkAdapter implements NetworkPort {
         enquiryID: enquiryID,
         documentID: documentID,
         delete: delete,
-        verify: verify));
+        verify: verify,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -516,7 +523,10 @@ class NetworkAdapter implements NetworkPort {
       required String documentID,
       required File file}) async {
     var response = await safeApiCall(marketingSerivce.uploadEnquiryDocument(
-        file: file, documentID: documentID, enquiryID: enquiryID));
+        file: file,
+        documentID: documentID,
+        enquiryID: enquiryID,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -526,7 +536,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, SingleResponse>> getRegistrationDetail(
       {required String enquiryID, required String infoType}) async {
     var response = await safeApiCall(marketingSerivce.getRegistrationDetail(
-        enquiryId: enquiryID, infoType: infoType));
+        enquiryId: enquiryID, infoType: infoType, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -565,7 +575,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, SingleResponse>> updateParentDetails(
       {required String enquiryID, required ParentInfoEntity parentInfo}) async {
     var response = await safeApiCall(marketingSerivce.updateParentDetails(
-        enquiryId: enquiryID, parentInfo: parentInfo));
+        enquiryId: enquiryID, parentInfo: parentInfo, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -583,7 +593,7 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required BankDetailsEntity bankDetails}) async {
     var response = await safeApiCall(marketingSerivce.updateBankDetails(
-        enquiryId: enquiryID, bankDetails: bankDetails));
+        enquiryId: enquiryID, bankDetails: bankDetails, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -601,7 +611,9 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required ContactDetailsEntity contactDetails}) async {
     var response = await safeApiCall(marketingSerivce.updateContactDetails(
-        enquiryId: enquiryID, contactDetails: contactDetails));
+        enquiryId: enquiryID,
+        contactDetails: contactDetails,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -620,7 +632,9 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required MedicalDetailsEntity medicalDetails}) async {
     var response = await safeApiCall(marketingSerivce.updateMedicalDetails(
-        enquiryId: enquiryID, medicalDetails: medicalDetails));
+        enquiryId: enquiryID,
+        medicalDetails: medicalDetails,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) {
@@ -839,7 +853,8 @@ class NetworkAdapter implements NetworkPort {
       required String enquiryID}) async {
     var response = await safeApiCall(marketingSerivce.selectOptionalSubject(
         subjectSelectionRequest: subjectSelectionRequest,
-        enquiryID: enquiryID));
+        enquiryID: enquiryID,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -850,7 +865,9 @@ class NetworkAdapter implements NetworkPort {
       {required String enquiryID,
       required VasOptionRequest vasOptionRequest}) async {
     var response = await safeApiCall(marketingSerivce.addVASOption(
-        enquiryID: enquiryID, vasOptionRequest: vasOptionRequest));
+        enquiryID: enquiryID,
+        vasOptionRequest: vasOptionRequest,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -968,7 +985,8 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(marketingSerivce.addVASDetail(
         vasEnrollmentRequest: vasEnrollmentRequest,
         enquiryID: enquiryID,
-        type: type));
+        type: type,
+        platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -977,8 +995,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, VasOptionResponse>> removeVasDeatil(
       {required String enquiryID, required String type}) async {
-    var response = await safeApiCall(
-        marketingSerivce.removeVasDetail(enquiryID: enquiryID, type: type));
+    var response = await safeApiCall(marketingSerivce.removeVasDetail(
+        enquiryID: enquiryID, type: type, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -987,8 +1005,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, VasOptionResponse>> makePaymentRequest(
       {required String enquiryID}) async {
-    var response = await safeApiCall(
-        marketingSerivce.makePaymentRequest(enquiryID: enquiryID));
+    var response = await safeApiCall(marketingSerivce.makePaymentRequest(
+        enquiryID: enquiryID, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -998,7 +1016,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, FetchStopResponseModel>> fetchStops(
       {required FetchStopRequest fetchStopRequest}) async {
     var response = await safeApiCall(transportService.fetchStops(
-        fetchStopRequest: fetchStopRequest, platform: 'app'));
+        fetchStopRequest: fetchStopRequest, platform: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1123,12 +1141,16 @@ class NetworkAdapter implements NetworkPort {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds}) async {
+      required String feeSubCategoryIds,
+      required String academicYrsId,
+      required String feeSubTypeIds}) async {
     var response = await safeApiCall(adminRetorfitService.getCoupons(
         studentId: studentId,
         feeTypeIds: feeTypeIds,
         feeCategoryIds: feeCategoryIds,
-        feeSubCategoryIds: feeSubCategoryIds));
+        feeSubCategoryIds: feeSubCategoryIds,
+        academicYrsId: academicYrsId,
+        feeSubTypeIds: feeSubTypeIds));
     return response.fold(
       (l) {
         return Left(l);
@@ -1391,10 +1413,10 @@ class NetworkAdapter implements NetworkPort {
       moveToNextStageEnquiry(
           {required String enquiryId, String? enquiryStage}) async {
     var response = await safeApiCall(marketingSerivce.moveToNextStageEnquiry(
-      enquiryId,
-      MoveToNextStageEnquiryRequestEntity(
-          currentStage: enquiryStage ?? "Enquiry"),
-    ));
+        enquiryId,
+        MoveToNextStageEnquiryRequestEntity(
+            currentStage: enquiryStage ?? "Enquiry"),
+        platform));
 
     return response.fold((l) {
       return Left(l);
@@ -1461,7 +1483,7 @@ class NetworkAdapter implements NetworkPort {
     Either<NetworkError, HttpResponse<VisitorDetailsResponseEntity>>? response;
     if (params.gatePassId != null) {
       response = await safeApiCall(gatemanagementService.getGatepassDetailsById(
-          params.gatePassId!, 'app'));
+          params.gatePassId!, platform));
     } else {
       response = await safeApiCall(gatemanagementService.getVisitorDetails(
         "${params.mobile}",
@@ -1487,8 +1509,8 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, AdmissionVasDetailsResponse>>
       getAdmissionVasDetails({required String enquiryId}) async {
-    final response =
-        await safeApiCall(marketingSerivce.fetchadmissionVasDetails(enquiryId));
+    final response = await safeApiCall(
+        marketingSerivce.fetchadmissionVasDetails(enquiryId, platform));
 
     return response.fold((l) {
       return Left(l);
@@ -1611,5 +1633,53 @@ class NetworkAdapter implements NetworkPort {
         data.data.transform(),
       ),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.cancelPaymentRequest(
+            paymentGateway, CancelPaymentRequestEntity(orderId: orderId)));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(data.data),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
+      {required String id, required String fileType}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadTransactionHistory(id, fileType));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
+      {required String urlKey}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadFeeTypeTransactions(urlKey));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body}) async {
+    StudentLedgerDownloadRequestEntity restoreObj =
+        StudentLedgerDownloadRequestEntity();
+
+    final response = await safeApiCall(
+        financeRetrofitService.downloadStudentLedger(restoreObj.restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
   }
 }

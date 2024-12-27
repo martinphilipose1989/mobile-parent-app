@@ -65,7 +65,7 @@ class PaymentsModel extends BasePageViewModel {
         }
       }).onError((error) {
         paymentsLoader.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -98,7 +98,7 @@ class PaymentsModel extends BasePageViewModel {
         }
       }).onError((error) {
         paymentsLoader.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -133,7 +133,7 @@ class PaymentsModel extends BasePageViewModel {
         }
       }).onError((error) {
         paymentsLoader.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -166,7 +166,7 @@ class PaymentsModel extends BasePageViewModel {
         params,
         createCall: () => _getPendingFeesUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        _getPendingFeesModel.add(result.data!);
+        _getPendingFeesModel.add(result.data ?? GetPendingFeesModel());
         if (result.status == Status.success) {
           paymentsLoader.add(false);
           int tempTotalAmount = 0;
@@ -186,7 +186,7 @@ class PaymentsModel extends BasePageViewModel {
         }
       }).onError((error) {
         paymentsLoader.add(false);
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -228,6 +228,7 @@ class PaymentsModel extends BasePageViewModel {
       }
     }
     studentIDs = tempList;
+
     getAcademicYear();
   }
 

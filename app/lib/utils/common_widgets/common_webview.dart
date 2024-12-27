@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -14,19 +16,20 @@ class CommonWebView extends StatefulWidget {
       onLoadHttpError;
   final void Function(InAppWebViewController controller, Uri? url)?
       onUpdateVisitedHistory;
+  final VoidCallback? onBackButtonPressed;
 
-  const CommonWebView({
-    super.key,
-    required this.url,
-    this.headers,
-    this.onWebViewCreated,
-    this.onLoadStop,
-    this.onPageStarted,
-    this.onPageFinished,
-    this.onLoadError,
-    this.onLoadHttpError,
-    this.onUpdateVisitedHistory,
-  });
+  const CommonWebView(
+      {super.key,
+      required this.url,
+      this.headers,
+      this.onWebViewCreated,
+      this.onLoadStop,
+      this.onPageStarted,
+      this.onPageFinished,
+      this.onLoadError,
+      this.onLoadHttpError,
+      this.onUpdateVisitedHistory,
+      this.onBackButtonPressed});
 
   @override
   CommonWebViewState createState() => CommonWebViewState();
@@ -39,11 +42,26 @@ class CommonWebViewState extends State<CommonWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () async {
+            bool canGoBack = await _webViewController.canGoBack();
+            if (canGoBack) {
+              _webViewController.goBack();
+            } else {
+              if (context.mounted) {
+                widget.onBackButtonPressed?.call();
+                Navigator.pop(context);
+              }
+            }
+          },
+        ),
         title: const Text(''),
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
-          url: Uri.parse(widget.url),
+          url:
+              WebUri(widget.url), // IOS COMPATIBLE VERSION  WebUri(widget.url),
           headers: widget.headers,
         ),
         onWebViewCreated: (controller) {
@@ -62,14 +80,27 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onLoadStop!(controller, url);
           }
         },
-        onLoadError: (controller, url, code, message) {
+        // onLoadError: (controller, url, code, message) {
+        //   if (widget.onLoadError != null) {
+        //     widget.onLoadError!(controller, url);
+        //   }
+        // },
+        // onLoadHttpError: (controller, url, statusCode, description) {
+        //   if (widget.onLoadHttpError != null) {
+        //     widget.onLoadHttpError!(controller, url);
+        //   }
+        // },
+        // IOS COMPATIBLE VERSION
+        onReceivedError: (controller, req, error) {
+          log("onReceivedHttpError: PATH ${req.url.path} DESC ${error.description}");
           if (widget.onLoadError != null) {
-            widget.onLoadError!(controller, url);
+            widget.onLoadError!(controller, req.url);
           }
         },
-        onLoadHttpError: (controller, url, statusCode, description) {
+        onReceivedHttpError: (controller, req, error) {
+          log("onReceivedHttpError: PATH ${req.url.path} ERROR ${error.statusCode}");
           if (widget.onLoadHttpError != null) {
-            widget.onLoadHttpError!(controller, url);
+            widget.onLoadHttpError!(controller, req.url);
           }
         },
         onUpdateVisitedHistory: (controller, url, isReload) {
@@ -77,18 +108,27 @@ class CommonWebViewState extends State<CommonWebView> {
             widget.onUpdateVisitedHistory!(controller, url);
           }
         },
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
+        // initialOptions: InAppWebViewGroupOptions(
+        //   crossPlatform: InAppWebViewOptions(
+        //     useShouldOverrideUrlLoading: true,
+        //     mediaPlaybackRequiresUserGesture: false,
+        //   ),
+        //   android: AndroidInAppWebViewOptions(
+        //     useHybridComposition: true,
+        //   ),
+        //   ios: IOSInAppWebViewOptions(
+        //     allowsInlineMediaPlayback: true,
+        //   ),
+        // ),
+        // IOS COMPATIBLE
+        shouldOverrideUrlLoading: (controller, action) async {
+          return NavigationActionPolicy.ALLOW;
+        },
+        initialSettings: InAppWebViewSettings(
             mediaPlaybackRequiresUserGesture: false,
-          ),
-          android: AndroidInAppWebViewOptions(
+            useShouldOverrideUrlLoading: true,
             useHybridComposition: true,
-          ),
-          ios: IOSInAppWebViewOptions(
-            allowsInlineMediaPlayback: true,
-          ),
-        ),
+            allowsInlineMediaPlayback: true),
       ),
     );
   }

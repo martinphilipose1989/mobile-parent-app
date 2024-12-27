@@ -7,8 +7,11 @@ import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
+
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +67,15 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             children: [
               const DashboardPage(),
               Container(
+                color: AppColors.primaryOn,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.green,
+                child: Center(
+                  child: CommonText(
+                    text: "Coming Soon !!!",
+                    style: AppTypography.body1,
+                  ),
+                ),
               ),
             ],
           );
@@ -171,11 +180,11 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.home),
+                    const Icon(Icons.notifications),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: 'Notification',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

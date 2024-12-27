@@ -19,12 +19,15 @@ abstract class AdminRetorfitService {
   }
 
   @GET(
-      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}')
-  Future<HttpResponse<GetCouponsResponseEntity>> getCoupons(
-      {@Path('student_id') required String studentId,
-      @Path('fee_type_ids') required String feeTypeIds,
-      @Path('fee_category_ids') required String feeCategoryIds,
-      @Path('fee_sub_category_ids') required String feeSubCategoryIds});
+      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}')
+  Future<HttpResponse<GetCouponsResponseEntity>> getCoupons({
+    @Path('student_id') required String studentId,
+    @Path('fee_type_ids') required String feeTypeIds,
+    @Path('fee_category_ids') required String feeCategoryIds,
+    @Path('fee_sub_category_ids') required String feeSubCategoryIds,
+    @Path('fee_sub_type_ids') required String feeSubTypeIds,
+    @Path('academic_yrs_id') required String academicYrsId,
+  });
 
   @GET('/studentProfile/{id}')
   Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails({

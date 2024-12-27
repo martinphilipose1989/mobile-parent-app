@@ -147,7 +147,7 @@ class EnquiriesPageModel extends BasePageViewModel {
         }
       }).onError((error) {
         isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -260,7 +260,7 @@ class EnquiriesPageModel extends BasePageViewModel {
         }
       }).onError((error) {
         isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

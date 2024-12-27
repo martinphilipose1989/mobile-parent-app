@@ -117,141 +117,17 @@ class EnquiriesAdmissionsJourneyPageView
       BuildContext context, EnquiriesAdmissionsJourneyViewModel model) {
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppStreamBuilder<Resource<EnquiryDetailBase>>(
-                stream: model.fetchEnquiryDetail,
-                dataBuilder: (context, snapshot) {
-                  return snapshot?.status == Status.loading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : ListItem(
-                          image: AppImages.personIcon,
-                          name:
-                              "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName}",
-                          year: "${snapshot?.data?.data?.academicYear}",
-                          id: snapshot?.data?.data?.enquiryNumber ?? '',
-                          title: snapshot?.data?.data?.existingSchoolName ?? '',
-                          subtitle:
-                              "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.boardName} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
-                          buttontext: snapshot?.data?.data?.currentStage ?? '',
-                          compeletion: '',
-                          status: enquiryDetail.status ?? '',
-                        );
-                },
-                initialData: Resource.none(),
-              ),
-              CommonSizedBox.sizedBox(height: 10, width: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-        CommonText(
-                    text: 'Admission Journey',
-                    style: AppTypography.subtitle1,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setEnquiryDetailsArgs(model);
-
-                      Navigator.pushNamed(
-                              context, RoutePaths.enquiriesDetailsPage,
-                              arguments: enquiryDetail)
-                          .then((value) {
-                        model.getEnquiryDetail(
-                            enquiryID: "${enquiryDetail.enquiryId}");
-                        model.getAdmissionJourney(
-                            enquiryID: "${enquiryDetail.enquiryId}",
-                            type: "enquiry");
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.eyeIcon,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        CommonSizedBox.sizedBox(height: 10, width: 10),
-                        CommonText(
-                          text: 'View Details',
-                          style: AppTypography.subtitle1
-                              .copyWith(color: Theme.of(context).primaryColor),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              CommonSizedBox.sizedBox(height: 10, width: 10),
-              AppStreamBuilder<Resource<AdmissionJourneyBase>>(
-                  stream: model.fetchAdmissionJourney,
-                  initialData: Resource.none(),
-                  onData: (value) {},
-                  dataBuilder: (context, result) {
-                    switch (result?.status) {
-                      case Status.loading:
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      case Status.success:
-                        return CommonStepperPage(
-                            stepperList: List.generate(
-                              (result?.data?.data ?? []).length,
-                              (index) {
-                                return Step(
-                                    subtitle:
-                                        (result?.data?.data?[index].comment ??
-                                                    '')
-                                                .isEmptyOrNull()
-                                            ? null
-                                            : CommonText(
-                                                text: result?.data?.data?[index]
-                                                        .comment ??
-                                                    ''),
-                                    title: CommonText(
-                                      text: result?.data?.data?[index].stage ??
-                                          '',
-                                    ),
-                                    state: result?.data?.data?[index].status ==
-                                                "Open" ||
-                                            result?.data?.data?[index].status ==
-                                                "In Progress"
-                                        ? StepState.indexed
-                                        : StepState.complete,
-                                    isActive:
-                                        result?.data?.data?[index].status !=
-                                            "Open",
-                                    content: const SizedBox.shrink());
-                              },
-                            ),
-                            activeStep: (result?.data?.data ?? []).indexWhere(
-                                        (element) =>
-                                            (element.status != "Open")) ==
-                                    -1
-                                ? 0
-                                : (result?.data?.data ?? []).indexWhere(
-                                    (element) => (element.status != "Open")));
-                      case Status.error:
-                        return const Center(
-                          child: Text('Enquiries not found'),
-                        );
-                      default:
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                    }
-                  }),
-            ],
-          ),
-        ),
+        StudentEnquiryDetailsCard(
+            enquiryDetail: enquiryDetail,
+            model: model,
+            callback: () {
+              setEnquiryDetailsArgs(model);
+            }),
         AppStreamBuilder<bool>(
             stream: model.showMenuOnFloatingButton,
             initialData: model.showMenuOnFloatingButton.value,
             dataBuilder: (context, data) {
-              return data!
+              return data == true
                   ? Container(
                       color: Colors.black.withOpacity(0.5),
                     )
@@ -311,5 +187,146 @@ class EnquiriesAdmissionsJourneyPageView
     enquiryDetail.academicYearId = model.enquiryDetail?.academicYearId;
     enquiryDetail.gradeId = model.enquiryDetail?.gradeId;
     enquiryDetail.courseId = model.enquiryDetail?.courseId;
+  }
+}
+
+class StudentEnquiryDetailsCard extends StatelessWidget {
+  const StudentEnquiryDetailsCard(
+      {super.key,
+      required this.enquiryDetail,
+      required this.model,
+      required this.callback});
+
+  final EnquiryDetailArgs enquiryDetail;
+  final EnquiriesAdmissionsJourneyViewModel model;
+  final VoidCallback callback;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppStreamBuilder<Resource<EnquiryDetailBase>>(
+            stream: model.fetchEnquiryDetail,
+            dataBuilder: (context, snapshot) {
+              return snapshot?.status == Status.loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListItem(
+                      image: AppImages.personIcon,
+                      name:
+                          "${snapshot?.data?.data?.studentFirstName} ${snapshot?.data?.data?.studentLastName}",
+                      year: "${snapshot?.data?.data?.academicYear}",
+                      id: snapshot?.data?.data?.enquiryNumber ?? '',
+                      title: snapshot?.data?.data?.existingSchoolName ?? '',
+                      subtitle:
+                          "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.boardName} | ${enquiryDetail.shift} | Stream-${enquiryDetail.stream}",
+                      buttontext: snapshot?.data?.data?.currentStage ?? '',
+                      compeletion: '',
+                      status: enquiryDetail.status ?? '',
+                    );
+            },
+            initialData: Resource.none(),
+          ),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CommonText(
+                text: 'Admission Journey',
+                style: AppTypography.subtitle1,
+              ),
+              InkWell(
+                onTap: () {
+                  callback.call();
+
+                  Navigator.pushNamed(context, RoutePaths.enquiriesDetailsPage,
+                          arguments: enquiryDetail)
+                      .then((value) {
+                    model.getEnquiryDetail(
+                        enquiryID: "${enquiryDetail.enquiryId}");
+                    model.getAdmissionJourney(
+                        enquiryID: "${enquiryDetail.enquiryId}",
+                        type: "enquiry");
+                  });
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppImages.eyeIcon,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    CommonSizedBox.sizedBox(height: 10, width: 10),
+                    CommonText(
+                      text: 'View Details',
+                      style: AppTypography.subtitle1
+                          .copyWith(color: Theme.of(context).primaryColor),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          AppStreamBuilder<Resource<AdmissionJourneyBase>>(
+              stream: model.fetchAdmissionJourney,
+              initialData: Resource.none(),
+              onData: (value) {},
+              dataBuilder: (context, result) {
+                switch (result?.status) {
+                  case Status.loading:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  case Status.success:
+                    return CommonStepperPage(
+                        stepperList: List.generate(
+                          (result?.data?.data ?? []).length,
+                          (index) {
+                            return Step(
+                                subtitle:
+                                    (result?.data?.data?[index].comment ?? '')
+                                            .isEmptyOrNull()
+                                        ? null
+                                        : CommonText(
+                                            text: result?.data?.data?[index]
+                                                    .comment ??
+                                                ''),
+                                title: CommonText(
+                                  text: result?.data?.data?[index].stage ?? '',
+                                ),
+                                state: result?.data?.data?[index].status ==
+                                            "Open" ||
+                                        result?.data?.data?[index].status ==
+                                            "In Progress"
+                                    ? StepState.indexed
+                                    : StepState.complete,
+                                isActive:
+                                    result?.data?.data?[index].status != "Open",
+                                content: const SizedBox.shrink());
+                          },
+                        ),
+                        activeStep: (result?.data?.data ?? []).indexWhere(
+                                    (element) => (element.status != "Open")) ==
+                                -1
+                            ? 0
+                            : (result?.data?.data ?? []).indexWhere(
+                                (element) => (element.status != "Open")));
+                  case Status.error:
+                    return const Center(
+                      child: Text('Enquiries not found'),
+                    );
+                  default:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                }
+              }),
+        ],
+      ),
+    );
   }
 }

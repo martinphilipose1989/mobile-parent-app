@@ -6,11 +6,10 @@ abstract class AdminRepository {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds});
+      required String feeSubCategoryIds,
+      required String feeSubTypeIds,
+      required String academicYrsId});
 
-
-  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({required int id});
-
-
-
+  Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
+      {required int id});
 }

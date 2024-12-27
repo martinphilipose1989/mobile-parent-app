@@ -1,11 +1,10 @@
 import 'package:app/base/app_base_page.dart';
-import 'package:app/di/states/viewmodels.dart' ;
+import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:data/data.dart' hide State;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,46 +20,38 @@ class AttendanceCalenderPage extends BasePage<AttendanceCalenderViewModel> {
   State<AttendanceCalenderPage> createState() => _AttendanceCalenderPageState();
 }
 
-class _AttendanceCalenderPageState
-    extends AppBasePageState<AttendanceCalenderViewModel, AttendanceCalenderPage> {
+class _AttendanceCalenderPageState extends AppBasePageState<
+    AttendanceCalenderViewModel, AttendanceCalenderPage> {
   @override
   void onModelReady(AttendanceCalenderViewModel model) {
     model.selectedStudent = ProviderScope.containerOf(context)
         .read(dashboardViewModelProvider)
         .selectedStudentId;
 
-
-    if (model.selectedStudent!.isEmpty ||    model.selectedStudent?.first.id==null) {
+    if (model.selectedStudent!.isEmpty ||
+        model.selectedStudent?.first.id == null) {
       return;
-    }
- else  {
-
+    } else {
       model.getStudentDetail(id: model.selectedStudent?.first.id);
     }
-
-
   }
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceCalenderViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
-      appbarTitle: 'Student Attendance',
+      appbarTitle: 'Student Profile',
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
-
     );
   }
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, AttendanceCalenderViewModel model) {
-    // TODO: implement buildView
     return AttendanceCalenderPageView(provideBase());
   }
 

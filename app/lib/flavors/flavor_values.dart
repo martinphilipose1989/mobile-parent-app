@@ -23,6 +23,7 @@ class FlavorValues {
   final String keyCloakIntrospectUrl;
   final String gateUrl;
   final String marketingUrl;
+  final String frontEndUrl;
 
   const FlavorValues({
     required this.transportUrl,
@@ -41,6 +42,7 @@ class FlavorValues {
     required this.keyCloakIntrospectUrl,
     required this.gateUrl,
     required this.marketingUrl,
+    required this.frontEndUrl,
     this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,

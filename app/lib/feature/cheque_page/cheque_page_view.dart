@@ -13,6 +13,7 @@ import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
         Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
             key: model.formKey,
             child: AppStreamBuilder(
               stream: model.noOfCheques,
@@ -384,8 +385,13 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                 context,
                 'Payment\nSuccessfull!',
                 (shouldRoute) {
-                  Navigator.popUntil(
-                      context, ModalRoute.withName(RoutePaths.payments));
+                  if (model.modules == Modules.admission) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RoutePaths.tabbar, (route) => false);
+                  } else {
+                    Navigator.popUntil(
+                        context, ModalRoute.withName(RoutePaths.payments));
+                  }
                 },
               );
             }

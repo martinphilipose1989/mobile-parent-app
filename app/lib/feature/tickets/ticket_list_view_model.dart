@@ -66,7 +66,7 @@ class TicketListViewModel extends BasePageViewModel {
               .add(Resource.success(data: result.data?.data?.data));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -140,7 +140,7 @@ class TicketListViewModel extends BasePageViewModel {
           getTicketStatus();
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

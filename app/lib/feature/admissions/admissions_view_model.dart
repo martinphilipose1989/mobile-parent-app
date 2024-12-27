@@ -141,7 +141,7 @@ class AdmissionsViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -199,7 +199,7 @@ class AdmissionsViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         isLoading.value = false;
-        exceptionHandlerBinder.showError(error!);
+        // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

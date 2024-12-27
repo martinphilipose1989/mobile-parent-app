@@ -18,26 +18,29 @@ class CancelCompetencyPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CancelCompetencyTestUsecase cancelCompetencyTestUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  CancelCompetencyPageModel(this.exceptionHandlerBinder,this.cancelCompetencyTestUsecase,this.flutterToastErrorPresenter);
+  CancelCompetencyPageModel(this.exceptionHandlerBinder,
+      this.cancelCompetencyTestUsecase, this.flutterToastErrorPresenter);
 
-
-  final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetail = PublishSubject();
-  final PublishSubject<Resource<CompetencyTestDetailBase>> _cancelCompetencyTest = PublishSubject();
-  Stream<Resource<CompetencyTestDetailBase>> get cancelCompetencyTestStream => _cancelCompetencyTest.stream;
+  final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetail =
+      PublishSubject();
+  final PublishSubject<Resource<CompetencyTestDetailBase>>
+      _cancelCompetencyTest = PublishSubject();
+  Stream<Resource<CompetencyTestDetailBase>> get cancelCompetencyTestStream =>
+      _cancelCompetencyTest.stream;
 
   CompetencyTestDetails? competencyTestDetailsData;
   TextEditingController controller = TextEditingController();
   DateFormat dateFormat = DateFormat('d MMM yyyy');
   final formKey = GlobalKey<FormState>();
 
-  Future<void> cancelCompetencyTest({required String enquiryID, required String competencyTestID}) async {
-      exceptionHandlerBinder.handle(block: () {
+  Future<void> cancelCompetencyTest(
+      {required String enquiryID, required String competencyTestID}) async {
+    exceptionHandlerBinder.handle(block: () {
       CancelCompetencyTestRequest request = CancelCompetencyTestRequest(
-        comment: controller.text.trim(),
-        reason: selectedReason 
-      );
+          comment: controller.text.trim(), reason: selectedReason);
 
-      CancelCompetencyTestUsecaseParams params = CancelCompetencyTestUsecaseParams(
+      CancelCompetencyTestUsecaseParams params =
+          CancelCompetencyTestUsecaseParams(
         enquiryID: enquiryID,
         cancelCompetencyTestRequest: request,
       );
@@ -49,36 +52,37 @@ class CancelCompetencyPageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _cancelCompetencyTest.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           competencyTestDetail.add(Resource.success(data: result.data?.data));
           competencyTestDetailsData = result.data?.data;
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
 
   bool validateForm() {
     if (selectedReason.isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please select reason."));
+      // exceptionHandlerBinder.showError(Exception("Please select reason."));
       return false;
-    }
-    else if (controller.text.trim().isEmpty) {
-      exceptionHandlerBinder.showError(Exception("Please enter your comment."));
+    } else if (controller.text.trim().isEmpty) {
+      // exceptionHandlerBinder.showError(Exception("Please enter your comment."));
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
+
   final BehaviorSubject<bool> selectedReasonType =
-  BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(false);
   String selectedReason = '';
   final List<String> reasonTypes = [
     'Not Available',

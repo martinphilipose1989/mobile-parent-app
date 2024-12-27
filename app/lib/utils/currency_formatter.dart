@@ -3,7 +3,7 @@ class CurrencyFormatter {
     // Parse the string to a double
     double? amount = double.tryParse(value);
     if (amount == null || value.isEmpty) {
-      throw const FormatException('Invalid number format');
+      return '0';
     }
 
     // Handle the negative amount case

@@ -114,7 +114,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           log("Error");
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -168,7 +168,7 @@ class TransportDetailViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.value = false;
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -217,7 +217,7 @@ class TransportDetailViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.add(false);
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }
@@ -286,7 +286,7 @@ class TransportDetailViewModel extends BasePageViewModel {
         }
       }).onError((error) {
         showLoader.value = false;
-        exceptionHandlerBinder.showError(error);
+        // exceptionHandlerBinder.showError(error);
       });
     }).execute();
   }

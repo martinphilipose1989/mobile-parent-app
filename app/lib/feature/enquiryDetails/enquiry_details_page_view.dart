@@ -107,7 +107,6 @@ class EnquiriesDetailsPageView
             arguments: enquiryDetailArgs);
       case 6:
         model.showMenuOnFloatingButton.add(false);
-
         model.moveToNextStage();
         return;
       default:
@@ -167,17 +166,6 @@ class EnquiriesDetailsPageView
                               },
                               initialData: Resource.none(),
                             ),
-                            // ListItem(
-                            //   image: AppImages.personIcon,
-                            //   name: "${enquiryDetailArgs.studentName} ",
-                            //   year: enquiryDetailArgs.academicYear??'',
-                            //   id: enquiryDetailArgs.enquiryNumber??'',
-                            //   title: enquiryDetailArgs.school??'',
-                            //   subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
-                            //   buttontext: enquiryDetailArgs.currentStage??'',
-                            //   compeletion: '',
-                            //   status: enquiryDetailArgs.status??'',
-                            // ),
                             SizedBox(
                               height: 10.h,
                             ),
@@ -188,7 +176,7 @@ class EnquiriesDetailsPageView
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                    CommonText(
+                              CommonText(
                                 text: "Admission Journey",
                                 style: AppTypography.body1,
                               ),

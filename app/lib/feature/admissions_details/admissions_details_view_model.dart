@@ -23,6 +23,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   final EnquiryDetailArgs enquiryDetailArgs;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final MoveToNextStageUsecase moveToNextStageUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
 
   AdmissionsDetailsViewModel(
       this.exceptionHandlerBinder,
@@ -31,7 +32,8 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.enquiryDetailArgs,
       this.flutterToastErrorPresenter,
       this.moveToNextStageUsecase,
-      this.makePaymentRequestUsecase) {
+      this.makePaymentRequestUsecase,
+      this.getUserDetailsUsecase) {
     initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
@@ -120,7 +122,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -164,7 +166,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -348,7 +350,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
             .asFlow()
             .listen((data) {
           if (data.status == Status.error) {
-            exceptionHandlerBinder.showError(data.dealSafeAppError!);
+            // exceptionHandlerBinder.showError(data.dealSafeAppError!);
             vasSubject.add(Resource.error(error: data.dealSafeAppError));
           }
           if (data.status == Status.success) {
@@ -372,7 +374,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         createCall: () => moveToNextStageUsecase.execute(params: params),
       ).asFlow().listen((data) {
         if (data.status == Status.error) {
-          exceptionHandlerBinder.showError(data.dealSafeAppError!);
+          // exceptionHandlerBinder.showError(data.dealSafeAppError!);
           moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
         }
         if (data.status == Status.success) {
@@ -383,6 +385,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
             RoutePaths.payments,
             arguments: PaymentArguments(
               phoneNo: '',
+              module: Modules.admission,
               enquiryId: enquiryDetailArgs.enquiryId,
               enquiryNo: enquiryDetailArgs.enquiryNumber,
               studentName: "${enquiryDetailArgs.studentName} ",
@@ -397,5 +400,20 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
         }
       });
     }).execute();
+  }
+
+  // USER DETAILS
+  BehaviorSubject<User> userSubject = BehaviorSubject();
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(data.data!);
+      }
+    });
   }
 }
