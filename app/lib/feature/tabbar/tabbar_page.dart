@@ -5,6 +5,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashboard_page.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
+import 'package:app/molecules/drawer/expansionList.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/themes_setup.dart';
@@ -49,12 +50,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     return super.onBackPressed(param: true);
   }
 
-  // Future<bool> _onWillPop(bool showPopUp) {
-  //   if (showPopUp) {
-  //     CommonPopups().showAppClose(context, 'Are you sure you eant to exit?');
-  //   }
-  //   return Future.value(true);
-  // }
+
 
   @override
   Widget buildView(BuildContext context, TabbarViewModel model) {
@@ -93,13 +89,13 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   Widget? buildDrawer() {
     return buildDrawers(
       context: context,
-      items: drawerItems,
+
     );
   }
 
   Widget buildDrawers({
     BuildContext? context,
-    required List<DrawerItems>? items,
+
     VoidCallback? onTap, // The callback function to handle taps
     bool? isActive, // Determines if the widget is active
     int? selectedIndex, // Determines if the widget is selected
@@ -107,31 +103,18 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     return Drawer(
       width: MediaQuery.of(context!).size.width * 0.6,
       child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ListView.builder(
-              itemCount: items?.length,
-              itemBuilder: (context, index) {
-                final item = items?[index];
-                return ListTile(
-                  selected: model.selectedIndex.value == index,
-                  selectedTileColor: AppColors.listItem,
-                  title: Text(items?[index].menu ?? ""),
-                  onTap: () {
-                    model.selectedIndex.value =
-                        index; // Update the selected index
+          padding: const EdgeInsets.only(top: 32.0),
+          child: ListView(
+            children:[
+              SizedBox(),
+              CustomExpansionList( title: "Fees",nameList: fessItems,),
+              CustomExpansionList( title: "Child Progress/ Academic Progress",nameList: model.progressItems,),
+              CustomExpansionList( title: "Daily Diary",nameList: model.dailyDiary,),
+              CustomExpansionList( title: "Parent Services",nameList: model.parentServices,),
+              CustomExpansionList( title: "Info",nameList: model.parentServices,)
 
-                    if (onTap != null) {
-                      onTap!(); // Pass the selected index to the callback
-                    }
-                    if (items?[index].route != null &&
-                        items![index].route!.isNotEmpty) {
-                      Navigator.pushNamed(context,
-                          items[index].route!); // Navigate to the route
-                    }
-                  },
-                );
-              })),
-    );
+         ] ),
+      ) );
   }
 
   @override
@@ -196,19 +179,17 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   }
 }
 
-final List<DrawerItems> drawerItems = [
-  DrawerItems('Fees', ""),
-  DrawerItems('Payments', ""),
-  DrawerItems('Transaction History', RoutePaths.myDutyPage),
-  DrawerItems('Receipt', ""),
-  DrawerItems('Daily Diary', ""),
-  DrawerItems('Class Update', ""),
-  DrawerItems('Assignment', ""),
+final List<DrawerItems> fessItems = [
+  DrawerItems(menu:'Payments',route: RoutePaths.payments ),
+  DrawerItems(menu:'Transaction History', route: RoutePaths.paymentsPage ),
+
+  DrawerItems(menu:'Receipt', ),
+
 ];
 
 class DrawerItems {
   final String? menu;
   final String? route;
-
-  DrawerItems(this.menu, this.route);
+final String? icon;
+  DrawerItems({this.menu, this.route, this.icon});
 }

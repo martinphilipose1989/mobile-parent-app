@@ -50,8 +50,8 @@ class DisciplinaryDetails extends StatelessWidget {
             image: AppImages.personIcon,
             name: name,
             title: "$schoolName|$boardName",
-            subtitle: "$course| $shift| $division| $house",
-            subtitle2: "Stream: $stream"),
+            subtitle: "$course| $shift| $division| $house| $grade ",
+            subtitle2: "Stream: $stream "),
         SizedBox(
           height: 20.h,
         ),

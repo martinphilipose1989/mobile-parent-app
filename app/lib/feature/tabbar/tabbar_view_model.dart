@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import '../../navigation/route_paths.dart';
 
 @injectable
 class TabbarViewModel extends BasePageViewModel {
@@ -16,8 +19,8 @@ class TabbarViewModel extends BasePageViewModel {
 
   final BehaviorSubject<int> indexSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> isSelected = BehaviorSubject<bool>();
-  final BehaviorSubject<int> selectedIndex = BehaviorSubject<int>();
-  Stream<int> get selectedIndexStream => selectedIndex.stream;
+  final BehaviorSubject<DrawerItems?> selectedMenu = BehaviorSubject<DrawerItems?>.seeded(null);
+  Stream<DrawerItems?>get selectedIndexStream => selectedMenu.stream;
   Stream<int> get indexStream => indexSubject.stream;
 
   void onItemTapped(int index) {
@@ -41,5 +44,46 @@ class TabbarViewModel extends BasePageViewModel {
         return 'N/A';
     }
   }
+
+  final List<DrawerItems> progressItems = [
+    DrawerItems(menu:'Attendance',route: RoutePaths.attendanceCalender ),
+    DrawerItems(menu:'Disciplinary Slip', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Performance', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'MarkSheet', ),
+
+
+
+  ];
+  final List<DrawerItems> dailyDiary = [
+    DrawerItems(menu:'Class Update',route: RoutePaths.attendanceCalender ),
+    DrawerItems(menu:'Assignments', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Circulars', route: RoutePaths.disciplinarySlipPage ),
+  ];
+
+  final List<DrawerItems> parentServices = [
+    DrawerItems(menu:'Service Request',route: RoutePaths.attendanceCalender ),
+    DrawerItems(menu:'Order', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Transport App', route: RoutePaths.myDutyPage ),
+    DrawerItems(menu:'Forms Download' ),
+    DrawerItems(menu:'Application',  ),
+    DrawerItems(menu:'Gate Management', route: RoutePaths.createEditGatePassPage ),
+  ];
+
+  final List<DrawerItems> infoItems = [
+    DrawerItems(menu:'Brochers ',route: RoutePaths.attendanceCalender ),
+    DrawerItems(menu:'Personal/Academic', route: RoutePaths.disciplinarySlipPage ),
+    DrawerItems(menu:'Academics' ),
+    DrawerItems(menu:'Refferal', route: RoutePaths.myDutyPage ),
+    DrawerItems(menu:'Scholars' ),
+    DrawerItems(menu:'Competitive Exams',  ),
+    DrawerItems(menu:'Calender', ),
+    DrawerItems(menu:'Canteen Menu',  ),
+    DrawerItems(menu:'Parent Menu',  ),
+    DrawerItems(menu:'Syllabus',  ),
+    DrawerItems(menu:'Time Table',  ),
+    DrawerItems(menu:'Kids Club',  ),
+    DrawerItems(menu:'IVT',  ),
+  ];
+
 
 }
