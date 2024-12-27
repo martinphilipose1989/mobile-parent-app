@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -90,18 +91,24 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   final List progress = [
-    {'name': 'Attendance', 'image': AppImages.attendance, 'isSelected': false},
     {
-      'name': 'Discipline Slips',
-      'image': AppImages.document,
-      'isSelected': false
+      'name': 'Student Profile',
+      'image': AppImages.personIcon,
+      'isSelected': false,
+      'key': 'student_profile'
     },
-    {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
-    {
-      'name': 'Marksheet',
-      'image': AppImages.documentNormal,
-      'isSelected': false
-    }
+    // Coming Soon Features
+    // {
+    //   'name': 'Discipline Slips',
+    //   'image': AppImages.document,
+    //   'isSelected': false
+    // },
+    // {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
+    // {
+    //   'name': 'Marksheet',
+    //   'image': AppImages.documentNormal,
+    //   'isSelected': false
+    // }
   ];
 
   final List enquiryAndAdmissionTemp = [
@@ -117,19 +124,19 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'payment'
     },
-    {
-      'name': 'New Enrollment',
-      'image': AppImages.activity,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'enrollment'
-    },
+    // {
+    //   'name': 'New Enrollment',
+    //   'image': AppImages.activity,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'enrollment'
+    // },
   ];
 
   String returnRouteValue(String routeValue) {
     switch (routeValue) {
       case 'sr':
-        return '';
+        return RoutePaths.notification;
       case 'order':
         return '';
       case 'transport':
@@ -142,7 +149,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.payments;
       case '':
         return RoutePaths.payments;
-      case 'attendance':
+      case 'student profile':
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
         return RoutePaths.disciplinarySlipPage;
@@ -202,7 +209,7 @@ class DashboardPageModel extends BasePageViewModel {
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -220,7 +227,7 @@ class DashboardPageModel extends BasePageViewModel {
                   email: result.data?.email, service: "mobile_app"));
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -251,7 +258,7 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -298,10 +305,46 @@ class DashboardPageModel extends BasePageViewModel {
         if (data.data?.statusId != 0) {
           feesTemp[index]['isActive'] = true;
         } else {
-          feesTemp[index]['isActive'] = true;
+          feesTemp[index]['isActive'] = false;
         }
       }
     }
+
+    final List<Map<String, String>> drawerItems = [
+      {'text': 'Fees', 'route': ''},
+      {'text': 'Payments', 'route': ''},
+      {'text': 'Transaction History', 'route': ''},
+      {'text': 'Receipt', 'route': ''},
+      {'text': 'Daily Diary', 'route': ''},
+      {'text': 'Class Update', 'route': ''},
+      {'text': 'Assignment', 'route': ''},
+
+    ];
+
+    Widget buildDrawer( BuildContext context,List<Map<String, String>> items) {
+      return Drawer(
+        child: ListView(
+          children: drawerItems.map((item) {
+            final text = item['text'] ?? '';
+            final route = item['route'] ?? '';
+            return ListTile(
+              title: Text(text),
+              onTap: () {
+                // Navigate to the specified route
+                if (route.isNotEmpty) {
+                  Navigator.pushNamed(
+                    // Replace 'context' with the actual context if this is part of a class
+                    context,
+                    route,
+                  );
+                }
+              },
+            );
+          }).toList(),
+        ),
+      );
+    }
+
   }
 
   @override

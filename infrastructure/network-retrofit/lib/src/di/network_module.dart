@@ -1,4 +1,4 @@
-import 'package:alice/core/alice_dio_interceptor.dart';
+// import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
@@ -10,12 +10,13 @@ import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
 import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
+import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:alice/alice.dart';
+// import 'package:alice/alice.dart';
 
 import '../services/attendance_retrofit_service.dart';
 
@@ -50,20 +51,20 @@ abstract class NetworkModule {
           @Named("ApiKey") String apiKey, @Named('mdmToken') String mdmToken) =>
       ApiInterceptor(apiKey, mdmToken);
 
-  @singleton
-  Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
-      Alice(showNotification: showLogs);
+  // @singleton
+  // Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
+  //     Alice(showNotification: showLogs);
 
-  @singleton
-  AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
-      alice.getDioInterceptor();
+  // @singleton
+  // AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
+  //     alice.getDioInterceptor();
 
   @singleton
   List<Interceptor> providerInterceptors(
           PrettyDioLogger logger,
           ApiInterceptor apiInterceptor,
           CurlLoggerDioInterceptor curlInterceptor,
-          AliceDioInterceptor aliceDioInterceptor,
+          //  AliceDioInterceptor aliceDioInterceptor,
           @Named('ShowLogs') bool showLogs) =>
       <Interceptor>[
         apiInterceptor,
@@ -71,7 +72,7 @@ abstract class NetworkModule {
           logger,
           curlInterceptor,
           // REMOVE WHILE UAT OR RELEASE
-          aliceDioInterceptor
+          // aliceDioInterceptor
         ]
       ];
 
@@ -113,6 +114,10 @@ abstract class NetworkModule {
           Dio dio, @Named('attendance') String attendancebaseUrl) =>
       AttendanceRetorfitService(dio, attendanceBaseUrl: attendancebaseUrl);
   @lazySingleton
+ NotificationSerivce notificationService(
+      Dio dio, @Named('notificationUrl') String notificationBaseUrl) =>
+      NotificationSerivce (dio, notificationUrl:  notificationBaseUrl);
+  @lazySingleton
   TransportService providerTransportRetrofitService(
           Dio dio, @Named('transportUrl') String transportUrl) =>
       TransportService(dio, transportUrl: transportUrl);
@@ -143,7 +148,8 @@ abstract class NetworkModule {
           TicketRetrofitService ticketRetrofitService,
           KeyCloakService keyCloakService,
           GatemanagementService gatemanagementService,
-          MarketingSerivce marketingSerivce) =>
+          MarketingSerivce marketingSerivce,
+      NotificationSerivce notificationService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -154,5 +160,5 @@ abstract class NetworkModule {
           transportService: transportService,
           keyCloakService: keyCloakService,
           gatemanagementService: gatemanagementService,
-          marketingSerivce: marketingSerivce);
+          marketingSerivce: marketingSerivce, notificationSerivce: notificationService);
 }

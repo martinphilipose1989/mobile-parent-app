@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/dependencies.dart';
 import 'package:app/feature/admissions_details/admissions_details_view_model.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';

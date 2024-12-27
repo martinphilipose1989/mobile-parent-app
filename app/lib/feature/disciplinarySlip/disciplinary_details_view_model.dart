@@ -56,7 +56,7 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
         _acknowledgeSlipModel.add(result);
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -71,7 +71,7 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
         _coReasonsListModel.add(result);
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -91,7 +91,7 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
         _getDisciplinarySlipModel.add(result);
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -112,7 +112,7 @@ class DisplinaryDetailsViewModel extends BasePageViewModel {
         _studentDetails.add(result);
         if (result.status == Status.error) {}
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

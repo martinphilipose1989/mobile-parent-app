@@ -4,6 +4,9 @@ class DateFormatter {
   static String formatDate(String dateString) {
     try {
       // Parse the string date in ISO 8601 format
+      if (dateString.isEmpty) {
+        return '';
+      }
       DateTime date = DateTime.parse(dateString);
 
       // Format the date to dd/mm/yyyy
@@ -18,9 +21,6 @@ class DateFormatter {
   static String _formatWithLeadingZero(int value) {
     return value < 10 ? '0$value' : value.toString();
   }
-
-
-
 
   static String dateFormat(String date) {
     try {
@@ -39,5 +39,4 @@ class DateFormatter {
     // Format the DateTime object to 'yyyy-MM'
     return DateFormat('yyyy-MM').format(date);
   }
-
 }

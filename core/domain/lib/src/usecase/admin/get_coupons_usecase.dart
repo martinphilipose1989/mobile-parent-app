@@ -15,10 +15,13 @@ class GetCouponsUsecase extends BaseUseCase<BaseError, GetCouponsUsecaseParams,
   Future<Either<BaseError, FetchCouponsListModel>> execute(
       {required GetCouponsUsecaseParams params}) async {
     return await _repository.getCoupons(
-        studentId: params.studentId,
-        feeTypeIds: params.feeTypeIds,
-        feeCategoryIds: params.feeCategoryIds,
-        feeSubCategoryIds: params.feeSubCategoryIds);
+      studentId: params.studentId,
+      feeTypeIds: params.feeTypeIds,
+      feeCategoryIds: params.feeCategoryIds,
+      feeSubCategoryIds: params.feeSubCategoryIds,
+      academicYrsId: params.academicYrsId,
+      feeSubTypeIds: params.feeSubTypeIds,
+    );
   }
 }
 
@@ -27,12 +30,16 @@ class GetCouponsUsecaseParams extends Params {
   final String feeTypeIds;
   final String feeCategoryIds;
   final String feeSubCategoryIds;
+  final String academicYrsId;
+  final String feeSubTypeIds;
 
   GetCouponsUsecaseParams(
       {required this.studentId,
       required this.feeCategoryIds,
       required this.feeSubCategoryIds,
-      required this.feeTypeIds});
+      required this.feeTypeIds,
+      required this.academicYrsId,
+      required this.feeSubTypeIds});
 
   @override
   Either<AppError, bool> verify() {

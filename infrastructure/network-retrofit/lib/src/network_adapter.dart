@@ -10,6 +10,8 @@ import 'package:network_retrofit/src/model/request/communication/find_by_categor
 import 'package:network_retrofit/src/model/request/communication/get_ticket_list_request.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/acknowledge_request_entity.dart';
 import 'package:network_retrofit/src/model/request/disciplinary_slip/disciplinary_list_request.dart';
+import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
+import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 import 'package:network_retrofit/src/model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_guardian_student_details_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -30,6 +32,7 @@ import 'package:network_retrofit/src/model/request/finance/store_payment/payment
 import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_entity.dart';
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
+import 'package:network_retrofit/src/model/request/notification/notification_request_Entity.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
@@ -39,6 +42,7 @@ import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
 import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
+import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
@@ -56,6 +60,7 @@ class NetworkAdapter implements NetworkPort {
   final KeyCloakService keyCloakService;
   final GatemanagementService gatemanagementService;
   final MarketingSerivce marketingSerivce;
+  final NotificationSerivce notificationSerivce;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
 
@@ -66,6 +71,7 @@ class NetworkAdapter implements NetworkPort {
 
   NetworkAdapter(
       {required this.apiService,
+      required this.notificationSerivce,
       required this.transportService,
       required this.attendanceRetorfitService,
       required this.disciplinaryRetorfitService,
@@ -1139,12 +1145,16 @@ class NetworkAdapter implements NetworkPort {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds}) async {
+      required String feeSubCategoryIds,
+      required String academicYrsId,
+      required String feeSubTypeIds}) async {
     var response = await safeApiCall(adminRetorfitService.getCoupons(
         studentId: studentId,
         feeTypeIds: feeTypeIds,
         feeCategoryIds: feeCategoryIds,
-        feeSubCategoryIds: feeSubCategoryIds));
+        feeSubCategoryIds: feeSubCategoryIds,
+        academicYrsId: academicYrsId,
+        feeSubTypeIds: feeSubTypeIds));
     return response.fold(
       (l) {
         return Left(l);
@@ -1627,5 +1637,72 @@ class NetworkAdapter implements NetworkPort {
         data.data.transform(),
       ),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, NotificationResponseModel>> getNotification(
+      {required NotificationRequestModel notificationRequestModel}) async {
+    final response = await safeApiCall(notificationSerivce.getNotification(
+        notificationRequestEntity: NotificationRequestEntity(
+            userId: notificationRequestModel.userId,
+            userType: notificationRequestModel.userType,
+            type: notificationRequestModel.type,
+            limit: notificationRequestModel.limit,
+            page: notificationRequestModel.page)));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(
+        data.data.transform(),
+      ),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.cancelPaymentRequest(
+            paymentGateway, CancelPaymentRequestEntity(orderId: orderId)));
+
+    return response.fold(
+      (error) => Left(error),
+      (data) => Right(data.data),
+    );
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
+      {required String id, required String fileType}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadTransactionHistory(id, fileType));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
+      {required String urlKey}) async {
+    final response = await safeApiCall(
+        financeRetrofitService.downloadFeeTypeTransactions(urlKey));
+
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body}) async {
+    StudentLedgerDownloadRequestEntity restoreObj =
+        StudentLedgerDownloadRequestEntity();
+
+    final response = await safeApiCall(
+        financeRetrofitService.downloadStudentLedger(restoreObj.restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(Uint8List.fromList(r.data)));
   }
 }

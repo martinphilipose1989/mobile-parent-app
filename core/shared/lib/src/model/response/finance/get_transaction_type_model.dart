@@ -28,28 +28,29 @@ class GetTransactionTypeDatumModel {
   final String? tax2;
   final String? tax3;
   final String? feeType;
+  final String? feeUrlKey;
   final FeeDetailsModel? feeDetailsModel;
 
-  GetTransactionTypeDatumModel({
-    this.paymentId,
-    this.studentFeeId,
-    this.transactionId,
-    this.paidAmount,
-    this.paymentStatus,
-    this.feeId,
-    this.feeAmount,
-    this.paid,
-    this.pending,
-    this.adjustment,
-    this.wOff,
-    this.discount,
-    this.dueDate,
-    this.tax1,
-    this.tax2,
-    this.tax3,
-    this.feeType,
-    this.feeDetailsModel,
-  });
+  GetTransactionTypeDatumModel(
+      {this.paymentId,
+      this.studentFeeId,
+      this.transactionId,
+      this.paidAmount,
+      this.paymentStatus,
+      this.feeId,
+      this.feeAmount,
+      this.paid,
+      this.pending,
+      this.adjustment,
+      this.wOff,
+      this.discount,
+      this.dueDate,
+      this.tax1,
+      this.tax2,
+      this.tax3,
+      this.feeType,
+      this.feeDetailsModel,
+      this.feeUrlKey});
 }
 
 class FeeDetailsModel {

@@ -63,4 +63,6 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'FRONTEND_URL')
   static const String frontEndUrl = _EnvQA.frontEndUrl;
+  @EnviedField(varName: 'NOTIFICATION_BASE_URL')
+  static const String notificationUrl = _EnvQA.notificationUrl;
 }

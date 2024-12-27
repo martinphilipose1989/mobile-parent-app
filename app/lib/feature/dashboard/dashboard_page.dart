@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/dashboard_page_view.dart';
+import 'package:app/utils/common_widgets/common_appbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,4 +52,7 @@ class DashboardPageState
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
+
+
+
 }

@@ -33,6 +33,7 @@ class AppImages {
   static const String messages = 'assets/images/icons/message.svg';
   static const String expand = 'assets/images/icons/expand.svg';
   static const String collapsed = 'assets/images/icons/collapsed.svg';
+  static const String info_circle = 'assets/images/info_circle.svg';
 
   static const String playButton = "assets/images/play.svg";
   static const String userOutlineIcon = "assets/images/user_outline.svg";

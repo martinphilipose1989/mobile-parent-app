@@ -143,6 +143,8 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
+                                      paymentType: model.dynamicPaymentType
+                                          ?.toLowerCase(),
                                       paymentsLink: model.dynamicPaymentType ==
                                                   "Billdesk" ||
                                               model.dynamicPaymentType ==

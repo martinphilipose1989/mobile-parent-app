@@ -17,12 +17,12 @@ class CompetencyTestModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final CreateCompetencyTestUsecase createCompetencyTestUsecase;
 
-
   final RescheduleCompetencyTestUseCase rescheduleCompetencyTestUseCase;
   final GetCompetencyTestSlotsUsecase getCompetencyTestSlotsUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final GetEnquiryDetailUseCase getEnquiryDetailUseCase;
-  CompetencyTestModel(this.exceptionHandlerBinder,
+  CompetencyTestModel(
+      this.exceptionHandlerBinder,
       this.createCompetencyTestUsecase,
       this.getCompetencyTestSlotsUsecase,
       this.rescheduleCompetencyTestUseCase,
@@ -40,15 +40,21 @@ class CompetencyTestModel extends BasePageViewModel {
 
   DateFormat dateFormat = DateFormat('d MMM yyyy');
 
-  List<String> testMode = ["Online","Offline"];
+  List<String> testMode = ["Online", "Offline"];
 
-  final BehaviorSubject<String> selectedModeSubject = BehaviorSubject<String>.seeded('Online');
+  final BehaviorSubject<String> selectedModeSubject =
+      BehaviorSubject<String>.seeded('Online');
 
-  final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetails= PublishSubject();
-  final PublishSubject<Resource<CompetencyTestDetailBase>> _createCompetencyTest = PublishSubject();
-  Stream<Resource<CompetencyTestDetailBase>> get createCompetencyTest => _createCompetencyTest.stream;
-  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail = PublishSubject();
-  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail => _fetchEnquiryDetail.stream;
+  final PublishSubject<Resource<CompetencyTestDetails>> competencyTestDetails =
+      PublishSubject();
+  final PublishSubject<Resource<CompetencyTestDetailBase>>
+      _createCompetencyTest = PublishSubject();
+  Stream<Resource<CompetencyTestDetailBase>> get createCompetencyTest =>
+      _createCompetencyTest.stream;
+  final PublishSubject<Resource<EnquiryDetailBase>> _fetchEnquiryDetail =
+      PublishSubject();
+  Stream<Resource<EnquiryDetailBase>> get fetchEnquiryDetail =>
+      _fetchEnquiryDetail.stream;
 
   final BehaviorSubject<int> selectedTimeIndex = BehaviorSubject<int>.seeded(0);
 
@@ -59,14 +65,15 @@ class CompetencyTestModel extends BasePageViewModel {
 
   final PublishSubject<Resource<Slots>> _timeSlots = PublishSubject();
   Stream<Resource<Slots>> get timeSlots => _timeSlots.stream;
-  
-    void getDefaultDate(){
+
+  void getDefaultDate() {
     selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
 
-  Future<void> fetchTimeSlots(String date,String enquiryID) async {
+  Future<void> fetchTimeSlots(String date, String enquiryID) async {
     exceptionHandlerBinder.handle(block: () {
-      GetCompetencyTestSlotsUsecaseParams params = GetCompetencyTestSlotsUsecaseParams(
+      GetCompetencyTestSlotsUsecaseParams params =
+          GetCompetencyTestSlotsUsecaseParams(
         enquiryID: enquiryID,
         date: date,
       );
@@ -77,25 +84,27 @@ class CompetencyTestModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _timeSlots.add(result);
-        if(result.status == Status.success){
-          competenctTestSlots.add(result.data?.data??[]);
-          if((result.data?.data??[]).isNotEmpty){
+        if (result.status == Status.success) {
+          competenctTestSlots.add(result.data?.data ?? []);
+          if ((result.data?.data ?? []).isNotEmpty) {
             slotID = result.data?.data?[0].id ?? '';
             selectedTime = result.data?.data?[0].slot ?? '';
           }
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
+
   Future<void> getEnquiryDetail({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
-
       GetEnquiryDetailUseCaseParams params = GetEnquiryDetailUseCaseParams(
         enquiryID: enquiryID,
       );
@@ -108,14 +117,15 @@ class CompetencyTestModel extends BasePageViewModel {
       ).asFlow().listen((result) {
         _fetchEnquiryDetail.add(result);
 
-
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-              result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -123,15 +133,13 @@ class CompetencyTestModel extends BasePageViewModel {
   Future<void> scheduleCompetencyTest({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
       CompetencyTestCreationRequest request = CompetencyTestCreationRequest(
-        competencyTestDate: selectedDate,
-        slotId: slotID,
-        mode: selectedMode,
-        createdBy: 0
-      );
-      CreateCompetencyTestUsecaseParams params = CreateCompetencyTestUsecaseParams(
-        competencyTestCreationRequest: request,
-        enquiryID: enquiryID
-      );
+          competencyTestDate: selectedDate,
+          slotId: slotID,
+          mode: selectedMode,
+          createdBy: 0);
+      CreateCompetencyTestUsecaseParams params =
+          CreateCompetencyTestUsecaseParams(
+              competencyTestCreationRequest: request, enquiryID: enquiryID);
       RequestManager<CompetencyTestDetailBase>(
         params,
         createCall: () => createCompetencyTestUsecase.execute(
@@ -139,16 +147,18 @@ class CompetencyTestModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _createCompetencyTest.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           competencyTestDetails.add(Resource.success(data: result.data?.data));
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -160,10 +170,9 @@ class CompetencyTestModel extends BasePageViewModel {
         newSlotId: slotID,
         mode: selectedMode,
       );
-      RescheduleCompetencyTestUseCaseParams params = RescheduleCompetencyTestUseCaseParams(
-        competencyTestCreationRequest: request,
-        enquiryID: enquiryID
-      );
+      RescheduleCompetencyTestUseCaseParams params =
+          RescheduleCompetencyTestUseCaseParams(
+              competencyTestCreationRequest: request, enquiryID: enquiryID);
       competencyTestDetails.add(Resource.loading());
       RequestManager<CompetencyTestDetailBase>(
         params,
@@ -172,16 +181,18 @@ class CompetencyTestModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _createCompetencyTest.add(result);
-        if(result.status == Status.success){
+        if (result.status == Status.success) {
           competencyTestDetails.add(Resource.success(data: result.data?.data));
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
@@ -204,14 +215,11 @@ class CompetencyTestModel extends BasePageViewModel {
   String validateForm() {
     if (selectedDate.isEmpty) {
       return "Please select date.";
-    }
-    else if (slotID.isEmpty) {
+    } else if (slotID.isEmpty) {
       return "Please select time.";
-    }
-    else if(selectedMode.isEmpty) {
+    } else if (selectedMode.isEmpty) {
       return "Please select test mode";
-    }
-    else {
+    } else {
       return "";
     }
   }

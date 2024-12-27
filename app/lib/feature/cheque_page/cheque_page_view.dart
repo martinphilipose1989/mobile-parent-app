@@ -58,7 +58,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
         Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
             key: model.formKey,
             child: AppStreamBuilder(
               stream: model.noOfCheques,

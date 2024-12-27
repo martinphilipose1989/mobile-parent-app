@@ -63,4 +63,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'FRONTEND_URL')
   static const String frontEndUrl = _EnvDev.frontEndUrl;
+
+  @EnviedField(varName: 'NOTIFICATION_BASE_URL')
+  static const String notificationUrl = _EnvDev.notificationUrl;
 }

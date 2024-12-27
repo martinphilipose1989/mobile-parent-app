@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:shared/shared.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -19,14 +20,16 @@ abstract class NetworkPort {
   Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
       {required AcknowlegementRequestModel acknowledgementRequestModel});
 
+
+  Future<Either<NetworkError, NotificationResponseModel>> getNotification(
+      {required NotificationRequestModel notificationRequestModel});
+
+
   Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
       {required AttendanceCountRequestModel attendanceRequestModel});
 
   Future<Either<NetworkError, CreateIntimationResponseModel>> createIntimation(
-      {required CreateIntimationUseCaseParams params });
-
-
-
+      {required CreateIntimationUseCaseParams params});
 
   Future<Either<NetworkError, AttendanceDetailsResponseModel>>
       getAttendancedetail(
@@ -168,10 +171,6 @@ abstract class NetworkPort {
       required String documentID,
       required File file});
 
-
-
-
-
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
       {required String enquiryID,
       required String documentID,
@@ -268,7 +267,9 @@ abstract class NetworkPort {
       {required String studentId,
       required String feeTypeIds,
       required String feeCategoryIds,
-      required String feeSubCategoryIds});
+      required String feeSubCategoryIds,
+      required String academicYrsId,
+      required String feeSubTypeIds});
 
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
       {required int pageSize, required int page});
@@ -325,12 +326,18 @@ abstract class NetworkPort {
   Future<Either<NetworkError, StaffListResponseModel>> getStaffList(
       {required GetStaffListUseCaseParams params});
 
+  Future<Either<NetworkError, UploadIntimationFileResponseModel>>
+      uploadIntimationFile({required int documentID, required File file});
 
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId});
 
-  Future<Either<NetworkError, UploadIntimationFileResponseModel>> uploadIntimationFile(
-      {
-        required int documentID,
-        required File file});
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
+      {required String id, required String fileType});
 
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
+      {required String urlKey});
 
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body});
 }

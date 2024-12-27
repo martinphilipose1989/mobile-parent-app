@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dartz/dartz.dart';
 import 'package:shared/shared.dart';
@@ -48,4 +49,16 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, GetPaymentStatusModel>> getPaymentStatus(
       {required String orderId});
+
+  Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
+      {required String paymentGateway, required String orderId});
+
+  Future<Either<NetworkError, Uint8List>> downloadTransactionHistory(
+      {required String id, required String fileType});
+
+  Future<Either<NetworkError, Uint8List>> downloadFeeTypeTransactions(
+      {required String urlKey});
+
+  Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
+      {required StudentLedgerDownloadRequest body});
 }

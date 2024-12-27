@@ -25,7 +25,8 @@ class AppAuthAdapter implements AppAuthPort {
               tokenEndpoint: _config.tokenUrl,
               endSessionEndpoint: _config.logOutUrl?.isEmpty ?? false
                   ? null
-                  : _config.logOutUrl),
+                  : _config.logOutUrl
+          ),
           scopes: [
             "openid",
             "web-origins",

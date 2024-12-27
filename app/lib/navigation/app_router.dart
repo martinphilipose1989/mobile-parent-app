@@ -59,6 +59,13 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const SplashPage(),
             settings: const RouteSettings(name: RoutePaths.splash));
+      case RoutePaths.notification:
+        return CupertinoPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => const NotificationPage(),
+           settings: const RouteSettings(
+
+               name: RoutePaths.notification));
       case RoutePaths.tabbar:
         return CupertinoPageRoute(
             builder: (context) => const TabbarPage(),

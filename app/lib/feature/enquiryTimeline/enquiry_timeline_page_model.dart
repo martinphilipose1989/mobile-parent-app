@@ -13,16 +13,19 @@ class EnquiriesTimelinePageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetEnquiryTimeLineUseCase enquiryTimeLineUseCase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
-  EnquiriesTimelinePageModel(this.exceptionHandlerBinder,this.enquiryTimeLineUseCase,this.flutterToastErrorPresenter);
+  EnquiriesTimelinePageModel(this.exceptionHandlerBinder,
+      this.enquiryTimeLineUseCase, this.flutterToastErrorPresenter);
 
-  final PublishSubject<Resource<List<EnquiryTimelineDetail>>> enquiryTimeline= PublishSubject();
+  final PublishSubject<Resource<List<EnquiryTimelineDetail>>> enquiryTimeline =
+      PublishSubject();
 
-  final PublishSubject<Resource<EnquiryTimeLineBase>> _fetchEnquiryTimeline = PublishSubject();
-  Stream<Resource<EnquiryTimeLineBase>> get fetchEnquiryTimeline => _fetchEnquiryTimeline.stream;
+  final PublishSubject<Resource<EnquiryTimeLineBase>> _fetchEnquiryTimeline =
+      PublishSubject();
+  Stream<Resource<EnquiryTimeLineBase>> get fetchEnquiryTimeline =>
+      _fetchEnquiryTimeline.stream;
 
   Future<void> getEnquiryTimeLine({required String enquiryID}) async {
     exceptionHandlerBinder.handle(block: () {
-      
       GetEnquiryTimelineUseCaseParams params = GetEnquiryTimelineUseCaseParams(
         enquiryID: enquiryID,
       );
@@ -34,16 +37,19 @@ class EnquiriesTimelinePageModel extends BasePageViewModel {
         ),
       ).asFlow().listen((result) {
         _fetchEnquiryTimeline.add(result);
-        if(result.status == Status.success){
-          enquiryTimeline.add(Resource.success(data: result.data?.data?.timeline));
+        if (result.status == Status.success) {
+          enquiryTimeline
+              .add(Resource.success(data: result.data?.data?.timeline));
         }
-        if(result.status == Status.error){
+        if (result.status == Status.error) {
           flutterToastErrorPresenter.show(
-            result.dealSafeAppError!.throwable, navigatorKey.currentContext!, result.dealSafeAppError?.error.message??'');
+              result.dealSafeAppError!.throwable,
+              navigatorKey.currentContext!,
+              result.dealSafeAppError?.error.message ?? '');
         }
         // activeStep.add()
       }).onError((error) {
-        exceptionHandlerBinder.showError(error!);
+        // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }

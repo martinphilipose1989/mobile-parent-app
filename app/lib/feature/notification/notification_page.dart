@@ -1,35 +1,63 @@
-import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/common_appbar.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:app/base/app_base_page.dart';
+import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/notification/notification_viewmodel.dart';
 
-class NotificationPage extends StatefulWidget {
+import 'package:data/data.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import 'notification_pageview.dart';
+
+class NotificationPage extends BasePage<NotificationPageViewModel> {
   const NotificationPage({super.key});
 
   @override
-  State<NotificationPage> createState() => _NotificationPageState();
+  NotificationPageState createState() => NotificationPageState();
 }
 
-class _NotificationPageState extends State<NotificationPage> {
+class NotificationPageState
+    extends AppBasePageState<NotificationPageViewModel, NotificationPage>
+    with TickerProviderStateMixin {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CommonAppBar(
-        appbarTitle: "Notification",
-        showBackButton: true,
-      ),
-      body: Container(
-        color: AppColors.primaryOn,
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: CommonText(
-            text: "Coming Soon !!!",
-            style: AppTypography.body1,
-          ),
-        ),
-      ),
+  ProviderBase<NotificationPageViewModel> provideBase() {
+    return notificationProvider;
+  }
+
+  @override
+  void onModelReady(NotificationPageViewModel model) {
+    // model.tabController = TabController(length: 2, vsync: this);
+    //  model.selectedStudent = ProviderScope.containerOf(context)
+    //      .read(dashboardViewModelProvider)
+    //      .selectedStudentId;
+    //  model.exceptionHandlerBinder.bind(context, super.stateObserver);
+    // model.getMyDutyList();
+    model.fetchNotification(
+        notificationRequestModel: NotificationRequestModel(
+            userId: 305,
+            userType: 2,
+            type: model.NOTIFICATION_LIST_TYPE[0],
+            limit: 10,
+            page: 1));
+
+    super.onModelReady(model);
+  }
+
+  @override
+  Widget buildView(BuildContext context, NotificationPageViewModel model) {
+    return NotificationPageView(provideBase());
+  }
+
+  @override
+  Color scaffoldBackgroundColor() {
+    return Colors.white;
+  }
+
+  @override
+  PreferredSizeWidget? buildAppbar(NotificationPageViewModel model) {
+    return AppBar(
+      title: Text("Notification"),
     );
   }
 }
