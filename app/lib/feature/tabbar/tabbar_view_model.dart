@@ -17,12 +17,14 @@ class TabbarViewModel extends BasePageViewModel {
   final BehaviorSubject<int> indexSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> isSelected = BehaviorSubject<bool>();
   final BehaviorSubject<int> selectedIndex = BehaviorSubject<int>();
-  Stream<int> get selectedIndexstream => selectedIndex.stream;
-  Stream<int> get indexSteam => indexSubject.stream;
+  Stream<int> get selectedIndexStream => selectedIndex.stream;
+  Stream<int> get indexStream => indexSubject.stream;
 
   void onItemTapped(int index) {
-    tabController.index = index;
-    indexSubject.add(index);
+
+     tabController.index = index;
+     indexSubject.add(index);
+
   }
 
   String getPageName(int value) {
@@ -39,4 +41,5 @@ class TabbarViewModel extends BasePageViewModel {
         return 'N/A';
     }
   }
+
 }
