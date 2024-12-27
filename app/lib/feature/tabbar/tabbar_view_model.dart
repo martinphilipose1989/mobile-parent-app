@@ -15,7 +15,9 @@ class TabbarViewModel extends BasePageViewModel {
   late TabController tabController;
 
   final BehaviorSubject<int> indexSubject = BehaviorSubject<int>();
-
+  final BehaviorSubject<bool> isSelected = BehaviorSubject<bool>();
+  final BehaviorSubject<int> selectedIndex = BehaviorSubject<int>();
+  Stream<int> get selectedIndexstream => selectedIndex.stream;
   Stream<int> get indexSteam => indexSubject.stream;
 
   void onItemTapped(int index) {

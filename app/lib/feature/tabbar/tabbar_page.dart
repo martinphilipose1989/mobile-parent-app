@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
+import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -73,8 +77,55 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   PreferredSizeWidget? buildAppbar(TabbarViewModel model) {
     return const CommonAppBar(
       appbarTitle: 'Dashboard',
+
     );
   }
+
+  @override
+  Widget? buildDrawer() {
+
+    return buildDrawers(context: context,items: drawerItems,);
+
+
+  }
+
+
+  Widget buildDrawers( {BuildContext? context,required List<DrawerItems>? items,
+ VoidCallback? onTap, // The callback function to handle taps
+ bool? isActive,     // Determines if the widget is active
+int? selectedIndex,   // Determines if the widget is selected
+  })
+      {
+    return Drawer(width: MediaQuery.of(context!).size.width*0.6,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: ListView.builder(
+        itemCount: items?.length,
+      itemBuilder: (context, index) {
+      final item = items?[index];
+      return ListTile(
+      selected: model.selectedIndex.value == index,
+      selectedTileColor: AppColors.listItem,
+      title: Text(items?[index].menu??""),
+      onTap: () {
+
+      model.selectedIndex.value = index; // Update the selected index
+
+      if (onTap != null) {
+      onTap!(); // Pass the selected index to the callback
+      }
+      if (items?[index].route != null && items![index].route!.isNotEmpty) {
+      Navigator.pushNamed(context, items[index].route!); // Navigate to the route
+      }
+      },
+      );
+      })
+      ),);
+  }
+
+
+
+
 
   @override
   Widget? buildBottomNavigationBar(TabbarViewModel model) {
@@ -136,4 +187,25 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           ],
         ));
   }
+}
+final List<DrawerItems> drawerItems = [
+  DrawerItems('Fees', ""),
+  DrawerItems('Payments', ""),
+  DrawerItems('Transaction History', RoutePaths.myDutyPage),
+  DrawerItems('Receipt', ""),
+  DrawerItems('Daily Diary', ""),
+  DrawerItems('Class Update', ""),
+  DrawerItems('Assignment', ""),
+
+
+
+
+];
+
+
+class DrawerItems{
+  final String? menu;
+  final String? route;
+
+  DrawerItems(this.menu, this.route);
 }
