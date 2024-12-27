@@ -56,10 +56,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 )
               : InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: const Icon(Icons.menu_outlined))),
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.menu_outlined))),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,
