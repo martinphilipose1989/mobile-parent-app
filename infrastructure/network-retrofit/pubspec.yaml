@@ -25,7 +25,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   curl_logger_dio_interceptor: ^1.0.0
   # IOS COMPATIBLE VERSION
-  alice: ^0.4.1
+  ##alice: ^0.4.1
   #alice: ^0.4.2
 
 

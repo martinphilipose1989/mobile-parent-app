@@ -1,4 +1,4 @@
-import 'package:alice/core/alice_dio_interceptor.dart';
+// import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +15,7 @@ import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:alice/alice.dart';
+// import 'package:alice/alice.dart';
 
 import '../services/attendance_retrofit_service.dart';
 
@@ -50,20 +50,20 @@ abstract class NetworkModule {
           @Named("ApiKey") String apiKey, @Named('mdmToken') String mdmToken) =>
       ApiInterceptor(apiKey, mdmToken);
 
-  @singleton
-  Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
-      Alice(showNotification: showLogs);
+  // @singleton
+  // Alice provideAlice(@Named('ShowLogs') bool showLogs) =>
+  //     Alice(showNotification: showLogs);
 
-  @singleton
-  AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
-      alice.getDioInterceptor();
+  // @singleton
+  // AliceDioInterceptor provideAliceInterceptor(Alice alice) =>
+  //     alice.getDioInterceptor();
 
   @singleton
   List<Interceptor> providerInterceptors(
           PrettyDioLogger logger,
           ApiInterceptor apiInterceptor,
           CurlLoggerDioInterceptor curlInterceptor,
-          AliceDioInterceptor aliceDioInterceptor,
+          //  AliceDioInterceptor aliceDioInterceptor,
           @Named('ShowLogs') bool showLogs) =>
       <Interceptor>[
         apiInterceptor,
@@ -71,7 +71,7 @@ abstract class NetworkModule {
           logger,
           curlInterceptor,
           // REMOVE WHILE UAT OR RELEASE
-          aliceDioInterceptor
+          // aliceDioInterceptor
         ]
       ];
 
