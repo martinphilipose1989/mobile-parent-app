@@ -10,7 +10,7 @@ class CommonTabPage<T> extends StatelessWidget {
   final BehaviorSubject<int> selectedValue;
   final VoidCallback? onFirstTabTap;
   final VoidCallback? onSecondTabTap;
-  final TabController tabController;
+  final TabController? tabController;
   final String? firstTabTitle;
   final Function()? onFirstTabChange;
   final Function()? onSecondTabChange;
@@ -23,7 +23,7 @@ class CommonTabPage<T> extends StatelessWidget {
 
   const CommonTabPage({
     super.key,
-    required this.tabController,
+    this.tabController,
     required this.selectedValue,
     this.onFirstTabChange,
     this.onSecondTabChange,

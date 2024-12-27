@@ -21,6 +21,10 @@ abstract class DomainModule {
   GetValidatePayNowUseCase getValidatePayNow(FinanceRepository repository) {
     return GetValidatePayNowUseCase(repository);
   }
+  @lazySingleton
+  NotificationUsecase notificationUsecase(NotificationRepository notificationRepository) {
+    return NotificationUsecase(notificationRepository: notificationRepository);
+  }
 
   @lazySingleton
   GetStorePaymentUsecase getStorePayment(FinanceRepository repository) {
