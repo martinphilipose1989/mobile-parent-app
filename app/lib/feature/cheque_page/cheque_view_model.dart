@@ -86,6 +86,9 @@ class ChequePageModel extends BasePageViewModel {
   // FOR REDIRECTION AFTER PAYMENT SUCCESS
   Modules? modules;
 
+  // CDC,PDC,offline payments
+  bool isDiscountApplied = false;
+
   void _addChequeControllers() {
     tokenNumberControllers.add(TextEditingController());
     chequeNumberControllers.add(TextEditingController());
@@ -349,7 +352,9 @@ class ChequePageModel extends BasePageViewModel {
       selectedFeeType.add(id);
       for (var fee in selectedPendingFessList) {
         if (fee.id == id) {
-          amountControllers[index].text = fee.pending?.split('.')[0] ?? "";
+          amountControllers[index].text = isDiscountApplied
+              ? amount.text
+              : fee.pending?.split('.')[0] ?? "";
           chequeDateControllers[index].text = fee.activityStartDate ?? '';
           amountIsNotEmpty.value = true;
           feeId[index].text = fee.id.toString();

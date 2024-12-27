@@ -95,7 +95,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                 ),
                               ),
                         SizedBox(
-                          height: 50,
+                          // height: 50,
                           child: CustomDropdownButton(
                             onMultiSelect: (selectedValues) {},
                             onSingleSelect: (selectedValue) {
@@ -151,7 +151,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                 CommonSizedBox.sizedBox(
                                                     height: 20, width: 10),
                                                 SizedBox(
-                                                  height: 50,
+                                                  //  height: 50,
                                                   child: CustomDropdownButton(
                                                     dropDownId: index,
                                                     onMultiSelect:
