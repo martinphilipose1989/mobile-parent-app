@@ -39,6 +39,7 @@ class AppImages {
   static const String collapsed = 'assets/images/icons/collapsed.svg';
   static const String circulars = 'assets/images/more-circle.svg';
   static const String classupdate = 'assets/images/designtools.svg';
+  static const String info_circle = 'assets/images/info_circle.svg';
 
   static const String playButton = "assets/images/play.svg";
   static const String order = "assets/images/shapes.svg";

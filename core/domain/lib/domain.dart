@@ -17,6 +17,7 @@ export 'src/repository/marketing/registration_repository.dart';
 export 'src/repository/gatepass/gatepass_repository.dart';
 export 'src/repository/admin_repository.dart';
 export 'src/repository/ticketing_repository.dart';
+export 'src/repository/notification/notification_repository.dart';
 export 'src/repository/mdm_repository.dart';
 
 export 'src/repository/disciplinary_slip_repository.dart';
@@ -112,6 +113,7 @@ export 'src/usecase/student_detail/student_detail_usecase.dart';
 export 'src/usecase/user/logout_usecase.dart';
 export 'src/usecase/transport/create_intimation_usecase.dart';
 export 'src/usecase/transport/upload_intimation_file.dart';
+export 'src/usecase/notification/notification_usecase.dart';
 
 //disciplinarySlip
 export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';

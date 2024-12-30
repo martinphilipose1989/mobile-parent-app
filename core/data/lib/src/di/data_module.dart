@@ -11,6 +11,7 @@ import 'package:data/src/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../repository/attendance_repository.dart';
+import '../repository/notification_repository.dart';
 
 @module
 abstract class DataModule {
@@ -102,4 +103,10 @@ abstract class DataModule {
   GatepassRepository gatepassRepositoryProvider(NetworkPort networkPort) {
     return GatepassRepositoryImpl(networkPort: networkPort);
   }
+
+  @lazySingleton
+ NotificationRepository notificationrepository(NetworkPort networkPort) {
+    return NotificationRepositoryImpl(networkPort: networkPort);
+  }
+
 }

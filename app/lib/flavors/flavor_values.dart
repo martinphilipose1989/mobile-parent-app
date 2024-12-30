@@ -24,8 +24,9 @@ class FlavorValues {
   final String gateUrl;
   final String marketingUrl;
   final String frontEndUrl;
-
-  const FlavorValues({
+final String notificationUrl;
+  const FlavorValues( {
+    required this.notificationUrl,
     required this.transportUrl,
     required this.attendance,
     required this.disciplinarySlip,

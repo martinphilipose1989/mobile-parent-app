@@ -19,6 +19,7 @@ import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_model.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_viewmodel.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_viewmodel.dart';
+import 'package:app/feature/notification/notification_viewmodel.dart';
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
 import 'package:app/feature/payments/payment_history_fees_type/payment_history_fees_model.dart';
@@ -55,6 +56,7 @@ import '../../feature/tickets/ticket_list_view_model.dart';
 import '../../feature/bus_route_list/bus_route_list_page_viewmodel.dart';
 import '../../feature/my_duty/my_duty_page_viewmodel.dart';
 import '../../feature/student_profile/student_profile_page_viewmodel.dart';
+
 import '../../utils/common_widgets/dialog/staff_list_view_model.dart';
 
 final splashViewModelProvider =
@@ -541,4 +543,14 @@ final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
   (ref) => UserViewModel(
       getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
       logoutUsecase: getIt.get<LogoutUsecase>()),
+);
+
+
+final notificationProvider =
+ChangeNotifierProvider.autoDispose<NotificationPageViewModel>(
+      (ref) => NotificationPageViewModel(
+
+
+ exceptionHandlerBinder:    getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:    getIt.get<FlutterToastErrorPresenter>(), notificationUsecase: getIt.get<NotificationUsecase>(),
+  ),
 );

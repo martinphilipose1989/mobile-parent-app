@@ -1,5 +1,6 @@
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
+
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -11,6 +12,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -70,7 +72,22 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutePaths.notificationPage);
+                    //  Scaffold.of(context).openDrawer();
+                    Navigator.pushNamed(context, RoutePaths.notification);
+                    // Navigator.of(context).push(MaterialPageRoute<void>(
+                    // fullscreenDialog: true,
+                    // builder: (BuildContext context) {}
+
+                    // ProviderScope.containerOf(context)
+                    //                    //     .read(notificationProvider).fetchNotification(notificationRequestModel: NotificationRequestModel(userId: 305, userType: 2, type: type, limit: limit, page: page))
+                    //    showBottomSheet(backgroundColor: Colors.white,
+                    //    context: context,
+                    // // Makes the bottom sheet full-screen
+                    //    shape: RoundedRectangleBorder(
+                    //    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                    //    ),
+                    //  builder: (context) => NotificationPage(), // Your custom page widget
+                    //    );
                   },
                   child: SvgPicture.asset(AppImages.notificationLogo),
                 ),
