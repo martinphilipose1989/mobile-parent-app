@@ -29,7 +29,8 @@ class GetGuardianStudentDetailsDataEntity extends BaseLayerDataTransformer<
             .map((e) => GetGuardianStudentDetailsStudentModel(
                 crtEnrOn: e.crtEnrOn,
                 id: e.id,
-                studentDisplayName: e.studentDisplayName))
+                studentDisplayName: e.studentDisplayName,
+                urlKey: e.urlKey))
             .toList());
   }
 }

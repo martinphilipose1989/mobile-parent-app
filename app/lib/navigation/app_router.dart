@@ -63,9 +63,7 @@ class AppRouter {
         return CupertinoPageRoute(
             fullscreenDialog: true,
             builder: (context) => const NotificationPage(),
-           settings: const RouteSettings(
-
-               name: RoutePaths.notification));
+            settings: const RouteSettings(name: RoutePaths.notification));
       case RoutePaths.tabbar:
         return CupertinoPageRoute(
             builder: (context) => const TabbarPage(),
@@ -370,6 +368,10 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => const NotificationPage(),
             settings: const RouteSettings(name: RoutePaths.notificationPage));
+      case RoutePaths.vasDetailsPage:
+        return CupertinoPageRoute(
+            builder: (context) => VASDetails(),
+            settings: RouteSettings(name: RoutePaths.vasDetailsPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(

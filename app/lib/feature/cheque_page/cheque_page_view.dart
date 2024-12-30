@@ -284,6 +284,20 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                               .ifscCodeFormatter(),
                                           LengthLimitingTextInputFormatter(11)
                                         ],
+                                        onChanged: (value) {
+                                          model.ifscCodeControllers[index]
+                                                  .value =
+                                              model.ifscCodeControllers[index]
+                                                  .value
+                                                  .copyWith(
+                                            text: value.toUpperCase(),
+                                            selection:
+                                                TextSelection.fromPosition(
+                                              TextPosition(
+                                                  offset: value.length),
+                                            ),
+                                          );
+                                        },
                                         validator: (value) =>
                                             AppValidators.validateIfscCode(
                                                 value, 'IFSC Code'),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:data/data.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
@@ -13,12 +15,11 @@ class GetGuardianStudentDetailsStudentEntity extends BaseLayerDataTransformer<
   final String? studentDisplayName;
   @JsonKey(name: "crt_enr_on")
   final String? crtEnrOn;
+  @JsonKey(name: "url_key")
+  final String? urlKey;
 
-  GetGuardianStudentDetailsStudentEntity({
-    this.id,
-    this.studentDisplayName,
-    this.crtEnrOn,
-  });
+  GetGuardianStudentDetailsStudentEntity(
+      {this.id, this.studentDisplayName, this.crtEnrOn, this.urlKey});
 
   factory GetGuardianStudentDetailsStudentEntity.fromJson(
           Map<String, dynamic> json) =>
@@ -29,8 +30,10 @@ class GetGuardianStudentDetailsStudentEntity extends BaseLayerDataTransformer<
 
   @override
   GetGuardianStudentDetailsStudentModel transform() {
-    // TODO: implement transform
     return GetGuardianStudentDetailsStudentModel(
-        crtEnrOn: crtEnrOn, id: id, studentDisplayName: studentDisplayName);
+        crtEnrOn: crtEnrOn,
+        id: id,
+        studentDisplayName: studentDisplayName,
+        urlKey: urlKey);
   }
 }
