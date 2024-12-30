@@ -98,7 +98,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     int? selectedIndex, // Determines if the widget is selected
   }) {
     return Drawer(
-        width: MediaQuery.of(context!).size.width * 0.6,
+        width: MediaQuery.of(context!).size.width * 0.8,
         child: Padding(
           padding: const EdgeInsets.only(top: 32.0),
           child: ListView(children: [

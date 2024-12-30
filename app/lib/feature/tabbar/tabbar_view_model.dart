@@ -99,7 +99,7 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(menu: 'Time Table', icon: AppImages.downloadform),
     DrawerItems(menu: 'Kids Club', icon: AppImages.kidsclob),
     DrawerItems(
-      menu: 'IVT',
+      menu: 'IVT',icon: AppImages.assignment
     ),
   ];
 }
