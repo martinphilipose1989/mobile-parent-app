@@ -152,89 +152,96 @@ class _PaymentHistoryFeesTypeExpansionState
                                                           .groupedModels[i]
                                                           .fees[index];
 
-                                                  return Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
+                                                  return Column(
                                                     children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          CommonText(
-                                                            text: fees.acknowledgementNo ==
-                                                                    null
-                                                                ? fees.receiptNumber ??
-                                                                    ""
-                                                                : fees.acknowledgementNo ??
-                                                                    '',
-                                                            style: AppTypography
-                                                                .subtitle2
-                                                                .copyWith(
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis),
-                                                          ),
-                                                          CommonText(
-                                                            text: fees.transactionDate !=
-                                                                    null
-                                                                ? DateFormatter
-                                                                    .formatDate(
-                                                                        fees.transactionDate ??
-                                                                            '')
-                                                                : DateFormatter
-                                                                    .formatDate(
-                                                                        fees.receiptDate ??
-                                                                            ''),
-                                                            style: AppTypography
-                                                                .subtitle2
-                                                                .copyWith(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Column(
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .end,
                                                         children: [
-                                                          CommonText(
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            text:
-                                                                fees.paymentMode ??
-                                                                    "",
-                                                            style: AppTypography
-                                                                .subtitle2
-                                                                .copyWith(),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CommonText(
+                                                                text: fees.acknowledgementNo ==
+                                                                        null
+                                                                    ? fees.receiptNumber ??
+                                                                        ""
+                                                                    : fees.acknowledgementNo ??
+                                                                        '',
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis),
+                                                              ),
+                                                              CommonText(
+                                                                text: fees.transactionDate !=
+                                                                        null
+                                                                    ? DateFormatter
+                                                                        .formatDate(
+                                                                            fees.transactionDate ??
+                                                                                '')
+                                                                    : DateFormatter.formatDate(
+                                                                        fees.receiptDate ??
+                                                                            ''),
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          CommonText(
-                                                            text: CurrencyFormatter
-                                                                .formatToRupee(
-                                                                    fees.amount ??
-                                                                        ""),
-                                                            color: TransactionStausEnum
-                                                                        .success
-                                                                        .id ==
-                                                                    fees
-                                                                        .transactionStatus
-                                                                ? AppColors
-                                                                    .success
-                                                                : TransactionStausEnum
-                                                                            .failure
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              CommonText(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                text:
+                                                                    fees.paymentMode ??
+                                                                        "",
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(),
+                                                              ),
+                                                              CommonText(
+                                                                text: CurrencyFormatter
+                                                                    .formatToRupee(
+                                                                        fees.amount ??
+                                                                            ""),
+                                                                color: TransactionStausEnum
+                                                                            .success
                                                                             .id ==
                                                                         fees
                                                                             .transactionStatus
                                                                     ? AppColors
-                                                                        .failure
-                                                                    : AppColors
-                                                                        .textDark,
-                                                            style: AppTypography
-                                                                .subtitle2,
+                                                                        .success
+                                                                    : TransactionStausEnum.failure.id ==
+                                                                            fees
+                                                                                .transactionStatus
+                                                                        ? AppColors
+                                                                            .failure
+                                                                        : AppColors
+                                                                            .textDark,
+                                                                style: AppTypography
+                                                                    .subtitle2,
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
+                                                      ),
+                                                      Divider(
+                                                        thickness: 0.5,
+                                                        color:
+                                                            AppColors.textDark,
                                                       ),
                                                     ],
                                                   );
