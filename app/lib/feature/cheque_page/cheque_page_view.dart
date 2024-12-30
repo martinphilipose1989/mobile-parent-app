@@ -189,16 +189,15 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                     items: model
                                                         .selectedPendingFessList
                                                         .map((e) =>
-                                                            e.feeDisplayName
-                                                                as String)
+                                                            "${e.feeDisplayName.toString()}}")
                                                         .toList(),
                                                     showAstreik: true,
                                                     itemsWithId: model
                                                         .selectedPendingFessList
                                                         .map((e) => DropdownData(
                                                             id: e.id!,
-                                                            name: e
-                                                                .feeDisplayName))
+                                                            name:
+                                                                "${e.feeDisplayName} - ${e.amount}"))
                                                         .toList(),
                                                     showDropDownWithId: true,
                                                     showBorderColor: true,
