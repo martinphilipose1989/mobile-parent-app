@@ -84,7 +84,7 @@ class TransactionModel {
   final String? detailsCustomerBankName;
   final String? detailsPgTransactionid;
   final int? transactionId;
-  final DateTime? transactionDate;
+  final String? transactionDate;
   final String? customerName;
   final int? paymentModeId;
   final int? transactionStatus;

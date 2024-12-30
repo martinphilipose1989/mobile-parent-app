@@ -52,13 +52,11 @@ class _PaymentHistoryFeesTypeExpansionState
                           itemCount: widget.groupedModels.length,
                           itemBuilder: (context, i) {
                             return Container(
-                                width: 358.w,
+                                width: double.infinity,
                                 margin: const EdgeInsets.only(bottom: 15),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                      width: 1,
-                                    )),
+                                    border: Border.all(width: 1)),
                                 child: ExpansionTile(
                                     title: Row(
                                       mainAxisAlignment:
@@ -179,15 +177,15 @@ class _PaymentHistoryFeesTypeExpansionState
                                                         ),
                                                       ),
                                                       CommonText(
-                                                        text: fees.acknowledgementDate ==
+                                                        text: fees.transactionDate !=
                                                                 null
                                                             ? DateFormatter
                                                                 .formatDate(
-                                                                    fees.receiptDate ??
+                                                                    fees.transactionDate ??
                                                                         '')
                                                             : DateFormatter
                                                                 .formatDate(
-                                                                    fees.acknowledgementDate ??
+                                                                    fees.receiptDate ??
                                                                         ''),
                                                         style: AppTypography
                                                             .subtitle2
