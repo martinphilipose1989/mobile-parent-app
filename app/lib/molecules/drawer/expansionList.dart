@@ -1,27 +1,31 @@
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../themes_setup.dart';
 import '../../utils/app_typography.dart';
 
 class CustomExpansionList extends StatelessWidget {
-  final List<dynamic>? nameList;
-
-  final     VoidCallback? onTap;
+  final List<DrawerItems>? nameList;
+  final  VoidCallback? onTap;
   final String title;
-  const CustomExpansionList({super.key, this.nameList,  this.onTap, required this.title});
+
+  const CustomExpansionList({super.key, this.nameList,  this.onTap, required this.title, });
 
   @override
   Widget build(BuildContext context) {
     return   BaseWidget<TabbarViewModel>(
       builder: (BuildContext context, TabbarViewModel? model, Widget? child) {
        return ExpansionTile(
-         showTrailingIcon: false,
+         showTrailingIcon: true,
           title: Container(child: Text(title,style: AppTypography.h6,)),
           children: nameList!.map((e)=>  ListTile(
+            leading: Container(width:50.w,child: SvgPicture.asset(e.icon??"")),
  selected: model?.selectedMenu.value?.menu == e.menu,
            // selected: isSelected,
             selectedTileColor: AppColors.listItem,

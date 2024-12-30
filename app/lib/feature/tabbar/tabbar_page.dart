@@ -10,6 +10,7 @@ import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 
@@ -107,11 +108,11 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           child: ListView(
             children:[
               SizedBox(),
-              CustomExpansionList( title: "Fees",nameList: fessItems,),
+              CustomExpansionList( title: "Fees",nameList: fessItems, ),
               CustomExpansionList( title: "Child Progress/ Academic Progress",nameList: model.progressItems,),
               CustomExpansionList( title: "Daily Diary",nameList: model.dailyDiary,),
               CustomExpansionList( title: "Parent Services",nameList: model.parentServices,),
-              CustomExpansionList( title: "Info",nameList: model.parentServices,)
+              CustomExpansionList( title: "Info",nameList: model.infoItems,)
 
          ] ),
       ) );
@@ -180,10 +181,10 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 }
 
 final List<DrawerItems> fessItems = [
-  DrawerItems(menu:'Payments',route: RoutePaths.payments ),
-  DrawerItems(menu:'Transaction History', route: RoutePaths.paymentsPage ),
+  DrawerItems(menu:'Payments',route: RoutePaths.payments,icon: AppImages.walletAdd ),
+  DrawerItems(menu:'Transaction History', route: RoutePaths.paymentsPage,icon: AppImages.transactionHistory ),
 
-  DrawerItems(menu:'Receipt', ),
+  DrawerItems(menu:'Receipt', icon: AppImages.receipt),
 
 ];
 

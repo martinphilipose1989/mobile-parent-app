@@ -18,27 +18,41 @@ class AppImages {
   static const String status_open = 'assets/images/icons/status.svg';
   static const String avatar = 'assets/images/icons/avatar.svg';
   static const String icon5 = 'assets/images/icon-5.svg';
+  static const String transactionHistory = 'assets/images/transaction-minus.svg';
+  static const String receipt = 'assets/images/receipt.svg';
   static const String icon6 = 'assets/images/icon-6.svg';
   static const String icon7 = 'assets/images/icon-7.svg';
   static const String calender = 'assets/images/icons/calender.svg';
+  static const String gate_pass = 'assets/images/icons/gate_pass.svg';
   static const String icon8 = 'assets/images/icon-8.svg';
   static const String icon9 = 'assets/images/icon-9.svg';
   static const String icon10 = 'assets/images/icon-10.svg';
   static const String icon = 'assets/images/icon.svg';
   static const String slip = 'assets/images/icons/slip.svg';
   static const String date = 'assets/images/icons/date.svg';
-  static const String document = 'assets/images/document.svg';
+  static const String document = 'assets/images/disciplinarySlip.svg';
   static const String documentNormal = 'assets/images/document-normal.svg';
+  static const String downloadform = 'assets/images/download_form.svg';
   static const String attendance = 'assets/images/bookmark-2.svg';
   static const String messages = 'assets/images/icons/message.svg';
   static const String expand = 'assets/images/icons/expand.svg';
   static const String collapsed = 'assets/images/icons/collapsed.svg';
+  static const String circulars = 'assets/images/more-circle.svg';
+  static const String classupdate = 'assets/images/designtools.svg';
 
   static const String playButton = "assets/images/play.svg";
+  static const String order = "assets/images/shapes.svg";
   static const String userOutlineIcon = "assets/images/user_outline.svg";
   static const String yellowBus = "assets/images/yellow_bus.webp";
+  static const String canteen = "assets/images/coffee.svg";
+  static const String refferal = "assets/images/refferal.svg";
+  static const String academic = "assets/images/academic.svg";
+  static const String kidsclob = "assets/images/car.svg";
+  static const String serviceRequest = "assets/images/document-text.svg";
+  static const String application = "assets/images/application.svg";
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';
+  static const String parent= 'assets/images/user-square.svg';
   static const String activity = 'assets/images/activity.svg';
   static const String bus = 'assets/images/bus.svg';
   static const String gift = 'assets/images/gift.svg';
@@ -47,7 +61,9 @@ class AppImages {
   static const String cube = 'assets/images/3dcube.svg';
   static const String studentIcon = 'assets/images/Vector 2.svg';
   static const String eyeIcon = 'assets/images/eye.svg';
+  static const String competitiveExam = 'assets/images/flag.svg';
   static const String close = 'assets/images/icons/close.svg';
+  static const String assignment = 'assets/images/icons/book2.svg';
   static const String stop = 'assets/images/icons/stop.svg';
   static const String refresh = 'assets/images/icons/refresh.svg';
   static const String trackBus = 'assets/images/trackbus.svg';
@@ -89,6 +105,7 @@ class AppImages {
   static const String admissionIcon = 'assets/images/admission.svg';
   static const String enquiryIcon = 'assets/images/enquiry.svg';
   static const String registrationIcon = 'assets/images/registrationIcon.svg';
+  static const String disciplinarySlip = 'assets/images/disciplinarySlip.svg';
 
   //rating
   static const String ratingActive1 = 'assets/rating/active1.svg';
@@ -117,4 +134,5 @@ class AppImages {
   static const String callIcon = "assets/images/call_icon.svg";
   static const String searchIcon = "assets/images/search_icon.svg";
   static const String filterIcon = "assets/images/filter.svg";
+  static const String gate = "assets/images/Gate Pass.svg";
 }
