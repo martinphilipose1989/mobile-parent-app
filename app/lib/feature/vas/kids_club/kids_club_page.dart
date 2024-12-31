@@ -10,10 +10,13 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class KidsClubDeatilDetailPage extends BasePage<KidsClubViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const KidsClubDeatilDetailPage({super.key,this.enquiryDetailArgs});
+  final bool? hideAppBar;
+  const KidsClubDeatilDetailPage(
+      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
 
   @override
-  KidsClubDeatilDetailPageState createState() => KidsClubDeatilDetailPageState();
+  KidsClubDeatilDetailPageState createState() =>
+      KidsClubDeatilDetailPageState();
 }
 
 class KidsClubDeatilDetailPageState
@@ -24,7 +27,7 @@ class KidsClubDeatilDetailPageState
   }
 
   @override
-  void onModelReady(KidsClubViewModel model) {    
+  void onModelReady(KidsClubViewModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.enquiryDetailArgs = widget.enquiryDetailArgs;
     model.getKidsClubDetail();
@@ -37,11 +40,13 @@ class KidsClubDeatilDetailPageState
 
   @override
   PreferredSizeWidget? buildAppbar(KidsClubViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Kids Club',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar == true
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'Kids Club',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override

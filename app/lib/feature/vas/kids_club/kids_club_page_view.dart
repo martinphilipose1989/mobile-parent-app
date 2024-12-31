@@ -7,7 +7,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:collection/collection.dart';
+
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -87,7 +87,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                               height: 10.h,
                             ),
                             CustomDropdownButton(
-                              items: model.feeSubType,
+                              items: model.feeSubType.toSet().toList(),
                               dropdownName: 'Kids Club Type',
                               showAstreik: false,
                               showBorderColor: false,
@@ -107,7 +107,8 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                 stream: model.feeCategoryType,
                                 dataBuilder: (context, feeCategoryType) {
                                   return CustomDropdownButton(
-                                    items: feeCategoryType ?? [],
+                                    items:
+                                        feeCategoryType?.toSet().toList() ?? [],
                                     dropdownName: 'Month',
                                     showAstreik: false,
                                     showBorderColor: false,
@@ -130,7 +131,9 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                 stream: model.feeSubCategoryType,
                                 dataBuilder: (context, feeSubCategoryType) {
                                   return CustomDropdownButton(
-                                    items: feeSubCategoryType ?? [],
+                                    items:
+                                        feeSubCategoryType?.toSet().toList() ??
+                                            [],
                                     dropdownName: 'From Cafeteria Opt for',
                                     showAstreik: false,
                                     showBorderColor: false,
@@ -154,7 +157,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                 stream: model.batchType,
                                 dataBuilder: (context, batchType) {
                                   return CustomDropdownButton(
-                                    items: batchType ?? [],
+                                    items: batchType?.toSet().toList() ?? [],
                                     dropdownName: 'Batch',
                                     showAstreik: false,
                                     showBorderColor: false,
@@ -176,7 +179,8 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                 stream: model.periodOfService,
                                 dataBuilder: (context, periodOfService) {
                                   return CustomDropdownButton(
-                                    items: periodOfService ?? [],
+                                    items:
+                                        periodOfService?.toSet().toList() ?? [],
                                     dropdownName: 'Period Of Service',
                                     showAstreik: false,
                                     showBorderColor: false,

@@ -10,7 +10,9 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPage extends BasePage<CafeteriaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const CafeteriaPage({super.key, this.enquiryDetailArgs});
+  final bool hideAppBar;
+  const CafeteriaPage(
+      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
 
   @override
   CafeteriaPageState createState() => CafeteriaPageState();
@@ -38,11 +40,13 @@ class CafeteriaPageState
 
   @override
   PreferredSizeWidget? buildAppbar(CafeteriaDetailViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Cafeteria',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'Cafeteria',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override

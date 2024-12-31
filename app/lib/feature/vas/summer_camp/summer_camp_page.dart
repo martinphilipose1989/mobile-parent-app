@@ -10,7 +10,9 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class SummerCampDetailPage extends BasePage<SummerCampDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const SummerCampDetailPage({super.key, this.enquiryDetailArgs});
+  final bool hideAppBar;
+  const SummerCampDetailPage(
+      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
 
   @override
   SummerCampDetailPageState createState() => SummerCampDetailPageState();
@@ -37,11 +39,13 @@ class SummerCampDetailPageState
 
   @override
   PreferredSizeWidget? buildAppbar(SummerCampDetailViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Summer Camp',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'Summer Camp',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override

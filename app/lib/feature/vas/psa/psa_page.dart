@@ -10,7 +10,9 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PsaDetailPage extends BasePage<PsaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const PsaDetailPage({super.key, this.enquiryDetailArgs});
+  final bool hideAppBar;
+  const PsaDetailPage(
+      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
 
   @override
   PsaDetailPageState createState() => PsaDetailPageState();
@@ -39,11 +41,13 @@ class PsaDetailPageState
 
   @override
   PreferredSizeWidget? buildAppbar(PsaDetailViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'PSA Activity',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'PSA Activity',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override

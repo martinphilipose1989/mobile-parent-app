@@ -163,7 +163,12 @@ class EnquiryDetailArgs {
       this.brandId,
       this.brandName,
       this.shiftId,
-      this.streamId});
+      this.streamId,
+      this.schoolId,
+      this.boardId,
+      this.gradeId,
+      this.academicYearId,
+      this.courseId});
 
   @override
   String toString() {

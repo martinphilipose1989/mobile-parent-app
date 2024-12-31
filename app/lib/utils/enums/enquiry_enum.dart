@@ -23,3 +23,5 @@ enum FeesTypeIdEnum {
 }
 
 enum Modules { admission, enquiry, finance, ticketing, gatepass }
+
+enum VasOptions { kidsClub, cafeteria, psa, summerCamp, transport }

@@ -10,13 +10,16 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPage extends BasePage<TransportDetailViewModel> {
   final EnquiryDetailArgs enquiryDetailArgs;
-  const TransportPage({super.key,required this.enquiryDetailArgs});
+  final bool hideAppBar;
+  const TransportPage(
+      {super.key, required this.enquiryDetailArgs, this.hideAppBar = false});
 
   @override
   TransportPageState createState() => TransportPageState();
 }
 
-class TransportPageState extends AppBasePageState<TransportDetailViewModel, TransportPage> {
+class TransportPageState
+    extends AppBasePageState<TransportDetailViewModel, TransportPage> {
   @override
   ProviderBase<TransportDetailViewModel> provideBase() {
     return transportPageModelProvider;
@@ -36,16 +39,17 @@ class TransportPageState extends AppBasePageState<TransportDetailViewModel, Tran
 
   @override
   PreferredSizeWidget? buildAppbar(TransportDetailViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Transport',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'Transport',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
-
 }

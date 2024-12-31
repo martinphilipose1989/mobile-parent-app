@@ -78,20 +78,18 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                       ),
                                     ),
                                   );
-                                }
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                           CommonText(
-                                text: "Opt For",
-                                style: AppTypography.subtitle2,
-                              ),
-                              SizedBox(
-                                height: 10.h),
+                                }),
+                            SizedBox(
+                              height: 16.h,
+                            ),
+                            CommonText(
+                              text: "Opt For",
+                              style: AppTypography.subtitle2,
+                            ),
+                            SizedBox(height: 10.h),
                             Column(
                               children: List.generate(
-                                model.feeCategoryType.length,
+                                model.feeCategoryType.toSet().toList().length,
                                 (index) {
                                   return CommonRadioButtonWidget<String>(
                                     commonRadioButton:
@@ -100,28 +98,31 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                     title: model.feeCategoryType[index],
                                     onOptionSelected: (value) {
                                       model.setCategoryType(value!);
-                                      },
-                                    );
-                                  },
-                                ),
+                                    },
+                                  );
+                                },
                               ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                     CommonText(
-                                text: "Period Of Service",
-                                style: AppTypography.subtitle2,
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              AppStreamBuilder<List<String>>(
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            CommonText(
+                              text: "Period Of Service",
+                              style: AppTypography.subtitle2,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            AppStreamBuilder<List<String>>(
                                 stream: model.periodOfService,
                                 initialData: const <String>[],
                                 dataBuilder: (context, snapshot) {
                                   return Column(
                                     children: List.generate(
-                                      model.periodOfService.value.length,
+                                      model.periodOfService.value
+                                          .toSet()
+                                          .toList()
+                                          .length,
                                       (index) {
                                         return CommonRadioButtonWidget(
                                           commonRadioButton:

@@ -20,6 +20,7 @@ import 'package:app/feature/enquiryTimeline/enquiry_timeline_page.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
 import 'package:app/feature/gate_pass/visitor_details/qr_details.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
+import 'package:app/feature/new_enrolment/new_enrolment_page.dart';
 import 'package:app/feature/notification/notification_page.dart';
 import 'package:app/feature/otp/otp_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
@@ -372,6 +373,10 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => VASDetails(),
             settings: RouteSettings(name: RoutePaths.vasDetailsPage));
+      case RoutePaths.newEnrolmentPage:
+        return CupertinoPageRoute(
+            builder: (context) => NewEnrolmentPage(),
+            settings: RouteSettings(name: RoutePaths.newEnrolmentPage));
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(
