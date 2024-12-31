@@ -139,5 +139,5 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(menu: 'IVT', icon: AppImages.assignment),
   ];
 
-  late final List<MenuItem> menuItems;
+ late final List<MenuItem> menuItems;
 }
