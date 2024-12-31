@@ -13,7 +13,7 @@ class Transaction
   @JsonKey(name: "transaction_id")
   final int? transactionId;
   @JsonKey(name: "transaction_date")
-  final DateTime? transactionDate;
+  final String? transactionDate;
   @JsonKey(name: "customer_name")
   final String? customerName;
   @JsonKey(name: "payment_mode_id")

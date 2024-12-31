@@ -15,7 +15,6 @@ class RoutePaths {
   static const String attendanceCalender = '/attendanceCalender';
   static const String notification = '/notification';
 
-
 // Related to enquireies from dashboard
   static const String enquiriesPage = '/enquiriesPage';
   static const String enquiriesDetailsPage = '/enquiriesDetailsPage';
@@ -61,4 +60,7 @@ class RoutePaths {
 
   //notification
   static const String notificationPage = "/notificationPage";
+
+  // vas
+  static const String vasDetailsPage = "/vasDetailsPage";
 }

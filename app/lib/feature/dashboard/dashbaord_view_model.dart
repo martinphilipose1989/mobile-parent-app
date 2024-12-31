@@ -124,6 +124,7 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'payment'
     },
+    // VAS
     // {
     //   'name': 'New Enrollment',
     //   'image': AppImages.activity,
@@ -131,6 +132,16 @@ class DashboardPageModel extends BasePageViewModel {
     //   'isActive': false,
     //   'key': 'enrollment'
     // },
+  ];
+
+  final List parentServices = [
+    {
+      'name': 'Subject Selection',
+      'image': AppImages.subjectSelectionIcon,
+      'isSelected': false,
+      'isActive': true,
+      'key': 'subject selection'
+    },
   ];
 
   String returnRouteValue(String routeValue) {
@@ -157,6 +168,11 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.visitorDetailsPage;
       case 'create gate pass':
         return RoutePaths.createEditGatePassPage;
+      case 'subject selection':
+        return RoutePaths.webview;
+      case 'new enrollment':
+        return RoutePaths.vasDetailsPage;
+
       default:
         return '';
     }
@@ -318,10 +334,9 @@ class DashboardPageModel extends BasePageViewModel {
       {'text': 'Daily Diary', 'route': ''},
       {'text': 'Class Update', 'route': ''},
       {'text': 'Assignment', 'route': ''},
-
     ];
 
-    Widget buildDrawer( BuildContext context,List<Map<String, String>> items) {
+    Widget buildDrawer(BuildContext context, List<Map<String, String>> items) {
       return Drawer(
         child: ListView(
           children: drawerItems.map((item) {
@@ -344,7 +359,6 @@ class DashboardPageModel extends BasePageViewModel {
         ),
       );
     }
-
   }
 
   @override

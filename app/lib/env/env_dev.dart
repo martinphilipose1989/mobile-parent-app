@@ -66,4 +66,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'NOTIFICATION_BASE_URL')
   static const String notificationUrl = _EnvDev.notificationUrl;
+
+  @EnviedField(varName: 'SUBJECT_SELECTION_URL')
+  static const String subjectSelectionUrl = _EnvDev.subjectSelectionUrl;
 }

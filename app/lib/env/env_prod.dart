@@ -64,7 +64,9 @@ abstract class EnvProd {
   @EnviedField(varName: 'NOTIFICATION_BASE_URL')
   static const String notificationUrl = _EnvProd.notificationUrl;
 
-
   @EnviedField(varName: 'FRONTEND_URL')
   static const String frontEndUrl = _EnvProd.frontEndUrl;
+
+  @EnviedField(varName: 'SUBJECT_SELECTION_URL')
+  static const String subjectSelectionUrl = _EnvProd.subjectSelectionUrl;
 }

@@ -1,8 +1,13 @@
+import 'dart:developer';
+
+import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
 import 'package:app/feature/dashboard/widgets/chips.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
+import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -123,6 +128,22 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 }
                 return const SizedBox.shrink();
               }),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          title('Parent Services'),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          chipsList(
+              context,
+              model.parentServices
+                  .where((e) => e['isActive'] == true)
+                  .map(
+                    (services) => Chips(
+                      name: services['name'],
+                      image: services['image'],
+                      isSelected: services['isSelected'],
+                    ),
+                  )
+                  .toList(),
+              model)
         ],
       ),
     );
@@ -144,6 +165,19 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               arguments: VisitorDetailsPageParams(
                   mobileNo: "+91${model.mobileNo}",
                   studentId: model.dashboardState.selectedStudent?.id),
+            );
+          } else if (receivedRoutePath == RoutePaths.webview) {
+            final String subjectSelectionUrl =
+                getIt.get<String>(instanceName: "SubjectSelectionUrl");
+            final selectedStudent = model.dashboardState.selectedStudent;
+
+            Navigator.pushNamed(
+              context,
+              receivedRoutePath,
+              arguments: WebviewArguments(
+                  enquiryDetailArgs: EnquiryDetailArgs(),
+                  paymentsLink:
+                      '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}'),
             );
           } else {
             Navigator.pushNamed(

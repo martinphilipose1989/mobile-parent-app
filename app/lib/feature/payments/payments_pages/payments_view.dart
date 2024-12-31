@@ -175,8 +175,8 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                         : data.data == null
                             ? const SizedBox.shrink()
                             : SizedBox(
-                                height: 55.h,
-                                width: 128.w,
+                                // height: 55.h,
+                                width: 0.4.sw,
                                 child: CustomDropdownButton(
                                   dropdownName: '',
                                   width: 300,
@@ -213,8 +213,8 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                   : data.data?.data == null
                       ? const SizedBox.shrink()
                       : SizedBox(
-                          height: 50.h,
-                          width: 175.w,
+                          //  height: 50.h,
+                          width: 0.4.sw,
                           child: CustomDropdownButton(
                             displayZerothIndex: true,
                             onMultiSelect: (selectedValues) {

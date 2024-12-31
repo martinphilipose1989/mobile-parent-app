@@ -109,6 +109,8 @@ class PaymentsPageModel extends BasePageViewModel {
 
 // calling coupons list api
 
+  bool isDiscountApplied = false;
+
   final BehaviorSubject<Resource<FetchCouponsListModel>>
       _fetchCouponsListModel =
       BehaviorSubject<Resource<FetchCouponsListModel>>();
@@ -226,6 +228,7 @@ class PaymentsPageModel extends BasePageViewModel {
         if (amountAfterDiscount <=
             (fetchCouponsDataModel.concessionMaxAmount ?? 0)) {
           getPendingFeesFeeModel[index].isDiscountApplied = true;
+          isDiscountApplied = true;
           getPendingFeesFeeModel[index].discountedAmount =
               (double.parse(getPendingFeesFeeModel[index].pending ?? '') -
                       double.parse(amountAfterDiscount.toString()))
@@ -235,6 +238,7 @@ class PaymentsPageModel extends BasePageViewModel {
               amountAfterDiscount.toString();
         } else {
           getPendingFeesFeeModel[index].isDiscountApplied = true;
+          isDiscountApplied = true;
           getPendingFeesFeeModel[index].discountedAmount =
               (double.parse(getPendingFeesFeeModel[index].pending ?? '') -
                       double.parse(
@@ -250,6 +254,7 @@ class PaymentsPageModel extends BasePageViewModel {
           double.parse(
               fetchCouponsDataModel.concessionFixedAmount.toString())) {
         getPendingFeesFeeModel[index].isDiscountApplied = true;
+        isDiscountApplied = true;
         getPendingFeesFeeModel[index].discountedAmount =
             (double.parse(getPendingFeesFeeModel[index].pending ?? '') -
                     double.parse(
@@ -260,6 +265,7 @@ class PaymentsPageModel extends BasePageViewModel {
             fetchCouponsDataModel.concessionFixedAmount.toString();
       } else {
         getPendingFeesFeeModel[index].isDiscountApplied = true;
+        isDiscountApplied = true;
         getPendingFeesFeeModel[index].discountedAmount =
             (double.parse(getPendingFeesFeeModel[index].pending ?? '') -
                     double.parse(getPendingFeesFeeModel[index].pending ?? ''))

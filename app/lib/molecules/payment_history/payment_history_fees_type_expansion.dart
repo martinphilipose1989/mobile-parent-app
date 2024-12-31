@@ -13,7 +13,7 @@ import 'package:app/utils/enums/finance_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter_svg/svg.dart';
 
 class PaymentHistoryFeesTypeExpansion extends StatefulWidget {
@@ -52,13 +52,11 @@ class _PaymentHistoryFeesTypeExpansionState
                           itemCount: widget.groupedModels.length,
                           itemBuilder: (context, i) {
                             return Container(
-                                width: 358.w,
+                                width: double.infinity,
                                 margin: const EdgeInsets.only(bottom: 15),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                      width: 1,
-                                    )),
+                                    border: Border.all(width: 1)),
                                 child: ExpansionTile(
                                     title: Row(
                                       mainAxisAlignment:
@@ -154,80 +152,96 @@ class _PaymentHistoryFeesTypeExpansionState
                                                           .groupedModels[i]
                                                           .fees[index];
 
-                                                  return Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
+                                                  return Column(
                                                     children: [
-                                                      SizedBox(
-                                                        width: 110,
-                                                        child: CommonText(
-                                                          text: fees.acknowledgementNo ==
-                                                                  null
-                                                              ? fees.receiptNumber ??
-                                                                  ""
-                                                              : fees.acknowledgementNo ??
-                                                                  '',
-                                                          style: AppTypography
-                                                              .subtitle2
-                                                              .copyWith(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis),
-                                                        ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CommonText(
+                                                                text: fees.acknowledgementNo ==
+                                                                        null
+                                                                    ? fees.receiptNumber ??
+                                                                        ""
+                                                                    : fees.acknowledgementNo ??
+                                                                        '',
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis),
+                                                              ),
+                                                              CommonText(
+                                                                text: fees.transactionDate !=
+                                                                        null
+                                                                    ? DateFormatter
+                                                                        .formatDate(
+                                                                            fees.transactionDate ??
+                                                                                '')
+                                                                    : DateFormatter.formatDate(
+                                                                        fees.receiptDate ??
+                                                                            ''),
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              CommonText(
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                text:
+                                                                    fees.paymentMode ??
+                                                                        "",
+                                                                style: AppTypography
+                                                                    .subtitle2
+                                                                    .copyWith(),
+                                                              ),
+                                                              CommonText(
+                                                                text: CurrencyFormatter
+                                                                    .formatToRupee(
+                                                                        fees.amount ??
+                                                                            ""),
+                                                                color: TransactionStausEnum
+                                                                            .success
+                                                                            .id ==
+                                                                        fees
+                                                                            .transactionStatus
+                                                                    ? AppColors
+                                                                        .success
+                                                                    : TransactionStausEnum.failure.id ==
+                                                                            fees
+                                                                                .transactionStatus
+                                                                        ? AppColors
+                                                                            .failure
+                                                                        : AppColors
+                                                                            .textDark,
+                                                                style: AppTypography
+                                                                    .subtitle2,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
-                                                      CommonText(
-                                                        text: fees.acknowledgementDate ==
-                                                                null
-                                                            ? DateFormatter
-                                                                .formatDate(
-                                                                    fees.receiptDate ??
-                                                                        '')
-                                                            : DateFormatter
-                                                                .formatDate(
-                                                                    fees.acknowledgementDate ??
-                                                                        ''),
-                                                        style: AppTypography
-                                                            .subtitle2
-                                                            .copyWith(),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 60,
-                                                        child: CommonText(
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          text:
-                                                              fees.paymentMode ??
-                                                                  "",
-                                                          style: AppTypography
-                                                              .subtitle2
-                                                              .copyWith(),
-                                                        ),
-                                                      ),
-                                                      CommonText(
-                                                        text: CurrencyFormatter
-                                                            .formatToRupee(
-                                                                fees.amount ??
-                                                                    ""),
-                                                        color: TransactionStausEnum
-                                                                    .success
-                                                                    .id ==
-                                                                fees
-                                                                    .transactionStatus
-                                                            ? AppColors.success
-                                                            : TransactionStausEnum
-                                                                        .failure
-                                                                        .id ==
-                                                                    fees
-                                                                        .transactionStatus
-                                                                ? AppColors
-                                                                    .failure
-                                                                : AppColors
-                                                                    .textDark,
-                                                        style: AppTypography
-                                                            .subtitle2,
+                                                      Divider(
+                                                        thickness: 0.5,
+                                                        color:
+                                                            AppColors.textDark,
                                                       ),
                                                     ],
                                                   );

@@ -30,7 +30,9 @@ void main() async {
         logoutEndpoint: EnvDev.logoutEndpoint,
         gateUrl: EnvDev.gateBaseUrl,
         marketingUrl: EnvDev.marketingBaseUrl,
-        frontEndUrl: EnvDev.frontEndUrl, notificationUrl: EnvDev.notificationUrl),
+        frontEndUrl: EnvDev.frontEndUrl,
+        notificationUrl: EnvDev.notificationUrl,
+        subjectSelectionUrl: EnvDev.subjectSelectionUrl),
   );
   startApp();
 }
