@@ -1,9 +1,7 @@
-//import 'package:app/molecules/tracker/AttendanceDetails/AttendanceDetails_list.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/attendance/attendance_list1/attendance_details_view_model.dart';
 import 'package:app/molecules/attendance/attandance_details/attendance_list.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -44,23 +42,23 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                                         child: CircularProgressIndicator(),
                                       )
                                     : AttendanceDetails(
-                                  name:"${data?.data?.data?.profile?.firstName} ${data?.data?.data?.profile?.lastName}",
+                                  name:"${data?.data?.data?.profile?.firstName??""} ${data?.data?.data?.profile?.lastName??""}",
                                         schoolName: data
-                                            ?.data?.data?.profile?.crtSchool,
+                                            ?.data?.data?.profile?.crtSchool??"",
                                         boardName:
-                                            data?.data?.data?.profile?.crtBoard,
+                                            data?.data?.data?.profile?.crtBoard??"",
                                         stream: data
-                                            ?.data?.data?.profile?.streamName,
+                                            ?.data?.data?.profile?.streamName??"",
                                         grade:
-                                            data?.data?.data?.profile?.crtGrade,
+                                            data?.data?.data?.profile?.crtGrade??"",
                                         course: data
-                                            ?.data?.data?.profile?.courseName,
+                                            ?.data?.data?.profile?.courseName??"",
                                         shift:
-                                            data?.data?.data?.profile?.crtShift,
+                                            data?.data?.data?.profile?.crtShift??"",
                                         division: data
-                                            ?.data?.data?.profile?.crtDivision,
+                                            ?.data?.data?.profile?.crtDivision??"",
                                         house:
-                                            data?.data?.data?.profile?.crtHouse,
+                                            data?.data?.data?.profile?.crtHouse??"",
                                         date: dateFormatToDDMMYYYhhmma(snapshot!
                                             .data!
                                             .data
