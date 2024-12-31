@@ -65,7 +65,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           drawerItmes: model.progressItems),
       MenuItem(
           menuItem: "Parent Services",
-          menuItemActive: false,
+          menuItemActive: true,
           drawerItmes: model.parentServices),
       MenuItem(
           menuItem: "Info",
@@ -152,8 +152,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
               //   //   nameList: model.dailyDiary,
               //   // ),
               //   CustomExpansionList(
-              //     title: "Parent Services",
-              //     nameList: model.parentServices,
+              //     title: "Parent Services",   //     nameList: model.parentServices,
               //   ),
               // CustomExpansionList(
               //   title: "Info",

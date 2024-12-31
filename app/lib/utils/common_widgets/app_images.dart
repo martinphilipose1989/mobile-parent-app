@@ -126,6 +126,8 @@ class AppImages {
   static const String rate5 = 'assets/rating/rate5.svg';
   static const String subjectSelectionIcon =
       'assets/images/subject_selection.svg';
+  static const String subjectSelection =
+      'assets/images/subject_selection_1.svg';
   static const String calendarIcon = 'assets/images/ic_calendar.svg';
 
   // gate pass
