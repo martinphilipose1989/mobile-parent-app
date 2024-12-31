@@ -99,6 +99,11 @@ class TabbarViewModel extends BasePageViewModel {
   ];
   final List<DrawerItems> parentServices = [
     DrawerItems(
+        menu: 'Subject Selection',
+
+        icon: AppImages.subjectSelection,
+        isActive: true),
+    DrawerItems(
         menu: 'Service Request',
         route: RoutePaths.attendanceCalender,
         icon: AppImages.serviceRequest,
@@ -111,7 +116,8 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(
         menu: 'Transport App',
         route: RoutePaths.myDutyPage,
-        icon: AppImages.bus),
+        icon: AppImages.bus,
+        isActive: false),
     DrawerItems(
         menu: 'Forms Download', icon: AppImages.downloadform, isActive: false),
     DrawerItems(
@@ -120,7 +126,8 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(
         menu: 'Gate Management',
         route: RoutePaths.createEditGatePassPage,
-        icon: AppImages.gate),
+        icon: AppImages.gate,
+    isActive: false),
   ];
 
   final List<DrawerItems> infoItems = [
@@ -139,5 +146,5 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(menu: 'IVT', icon: AppImages.assignment),
   ];
 
- late final List<MenuItem> menuItems;
+  List<MenuItem> menuItems =[];
 }
