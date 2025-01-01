@@ -28,9 +28,18 @@ class CafeteriaPageState
   @override
   void onModelReady(CafeteriaDetailViewModel model) {
     // bind exception handler here.
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getCafeteriaDetail();
+
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  }
+
+  CafeteriaDetailViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(cafeteriaPageModelProvider);
+
+  @override
+  void didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getCafeteriaDetail();
+    super.didChangeDependencies();
   }
 
   @override

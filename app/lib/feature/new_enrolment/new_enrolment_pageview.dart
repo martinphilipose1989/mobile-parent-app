@@ -34,19 +34,21 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
             initialData: Resource.none(),
             dataBuilder: (context, studentResponse) {
               final studentProfile = studentResponse?.data?.profile;
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: student.StudentDetails(
-                    image: AppImages.personIcon,
-                    name:
-                        "${studentProfile?.firstName?.orEmpty('N/A')} ${studentProfile?.lastName?.orEmpty('N/A')}",
-                    title:
-                        "${studentProfile?.crtSchool?.orEmpty('N/A')}|${studentProfile?.crtBoard?.orEmpty('N/A')}",
-                    subtitle:
-                        "${studentProfile?.courseName?.orEmpty('N/A')}| ${studentProfile?.crtShift.orEmpty('N/A')}| ${studentProfile?.crtDivision.orEmpty('N/A')}| ${studentProfile?.crtHouse.orEmpty('N/A')} | ${studentProfile?.crtGrade.orEmpty('N/A')}",
-                    subtitle2:
-                        "Stream: ${studentProfile?.streamName.orEmpty('N/A')}"),
-              );
+              return studentResponse?.status == Status.loading
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: student.StudentDetails(
+                          image: AppImages.personIcon,
+                          name:
+                              "${studentProfile?.firstName?.orEmpty('N/A')} ${studentProfile?.lastName?.orEmpty('N/A')}",
+                          title:
+                              "${studentProfile?.crtSchool?.orEmpty('N/A')}|${studentProfile?.crtBoard?.orEmpty('N/A')}",
+                          subtitle:
+                              "${studentProfile?.courseName?.orEmpty('N/A')}| ${studentProfile?.crtShift.orEmpty('N/A')}| ${studentProfile?.crtDivision.orEmpty('N/A')}| ${studentProfile?.crtHouse.orEmpty('N/A')} | ${studentProfile?.crtGrade.orEmpty('N/A')}",
+                          subtitle2:
+                              "Stream: ${studentProfile?.streamName.orEmpty('N/A')}"),
+                    );
             }),
         Padding(
           padding: REdgeInsets.all(16.0),
@@ -56,26 +58,35 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
               options: model.vasOptions,
               onSelect: (value) => {}),
         ),
-        Expanded(
-          child: StreamBuilder<VasOptions>(
-            stream: model.selectedVasOption,
-            initialData: VasOptions.kidsClub,
-            builder: (context, snapshot) {
-              final vasOption = snapshot.data ?? VasOptions.kidsClub;
+        AppStreamBuilder<Resource<StudentData>>(
+            stream: model.studentProfileSubject,
+            initialData: Resource.none(),
+            dataBuilder: (context, data) {
+              return Visibility(
+                visible: data?.data?.profile?.crtSchoolId != null,
+                child: Expanded(
+                  child: StreamBuilder<VasOptions>(
+                    stream: model.selectedVasOption,
+                    initialData: VasOptions.kidsClub,
+                    builder: (context, snapshot) {
+                      final vasOption = snapshot.data ?? VasOptions.kidsClub;
 
-              return IndexedStack(
-                index: VasOptions.values.indexOf(vasOption),
-                children: VasOptions.values.map((option) {
-                  return Visibility(
-                    visible: vasOption == option,
-                    maintainState: true, // Retain state when not visible
-                    child: _getPageForOption(option, model),
-                  );
-                }).toList(),
+                      return IndexedStack(
+                        index: VasOptions.values.indexOf(vasOption),
+                        children: VasOptions.values.map((option) {
+                          return Visibility(
+                            visible: vasOption == option,
+                            maintainState:
+                                true, // Retain state when not visible
+                            child: _getPageForOption(option, model),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ),
               );
-            },
-          ),
-        ),
+            }),
       ],
     );
   }

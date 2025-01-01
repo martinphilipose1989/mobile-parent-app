@@ -28,9 +28,17 @@ class KidsClubDeatilDetailPageState
 
   @override
   void onModelReady(KidsClubViewModel model) {
-    model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getKidsClubDetail();
+    // model.getKidsClubDetail();
+  }
+
+  KidsClubViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(kidsClubPageModelProvider);
+
+  @override
+  didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getKidsClubDetail();
+    super.didChangeDependencies();
   }
 
   @override

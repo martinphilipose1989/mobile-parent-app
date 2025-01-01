@@ -27,9 +27,17 @@ class TransportPageState
 
   @override
   void onModelReady(TransportDetailViewModel model) {
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getTransportEnrollmentDetail();
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  }
+
+  TransportDetailViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(transportPageModelProvider);
+
+  @override
+  didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getTransportEnrollmentDetail();
+    super.didChangeDependencies();
   }
 
   @override

@@ -69,12 +69,15 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                 offset: const Offset(0, 2)),
                                           ],
                                         ),
-
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                           CommonText(text: "Calculated Amount",style: AppTypography.body2,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w, vertical: 12.h),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CommonText(
+                                              text: "Calculated Amount",
+                                              style: AppTypography.body2,
                                             ),
                                             CommonText(
                                               text: model.fee.value,
@@ -86,8 +89,12 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                       ),
                                     );
                                   }),
-                          SizedBox(height: 16.h,),
-                CommonText(text: "Select Bus Type",style: AppTypography.subtitle2,
+                              SizedBox(
+                                height: 16.h,
+                              ),
+                              CommonText(
+                                text: "Select Bus Type",
+                                style: AppTypography.subtitle2,
                               ),
                               SizedBox(
                                 height: 10.h,
@@ -261,24 +268,23 @@ class SelectServiceType extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              CommonText(
-                            text: "Select The Service Type",
-                            style: AppTypography.subtitle2,
-                          ),
-                          SizedBox(
-                            height: 10.h),
+                CommonText(
+                  text: "Select The Service Type",
+                  style: AppTypography.subtitle2,
+                ),
+                SizedBox(height: 10.h),
                 AppStreamBuilder(
                   stream: model.serviceType,
                   initialData: const <String>[],
                   dataBuilder: (context, services) {
                     return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: model.serviceType.value.length,
+                      itemCount: services?.length,
                       itemBuilder: (context, index) {
                         return CommonRadioButtonWidget(
                           commonRadioButton: model.radioButtonServiceType,
-                          value: model.serviceType.value[index],
-                          title: model.serviceType.value[index],
+                          value: services?[index] ?? '',
+                          title: services?[index] ?? '',
                           onOptionSelected: (value) {
                             model.setFeeCategory(value!);
                           },
@@ -312,12 +318,11 @@ class ChooseOneWayToRoute extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15.h),
-                   CommonText(
-                                    text: "Choose One Way Route",
-                                    style: AppTypography.subtitle2,
-                                  ),
-                                  SizedBox(
-                                    height: 10.h),
+                      CommonText(
+                        text: "Choose One Way Route",
+                        style: AppTypography.subtitle2,
+                      ),
+                      SizedBox(height: 10.h),
                       Column(
                         children: List.generate(
                           model.onWayRouteType.length,

@@ -28,8 +28,16 @@ class SummerCampDetailPageState
   @override
   void onModelReady(SummerCampDetailViewModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getSummerCampDetail();
+  }
+
+  SummerCampDetailViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(summerCampPageModelProvider);
+
+  @override
+  void didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getSummerCampDetail();
+    super.didChangeDependencies();
   }
 
   @override

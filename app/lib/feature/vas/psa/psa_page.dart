@@ -28,10 +28,18 @@ class PsaDetailPageState
   @override
   void onModelReady(PsaDetailViewModel model) {
     // bind exception handler here.
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
 
-    model.getPsaDetail();
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  }
+
+  PsaDetailViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(psaPageModelProvider);
+
+  @override
+  didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getPsaDetail();
+    super.didChangeDependencies();
   }
 
   @override

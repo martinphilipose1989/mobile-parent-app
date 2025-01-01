@@ -4,7 +4,7 @@ class StopDetail {
   String? zoneName;
   int? schoolId;
 
-  int? routeId;
+  dynamic routeId;
   int? shiftId;
 
   StopDetail(
