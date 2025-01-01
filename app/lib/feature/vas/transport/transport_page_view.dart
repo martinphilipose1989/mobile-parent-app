@@ -263,39 +263,38 @@ class SelectServiceType extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
         builder: (context, model, _) {
-          return Visibility(
-            visible: model!.serviceType.value.isNotEmpty,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CommonText(
-                  text: "Select The Service Type",
-                  style: AppTypography.subtitle2,
-                ),
-                SizedBox(height: 10.h),
-                AppStreamBuilder(
-                  stream: model.serviceType,
-                  initialData: const <String>[],
-                  dataBuilder: (context, services) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: services?.length,
-                      itemBuilder: (context, index) {
-                        return CommonRadioButtonWidget(
-                          commonRadioButton: model.radioButtonServiceType,
-                          value: services?[index] ?? '',
-                          title: services?[index] ?? '',
-                          onOptionSelected: (value) {
-                            model.setFeeCategory(value!);
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
+          return AppStreamBuilder(
+              stream: model!.serviceType,
+              initialData: const <String>[],
+              dataBuilder: (context, services) {
+                return Visibility(
+                  visible: model.serviceType.value.isNotEmpty,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonText(
+                        text: "Select The Service Type",
+                        style: AppTypography.subtitle2,
+                      ),
+                      SizedBox(height: 10.h),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: services?.length,
+                        itemBuilder: (context, index) {
+                          return CommonRadioButtonWidget(
+                            commonRadioButton: model.radioButtonServiceType,
+                            value: services?[index] ?? '',
+                            title: services?[index] ?? '',
+                            onOptionSelected: (value) {
+                              model.setFeeCategory(value!);
+                            },
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                );
+              });
         },
         providerBase: transportPageModelProvider);
   }
