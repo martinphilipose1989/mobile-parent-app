@@ -1,5 +1,3 @@
-
-
 import 'package:app/feature/admissions/admissions_view_model.dart';
 import 'package:app/molecules/tracker/admissions/closed_admissions.dart';
 import 'package:app/molecules/tracker/admissions/open_admissions.dart';
@@ -112,12 +110,8 @@ class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
             controller: model.controller,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              OpenAdmissionsPage(
-                model: model,
-              ),
-              ClosedAdmissionsPage(
-                model: model,
-              ),
+              OpenAdmissionsPage(model: model),
+              ClosedAdmissionsPage(model: model),
             ],
           ),
         )
