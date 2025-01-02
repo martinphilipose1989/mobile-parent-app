@@ -4,19 +4,15 @@ import 'dart:async';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/utils/request_manager.dart';
 
 import 'package:data/data.dart';
 
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
-import '../../di/states/viewmodels.dart';
-import '../../utils/request_manager.dart';
 
 class NotificationPageViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
@@ -26,12 +22,9 @@ class NotificationPageViewModel extends BasePageViewModel {
 
   NotificationPageViewModel(
       {required this.notificationUsecase,
-      required  this.getUserDetailsUsecase,
-        required this.exceptionHandlerBinder,
-      required this.flutterToastErrorPresenter
-
-      })
-  {
+      required this.getUserDetailsUsecase,
+      required this.exceptionHandlerBinder,
+      required this.flutterToastErrorPresenter}) {
     _setupThrottling();
     setupScrollListener();
     getUserDetails();
@@ -43,13 +36,13 @@ class NotificationPageViewModel extends BasePageViewModel {
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(-1);
   final BehaviorSubject<bool> expand = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
- int userId=0;
-int userType=2;
+  int userId = 0;
+  int userType = 2;
   final _throttleDuration = const Duration(milliseconds: 300);
   String getType(int selectedStatusValue, int selectedValue) {
-    if (selectedStatusValue == 0 && selectedValue == -1)
+    if (selectedStatusValue == 0 && selectedValue == -1) {
       return NOTIFICATION_LIST_TYPE[0];
-    else if (selectedStatusValue == 0 && selectedValue == 0)
+    } else if (selectedStatusValue == 0 && selectedValue == 0)
       return NOTIFICATION_LIST_TYPE[1];
     else if (selectedStatusValue == 0 && selectedValue == 1)
       return NOTIFICATION_LIST_TYPE[2];
@@ -82,11 +75,16 @@ int userType=2;
     _throttlingController.stream.throttleTime(_throttleDuration).listen((_) {
       if (!_loadingSubject.value && !isLastPage()) {
         pageNumber++;
-        fetchNotification(notificationRequestModel: NotificationRequestModel(userId: userId, userType: userType, type: getType(selectedStatusValue.value, selectedValue.value), limit: 10, page: pageNumber));
+        fetchNotification(
+            notificationRequestModel: NotificationRequestModel(
+                userId: userId,
+                userType: userType,
+                type: getType(selectedStatusValue.value, selectedValue.value),
+                limit: 10,
+                page: pageNumber));
       }
     });
   }
-
 
   final ScrollController scrollController = ScrollController();
 
@@ -95,23 +93,20 @@ int userType=2;
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         loadMoreNotificationList();
-        print("before loading");
+
         if (isLoading.value) {
-          print("after loading 1");
           return;
         }
 
-          print("after loading 2");
-          pageNumber++;
-          isLoading.add(false);
-          fetchNotification(
-              notificationRequestModel: NotificationRequestModel(
-                  userId: userId,
-                  userType: userType,
-                  type: getType(selectedStatusValue.value, selectedValue.value),
-                  limit: 10,
-                  page: pageNumber));
-
+        pageNumber++;
+        isLoading.add(false);
+        fetchNotification(
+            notificationRequestModel: NotificationRequestModel(
+                userId: userId,
+                userType: userType,
+                type: getType(selectedStatusValue.value, selectedValue.value),
+                limit: 10,
+                page: pageNumber));
       }
     });
   }
@@ -134,28 +129,23 @@ int userType=2;
 
   List<NotificationDetail> notificationList = [];
   // List to hold notifications
-  void _updatenotificationList(List<NotificationDetail> notifications,) {
+  void _updatenotificationList(
+    List<NotificationDetail> notifications,
+  ) {
     if (pageNumber == 1) {
       notificationSubject.add(Resource.success(data: notifications));
-      print("hi page=1");
     } else {
-      print("hi page=not 1");
       final List<NotificationDetail> updatedList = [
         ...notificationSubject.value.data ?? <NotificationDetail>[],
         ...notifications
       ];
-     notificationSubject.add(Resource.success(data: updatedList));
+      notificationSubject.add(Resource.success(data: updatedList));
     }
-if( isLastPage() ) {
-
- //notificationSubject.add(Resource.success(data: notifications));
- _loadingSubject.add(false);
-
+    if (isLastPage()) {
+      //notificationSubject.add(Resource.success(data: notifications));
+      _loadingSubject.add(false);
     }
   }
-
-
-
 
   Future<void> fetchNotification({
     bool isRefresh = false,
@@ -167,7 +157,8 @@ if( isLastPage() ) {
         notificationList.clear(); // Clear the list on refresh
       }
 
-      NotificationUsecaseParams notificationUsecaseParams = NotificationUsecaseParams(
+      NotificationUsecaseParams notificationUsecaseParams =
+          NotificationUsecaseParams(
         userId: notificationRequestModel.userId,
         userType: notificationRequestModel.userType,
         type: notificationRequestModel.type,
@@ -187,22 +178,22 @@ if( isLastPage() ) {
       ).asFlow().listen((event) {
         if (event.status == Status.loading) {
           if (pageNumber == 1 && !isRefresh) {
-            notificationSubject.add(Resource.loading()); // Notify UI about loading state
+            notificationSubject
+                .add(Resource.loading()); // Notify UI about loading state
           }
         }
 
         if (event.status == Status.success) {
           count = event.data?.data?.totalCount ?? 0;
-         if(pageNumber==1) {
+          if (pageNumber == 1) {
             notificationSubject
                 .add(Resource.success(data: event.data?.data?.data ?? []));
-         }else {
-      if(!isLastPage()) {
-            notificationList = event.data?.data?.data ?? []; //
+          } else {
+            if (!isLastPage()) {
+              notificationList = event.data?.data?.data ?? []; //
 
               _updatenotificationList(notificationList);
-              print(notificationList.length.toString() + "------");
-     }
+            }
           }
 
           // count = event.data?.data?.totalCount ?? 0;// Notify UI about new data
@@ -210,14 +201,15 @@ if( isLastPage() ) {
 
         if (event.status == Status.error) {
           if (pageNumber == 1) {
-            notificationSubject.add(Resource.success(data: event.data?.data?.data ?? [])); // Notify UI about error for the first page
+            notificationSubject.add(Resource.success(
+                data: event.data?.data?.data ??
+                    [])); // Notify UI about error for the first page
           } else {
-         // if (!isLastPage()) {
-             // pageNumber++;
+            // if (!isLastPage()) {
+            // pageNumber++;
 //_updatenotificationList(notificationList);
-           //notificationSubject.add(Resource.success(data: event.data?.data?.data ?? [])); // Notify UI about the error
-      // }
-
+            //notificationSubject.add(Resource.success(data: event.data?.data?.data ?? [])); // Notify UI about the error
+            // }
           }
         }
       }).onError((error) {
@@ -226,7 +218,6 @@ if( isLastPage() ) {
       });
     }).execute();
   }
-
 
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
@@ -241,7 +232,7 @@ if( isLastPage() ) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));
 
-    if(userSubject.value.data?.id!=null) {
+        if (userSubject.value.data?.id != null) {
           userId = userSubject.value.data!.id!;
         }
       }
