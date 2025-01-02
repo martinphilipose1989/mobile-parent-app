@@ -1,8 +1,12 @@
-import 'dart:developer';
-
+import 'package:app/dependencies.dart';
+import 'package:app/feature/dashboard/dashboard_state.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/tabbar/tabbar_class.dart';
+import 'package:app/feature/webview/webview_page.dart';
+import 'package:app/model/resource.dart';
 
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/request_manager.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -18,8 +22,16 @@ import '../payments/payments_pages/payments.dart';
 @injectable
 class TabbarViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
 
-  TabbarViewModel(this.exceptionHandlerBinder);
+  // Initialize userSubject without accessing it during declaration
+  final BehaviorSubject<User> userSubject = BehaviorSubject<User>();
+
+  TabbarViewModel(
+      {required this.exceptionHandlerBinder,
+      required this.getUserDetailsUsecase}) {
+    getUserDetails();
+  }
 
   late TabController tabController;
 
@@ -87,11 +99,13 @@ class TabbarViewModel extends BasePageViewModel {
                 phoneNo:
                     "+91${await SharedPreferenceHelper.getString(mobileNumber)}"),
           );
-          print("${mobileNumber}");
         },
         icon: AppImages.walletAdd),
     DrawerItems(
-        menu: 'New Enrollment', icon: AppImages.activity, isActive: true),
+        menu: 'New Enrollment',
+        icon: AppImages.activity,
+        isActive: true,
+        route: RoutePaths.newEnrolmentPage),
     DrawerItems(
         menu: 'Transaction History',
         route: RoutePaths.paymentsPage,
@@ -104,7 +118,22 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(
         menu: 'Subject Selection',
         icon: AppImages.subjectSelection,
-        isActive: true),
+        isActive: false,
+        onTap: () {
+          DashboardState dashboardState = DashboardState();
+          final String subjectSelectionUrl =
+              getIt.get<String>(instanceName: "SubjectSelectionUrl");
+          final selectedStudent = dashboardState.selectedStudent;
+
+          // Navigator.pushNamed(
+          //   navigatorKey.currentContext!,
+          //   RoutePaths.webview,
+          //   arguments: WebviewArguments(
+          //       enquiryDetailArgs: EnquiryDetailArgs(),
+          //       paymentsLink:
+          //           '$subjectSelectionUrl?platform=mobile&authToken=${userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}'),
+          // );
+        }),
     DrawerItems(
         menu: 'Service Request',
         route: RoutePaths.attendanceCalender,
@@ -149,4 +178,16 @@ class TabbarViewModel extends BasePageViewModel {
   ];
 
   List<MenuItem> menuItems = [];
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(data.data!);
+      }
+    });
+  }
 }
