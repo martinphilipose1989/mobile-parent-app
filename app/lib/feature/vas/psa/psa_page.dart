@@ -4,6 +4,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/vas/psa/psa_page_view.dart';
 import 'package:app/feature/vas/psa/psa_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -11,8 +12,13 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class PsaDetailPage extends BasePage<PsaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
   final bool hideAppBar;
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
+
   const PsaDetailPage(
-      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
+      {super.key,
+      this.enquiryDetailArgs,
+      this.hideAppBar = false,
+      this.onSelectVasEnrolment});
 
   @override
   PsaDetailPageState createState() => PsaDetailPageState();
@@ -44,7 +50,8 @@ class PsaDetailPageState
 
   @override
   Widget buildView(BuildContext context, PsaDetailViewModel model) {
-    return PsaDetailPageView(provideBase());
+    return PsaDetailPageView(provideBase(),
+        onSelectVasEnrolment: widget.onSelectVasEnrolment);
   }
 
   @override

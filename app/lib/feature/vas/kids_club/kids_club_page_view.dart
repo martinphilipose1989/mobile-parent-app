@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
+import 'package:app/utils/enums/new_enrolment_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 
 import 'package:domain/domain.dart';
@@ -15,7 +16,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
-  KidsClubDetailPageView(super.providerBase);
+  KidsClubDetailPageView(super.providerBase, {this.onSelectVasEnrolment});
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
 
   @override
   Widget build(BuildContext context, KidsClubViewModel model) {
@@ -272,7 +274,65 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                     flex: 1,
                                                     child: CommonElevatedButton(
                                                       onPressed: () {
-                                                        model.enrollKidsClub();
+                                                        if (onSelectVasEnrolment !=
+                                                            null) {
+                                                          onSelectVasEnrolment!(
+                                                            StudentEnrolmentFee(
+                                                              academicYearId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.academicYearId,
+                                                              boardId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.boardId,
+                                                              courseId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.courseId,
+                                                              schoolId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.schoolId,
+                                                              shiftId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.shiftId,
+                                                              gradeId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.gradeId,
+                                                              streamId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.streamId,
+                                                              brandId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.brandId,
+                                                              studentId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentId,
+                                                              globalUserId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentGlobalId,
+                                                              lobId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.lobId,
+                                                              batchId:
+                                                                  model.batchID,
+                                                              feeCategoryId: model
+                                                                  .feeCategoryID,
+                                                              periodOfServiceId:
+                                                                  model
+                                                                      .periodOfServiceID,
+                                                              feeSubcategoryId:
+                                                                  model
+                                                                      .feeSubCategoryID,
+                                                              feeSubTypeId: model
+                                                                  .feeSubTypeID,
+                                                              feeType:
+                                                                  EnrolmentFeeType
+                                                                      .kidsClub
+                                                                      .type,
+                                                            ),
+                                                          );
+                                                        } else {
+                                                          model
+                                                              .enrollKidsClub();
+                                                        }
                                                       },
                                                       text: "Enroll Now",
                                                       backgroundColor:

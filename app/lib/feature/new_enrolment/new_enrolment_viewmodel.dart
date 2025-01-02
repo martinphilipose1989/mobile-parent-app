@@ -3,7 +3,8 @@ import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/toggle_option_list.dart';
-import 'package:app/utils/enums/enquiry_enum.dart';
+
+import 'package:app/utils/enums/new_enrolment_enum.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
@@ -14,6 +15,7 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final StudentDetailUseCase studentDetailsUsecase;
+  final NewEnrolmentUsecase newEnrolmentUsecase;
 
   // TAB CONTROLLER
   late TabController tabController;
@@ -32,12 +34,14 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   NewEnrolmentViewModel(
       {required this.flutterToastErrorPresenter,
       required this.exceptionHandlerBinder,
-      required this.studentDetailsUsecase}) {
+      required this.studentDetailsUsecase,
+      required this.newEnrolmentUsecase}) {
     getStudentDetails();
   }
 
   final dashBoardState = DashboardState();
 
+  // ************************ STUDENT PROFILE ************************
   final BehaviorSubject<Resource<StudentData>> studentProfileSubject =
       BehaviorSubject.seeded(Resource.none());
   Future<void> getStudentDetails() async {
@@ -56,20 +60,26 @@ class NewEnrolmentViewModel extends BasePageViewModel {
           studentProfileSubject.add(Resource.error());
         });
   }
+
+  // ************************ NEW ENROLMENT ************************
+  final BehaviorSubject<Resource<NewEnrolmentResponse>> newEnrolmentSubject =
+      BehaviorSubject.seeded(Resource.none());
+
+  Future<void> createNewEnrolment(
+      {List<StudentEnrolmentFee>? studentFees}) async {
+    newEnrolmentSubject.add(Resource.loading());
+    final NewEnrolmentUsecaseParams params =
+        NewEnrolmentUsecaseParams(studentFees: studentFees);
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) => newEnrolmentUsecase.execute(params: params),
+        onSuccess: (result) {
+          newEnrolmentSubject.add(Resource.success(data: result));
+        },
+        onError: (error) {
+          newEnrolmentSubject.add(Resource.error());
+        });
+  }
 }
-
-/**
- *  jhadu
- *  comfort
- *  chatai
- *  shampoo himalaya
- *  baby wet wipes
- *  dettol bdai bottle
- * 
- * 1. cafeteria
- * 2. kids club
- * 3. psa
- * 4. summer camp
- * 5. transport
- */
-

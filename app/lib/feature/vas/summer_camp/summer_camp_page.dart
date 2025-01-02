@@ -4,6 +4,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/vas/summer_camp/summer_camp_page_view.dart';
 import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -11,8 +12,13 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class SummerCampDetailPage extends BasePage<SummerCampDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
   final bool hideAppBar;
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
+
   const SummerCampDetailPage(
-      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
+      {super.key,
+      this.enquiryDetailArgs,
+      this.hideAppBar = false,
+      this.onSelectVasEnrolment});
 
   @override
   SummerCampDetailPageState createState() => SummerCampDetailPageState();

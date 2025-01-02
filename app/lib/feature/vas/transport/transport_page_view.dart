@@ -11,6 +11,7 @@ import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_b
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+import 'package:app/utils/enums/new_enrolment_enum.dart';
 
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 
@@ -20,7 +21,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
-  TransportPageView(super.providerBase);
+  TransportPageView(super.providerBase, {this.onSelectVasEnrolment});
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
 
   @override
   Widget build(BuildContext context, TransportDetailViewModel model) {
@@ -148,7 +150,6 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                             child: CommonElevatedButton(
                                               onPressed: () {
                                                 model.calculateFees();
-                                                // model.filterPeriodService();
                                               },
                                               text: "Calculate",
                                               backgroundColor: AppColors.accent,
@@ -167,7 +168,48 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                 flex: 1,
                                                 child: CommonElevatedButton(
                                                   onPressed: () {
-                                                    model.enrollTransport();
+                                                    if (onSelectVasEnrolment !=
+                                                        null) {
+                                                      onSelectVasEnrolment?.call(StudentEnrolmentFee(
+                                                          academicYearId: model
+                                                              .enquiryDetailArgs
+                                                              ?.academicYearId,
+                                                          boardId: model
+                                                              .enquiryDetailArgs
+                                                              ?.boardId,
+                                                          courseId: model
+                                                              .enquiryDetailArgs
+                                                              ?.courseId,
+                                                          schoolId: model
+                                                              .enquiryDetailArgs
+                                                              ?.schoolId,
+                                                          shiftId: model
+                                                              .enquiryDetailArgs
+                                                              ?.shiftId,
+                                                          gradeId: model
+                                                              .enquiryDetailArgs
+                                                              ?.gradeId,
+                                                          streamId: model
+                                                              .enquiryDetailArgs
+                                                              ?.streamId,
+                                                          brandId: model
+                                                              .enquiryDetailArgs
+                                                              ?.brandId,
+                                                          studentId: model
+                                                              .enquiryDetailArgs
+                                                              ?.studentId,
+                                                          globalUserId: model.enquiryDetailArgs?.studentGlobalId,
+                                                          lobId: model.enquiryDetailArgs?.lobId,
+                                                          feeType: EnrolmentFeeType.transport.type,
+                                                          batchId: model.batchID,
+                                                          feeSubTypeId: model.feeSubTypeID,
+                                                          feeCategoryId: model.feeCategoryID,
+                                                          periodOfServiceId: model.periodOfServiceID,
+                                                          feeSubcategoryEnd: model.selectedDropZone?.zoneName,
+                                                          feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
+                                                    } else {
+                                                      model.enrollTransport();
+                                                    }
                                                   },
                                                   text: "Enroll Now",
                                                   backgroundColor:

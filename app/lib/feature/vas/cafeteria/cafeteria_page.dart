@@ -4,6 +4,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/vas/cafeteria/cafeteria_page_view.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -11,8 +12,14 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class CafeteriaPage extends BasePage<CafeteriaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
   final bool hideAppBar;
+  // new enrollment fee
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
+
   const CafeteriaPage(
-      {super.key, this.enquiryDetailArgs, this.hideAppBar = false});
+      {super.key,
+      this.enquiryDetailArgs,
+      this.hideAppBar = false,
+      this.onSelectVasEnrolment});
 
   @override
   CafeteriaPageState createState() => CafeteriaPageState();
@@ -44,7 +51,8 @@ class CafeteriaPageState
 
   @override
   Widget buildView(BuildContext context, CafeteriaDetailViewModel model) {
-    return CafeteriaPageView(provideBase());
+    return CafeteriaPageView(provideBase(),
+        onSelectVasEnrolment: widget.onSelectVasEnrolment);
   }
 
   @override

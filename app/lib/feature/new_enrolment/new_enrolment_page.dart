@@ -1,12 +1,11 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
-import 'package:app/utils/common_primary_elevated_button.dart';
+
 import 'package:app/utils/common_widgets/common_appbar.dart';
-import 'package:app/utils/common_widgets/common_outline_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -61,22 +60,22 @@ class NewEnrolmentPageState
     );
   }
 
-  @override
-  Widget? buildBottomNavigationBar(NewEnrolmentViewModel model) {
-    return Container(
-      height: 100.h,
-      padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CommonOutlineButton(
-              title: "Cancel",
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          CommonPrimaryElevatedButton(title: "Submit", onPressed: () {}),
-        ],
-      ),
-    );
-  }
+  // @override
+  // Widget? buildBottomNavigationBar(NewEnrolmentViewModel model) {
+  //   return Container(
+  //     height: 100.h,
+  //     padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         CommonOutlineButton(
+  //             title: "Cancel",
+  //             onPressed: () {
+  //               Navigator.pop(context);
+  //             }),
+  //         CommonPrimaryElevatedButton(title: "Submit", onPressed: () {}),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

@@ -4,6 +4,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/vas/transport/transport_page_view.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -11,8 +12,13 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 class TransportPage extends BasePage<TransportDetailViewModel> {
   final EnquiryDetailArgs enquiryDetailArgs;
   final bool hideAppBar;
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
+
   const TransportPage(
-      {super.key, required this.enquiryDetailArgs, this.hideAppBar = false});
+      {super.key,
+      required this.enquiryDetailArgs,
+      this.hideAppBar = false,
+      this.onSelectVasEnrolment});
 
   @override
   TransportPageState createState() => TransportPageState();

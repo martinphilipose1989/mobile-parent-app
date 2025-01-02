@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
+import 'package:app/utils/enums/new_enrolment_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 
 import 'package:domain/domain.dart';
@@ -16,7 +17,8 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class SummerCampDetailPageView
     extends BasePageViewWidget<SummerCampDetailViewModel> {
-  SummerCampDetailPageView(super.providerBase);
+  SummerCampDetailPageView(super.providerBase, {this.onSelectVasEnrolment});
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
 
   @override
   Widget build(BuildContext context, SummerCampDetailViewModel model) {
@@ -261,7 +263,57 @@ class SummerCampDetailPageView
                                                   flex: 1,
                                                   child: CommonElevatedButton(
                                                     onPressed: () {
-                                                      model.enrollSummerCamp();
+                                                      if (onSelectVasEnrolment !=
+                                                          null) {
+                                                        onSelectVasEnrolment
+                                                            ?.call(
+                                                          StudentEnrolmentFee(
+                                                              academicYearId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.academicYearId,
+                                                              boardId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.boardId,
+                                                              courseId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.courseId,
+                                                              schoolId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.schoolId,
+                                                              shiftId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.shiftId,
+                                                              gradeId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.gradeId,
+                                                              streamId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.streamId,
+                                                              brandId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.brandId,
+                                                              studentId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentId,
+                                                              globalUserId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentGlobalId,
+                                                              lobId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.lobId,
+                                                              batchId:
+                                                                  model.batchID,
+                                                              feeSubcategoryId:
+                                                                  model.feeSubCategoryID,
+                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              periodOfServiceId: model.periodOfServiceID,
+                                                              feeCategoryId: model.feeSubCategoryID,
+                                                              feeType: EnrolmentFeeType.summerCamp.type),
+                                                        );
+                                                      } else {
+                                                        model
+                                                            .enrollSummerCamp();
+                                                      }
                                                     },
                                                     text: "Enroll Now",
                                                     backgroundColor:

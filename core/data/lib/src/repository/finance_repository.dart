@@ -131,7 +131,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
   @override
   Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
       {required NewEnrolmentCreate newEnrolmentCreate}) {
-    // TODO: implement createNewEnrolment
-    throw UnimplementedError();
+    return networkPort.createNewEnrolment(
+        newEnrolmentCreate: newEnrolmentCreate);
   }
 }
