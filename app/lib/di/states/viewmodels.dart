@@ -551,7 +551,7 @@ final notificationProvider =
   (ref) => NotificationPageViewModel(
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-    notificationUsecase: getIt.get<NotificationUsecase>(),
+    notificationUsecase: getIt.get<NotificationUsecase>(), getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
   ),
 );
 
@@ -561,6 +561,6 @@ final newEnrolmentViewModelProvider =
     newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-    studentDetailsUsecase: getIt.get<StudentDetailUseCase>(), getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+    studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
   ),
 );

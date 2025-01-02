@@ -139,25 +139,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                         nameList: e.drawerItmes,
                       )))
                   .toList()
-              //   CustomExpansionList(
-              //     title: "Fees",
-              //     nameList: model.fessItems,
-              //   ),
-              //   CustomExpansionList(
-              //     title: "Child Progress/ Academic Progress",
-              //     nameList: model.progressItems,
-              //   ),
-              // //  CustomExpansionList(
-              //   //   title: "Daily Diary",
-              //   //   nameList: model.dailyDiary,
-              //   // ),
-              //   CustomExpansionList(
-              //     title: "Parent Services",   //     nameList: model.parentServices,
-              //   ),
-              // CustomExpansionList(
-              //   title: "Info",
-              //   nameList: model.infoItems,
-              // )
+
               ),
         ));
   }
