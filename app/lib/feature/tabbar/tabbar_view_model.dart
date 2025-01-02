@@ -90,8 +90,8 @@ class TabbarViewModel extends BasePageViewModel {
           print("${mobileNumber}");
         },
         icon: AppImages.walletAdd),
-    DrawerItems(menu: 'New Enrollment', icon: AppImages.activity, isActive: true),
-
+    DrawerItems(
+        menu: 'New Enrollment', icon: AppImages.activity, isActive: true),
     DrawerItems(
         menu: 'Transaction History',
         route: RoutePaths.paymentsPage,
@@ -103,7 +103,6 @@ class TabbarViewModel extends BasePageViewModel {
   final List<DrawerItems> parentServices = [
     DrawerItems(
         menu: 'Subject Selection',
-
         icon: AppImages.subjectSelection,
         isActive: true),
     DrawerItems(
@@ -130,7 +129,7 @@ class TabbarViewModel extends BasePageViewModel {
         menu: 'Gate Management',
         route: RoutePaths.createEditGatePassPage,
         icon: AppImages.gate,
-    isActive: false),
+        isActive: false),
   ];
 
   final List<DrawerItems> infoItems = [
@@ -149,5 +148,5 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(menu: 'IVT', icon: AppImages.assignment),
   ];
 
-  List<MenuItem> menuItems =[];
+  List<MenuItem> menuItems = [];
 }
