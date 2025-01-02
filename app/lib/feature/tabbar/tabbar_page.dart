@@ -3,13 +3,16 @@ import 'dart:ffi';
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/molecules/drawer/expansionList.dart';
+import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 
@@ -20,6 +23,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../base/app_base_page.dart';
+import '../payments/payments_pages/payments.dart';
 
 class TabbarPage extends BasePage<TabbarViewModel> {
   const TabbarPage({super.key});
@@ -50,7 +54,30 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     return super.onBackPressed(param: true);
   }
 
-
+  @override
+  void onModelReady(TabbarViewModel model) {
+    model.menuItems = [
+      MenuItem(
+          menuItem: "Fees", menuItemActive: true, drawerItmes: model.fessItems),
+      MenuItem(
+          menuItem: "Child Progress/Academic Progress",
+          menuItemActive: true,
+          drawerItmes: model.progressItems),
+      MenuItem(
+          menuItem: "Parent Services",
+          menuItemActive: true,
+          drawerItmes: model.parentServices),
+      MenuItem(
+          menuItem: "Info",
+          menuItemActive: false,
+          drawerItmes: model.infoItems),
+      MenuItem(
+          menuItem: "Daily Diary",
+          menuItemActive: false,
+          drawerItmes: model.dailyDiary)
+    ];
+    super.onModelReady(model);
+  }
 
   @override
   Widget buildView(BuildContext context, TabbarViewModel model) {
@@ -89,32 +116,50 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   Widget? buildDrawer() {
     return buildDrawers(
       context: context,
-
     );
   }
 
   Widget buildDrawers({
     BuildContext? context,
-
     VoidCallback? onTap, // The callback function to handle taps
     bool? isActive, // Determines if the widget is active
     int? selectedIndex, // Determines if the widget is selected
   }) {
     return Drawer(
-      width: MediaQuery.of(context!).size.width * 0.6,
-      child: Padding(
+        width: MediaQuery.of(context!).size.width * 0.8,
+        child: Padding(
           padding: const EdgeInsets.only(top: 32.0),
           child: ListView(
-            children:[
-              SizedBox(),
-              CustomExpansionList( title: "Fees",nameList: fessItems,),
-              CustomExpansionList( title: "Child Progress/ Academic Progress",nameList: model.progressItems,),
-              CustomExpansionList( title: "Daily Diary",nameList: model.dailyDiary,),
-              CustomExpansionList( title: "Parent Services",nameList: model.parentServices,),
-              CustomExpansionList( title: "Info",nameList: model.parentServices,)
-
-         ] ),
-      ) );
+              //    SizedBox(),
+              children: model.menuItems
+                  .map((e) => Visibility(
+                      visible: e.menuItemActive ?? false,
+                      child: CustomExpansionList(
+                        title: e.menuItem ?? "",
+                        nameList: e.drawerItmes,
+                      )))
+                  .toList()
+              //   CustomExpansionList(
+              //     title: "Fees",
+              //     nameList: model.fessItems,
+              //   ),
+              //   CustomExpansionList(
+              //     title: "Child Progress/ Academic Progress",
+              //     nameList: model.progressItems,
+              //   ),
+              // //  CustomExpansionList(
+              //   //   title: "Daily Diary",
+              //   //   nameList: model.dailyDiary,
+              //   // ),
+              //   CustomExpansionList(
+              //     title: "Parent Services",   //     nameList: model.parentServices,
+              //   ),
+              // CustomExpansionList(
+              //   title: "Info",
+              //   nameList: model.infoItems,
+              // )
+              ),
+        ));
   }
 
   @override
@@ -177,19 +222,4 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           ],
         ));
   }
-}
-
-final List<DrawerItems> fessItems = [
-  DrawerItems(menu:'Payments',route: RoutePaths.payments ),
-  DrawerItems(menu:'Transaction History', route: RoutePaths.paymentsPage ),
-
-  DrawerItems(menu:'Receipt', ),
-
-];
-
-class DrawerItems {
-  final String? menu;
-  final String? route;
-final String? icon;
-  DrawerItems({this.menu, this.route, this.icon});
 }
