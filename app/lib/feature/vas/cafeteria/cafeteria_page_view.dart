@@ -35,6 +35,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                 valueListenable: model.showLoader,
                 builder: (context, bool value, child) {
                   return SingleChildScrollView(
+                    controller: model.scrollController,
                     child: Stack(
                       children: [
                         Padding(

@@ -28,6 +28,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<PsaEnrollmentDetailResponseModel>>(
                     stream: model.fetchPsaEnrollmentDetail,

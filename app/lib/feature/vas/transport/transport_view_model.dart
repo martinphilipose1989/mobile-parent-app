@@ -364,4 +364,14 @@ class TransportDetailViewModel extends BasePageViewModel {
             ?.feeCategoryId ??
         0;
   }
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
+  }
 }

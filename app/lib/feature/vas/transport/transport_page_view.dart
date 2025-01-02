@@ -33,6 +33,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<TransportEnrollmentResponseModel>>(
                     stream: model.fetchTransportEnrollmentDetail,

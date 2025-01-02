@@ -142,6 +142,7 @@ class KidsClubViewModel extends BasePageViewModel {
           var amount = event.data?.data?["amount"].toString();
           fee.add(amount ?? '0');
           showLoader.value = false;
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.value = false;
@@ -336,5 +337,15 @@ class KidsClubViewModel extends BasePageViewModel {
     if (fee.value.isNotEmpty) {
       fee.value = '';
     }
+  }
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
   }
 }

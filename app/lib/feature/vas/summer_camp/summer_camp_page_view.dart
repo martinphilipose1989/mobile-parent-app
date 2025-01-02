@@ -29,6 +29,7 @@ class SummerCampDetailPageView
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<SummerCampEnrollmentResponseModel>>(
                     stream: model.fetchSummerCampEnrollmentDetail,

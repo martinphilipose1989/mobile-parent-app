@@ -28,6 +28,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<KidsClubEnrollmentResponseModel>>(
                     stream: model.fetchKidsClubEnrollmentDetail,
