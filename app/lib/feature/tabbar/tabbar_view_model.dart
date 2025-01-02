@@ -97,6 +97,7 @@ class TabbarViewModel extends BasePageViewModel {
         isActive: false),
     DrawerItems(menu: 'Receipt', icon: AppImages.receipt, isActive: false),
   ];
+
   final List<DrawerItems> parentServices = [
     DrawerItems(
         menu: 'Subject Selection',
