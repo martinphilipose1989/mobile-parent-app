@@ -22,16 +22,19 @@ class NotificationPageViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final NotificationUsecase notificationUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
 
   NotificationPageViewModel(
       {required this.notificationUsecase,
-      required this.exceptionHandlerBinder,
+      required  this.getUserDetailsUsecase,
+        required this.exceptionHandlerBinder,
       required this.flutterToastErrorPresenter
 
       })
   {
     _setupThrottling();
     setupScrollListener();
+    getUserDetails();
   }
   //TabController tabController=TabController(length: 2, vsync: this);
 
@@ -40,7 +43,7 @@ class NotificationPageViewModel extends BasePageViewModel {
   final BehaviorSubject<int> selectedValue = BehaviorSubject<int>.seeded(-1);
   final BehaviorSubject<bool> expand = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> isLoading = BehaviorSubject<bool>.seeded(true);
-int userId=305;
+ int userId=0;
 int userType=2;
   final _throttleDuration = const Duration(milliseconds: 300);
   String getType(int selectedStatusValue, int selectedValue) {
@@ -222,5 +225,26 @@ if( isLastPage() ) {
         exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+
+  final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
+
+  Stream<Resource<User>> get userStream => userSubject.stream;
+
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        userSubject.add(Resource.success(data: data.data));
+
+    if(userSubject.value.data?.id!=null) {
+          userId = userSubject.value.data!.id!;
+        }
+      }
+    });
   }
 }

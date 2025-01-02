@@ -551,6 +551,6 @@ ChangeNotifierProvider.autoDispose<NotificationPageViewModel>(
       (ref) => NotificationPageViewModel(
 
 
- exceptionHandlerBinder:    getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:    getIt.get<FlutterToastErrorPresenter>(), notificationUsecase: getIt.get<NotificationUsecase>(),
+ exceptionHandlerBinder:    getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:    getIt.get<FlutterToastErrorPresenter>(), notificationUsecase: getIt.get<NotificationUsecase>(), getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
   ),
 );
