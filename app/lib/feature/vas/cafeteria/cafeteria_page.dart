@@ -4,13 +4,22 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/vas/cafeteria/cafeteria_page_view.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPage extends BasePage<CafeteriaDetailViewModel> {
   final EnquiryDetailArgs? enquiryDetailArgs;
-  const CafeteriaPage({super.key, this.enquiryDetailArgs});
+  final bool hideAppBar;
+  // new enrollment fee
+  final void Function(StudentEnrolmentFee studentFee)? onSelectVasEnrolment;
+
+  const CafeteriaPage(
+      {super.key,
+      this.enquiryDetailArgs,
+      this.hideAppBar = false,
+      this.onSelectVasEnrolment});
 
   @override
   CafeteriaPageState createState() => CafeteriaPageState();
@@ -26,23 +35,35 @@ class CafeteriaPageState
   @override
   void onModelReady(CafeteriaDetailViewModel model) {
     // bind exception handler here.
-    model.enquiryDetailArgs = widget.enquiryDetailArgs;
-    model.getCafeteriaDetail();
+
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
+  }
+
+  CafeteriaDetailViewModel get viewModel =>
+      ProviderScope.containerOf(context).read(cafeteriaPageModelProvider);
+
+  @override
+  void didChangeDependencies() {
+    viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+    viewModel.getCafeteriaDetail();
+    super.didChangeDependencies();
   }
 
   @override
   Widget buildView(BuildContext context, CafeteriaDetailViewModel model) {
-    return CafeteriaPageView(provideBase());
+    return CafeteriaPageView(provideBase(),
+        onSelectVasEnrolment: widget.onSelectVasEnrolment);
   }
 
   @override
   PreferredSizeWidget? buildAppbar(CafeteriaDetailViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Cafeteria',
-      notShowNotificationAndUserBatch: false,
-      showBackButton: true,
-    );
+    return widget.hideAppBar
+        ? null
+        : const CommonAppBar(
+            appbarTitle: 'Cafeteria',
+            notShowNotificationAndUserBatch: false,
+            showBackButton: true,
+          );
   }
 
   @override

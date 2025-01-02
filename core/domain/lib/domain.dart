@@ -135,3 +135,5 @@ export 'src/usecase/finance/cancel_payment_usecase.dart';
 export 'src/usecase/finance/download_fee_type_usecase.dart';
 export 'src/usecase/finance/download_transaction_history_usecase.dart';
 export 'src/usecase/finance/download_student_ledger_usecase.dart';
+
+export 'src/usecase/finance/new_enrolment_usecase.dart';

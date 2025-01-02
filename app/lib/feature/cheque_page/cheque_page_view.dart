@@ -197,7 +197,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                         .map((e) => DropdownData(
                                                             id: e.id!,
                                                             name:
-                                                                "${e.feeDisplayName} - ${e.amount}"))
+                                                                "${e.feeDisplayName} - ${e.feeSubType}"))
                                                         .toList(),
                                                     showDropDownWithId: true,
                                                     showBorderColor: true,

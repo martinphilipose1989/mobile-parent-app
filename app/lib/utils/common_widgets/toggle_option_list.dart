@@ -18,7 +18,8 @@ class ToggleOptionList<T> extends StatelessWidget {
       required this.options,
       this.spacing = 16,
       this.runSpacing = 16,
-      this.onSelect});
+      this.onSelect,
+      this.disableWrap = false});
 
   final BehaviorSubject<T> selectedValue;
 
@@ -26,6 +27,7 @@ class ToggleOptionList<T> extends StatelessWidget {
   final double spacing;
   final double runSpacing;
   final ValueSetter<T>? onSelect;
+  final bool disableWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,41 @@ class ToggleOptionList<T> extends StatelessWidget {
         stream: selectedValue,
         initialData: selectedValue.value,
         dataBuilder: (context, data) {
-          return Wrap(
-              spacing: spacing,
-              runSpacing: runSpacing,
-              children: options.map((option) {
-                return ToggleOptionItem<T>(
-                    value: option.value,
-                    text: option.text,
-                    selectedValue: data,
-                    onSelect: () {
-                      selectedValue.add(option.value);
-                      onSelect?.call(option.value);
-                    });
-              }).toList());
+          if (disableWrap) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: options
+                    .map((option) => Padding(
+                          padding: EdgeInsets.only(right: spacing),
+                          child: ToggleOptionItem<T>(
+                            value: option.value,
+                            text: option.text,
+                            selectedValue: data,
+                            onSelect: () {
+                              selectedValue.add(option.value);
+                              onSelect?.call(option.value);
+                            },
+                          ),
+                        ))
+                    .toList(),
+              ),
+            );
+          } else {
+            return Wrap(
+                spacing: spacing,
+                runSpacing: runSpacing,
+                children: options.map((option) {
+                  return ToggleOptionItem<T>(
+                      value: option.value,
+                      text: option.text,
+                      selectedValue: data,
+                      onSelect: () {
+                        selectedValue.add(option.value);
+                        onSelect?.call(option.value);
+                      });
+                }).toList());
+          }
         });
   }
 }

@@ -2,18 +2,15 @@
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
-import 'package:app/myapp.dart';
-import 'package:app/navigation/route_paths.dart';
+
 import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/toggle_option_list.dart';
 
 import 'package:domain/domain.dart';
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
-import '../../di/states/viewmodels.dart';
 
 class MyDutyPageViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;

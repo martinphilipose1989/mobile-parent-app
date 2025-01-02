@@ -2,8 +2,12 @@ import 'package:data/data.dart';
 
 import '../../../../../network_retrofit.dart';
 part 'student_detail_response_entity.g.dart';
+
 @JsonSerializable()
-class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDetailsResponseEntity,StudentDetailsResponseModel>{
+class StudentDetailsResponseEntity
+    implements
+        BaseLayerDataTransformer<StudentDetailsResponseEntity,
+            StudentDetailsResponseModel> {
   @JsonKey(name: "status")
   int? status;
   @JsonKey(name: "data")
@@ -20,7 +24,8 @@ class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDe
     this.success,
   });
 
-  factory StudentDetailsResponseEntity.fromJson(Map<String, dynamic> json) => _$StudentDetailsResponseEntityFromJson(json);
+  factory StudentDetailsResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$StudentDetailsResponseEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentDetailsResponseEntityToJson(this);
 
@@ -32,14 +37,17 @@ class StudentDetailsResponseEntity implements BaseLayerDataTransformer<StudentDe
 
   @override
   StudentDetailsResponseModel transform() {
-   return StudentDetailsResponseModel(status: status, data: data?.transform(), message: message, success: success);
+    return StudentDetailsResponseModel(
+        status: status,
+        data: data?.transform(),
+        message: message,
+        success: success);
   }
-
-
 }
 
 @JsonSerializable()
-class StudentDetailsEntity implements BaseLayerDataTransformer<StudentDetailsEntity,StudentData> {
+class StudentDetailsEntity
+    implements BaseLayerDataTransformer<StudentDetailsEntity, StudentData> {
   @JsonKey(name: "profile")
   ProfileEntity? profile;
   @JsonKey(name: "academics")
@@ -50,7 +58,8 @@ class StudentDetailsEntity implements BaseLayerDataTransformer<StudentDetailsEnt
     this.academics,
   });
 
-  factory StudentDetailsEntity.fromJson(Map<String, dynamic> json) => _$StudentDetailsEntityFromJson(json);
+  factory StudentDetailsEntity.fromJson(Map<String, dynamic> json) =>
+      _$StudentDetailsEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentDetailsEntityToJson(this);
 
@@ -62,12 +71,14 @@ class StudentDetailsEntity implements BaseLayerDataTransformer<StudentDetailsEnt
 
   @override
   StudentData transform() {
- return StudentData(profile: profile?.transform(), academics: academics?.transform());
+    return StudentData(
+        profile: profile?.transform(), academics: academics?.transform());
   }
 }
 
 @JsonSerializable()
-class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity,Academics>{
+class AcademicsEntity
+    implements BaseLayerDataTransformer<AcademicsEntity, Academics> {
   @JsonKey(name: "house_allocation_name")
   String? houseAllocationName;
   @JsonKey(name: "division_allocation_name")
@@ -84,7 +95,8 @@ class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity,Academ
     this.crtDivId,
   });
 
-  factory AcademicsEntity.fromJson(Map<String, dynamic> json) => _$AcademicsEntityFromJson(json);
+  factory AcademicsEntity.fromJson(Map<String, dynamic> json) =>
+      _$AcademicsEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AcademicsEntityToJson(this);
 
@@ -96,14 +108,17 @@ class AcademicsEntity implements BaseLayerDataTransformer<AcademicsEntity,Academ
 
   @override
   Academics transform() {
-return Academics(houseAllocationName: houseAllocationName, divisionAllocationName: divisionAllocationName, crtHouseId: crtHouseId, crtDivId: crtDivId);
+    return Academics(
+        houseAllocationName: houseAllocationName,
+        divisionAllocationName: divisionAllocationName,
+        crtHouseId: crtHouseId,
+        crtDivId: crtDivId);
   }
 }
 
-
-
 @JsonSerializable()
-class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile>{
+class ProfileEntity
+    implements BaseLayerDataTransformer<ProfileEntity, Profile> {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "first_name")
@@ -181,17 +196,17 @@ class ProfileEntity implements BaseLayerDataTransformer<ProfileEntity,Profile>{
   @JsonKey(name: "crt_course_id")
   int? crtCourseId;
   @JsonKey(name: "crt_stream_id")
-dynamic? crtStreamId;
+  dynamic? crtStreamId;
   @JsonKey(name: "global_id")
   int? globalId;
   @JsonKey(name: "student_type_id")
   int? studentTypeId;
   @JsonKey(name: "course_name")
   String? courseName;
-  @JsonKey(name: "stream_name",defaultValue: "NA")
+  @JsonKey(name: "stream_name", defaultValue: "NA")
   String? streamName;
   @JsonKey(name: "created_at")
-  dynamic? createdAt;
+  dynamic createdAt;
   @JsonKey(name: "updated_at")
   DateTime? updatedAt;
   @JsonKey(name: "crt_lob_id")
@@ -249,7 +264,8 @@ dynamic? crtStreamId;
     this.profileImageUrl,
   });
 
-  factory ProfileEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
+  factory ProfileEntity.fromJson(Map<String, dynamic> json) =>
+      _$ProfileEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
 
@@ -261,7 +277,53 @@ dynamic? crtStreamId;
 
   @override
   Profile transform() {
- return Profile(id: id, firstName: firstName, lastName: lastName, dob: dob, birthPlace: birthPlace, status: status, genderId: genderId, gender: gender, nationality: nationality, caste: caste, subCaste: subCaste, subCasteId: subCasteId, isParentsSeperated: isParentsSeperated, religion: religion, bloodGroup: bloodGroup, motherTongue: motherTongue, studentTypes: studentTypes, crtBoard: crtBoard, crtGrade: crtGrade, crtDivision: crtDivision, crtDivId: crtDivId, crtBrandId: crtBrandId, brandName: brandName, crtEnrOn: crtEnrOn, crtShift: crtShift, crtSchool: crtSchool, crtHouse: crtHouse, crtHouseId: crtHouseId, emergencyContactNo: emergencyContactNo, profileImage: profileImage, academicYearId: academicYearId, academicYearName: academicYearName, casteId: casteId, crtBoardId: crtBoardId, crtGradeId: crtGradeId, crtShiftId: crtShiftId, crtSchoolId: crtSchoolId, crtCourseId: crtCourseId, crtStreamId: crtStreamId, globalId: globalId, studentTypeId: studentTypeId, courseName: courseName, streamName: streamName, createdAt: createdAt, updatedAt: updatedAt, profileImageUrl: profileImageUrl);
+    return Profile(
+        id: id,
+        firstName: firstName,
+        lastName: lastName,
+        dob: dob,
+        birthPlace: birthPlace,
+        status: status,
+        genderId: genderId,
+        gender: gender,
+        nationality: nationality,
+        caste: caste,
+        subCaste: subCaste,
+        subCasteId: subCasteId,
+        isParentsSeperated: isParentsSeperated,
+        religion: religion,
+        bloodGroup: bloodGroup,
+        motherTongue: motherTongue,
+        studentTypes: studentTypes,
+        crtBoard: crtBoard,
+        crtGrade: crtGrade,
+        crtDivision: crtDivision,
+        crtDivId: crtDivId,
+        crtBrandId: crtBrandId,
+        brandName: brandName,
+        crtEnrOn: crtEnrOn,
+        crtShift: crtShift,
+        crtSchool: crtSchool,
+        crtHouse: crtHouse,
+        crtHouseId: crtHouseId,
+        emergencyContactNo: emergencyContactNo,
+        profileImage: profileImage,
+        academicYearId: academicYearId,
+        academicYearName: academicYearName,
+        casteId: casteId,
+        crtBoardId: crtBoardId,
+        crtGradeId: crtGradeId,
+        crtShiftId: crtShiftId,
+        crtSchoolId: crtSchoolId,
+        crtCourseId: crtCourseId,
+        crtStreamId: crtStreamId,
+        globalId: globalId,
+        studentTypeId: studentTypeId,
+        courseName: courseName,
+        streamName: streamName,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        profileImageUrl: profileImageUrl,
+        crtLobId: crtLobId);
   }
 }
-

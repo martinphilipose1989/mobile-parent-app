@@ -20,10 +20,8 @@ abstract class NetworkPort {
   Future<Either<NetworkError, AcknowlegementResponseModel>> acknowledge(
       {required AcknowlegementRequestModel acknowledgementRequestModel});
 
-
   Future<Either<NetworkError, NotificationResponseModel>> getNotification(
       {required NotificationRequestModel notificationRequestModel});
-
 
   Future<Either<NetworkError, AttendanceCountResponseModel>> getAttendanceCount(
       {required AttendanceCountRequestModel attendanceRequestModel});
@@ -340,4 +338,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
       {required StudentLedgerDownloadRequest body});
+
+  Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
+      {required NewEnrolmentCreate newEnrolmentCreate});
 }

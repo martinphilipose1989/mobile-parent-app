@@ -25,15 +25,16 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final bool? notShowNotificationAndUserBatch;
   final VoidCallback? onBackPressed; // Renamed for clarity
-
-  const CommonAppBar({
-    super.key,
-    required this.appbarTitle,
-    this.showBackButton = false,
-    this.leading,
-    this.notShowNotificationAndUserBatch = false,
-    this.onBackPressed,
-  }) : preferredSize = const Size.fromHeight(60.0);
+  final PreferredSizeWidget? bottom;
+  const CommonAppBar(
+      {super.key,
+      required this.appbarTitle,
+      this.showBackButton = false,
+      this.leading,
+      this.notShowNotificationAndUserBatch = false,
+      this.onBackPressed,
+      this.bottom})
+      : preferredSize = const Size.fromHeight(60.0);
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +57,12 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 )
               : InkWell(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(Icons.menu_outlined))),
+                  onTap: () {
+                    // Scaffold.of(context).openDrawer();
+                    // const Icon(Icons.menu_outlined,),
+                  },
+                  child: SizedBox(),
+                )),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,
@@ -132,6 +135,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
             ],
+      bottom: bottom,
     );
   }
 }

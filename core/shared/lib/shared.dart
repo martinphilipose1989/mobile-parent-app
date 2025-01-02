@@ -212,3 +212,6 @@ export 'src/model/request/finance/download_student_ledger/download_student_ledge
 export 'src/utils/validator.dart';
 
 export 'src/model/app_erroe_stream.dart';
+
+export 'src/model/response/finance/new_enrolment_response.dart';
+export 'src/model/request/finance/new_enrolment/new_enrolment.dart';

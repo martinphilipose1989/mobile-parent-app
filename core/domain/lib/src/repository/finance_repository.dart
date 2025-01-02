@@ -61,4 +61,7 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, Uint8List>> downloadStudentLedger(
       {required StudentLedgerDownloadRequest body});
+
+  Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
+      {required NewEnrolmentCreate newEnrolmentCreate});
 }

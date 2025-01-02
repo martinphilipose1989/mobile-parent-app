@@ -21,6 +21,7 @@ import 'package:network_retrofit/src/model/request/finance/get_siblings_request.
 import 'package:network_retrofit/src/model/request/finance/get_token_generator_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_transaction_type_fees_collectes_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_validate_pay_now_request.dart';
+import 'package:network_retrofit/src/model/request/finance/new_enrolment/new_enrolment_create.dart';
 import 'package:network_retrofit/src/model/request/finance/payment_order/additional_info_request.dart';
 import 'package:network_retrofit/src/model/request/finance/payment_order/device_request.dart';
 import 'package:network_retrofit/src/model/request/finance/payment_order/orders_request.dart';
@@ -1704,5 +1705,15 @@ class NetworkAdapter implements NetworkPort {
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(Uint8List.fromList(r.data)));
+  }
+
+  @override
+  Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
+      {required NewEnrolmentCreate newEnrolmentCreate}) async {
+    final response = await safeApiCall(financeRetrofitService
+        .newEnrolment(NewEnrolmentCreateEntity().restore(newEnrolmentCreate)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
   }
 }
