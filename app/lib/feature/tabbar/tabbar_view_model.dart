@@ -90,6 +90,8 @@ class TabbarViewModel extends BasePageViewModel {
           print("${mobileNumber}");
         },
         icon: AppImages.walletAdd),
+    DrawerItems(menu: 'New Enrollment', icon: AppImages.activity, isActive: true),
+
     DrawerItems(
         menu: 'Transaction History',
         route: RoutePaths.paymentsPage,
