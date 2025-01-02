@@ -364,21 +364,4 @@ class TransportDetailViewModel extends BasePageViewModel {
             ?.feeCategoryId ??
         0;
   }
-}  
-
-/**
- * 
- * {"academic_year_id":25,
- * "board_id":3,
- * "course_id":5,
- * "shift_id":1,
- * "stream_id":1,
- * "grade_id":1,
- * "school_id":26,
- * "fee_type_id":15,
- * "fee_sub_type_id":22,
- * "fee_category_id":39,
- * "fee_subcategory_start":"Zone 2",
- * "period_of_service_id":8}
- * 
- */
+}

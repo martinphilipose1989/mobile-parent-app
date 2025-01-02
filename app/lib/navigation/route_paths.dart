@@ -63,4 +63,5 @@ class RoutePaths {
 
   // vas
   static const String vasDetailsPage = "/vasDetailsPage";
+  static const String newEnrolmentPage = "/newEnrolmentPage";
 }

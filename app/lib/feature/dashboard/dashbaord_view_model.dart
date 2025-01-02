@@ -125,13 +125,13 @@ class DashboardPageModel extends BasePageViewModel {
       'key': 'payment'
     },
     // VAS
-    // {
-    //   'name': 'New Enrollment',
-    //   'image': AppImages.activity,
-    //   'isSelected': false,
-    //   'isActive': false,
-    //   'key': 'enrollment'
-    // },
+    {
+      'name': 'New Enrollment',
+      'image': AppImages.activity,
+      'isSelected': false,
+      'isActive': true,
+      'key': 'enrollment'
+    },
   ];
 
   final List parentServices = [
@@ -171,7 +171,7 @@ class DashboardPageModel extends BasePageViewModel {
       case 'subject selection':
         return RoutePaths.webview;
       case 'new enrollment':
-        return RoutePaths.vasDetailsPage;
+        return RoutePaths.newEnrolmentPage;
 
       default:
         return '';

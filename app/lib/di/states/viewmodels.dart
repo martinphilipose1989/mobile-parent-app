@@ -19,6 +19,7 @@ import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_model.dart';
 import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_viewmodel.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_viewmodel.dart';
+import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/notification/notification_viewmodel.dart';
 import 'package:app/feature/otp/otp_view_model.dart';
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
@@ -545,12 +546,21 @@ final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
       logoutUsecase: getIt.get<LogoutUsecase>()),
 );
 
-
 final notificationProvider =
-ChangeNotifierProvider.autoDispose<NotificationPageViewModel>(
-      (ref) => NotificationPageViewModel(
+    ChangeNotifierProvider.autoDispose<NotificationPageViewModel>(
+  (ref) => NotificationPageViewModel(
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    notificationUsecase: getIt.get<NotificationUsecase>(),
+  ),
+);
 
-
- exceptionHandlerBinder:    getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:    getIt.get<FlutterToastErrorPresenter>(), notificationUsecase: getIt.get<NotificationUsecase>(),
+final newEnrolmentViewModelProvider =
+    ChangeNotifierProvider.autoDispose<NewEnrolmentViewModel>(
+  (ref) => NewEnrolmentViewModel(
+    newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
   ),
 );

@@ -141,6 +141,10 @@ class EnquiryDetailArgs {
   int? courseId;
   int? shiftId;
   int? streamId;
+  // new enrolment
+  int? studentId;
+  int? studentGlobalId;
+  int? lobId;
 
   EnquiryDetailArgs(
       {this.enquiryId,
@@ -163,7 +167,16 @@ class EnquiryDetailArgs {
       this.brandId,
       this.brandName,
       this.shiftId,
-      this.streamId});
+      this.streamId,
+      this.schoolId,
+      this.boardId,
+      this.gradeId,
+      this.academicYearId,
+      this.courseId,
+      // new enrolment
+      this.studentId,
+      this.studentGlobalId,
+      this.lobId});
 
   @override
   String toString() {

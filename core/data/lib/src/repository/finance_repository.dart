@@ -127,4 +127,11 @@ class FinanceRepositoryImpl extends FinanceRepository {
       {required String id, required String fileType}) {
     return networkPort.downloadTransactionHistory(id: id, fileType: fileType);
   }
+
+  @override
+  Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
+      {required NewEnrolmentCreate newEnrolmentCreate}) {
+    return networkPort.createNewEnrolment(
+        newEnrolmentCreate: newEnrolmentCreate);
+  }
 }
