@@ -91,7 +91,9 @@ class PaymentsModel extends BasePageViewModel {
         if (result.status == Status.success) {
           _getAcademicYearModel.add(result);
           if (academicYearIds.isEmpty) {
-            academicYearIds.add(result.data!.data![0].id!);
+            if (result.data?.data?.isNotEmpty ?? false) {
+              academicYearIds.add(result.data!.data![0].id!);
+            }
           }
 
           getSchoolNames();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/model/resource.dart';
@@ -35,19 +37,18 @@ class NewEnrolmentViewModel extends BasePageViewModel {
       {required this.flutterToastErrorPresenter,
       required this.exceptionHandlerBinder,
       required this.studentDetailsUsecase,
-      required this.newEnrolmentUsecase}) {
-    getStudentDetails();
-  }
+      required this.newEnrolmentUsecase}) {}
 
   final dashBoardState = DashboardState();
 
   // ************************ STUDENT PROFILE ************************
+  int? selectedStudentId;
   final BehaviorSubject<Resource<StudentData>> studentProfileSubject =
       BehaviorSubject.seeded(Resource.none());
   Future<void> getStudentDetails() async {
     studentProfileSubject.add(Resource.loading());
     final StudentDetailUseCaseParams params =
-        StudentDetailUseCaseParams(dashBoardState.selectedStudent?.id);
+        StudentDetailUseCaseParams(selectedStudentId!);
     ApiResponseHandler.apiCallHandler(
         exceptionHandlerBinder: exceptionHandlerBinder,
         flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -77,9 +78,21 @@ class NewEnrolmentViewModel extends BasePageViewModel {
         createCall: (params) => newEnrolmentUsecase.execute(params: params),
         onSuccess: (result) {
           newEnrolmentSubject.add(Resource.success(data: result));
+          newEnrolmentSubject.add(Resource.none());
         },
         onError: (error) {
           newEnrolmentSubject.add(Resource.error());
         });
+  }
+
+  @override
+  void dispose() {
+    studentProfileSubject.close();
+    newEnrolmentSubject.close();
+    selectedIndexSubject.close();
+    selectedVasOption.close();
+    tabController.dispose();
+    log("DISPOSED");
+    super.dispose();
   }
 }

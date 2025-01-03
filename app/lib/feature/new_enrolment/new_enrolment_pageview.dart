@@ -36,10 +36,11 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         initialData: Resource.none(),
         onData: (value) {
           if (value.status == Status.success) {
+            // model.newEnrolmentSubject.add(Resource.none());
             CommonPopups().showSuccess(context, "Student Enrolment Successful",
                 (val) {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil(RoutePaths.tabbar, (route) => false);
+                  .popUntil(ModalRoute.withName(RoutePaths.tabbar));
             });
           }
         },

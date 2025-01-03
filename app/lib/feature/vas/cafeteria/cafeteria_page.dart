@@ -73,7 +73,7 @@ class CafeteriaPageState
 
   @override
   dispose() {
-    viewModel.dispose();
+    //viewModel.dispose();
     super.dispose();
   }
 }

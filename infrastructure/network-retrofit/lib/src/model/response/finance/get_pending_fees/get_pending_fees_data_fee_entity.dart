@@ -198,6 +198,8 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
   int? feeSubTypeId;
   @JsonKey(name: "transaction_date")
   String? transactionDate;
+  @JsonKey(name: "pg_transaction_id")
+  String? pgTransactionId;
 
   GetPendingFeesDataFeeEntity(
       {this.id,
@@ -293,7 +295,8 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
       this.transactionId,
       this.transactionStatus,
       this.feeSubTypeId,
-      this.transactionDate});
+      this.transactionDate,
+      this.pgTransactionId});
 
   factory GetPendingFeesDataFeeEntity.fromJson(Map<String, dynamic> json) =>
       _$GetPendingFeesDataFeeEntityFromJson(json);
@@ -302,7 +305,6 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
 
   @override
   GetPendingFeesFeeModel transform() {
-    // TODO: implement transform
     return GetPendingFeesFeeModel(
         enquiryId: enquiryId,
         paymentMode: paymentMode,
@@ -398,6 +400,7 @@ class GetPendingFeesDataFeeEntity extends BaseLayerDataTransformer<
         transactionId: transactionId,
         transactionStatus: transactionStatus,
         feeSubTypeId: feeSubTypeId,
-        transactionDate: transactionDate);
+        transactionDate: transactionDate,
+        pgTransactionId: pgTransactionId);
   }
 }
