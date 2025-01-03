@@ -62,11 +62,10 @@ import '../../utils/common_widgets/dialog/staff_list_view_model.dart';
 
 final splashViewModelProvider =
     ChangeNotifierProvider.autoDispose<SplashViewModel>(
-  (ref) => SplashViewModel(
-    getIt.get<String>(instanceName: "BaseUrl"),
-    getIt.get<FlutterExceptionHandlerBinder>(),
-    getIt.get<AuthUsecase>(),
-  ),
+  (ref) => SplashViewModel(getIt.get<String>(instanceName: "BaseUrl"),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      authUsecase: getIt.get<AuthUsecase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>()),
 );
 
 final tabbarViewModelProvider =

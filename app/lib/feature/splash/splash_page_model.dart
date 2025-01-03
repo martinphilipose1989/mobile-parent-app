@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -9,6 +10,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 @injectable
@@ -19,12 +21,15 @@ class SplashViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   late Timer future;
   final AuthUsecase authUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
 
   SplashViewModel(
-    @factoryParam this.myBaseUrl,
-    this.exceptionHandlerBinder,
-    this.authUsecase,
-  ) {
+    @factoryParam this.myBaseUrl, {
+    required this.exceptionHandlerBinder,
+    required this.authUsecase,
+    required this.getUserDetailsUsecase,
+  }) {
+    getUserDetails();
     future = Timer(const Duration(seconds: 2), () async {
       _navigateToDashboardController.sink.add(true);
       _navigateToDashboardController.close();
@@ -84,6 +89,28 @@ class SplashViewModel extends BasePageViewModel {
         }
       });
     }).execute();
+  }
+
+  BehaviorSubject<User> userSubject = BehaviorSubject();
+  void getUserDetails() {
+    final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
+    RequestManager(
+      params,
+      createCall: () => getUserDetailsUsecase.execute(params: params),
+    ).asFlow().listen((data) {
+      if (data.status == Status.success) {
+        log("User details: ${data.data}");
+        userSubject.add(data.data!);
+        Navigator.pushNamedAndRemoveUntil(
+            navigatorKey.currentContext!, RoutePaths.tabbar, (route) => false);
+      } else if (data.status == Status.error) {
+        login();
+      }
+    }).onError((error) {
+      if (error is LocalError) {
+        login();
+      }
+    });
   }
 
   @override

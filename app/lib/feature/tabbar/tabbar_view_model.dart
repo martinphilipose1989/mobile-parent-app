@@ -1,8 +1,8 @@
 import 'package:app/dependencies.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
-import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
+
 import 'package:app/feature/tabbar/tabbar_class.dart';
-import 'package:app/feature/webview/webview_page.dart';
+
 import 'package:app/model/resource.dart';
 
 import 'package:app/utils/common_widgets/app_images.dart';
