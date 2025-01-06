@@ -112,7 +112,50 @@ class StudentEnrolmentFeeEntity
   factory StudentEnrolmentFeeEntity.fromJson(Map<String, dynamic> json) =>
       _$StudentEnrolmentFeeEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StudentEnrolmentFeeEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+
+    if (studentId != null && studentId != 0) data['student_id'] = studentId;
+    if (globalUserId != null && globalUserId != 0) {
+      data['global_user_id'] = globalUserId;
+    }
+    if (enquiryId != null) data['enquiry_id'] = enquiryId;
+    if (enquiryNo != null) data['enquiry_no'] = enquiryNo;
+    if (lobId != null && lobId != 0) data['lob_id'] = lobId;
+    if (gradeId != null && gradeId != 0) data['grade_id'] = gradeId;
+    if (boardId != null && boardId != 0) data['board_id'] = boardId;
+    if (courseId != null && courseId != 0) data['course_id'] = courseId;
+    if (shiftId != null) data['shift_id'] = shiftId;
+    if (batchId != null) data['batch_id'] = batchId;
+    if (streamId != null) data['stream_id'] = streamId;
+    if (brandId != null) data['brand_id'] = brandId;
+    if (schoolId != null) data['school_id'] = schoolId;
+    if (hostSchoolId != null) data['host_school_id'] = hostSchoolId;
+    if (academicYearId != null && academicYearId != 0) {
+      data['academic_year_id'] = academicYearId;
+    }
+    if (feeType != null) data['fee_type'] = feeType;
+    if (feeSubTypeId != null && feeSubTypeId != 0) {
+      data['fee_sub_type_id'] = feeSubTypeId;
+    }
+    if (feeCategoryId != null && feeCategoryId != 0) {
+      data['fee_category_id'] = feeCategoryId;
+    }
+    if (feeSubcategoryId != null && feeSubcategoryId != 0) {
+      data['fee_subcategory_id'] = feeSubcategoryId;
+    }
+    if (feeSubcategoryStart != null) {
+      data['fee_subcategory_start'] = feeSubcategoryStart;
+    }
+    if (feeSubcategoryEnd != null) {
+      data['fee_subcategory_end'] = feeSubcategoryEnd;
+    }
+    if (periodOfServiceId != null && periodOfServiceId != 0) {
+      data['period_of_service_id'] = periodOfServiceId;
+    }
+
+    return data;
+  }
 
   @override
   StudentEnrolmentFeeEntity restore(StudentEnrolmentFee data) {

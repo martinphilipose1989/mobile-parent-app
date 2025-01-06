@@ -197,6 +197,9 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
+                                                            enquiryNo: model
+                                                                .enquiryDetailArgs
+                                                                ?.enquiryNumber,
                                                             academicYearId: model
                                                                 .enquiryDetailArgs
                                                                 ?.academicYearId,
@@ -227,9 +230,6 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                             globalUserId: model
                                                                 .enquiryDetailArgs
                                                                 ?.studentGlobalId,
-                                                            lobId: model
-                                                                .enquiryDetailArgs
-                                                                ?.lobId,
                                                             feeCategoryId: model
                                                                 .feeCategoryId,
                                                             feeSubTypeId: model

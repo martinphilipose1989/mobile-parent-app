@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
@@ -119,7 +121,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
 
   Widget _getPageForOption(VasOptions option, NewEnrolmentViewModel model) {
     final profile = model.studentProfileSubject.value.data?.profile;
-
+    log("ENQUIRY NO-: ${profile?.crtEnrOn}");
     final enquiryDetailArgs = EnquiryDetailArgs(
         schoolId: profile?.crtSchoolId,
         boardId: profile?.crtBoardId,
@@ -131,7 +133,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         studentId: profile?.id,
         studentGlobalId: profile?.globalId,
         brandId: profile?.crtBrandId,
-        lobId: profile?.crtLobId);
+        enquiryNumber: profile?.crtEnrOn);
 
     switch (option) {
       case VasOptions.kidsClub:
@@ -139,7 +141,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
             hideAppBar: true,
             enquiryDetailArgs: enquiryDetailArgs,
             onSelectVasEnrolment: (studentFee) {
-              // model.onSelectVasEnrolment(studentFee);
+              model.createNewEnrolment(studentFees: [studentFee]);
             });
       case VasOptions.cafeteria:
         return CafeteriaPage(

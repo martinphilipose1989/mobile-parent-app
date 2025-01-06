@@ -29,7 +29,9 @@ class SplashViewModel extends BasePageViewModel {
     required this.authUsecase,
     required this.getUserDetailsUsecase,
   }) {
-    getUserDetails();
+    if (logoutOnTokenExpiry.value != true) {
+      getUserDetails();
+    }
     future = Timer(const Duration(seconds: 2), () async {
       _navigateToDashboardController.sink.add(true);
       _navigateToDashboardController.close();

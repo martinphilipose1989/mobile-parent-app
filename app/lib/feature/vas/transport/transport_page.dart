@@ -48,7 +48,8 @@ class TransportPageState
 
   @override
   Widget buildView(BuildContext context, TransportDetailViewModel model) {
-    return TransportPageView(provideBase());
+    return TransportPageView(provideBase(),
+        onSelectVasEnrolment: widget.onSelectVasEnrolment);
   }
 
   @override

@@ -269,6 +269,9 @@ class SummerCampDetailPageView
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
+                                                              enquiryNo: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.enquiryNumber,
                                                               academicYearId: model
                                                                   .enquiryDetailArgs
                                                                   ?.academicYearId,
@@ -299,9 +302,6 @@ class SummerCampDetailPageView
                                                               globalUserId: model
                                                                   .enquiryDetailArgs
                                                                   ?.studentGlobalId,
-                                                              lobId: model
-                                                                  .enquiryDetailArgs
-                                                                  ?.lobId,
                                                               batchId:
                                                                   model.batchID,
                                                               feeSubcategoryId:

@@ -172,6 +172,9 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                     if (onSelectVasEnrolment !=
                                                         null) {
                                                       onSelectVasEnrolment?.call(StudentEnrolmentFee(
+                                                          enquiryNo: model
+                                                              .enquiryDetailArgs
+                                                              ?.enquiryNumber,
                                                           academicYearId: model
                                                               .enquiryDetailArgs
                                                               ?.academicYearId,
@@ -193,14 +196,10 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                           streamId: model
                                                               .enquiryDetailArgs
                                                               ?.streamId,
-                                                          brandId: model
-                                                              .enquiryDetailArgs
-                                                              ?.brandId,
-                                                          studentId: model
-                                                              .enquiryDetailArgs
-                                                              ?.studentId,
+                                                          brandId:
+                                                              model.enquiryDetailArgs?.brandId,
+                                                          studentId: model.enquiryDetailArgs?.studentId,
                                                           globalUserId: model.enquiryDetailArgs?.studentGlobalId,
-                                                          lobId: model.enquiryDetailArgs?.lobId,
                                                           feeType: EnrolmentFeeType.transport.type,
                                                           batchId: model.batchID,
                                                           feeSubTypeId: model.feeSubTypeID,
@@ -435,7 +434,8 @@ class PickUpPointToSchool extends StatelessWidget {
                       isMutiSelect: false,
                       onMultiSelect: (_) {},
                       onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(routeType: "pickup");
+                        model.filterPeriodService(
+                            routeType: "pickup", selectedValue: selectedValue);
                       },
                     );
                   }),
@@ -479,7 +479,8 @@ class SchoolToDropPoint extends StatelessWidget {
                       isMutiSelect: false,
                       onMultiSelect: (_) {},
                       onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(routeType: "drop");
+                        model.filterPeriodService(
+                            routeType: "drop", selectedValue: selectedValue);
                       },
                     );
                   }),
@@ -517,7 +518,9 @@ class BothWayRoutes extends StatelessWidget {
                               isMutiSelect: false,
                               onMultiSelect: (_) {},
                               onSingleSelect: (selectedValue) {
-                                model.filterPeriodService(routeType: "pickup");
+                                model.filterPeriodService(
+                                    routeType: "pickup",
+                                    selectedValue: selectedValue);
                               },
                             );
                           }),
@@ -534,7 +537,9 @@ class BothWayRoutes extends StatelessWidget {
                               isMutiSelect: false,
                               onMultiSelect: (_) {},
                               onSingleSelect: (selectedValue) {
-                                model.filterPeriodService(routeType: "drop");
+                                model.filterPeriodService(
+                                    routeType: "drop",
+                                    selectedValue: selectedValue);
                               },
                             );
                           }),

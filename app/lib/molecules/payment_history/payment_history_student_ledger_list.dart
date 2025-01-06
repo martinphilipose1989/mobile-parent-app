@@ -112,7 +112,7 @@ class _PaymentHistoryStudentLedgerState
                                 children: [
                                   CommonText(
                                     text: fee.feeId != null
-                                        ? fee.feeDisplayName ?? ''
+                                        ? fee.pgTransactionId ?? ''
                                         : fee.instrumentNumber ?? '',
                                     style: AppTypography.subtitle2,
                                   ),
