@@ -31,8 +31,7 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
                     : Align(
                         alignment: Alignment.centerRight,
                         child: SizedBox(
-                          height: 60.h,
-                          width: 175.w,
+                          width: 0.4.sw,
                           child: CustomDropdownButton(
                             displayZerothIndex: true,
                             width: 300,

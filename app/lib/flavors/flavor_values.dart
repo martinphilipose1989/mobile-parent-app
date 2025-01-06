@@ -24,8 +24,10 @@ class FlavorValues {
   final String gateUrl;
   final String marketingUrl;
   final String frontEndUrl;
-final String notificationUrl;
-  const FlavorValues( {
+  final String notificationUrl;
+  final String subjectSelectionUrl;
+
+  const FlavorValues({
     required this.notificationUrl,
     required this.transportUrl,
     required this.attendance,
@@ -44,6 +46,7 @@ final String notificationUrl;
     required this.gateUrl,
     required this.marketingUrl,
     required this.frontEndUrl,
+    required this.subjectSelectionUrl,
     this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,

@@ -110,6 +110,7 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                       InkWell(
                                         onTap: data[index].isDiscountApplied
                                             ? () {
+                                                model.isDiscountApplied = false;
                                                 data[index].isDiscountApplied =
                                                     false;
                                                 data[index].discountedAmount =

@@ -28,7 +28,8 @@ void main() async {
         marketingUrl: EnvProd.marketingBaseUrl,
         showLogs: false,
         frontEndUrl: EnvProd.frontEndUrl,
-        notificationUrl: EnvProd.notificationUrl),
+        notificationUrl: EnvProd.notificationUrl,
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl),
   );
   startApp();
 }

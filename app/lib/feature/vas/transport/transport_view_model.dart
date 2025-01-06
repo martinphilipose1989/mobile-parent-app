@@ -181,22 +181,25 @@ class TransportDetailViewModel extends BasePageViewModel {
   }
 
   Future<void> calculateFees() async {
+    log("selectedPickUpZone $selectedPickUpZone");
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
-          feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-              schoolId: enquiryDetailArgs?.schoolId,
-              boardId: enquiryDetailArgs?.boardId,
-              gradeId: enquiryDetailArgs?.gradeId,
-              courseId: enquiryDetailArgs?.courseId,
-              academicYearId: enquiryDetailArgs?.academicYearId,
-              feeSubTypeId: feeSubTypeID,
-              feeCategoryId: feeCategoryID,
-              periodOfServiceId: periodOfServiceID,
-              shiftId: enquiryDetailArgs?.shiftId,
-              streamId: enquiryDetailArgs?.streamId,
-              feeTypeId: FeesTypeIdEnum.transportFees.id,
-              feeSubCategoryEnd: selectedDropZone?.zoneName,
-              feeSubCategoryStart: selectedPickUpZone?.zoneName));
+        feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
+          schoolId: enquiryDetailArgs?.schoolId,
+          boardId: enquiryDetailArgs?.boardId,
+          gradeId: enquiryDetailArgs?.gradeId,
+          courseId: enquiryDetailArgs?.courseId,
+          academicYearId: enquiryDetailArgs?.academicYearId,
+          feeSubTypeId: feeSubTypeID,
+          feeCategoryId: feeCategoryID,
+          periodOfServiceId: periodOfServiceID,
+          shiftId: enquiryDetailArgs?.shiftId,
+          streamId: enquiryDetailArgs?.streamId,
+          feeTypeId: FeesTypeIdEnum.transportFees.id,
+          feeSubCategoryEnd: selectedDropZone?.zoneName,
+          feeSubCategoryStart: selectedPickUpZone?.zoneName,
+        ),
+      );
       showLoader.add(true);
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))
@@ -296,16 +299,25 @@ class TransportDetailViewModel extends BasePageViewModel {
   StopDetail? selectedPickUpZone;
   StopDetail? selectedDropZone;
 
-  void filterPeriodService({required String routeType}) {
+  void filterPeriodService(
+      {required String routeType, required String selectedValue}) {
     if (radioButtonServiceType.selectedItem?.toLowerCase() == "both way") {
       if (routeType == "pickup") {
         selectedPickUpZone = stopList.value.firstWhere((stop) =>
-            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
       } else {
         selectedDropZone = stopList.value.firstWhere((stop) =>
-            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
       }
-    } else {}
+    } else {
+      if (routeType == "pickup") {
+        selectedPickUpZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
+      } else {
+        selectedDropZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
+      }
+    }
 
     final list = transportEnrollmentDetail.value.data?.periodOfService
         ?.where((ps) =>
@@ -356,6 +368,8 @@ class TransportDetailViewModel extends BasePageViewModel {
           !feeSubCategoryEnd.isEmptyOrNull()) {
         feeSubCategoryStart = null;
         feeSubCategoryEnd = null;
+        selectedDropZone = null;
+        selectedPickUpZone = null;
       }
     }
     feeCategoryID = transportEnrollmentDetail.value.data?.feeCategory
@@ -364,21 +378,14 @@ class TransportDetailViewModel extends BasePageViewModel {
             ?.feeCategoryId ??
         0;
   }
-}  
 
-/**
- * 
- * {"academic_year_id":25,
- * "board_id":3,
- * "course_id":5,
- * "shift_id":1,
- * "stream_id":1,
- * "grade_id":1,
- * "school_id":26,
- * "fee_type_id":15,
- * "fee_sub_type_id":22,
- * "fee_category_id":39,
- * "fee_subcategory_start":"Zone 2",
- * "period_of_service_id":8}
- * 
- */
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
+  }
+}

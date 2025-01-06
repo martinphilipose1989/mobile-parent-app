@@ -31,6 +31,9 @@ class ChequePageState extends AppBasePageState<ChequePageModel, ChequePage>
 
   @override
   void onModelReady(ChequePageModel model) {
+    // PDC,CDC ,offline payments
+    model.isDiscountApplied = widget.paymentsPageModel.isDiscountApplied;
+
     model.amount = widget.paymentsPageModel.amount;
     model.inFavour = widget.paymentsPageModel.inFavour;
     model.payemntType = widget.paymentsPageModel.payemntType;

@@ -27,15 +27,10 @@ class NotificationPageState
 
   @override
   void onModelReady(NotificationPageViewModel model) {
-    // model.tabController = TabController(length: 2, vsync: this);
-    //  model.selectedStudent = ProviderScope.containerOf(context)
-    //      .read(dashboardViewModelProvider)
-    //      .selectedStudentId;
-    //  model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    // model.getMyDutyList();
+  model.getUserDetails();
     model.fetchNotification(
         notificationRequestModel: NotificationRequestModel(
-            userId: 305,
+            userId: model.userId,
             userType: 2,
             type: model.NOTIFICATION_LIST_TYPE[0],
             limit: 10,

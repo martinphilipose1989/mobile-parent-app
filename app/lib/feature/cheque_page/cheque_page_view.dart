@@ -95,7 +95,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                 ),
                               ),
                         SizedBox(
-                          height: 50,
+                          // height: 50,
                           child: CustomDropdownButton(
                             onMultiSelect: (selectedValues) {},
                             onSingleSelect: (selectedValue) {
@@ -151,7 +151,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                 CommonSizedBox.sizedBox(
                                                     height: 20, width: 10),
                                                 SizedBox(
-                                                  height: 50,
+                                                  //  height: 50,
                                                   child: CustomDropdownButton(
                                                     dropDownId: index,
                                                     onMultiSelect:
@@ -189,16 +189,15 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                     items: model
                                                         .selectedPendingFessList
                                                         .map((e) =>
-                                                            e.feeDisplayName
-                                                                as String)
+                                                            "${e.feeDisplayName.toString()}}")
                                                         .toList(),
                                                     showAstreik: true,
                                                     itemsWithId: model
                                                         .selectedPendingFessList
                                                         .map((e) => DropdownData(
                                                             id: e.id!,
-                                                            name: e
-                                                                .feeDisplayName))
+                                                            name:
+                                                                "${e.feeDisplayName} - ${e.feeSubType}"))
                                                         .toList(),
                                                     showDropDownWithId: true,
                                                     showBorderColor: true,
@@ -285,6 +284,20 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                               .ifscCodeFormatter(),
                                           LengthLimitingTextInputFormatter(11)
                                         ],
+                                        onChanged: (value) {
+                                          model.ifscCodeControllers[index]
+                                                  .value =
+                                              model.ifscCodeControllers[index]
+                                                  .value
+                                                  .copyWith(
+                                            text: value.toUpperCase(),
+                                            selection:
+                                                TextSelection.fromPosition(
+                                              TextPosition(
+                                                  offset: value.length),
+                                            ),
+                                          );
+                                        },
                                         validator: (value) =>
                                             AppValidators.validateIfscCode(
                                                 value, 'IFSC Code'),

@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
 import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
+import 'package:network_retrofit/src/model/request/finance/new_enrolment/new_enrolment_create.dart';
+import 'package:network_retrofit/src/model/response/new_enrolment/new_enrolment_response.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -106,4 +108,9 @@ abstract class FinanceRetrofitService {
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadStudentLedger(
       @Body() StudentLedgerDownloadRequestEntity body);
+
+  // ************* new enrolment ************ //
+  @POST('/finance/transactions/student/fee/bulk-create')
+  Future<HttpResponse<NewEnrolmentResponseEntity>> newEnrolment(
+      @Body() NewEnrolmentCreateEntity request);
 }

@@ -1,7 +1,5 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/finance/download_fee_type_usecase.dart';
-import 'package:domain/src/usecase/finance/download_student_ledger_usecase.dart';
-import 'package:domain/src/usecase/finance/download_transaction_history_usecase.dart';
+import 'package:domain/src/usecase/finance/new_enrolment_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -21,8 +19,10 @@ abstract class DomainModule {
   GetValidatePayNowUseCase getValidatePayNow(FinanceRepository repository) {
     return GetValidatePayNowUseCase(repository);
   }
+
   @lazySingleton
-  NotificationUsecase notificationUsecase(NotificationRepository notificationRepository) {
+  NotificationUsecase notificationUsecase(
+      NotificationRepository notificationRepository) {
     return NotificationUsecase(notificationRepository: notificationRepository);
   }
 
@@ -582,5 +582,10 @@ abstract class DomainModule {
       FinanceRepository financeRepository) {
     return DownloadTransactionHistoryUsecase(
         financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  NewEnrolmentUsecase newEnrolmentUsecase(FinanceRepository financeRepository) {
+    return NewEnrolmentUsecase(financeRepository: financeRepository);
   }
 }

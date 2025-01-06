@@ -9,7 +9,7 @@ class AdmissionListResponseEntity extends BaseLayerDataTransformer<
     AdmissionListResponseEntity, AdmissionListBaseModel> {
   @JsonKey(name: 'status')
   int? status;
-  @JsonKey(name: 'data', fromJson: _dataFromJson)
+  @JsonKey(name: 'data')
   AdmissionListBaseResponseEntity? data;
   @JsonKey(name: 'message')
   String? message;
@@ -24,16 +24,6 @@ class AdmissionListResponseEntity extends BaseLayerDataTransformer<
       _$AdmissionListResponseEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdmissionListResponseEntityToJson(this);
-
-  static AdmissionListBaseResponseEntity? _dataFromJson(dynamic json) {
-    if (json is Map<String, dynamic>) {
-      return AdmissionListBaseResponseEntity.fromJson(json);
-    } else if (json is List && json.isEmpty) {
-      return null; // No data case
-    } else {
-      throw Exception('Unexpected data format');
-    }
-  }
 
   @override
   AdmissionListBaseModel transform() {

@@ -10,7 +10,7 @@ class StopDetailEntity
   String? stopName;
   String? zoneName;
   int? schoolId;
-  int? routeId;
+  dynamic routeId;
   int? shiftId;
 
   StopDetailEntity(

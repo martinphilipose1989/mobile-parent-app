@@ -168,15 +168,15 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                   stream: model.getGuardianStudentDetailsModel,
                   initialData: Resource.none(),
                   dataBuilder: (context, data) {
-                    return data!.status == Status.loading
+                    return data?.status == Status.loading
                         ? const SizedBox(
                             child: CircularProgressIndicator(),
                           )
-                        : data.data == null
+                        : data?.data == null
                             ? const SizedBox.shrink()
                             : SizedBox(
-                                height: 55.h,
-                                width: 128.w,
+                                // height: 55.h,
+                                width: 0.4.sw,
                                 child: CustomDropdownButton(
                                   dropdownName: '',
                                   width: 300,
@@ -186,13 +186,14 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                                   selectedValue: model.selectedStudent!
                                       .map((e) => e.studentDisplayName ?? '')
                                       .toList(),
-                                  items: data.data!
-                                      .map((e) => e.studentDisplayName)
-                                      .toList(),
+                                  items: data?.data
+                                          ?.map((e) => e.studentDisplayName)
+                                          .toList() ??
+                                      [],
                                   isMutiSelect: true,
                                   onMultiSelect: (selectedValues) {
                                     model.getSelectedStudentIds(
-                                        students: data.data ?? [],
+                                        students: data?.data ?? [],
                                         selectedValues: selectedValues);
                                   },
                                 ),
@@ -206,27 +207,27 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
             stream: model.getAcademicYearModel,
             initialData: Resource.none(),
             dataBuilder: (context, data) {
-              return data!.status == Status.loading
+              return data?.status == Status.loading
                   ? const SizedBox(
                       child: CircularProgressIndicator(),
                     )
-                  : data.data?.data == null
+                  : data?.data?.data == null
                       ? const SizedBox.shrink()
                       : SizedBox(
-                          height: 50.h,
-                          width: 175.w,
+                          //  height: 50.h,
+                          width: 0.4.sw,
                           child: CustomDropdownButton(
                             displayZerothIndex: true,
                             onMultiSelect: (selectedValues) {
                               model.getSelectedAcademicYear(
-                                  data: data.data?.data! ?? [],
+                                  data: data?.data?.data ?? [],
                                   selectedValues: selectedValues);
                             },
                             dropdownName: 'Select Academic year',
                             showAstreik: true,
                             showBorderColor: true,
                             items:
-                                data.data?.data?.map((e) => e.name).toList() ??
+                                data?.data?.data?.map((e) => e.name).toList() ??
                                     [],
                             isMutiSelect: true,
                           ),

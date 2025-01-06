@@ -1,6 +1,6 @@
 class StudentDetailsResponseModel {
   int? status;
- StudentData? data;
+  StudentData? data;
   String? message;
   bool? success;
 
@@ -10,7 +10,6 @@ class StudentDetailsResponseModel {
     required this.message,
     required this.success,
   });
-
 }
 
 class StudentData {
@@ -20,10 +19,8 @@ class StudentData {
 
   StudentData({
     required this.profile,
-
     required this.academics,
   });
-
 }
 
 class Academics {
@@ -38,10 +35,7 @@ class Academics {
     required this.crtHouseId,
     required this.crtDivId,
   });
-
 }
-
-
 
 class ResidentialInformation {
   int? id;
@@ -77,7 +71,6 @@ class ResidentialInformation {
     required this.addressId,
     required this.tagId,
   });
-
 }
 
 class GuardianContactInfo {
@@ -94,17 +87,14 @@ class GuardianContactInfo {
     required this.preferredMobileNo,
     required this.preferredEmailNo,
   });
-
 }
-
-
 
 class Parent {
   int id;
   int guardianId;
   int? guardianRelationshipId;
   String? relation;
-  String?globalNo;
+  String? globalNo;
   String? firstName;
   String? lastName;
   String? adharNo;
@@ -165,7 +155,6 @@ class Parent {
     required this.country,
     required this.tagId,
   });
-
 }
 
 class Profile {
@@ -207,7 +196,7 @@ class Profile {
   int? crtShiftId;
   int? crtSchoolId;
   int? crtCourseId;
-  dynamic? crtStreamId;
+  dynamic crtStreamId;
   int? globalId;
   int? studentTypeId;
   String? courseName;
@@ -215,6 +204,7 @@ class Profile {
   String? createdAt;
   DateTime? updatedAt;
   String? profileImageUrl;
+  int? crtLobId;
 
   Profile({
     required this.id,
@@ -263,8 +253,8 @@ class Profile {
     required this.createdAt,
     required this.updatedAt,
     required this.profileImageUrl,
+    required this.crtLobId,
   });
-
 }
 
 class SiblingsInfo {
@@ -289,5 +279,4 @@ class SiblingsInfo {
     required this.schoolName,
     required this.gradeId,
   });
-
 }

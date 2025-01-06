@@ -14,7 +14,7 @@ class AppInputformatters {
 
   // Method to get an input formatter for ifsc code
   static TextInputFormatter ifscCodeFormatter() {
-    return FilteringTextInputFormatter.allow(RegExp(r'^[A-Z0-9]*$'));
+    return FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z0-9]*$'));
   }
 
   // Method to get an input formatter for pin code
@@ -53,9 +53,9 @@ class AppInputformatters {
 }
 
 class RemoveEmojiInputFormatter extends TextInputFormatter {
-  
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     var text = newValue.text.replaceAll(emojiRegExp, '');
     var selection = newValue.selection;
     if (oldValue.text == text) {

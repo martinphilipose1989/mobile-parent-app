@@ -24,12 +24,10 @@ class GetGuardianStudentDetailsStudentModel {
   dynamic id;
   String? studentDisplayName;
   String? crtEnrOn;
+  String? urlKey;
 
-  GetGuardianStudentDetailsStudentModel({
-    this.id,
-    this.studentDisplayName,
-    this.crtEnrOn,
-  });
+  GetGuardianStudentDetailsStudentModel(
+      {this.id, this.studentDisplayName, this.crtEnrOn, this.urlKey});
 }
 
 class GetGuardianStudentDetailsMetaModel {

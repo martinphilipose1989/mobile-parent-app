@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
@@ -25,75 +23,77 @@ class VASDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-      providerBase: registrationsDetailsProvider,
-      onModelReady: (model) {
-        model.fetchVasAdmissionDetails();
-      },
-      builder: (context, model, child) =>
-          AppStreamBuilder<Resource<AdmissionVasDetailsResponse>>(
-              stream: model!.admissionVasDetailsResponse.stream,
-              initialData: Resource.none(),
-              dataBuilder: (context, vasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonText(
-                      text: "Other Value Added Services",
-                      style: AppTypography.subtitle1
-                          .copyWith(color: AppColors.textDark),
-                    ),
-                    Padding(
-                      padding: REdgeInsets.symmetric(vertical: 16.0),
-                      child: const Divider(color: AppColors.dividerColor),
-                    ),
-                    VasQuestions(
-                      question: "Would You Like To Opt For Transportation?",
-                      commonRadioButton: model.radioButtonTransport,
-                      vasOption: "Transport",
-                      model: model,
-                    ),
-                    VasQuestions(
-                      question: "Would You Like To Opt For Cafeteria?",
-                      commonRadioButton: model.radioButtonCafeteria,
-                      vasOption: "Cafeteria",
-                      model: model,
-                    ),
-                    if (model.enquiryDetailArgs?.enquiryType?.toLowerCase() ==
-                            EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
-                        model.enquiryDetailArgs?.enquiryType ==
-                            EnquiryTypeEnum.newAdmission.type) ...{
+    return Material(
+      child: BaseWidget(
+        providerBase: registrationsDetailsProvider,
+        onModelReady: (model) {
+          model.fetchVasAdmissionDetails();
+        },
+        builder: (context, model, child) =>
+            AppStreamBuilder<Resource<AdmissionVasDetailsResponse>>(
+                stream: model!.admissionVasDetailsResponse.stream,
+                initialData: Resource.none(),
+                dataBuilder: (context, vasData) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonText(
+                        text: "Other Value Added Services",
+                        style: AppTypography.subtitle1
+                            .copyWith(color: AppColors.textDark),
+                      ),
+                      Padding(
+                        padding: REdgeInsets.symmetric(vertical: 16.0),
+                        child: const Divider(color: AppColors.dividerColor),
+                      ),
                       VasQuestions(
-                        question:
-                            "Would You Like To Opt For PSA(Post School Activities)?",
-                        commonRadioButton: model.radioButtonPsa,
-                        vasOption: "Psa",
+                        question: "Would You Like To Opt For Transportation?",
+                        commonRadioButton: model.radioButtonTransport,
+                        vasOption: "Transport",
                         model: model,
                       ),
-                    },
-                    if (model.enquiryDetailArgs?.enquiryType ==
-                            EnquiryTypeEnum.psa.type ||
-                        model.enquiryDetailArgs?.enquiryType ==
-                            EnquiryTypeEnum.newAdmission.type) ...{
                       VasQuestions(
-                        question: "Would You Like To Opt For Kids Club?",
-                        commonRadioButton: model.radioButtonKidsClub,
-                        vasOption: "KidsClub",
+                        question: "Would You Like To Opt For Cafeteria?",
+                        commonRadioButton: model.radioButtonCafeteria,
+                        vasOption: "Cafeteria",
                         model: model,
-                      )
-                    },
-                    if (model.enquiryDetailArgs?.enquiryType ==
-                        EnquiryTypeEnum.newAdmission.type) ...{
-                      VasQuestions(
-                        question: "Would You Like To Opt For Summer Camp?",
-                        commonRadioButton: model.radioButtonSummerCamp,
-                        vasOption: "",
-                        model: model,
-                      )
-                    },
-                  ],
-                );
-              }),
+                      ),
+                      if (model.enquiryDetailArgs?.enquiryType?.toLowerCase() ==
+                              EnquiryTypeEnum.kidsClub.type.toLowerCase() ||
+                          model.enquiryDetailArgs?.enquiryType ==
+                              EnquiryTypeEnum.newAdmission.type) ...{
+                        VasQuestions(
+                          question:
+                              "Would You Like To Opt For PSA(Post School Activities)?",
+                          commonRadioButton: model.radioButtonPsa,
+                          vasOption: "Psa",
+                          model: model,
+                        ),
+                      },
+                      if (model.enquiryDetailArgs?.enquiryType ==
+                              EnquiryTypeEnum.psa.type ||
+                          model.enquiryDetailArgs?.enquiryType ==
+                              EnquiryTypeEnum.newAdmission.type) ...{
+                        VasQuestions(
+                          question: "Would You Like To Opt For Kids Club?",
+                          commonRadioButton: model.radioButtonKidsClub,
+                          vasOption: "KidsClub",
+                          model: model,
+                        )
+                      },
+                      if (model.enquiryDetailArgs?.enquiryType ==
+                          EnquiryTypeEnum.newAdmission.type) ...{
+                        VasQuestions(
+                          question: "Would You Like To Opt For Summer Camp?",
+                          commonRadioButton: model.radioButtonSummerCamp,
+                          vasOption: "",
+                          model: model,
+                        )
+                      },
+                    ],
+                  );
+                }),
+      ),
     );
   }
 }

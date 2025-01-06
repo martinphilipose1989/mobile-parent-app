@@ -77,6 +77,9 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
                     studentName: "${model.enquiryDetailArgs?.studentName} ",
                   ),
                 );
+              } else if (url.path.contains("subject-selection/completed ")) {
+                navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                    RoutePaths.tabbar, (route) => false);
               }
             }
           },

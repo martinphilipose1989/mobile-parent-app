@@ -13,7 +13,7 @@ import 'package:app/utils/enums/finance_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter_svg/svg.dart';
 
 class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
@@ -44,7 +44,7 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                             TransactionModel transactionModel =
                                 transactions![index];
                             return Container(
-                              width: 358.w,
+                              width: double.infinity,
                               margin: const EdgeInsets.only(bottom: 15),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -60,13 +60,12 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                     //         false)) {
                                     if (value) {
                                       model.getTransactionTypes(
-                                        transactionModel.transactionId ?? 0,
-                                        (data) {
-                                          transactionModel
-                                                  .getTransactiontypefeesCollectedModel =
-                                              data;
-                                        },
-                                      );
+                                          transactionModel.transactionId ?? 0,
+                                          (data) {
+                                        transactionModel
+                                                .getTransactiontypefeesCollectedModel =
+                                            data;
+                                      }, index: index);
                                     }
 
                                     // }
@@ -94,14 +93,8 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                           CommonText(
                                             text: DateFormatter.formatDate(
                                                 transactionModel
-                                                            .acknowledgementDate ==
-                                                        null
-                                                    ? transactionModel
-                                                            .receiptDate ??
-                                                        ''
-                                                    : transactionModel
-                                                            .acknowledgementDate ??
-                                                        ''),
+                                                        .transactionDate ??
+                                                    ''),
                                             style: AppTypography.caption,
                                           ),
                                         ],
@@ -183,15 +176,17 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                                 model.getTransactionTypeModel,
                                             initialData: Resource.none(),
                                             dataBuilder: (context, data) {
-                                              return data!.status ==
-                                                      Status.loading
+                                              return model.selectedIndex ==
+                                                          index &&
+                                                      data!.status ==
+                                                          Status.loading
                                                   ? const Center(
                                                       child:
                                                           CircularProgressIndicator(),
                                                     )
                                                   : Column(
                                                       children: List.generate(
-                                                        (data.data?.data
+                                                        (data?.data?.data
                                                                 ?.length ??
                                                             0),
                                                         (index) {
@@ -214,14 +209,14 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                                                             .spaceBetween,
                                                                     children: [
                                                                       CommonText(
-                                                                        text: data.data?.data?[index].feeDetailsModel?.feeType ??
+                                                                        text: transactionModel.getTransactiontypefeesCollectedModel?[index].feeDetailsModel?.feeType ??
                                                                             '',
                                                                         style: AppTypography
                                                                             .subtitle2
                                                                             .copyWith(),
                                                                       ),
                                                                       CommonText(
-                                                                        text: data.data?.data?[index].feeDetailsModel?.feeSubType ??
+                                                                        text: transactionModel.getTransactiontypefeesCollectedModel?[index].feeDetailsModel?.feeSubType ??
                                                                             '',
                                                                         style: AppTypography
                                                                             .subtitle2
@@ -232,26 +227,23 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                                                 ],
                                                               ),
                                                               CommonText(
-                                                                text: CurrencyFormatter.formatToRupee(data
-                                                                        .data
-                                                                        ?.data?[
-                                                                            index]
-                                                                        .feeAmount ??
-                                                                    ""),
+                                                                text: CurrencyFormatter.formatToRupee(
+                                                                    transactionModel
+                                                                            .getTransactiontypefeesCollectedModel?[index]
+                                                                            .feeAmount ??
+                                                                        ""),
                                                                 color: TransactionStausEnum
                                                                             .success
                                                                             .id ==
-                                                                        data
-                                                                            .data
-                                                                            ?.data?[
+                                                                        transactionModel
+                                                                            .getTransactiontypefeesCollectedModel?[
                                                                                 index]
                                                                             .paymentStatus
                                                                     ? AppColors
                                                                         .success
                                                                     : TransactionStausEnum.failure.id ==
-                                                                            data
-                                                                                .data
-                                                                                ?.data?[
+                                                                            transactionModel
+                                                                                .getTransactiontypefeesCollectedModel?[
                                                                                     index]
                                                                                 .paymentStatus
                                                                         ? AppColors

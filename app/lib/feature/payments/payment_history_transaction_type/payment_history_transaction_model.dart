@@ -31,8 +31,12 @@ class PaymentHistoryTransactionModel extends BasePageViewModel {
   Stream<Resource<GetTransactionTypeModel>> get getTransactionTypeModel =>
       _getTransactionTypeModel.stream;
 
+  int selectedIndex = 0;
+
   Future<void> getTransactionTypes(int transactionId,
-      Function(List<GetTransactionTypeDatumModel> data) onCallBack) async {
+      Function(List<GetTransactionTypeDatumModel> data) onCallBack,
+      {int index = 0}) async {
+    selectedIndex = index;
     await exceptionHandlerBinder.handle(block: () {
       GetTransactionTypeUsecaseParams params =
           GetTransactionTypeUsecaseParams(id: transactionId);
