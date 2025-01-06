@@ -243,8 +243,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       BehaviorSubject<List<String>>.seeded([]);
 
   final List<String> parentType = ["Mother", "Father"];
-  TextEditingController fatherGlobalIdController = TextEditingController();
-  TextEditingController motherGlobalIdController = TextEditingController();
+  // TextEditingController fatherGlobalIdController = TextEditingController();
+  // TextEditingController motherGlobalIdController = TextEditingController();
   TextEditingController studentsFatherFirstNameController =
       TextEditingController();
   TextEditingController studentsFatherLastNameController =
@@ -923,10 +923,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -984,10 +984,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1051,10 +1051,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     ivtShiftSubject.add(detail.shift?.value ?? '');
     selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =

@@ -3,14 +3,12 @@ import 'package:app/feature/payments/payments_pages/payments_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/payments/pending_amount_expansion_tile.dart';
 import 'package:app/molecules/payments/payments_chips_list.dart';
-import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
+
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_tab_page.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:app/utils/currency_formatter.dart';
+
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -71,42 +69,43 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
         CommonSizedBox.sizedBox(height: 20, width: 10),
         selectChildAndAcademicyear(cxt, model),
         CommonSizedBox.sizedBox(height: 20, width: 10),
-        Container(
-          height: 46.h,
-          margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.shade300, spreadRadius: 2, blurRadius: 2)
-              ],
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CommonText(
-                    text: 'Calculated Amount',
-                    style: AppTypography.body2
-                        .copyWith(color: AppColors.inactiveNeutral60)),
-                AppStreamBuilder(
-                  stream: model.exactPendingAmountToBePaid,
-                  initialData: model.exactPendingAmountToBePaid.value,
-                  dataBuilder: (context, data) {
-                    return CommonText(
-                      text: CurrencyFormatter.formatToRupee(data.toString()),
-                      style: AppTypography.h6
-                          .copyWith(color: Theme.of(cxt).colorScheme.primary),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-        CommonSizedBox.sizedBox(height: 20, width: 10),
+        // Container(
+        //   height: 46.h,
+        //   margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+        //   alignment: Alignment.center,
+        //   decoration: BoxDecoration(
+        //       color: Colors.white,
+        //       boxShadow: [
+        //         BoxShadow(
+        //             color: Colors.grey.shade300, spreadRadius: 2, blurRadius: 2)
+        //       ],
+        //       borderRadius: BorderRadius.circular(8.0)),
+        //   child: Padding(
+        //     padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         CommonText(
+        //             text: 'Calculated Amount',
+        //             style: AppTypography.body2
+        //                 .copyWith(color: AppColors.inactiveNeutral60)),
+        //         AppStreamBuilder(
+        //           stream: model.exactPendingAmountToBePaid,
+        //           initialData: model.exactPendingAmountToBePaid.value,
+        //           dataBuilder: (context, data) {
+        //             return CommonText(
+        //               text: CurrencyFormatter.formatToRupee(data.toString()),
+        //               style: AppTypography.h6
+        //                   .copyWith(color: Theme.of(cxt).colorScheme.primary),
+        //             );
+        //           },
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        // CommonSizedBox.sizedBox(height: 20, width: 10),
+
         AppStreamBuilder<Resource<SchoolNamesModel>>(
           stream: model.getSchoolNamesModel,
           initialData: Resource.none(),
