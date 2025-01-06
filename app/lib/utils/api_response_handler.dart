@@ -61,7 +61,7 @@ abstract class ApiResponseHandler {
         flutterToastErrorPresenter.show(
             appError!.throwable,
             navigatorKey.currentContext!,
-            "Something went wrong. Please check your internet connection and try again.");
+            "Something went wrong. Service unavailable");
 
       case 495: // Bad Certificate
         flutterToastErrorPresenter.show(

@@ -83,7 +83,7 @@ class OtpPageModel extends BasePageViewModel {
         } else {
           CommonPopups().showError(
             navigatorKey.currentContext!,
-            "Unknown error occured",
+            error.error.message,
             (shouldRoute) {},
           );
         }

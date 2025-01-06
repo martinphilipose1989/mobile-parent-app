@@ -28,8 +28,8 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final vasOptions = [
     ToggleOption(value: VasOptions.kidsClub, text: "Kids Club"),
     ToggleOption(value: VasOptions.cafeteria, text: "Cafeteria"),
-    ToggleOption(value: VasOptions.psa, text: "PSA"),
-    ToggleOption(value: VasOptions.summerCamp, text: "Summer Camp"),
+    // ToggleOption(value: VasOptions.psa, text: "PSA"),
+    // ToggleOption(value: VasOptions.summerCamp, text: "Summer Camp"),
     ToggleOption(value: VasOptions.transport, text: "Transport"),
   ];
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
@@ -11,7 +9,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart'
     as student;
 import 'package:app/navigation/route_paths.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
+
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/toggle_option_list.dart';
@@ -61,7 +59,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                             : Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: student.StudentDetails(
-                                    image: AppImages.personIcon,
+                                    image: studentProfile?.profileImageUrl,
                                     name:
                                         "${studentProfile?.firstName?.orEmpty('N/A')} ${studentProfile?.lastName?.orEmpty('N/A')}",
                                     title:
@@ -121,7 +119,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
 
   Widget _getPageForOption(VasOptions option, NewEnrolmentViewModel model) {
     final profile = model.studentProfileSubject.value.data?.profile;
-    log("ENQUIRY NO-: ${profile?.crtEnrOn}");
+
     final enquiryDetailArgs = EnquiryDetailArgs(
         schoolId: profile?.crtSchoolId,
         boardId: profile?.crtBoardId,
@@ -150,20 +148,20 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
             onSelectVasEnrolment: (studentFee) {
               model.createNewEnrolment(studentFees: [studentFee]);
             });
-      case VasOptions.psa:
-        return PsaDetailPage(
-            hideAppBar: true,
-            enquiryDetailArgs: enquiryDetailArgs,
-            onSelectVasEnrolment: (studentFee) {
-              model.createNewEnrolment(studentFees: [studentFee]);
-            });
-      case VasOptions.summerCamp:
-        return SummerCampDetailPage(
-            hideAppBar: true,
-            enquiryDetailArgs: enquiryDetailArgs,
-            onSelectVasEnrolment: (studentFee) {
-              model.createNewEnrolment(studentFees: [studentFee]);
-            });
+      // case VasOptions.psa:
+      //   return PsaDetailPage(
+      //       hideAppBar: true,
+      //       enquiryDetailArgs: enquiryDetailArgs,
+      //       onSelectVasEnrolment: (studentFee) {
+      //         model.createNewEnrolment(studentFees: [studentFee]);
+      //       });
+      // case VasOptions.summerCamp:
+      //   return SummerCampDetailPage(
+      //       hideAppBar: true,
+      //       enquiryDetailArgs: enquiryDetailArgs,
+      //       onSelectVasEnrolment: (studentFee) {
+      //         model.createNewEnrolment(studentFees: [studentFee]);
+      //       });
       case VasOptions.transport:
         return TransportPage(
             hideAppBar: true,
