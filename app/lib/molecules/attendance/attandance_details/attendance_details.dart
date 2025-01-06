@@ -18,16 +18,16 @@ final String name;
   String? stream;
   String? course;
   String? house;
-
+String? image;
  AttendanceDetails({super.key, required this.date, required this.name,this.stream,this.division,
-    this.shift,this.boardName,this.schoolName,this.course,this.grade,this.house});
+    this.shift,this.boardName,this.image,this.schoolName,this.course,this.grade,this.house});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
      StudentDetails(
-            image: AppImages.personIcon,
+            image: image,
             name: name,
          title: "$schoolName|$boardName",
          subtitle: "$course| $shift| $division| $house | $grade",

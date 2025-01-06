@@ -1,14 +1,16 @@
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../themes_setup.dart';
 import '../../../utils/app_typography.dart';
+import '../../../utils/common_widgets/app_images.dart';
 import '../../../utils/common_widgets/common_sizedbox.dart';
 
 class StudentDetails extends StatelessWidget {
-  final String image;
+  final String? image;
   final String name;
   final String? title;
  final String? subtitle;
@@ -48,7 +50,9 @@ this.subtitle2});
               ),
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: SvgPicture.asset(image),
+                child: image!=null||image!.isNotEmpty
+                  ? CircleAvatar(backgroundImage: NetworkImage(image!),):
+                  SvgPicture.asset(AppImages.personIcon)
               ),
             ),
            SizedBox(

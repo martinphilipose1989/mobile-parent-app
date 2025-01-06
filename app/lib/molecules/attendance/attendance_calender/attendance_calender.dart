@@ -26,7 +26,7 @@ class AttendanceCalender extends StatelessWidget {
   String? stream;
   String? course;
   String? house;
-
+String? image;
   AttendanceCalender({
     super.key,
     this.name,
@@ -38,6 +38,7 @@ class AttendanceCalender extends StatelessWidget {
     this.boardName,
     this.grade,
     this.shift,
+    this.image
   });
 
   @override
@@ -45,7 +46,7 @@ class AttendanceCalender extends StatelessWidget {
     return Column(
       children: [
         studeuntdetailsmolecule.StudentDetails(
-            image: AppImages.personIcon,
+            image: image,
             name: name ?? "",
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house | $grade",

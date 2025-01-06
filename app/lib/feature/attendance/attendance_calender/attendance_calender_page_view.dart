@@ -27,7 +27,7 @@ class AttendanceCalenderPageView extends BasePageViewWidget {
             initialData: Resource.none(),
             dataBuilder: (BuildContext context,  data) {
        return data?.status == Status.success
-                ? AttendanceCalender(name: model.selectedStudent?.first.studentDisplayName??"",
+                ? AttendanceCalender(image:data?.data?.data?.profile?.profileImageUrl,name: model.selectedStudent?.first.studentDisplayName??"",
               schoolName: data?.data?.data?.profile?.crtSchool??"",
               boardName:data?.data?.data?.profile?.crtBoard??"" ,stream: data?.data?.data?.profile?.streamName??"",
               grade: data?.data?.data?.profile?.crtGrade??"",
