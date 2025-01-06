@@ -42,6 +42,7 @@ class AttendanceDetailsPageView extends BasePageViewWidget {
                                         child: CircularProgressIndicator(),
                                       )
                                     : AttendanceDetails(
+                                  image: data?.data?.data?.profile?.profileImageUrl,
                                   name:"${data?.data?.data?.profile?.firstName??""} ${data?.data?.data?.profile?.lastName??""}",
                                         schoolName: data
                                             ?.data?.data?.profile?.crtSchool??"",
