@@ -50,8 +50,8 @@ this.subtitle2});
               ),
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: image!=null
-                  ? CircleAvatar(backgroundImage: NetworkImage(image??""),):
+                child: image!=null||image!.isNotEmpty
+                  ? CircleAvatar(backgroundImage: NetworkImage(image!),):
                   SvgPicture.asset(AppImages.personIcon)
               ),
             ),
