@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app/feature/notification/pushnotification.dart';
+import 'pushnotification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationService {

@@ -7,8 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:push_notification/notification.dart';
 import 'dependencies.dart';
-import 'feature/notification/push_notification_service.dart';
+//import "../../infrastructure/push_notification/lib/src/push_notification_service.dart";
+//import '../../infrastructure/push_notification/lib/src/push_notification_service.dart';
 import 'myapp.dart';
 
 void startApp() async {

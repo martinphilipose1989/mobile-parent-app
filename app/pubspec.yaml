@@ -44,6 +44,8 @@ dependencies:
     path: ../infrastructure/database-floor/
   network_retrofit:
     path: ../infrastructure/network-retrofit/
+  push_notification:
+      path: ../infrastructure/push_notification/
   attachment:
     path: ../infrastructure/attachment/ 
   data:
