@@ -96,6 +96,8 @@ class _PaymentHistoryStudentLedgerState
                     itemCount: fees.length,
                     itemBuilder: (context, index) {
                       domain.GetPendingFeesFeeModel fee = fees[index];
+
+                      log("fee.pgTransactionId ${fee.pgTransactionId} ${fee.feeId} ${fee.instrumentNumber}");
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(

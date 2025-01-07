@@ -63,8 +63,9 @@ class _PaymentHistoryFeesTypeExpansionState
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CommonText(
-                                          text:
-                                              "${widget.groupedModels[i].feeDisplayName}",
+                                          text: widget.groupedModels[i]
+                                                  .feeDisplayName ??
+                                              '',
                                           style: AppTypography.subtitle2,
                                         ),
                                         const Divider(

@@ -70,8 +70,10 @@ class PaymentHistoryModel extends BasePageViewModel {
         createCall: () => getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.data?.data != null) {
-          academicYearIds.add(result.data?.data![0].id ?? 0);
-          getFeesCollected();
+          if (result.data?.data?.isNotEmpty ?? false) {
+            academicYearIds.add(result.data?.data![0].id ?? 0);
+            getFeesCollected();
+          }
         }
         _getAcademicYearModel.add(result);
       }).onError((error) {
@@ -197,11 +199,15 @@ class PaymentHistoryModel extends BasePageViewModel {
 
     Map<String, List<GetPendingFeesFeeModel>> groupedByFeeType = {};
     Map<String, String> feeIdToFeeTypeMap = {};
-
+    log("Grouped by fee type: 1 $fees");
+    if (fees.isEmpty) {
+      return;
+    }
     for (var item in fees) {
       // Earlier group by fee Type was done by feeType, now it is done by feeId
       String feeId = item.feeId.toString();
       String feeType = item.feeType.toString();
+      log("Grouped by fee type: $fees");
 
       // Maintain a mapping of feeId to feeType for display
       feeIdToFeeTypeMap[feeId] = feeType;

@@ -13,21 +13,20 @@ class StudentDetails extends StatelessWidget {
   final String? image;
   final String name;
   final String? title;
- final String? subtitle;
- final String? subtitle2;
+  final String? subtitle;
+  final String? subtitle2;
 
- StudentDetails(
+  StudentDetails(
       {super.key,
       required this.image,
       required this.name,
- this.title,
- this.subtitle,
-this.subtitle2});
+      this.title,
+      this.subtitle,
+      this.subtitle2});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: AppColors.listItem,
@@ -49,13 +48,14 @@ this.subtitle2});
                 border: Border.all(width: 1, color: AppColors.textGray),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: image!=null||image!.isNotEmpty
-                  ? CircleAvatar(backgroundImage: NetworkImage(image!),):
-                  SvgPicture.asset(AppImages.personIcon)
-              ),
+                  padding: const EdgeInsets.all(3.0),
+                  child: image != null || (image?.isNotEmpty ?? false)
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage(image!),
+                        )
+                      : SvgPicture.asset(AppImages.personIcon)),
             ),
-           SizedBox(
+            SizedBox(
               width: 15.w,
             ),
             Column(
@@ -70,19 +70,25 @@ this.subtitle2});
                   ),
                 ),
                 CommonText(
-                    text: title??"",
+                    text: title ?? "",
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25,)),
+                      color: AppColors.textGray,
+                      letterSpacing: 0.25,
+                    )),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
-                    text: subtitle??"",
+                    text: subtitle ?? "",
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25,)),
+                      color: AppColors.textGray,
+                      letterSpacing: 0.25,
+                    )),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
                 CommonText(
-                    text: subtitle2??"",
+                    text: subtitle2 ?? "",
                     style: AppTypography.smallCaption.copyWith(
-                        color: AppColors.textGray, letterSpacing: 0.25,)),
+                      color: AppColors.textGray,
+                      letterSpacing: 0.25,
+                    )),
                 CommonSizedBox.sizedBox(height: 2, width: 5),
               ],
             ),
