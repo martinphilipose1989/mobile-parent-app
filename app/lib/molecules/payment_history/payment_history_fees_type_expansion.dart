@@ -41,11 +41,9 @@ class _PaymentHistoryFeesTypeExpansionState
               SizedBox(
                   height: MediaQuery.of(context).size.height / 1,
                   child: widget.groupedModels.isEmpty
-                      ? Center(
-                          child: CommonText(
-                            text: 'No Fees Type Found',
-                            style: AppTypography.subtitle2,
-                          ),
+                      ? CommonText(
+                          text: 'No Fees Type Found',
+                          style: AppTypography.subtitle2,
                         )
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/currency_formatter.dart';
@@ -33,56 +31,57 @@ class _PaymentHistoryStudentLedgerState
       child: Column(
         children: [
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          Row(
-            children: [
-              const Spacer(),
-              InkWell(
-                  onTap: () {
-                    final studentFeesIdList = fees
-                        .where((fee) => fee.studentFeeId != null)
-                        .map((e) => e.studentFeeId!)
-                        .toList();
+          if (fees.isNotEmpty)
+            Row(
+              children: [
+                const Spacer(),
+                InkWell(
+                    onTap: () {
+                      final studentFeesIdList = fees
+                          .where((fee) => fee.studentFeeId != null)
+                          .map((e) => e.studentFeeId!)
+                          .toList();
 
-                    final transactionIdList = fees
-                        .where((fee) => fee.transactionId != null)
-                        .map((e) => e.transactionId!)
-                        .toList();
+                      final transactionIdList = fees
+                          .where((fee) => fee.transactionId != null)
+                          .map((e) => e.transactionId!)
+                          .toList();
 
-                    ProviderScope.containerOf(context)
-                        .read(paymentHistoryProvider)
-                        .downloadStudentLedger(
-                            feesType: 'ledger',
-                            fileType: 'pdf',
-                            transaction: transactionIdList,
-                            studentFeesId: studentFeesIdList,
-                            sendMail: true);
-                  },
-                  child: SvgPicture.asset(AppImages.eyeIcon)),
-              CommonSizedBox.sizedBox(height: 10, width: 20),
-              InkWell(
-                  onTap: () {
-                    final studentFeesIdList = fees
-                        .where((fee) => fee.studentFeeId != null)
-                        .map((e) => e.studentFeeId!)
-                        .toList();
+                      ProviderScope.containerOf(context)
+                          .read(paymentHistoryProvider)
+                          .downloadStudentLedger(
+                              feesType: 'ledger',
+                              fileType: 'pdf',
+                              transaction: transactionIdList,
+                              studentFeesId: studentFeesIdList,
+                              sendMail: true);
+                    },
+                    child: SvgPicture.asset(AppImages.eyeIcon)),
+                CommonSizedBox.sizedBox(height: 10, width: 20),
+                InkWell(
+                    onTap: () {
+                      final studentFeesIdList = fees
+                          .where((fee) => fee.studentFeeId != null)
+                          .map((e) => e.studentFeeId!)
+                          .toList();
 
-                    final transactionIdList = fees
-                        .where((fee) => fee.transactionId != null)
-                        .map((e) => e.transactionId!)
-                        .toList();
+                      final transactionIdList = fees
+                          .where((fee) => fee.transactionId != null)
+                          .map((e) => e.transactionId!)
+                          .toList();
 
-                    ProviderScope.containerOf(context)
-                        .read(paymentHistoryProvider)
-                        .downloadStudentLedger(
-                            feesType: 'ledger',
-                            fileType: 'pdf',
-                            transaction: transactionIdList,
-                            studentFeesId: studentFeesIdList,
-                            sendMail: true);
-                  },
-                  child: SvgPicture.asset(AppImages.downloadIcon)),
-            ],
-          ),
+                      ProviderScope.containerOf(context)
+                          .read(paymentHistoryProvider)
+                          .downloadStudentLedger(
+                              feesType: 'ledger',
+                              fileType: 'pdf',
+                              transaction: transactionIdList,
+                              studentFeesId: studentFeesIdList,
+                              sendMail: true);
+                    },
+                    child: SvgPicture.asset(AppImages.downloadIcon)),
+              ],
+            ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -97,7 +96,6 @@ class _PaymentHistoryStudentLedgerState
                     itemBuilder: (context, index) {
                       domain.GetPendingFeesFeeModel fee = fees[index];
 
-                      log("fee.pgTransactionId ${fee.pgTransactionId} ${fee.feeId} ${fee.instrumentNumber}");
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(
