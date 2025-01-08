@@ -33,6 +33,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<TransportEnrollmentResponseModel>>(
                     stream: model.fetchTransportEnrollmentDetail,
@@ -98,9 +99,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                 text: "Select Bus Type",
                                 style: AppTypography.subtitle2,
                               ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
+                              SizedBox(height: 10.h),
 
                               const SelectBusType(),
                               SizedBox(height: 15.h),
@@ -133,8 +132,6 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                       onMultiSelect: (selectedValues) {},
                                       onSingleSelect: (selectedValue) {
                                         model.setPeriodOfService(selectedValue);
-                                        // model.feeSubCategoryStart =
-                                        //     selectedValue;
                                       },
                                     );
                                   },
@@ -171,6 +168,9 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                     if (onSelectVasEnrolment !=
                                                         null) {
                                                       onSelectVasEnrolment?.call(StudentEnrolmentFee(
+                                                          enquiryNo: model
+                                                              .enquiryDetailArgs
+                                                              ?.enquiryNumber,
                                                           academicYearId: model
                                                               .enquiryDetailArgs
                                                               ?.academicYearId,
@@ -192,14 +192,10 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                           streamId: model
                                                               .enquiryDetailArgs
                                                               ?.streamId,
-                                                          brandId: model
-                                                              .enquiryDetailArgs
-                                                              ?.brandId,
-                                                          studentId: model
-                                                              .enquiryDetailArgs
-                                                              ?.studentId,
+                                                          brandId:
+                                                              model.enquiryDetailArgs?.brandId,
+                                                          studentId: model.enquiryDetailArgs?.studentId,
                                                           globalUserId: model.enquiryDetailArgs?.studentGlobalId,
-                                                          lobId: model.enquiryDetailArgs?.lobId,
                                                           feeType: EnrolmentFeeType.transport.type,
                                                           batchId: model.batchID,
                                                           feeSubTypeId: model.feeSubTypeID,
@@ -238,9 +234,9 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                         .selectItem(null);
                                                     model.feeSubTypeID = 0;
                                                     model.feeCategoryID = 0;
-                                                    model.feeSubCategoryStart =
+                                                    model.selectedPickUpZone =
                                                         null;
-                                                    model.feeSubCategoryEnd =
+                                                    model.selectedDropZone =
                                                         null;
                                                   },
                                                   text: "Reset",
@@ -420,32 +416,43 @@ class PickUpPointToSchool extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
         builder: (context, model, _) {
-          return Column(
-            children: [
-              AppStreamBuilder(
-                  stream: model!.oneWayPickupPoint,
-                  initialData: model.oneWayPickupPoint.value,
-                  dataBuilder: (context, oneWayList) {
-                    return CustomDropdownButton(
-                      items: oneWayList?.toSet().toList() ?? [],
-                      dropdownName: "Pickup Point",
-                      showAstreik: true,
-                      showBorderColor: true,
-                      isMutiSelect: false,
-                      onMultiSelect: (_) {},
-                      onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(routeType: "pickup");
-                      },
-                    );
-                  }),
-              SizedBox(height: 15.h),
-              const CommonTextFormField(
-                showAstreik: false,
-                labelText: "Drop Point",
-                readOnly: true,
-              ),
-            ],
-          );
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "one way",
+                  child: Column(
+                    children: [
+                      AppStreamBuilder(
+                          stream: model.oneWayPickupPoint,
+                          initialData: model.oneWayPickupPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CustomDropdownButton(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Pickup Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(
+                                    routeType: "pickup",
+                                    selectedValue: selectedValue);
+                              },
+                            );
+                          }),
+                      SizedBox(height: 15.h),
+                      const CommonTextFormField(
+                        showAstreik: false,
+                        labelText: "Drop Point",
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 15.h),
+                    ],
+                  ),
+                );
+              });
         },
         providerBase: transportPageModelProvider);
   }
@@ -458,32 +465,43 @@ class SchoolToDropPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
         builder: (context, model, _) {
-          return Column(
-            children: [
-              const CommonTextFormField(
-                showAstreik: false,
-                labelText: "Pickup Point",
-                readOnly: true,
-              ),
-              SizedBox(height: 15.h),
-              AppStreamBuilder(
-                  stream: model!.oneWayDropPoint,
-                  initialData: model.oneWayDropPoint.value,
-                  dataBuilder: (context, oneWayList) {
-                    return CustomDropdownButton(
-                      items: oneWayList?.toSet().toList() ?? [],
-                      dropdownName: "Drop Point",
-                      showAstreik: true,
-                      showBorderColor: true,
-                      isMutiSelect: false,
-                      onMultiSelect: (_) {},
-                      onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(routeType: "drop");
-                      },
-                    );
-                  }),
-            ],
-          );
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "one way",
+                  child: Column(
+                    children: [
+                      const CommonTextFormField(
+                        showAstreik: false,
+                        labelText: "Pickup Point",
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 15.h),
+                      AppStreamBuilder(
+                          stream: model.oneWayDropPoint,
+                          initialData: model.oneWayDropPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CustomDropdownButton(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Drop Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(
+                                    routeType: "drop",
+                                    selectedValue: selectedValue);
+                              },
+                            );
+                          }),
+                      SizedBox(height: 15.h),
+                    ],
+                  ),
+                );
+              });
         },
         providerBase: transportPageModelProvider);
   }
@@ -516,7 +534,9 @@ class BothWayRoutes extends StatelessWidget {
                               isMutiSelect: false,
                               onMultiSelect: (_) {},
                               onSingleSelect: (selectedValue) {
-                                model.filterPeriodService(routeType: "pickup");
+                                model.filterPeriodService(
+                                    routeType: "pickup",
+                                    selectedValue: selectedValue);
                               },
                             );
                           }),
@@ -533,10 +553,13 @@ class BothWayRoutes extends StatelessWidget {
                               isMutiSelect: false,
                               onMultiSelect: (_) {},
                               onSingleSelect: (selectedValue) {
-                                model.filterPeriodService(routeType: "drop");
+                                model.filterPeriodService(
+                                    routeType: "drop",
+                                    selectedValue: selectedValue);
                               },
                             );
                           }),
+                      SizedBox(height: 15.h),
                     ],
                   ),
                 );

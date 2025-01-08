@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
@@ -28,6 +30,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<KidsClubEnrollmentResponseModel>>(
                     stream: model.fetchKidsClubEnrollmentDetail,
@@ -108,12 +111,10 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                           ),
                                         );
                                       }),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
+                                  SizedBox(height: 16.h),
+                                  // ************** KIDS CLUB TYPE ********************* //
+                                  SizedBox(height: 10.h),
+
                                   CustomDropdownButton(
                                     items: model.feeSubType.toSet().toList(),
                                     dropdownName: 'Kids Club Type',
@@ -131,62 +132,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                       model.setFeeSubTypeId(value);
                                     },
                                   ),
-                                  SizedBox(height: 15.h),
-                                  AppStreamBuilder<List<String>>(
-                                      initialData: const <String>[],
-                                      stream: model.feeCategoryType,
-                                      dataBuilder: (context, feeCategoryType) {
-                                        return CustomDropdownButton(
-                                          items: feeCategoryType
-                                                  ?.toSet()
-                                                  .toList() ??
-                                              [],
-                                          dropdownName: 'Month',
-                                          showAstreik: false,
-                                          showBorderColor: false,
-                                          isMutiSelect: false,
-                                          onMultiSelect: (_) {},
-                                          singleSelectItemSubject:
-                                              model.selectedFeeCategoryType,
-                                          onSingleSelect: (value) {
-                                            if (model.selectedFeeCategoryType
-                                                    .value ==
-                                                value) {
-                                              return;
-                                            }
-                                            model.setCategoryTypeId(value);
-                                          },
-                                        );
-                                      }),
-                                  SizedBox(height: 15.h),
-                                  AppStreamBuilder<List<String>>(
-                                      initialData: const <String>[],
-                                      stream: model.feeSubCategoryType,
-                                      dataBuilder:
-                                          (context, feeSubCategoryType) {
-                                        return CustomDropdownButton(
-                                          items: feeSubCategoryType
-                                                  ?.toSet()
-                                                  .toList() ??
-                                              [],
-                                          dropdownName:
-                                              'From Cafeteria Opt for',
-                                          showAstreik: false,
-                                          showBorderColor: false,
-                                          isMutiSelect: false,
-                                          onMultiSelect: (_) {},
-                                          singleSelectItemSubject:
-                                              model.selectedFeeSubCategoryType,
-                                          onSingleSelect: (value) {
-                                            if (model.selectedFeeSubCategoryType
-                                                    .value ==
-                                                value) {
-                                              return;
-                                            }
-                                            model.setSubCategoryTypeId(value);
-                                          },
-                                        );
-                                      }),
+                                  // ************** BATCH ********************* //
                                   SizedBox(height: 15.h),
                                   AppStreamBuilder<List<String>>(
                                       initialData: const <String>[],
@@ -211,7 +157,9 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                           },
                                         );
                                       }),
+                                  // ************** PERIOD OF SERVICE ********************* //
                                   SizedBox(height: 15.h),
+
                                   AppStreamBuilder<List<String>>(
                                       initialData: const <String>[],
                                       stream: model.periodOfService,
@@ -238,6 +186,76 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                           },
                                         );
                                       }),
+                                  //  ************** TIME ********************* //
+                                  SizedBox(height: 15.h),
+                                  AppStreamBuilder<List<String>>(
+                                      initialData: const <String>[],
+                                      stream: model.feeCategoryType,
+                                      dataBuilder: (context, feeCategoryType) {
+                                        return Visibility(
+                                          visible:
+                                              feeCategoryType?.isNotEmpty ??
+                                                  false,
+                                          child: CustomDropdownButton(
+                                            items: feeCategoryType
+                                                    ?.toSet()
+                                                    .toList() ??
+                                                [],
+                                            dropdownName: 'Time',
+                                            showAstreik: false,
+                                            showBorderColor: false,
+                                            isMutiSelect: false,
+                                            onMultiSelect: (_) {},
+                                            singleSelectItemSubject:
+                                                model.selectedFeeCategoryType,
+                                            onSingleSelect: (value) {
+                                              if (model.selectedFeeCategoryType
+                                                      .value ==
+                                                  value) {
+                                                return;
+                                              }
+                                              model.setCategoryTypeId(value);
+                                            },
+                                          ),
+                                        );
+                                      }),
+                                  // ************** CAFTERIA OPT FOR ********************* //
+                                  SizedBox(height: 15.h),
+                                  AppStreamBuilder<List<String>>(
+                                      initialData: const <String>[],
+                                      stream: model.feeSubCategoryType,
+                                      dataBuilder:
+                                          (context, feeSubCategoryType) {
+                                        return Visibility(
+                                          visible:
+                                              feeSubCategoryType?.isNotEmpty ??
+                                                  false,
+                                          child: CustomDropdownButton(
+                                            items: feeSubCategoryType
+                                                    ?.toSet()
+                                                    .toList() ??
+                                                [],
+                                            dropdownName:
+                                                'From Cafeteria Opt for',
+                                            showAstreik: false,
+                                            showBorderColor: false,
+                                            isMutiSelect: false,
+                                            onMultiSelect: (_) {},
+                                            singleSelectItemSubject: model
+                                                .selectedFeeSubCategoryType,
+                                            onSingleSelect: (value) {
+                                              if (model
+                                                      .selectedFeeSubCategoryType
+                                                      .value ==
+                                                  value) {
+                                                return;
+                                              }
+                                              model.setSubCategoryTypeId(value);
+                                            },
+                                          ),
+                                        );
+                                      }),
+
                                   SizedBox(
                                     height: 15.h,
                                   ),
@@ -274,10 +292,15 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                     flex: 1,
                                                     child: CommonElevatedButton(
                                                       onPressed: () {
+                                                        log("message");
                                                         if (onSelectVasEnrolment !=
                                                             null) {
-                                                          onSelectVasEnrolment!(
+                                                          onSelectVasEnrolment
+                                                              ?.call(
                                                             StudentEnrolmentFee(
+                                                              enquiryNo: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.enquiryNumber,
                                                               academicYearId: model
                                                                   .enquiryDetailArgs
                                                                   ?.academicYearId,
@@ -308,9 +331,6 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                               globalUserId: model
                                                                   .enquiryDetailArgs
                                                                   ?.studentGlobalId,
-                                                              lobId: model
-                                                                  .enquiryDetailArgs
-                                                                  ?.lobId,
                                                               batchId:
                                                                   model.batchID,
                                                               feeCategoryId: model

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -142,6 +144,7 @@ class KidsClubViewModel extends BasePageViewModel {
           var amount = event.data?.data?["amount"].toString();
           fee.add(amount ?? '0');
           showLoader.value = false;
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.value = false;
@@ -201,6 +204,7 @@ class KidsClubViewModel extends BasePageViewModel {
   }
 
   void setFeeSubTypeId(String value) {
+    log("FEE TYPE $value");
     // Update the selected fee sub-type
     selectedFeeSubType.value = value;
 
@@ -210,18 +214,18 @@ class KidsClubViewModel extends BasePageViewModel {
             ?.feeSubTypeId ??
         0;
 
-    // Filter and map the fee categories associated with the fee sub-type
+    // Filter and map the batchtype associated with the fee sub-type
     List<String> options = [];
-    for (FeeCategoryModel element
-        in (kidsClubEnrollmentDetail.value.data?.feeCategory ?? [])) {
+    for (BatchModel element
+        in (kidsClubEnrollmentDetail.value.data?.batches ?? [])) {
       if (element.feeSubType == value) {
-        options.add(element.feeCategory ?? '');
+        options.add(element.batchName ?? '');
       }
     }
 
-    // Update summerFeeCategoryType
-    feeCategoryType.add(options);
-    reset();
+    // Update batchType
+    batchType.add(options);
+    // reset();
   }
 
   void setCategoryTypeId(value) {
@@ -235,7 +239,9 @@ class KidsClubViewModel extends BasePageViewModel {
         in (kidsClubEnrollmentDetail.value.data?.feeSubCategory ?? [])) {
       if (element.feeCategory == value &&
           element.feeSubType == selectedFeeSubType.value) {
-        options.add(element.feeSubcategory ?? '');
+        if (element.feeSubcategory != null) {
+          options.add(element.feeSubcategory ?? '');
+        }
       }
     }
 
@@ -274,9 +280,7 @@ class KidsClubViewModel extends BasePageViewModel {
     List<String> options = [];
     for (BatchModel element
         in (kidsClubEnrollmentDetail.value.data?.batches ?? [])) {
-      if (element.feeSubcategory == selectedFeeSubCategoryType.value &&
-          element.feeSubType == selectedFeeSubType.value &&
-          element.feeCategory == selectedFeeCategoryType.value &&
+      if (element.feeSubType == selectedFeeSubType.value &&
           element.batchName == value) {
         options.add(element.periodOfService ?? '');
       }
@@ -292,6 +296,19 @@ class KidsClubViewModel extends BasePageViewModel {
             ?.firstWhereOrNull((e) => e.periodOfService == value)
             ?.periodOfServiceId ??
         0;
+
+    List<String> options = [];
+    for (FeeCategoryModel element
+        in (kidsClubEnrollmentDetail.value.data?.feeCategory ?? [])) {
+      if (element.periodOfService == value &&
+          element.feeSubType == selectedFeeSubType.value) {
+        if (element.feeCategory != null) {
+          options.add(element.feeCategory ?? '');
+        }
+      }
+    }
+
+    feeCategoryType.add(options);
     resetFees();
   }
 
@@ -336,5 +353,15 @@ class KidsClubViewModel extends BasePageViewModel {
     if (fee.value.isNotEmpty) {
       fee.value = '';
     }
+  }
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
   }
 }

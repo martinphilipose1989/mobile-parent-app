@@ -2,7 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
 class GetUserDetailsUsecase
-    extends BaseUseCase<LocalError, GetUserDetailsUsecaseParams, User> {
+    extends BaseUseCase<BaseError, GetUserDetailsUsecaseParams, User> {
   final UserRepository _userRepository;
 
   GetUserDetailsUsecase({required UserRepository userRepository})

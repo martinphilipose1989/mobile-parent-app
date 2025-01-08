@@ -32,8 +32,15 @@ abstract class ApiResponseHandler {
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
         log("ERROR ==> $error");
-        onError(AppError(
-            throwable: Exception(), error: error, type: ErrorType.unknown));
+        if (error is NetworkError) {
+          onError(
+            AppError(
+              throwable: Exception(),
+              error: error.error,
+              type: ErrorType.unknown,
+            ),
+          );
+        }
       });
     }).execute();
   }
@@ -61,7 +68,7 @@ abstract class ApiResponseHandler {
         flutterToastErrorPresenter.show(
             appError!.throwable,
             navigatorKey.currentContext!,
-            "Something went wrong. Please check your internet connection and try again.");
+            "Something went wrong. Service unavailable");
 
       case 495: // Bad Certificate
         flutterToastErrorPresenter.show(

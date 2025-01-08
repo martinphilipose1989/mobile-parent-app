@@ -23,6 +23,7 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   final CalculateFeesUsecase caclculateFeeUsecase;
   final AddVasDetailUsecase addVasDetailUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
+  final ScrollController scrollController = ScrollController();
 
   CafeteriaDetailViewModel(
       this.exceptionHandlerBinder,
@@ -138,6 +139,7 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
           fee.add(amount ?? '0');
           showLoader.value = false;
           isEnroll.value = true;
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.value = false;
@@ -244,5 +246,19 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
     feeSubTypeID = 0;
     periodOfServiceID = 0;
     fee.value = '';
+  }
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose(); // Dispose the controller when done
+    super.dispose();
   }
 }

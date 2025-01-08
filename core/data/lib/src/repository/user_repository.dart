@@ -45,8 +45,7 @@ class UserRepositoryImpl extends UserRepository {
               accessTokenExpirationDateTime:
                   result.accessTokenExpirationDateTime,
               idToken: result.idToken,
-              refreshToken: result.refreshToken
-          ),
+              refreshToken: result.refreshToken),
         );
       }
 
@@ -136,7 +135,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<LocalError, UserRolePermissionResponse>> storeUserResponse(
-      UserRolePermissionResponse userRolePermissionResponse ) async {
+      UserRolePermissionResponse userRolePermissionResponse) async {
     try {
       final saveUserName = secureStorageService.saveToDisk(
           secureStorageService.userName,
@@ -175,18 +174,30 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Either<LocalError, User>> getUserDetails() async {
     try {
-      final String userName =
+      final String? userName =
           await secureStorageService.getFromDisk(secureStorageService.userName);
-      final String emailId = await secureStorageService
+      final String? emailId = await secureStorageService
           .getFromDisk(secureStorageService.userEmail);
-      final String userPhoneNumber = await secureStorageService
+      final String? userPhoneNumber = await secureStorageService
           .getFromDisk(secureStorageService.userPhoneNumber);
-      final int userId = int.parse(
-          await secureStorageService.getFromDisk(secureStorageService.userId));
-      final int statusId = int.parse(await secureStorageService
-          .getFromDisk(secureStorageService.userStatus));
-      final token = await secureStorageService
+      final String? userIdStr =
+          await secureStorageService.getFromDisk(secureStorageService.userId);
+      final String? statusIdStr = await secureStorageService
+          .getFromDisk(secureStorageService.userStatus);
+      final String? token = await secureStorageService
           .getFromDisk(secureStorageService.accessTokenKey);
+
+      if (userName == null ||
+          emailId == null ||
+          userPhoneNumber == null ||
+          userIdStr == null ||
+          statusIdStr == null ||
+          token == null) {
+        throw Exception("Missing data in secure storage");
+      }
+
+      final int userId = int.parse(userIdStr);
+      final int statusId = int.parse(statusIdStr);
 
       return Right(
         User(
@@ -198,6 +209,7 @@ class UserRepositoryImpl extends UserRepository {
             token: token),
       );
     } catch (error) {
+      log("ERROR $error");
       return Left(
         LocalError(
           errorType: ErrorType.storageError,

@@ -35,6 +35,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                 valueListenable: model.showLoader,
                 builder: (context, bool value, child) {
                   return SingleChildScrollView(
+                    controller: model.scrollController,
                     child: Stack(
                       children: [
                         Padding(
@@ -196,6 +197,9 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
+                                                            enquiryNo: model
+                                                                .enquiryDetailArgs
+                                                                ?.enquiryNumber,
                                                             academicYearId: model
                                                                 .enquiryDetailArgs
                                                                 ?.academicYearId,
@@ -226,9 +230,6 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                             globalUserId: model
                                                                 .enquiryDetailArgs
                                                                 ?.studentGlobalId,
-                                                            lobId: model
-                                                                .enquiryDetailArgs
-                                                                ?.lobId,
                                                             feeCategoryId: model
                                                                 .feeCategoryId,
                                                             feeSubTypeId: model

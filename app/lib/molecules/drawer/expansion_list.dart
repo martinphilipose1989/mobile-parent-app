@@ -1,17 +1,16 @@
 import 'package:app/di/states/viewmodels.dart';
-import 'package:app/feature/tabbar/tabbar_page.dart';
+import 'package:app/feature/tabbar/tabbar_class.dart';
+
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
-import '../../feature/tabbar/tabbar_class.dart';
-import '../../themes_setup.dart';
-import '../../utils/app_typography.dart';
 
 class CustomExpansionList extends StatelessWidget {
   final List<DrawerItems>? nameList;
@@ -31,11 +30,10 @@ class CustomExpansionList extends StatelessWidget {
       builder: (BuildContext context, TabbarViewModel? model, Widget? child) {
         return ExpansionTile(
           showTrailingIcon: true,
-          title: Container(
-              child: Text(
+          title: Text(
             title,
             style: AppTypography.h6,
-          )),
+          ),
           children: nameList!
               .map((e) => Visibility(
                     visible: e.isActive ?? true,
@@ -44,7 +42,7 @@ class CustomExpansionList extends StatelessWidget {
                         initialData: Resource.none(),
                         dataBuilder: (context, data) {
                           return ListTile(
-                            leading: Container(
+                            leading: SizedBox(
                                 width: 50.w,
                                 child: SvgPicture.asset(e.icon ?? "")),
                             selected: model.selectedMenu.value == e,
@@ -52,8 +50,7 @@ class CustomExpansionList extends StatelessWidget {
                             selectedTileColor: AppColors.listItem,
                             title: Text(e.menu ?? ""),
                             onTap: () {
-                              //model.isSelected.value=true;n
-                              model?.selectedMenu.value = e;
+                              model.selectedMenu.value = e;
 
                               if (e.onTap != null) {
                                 e.onTap?.call();

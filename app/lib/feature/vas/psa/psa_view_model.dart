@@ -148,6 +148,7 @@ class PsaDetailViewModel extends BasePageViewModel {
           var fees = event.data?.data?["amount"].toString();
           fee.add(fees ?? '0');
           showLoader.value = false;
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.value = false;
@@ -342,5 +343,15 @@ class PsaDetailViewModel extends BasePageViewModel {
     if (fee.value.isNotEmpty) {
       fee.value = '';
     }
+  }
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
   }
 }

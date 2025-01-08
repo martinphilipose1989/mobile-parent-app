@@ -74,7 +74,8 @@ class PaymentDetailScreen extends StatelessWidget {
                               : fee.feeSubCategory ?? ""),
                     ]
                   : [
-                      buildDetailRow('Transaction ID', ''),
+                      buildDetailRow(
+                          'Transaction ID', '${fee.pgTransactionId}'),
                       buildDetailRow('Transaction Date',
                           DateFormatter.formatDate(fee.createdOn ?? '')),
                       buildDetailRow('Payment Mode', fee.paymentMode ?? ""),

@@ -70,4 +70,10 @@ class CafeteriaPageState
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }
+
+  @override
+  dispose() {
+    //viewModel.dispose();
+    super.dispose();
+  }
 }

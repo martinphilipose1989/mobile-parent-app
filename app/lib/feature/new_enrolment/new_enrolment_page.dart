@@ -33,7 +33,7 @@ class NewEnrolmentPageState
 
   @override
   void dispose() {
-    newEnrolmentViewModel.tabController.dispose();
+    // newEnrolmentViewModel.tabController.dispose();
     super.dispose();
   }
 
@@ -58,6 +58,21 @@ class NewEnrolmentPageState
       appbarTitle: "New Enrolment",
       showBackButton: true,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    final list = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+
+    if ((list?.isEmpty ?? false) || list?.first.id == null) {
+      return;
+    } else {
+      newEnrolmentViewModel.selectedStudentId = list?.first.id;
+      newEnrolmentViewModel.getStudentDetails();
+    }
+    super.didChangeDependencies();
   }
 
   // @override

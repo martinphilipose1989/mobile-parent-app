@@ -85,8 +85,8 @@ class TransportDetailViewModel extends BasePageViewModel {
   int periodOfServiceID = 0;
   int feeSubTypeID = 0;
   int feeCategoryID = 0;
-  String? feeSubCategoryStart;
-  String? feeSubCategoryEnd;
+  // String? feeSubCategoryStart;
+  // String? feeSubCategoryEnd;
 
   Future<void> getTransportEnrollmentDetail() async {
     exceptionHandlerBinder.handle(block: () {
@@ -171,6 +171,8 @@ class TransportDetailViewModel extends BasePageViewModel {
         // exceptionHandlerBinder.showError(error);
       });
     }).execute();
+
+    resetFees();
   }
 
   void setData(TransportEnrollmentResponseModel transportEnrollmentDetail) {
@@ -181,22 +183,25 @@ class TransportDetailViewModel extends BasePageViewModel {
   }
 
   Future<void> calculateFees() async {
+    log("selectedPickUpZone $selectedPickUpZone");
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
-          feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
-              schoolId: enquiryDetailArgs?.schoolId,
-              boardId: enquiryDetailArgs?.boardId,
-              gradeId: enquiryDetailArgs?.gradeId,
-              courseId: enquiryDetailArgs?.courseId,
-              academicYearId: enquiryDetailArgs?.academicYearId,
-              feeSubTypeId: feeSubTypeID,
-              feeCategoryId: feeCategoryID,
-              periodOfServiceId: periodOfServiceID,
-              shiftId: enquiryDetailArgs?.shiftId,
-              streamId: enquiryDetailArgs?.streamId,
-              feeTypeId: FeesTypeIdEnum.transportFees.id,
-              feeSubCategoryEnd: selectedDropZone?.zoneName,
-              feeSubCategoryStart: selectedPickUpZone?.zoneName));
+        feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
+          schoolId: enquiryDetailArgs?.schoolId,
+          boardId: enquiryDetailArgs?.boardId,
+          gradeId: enquiryDetailArgs?.gradeId,
+          courseId: enquiryDetailArgs?.courseId,
+          academicYearId: enquiryDetailArgs?.academicYearId,
+          feeSubTypeId: feeSubTypeID,
+          feeCategoryId: feeCategoryID,
+          periodOfServiceId: periodOfServiceID,
+          shiftId: enquiryDetailArgs?.shiftId,
+          streamId: enquiryDetailArgs?.streamId,
+          feeTypeId: FeesTypeIdEnum.transportFees.id,
+          feeSubCategoryEnd: selectedDropZone?.zoneName,
+          feeSubCategoryStart: selectedPickUpZone?.zoneName,
+        ),
+      );
       showLoader.add(true);
       RequestManager<VasOptionResponse>(params,
               createCall: () => calculateFeesUsecase.execute(params: params))
@@ -210,6 +215,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           var amount = event.data?.data?["amount"].toString();
           fee.add(amount ?? '0');
           showLoader.add(false);
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.add(false);
@@ -296,16 +302,25 @@ class TransportDetailViewModel extends BasePageViewModel {
   StopDetail? selectedPickUpZone;
   StopDetail? selectedDropZone;
 
-  void filterPeriodService({required String routeType}) {
+  void filterPeriodService(
+      {required String routeType, required String selectedValue}) {
     if (radioButtonServiceType.selectedItem?.toLowerCase() == "both way") {
       if (routeType == "pickup") {
         selectedPickUpZone = stopList.value.firstWhere((stop) =>
-            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
       } else {
         selectedDropZone = stopList.value.firstWhere((stop) =>
-            stop.stopName?.toLowerCase() == feeSubCategoryStart?.toLowerCase());
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
       }
-    } else {}
+    } else {
+      if (routeType == "pickup") {
+        selectedPickUpZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
+      } else {
+        selectedDropZone = stopList.value.firstWhere((stop) =>
+            stop.stopName?.toLowerCase() == selectedValue.toLowerCase());
+      }
+    }
 
     final list = transportEnrollmentDetail.value.data?.periodOfService
         ?.where((ps) =>
@@ -320,7 +335,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           list!.map((e) => e.periodOfService ?? '').toList();
     }
 
-    //oneWayPickupPoint.value.toSet().toList().firstWhere(test);
+    resetFees();
   }
 
   void setPeriodOfService(String value) {
@@ -329,6 +344,7 @@ class TransportDetailViewModel extends BasePageViewModel {
                 ps.periodOfService?.toLowerCase() == value.toLowerCase())
             .periodOfServiceId ??
         0;
+    resetFees();
   }
 
   void setFeeSubType(String selectedValue) {
@@ -350,12 +366,13 @@ class TransportDetailViewModel extends BasePageViewModel {
   void setFeeCategory(String selectedValue) {
     if ((radioButtonServiceType.selectedItem ?? '').toLowerCase() ==
         "both way") {
+      radioButtonOneWayRouteType.selectItem(null);
       fetchStop(forBothWay: true, routeType: "1");
       fetchStop(forBothWay: true, routeType: "2");
-      if (!feeSubCategoryStart.isEmptyOrNull() ||
-          !feeSubCategoryEnd.isEmptyOrNull()) {
-        feeSubCategoryStart = null;
-        feeSubCategoryEnd = null;
+      if (!(selectedPickUpZone?.zoneName.isEmptyOrNull() ?? false) ||
+          !(selectedDropZone?.zoneName.isEmptyOrNull() ?? false)) {
+        selectedDropZone = null;
+        selectedPickUpZone = null;
       }
     }
     feeCategoryID = transportEnrollmentDetail.value.data?.feeCategory
@@ -363,5 +380,23 @@ class TransportDetailViewModel extends BasePageViewModel {
                 element.feeCategory == radioButtonServiceType.selectedItem)
             ?.feeCategoryId ??
         0;
+
+    resetFees();
+  }
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0, // Scroll to position 0 (top)
+      duration: Duration(milliseconds: 500), // Duration for smooth scrolling
+      curve: Curves.easeInOut, // Animation curve
+    );
+  }
+
+  void resetFees() {
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
   }
 }

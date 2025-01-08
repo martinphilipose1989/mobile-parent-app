@@ -14,7 +14,13 @@ class GetUserRoleBasePermissionUsecase extends BaseUseCase<BaseError,
     return Future.value(
       (await userRepository.getUserRolePermissions(body: params.request))
           .fold((l) => Left(l), (result) async {
-        return userRepository.storeUserResponse(result);
+        if (result.success == true) {
+          return userRepository.storeUserResponse(result);
+        } else {
+          logoutOnTokenExpiry.add(true);
+          return Left(NetworkError(
+              httpError: 401, cause: Exception(), message: "Unauthorized"));
+        }
       }),
     );
   }
