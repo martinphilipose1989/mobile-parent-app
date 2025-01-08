@@ -40,6 +40,7 @@ class HighlightListState extends State<HighlightList> {
                 _highlightIndex.add(index);
                 widget.onCallBack(
                     widget.chipValues[index].name?.toLowerCase() ?? "");
+                _highlightIndex.add(-1);
               },
               child: Container(
                 padding: const EdgeInsets.all(8.0),
@@ -51,6 +52,7 @@ class HighlightListState extends State<HighlightList> {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                         height: 55.h,
@@ -72,7 +74,8 @@ class HighlightListState extends State<HighlightList> {
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     Text(
                       widget.chipValues[index].name ?? "",
-                      style: TextStyle(fontSize: 10.sp,
+                      style: TextStyle(
+                        fontSize: 10.sp,
                         color: isSelected
                             ? Theme.of(context).colorScheme.primary
                             : Colors.black,

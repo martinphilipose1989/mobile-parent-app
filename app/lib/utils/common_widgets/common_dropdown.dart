@@ -86,8 +86,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
     if (widget.isMutiSelect != null && widget.isMutiSelect == true) {
       if (widget.displayZerothIndex) {
         List<String> addedZerothIndex = [];
-        addedZerothIndex.add(widget.items[0] ?? '');
-        selectedItemsSubject.add(addedZerothIndex);
+        if (widget.items.isNotEmpty) {
+          addedZerothIndex.add(widget.items[0] ?? '');
+          selectedItemsSubject.add(addedZerothIndex);
+        }
       } else {
         List<String> tempList = [];
         for (var element in widget.items) {

@@ -29,6 +29,7 @@ class SummerCampDetailPageView
           return Stack(
             children: [
               SingleChildScrollView(
+                controller: model.scrollController,
                 child: AppStreamBuilder<
                         Resource<SummerCampEnrollmentResponseModel>>(
                     stream: model.fetchSummerCampEnrollmentDetail,
@@ -268,6 +269,9 @@ class SummerCampDetailPageView
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
+                                                              enquiryNo: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.enquiryNumber,
                                                               academicYearId: model
                                                                   .enquiryDetailArgs
                                                                   ?.academicYearId,
@@ -298,9 +302,6 @@ class SummerCampDetailPageView
                                                               globalUserId: model
                                                                   .enquiryDetailArgs
                                                                   ?.studentGlobalId,
-                                                              lobId: model
-                                                                  .enquiryDetailArgs
-                                                                  ?.lobId,
                                                               batchId:
                                                                   model.batchID,
                                                               feeSubcategoryId:

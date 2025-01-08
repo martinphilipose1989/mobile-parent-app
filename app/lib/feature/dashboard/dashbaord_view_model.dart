@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/model/resource.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
@@ -335,30 +333,6 @@ class DashboardPageModel extends BasePageViewModel {
       {'text': 'Class Update', 'route': ''},
       {'text': 'Assignment', 'route': ''},
     ];
-
-    Widget buildDrawer(BuildContext context, List<Map<String, String>> items) {
-      return Drawer(
-        child: ListView(
-          children: drawerItems.map((item) {
-            final text = item['text'] ?? '';
-            final route = item['route'] ?? '';
-            return ListTile(
-              title: Text(text),
-              onTap: () {
-                // Navigate to the specified route
-                if (route.isNotEmpty) {
-                  Navigator.pushNamed(
-                    // Replace 'context' with the actual context if this is part of a class
-                    context,
-                    route,
-                  );
-                }
-              },
-            );
-          }).toList(),
-        ),
-      );
-    }
   }
 
   @override

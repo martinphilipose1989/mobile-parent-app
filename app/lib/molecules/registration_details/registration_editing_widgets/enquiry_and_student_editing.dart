@@ -91,7 +91,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                 width: 1,
               )),
           child: ExpansionTile(
-              title:  CommonText(
+              title: CommonText(
                 text: 'Student Details',
                 style: AppTypography.subtitle2,
               ),
@@ -365,12 +365,12 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                           return Column(
                             children: [
                               if ((data ?? '') == "Father") ...[
-                                CommonTextFormField(
-                                  showAstreik: false,
-                                  labelText: 'Global ID',
-                                  readOnly: true,
-                                  controller: model.fatherGlobalIdController,
-                                ),
+                                // CommonTextFormField(
+                                //   showAstreik: false,
+                                //   labelText: 'Global ID',
+                                //   readOnly: true,
+                                //   controller: model.fatherGlobalIdController,
+                                // ),
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
@@ -415,12 +415,12 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                   ],
                                 ),
                               ] else ...[
-                                CommonTextFormField(
-                                  showAstreik: false,
-                                  labelText: 'Gloabal ID',
-                                  readOnly: true,
-                                  controller: model.motherGlobalIdController,
-                                ),
+                                // CommonTextFormField(
+                                //   showAstreik: false,
+                                //   labelText: 'Gloabal ID',
+                                //   readOnly: true,
+                                //   controller: model.motherGlobalIdController,
+                                // ),
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,

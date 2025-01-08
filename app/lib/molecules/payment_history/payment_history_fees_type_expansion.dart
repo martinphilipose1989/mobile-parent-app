@@ -41,11 +41,9 @@ class _PaymentHistoryFeesTypeExpansionState
               SizedBox(
                   height: MediaQuery.of(context).size.height / 1,
                   child: widget.groupedModels.isEmpty
-                      ? Center(
-                          child: CommonText(
-                            text: 'No Fees Type Found',
-                            style: AppTypography.subtitle2,
-                          ),
+                      ? CommonText(
+                          text: 'No Fees Type Found',
+                          style: AppTypography.subtitle2,
                         )
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -63,8 +61,9 @@ class _PaymentHistoryFeesTypeExpansionState
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CommonText(
-                                          text:
-                                              "${widget.groupedModels[i].feeDisplayName}",
+                                          text: widget.groupedModels[i]
+                                                  .feeDisplayName ??
+                                              '',
                                           style: AppTypography.subtitle2,
                                         ),
                                         const Divider(

@@ -9,7 +9,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart'
     as student;
 import 'package:app/navigation/route_paths.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
+
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/toggle_option_list.dart';
@@ -36,10 +36,11 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         initialData: Resource.none(),
         onData: (value) {
           if (value.status == Status.success) {
+            // model.newEnrolmentSubject.add(Resource.none());
             CommonPopups().showSuccess(context, "Student Enrolment Successful",
                 (val) {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil(RoutePaths.tabbar, (route) => false);
+                  .popUntil(ModalRoute.withName(RoutePaths.tabbar));
             });
           }
         },
@@ -58,7 +59,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                             : Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: student.StudentDetails(
-                                    image: AppImages.personIcon,
+                                    image: studentProfile?.profileImageUrl,
                                     name:
                                         "${studentProfile?.firstName?.orEmpty('N/A')} ${studentProfile?.lastName?.orEmpty('N/A')}",
                                     title:
@@ -130,7 +131,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         studentId: profile?.id,
         studentGlobalId: profile?.globalId,
         brandId: profile?.crtBrandId,
-        lobId: profile?.crtLobId);
+        enquiryNumber: profile?.crtEnrOn);
 
     switch (option) {
       case VasOptions.kidsClub:
@@ -138,7 +139,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
             hideAppBar: true,
             enquiryDetailArgs: enquiryDetailArgs,
             onSelectVasEnrolment: (studentFee) {
-              // model.onSelectVasEnrolment(studentFee);
+              model.createNewEnrolment(studentFees: [studentFee]);
             });
       case VasOptions.cafeteria:
         return CafeteriaPage(
@@ -147,20 +148,20 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
             onSelectVasEnrolment: (studentFee) {
               model.createNewEnrolment(studentFees: [studentFee]);
             });
-      case VasOptions.psa:
-        return PsaDetailPage(
-            hideAppBar: true,
-            enquiryDetailArgs: enquiryDetailArgs,
-            onSelectVasEnrolment: (studentFee) {
-              model.createNewEnrolment(studentFees: [studentFee]);
-            });
-      case VasOptions.summerCamp:
-        return SummerCampDetailPage(
-            hideAppBar: true,
-            enquiryDetailArgs: enquiryDetailArgs,
-            onSelectVasEnrolment: (studentFee) {
-              model.createNewEnrolment(studentFees: [studentFee]);
-            });
+      // case VasOptions.psa:
+      //   return PsaDetailPage(
+      //       hideAppBar: true,
+      //       enquiryDetailArgs: enquiryDetailArgs,
+      //       onSelectVasEnrolment: (studentFee) {
+      //         model.createNewEnrolment(studentFees: [studentFee]);
+      //       });
+      // case VasOptions.summerCamp:
+      //   return SummerCampDetailPage(
+      //       hideAppBar: true,
+      //       enquiryDetailArgs: enquiryDetailArgs,
+      //       onSelectVasEnrolment: (studentFee) {
+      //         model.createNewEnrolment(studentFees: [studentFee]);
+      //       });
       case VasOptions.transport:
         return TransportPage(
             hideAppBar: true,

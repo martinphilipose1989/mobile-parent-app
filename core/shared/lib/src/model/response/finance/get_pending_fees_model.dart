@@ -126,6 +126,7 @@ class GetPendingFeesFeeModel {
   int? studentFeeId;
   int? feeSubTypeId;
   String? transactionDate;
+  String? pgTransactionId;
 
   GetPendingFeesFeeModel(
       {this.id,
@@ -231,7 +232,8 @@ class GetPendingFeesFeeModel {
       this.urlKey,
       this.studentFeeId,
       this.feeSubTypeId,
-      this.transactionDate});
+      this.transactionDate,
+      this.pgTransactionId});
 
   GetPendingFeesFeeModel copyWith(
       {dynamic enquiryId,

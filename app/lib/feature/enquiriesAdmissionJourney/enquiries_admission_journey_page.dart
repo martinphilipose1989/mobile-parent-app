@@ -144,39 +144,38 @@ class EnquiryDetailArgs {
   // new enrolment
   int? studentId;
   int? studentGlobalId;
-  int? lobId;
 
-  EnquiryDetailArgs(
-      {this.enquiryId,
-      this.enquiryNumber,
-      this.enquiryType,
-      this.currentStage,
-      this.studentName,
-      this.academicYear,
-      this.school,
-      this.board,
-      this.grade,
-      this.stream,
-      this.shift,
-      this.schoolVisitDate,
-      this.schoolVisitTime,
-      this.formCompletionPercentage,
-      this.isFrom,
-      this.admissionStatus,
-      this.status,
-      this.brandId,
-      this.brandName,
-      this.shiftId,
-      this.streamId,
-      this.schoolId,
-      this.boardId,
-      this.gradeId,
-      this.academicYearId,
-      this.courseId,
-      // new enrolment
-      this.studentId,
-      this.studentGlobalId,
-      this.lobId});
+  EnquiryDetailArgs({
+    this.enquiryId,
+    this.enquiryNumber,
+    this.enquiryType,
+    this.currentStage,
+    this.studentName,
+    this.academicYear,
+    this.school,
+    this.board,
+    this.grade,
+    this.stream,
+    this.shift,
+    this.schoolVisitDate,
+    this.schoolVisitTime,
+    this.formCompletionPercentage,
+    this.isFrom,
+    this.admissionStatus,
+    this.status,
+    this.brandId,
+    this.brandName,
+    this.shiftId,
+    this.streamId,
+    this.schoolId,
+    this.boardId,
+    this.gradeId,
+    this.academicYearId,
+    this.courseId,
+    // new enrolment
+    this.studentId,
+    this.studentGlobalId,
+  });
 
   @override
   String toString() {
