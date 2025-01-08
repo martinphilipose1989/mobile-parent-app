@@ -105,11 +105,11 @@ class SplashViewModel extends BasePageViewModel {
         userSubject.add(data.data!);
         Navigator.pushNamedAndRemoveUntil(
             navigatorKey.currentContext!, RoutePaths.tabbar, (route) => false);
-      } else if (data.status == Status.error) {
-        login();
       }
     }).onError((error) {
       if (error is LocalError) {
+        log("STATUS ERROR LocalError");
+
         login();
       }
     });

@@ -171,14 +171,14 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 getIt.get<String>(instanceName: "SubjectSelectionUrl");
             final selectedStudent = model.dashboardState.selectedStudent;
 
-            log("SubjectSelectionUrl =======> $subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}");
+            log("SubjectSelectionUrl =======> $subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}");
             Navigator.pushNamed(
               context,
               receivedRoutePath,
               arguments: WebviewArguments(
                   enquiryDetailArgs: EnquiryDetailArgs(),
                   paymentsLink:
-                      '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}'),
+                      '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}'),
             );
           } else {
             Navigator.pushNamed(

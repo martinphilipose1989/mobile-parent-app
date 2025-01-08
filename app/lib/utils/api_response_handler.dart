@@ -32,8 +32,15 @@ abstract class ApiResponseHandler {
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
         log("ERROR ==> $error");
-        onError(AppError(
-            throwable: Exception(), error: error, type: ErrorType.unknown));
+        if (error is NetworkError) {
+          onError(
+            AppError(
+              throwable: Exception(),
+              error: error.error,
+              type: ErrorType.unknown,
+            ),
+          );
+        }
       });
     }).execute();
   }
