@@ -1,4 +1,4 @@
-// import 'package:alice/alice.dart';
+
 import 'package:app/flavors/flavor_config.dart';
 import 'package:dependency_injection/dependency_injection.dart';
 import 'package:firebase_core/firebase_core.dart';
