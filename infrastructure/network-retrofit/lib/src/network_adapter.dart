@@ -846,7 +846,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, SiblingProfileResponse>> getSiblingDetail(
       {required GetSiblingDetailRequest getSiblingDetailRequest}) async {
     var response = await safeApiCall(adminRetorfitService.getSiblingDetail(
-        getSiblingDetailRequest: getSiblingDetailRequest));
+        getSiblingDetailRequest: getSiblingDetailRequest, app: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -909,7 +909,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, SubjectListResponse>> getSubjectList(
       {required SubjectListingRequest subjectListingRequest}) async {
     var response = await safeApiCall(adminRetorfitService.getSubjectList(
-        subjectListingRequest: subjectListingRequest));
+        subjectListingRequest: subjectListingRequest, app: platform));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1384,9 +1384,8 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail({
     required int id,
   }) async {
-    var response = await safeApiCall(adminRetorfitService.getStudentDetails(
-      studentId: id,
-    ));
+    var response = await safeApiCall(
+        adminRetorfitService.getStudentDetails(studentId: id, app: platform));
     return response.fold(
       (l) {
         return Left(l);

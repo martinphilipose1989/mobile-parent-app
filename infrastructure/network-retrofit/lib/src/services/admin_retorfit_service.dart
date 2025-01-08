@@ -19,7 +19,7 @@ abstract class AdminRetorfitService {
   }
 
   @GET(
-      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}')
+      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}&platform=app')
   Future<HttpResponse<GetCouponsResponseEntity>> getCoupons({
     @Path('student_id') required String studentId,
     @Path('fee_type_ids') required String feeTypeIds,
@@ -30,16 +30,17 @@ abstract class AdminRetorfitService {
   });
 
   @GET('/studentProfile/{id}')
-  Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails({
-    @Path('id') required int studentId,
-  });
+  Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails(
+      {@Path('id') required int studentId,
+      @Query('platform') required String app});
 
   @POST('school-subject/fetch-school-subjects')
-  Future<HttpResponse<SubjectListResponseEntity>> getSubjectList({
-    @Body() required SubjectListingRequest subjectListingRequest,
-  });
+  Future<HttpResponse<SubjectListResponseEntity>> getSubjectList(
+      {@Body() required SubjectListingRequest subjectListingRequest,
+      @Query('platform') required String app});
 
   @POST('studentProfile/getEnrollmentDetail')
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
-      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest});
+      {@Body() required GetSiblingDetailRequest getSiblingDetailRequest,
+      @Query('platform') required String app});
 }
