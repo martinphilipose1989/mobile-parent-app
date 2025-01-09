@@ -588,4 +588,11 @@ abstract class DomainModule {
   NewEnrolmentUsecase newEnrolmentUsecase(FinanceRepository financeRepository) {
     return NewEnrolmentUsecase(financeRepository: financeRepository);
   }
+
+  @lazySingleton
+ Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
+    return  Sendtokenusecase(adminRepository: adminRepository );
+  }
+
+
 }

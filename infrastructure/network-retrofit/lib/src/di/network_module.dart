@@ -13,6 +13,7 @@ import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/retrofit_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
+import 'package:network_retrofit/src/services/tokenService.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/api_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -131,6 +132,10 @@ abstract class NetworkModule {
   GatemanagementService providerGatemanagementService(
           Dio dio, @Named('GateUrl') String gateUrl) =>
       GatemanagementService(dio, gateUrl: gateUrl);
+  @lazySingleton
+  TokenRetrofitService tokenRetrofitService(
+      Dio dio, @Named('mdmBaseUrl') String mdmBaseUrl) =>
+     TokenRetrofitService(dio,mdmBaseUrl: mdmBaseUrl);
 
   @lazySingleton
   MarketingSerivce providerMarketingSerivce(
@@ -149,7 +154,9 @@ abstract class NetworkModule {
           KeyCloakService keyCloakService,
           GatemanagementService gatemanagementService,
           MarketingSerivce marketingSerivce,
-      NotificationSerivce notificationService) =>
+      NotificationSerivce notificationService,
+      TokenRetrofitService tokenRetrofitService
+      ) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -160,5 +167,5 @@ abstract class NetworkModule {
           transportService: transportService,
           keyCloakService: keyCloakService,
           gatemanagementService: gatemanagementService,
-          marketingSerivce: marketingSerivce, notificationSerivce: notificationService);
+          marketingSerivce: marketingSerivce, notificationSerivce: notificationService, tokenRetrofitService: tokenRetrofitService);
 }

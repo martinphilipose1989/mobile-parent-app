@@ -12,11 +12,13 @@ export 'src/model/error/error_info_entity.dart';
 export 'src/model/response/get_enquiry_list/enquiry_list_detail_response_entity.dart';
 export 'src/model/response/get_enquiry_list/enquirylist_base_response_entity.dart';
 export 'src/model/response/get_enquiry_list/enquiry_list_response_entity.dart';
+export 'src/model/response/notification/notification_response_entity.dart';
 
 export 'src/model/request/school_visit_creation_request.dart';
 export 'src/model/request/cancel_school_visit_request.dart';
 export 'src/model/request/competency_test_creation_request.dart';
 export 'src/model/request/cancel_competency_test_request.dart';
+export 'src/model/request/notification/sendTokenRequestEntity.dart';
 export 'src/model/request/school_visit_reschedule_request.dart';
 export 'src/model/request/competency_test_reschedule_request.dart';
 export 'src/model/request/parent_info_update_request.dart';

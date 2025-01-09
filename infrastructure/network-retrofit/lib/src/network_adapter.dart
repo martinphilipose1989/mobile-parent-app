@@ -45,6 +45,7 @@ import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
+import 'package:network_retrofit/src/services/tokenService.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:retrofit/dio.dart';
@@ -62,6 +63,7 @@ class NetworkAdapter implements NetworkPort {
   final GatemanagementService gatemanagementService;
   final MarketingSerivce marketingSerivce;
   final NotificationSerivce notificationSerivce;
+  TokenRetrofitService tokenRetrofitService;
   final mdmToken =
       "Bearer daab45fc5eeed66cf456080a8300a68ca564b924891e154f5f36c80438873b6e70932225dac1bdf9e9e60e82bba5edbf4130ddcf9722ed148d5952a5bb059a514375393817e57c43d97a85dfca549a53a61e080f3eb57d18bf4555bee35b71d19e591649c45b2c2d93018930d9cab082a9a85bb888ab0aed2ccb9f1119e53933";
 
@@ -81,7 +83,7 @@ class NetworkAdapter implements NetworkPort {
       required this.ticketRetrofitService,
       required this.keyCloakService,
       required this.gatemanagementService,
-      required this.marketingSerivce});
+      required this.marketingSerivce,required this.tokenRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -1715,5 +1717,17 @@ class NetworkAdapter implements NetworkPort {
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken ({required int? userId, required SendTokenRequestEntity sendTokenRequestEntity}) async {
+    final response = await safeApiCall(
+        tokenRetrofitService.sendToken(
+   userId: userId??0,sendTokenRequestEntity: sendTokenRequestEntity));
+
+    return response.fold(
+          (error) => Left(error),
+          (data) => Right(data.data.transform()),
+    );
   }
 }

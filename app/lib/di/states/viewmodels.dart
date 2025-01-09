@@ -82,8 +82,9 @@ final dashboardViewModelProvider =
       getIt.get<GetGuardianStudentDetailsUsecase>(),
       getIt.get<TokenresponseUsecase>(),
       getIt.get<GetUserRoleBasePermissionUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
-);
+      getIt.get<GetUserDetailsUsecase>(),
+ getIt.get<Sendtokenusecase>(),
+));
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
   (ref) => PaymentsModel(
