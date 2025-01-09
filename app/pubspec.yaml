@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
-version: 1.0.1+2501082
+version: 1.0.1+2501091
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -92,12 +92,12 @@ dependencies:
   path_provider: ^2.1.4
   open_filex: ^4.5.0
   # IOS COMPATIBLE VERSION
-  geolocator: ^13.0.2
-  #geolocator: ^12.0.0
+  #geolocator: ^13.0.2
+  geolocator: ^12.0.0
   cached_network_image: ^3.4.0
    # IOS COMPATIBLE VERSION
-  alice: ^0.4.1
-  #alice: ^0.4.2
+  #alice: ^0.4.1
+  alice: ^0.4.2
   
   country_code_picker: ^3.0.0
   flutter_libphonenumber: ^2.3.0

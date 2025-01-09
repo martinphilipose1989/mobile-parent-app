@@ -58,16 +58,18 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                             ? Center(child: CircularProgressIndicator())
                             : Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: student.StudentDetails(
-                                    image: studentProfile?.profileImageUrl,
-                                    name:
-                                        "${studentProfile?.firstName?.orEmpty('N/A')} ${studentProfile?.lastName?.orEmpty('N/A')}",
-                                    title:
-                                        "${studentProfile?.crtSchool?.orEmpty('N/A')}|${studentProfile?.crtBoard?.orEmpty('N/A')}",
-                                    subtitle:
-                                        "${studentProfile?.courseName?.orEmpty('N/A')}| ${studentProfile?.crtShift.orEmpty('N/A')}| ${studentProfile?.crtDivision.orEmpty('N/A')}| ${studentProfile?.crtHouse.orEmpty('N/A')} | ${studentProfile?.crtGrade.orEmpty('N/A')}",
-                                    subtitle2:
-                                        "Stream: ${studentProfile?.streamName.orEmpty('N/A')}"),
+                                child: studentProfile != null
+                                    ? student.StudentDetails(
+                                        image: studentProfile.profileImageUrl,
+                                        name:
+                                            "${studentProfile.firstName?.orEmpty('N/A') ?? ''} ${studentProfile.lastName?.orEmpty('N/A')}",
+                                        title:
+                                            "${studentProfile.crtSchool?.orEmpty('N/A')}|${studentProfile.crtBoard?.orEmpty('N/A')}",
+                                        subtitle:
+                                            "${studentProfile.courseName?.orEmpty('N/A')}| ${studentProfile.crtShift.orEmpty('N/A')}| ${studentProfile.crtDivision.orEmpty('N/A')}| ${studentProfile.crtHouse.orEmpty('N/A')} | ${studentProfile.crtGrade.orEmpty('N/A')}",
+                                        subtitle2:
+                                            "Stream: ${studentProfile.streamName.orEmpty('N/A')}")
+                                    : Text("No Data"),
                               );
                       }),
                   Padding(
@@ -83,7 +85,8 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                       initialData: Resource.none(),
                       dataBuilder: (context, data) {
                         return Visibility(
-                          visible: data?.data?.profile?.crtSchoolId != null,
+                          visible: data?.data?.profile != null &&
+                              data?.data?.profile?.crtSchoolId != null,
                           child: Expanded(
                             child: StreamBuilder<VasOptions>(
                               stream: model.selectedVasOption,

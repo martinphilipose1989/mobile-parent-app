@@ -1,7 +1,6 @@
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
-import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/molecules/drawer/expansion_list.dart';
@@ -51,26 +50,29 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   void onModelReady(TabbarViewModel model) {
-    model.menuItems = [
-      MenuItem(
-          menuItem: "Fees", menuItemActive: true, drawerItmes: model.fessItems),
-      MenuItem(
-          menuItem: "Child Progress/Academic Progress",
-          menuItemActive: true,
-          drawerItmes: model.progressItems),
-      MenuItem(
-          menuItem: "Parent Services",
-          menuItemActive: false,
-          drawerItmes: model.parentServices),
-      MenuItem(
-          menuItem: "Info",
-          menuItemActive: false,
-          drawerItmes: model.infoItems),
-      MenuItem(
-          menuItem: "Daily Diary",
-          menuItemActive: false,
-          drawerItmes: model.dailyDiary)
-    ];
+    // model.menuItems = [
+    //   MenuItem(
+    //       menuItem: "Fees",
+    //       menuItemActive: false,
+    //       drawerItmes: model.fessItems),
+    //   MenuItem(
+    //       menuItem: "Child Progress/Academic Progress",
+    //       menuItemActive: false,
+    //       drawerItmes: model.progressItems),
+    //   MenuItem(
+    //       menuItem: "Parent Services",
+    //       menuItemActive: false,
+    //       drawerItmes: model.parentServices),
+    //   MenuItem(
+    //       menuItem: "Info",
+    //       menuItemActive: false,
+    //       drawerItmes: model.infoItems),
+    //   MenuItem(
+    //       menuItem: "Daily Diary",
+    //       menuItemActive: false,
+    //       drawerItmes: model.dailyDiary)
+    // ];
+    model.getUserDetails();
     super.onModelReady(model);
   }
 

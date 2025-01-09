@@ -4,7 +4,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -127,7 +127,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'New Enrollment',
       'image': AppImages.activity,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'enrollment'
     },
   ];
@@ -137,7 +137,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Subject Selection',
       'image': AppImages.subjectSelectionIcon,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'subject selection'
     },
   ];
@@ -324,15 +324,35 @@ class DashboardPageModel extends BasePageViewModel {
       }
     }
 
-    final List<Map<String, String>> drawerItems = [
-      {'text': 'Fees', 'route': ''},
-      {'text': 'Payments', 'route': ''},
-      {'text': 'Transaction History', 'route': ''},
-      {'text': 'Receipt', 'route': ''},
-      {'text': 'Daily Diary', 'route': ''},
-      {'text': 'Class Update', 'route': ''},
-      {'text': 'Assignment', 'route': ''},
-    ];
+    for (int index = 0; index < progress.length; index++) {
+      if (index < progress.length) {
+        if (data.data?.statusId != 0) {
+          progress[index]['isActive'] = true;
+        } else {
+          progress[index]['isActive'] = false;
+        }
+      }
+    }
+
+    for (int index = 0; index < parentServices.length; index++) {
+      if (index < parentServices.length) {
+        if (data.data?.statusId != 0) {
+          parentServices[index]['isActive'] = true;
+        } else {
+          parentServices[index]['isActive'] = false;
+        }
+      }
+    }
+
+    // final List<Map<String, String>> drawerItems = [
+    //   {'text': 'Fees', 'route': ''},
+    //   {'text': 'Payments', 'route': ''},
+    //   {'text': 'Transaction History', 'route': ''},
+    //   {'text': 'Receipt', 'route': ''},
+    //   {'text': 'Daily Diary', 'route': ''},
+    //   {'text': 'Class Update', 'route': ''},
+    //   {'text': 'Assignment', 'route': ''},
+    // ];
   }
 
   @override

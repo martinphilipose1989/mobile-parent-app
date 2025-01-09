@@ -71,18 +71,33 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           //       return const SizedBox.shrink();
           //     }),
 
-          title('Child Progress/Academic Progress'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.progress.length,
-                (i) => Chips(
-                    name: model.progress[i]['name'],
-                    image: model.progress[i]['image'],
-                    isSelected: model.progress[i]['isSelected']),
-              ),
-              model),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.progress
+                    .where((p) => p['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Child Progress/Academic Progress'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          List.generate(
+                            model.progress.length,
+                            (i) => Chips(
+                                name: model.progress[i]['name'],
+                                image: model.progress[i]['image'],
+                                isSelected: model.progress[i]['isSelected']),
+                          ),
+                          model),
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
 
           // CommonSizedBox.sizedBox(height: 10, width: 10),
           // title('Enquiry & Admission'),
@@ -129,21 +144,36 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 return const SizedBox.shrink();
               }),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-          title('Parent Services'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              model.parentServices
-                  .where((e) => e['isActive'] == true)
-                  .map(
-                    (services) => Chips(
-                      name: services['name'],
-                      image: services['image'],
-                      isSelected: services['isSelected'],
-                    ),
-                  )
-                  .toList(),
-              model)
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.parentServices
+                    .where((fees) => fees['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Parent Services'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          model.parentServices
+                              .where((e) => e['isActive'] == true)
+                              .map(
+                                (services) => Chips(
+                                  name: services['name'],
+                                  image: services['image'],
+                                  isSelected: services['isSelected'],
+                                ),
+                              )
+                              .toList(),
+                          model),
+                    ],
+                  );
+                }
+                return SizedBox.shrink();
+              })
         ],
       ),
     );
