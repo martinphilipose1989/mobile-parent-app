@@ -25,9 +25,7 @@ void main() async {
         discoveryUrl: EnvProd.discoveryUrl,
         logoutEndpoint: EnvProd.logoutEndpoint,
         gateUrl: EnvProd.gateBaseUrl,
-        marketingUrl:
-            'https://marketing-backend-1032326496689.asia-south1.run.app/',
-        //EnvProd.marketingBaseUrl,
+        marketingUrl: EnvProd.marketingBaseUrl,
         showLogs: true,
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
