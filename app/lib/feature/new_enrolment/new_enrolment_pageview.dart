@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';

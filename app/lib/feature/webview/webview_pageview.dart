@@ -26,11 +26,11 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
         if (value.data?.data?.toLowerCase() == "success") {
           // Handle successful payment
           model.timer.cancel();
-          //  Navigator.pop(context, true);
+          Navigator.pop(context, true);
         } else if (value.data?.data?.toLowerCase() == "failure") {
           // Handle failed payment
           model.timer.cancel();
-          //  Navigator.pop(context, false);
+          Navigator.pop(context, false);
         }
       },
       dataBuilder: (context, data) {
@@ -59,12 +59,12 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
               if (url.toString().contains('success')) {
                 // Handle successful payment
                 model.timer.cancel();
-                //  Navigator.pop(context, true);
+                Navigator.pop(context, true);
                 //  url = null;
               } else if (url.toString().contains('failure')) {
                 // Handle failed payment
                 model.timer.cancel();
-                // Navigator.pop(context, false);
+                Navigator.pop(context, false);
                 //  url = null;
               } else if (url.path.contains("enquiries/mobile_submitted")) {
                 navigatorKey.currentState?.pushNamed(
