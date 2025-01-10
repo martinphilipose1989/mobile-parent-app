@@ -153,7 +153,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
     final profile = model.studentProfileSubject.value.data?.profile;
 
     final enquiryDetailArgs = EnquiryDetailArgs(
-        schoolId: profile?.crtSchoolId,
+        schoolId: profile?.schoolParentId,
         boardId: profile?.crtBoardId,
         academicYearId: int.tryParse(
             model.academicYearId ?? "${profile?.academicYearId.toString()}"),
