@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/model/resource.dart';
@@ -18,6 +16,7 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final StudentDetailUseCase studentDetailsUsecase;
   final NewEnrolmentUsecase newEnrolmentUsecase;
+  final GetMdmAttributeUsecase getMdmAttributeUsecase;
 
   // TAB CONTROLLER
   late TabController tabController;
@@ -37,7 +36,8 @@ class NewEnrolmentViewModel extends BasePageViewModel {
       {required this.flutterToastErrorPresenter,
       required this.exceptionHandlerBinder,
       required this.studentDetailsUsecase,
-      required this.newEnrolmentUsecase}) {}
+      required this.newEnrolmentUsecase,
+      required this.getMdmAttributeUsecase});
 
   final dashBoardState = DashboardState();
 
@@ -85,6 +85,39 @@ class NewEnrolmentViewModel extends BasePageViewModel {
         });
   }
 
+  final BehaviorSubject<Resource<List<MdmAttributeModel>>>
+      getAcademicYearSubject = BehaviorSubject.seeded(Resource.none());
+
+  final BehaviorSubject<String> selectedAcademicYear =
+      BehaviorSubject<String>.seeded('');
+
+  Future<void> getAcademicYear() async {
+    getAcademicYearSubject.add(Resource.loading());
+    final GetMdmAttributeUsecaseParams params =
+        GetMdmAttributeUsecaseParams(infoType: 'academicYear');
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: flutterToastErrorPresenter,
+      params: params,
+      createCall: (params) => getMdmAttributeUsecase.execute(params: params),
+      onSuccess: (result) {
+        getAcademicYearSubject.add(Resource.success(data: result?.data ?? []));
+      },
+      onError: (error) {
+        getAcademicYearSubject.add(Resource.error(error: error));
+      },
+    );
+  }
+
+  String? academicYearId;
+  void selectAcademicYear(String selectValue) {
+    final selectedYear = getAcademicYearSubject.value.data
+        ?.firstWhere((value) => value.attributes?.name == selectValue);
+
+    academicYearId = selectedYear?.attributes?.shortNameTwoDigit;
+    selectedAcademicYear.add(selectedYear?.attributes?.name ?? '');
+  }
+
   @override
   void dispose() {
     studentProfileSubject.close();
@@ -92,7 +125,8 @@ class NewEnrolmentViewModel extends BasePageViewModel {
     selectedIndexSubject.close();
     selectedVasOption.close();
     tabController.dispose();
-    log("DISPOSED");
+    getAcademicYearSubject.close();
+    selectedAcademicYear.close();
     super.dispose();
   }
 }

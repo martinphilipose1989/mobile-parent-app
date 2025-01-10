@@ -1,3 +1,4 @@
+import 'package:app/utils/common_widgets/common_image_widget.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +51,10 @@ class StudentDetails extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: image != null || (image?.isNotEmpty ?? false)
-                      ? CircleAvatar(
-                          backgroundImage: NetworkImage(image!),
-                        )
+                      ? CommonImageWidget(
+                          imageUrl: image!,
+                          fallbackAssetImagePath:
+                              AppImages.defaultStudentAvatar)
                       : SvgPicture.asset(AppImages.personIcon)),
             ),
             SizedBox(

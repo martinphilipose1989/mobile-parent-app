@@ -29,7 +29,7 @@ abstract class AdminRetorfitService {
     @Path('academic_yrs_id') required String academicYrsId,
   });
 
-  @GET('/studentProfile/{id}')
+  @GET('admin/studentProfile/{id}')
   Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails(
       {@Path('id') required int studentId,
       @Query('platform') required String app});

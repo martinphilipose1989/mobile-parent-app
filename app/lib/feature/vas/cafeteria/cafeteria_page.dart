@@ -50,6 +50,16 @@ class CafeteriaPageState
   }
 
   @override
+  void didUpdateWidget(covariant CafeteriaPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getCafeteriaDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildView(BuildContext context, CafeteriaDetailViewModel model) {
     return CafeteriaPageView(provideBase(),
         onSelectVasEnrolment: widget.onSelectVasEnrolment);

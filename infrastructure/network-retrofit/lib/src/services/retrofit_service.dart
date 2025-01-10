@@ -55,7 +55,7 @@ abstract class RetrofitService {
   static const String _schoolLocation = '/api/ac-schools';
   static const String _batch = '/api/ac-batches';
   static const String _academicYear =
-      '/api/ac-academic-years?fields[1]=name&fields[2]=short_name&fields[3]=short_name_two_digit';
+      '/api/ac-academic-years?fields[1]=name&fields[2]=short_name&fields[3]=short_name_two_digit:ASC';
   static const String _psaSubType =
       '/api/ac-spa-activity-types?fields[1]=name&fields[2]=short_name';
   static const String _psaCategory =

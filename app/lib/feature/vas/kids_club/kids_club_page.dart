@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
@@ -33,8 +35,13 @@ class KidsClubDeatilDetailPageState
   }
 
   @override
-  void onModelReady(KidsClubViewModel model) {
-    // model.getKidsClubDetail();
+  void didUpdateWidget(covariant KidsClubDeatilDetailPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getKidsClubDetail();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   KidsClubViewModel get viewModel =>

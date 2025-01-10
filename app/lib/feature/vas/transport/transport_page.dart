@@ -40,6 +40,16 @@ class TransportPageState
       ProviderScope.containerOf(context).read(transportPageModelProvider);
 
   @override
+  void didUpdateWidget(covariant TransportPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs.academicYearId !=
+        widget.enquiryDetailArgs.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getTransportEnrollmentDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   didChangeDependencies() {
     viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
     viewModel.getTransportEnrollmentDetail();

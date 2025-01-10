@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
@@ -9,6 +11,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart'
     as student;
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/common_widgets/common_dropdown.dart';
 
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
@@ -72,6 +75,35 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                                     : Text("No Data"),
                               );
                       }),
+                  AppStreamBuilder<Resource<List<MdmAttributeModel>>>(
+                    stream: model.getAcademicYearSubject,
+                    initialData: Resource.none(),
+                    dataBuilder: (context, academicYear) {
+                      return academicYear?.status != Status.loading
+                          ? CustomDropdownButton(
+                              topPadding: 24,
+                              rightPadding: 16,
+                              bottomPadding: 16,
+                              leftPadding: 16,
+                              dropdownName: 'Select Academic Year',
+                              singleSelectItemSubject:
+                                  model.selectedAcademicYear,
+                              showAstreik: true,
+                              showBorderColor: false,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (value) {
+                                model.selectAcademicYear(value);
+                              },
+                              items: academicYear?.data
+                                      ?.map(
+                                          (year) => year.attributes?.name ?? '')
+                                      .toList() ??
+                                  [],
+                            )
+                          : SizedBox.shrink();
+                    },
+                  ),
                   Padding(
                     padding: REdgeInsets.all(16.0),
                     child: ToggleOptionList<VasOptions>(
@@ -80,37 +112,36 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                         options: model.vasOptions,
                         onSelect: (value) => {}),
                   ),
-                  AppStreamBuilder<Resource<StudentData>>(
-                      stream: model.studentProfileSubject,
-                      initialData: Resource.none(),
-                      dataBuilder: (context, data) {
-                        return Visibility(
-                          visible: data?.data?.profile != null &&
-                              data?.data?.profile?.crtSchoolId != null,
-                          child: Expanded(
-                            child: StreamBuilder<VasOptions>(
-                              stream: model.selectedVasOption,
-                              initialData: VasOptions.kidsClub,
-                              builder: (context, snapshot) {
-                                final vasOption =
-                                    snapshot.data ?? VasOptions.kidsClub;
+                  AppStreamBuilder<String>(
+                    stream: model.selectedAcademicYear,
+                    initialData: '',
+                    dataBuilder: (context, selectedAcademicYear) {
+                      return Visibility(
+                        visible: selectedAcademicYear?.isNotEmpty ?? false,
+                        child: Expanded(
+                          child: StreamBuilder<VasOptions>(
+                            stream: model.selectedVasOption,
+                            initialData: VasOptions.kidsClub,
+                            builder: (context, snapshot) {
+                              final vasOption =
+                                  snapshot.data ?? VasOptions.kidsClub;
 
-                                return IndexedStack(
-                                  index: VasOptions.values.indexOf(vasOption),
-                                  children: VasOptions.values.map((option) {
-                                    return Visibility(
-                                      visible: vasOption == option,
-                                      maintainState:
-                                          true, // Retain state when not visible
-                                      child: _getPageForOption(option, model),
-                                    );
-                                  }).toList(),
-                                );
-                              },
-                            ),
+                              return IndexedStack(
+                                index: VasOptions.values.indexOf(vasOption),
+                                children: VasOptions.values.map((option) {
+                                  return Visibility(
+                                    visible: vasOption == option,
+                                    maintainState: true,
+                                    child: _getPageForOption(option, model),
+                                  );
+                                }).toList(),
+                              );
+                            },
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
               if (newEnrolmentResponse?.status == Status.loading)
@@ -126,7 +157,8 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
     final enquiryDetailArgs = EnquiryDetailArgs(
         schoolId: profile?.crtSchoolId,
         boardId: profile?.crtBoardId,
-        academicYearId: profile?.academicYearId,
+        academicYearId: int.tryParse(
+            model.academicYearId ?? "${profile?.academicYearId.toString()}"),
         courseId: profile?.crtCourseId,
         streamId: profile?.crtStreamId,
         gradeId: profile?.crtGradeId,

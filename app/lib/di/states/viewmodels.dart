@@ -560,6 +560,7 @@ final notificationProvider =
 final newEnrolmentViewModelProvider =
     ChangeNotifierProvider.autoDispose<NewEnrolmentViewModel>(
   (ref) => NewEnrolmentViewModel(
+    getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
     newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),

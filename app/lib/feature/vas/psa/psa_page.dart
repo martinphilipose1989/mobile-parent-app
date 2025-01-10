@@ -49,6 +49,16 @@ class PsaDetailPageState
   }
 
   @override
+  void didUpdateWidget(covariant PsaDetailPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getPsaDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildView(BuildContext context, PsaDetailViewModel model) {
     return PsaDetailPageView(provideBase(),
         onSelectVasEnrolment: widget.onSelectVasEnrolment);
