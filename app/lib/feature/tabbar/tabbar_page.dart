@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
@@ -13,8 +15,10 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared/shared.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'package:app/base/app_base_page.dart';
@@ -111,8 +115,14 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   Widget? buildDrawer() {
-    return buildDrawers(
-      context: context,
+    log("buildDrawer ${showSideDrawer.value}");
+    return AppStreamBuilder<bool>(
+      stream: showSideDrawer,
+      initialData: showSideDrawer.value,
+      dataBuilder: (context, sideDrawer) => Visibility(
+          replacement: SizedBox(),
+          visible: sideDrawer ?? false,
+          child: buildDrawers(context: context)),
     );
   }
 
@@ -122,21 +132,26 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     bool? isActive, // Determines if the widget is active
     int? selectedIndex, // Determines if the widget is selected
   }) {
-    return Drawer(
-        width: MediaQuery.of(context!).size.width * 0.8,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: ListView(
-              //    SizedBox(),
-              children: model.menuItems
-                  .map((e) => Visibility(
-                      visible: e.menuItemActive ?? false,
-                      child: CustomExpansionList(
-                        title: e.menuItem ?? "",
-                        nameList: e.drawerItmes,
-                      )))
-                  .toList()),
-        ));
+    return AppStreamBuilder<bool>(
+        stream: showSideDrawer,
+        initialData: showSideDrawer.value,
+        dataBuilder: (context, sideDrawer) {
+          return Drawer(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 32.0),
+                child: ListView(
+                    //    SizedBox(),
+                    children: model.menuItems
+                        .map((e) => Visibility(
+                            visible: e.menuItemActive ?? false,
+                            child: CustomExpansionList(
+                              title: e.menuItem ?? "",
+                              nameList: e.drawerItmes,
+                            )))
+                        .toList()),
+              ));
+        });
   }
 
   @override

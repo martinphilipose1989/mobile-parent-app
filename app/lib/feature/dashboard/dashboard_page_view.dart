@@ -40,8 +40,8 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const Tracker(),
-          CommonSizedBox.sizedBox(height: 15, width: 10),
+          // const Tracker(),
+          //  CommonSizedBox.sizedBox(height: 15, width: 10),
           // AppStreamBuilder<Resource<bool>>(
           //     stream: model.loadAdmissionMenus,
           //     initialData: Resource.none(),

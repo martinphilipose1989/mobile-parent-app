@@ -290,6 +290,7 @@ class DashboardPageModel extends BasePageViewModel {
         applyActivationRules(data);
 
         loadAdmissionMenus.add(Resource.success(data: true));
+        showSideDrawer.add(true);
 
         userSubject.add(Resource.success(data: data.data));
       }
