@@ -63,6 +63,16 @@ class SummerCampDetailPageState
   }
 
   @override
+  void didUpdateWidget(covariant SummerCampDetailPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getSummerCampDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Color scaffoldBackgroundColor() {
     return Colors.white;
   }

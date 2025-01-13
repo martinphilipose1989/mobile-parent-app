@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/date_formatter.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +76,7 @@ class PaymentDetailScreen extends StatelessWidget {
                     ]
                   : [
                       buildDetailRow(
-                          'Transaction ID', '${fee.pgTransactionId}'),
+                          'Transaction ID', fee.pgTransactionId.orEmpty('N/A')),
                       buildDetailRow('Transaction Date',
                           DateFormatter.formatDate(fee.createdOn ?? '')),
                       buildDetailRow('Payment Mode', fee.paymentMode ?? ""),

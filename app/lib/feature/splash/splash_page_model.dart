@@ -102,9 +102,11 @@ class SplashViewModel extends BasePageViewModel {
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         log("User details: ${data.data}");
-        userSubject.add(data.data!);
-        Navigator.pushNamedAndRemoveUntil(
-            navigatorKey.currentContext!, RoutePaths.tabbar, (route) => false);
+        if (data.data != null) {
+          userSubject.add(data.data!);
+          Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
+              RoutePaths.tabbar, (route) => false);
+        }
       }
     }).onError((error) {
       if (error is LocalError) {

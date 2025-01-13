@@ -75,6 +75,12 @@ class NewEnrolmentPageState
     super.didChangeDependencies();
   }
 
+  @override
+  void onModelReady(NewEnrolmentViewModel model) {
+    model.getAcademicYear();
+    super.onModelReady(model);
+  }
+
   // @override
   // Widget? buildBottomNavigationBar(NewEnrolmentViewModel model) {
   //   return Container(

@@ -27,10 +27,12 @@ class GetPendingFeesDataEntity extends BaseLayerDataTransformer<
                 .toList()
             : json['fees'] == null
                 ? []
-                : [
-                    GetPendingFeesDataFeeEntity.fromJson(
-                        json['fees'] as Map<String, dynamic>)
-                  ],
+                : json['fees'] is Map && json['fees'].isEmpty
+                    ? []
+                    : [
+                        GetPendingFeesDataFeeEntity.fromJson(
+                            json['fees'] as Map<String, dynamic>)
+                      ],
         paymentModes: (json['paymentModes'] as List<dynamic>?)
             ?.map((e) => GetPendingFeesDataPaymentModeEntity.fromJson(
                 e as Map<String, dynamic>))

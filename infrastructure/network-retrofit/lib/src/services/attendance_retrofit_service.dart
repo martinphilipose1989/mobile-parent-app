@@ -24,7 +24,8 @@ abstract class AttendanceRetorfitService {
   }
   @POST("academics/attendance/get-mobile-attendance-summary")
   Future<HttpResponse<AttendanceCountResponseEntity>> getattendanceCount(
-      @Body() AttendanceCountRequestEntity attendanceCountRequestEntity);
+      @Body() AttendanceCountRequestEntity attendanceCountRequestEntity,
+      @Query('platform') String app);
 
   @POST("academics/attendance/get-transport-attendance-list")
   Future<HttpResponse<AttendanceDetailsResponseEntity>> getattendanceDetail(

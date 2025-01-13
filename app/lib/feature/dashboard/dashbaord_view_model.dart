@@ -6,6 +6,7 @@ import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:push_notification/notification.dart';
@@ -133,7 +134,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'New Enrollment',
       'image': AppImages.activity,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'enrollment'
     },
   ];
@@ -143,7 +144,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Subject Selection',
       'image': AppImages.subjectSelectionIcon,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'subject selection'
     },
   ];

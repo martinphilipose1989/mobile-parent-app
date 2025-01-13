@@ -60,12 +60,12 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
                 // Handle successful payment
                 model.timer.cancel();
                 Navigator.pop(context, true);
-                url = null;
+                //  url = null;
               } else if (url.toString().contains('failure')) {
                 // Handle failed payment
                 model.timer.cancel();
                 Navigator.pop(context, false);
-                url = null;
+                //  url = null;
               } else if (url.path.contains("enquiries/mobile_submitted")) {
                 navigatorKey.currentState?.pushNamed(
                   RoutePaths.payments,

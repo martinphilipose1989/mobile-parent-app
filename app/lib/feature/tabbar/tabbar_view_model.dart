@@ -1,6 +1,3 @@
-import 'package:app/dependencies.dart';
-import 'package:app/feature/dashboard/dashboard_state.dart';
-
 import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/model/resource.dart';
@@ -15,9 +12,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
-import '../../myapp.dart';
 import '../../navigation/route_paths.dart';
-import '../payments/payments_pages/payments.dart';
 
 @injectable
 class TabbarViewModel extends BasePageViewModel {
@@ -30,7 +25,7 @@ class TabbarViewModel extends BasePageViewModel {
   TabbarViewModel(
       {required this.exceptionHandlerBinder,
       required this.getUserDetailsUsecase}) {
-    getUserDetails();
+    // getUserDetails();
   }
 
   late TabController tabController;
@@ -71,90 +66,110 @@ class TabbarViewModel extends BasePageViewModel {
     DrawerItems(
         menu: 'Student Profile',
         route: RoutePaths.attendanceCalender,
-        icon: AppImages.attendance),
-    DrawerItems(
-        menu: 'Disciplinary Slip',
-        route: RoutePaths.disciplinarySlipPage,
-        icon: AppImages.disciplinarySlip,
+        icon: AppImages.attendance,
+        key: 'student_profile',
         isActive: false),
-    DrawerItems(menu: 'Performance', icon: AppImages.activity, isActive: false),
     DrawerItems(
-        menu: 'MarkSheet', icon: AppImages.documentNormal, isActive: false),
+      menu: 'Disciplinary Slip',
+      route: RoutePaths.disciplinarySlipPage,
+      icon: AppImages.disciplinarySlip,
+      isActive: false,
+      key: 'disciplinary_slip',
+    ),
+    DrawerItems(
+      menu: 'Performance',
+      icon: AppImages.activity,
+      isActive: false,
+      key: "performance",
+    ),
+    DrawerItems(
+        menu: 'MarkSheet',
+        icon: AppImages.documentNormal,
+        isActive: false,
+        key: "marksheet"),
   ];
 
   final List<DrawerItems> dailyDiary = [
-    DrawerItems(menu: 'Class Update', icon: AppImages.classupdate),
-    DrawerItems(menu: 'Assignments', icon: AppImages.assignment),
-    DrawerItems(menu: 'Circulars', icon: AppImages.circulars),
+    DrawerItems(
+        menu: 'Class Update',
+        icon: AppImages.classupdate,
+        key: "class_update",
+        isActive: false),
+    DrawerItems(
+        menu: 'Assignments',
+        icon: AppImages.assignment,
+        key: "assignments",
+        isActive: false),
+    DrawerItems(
+        menu: 'Circulars',
+        icon: AppImages.circulars,
+        key: "circulars",
+        isActive: false),
   ];
 
   final List<DrawerItems> fessItems = [
     DrawerItems(
         menu: 'Payments',
-        onTap: () async {
-          Navigator.pushNamed(
-            navigatorKey.currentContext!,
-            RoutePaths.payments,
-            arguments: PaymentArguments(
-                phoneNo:
-                    "+91${await SharedPreferenceHelper.getString(mobileNumber)}"),
-          );
-        },
-        icon: AppImages.walletAdd),
+        key: "payments",
+        icon: AppImages.walletAdd,
+        isActive: false),
     DrawerItems(
+        key: "new_enrolment",
         menu: 'New Enrollment',
         icon: AppImages.activity,
-        isActive: true,
+        isActive: false,
         route: RoutePaths.newEnrolmentPage),
     DrawerItems(
+        key: "transaction_history",
         menu: 'Transaction History',
         route: RoutePaths.paymentsPage,
         icon: AppImages.transactionHistory,
         isActive: false),
-    DrawerItems(menu: 'Receipt', icon: AppImages.receipt, isActive: false),
+    DrawerItems(
+        key: "receipt",
+        menu: 'Receipt',
+        icon: AppImages.receipt,
+        isActive: false),
   ];
 
   final List<DrawerItems> parentServices = [
     DrawerItems(
-        menu: 'Subject Selection',
-        icon: AppImages.subjectSelection,
-        isActive: false,
-        onTap: () {
-          DashboardState dashboardState = DashboardState();
-          final String subjectSelectionUrl =
-              getIt.get<String>(instanceName: "SubjectSelectionUrl");
-          final selectedStudent = dashboardState.selectedStudent;
-
-          // Navigator.pushNamed(
-          //   navigatorKey.currentContext!,
-          //   RoutePaths.webview,
-          //   arguments: WebviewArguments(
-          //       enquiryDetailArgs: EnquiryDetailArgs(),
-          //       paymentsLink:
-          //           '$subjectSelectionUrl?platform=mobile&authToken=${userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}'),
-          // );
-        }),
+      key: "subject_selection",
+      menu: 'Subject Selection',
+      icon: AppImages.subjectSelection,
+      isActive: false,
+    ),
     DrawerItems(
+        key: 'service_request',
         menu: 'Service Request',
         route: RoutePaths.attendanceCalender,
         icon: AppImages.serviceRequest,
         isActive: false),
     DrawerItems(
+        key: 'order',
         menu: 'Order',
         route: RoutePaths.disciplinarySlipPage,
         icon: AppImages.order,
         isActive: false),
     DrawerItems(
+        key: 'transport_app',
         menu: 'Transport App',
         route: RoutePaths.myDutyPage,
         icon: AppImages.bus,
         isActive: true),
     DrawerItems(
-        menu: 'Forms Download', icon: AppImages.downloadform, isActive: false),
+        key: 'forms_download',
+        menu: 'Forms Download',
+        icon: AppImages.downloadform,
+        isActive: false),
     DrawerItems(
-        menu: 'Application', icon: AppImages.application, isActive: false),
+        key: 'application',
+        menu: 'Application',
+        icon: AppImages.application,
+        isActive: false),
     //
     DrawerItems(
+        key: 'gate_management',
         menu: 'Gate Management',
         route: RoutePaths.createEditGatePassPage,
         icon: AppImages.gate,
@@ -162,19 +177,68 @@ class TabbarViewModel extends BasePageViewModel {
   ];
 
   final List<DrawerItems> infoItems = [
-    DrawerItems(menu: 'Brochers ', icon: AppImages.bookLogo),
-    DrawerItems(menu: 'Personal/Academic', icon: AppImages.academic),
-    DrawerItems(menu: 'Admission', icon: AppImages.addPerson),
-    DrawerItems(menu: 'Referral', icon: AppImages.refferal),
-    DrawerItems(menu: 'Scholars', icon: AppImages.icon),
-    DrawerItems(menu: 'Competitive Exams', icon: AppImages.competitiveExam),
-    DrawerItems(menu: 'Calender', icon: AppImages.calender),
-    DrawerItems(menu: 'Canteen Menu', icon: AppImages.canteen),
-    DrawerItems(menu: 'Parent Menu', icon: AppImages.parent),
-    DrawerItems(menu: 'Syllabus', icon: AppImages.serviceRequest),
-    DrawerItems(menu: 'Time Table', icon: AppImages.downloadform),
-    DrawerItems(menu: 'Kids Club', icon: AppImages.kidsclob),
-    DrawerItems(menu: 'IVT', icon: AppImages.assignment),
+    DrawerItems(
+        menu: 'Brochers ',
+        icon: AppImages.bookLogo,
+        key: 'brochers',
+        isActive: false),
+    DrawerItems(
+        menu: 'Personal/Academic',
+        icon: AppImages.academic,
+        key: 'personal',
+        isActive: false),
+    DrawerItems(
+        menu: 'Admission',
+        icon: AppImages.addPerson,
+        key: 'admission',
+        isActive: false),
+    DrawerItems(
+        menu: 'Referral',
+        icon: AppImages.refferal,
+        key: 'referral',
+        isActive: false),
+    DrawerItems(
+        menu: 'Scholars',
+        icon: AppImages.icon,
+        key: 'scholars',
+        isActive: false),
+    DrawerItems(
+        menu: 'Competitive Exams',
+        icon: AppImages.competitiveExam,
+        key: 'competitive_exams',
+        isActive: false),
+    DrawerItems(
+        menu: 'Calender',
+        icon: AppImages.calender,
+        key: 'calendar',
+        isActive: false),
+    DrawerItems(
+        menu: 'Canteen Menu',
+        icon: AppImages.canteen,
+        key: 'canteen_menu',
+        isActive: false),
+    DrawerItems(
+        menu: 'Parent Menu',
+        icon: AppImages.parent,
+        key: 'parent_menu',
+        isActive: false),
+    DrawerItems(
+        menu: 'Syllabus',
+        icon: AppImages.serviceRequest,
+        key: 'syllabus',
+        isActive: false),
+    DrawerItems(
+        menu: 'Time Table',
+        icon: AppImages.downloadform,
+        key: 'time_table',
+        isActive: false),
+    DrawerItems(
+        menu: 'Kids Club',
+        icon: AppImages.kidsclob,
+        key: 'kids_club',
+        isActive: false),
+    DrawerItems(
+        menu: 'IVT', icon: AppImages.assignment, key: 'ivt', isActive: false),
   ];
 
   List<MenuItem> menuItems = [];
@@ -186,10 +250,77 @@ class TabbarViewModel extends BasePageViewModel {
       createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        if(data.data!=null) {
+        if (data.data != null) {
           userSubject.add(data.data);
         }
+
+        setDrawerMenuItems(data);
       }
     });
+  }
+
+  void setDrawerMenuItems(Resource<User> data) {
+    for (int i = 0; i < fessItems.length; i++) {
+      if (fessItems[i].key == "payments" ||
+          fessItems[i].key == "new_enrolment") {
+        if (data.data?.statusId != 0) {
+          fessItems[i].isActive = true;
+        }
+      }
+    }
+
+    for (int i = 0; i < progressItems.length; i++) {
+      if (progressItems[i].key == "student_profile") {
+        if (data.data?.statusId != 0) {
+          progressItems[i].isActive = true;
+        }
+      }
+    }
+
+    for (int i = 0; i < parentServices.length; i++) {
+      if (parentServices[i].key == "subject_selection") {
+        if (data.data?.statusId != 0) {
+          parentServices[i].isActive = true;
+        }
+      }
+    }
+
+    // for (int i = 0; i < infoItems.length; i++) {
+    //   if (infoItems[i].key == "payments" ||
+    //       infoItems[i].key == "new_enrolment") {
+    //     if (data.data?.statusId != 0) {
+    //       infoItems[i].isActive = true;
+    //     }
+    //   }
+    // }
+
+    // for (int i = 0; i < dailyDiary.length; i++) {
+    //   if (dailyDiary[i].key == "payments" ||
+    //       dailyDiary[i].key == "new_enrolment") {
+    //     if (data.data?.statusId != 0) {
+    //       dailyDiary[i].isActive = true;
+    //     }
+    //   }
+    // }
+
+    menuItems = [
+      MenuItem(
+          menuItem: "Fees",
+          menuItemActive: data.data?.statusId != 0,
+          drawerItmes: fessItems),
+      MenuItem(
+          menuItem: "Child Progress/Academic Progress",
+          menuItemActive: data.data?.statusId != 0,
+          drawerItmes: progressItems),
+      MenuItem(
+          menuItem: "Parent Services",
+          menuItemActive: data.data?.statusId != 0,
+          drawerItmes: parentServices),
+      MenuItem(menuItem: "Info", menuItemActive: false, drawerItmes: infoItems),
+      MenuItem(
+          menuItem: "Daily Diary",
+          menuItemActive: false,
+          drawerItmes: dailyDiary)
+    ];
   }
 }

@@ -16,7 +16,7 @@ void main() async {
         mdmToken: EnvProd.mdmToken,
         attendance: EnvProd.attendance,
         ticketingBaseUrl: EnvProd.ticketingBaseUrl,
-        secrets: AppSecrets.appSecretsQA,
+        secrets: AppSecrets.appSecretsProd,
         disciplinarySlip: EnvProd.disciplinarySlip,
         keyCloakIntrospectUrl: EnvProd.introspectUrl,
         authorizationEndpoint: EnvProd.authorizationEndpoint,

@@ -65,7 +65,7 @@ abstract class NetworkModule {
           PrettyDioLogger logger,
           ApiInterceptor apiInterceptor,
           CurlLoggerDioInterceptor curlInterceptor,
-          //  AliceDioInterceptor aliceDioInterceptor,
+          // AliceDioInterceptor aliceDioInterceptor,
           @Named('ShowLogs') bool showLogs) =>
       <Interceptor>[
         apiInterceptor,
@@ -115,9 +115,9 @@ abstract class NetworkModule {
           Dio dio, @Named('attendance') String attendancebaseUrl) =>
       AttendanceRetorfitService(dio, attendanceBaseUrl: attendancebaseUrl);
   @lazySingleton
- NotificationSerivce notificationService(
-      Dio dio, @Named('notificationUrl') String notificationBaseUrl) =>
-      NotificationSerivce (dio, notificationUrl:  notificationBaseUrl);
+  NotificationSerivce notificationService(
+          Dio dio, @Named('notificationUrl') String notificationBaseUrl) =>
+      NotificationSerivce(dio, notificationUrl: notificationBaseUrl);
   @lazySingleton
   TransportService providerTransportRetrofitService(
           Dio dio, @Named('transportUrl') String transportUrl) =>
@@ -134,8 +134,8 @@ abstract class NetworkModule {
       GatemanagementService(dio, gateUrl: gateUrl);
   @lazySingleton
   TokenRetrofitService tokenRetrofitService(
-      Dio dio, @Named('mdmBaseUrl') String mdmBaseUrl) =>
-     TokenRetrofitService(dio,mdmBaseUrl: mdmBaseUrl);
+          Dio dio, @Named('mdmBaseUrl') String mdmBaseUrl) =>
+      TokenRetrofitService(dio, mdmBaseUrl: mdmBaseUrl);
 
   @lazySingleton
   MarketingSerivce providerMarketingSerivce(
@@ -154,9 +154,8 @@ abstract class NetworkModule {
           KeyCloakService keyCloakService,
           GatemanagementService gatemanagementService,
           MarketingSerivce marketingSerivce,
-      NotificationSerivce notificationService,
-      TokenRetrofitService tokenRetrofitService
-      ) =>
+          NotificationSerivce notificationService,
+          TokenRetrofitService tokenRetrofitService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
           attendanceRetorfitService: attendanceRetorfitService,
@@ -167,5 +166,7 @@ abstract class NetworkModule {
           transportService: transportService,
           keyCloakService: keyCloakService,
           gatemanagementService: gatemanagementService,
-          marketingSerivce: marketingSerivce, notificationSerivce: notificationService, tokenRetrofitService: tokenRetrofitService);
+          marketingSerivce: marketingSerivce,
+          notificationSerivce: notificationService,
+          tokenRetrofitService: tokenRetrofitService);
 }
