@@ -28,7 +28,7 @@ class MyDutyPageViewModel extends BasePageViewModel {
         value: "completed trips", text: "Completed Trips")
   ];
 
-  // GET MY DUTY
+  // GET MY DUTYp
   final _loadingSubject = BehaviorSubject<bool>.seeded(false);
   final _pageSubject = BehaviorSubject<int>.seeded(1);
   final hasMorePagesSubject = BehaviorSubject<bool>.seeded(true);

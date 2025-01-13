@@ -22,7 +22,9 @@ void startApp() async {
     appId: "1:79098057580:android:8592c86708a10a60a25949",
     messagingSenderId: "79098057580",
     projectId: "hubblehox-parent",
-  ),);
+
+  ),
+  );
 
   FirebaseMessaging.instance.getToken().then((value) {
     if (value != null) {
@@ -43,6 +45,7 @@ print("Exception" "Error getting FCM token: $error");
   //   }
   //}
 
+
   await PushNotificationService.init();
   //alice.setNavigatorKey(navigatorKey);
   SystemChrome.setPreferredOrientations([
@@ -53,5 +56,6 @@ print("Exception" "Error getting FCM token: $error");
       debugPrint = (String? message, {int? wrapWidth}) {};
     }
     runApp(const ProviderScope(child: MyApp()));
+
   });
 }

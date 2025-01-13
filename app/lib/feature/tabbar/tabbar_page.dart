@@ -60,7 +60,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
           drawerItmes: model.progressItems),
       MenuItem(
           menuItem: "Parent Services",
-          menuItemActive: false,
+          menuItemActive: true,
           drawerItmes: model.parentServices),
       MenuItem(
           menuItem: "Info",

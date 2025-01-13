@@ -148,7 +148,7 @@ class TabbarViewModel extends BasePageViewModel {
         menu: 'Transport App',
         route: RoutePaths.myDutyPage,
         icon: AppImages.bus,
-        isActive: false),
+        isActive: true),
     DrawerItems(
         menu: 'Forms Download', icon: AppImages.downloadform, isActive: false),
     DrawerItems(
