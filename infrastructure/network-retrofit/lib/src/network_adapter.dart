@@ -45,7 +45,7 @@ import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
-import 'package:network_retrofit/src/services/tokenService.dart';
+import 'package:network_retrofit/src/services/token_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:retrofit/dio.dart';
@@ -83,7 +83,8 @@ class NetworkAdapter implements NetworkPort {
       required this.ticketRetrofitService,
       required this.keyCloakService,
       required this.gatemanagementService,
-      required this.marketingSerivce,required this.tokenRetrofitService});
+      required this.marketingSerivce,
+      required this.tokenRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -1721,14 +1722,15 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SendTokenResponseModel>> sendToken ({required int? userId, required SendTokenRequestEntity sendTokenRequestEntity}) async {
-    final response = await safeApiCall(
-        tokenRetrofitService.sendToken(
-   userId: userId??0,sendTokenRequestEntity: sendTokenRequestEntity));
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
+      {required int? userId,
+      required SendTokenRequestEntity sendTokenRequestEntity}) async {
+    final response = await safeApiCall(tokenRetrofitService.sendToken(
+        userId: userId ?? 0, sendTokenRequestEntity: sendTokenRequestEntity));
 
     return response.fold(
-          (error) => Left(error),
-          (data) => Right(data.data.transform()),
+      (error) => Left(error),
+      (data) => Right(data.data.transform()),
     );
   }
 }
