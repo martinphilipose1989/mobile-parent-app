@@ -102,6 +102,8 @@ dependencies:
   country_code_picker: ^3.0.0
   flutter_libphonenumber: ^2.3.0
   shimmer: ^3.0.0
+  flutter_pdfview: ^1.4.0
+  dio:
  
   
 dev_dependencies:

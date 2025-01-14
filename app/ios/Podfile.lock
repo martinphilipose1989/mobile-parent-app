@@ -60,6 +60,8 @@ PODS:
   - flutter_libphonenumber_ios (1.1.4):
     - Flutter
     - PhoneNumberKit/PhoneNumberKitCore (= 3.8.0)
+  - flutter_pdfview (1.0.2):
+    - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
   - flutter_statusbarcolor_ns (0.0.1):
@@ -105,6 +107,7 @@ DEPENDENCIES:
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_libphonenumber_ios (from `.symlinks/plugins/flutter_libphonenumber_ios/ios`)
+  - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_statusbarcolor_ns (from `.symlinks/plugins/flutter_statusbarcolor_ns/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -146,6 +149,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_libphonenumber_ios:
     :path: ".symlinks/plugins/flutter_libphonenumber_ios/ios"
+  flutter_pdfview:
+    :path: ".symlinks/plugins/flutter_pdfview/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_statusbarcolor_ns:
@@ -183,6 +188,7 @@ SPEC CHECKSUMS:
   flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_libphonenumber_ios: 5ad8620197bff91dd159d828b7544ec6956e86a1
+  flutter_pdfview: 2e4d13ffb774858562ffbdfdb61b40744b191adc
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_statusbarcolor_ns: 68a360889d88d7915ae524e422aeab62e4063804
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c

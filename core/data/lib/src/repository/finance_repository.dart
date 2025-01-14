@@ -134,4 +134,16 @@ class FinanceRepositoryImpl extends FinanceRepository {
     return networkPort.createNewEnrolment(
         newEnrolmentCreate: newEnrolmentCreate);
   }
+
+  @override
+  Future<Either<NetworkError, TermsAndConditionsFile>> getTermsAndConditionFile(
+      {required String url}) {
+    return networkPort.getTermsAndConditionFile(url: url);
+  }
+
+  @override
+  Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
+      {required UndertakingRequest body}) {
+    return networkPort.underTakingStudent(body: body);
+  }
 }

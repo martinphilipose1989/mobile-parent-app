@@ -10,6 +10,7 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
+import 'package:app/molecules/terms_and_condition/pdf.dart';
 import 'package:app/navigation/route_paths.dart';
 
 import 'package:app/utils/app_typography.dart';
@@ -40,8 +41,8 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const Tracker(),
-          CommonSizedBox.sizedBox(height: 15, width: 10),
+          // const Tracker(),
+          //  CommonSizedBox.sizedBox(height: 15, width: 10),
           // AppStreamBuilder<Resource<bool>>(
           //     stream: model.loadAdmissionMenus,
           //     initialData: Resource.none(),
@@ -173,7 +174,16 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   );
                 }
                 return SizedBox.shrink();
-              })
+              }),
+          ElevatedButton(
+              onPressed: () {
+                log("model.dashboardState.selectedStudent?.undertakingFile ${model.dashboardState.selectedStudent?.undertakingFile}");
+                model.getTermsAndConditionUrl(
+                    undertakingFile:
+                        model.dashboardState.selectedStudent?.undertakingFile ??
+                            '');
+              },
+              child: Text("PDF"))
         ],
       ),
     );

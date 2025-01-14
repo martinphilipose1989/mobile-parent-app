@@ -1,9 +1,16 @@
+import 'dart:developer';
+
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/terms_and_condition/pdf.dart';
+import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
@@ -16,26 +23,33 @@ import 'dashboard_state.dart';
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   BehaviorSubject<ParentStudentStatusEnum> statusSubject =
       BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
 
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   Stream<Resource<User>> get userStream => userSubject.stream;
 
   var dashboardState = DashboardState();
 
+  // Terms and Condition
+
+  final TermsAndConditionUsecase termsAndConditionUsecase;
+
   DashboardPageModel(
-      this.exceptionHandlerBinder,
-      this._getGuardianStudentDetailsUsecase,
-      this.tokenresponseUsecase,
-      this.getUserRoleBasePermissionUsecase,
-      this._getUserDetailsUsecase);
+      {required this.exceptionHandlerBinder,
+      required this.getGuardianStudentDetailsUsecase,
+      required this.tokenresponseUsecase,
+      required this.getUserRoleBasePermissionUsecase,
+      required this.getUserDetailsUsecase,
+      required this.termsAndConditionUsecase,
+      required this.flutterToastErrorPresenter});
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -211,7 +225,7 @@ class DashboardPageModel extends BasePageViewModel {
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
-            _getGuardianStudentDetailsUsecase.execute(params: params),
+            getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
@@ -220,6 +234,12 @@ class DashboardPageModel extends BasePageViewModel {
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
+          if (dashboardState.selectedStudent?.isUndertakingTaken == null ||
+              dashboardState.selectedStudent?.isUndertakingTaken == false) {
+            getTermsAndConditionUrl(
+                undertakingFile:
+                    dashboardState.selectedStudent!.undertakingFile!);
+          }
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
@@ -284,7 +304,7 @@ class DashboardPageModel extends BasePageViewModel {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         applyActivationRules(data);
@@ -353,6 +373,32 @@ class DashboardPageModel extends BasePageViewModel {
     //   {'text': 'Class Update', 'route': ''},
     //   {'text': 'Assignment', 'route': ''},
     // ];
+  }
+
+  void getTermsAndConditionUrl({required String undertakingFile}) {
+    TermsAndConditionUsecaseParams params =
+        TermsAndConditionUsecaseParams(url: undertakingFile);
+    ApiResponseHandler.apiCallHandler(
+        params: params,
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        createCall: (params) =>
+            termsAndConditionUsecase.execute(params: params),
+        onSuccess: (result) {
+          log("getTermsAndConditionUrl");
+
+          showPdfViewer(url: result?.data?.url ?? '');
+        },
+        onError: (error) {});
+  }
+
+  showPdfViewer({required String url}) {
+    showDialog(
+      barrierDismissible: false,
+      context: navigatorKey.currentContext!,
+      builder: (context) => PDFDialog(
+          pdfUrl: url, selectedStudent: dashboardState.selectedStudent),
+    );
   }
 
   @override

@@ -41,6 +41,7 @@ import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/molecules/create_intimation/create_intimation_view_model.dart';
+import 'package:app/molecules/terms_and_condition/pdf_viewmodel.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -78,11 +79,15 @@ final tabbarViewModelProvider =
 final dashboardViewModelProvider =
     ChangeNotifierProvider.autoDispose<DashboardPageModel>(
   (ref) => DashboardPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetGuardianStudentDetailsUsecase>(),
-      getIt.get<TokenresponseUsecase>(),
-      getIt.get<GetUserRoleBasePermissionUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      getGuardianStudentDetailsUsecase:
+          getIt.get<GetGuardianStudentDetailsUsecase>(),
+      tokenresponseUsecase: getIt.get<TokenresponseUsecase>(),
+      getUserRoleBasePermissionUsecase:
+          getIt.get<GetUserRoleBasePermissionUsecase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
@@ -566,4 +571,12 @@ final newEnrolmentViewModelProvider =
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
     studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
   ),
+);
+
+final pdfViewmodelProvider = ChangeNotifierProvider.autoDispose(
+  (ref) => PdfViewmodel(
+      undertakingUsecase: getIt.get<UndertakingUsecase>(),
+      downloadFileFromUrlUsecase: getIt.get<DownloadFileFromUrlUsecase>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>()),
 );

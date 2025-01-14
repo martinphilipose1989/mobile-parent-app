@@ -114,7 +114,7 @@ export 'src/usecase/user/logout_usecase.dart';
 export 'src/usecase/transport/create_intimation_usecase.dart';
 export 'src/usecase/transport/upload_intimation_file.dart';
 export 'src/usecase/notification/notification_usecase.dart';
-
+export 'src/usecase/attachemnt/download_file_usecase.dart';
 //disciplinarySlip
 export 'src/usecase/disciplinarySlip/disciplinary_slip_list_usecase.dart';
 
@@ -137,3 +137,5 @@ export 'src/usecase/finance/download_transaction_history_usecase.dart';
 export 'src/usecase/finance/download_student_ledger_usecase.dart';
 
 export 'src/usecase/finance/new_enrolment_usecase.dart';
+export 'src/usecase/finance/terms_and_condition_usecase.dart';
+export 'src/usecase/finance/undertaking_usecase.dart';
