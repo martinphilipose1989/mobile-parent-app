@@ -72,6 +72,29 @@ class CommonPopups {
     );
   }
 
+  void showActions(
+      BuildContext context,
+      Function(bool shouldRoute) onLogout, VoidCallback onProfile) {
+ showDialog(
+       context: context,
+       builder: (BuildContext context) {
+
+         return AlertDialog(contentPadding: EdgeInsets.all(10),
+         content: Column(
+           children: [
+             InkWell(
+               child: Text("Student Profile"),
+               onTap: onProfile,
+             ),
+             InkWell(child: Text("Logout"),onTap:(){onLogout;} ,)
+           ],
+         ),
+         );
+       }
+
+  );
+  }
+
   // Method to show a gallery permission popup
   void showGallerySettingPermission(
       BuildContext context,

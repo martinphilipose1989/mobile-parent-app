@@ -33,6 +33,8 @@ import 'package:app/feature/review_page/rate_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
+import 'package:app/feature/student_detail/student_detail_page_viewmodel.dart';
+import 'package:app/feature/student_profile_edit/student_profile_edit_page_viewmodel.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
@@ -136,6 +138,14 @@ final attendanceDetailsProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<AttendanceDetailUsecase>(),
       getIt.get<StudentDetailUseCase>()),
+);
+
+final studentDetailPageViewModelProvider = ChangeNotifierProvider.autoDispose<StudentDetailPageViewModel>(
+      (ref) => StudentDetailPageViewModel(
+
+ exceptionHandlerBinder:  getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:     getIt.get<FlutterToastErrorPresenter>(),
+
+      ),
 );
 
 final attendanceCalenderProvider =
@@ -311,6 +321,14 @@ final cancelCompetencyTestPageModelProvider =
     getIt.get<FlutterExceptionHandlerBinder>(),
     getIt.get<CancelCompetencyTestUsecase>(),
     getIt.get<FlutterToastErrorPresenter>(),
+  ),
+);
+final studentProfileEditViewModelProvider =
+    ChangeNotifierProvider.autoDispose<StudentProfileEditViewModel>(
+  (ref) => StudentProfileEditViewModel(
+
+
+    exceptionHandlerBinder:  getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:  getIt.get<FlutterToastErrorPresenter>(),
   ),
 );
 

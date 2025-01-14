@@ -14,6 +14,8 @@ class RoutePaths {
   static const String registrationDetails = '/registrationDetails';
   static const String attendanceCalender = '/attendanceCalender';
   static const String notification = '/notification';
+  static const String profile = '/profile';
+  static const String profileEdit = '/profileEdit';
 
 // Related to enquireies from dashboard
   static const String enquiriesPage = '/enquiriesPage';

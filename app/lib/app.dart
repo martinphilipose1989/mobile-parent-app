@@ -18,11 +18,15 @@ void startApp() async {
   // final alice = getIt<Alice>();
 
   await Firebase.initializeApp(
+
     options: FirebaseOptions(
+
       apiKey: "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo",
       appId: "1:79098057580:android:8592c86708a10a60a25949",
       messagingSenderId: "79098057580",
       projectId: "hubblehox-parent",
+   iosBundleId: "com.neosofttech.enterprise.connecto",
+
     ),
   );
 

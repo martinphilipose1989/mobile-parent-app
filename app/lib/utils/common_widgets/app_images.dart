@@ -40,6 +40,7 @@ class AppImages {
   static const String circulars = 'assets/images/more-circle.svg';
   static const String classupdate = 'assets/images/designtools.svg';
   static const String info_circle = 'assets/images/info_circle.svg';
+  static const String bannerProfile = 'assets/images/bannerProfile.svg';
 
   static const String playButton = "assets/images/play.svg";
   static const String order = "assets/images/shapes.svg";
@@ -107,6 +108,7 @@ class AppImages {
   static const String enquiryIcon = 'assets/images/enquiry.svg';
   static const String registrationIcon = 'assets/images/registrationIcon.svg';
   static const String disciplinarySlip = 'assets/images/disciplinarySlip.svg';
+  static const String editIcon = 'assets/images/editIcon.svg';
 
   //rating
   static const String ratingActive1 = 'assets/rating/active1.svg';
