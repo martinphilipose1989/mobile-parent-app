@@ -175,15 +175,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 }
                 return SizedBox.shrink();
               }),
-          ElevatedButton(
-              onPressed: () {
-                log("model.dashboardState.selectedStudent?.undertakingFile ${model.dashboardState.selectedStudent?.undertakingFile}");
-                model.getTermsAndConditionUrl(
-                    undertakingFile:
-                        model.dashboardState.selectedStudent?.undertakingFile ??
-                            '');
-              },
-              child: Text("PDF"))
         ],
       ),
     );

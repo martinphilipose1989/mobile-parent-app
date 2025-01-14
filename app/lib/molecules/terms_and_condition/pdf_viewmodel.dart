@@ -69,6 +69,7 @@ class PdfViewmodel extends BasePageViewModel {
   @override
   dispose() {
     log("DISPOSE");
+    underTakingSubject.close();
     super.dispose();
   }
 }

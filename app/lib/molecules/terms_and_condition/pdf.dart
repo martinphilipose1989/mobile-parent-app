@@ -9,6 +9,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared/shared.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -82,6 +83,9 @@ class PDFDialogState extends State<PDFDialog> {
                       initialData: Resource.none(),
                       onData: (value) {
                         if (value.status == Status.success) {
+                          ProviderScope.containerOf(context)
+                              .read(dashboardViewModelProvider)
+                              .getUserDetails();
                           Navigator.pop(context);
                         }
                       },
