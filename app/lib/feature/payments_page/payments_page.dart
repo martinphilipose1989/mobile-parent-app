@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
@@ -222,6 +224,20 @@ class PaymentsPageState
                                             ""
                                         ? () {}
                                         : () {
+                                            // razorpay, billdesk, paytmEDC, grayQuest
+                                            if (stringValue ==
+                                                "Pay Online-Billdesk") {
+                                              stringValue = "Billdesk";
+                                            }
+                                            if (stringValue ==
+                                                "E-Mandate-GrayQuest") {
+                                              stringValue = "grayquest";
+                                            }
+                                            if (stringValue ==
+                                                "EMI-GrayQuest") {
+                                              stringValue = "grayquest";
+                                            }
+
                                             switch (stringValue) {
                                               case 'Current Date Cheque / Post Dated Cheque / ...':
                                                 model.selectedPaymentMode = 8;
