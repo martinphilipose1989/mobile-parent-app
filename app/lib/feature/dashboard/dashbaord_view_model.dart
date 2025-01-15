@@ -60,11 +60,6 @@ class DashboardPageModel extends BasePageViewModel {
 
   late String mobileNo;
 
-  final List<String> dropdownValues = [
-    'Vipul patel EN1437465346',
-    'Amit patel EN1437465346'
-  ];
-
   final List trackerTemp = [
     {
       'name': 'SR',
@@ -236,9 +231,13 @@ class DashboardPageModel extends BasePageViewModel {
           dashboardState.setValueOfSelectedStudent(tempList.first);
           if (dashboardState.selectedStudent?.isUndertakingTaken == null ||
               dashboardState.selectedStudent?.isUndertakingTaken == false) {
-            getTermsAndConditionUrl(
-                undertakingFile:
-                    dashboardState.selectedStudent!.undertakingFile!);
+            if (dashboardState.selectedStudent?.undertakingFile != null ||
+                (dashboardState.selectedStudent?.undertakingFile?.isNotEmpty ??
+                    false)) {
+              getTermsAndConditionUrl(
+                  undertakingFile:
+                      dashboardState.selectedStudent?.undertakingFile ?? '');
+            }
           }
         }
         _getGuardianStudentDetailsModel.add(result);
@@ -363,16 +362,6 @@ class DashboardPageModel extends BasePageViewModel {
         }
       }
     }
-
-    // final List<Map<String, String>> drawerItems = [
-    //   {'text': 'Fees', 'route': ''},
-    //   {'text': 'Payments', 'route': ''},
-    //   {'text': 'Transaction History', 'route': ''},
-    //   {'text': 'Receipt', 'route': ''},
-    //   {'text': 'Daily Diary', 'route': ''},
-    //   {'text': 'Class Update', 'route': ''},
-    //   {'text': 'Assignment', 'route': ''},
-    // ];
   }
 
   void getTermsAndConditionUrl({required String undertakingFile}) {

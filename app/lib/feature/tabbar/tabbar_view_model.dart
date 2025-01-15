@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/model/resource.dart';
@@ -241,7 +243,7 @@ class TabbarViewModel extends BasePageViewModel {
         menu: 'IVT', icon: AppImages.assignment, key: 'ivt', isActive: false),
   ];
 
-  List<MenuItem> menuItems = [];
+  BehaviorSubject<List<MenuItem>> menuItems = BehaviorSubject.seeded([]);
 
   void getUserDetails() {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
@@ -253,6 +255,8 @@ class TabbarViewModel extends BasePageViewModel {
         userSubject.add(data.data!);
 
         setDrawerMenuItems(data);
+      } else if (data.status == Status.error) {
+        log("ERROR ${data.dealSafeAppError?.error.message}");
       }
     });
   }
@@ -301,7 +305,7 @@ class TabbarViewModel extends BasePageViewModel {
     //   }
     // }
 
-    menuItems = [
+    menuItems.add([
       MenuItem(
           menuItem: "Fees",
           menuItemActive: data.data?.statusId != 0,
@@ -319,6 +323,6 @@ class TabbarViewModel extends BasePageViewModel {
           menuItem: "Daily Diary",
           menuItemActive: false,
           drawerItmes: dailyDiary)
-    ];
+    ]);
   }
 }

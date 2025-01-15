@@ -38,7 +38,7 @@ class VasEnrollmentFeeCalculationRequest {
     shiftId = json['shift_id'];
     streamId = json['stream_id'];
     gradeId = json['grade_id'];
-    schoolId = json['school_id'];
+    schoolId = json['school_parent_id'];
     batchId = json['batch_id'];
     feeTypeId = json['fee_type_id'];
     feeSubTypeId = json['fee_sub_type_id'];
@@ -60,7 +60,7 @@ class VasEnrollmentFeeCalculationRequest {
     data['shift_id'] = shiftId;
     data['stream_id'] = streamId;
     data['grade_id'] = gradeId;
-    data['school_id'] = schoolId;
+    data['school_parent_id'] = schoolId;
     if (batchId != null) {
       data['batch_id'] = batchId;
     }

@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/molecules/drawer/expansion_list.dart';
@@ -13,6 +14,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -40,6 +42,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   void didChangeDependencies() {
     model.tabController =
         TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
+    model.getUserDetails();
     super.didChangeDependencies();
   }
 
@@ -72,7 +75,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     //       menuItemActive: false,
     //       drawerItmes: model.dailyDiary)
     // ];
-    model.getUserDetails();
+    // model.getUserDetails();
     super.onModelReady(model);
   }
 
@@ -126,16 +129,22 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
         width: MediaQuery.of(context!).size.width * 0.8,
         child: Padding(
           padding: const EdgeInsets.only(top: 32.0),
-          child: ListView(
-              //    SizedBox(),
-              children: model.menuItems
-                  .map((e) => Visibility(
-                      visible: e.menuItemActive ?? false,
-                      child: CustomExpansionList(
-                        title: e.menuItem ?? "",
-                        nameList: e.drawerItmes,
-                      )))
-                  .toList()),
+          child: AppStreamBuilder<List<MenuItem>>(
+              stream: model.menuItems,
+              initialData: [],
+              dataBuilder: (context, menus) {
+                return ListView(
+                    //    SizedBox(),
+                    children: menus
+                            ?.map((e) => Visibility(
+                                visible: e.menuItemActive ?? false,
+                                child: CustomExpansionList(
+                                  title: e.menuItem ?? "",
+                                  nameList: e.drawerItmes,
+                                )))
+                            .toList() ??
+                        []);
+              }),
         ));
   }
 

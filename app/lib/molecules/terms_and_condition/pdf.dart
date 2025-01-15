@@ -50,7 +50,14 @@ class PDFDialogState extends State<PDFDialog> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    children: [Text("STUDENT NAME")],
+                    children: [
+                      Visibility(
+                        visible:
+                            widget.selectedStudent?.studentDisplayName != null,
+                        child: Text(
+                            "${widget.selectedStudent?.studentDisplayName?.split("-").first}"),
+                      )
+                    ],
                   ),
                 ),
                 CommonSizedBox.sizedBox(height: 10, width: 10),

@@ -267,9 +267,9 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                           null) {
                                                         onSelectVasEnrolment?.call(
                                                             StudentEnrolmentFee(
-                                                          enquiryNo: model
-                                                              .enquiryDetailArgs
-                                                              ?.enquiryNumber,
+                                                          // enquiryNo: model
+                                                          //     .enquiryDetailArgs
+                                                          //     ?.enquiryNumber,
                                                           academicYearId: model
                                                               .enquiryDetailArgs
                                                               ?.academicYearId,

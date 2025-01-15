@@ -124,6 +124,7 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
         shiftId: enquiryDetailArgs?.shiftId,
         feeTypeId: FeesTypeIdEnum.cafeteriaFees.id,
         feeCategoryId: feeCategoryId,
+        feeSubTypeId: feeSubTypeID,
         periodOfServiceId: periodOfServiceID,
       ));
       RequestManager<VasOptionResponse>(params,

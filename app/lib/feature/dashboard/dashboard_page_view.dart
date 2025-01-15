@@ -10,7 +10,7 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
-import 'package:app/molecules/terms_and_condition/pdf.dart';
+
 import 'package:app/navigation/route_paths.dart';
 
 import 'package:app/utils/app_typography.dart';
@@ -41,7 +41,15 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          // const Tracker(),
+          AppStreamBuilder<Resource<User>>(
+              stream: model.userSubject,
+              initialData: Resource.none(),
+              dataBuilder: (context, userData) {
+                return Visibility(
+                  visible: userData?.data?.statusId == 0,
+                  child: const Tracker(),
+                );
+              }),
           //  CommonSizedBox.sizedBox(height: 15, width: 10),
           // AppStreamBuilder<Resource<bool>>(
           //     stream: model.loadAdmissionMenus,

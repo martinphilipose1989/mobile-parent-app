@@ -63,7 +63,7 @@ class StudentEnrolmentFeeEntity
   dynamic streamId;
   @JsonKey(name: "brand_id")
   dynamic brandId;
-  @JsonKey(name: "school_id")
+  @JsonKey(name: "school_parent_id")
   dynamic schoolId;
   @JsonKey(name: "host_school_id")
   dynamic hostSchoolId;
@@ -129,7 +129,7 @@ class StudentEnrolmentFeeEntity
     if (batchId != null) data['batch_id'] = batchId;
     if (streamId != null) data['stream_id'] = streamId;
     if (brandId != null) data['brand_id'] = brandId;
-    if (schoolId != null) data['school_id'] = schoolId;
+    if (schoolId != null) data['school_parent_id'] = schoolId;
     if (hostSchoolId != null) data['host_school_id'] = hostSchoolId;
     if (academicYearId != null && academicYearId != 0) {
       data['academic_year_id'] = academicYearId;
