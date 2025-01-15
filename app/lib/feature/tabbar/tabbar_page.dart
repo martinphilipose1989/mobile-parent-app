@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/student_detail/student_detail_page.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/molecules/drawer/expansion_list.dart';
@@ -8,6 +9,7 @@ import 'package:app/molecules/drawer/expansion_list.dart';
 import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 
@@ -15,6 +17,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'package:app/base/app_base_page.dart';
@@ -39,7 +42,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   void didChangeDependencies() {
     model.tabController =
-        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 3, vsync: this);
     super.didChangeDependencies();
   }
 
@@ -97,6 +100,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                   ),
                 ),
               ),
+          StudentDetailPage()
             ],
           );
         });
@@ -190,6 +194,28 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
                           text: 'Notification',
+                          style: Theme.of(context).textTheme.bodyMedium),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                BOTTOM_NAV_INDEX = 2;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
+              },
+              child: AbsorbPointer(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+              SvgPicture.asset(AppImages.usertagIcon,color: Colors.black,height: 22,),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: CommonText(
+                          text: 'Student Profile',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

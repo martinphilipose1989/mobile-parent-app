@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../molecules/student/student_image_info.dart';
 import '../../molecules/tansport/visitor_details_row.dart';
 import 'student_detail_page_viewmodel.dart';
 
@@ -150,14 +151,14 @@ class StudentDetailPageView
             Infotitlerow(infoText: "Bearers "),
             SizedBox(height: 16.h),
             SizedBox(
-              height: 100,
+              height: 160,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   Column(
                     children: [
                       Expanded(
-                        child: CommonImageWidget(imageHeight: 10, imageUrl: ""),
+                        child: CommonImageWidget(imageHeight: 50,imageWidth: 80, imageUrl: ""),
                       ),
                       Expanded(child: Text("Teacher"))
                     ],
@@ -234,235 +235,6 @@ class StudentDetailPageView
   }
 }
 
-class BearerList extends StatelessWidget {
-  const BearerList(
-      {super.key,
-      required this.bearerList,
-      required this.studentId,
-      required this.model});
 
-  final List<BearerResponse> bearerList;
-  final int studentId;
-  final StudentDetailPageViewModel model;
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      width: 1.sw,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: bearerList.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          // Display each bearer
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CommonImageWidget(
-                      imageUrl: "",
-                      clipBehavior: Clip.hardEdge,
-                      imageWidth: 50,
-                      imageHeight: 50),
-                  const SizedBox(height: 12),
-                  Text("${bearerList[index].firstName}")
-                ],
-              ),
-              SizedBox(width: 16.w),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
 
-// class BearerList extends StatelessWidget {
-//   const BearerList(
-//       {super.key,
-//       required this.bearerList,
-//       required this.studentId,
-//       required this.model});
-
-//   final List<BearerResponse> bearerList;
-//   final int studentId;
-//   final StudentDetailPageViewModel model;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 200,
-//       width: 1.sw,
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           SizedBox(
-//             width: 0.7.sw,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: bearerList.length,
-//               shrinkWrap: true,
-//               itemBuilder: (context, index) {
-//                 return Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     Column(
-//                       mainAxisSize: MainAxisSize.min,
-//                       children: [
-//                         CommonImageWidget(
-//                             imageUrl: "${bearerList[index].DetailImage}",
-//                             clipBehavior: Clip.hardEdge,
-//                             imageWidth: 50,
-//                             imageHeight: 50),
-//                         const SizedBox(height: 12),
-//                         Text("${bearerList[index].firstName}")
-//                       ],
-//                     ),
-//                     SizedBox(width: 16.w),
-//                   ],
-//                 );
-//               },
-//             ),
-//           ),
-//           SizedBox(width: 16.w),
-//           Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               InkWell(
-//                 onTap: () {
-//                   showDialog(
-//                       context: context,
-//                       barrierDismissible: false,
-//                       builder: (context) {
-//                         return AddNewBearer(
-//                             studentId: studentId,
-//                             cancelCallback: () {
-//                               Navigator.pop(context);
-//                             },
-//                             addNewBearerCallback: () {});
-//                       }).then((value) {
-//                     if (value == true) {
-//                       model.getStudentDetail(studentId: studentId);
-//                     }
-//                   });
-//                 },
-//                 child: const CommonImageWidget(
-//                     imageUrl: "imageUrl",
-//                     fallbackAssetImagePath: AppImages.addBearerIcon,
-//                     clipBehavior: Clip.hardEdge,
-//                     imageWidth: 50,
-//                     imageHeight: 50),
-//               ),
-//               const SizedBox(height: 12),
-//               const Text("Add New")
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-class StudentImageInfo extends StatelessWidget {
-  const StudentImageInfo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-
-          margin: EdgeInsets.only(
-            top: 67.h,
-          ),
-          child:
-              SvgPicture.asset(fit: BoxFit.fitWidth, AppImages.bannerProfile),
-          // padding: EdgeInsets.only(
-          //   top: 67.h + 24.h,
-          //   left: 16,
-          //   right: 16,
-          //   bottom: 24,
-          //  ),
-          decoration: BoxDecoration(
-            // color: const Color(0xFFF6F6F6),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.r),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            margin: EdgeInsets.zero,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(70.r),
-                boxShadow: [AppColors.boxShadow]),
-            child: CircleAvatar(
-              radius: 52.r,
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                radius: 45.r,
-                child: ClipOval(
-                    child: CommonImageWidget(
-                  imageUrl: "avatarImagePath",
-                  fallbackAssetImagePath: AppImages.defaultStudentAvatar,
-                  imageHeight: 120.r,
-                  imageWidth: 120.r,
-                )),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 10.h,
-          left: 0,
-          right: 0,
-          child: Container(
-            padding: const EdgeInsets.only(left: 10.0, right: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonText(
-                        text: "Khevna Shah",
-                        style: AppTypography.h5,
-                      ),
-                      CommonText(
-                        text: "En-202023456",
-                        style: AppTypography.caption,
-                      )
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    //  width: 60,
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryOn,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: AppColors.primary)),
-                    padding: EdgeInsets.all(6),
-                    child: CommonText(
-                      text: "Active",
-                      style: AppTypography.caption,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}

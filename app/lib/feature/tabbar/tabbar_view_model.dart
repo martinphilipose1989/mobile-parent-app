@@ -47,20 +47,7 @@ class TabbarViewModel extends BasePageViewModel {
     indexSubject.add(index);
   }
 
-  String getPageName(int value) {
-    switch (value) {
-      case 0:
-        return 'Dashboard';
-      case 1:
-        return '2';
-      case 2:
-        return '3';
-      case 3:
-        return '4';
-      default:
-        return 'N/A';
-    }
-  }
+
 
   final List<DrawerItems> progressItems = [
     DrawerItems(

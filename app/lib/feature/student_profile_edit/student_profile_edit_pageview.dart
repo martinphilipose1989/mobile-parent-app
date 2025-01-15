@@ -8,6 +8,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_image_widget.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
@@ -136,7 +137,7 @@ class StudentProfileEditView
                 infoText: "Bearers",
               ),
           SizedBox(
-            height: 100,
+     height: 150,
             width: 1.sw,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -151,11 +152,25 @@ class StudentProfileEditView
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CommonImageWidget(
-                            imageUrl: "",
-                            clipBehavior: Clip.hardEdge,
-                            imageWidth: 50,
-                            imageHeight: 50),
+                        Stack(
+                          children: [
+                            InkWell(
+                              onTap:(){
+                                CommonPopups().showEdit(context, (){});
+
+                              },
+                              child: CommonImageWidget(
+                                imageUrl: "",
+                                clipBehavior: Clip.hardEdge,
+                                imageWidth: 80,
+                                imageHeight: 70),
+                            ),
+
+                            Positioned(
+                              bottom: -20,
+                                right:1.w,
+                                child:  SvgPicture.asset(AppImages.edit,height: 26,width: 26,)),
+              ]),
                         const SizedBox(height: 12),
                         Text("Ajay Shah")
                       ],

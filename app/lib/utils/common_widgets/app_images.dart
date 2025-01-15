@@ -109,6 +109,8 @@ class AppImages {
   static const String registrationIcon = 'assets/images/registrationIcon.svg';
   static const String disciplinarySlip = 'assets/images/disciplinarySlip.svg';
   static const String editIcon = 'assets/images/editIcon.svg';
+  static const String edit = 'assets/images/edit.svg';
+  static const String profile = 'assets/images/user-tag1.svg';
 
   //rating
   static const String ratingActive1 = 'assets/rating/active1.svg';

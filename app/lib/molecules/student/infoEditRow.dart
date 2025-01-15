@@ -26,7 +26,7 @@ class InfoEditRow extends StatelessWidget {
           Expanded(
             child: CommonTextFormField(
               showAstreik: true,
-              readOnly: true,
+              readOnly: readOnly,
               labelText: labelText,
               controller: controllerleft,
             ),
@@ -37,7 +37,7 @@ class InfoEditRow extends StatelessWidget {
           Expanded(
             child: CommonTextFormField(
               showAstreik: true,
-              readOnly: true,
+              readOnly: readOnly,
               labelText: labelText2,
               controller: controllerRight,
             ),

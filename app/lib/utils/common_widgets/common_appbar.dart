@@ -98,16 +98,18 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 providerBase: userViewModelProvider,
                 builder: (context, model, _) => GestureDetector(
                   onTap: () {
-                    CommonPopups().showActions(context,      (shouldRoute) {
+                    // CommonPopups().showActions(context,      (shouldRoute) {
+                    //   model?.logOut();
+                    // }, (){
+                    //   Navigator.pushNamed(context, RoutePaths.profile);
+                    // });
+                    CommonPopups().showError(
+                      context,
+                      "Are you sure you want to logout?",    (shouldRoute) {
                       model?.logOut();
-                    }, (){
-                      Navigator.pushNamed(context, RoutePaths.profile);
-                    });
-                    // CommonPopups().showError(
-                    //   context,
-                    //   "Are you sure you want to logout?",
+                    },);
 
-                    // );
+
                   },
                   child: Container(
                       height: 32.h,
