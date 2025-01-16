@@ -269,9 +269,9 @@ class SummerCampDetailPageView
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
-                                                              enquiryNo: model
-                                                                  .enquiryDetailArgs
-                                                                  ?.enquiryNumber,
+                                                              // enquiryNo: model
+                                                              //     .enquiryDetailArgs
+                                                              //     ?.enquiryNumber,
                                                               academicYearId: model
                                                                   .enquiryDetailArgs
                                                                   ?.academicYearId,
@@ -304,9 +304,10 @@ class SummerCampDetailPageView
                                                                   ?.studentGlobalId,
                                                               batchId:
                                                                   model.batchID,
-                                                              feeSubcategoryId:
-                                                                  model.feeSubCategoryID,
-                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              feeSubcategoryId: model
+                                                                  .feeSubCategoryID,
+                                                              feeSubTypeId: model
+                                                                  .feeSubTypeID,
                                                               periodOfServiceId: model.periodOfServiceID,
                                                               feeCategoryId: model.feeSubCategoryID,
                                                               feeType: EnrolmentFeeType.summerCamp.type),

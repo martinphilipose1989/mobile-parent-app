@@ -1,12 +1,12 @@
 // ignore_for_file: unused_field
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AttachmentAdapter implements AttachmentPort {
   final FilePicker _filePicker;
@@ -142,6 +142,48 @@ class AttachmentAdapter implements AttachmentPort {
           errorType: ErrorType.imagePickerFailed,
           message: '',
           cause: Exception(ErrorType.imagePickerFailed.name),
+        );
+      }
+    }
+  }
+
+  @override
+  Future<UploadFile> downloadFile(
+      {required String downloadUrlPath,
+      void Function(int, int)? onReceiveProgress}) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final tempPath = '${tempDir.path}/termsandcondition.pdf';
+      final response = await _dioClient.download(downloadUrlPath, tempPath,
+          onReceiveProgress: (count, total) {
+        if (onReceiveProgress != null) {
+          onReceiveProgress(count, total);
+        }
+      });
+
+      if (response.statusCode == 200) {
+        return UploadFile(
+            file: File(tempPath),
+            name: basename(tempPath),
+            extention: basename(tempPath).split(".")[1],
+            size: File(tempPath).lengthSync(),
+            filePath: tempPath);
+      } else {
+        throw Exception(ErrorType.downloadFailed.name);
+      }
+    } catch (e) {
+      if ((e.toString() ==
+          Exception(ErrorType.downloadFailed.name).toString())) {
+        throw LocalError(
+          errorType: ErrorType.downloadFailed,
+          message: "",
+          cause: Exception(ErrorType.downloadFailed.name),
+        );
+      } else {
+        throw LocalError(
+          errorType: ErrorType.downloadFailed,
+          message: '',
+          cause: Exception(ErrorType.downloadFailed.name),
         );
       }
     }

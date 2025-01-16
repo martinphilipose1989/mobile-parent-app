@@ -343,4 +343,10 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
       {required NewEnrolmentCreate newEnrolmentCreate});
+
+  Future<Either<NetworkError, TermsAndConditionsFile>> getTermsAndConditionFile(
+      {required String url});
+
+  Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
+      {required UndertakingRequest body});
 }

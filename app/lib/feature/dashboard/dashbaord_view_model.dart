@@ -1,5 +1,11 @@
+import 'dart:developer';
+
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/terms_and_condition/pdf.dart';
+import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
@@ -8,41 +14,44 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:injectable/injectable.dart';
-import 'package:push_notification/notification.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'dashboard_state.dart';
 
-@injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
   final Sendtokenusecase sendTokenUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   BehaviorSubject<ParentStudentStatusEnum> statusSubject =
       BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
 
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   Stream<Resource<User>> get userStream => userSubject.stream;
 
   var dashboardState = DashboardState();
 
+  // Terms and Condition
+
+  final TermsAndConditionUsecase termsAndConditionUsecase;
+
   DashboardPageModel(
-    this.exceptionHandlerBinder,
-    this._getGuardianStudentDetailsUsecase,
-    this.tokenresponseUsecase,
-    this.getUserRoleBasePermissionUsecase,
-    this._getUserDetailsUsecase,
-    this.sendTokenUsecase,
-    //this.sendTokenUsecase
-  );
+      {required this.exceptionHandlerBinder,
+      required this.getGuardianStudentDetailsUsecase,
+      required this.tokenresponseUsecase,
+      required this.getUserRoleBasePermissionUsecase,
+      required this.getUserDetailsUsecase,
+      required this.termsAndConditionUsecase,
+      required this.flutterToastErrorPresenter,
+      required this.sendTokenUsecase});
 
   final List<String> images = [
     AppImages.pageViewImages,
@@ -52,11 +61,6 @@ class DashboardPageModel extends BasePageViewModel {
   ];
 
   late String mobileNo;
-
-  final List<String> dropdownValues = [
-    'Vipul patel EN1437465346',
-    'Amit patel EN1437465346'
-  ];
 
   final List trackerTemp = [
     {
@@ -218,15 +222,28 @@ class DashboardPageModel extends BasePageViewModel {
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
-            _getGuardianStudentDetailsUsecase.execute(params: params),
+            getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
+          applyActivationRules(userSubject.value);
+
+          loadAdmissionMenus.add(Resource.success(data: true));
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
+          if (dashboardState.selectedStudent?.isUndertakingTaken == null ||
+              dashboardState.selectedStudent?.isUndertakingTaken == false) {
+            if (dashboardState.selectedStudent?.undertakingFile != null ||
+                (dashboardState.selectedStudent?.undertakingFile?.isNotEmpty ??
+                    false)) {
+              getTermsAndConditionUrl(
+                  undertakingFile:
+                      dashboardState.selectedStudent?.undertakingFile ?? '');
+            }
+          }
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
@@ -292,12 +309,14 @@ class DashboardPageModel extends BasePageViewModel {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        applyActivationRules(data);
+        if (data.data?.statusId == 0) {
+          applyActivationRules(data);
 
-        loadAdmissionMenus.add(Resource.success(data: true));
+          loadAdmissionMenus.add(Resource.success(data: true));
+        }
 
         userSubject.add(Resource.success(data: data.data));
 
@@ -354,14 +373,37 @@ class DashboardPageModel extends BasePageViewModel {
         params,
         createCall: () => sendTokenUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        if (result.status == Status.success) {
-          print("sent Token");
-        }
+        if (result.status == Status.success) {}
       }).onError((error) {
-        print(error);
         // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  void getTermsAndConditionUrl({required String undertakingFile}) {
+    TermsAndConditionUsecaseParams params =
+        TermsAndConditionUsecaseParams(url: undertakingFile);
+    ApiResponseHandler.apiCallHandler(
+        params: params,
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        createCall: (params) =>
+            termsAndConditionUsecase.execute(params: params),
+        onSuccess: (result) {
+          log("getTermsAndConditionUrl");
+
+          showPdfViewer(url: result?.data?.url ?? '');
+        },
+        onError: (error) {});
+  }
+
+  showPdfViewer({required String url}) {
+    showDialog(
+      barrierDismissible: false,
+      context: navigatorKey.currentContext!,
+      builder: (context) => PDFDialog(
+          pdfUrl: url, selectedStudent: dashboardState.selectedStudent),
+    );
   }
 
   final List<Map<String, String>> drawerItems = [

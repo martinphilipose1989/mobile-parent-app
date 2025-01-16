@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/finance/new_enrolment_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -590,9 +589,25 @@ abstract class DomainModule {
   }
 
   @lazySingleton
- Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
-    return  Sendtokenusecase(adminRepository: adminRepository );
+  Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
+    return Sendtokenusecase(adminRepository: adminRepository);
   }
 
+  @lazySingleton
+  DownloadFileFromUrlUsecase downloadFileFromUrlUsecase(
+      AttachmentRepository attachmentRepository) {
+    return DownloadFileFromUrlUsecase(
+        attachmentRepository: attachmentRepository);
+  }
 
+  @lazySingleton
+  TermsAndConditionUsecase termsAndConditionUsecase(
+      FinanceRepository financeRepository) {
+    return TermsAndConditionUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  UndertakingUsecase undertakingUsecase(FinanceRepository financeRepository) {
+    return UndertakingUsecase(financeRepository: financeRepository);
+  }
 }

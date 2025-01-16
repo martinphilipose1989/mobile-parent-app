@@ -34,6 +34,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_enti
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/notification/notification_request_Entity.dart';
+import 'package:network_retrofit/src/model/request/undertaking/undertaking.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
@@ -1733,5 +1734,25 @@ class NetworkAdapter implements NetworkPort {
       (error) => Left(error),
       (data) => Right(data.data.transform()),
     );
+  }
+
+  @override
+  Future<Either<NetworkError, TermsAndConditionsFile>> getTermsAndConditionFile(
+      {required String url}) async {
+    final response =
+        await safeApiCall(financeRetrofitService.getTermsAndConditionFile(url));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
+      {required UndertakingRequest body}) async {
+    final response = await safeApiCall(financeRetrofitService
+        .underTakingStudent(UndertakingRequestEntity().restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
   }
 }

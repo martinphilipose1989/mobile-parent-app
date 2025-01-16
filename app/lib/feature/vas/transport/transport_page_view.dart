@@ -167,42 +167,49 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                   onPressed: () {
                                                     if (onSelectVasEnrolment !=
                                                         null) {
-                                                      onSelectVasEnrolment?.call(StudentEnrolmentFee(
-                                                          enquiryNo: model
-                                                              .enquiryDetailArgs
-                                                              ?.enquiryNumber,
-                                                          academicYearId: model
-                                                              .enquiryDetailArgs
-                                                              ?.academicYearId,
-                                                          boardId: model
-                                                              .enquiryDetailArgs
-                                                              ?.boardId,
-                                                          courseId: model
-                                                              .enquiryDetailArgs
-                                                              ?.courseId,
-                                                          schoolId: model
-                                                              .enquiryDetailArgs
-                                                              ?.schoolId,
-                                                          shiftId: model
-                                                              .enquiryDetailArgs
-                                                              ?.shiftId,
-                                                          gradeId: model
-                                                              .enquiryDetailArgs
-                                                              ?.gradeId,
-                                                          streamId: model
-                                                              .enquiryDetailArgs
-                                                              ?.streamId,
-                                                          brandId:
-                                                              model.enquiryDetailArgs?.brandId,
-                                                          studentId: model.enquiryDetailArgs?.studentId,
-                                                          globalUserId: model.enquiryDetailArgs?.studentGlobalId,
-                                                          feeType: EnrolmentFeeType.transport.type,
-                                                          batchId: model.batchID,
-                                                          feeSubTypeId: model.feeSubTypeID,
-                                                          feeCategoryId: model.feeCategoryID,
-                                                          periodOfServiceId: model.periodOfServiceID,
-                                                          feeSubcategoryEnd: model.selectedDropZone?.zoneName,
-                                                          feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
+                                                      onSelectVasEnrolment?.call(
+                                                          StudentEnrolmentFee(
+                                                              // enquiryNo: model
+                                                              //     .enquiryDetailArgs
+                                                              //     ?.enquiryNumber,
+                                                              academicYearId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.academicYearId,
+                                                              boardId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.boardId,
+                                                              courseId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.courseId,
+                                                              schoolId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.schoolId,
+                                                              shiftId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.shiftId,
+                                                              gradeId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.gradeId,
+                                                              streamId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.streamId,
+                                                              brandId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.brandId,
+                                                              studentId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentId,
+                                                              globalUserId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentGlobalId,
+                                                              feeType:
+                                                                  EnrolmentFeeType.transport.type,
+                                                              batchId: model.batchID,
+                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              feeCategoryId: model.feeCategoryID,
+                                                              periodOfServiceId: model.periodOfServiceID,
+                                                              feeSubcategoryEnd: model.selectedDropZone?.zoneName,
+                                                              feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
                                                     } else {
                                                       model.enrollTransport();
                                                     }
