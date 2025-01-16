@@ -127,8 +127,7 @@ class CouponList extends StatelessWidget {
                         : data.data?.data?.isEmpty == true
                             ? const Center(
                                 child:
-                                    CommonText(text: 'No Coupons Available.'),
-                              )
+                                    CommonText(text: 'No Coupons Available.'))
                             : ListView(
                                 children: List.generate(
                                   (data.data?.data?.length ?? 0),

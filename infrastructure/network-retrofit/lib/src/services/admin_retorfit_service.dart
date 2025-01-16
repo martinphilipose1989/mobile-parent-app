@@ -34,7 +34,7 @@ abstract class AdminRetorfitService {
       {@Path('id') required int studentId,
       @Query('platform') required String app});
 
-  @POST('school-subject/fetch-school-subjects')
+  @POST('admin/school-subject/fetch-school-subjects')
   Future<HttpResponse<SubjectListResponseEntity>> getSubjectList(
       {@Body() required SubjectListingRequest subjectListingRequest,
       @Query('platform') required String app});

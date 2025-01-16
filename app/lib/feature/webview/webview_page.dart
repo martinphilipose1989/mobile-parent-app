@@ -57,11 +57,13 @@ class WebviewArguments {
   final Modules? module;
   final EnquiryDetailArgs? enquiryDetailArgs;
   final String? paymentType;
+  final String? currentStage;
 
   WebviewArguments(
       {required this.paymentsLink,
       this.orderId,
       this.module,
       this.enquiryDetailArgs,
-      this.paymentType});
+      this.paymentType,
+      this.currentStage});
 }
