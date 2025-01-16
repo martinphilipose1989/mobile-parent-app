@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/flavors/flavor_config.dart';
 import 'package:dependency_injection/dependency_injection.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +33,6 @@ void startApp() async {
 //     );
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
-
       options: FirebaseConfig.firebaseOptions,
     );
   }
@@ -55,17 +52,11 @@ void startApp() async {
   //   print("Firebase already initialized");
   // }
 
-
   FirebaseMessaging.instance.getToken().then((value) {
     if (value != null) {
-      print("FCM Token" "FCM Token: $value");
-SharedPreferenceHelper.saveString("token", value);
-    } else {
-      print("Error" "Failed to get FCM token");
-    }
-  }).catchError((error) {
-    print("Exception" "Error getting FCM token: $error");
-  });
+      SharedPreferenceHelper.saveString("token", value);
+    } else {}
+  }).catchError((error) {});
 
   // if (kDebugMode) {
   //   try {

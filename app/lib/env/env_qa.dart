@@ -75,10 +75,21 @@ abstract class EnvQA {
   @EnviedField(varName: 'ANDROID_APP_ID')
   static const String androidAppId = _EnvQA.androidAppId;
 
-  @EnviedField(varName: 'ANDROID_SENDER_ID')
-  static const String androidSenderId = _EnvQA.androidSenderId;
+  @EnviedField(varName: 'ANDROID_PACKAGE_NAME')
+  static const String androidAppPackageName = _EnvQA.androidAppPackageName;
 
-  @EnviedField(varName: 'ANDROID_PROJECT_ID')
-  static const String androidProjectId = _EnvQA.androidProjectId;
+  @EnviedField(varName: 'IOS_API_KEY')
+  static const String iosApiKey = _EnvQA.iosApiKey;
 
+  @EnviedField(varName: 'IOS_APP_ID')
+  static const String iosAppId = _EnvQA.iosAppId;
+
+  @EnviedField(varName: 'IOS_PACKAGE_NAME')
+  static const String iosAppPackageName = _EnvQA.iosAppPackageName;
+
+  @EnviedField(varName: 'SENDER_ID')
+  static const String senderId = _EnvQA.senderId;
+
+  @EnviedField(varName: 'PROJECT_ID')
+  static const String projectId = _EnvQA.projectId;
 }

@@ -76,11 +76,21 @@ abstract class EnvDev {
   @EnviedField(varName: 'ANDROID_APP_ID')
   static const String androidAppId = _EnvDev.androidAppId;
 
-  @EnviedField(varName: 'ANDROID_SENDER_ID')
-  static const String androidSenderId = _EnvDev.androidSenderId;
+  @EnviedField(varName: 'ANDROID_PACKAGE_NAME')
+  static const String androidAppPackageName = _EnvDev.androidAppPackageName;
 
-  @EnviedField(varName: 'ANDROID_PROJECT_ID')
-  static const String androidProjectId = _EnvDev.androidProjectId;
+  @EnviedField(varName: 'IOS_API_KEY')
+  static const String iosApiKey = _EnvDev.iosApiKey;
 
+  @EnviedField(varName: 'IOS_APP_ID')
+  static const String iosAppId = _EnvDev.iosAppId;
 
+  @EnviedField(varName: 'IOS_PACKAGE_NAME')
+  static const String iosAppPackageName = _EnvDev.iosAppPackageName;
+
+  @EnviedField(varName: 'SENDER_ID')
+  static const String senderId = _EnvDev.senderId;
+
+  @EnviedField(varName: 'PROJECT_ID')
+  static const String projectId = _EnvDev.projectId;
 }
