@@ -84,7 +84,8 @@ class NetworkAdapter implements NetworkPort {
       required this.ticketRetrofitService,
       required this.keyCloakService,
       required this.gatemanagementService,
-      required this.marketingSerivce,required this.tokenRetrofitService});
+      required this.marketingSerivce,
+      required this.tokenRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -1722,14 +1723,15 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SendTokenResponseModel>> sendToken ({required int? userId, required SendTokenRequestEntity sendTokenRequestEntity}) async {
-    final response = await safeApiCall(
-        tokenRetrofitService.sendToken(
-   userId: userId??0,sendTokenRequestEntity: sendTokenRequestEntity));
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
+      {required int? userId,
+      required SendTokenRequestEntity sendTokenRequestEntity}) async {
+    final response = await safeApiCall(tokenRetrofitService.sendToken(
+        userId: userId ?? 0, sendTokenRequestEntity: sendTokenRequestEntity));
 
     return response.fold(
-          (error) => Left(error),
-          (data) => Right(data.data.transform()),
+      (error) => Left(error),
+      (data) => Right(data.data.transform()),
     );
   }
 }
