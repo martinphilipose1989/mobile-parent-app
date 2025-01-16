@@ -68,4 +68,17 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'SUBJECT_SELECTION_URL')
   static const String subjectSelectionUrl = _EnvQA.subjectSelectionUrl;
+
+  @EnviedField(varName: 'ANDROID_API_KEY')
+  static const String androidApiKey = _EnvQA.androidApiKey;
+
+  @EnviedField(varName: 'ANDROID_APP_ID')
+  static const String androidAppId = _EnvQA.androidAppId;
+
+  @EnviedField(varName: 'ANDROID_SENDER_ID')
+  static const String androidSenderId = _EnvQA.androidSenderId;
+
+  @EnviedField(varName: 'ANDROID_PROJECT_ID')
+  static const String androidProjectId = _EnvQA.androidProjectId;
+
 }

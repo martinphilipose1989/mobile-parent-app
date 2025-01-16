@@ -45,7 +45,8 @@ import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
-import 'package:network_retrofit/src/services/tokenService.dart';
+
+import 'package:network_retrofit/src/services/token_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
 import 'package:retrofit/dio.dart';

@@ -29,7 +29,7 @@ void main() async {
         showLogs: true,
         frontEndUrl: EnvQA.frontEndUrl,
         notificationUrl: EnvQA.notificationUrl,
-        subjectSelectionUrl: EnvQA.subjectSelectionUrl),
+        subjectSelectionUrl: EnvQA.subjectSelectionUrl, androidApiKey: EnvQA.androidApiKey, androidAppId: EnvQA.androidAppId, androidSenderId: EnvQA.androidSenderId, androidProjectId: EnvQA.androidProjectId),
   );
   startApp();
 }

@@ -69,4 +69,18 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'SUBJECT_SELECTION_URL')
   static const String subjectSelectionUrl = _EnvDev.subjectSelectionUrl;
+
+  @EnviedField(varName: 'ANDROID_API_KEY')
+  static const String androidApiKey = _EnvDev.androidApiKey;
+
+  @EnviedField(varName: 'ANDROID_APP_ID')
+  static const String androidAppId = _EnvDev.androidAppId;
+
+  @EnviedField(varName: 'ANDROID_SENDER_ID')
+  static const String androidSenderId = _EnvDev.androidSenderId;
+
+  @EnviedField(varName: 'ANDROID_PROJECT_ID')
+  static const String androidProjectId = _EnvDev.androidProjectId;
+
+
 }
