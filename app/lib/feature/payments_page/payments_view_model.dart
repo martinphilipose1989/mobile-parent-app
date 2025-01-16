@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -13,16 +15,19 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 @injectable
 class PaymentsPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetValidatePayNowUseCase _getValidatePayNowUseCase;
-  final GetPaymentOrderUsecase _getPaymentOrderUsecase;
-  final GetCouponsUsecase _getCouponsUsecase;
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetValidatePayNowUseCase getValidatePayNowUseCase;
+  final GetPaymentOrderUsecase getPaymentOrderUsecase;
+  final GetCouponsUsecase getCouponsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+
   PaymentsPageModel(
-      this.exceptionHandlerBinder,
-      this._getValidatePayNowUseCase,
-      this._getPaymentOrderUsecase,
-      this._getCouponsUsecase,
-      this._getUserDetailsUsecase);
+      {required this.exceptionHandlerBinder,
+      required this.flutterToastErrorPresenter,
+      required this.getValidatePayNowUseCase,
+      required this.getPaymentOrderUsecase,
+      required this.getCouponsUsecase,
+      required this.getUserDetailsUsecase});
 
   final BehaviorSubject<String> selectedPaymentType =
       BehaviorSubject<String>.seeded('');
@@ -86,7 +91,7 @@ class PaymentsPageModel extends BasePageViewModel {
           paymentMode: paymentMode, studentFeeIds: studentFeeids);
       RequestManager<GetValidateOnPayModel>(
         params,
-        createCall: () => _getValidatePayNowUseCase.execute(params: params),
+        createCall: () => getValidatePayNowUseCase.execute(params: params),
       ).asFlow().listen((result) {
         _getValidateOnPayModel.add(result);
         if (result.status == Status.error) {}
@@ -125,24 +130,31 @@ class PaymentsPageModel extends BasePageViewModel {
       required String studentId,
       required String academicYrsId,
       required String feeSubTypeIds}) {
-    exceptionHandlerBinder.handle(block: () {
-      GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
-        feeCategoryIds: feeCategoryIds,
-        feeSubCategoryIds: feeSubCategoryIds,
-        feeTypeIds: feeTypeIds,
-        studentId: studentId,
-        academicYrsId: academicYrsId,
-        feeSubTypeIds: feeSubTypeIds,
-      );
-      RequestManager<FetchCouponsListModel>(
-        params,
-        createCall: () => _getCouponsUsecase.execute(params: params),
-      ).asFlow().listen((result) {
-        _fetchCouponsListModel.add(result);
-      }).onError((error) {
-        // exceptionHandlerBinder.showError(error!);
-      });
-    }).execute();
+    // exceptionHandlerBinder.handle(block: () {
+    GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
+      feeCategoryIds: feeCategoryIds,
+      feeSubCategoryIds: feeSubCategoryIds,
+      feeTypeIds: feeTypeIds,
+      studentId: studentId,
+      academicYrsId: academicYrsId,
+      feeSubTypeIds: feeSubTypeIds,
+    );
+    //   RequestManager<FetchCouponsListModel>(
+    //     params,
+    //     createCall: () => _getCouponsUsecase.execute(params: params),
+    //   ).asFlow().listen((result) {
+    //     _fetchCouponsListModel.add(result);
+    //   }).onError((error) {
+    //     // exceptionHandlerBinder.showError(error!);
+    //   });
+    // }).execute();
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) => getCouponsUsecase.execute(params: params),
+        onSuccess: (result) {},
+        onError: (error) {});
   }
 
   //end
@@ -205,7 +217,7 @@ class PaymentsPageModel extends BasePageViewModel {
                   device: null)));
       RequestManager<GetPaymentOrderResponseModel>(
         params,
-        createCall: () => _getPaymentOrderUsecase.execute(params: params),
+        createCall: () => getPaymentOrderUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {}
         _getPaymentOrderResponseModel.add(result);
@@ -293,7 +305,7 @@ class PaymentsPageModel extends BasePageViewModel {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));

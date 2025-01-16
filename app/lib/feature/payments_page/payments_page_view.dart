@@ -191,9 +191,9 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                         : PaymentsPageRadioButton(
                             model: model,
                             title:
-                                model.paymentModes[index].serviceProvider ?? '',
+                                model.paymentModes[index].paymentModeName ?? '',
                             value:
-                                model.paymentModes[index].serviceProvider ?? "",
+                                model.paymentModes[index].paymentModeName ?? "",
                           );
                   },
                   itemCount: model.paymentModes.length),

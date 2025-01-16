@@ -102,11 +102,12 @@ final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
   (ref) => PaymentsPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetValidatePayNowUseCase>(),
-      getIt.get<GetPaymentOrderUsecase>(),
-      getIt.get<GetCouponsUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      getCouponsUsecase: getIt.get<GetCouponsUsecase>(),
+      getPaymentOrderUsecase: getIt.get<GetPaymentOrderUsecase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+      getValidatePayNowUseCase: getIt.get<GetValidatePayNowUseCase>()),
 );
 
 final createIntimationProvider =
@@ -401,13 +402,13 @@ final paymentHistoryStudentLedgerProvider =
               getIt.get<FlutterExceptionHandlerBinder>(),
             ));
 
-final webViewProvider =
-    ChangeNotifierProvider.autoDispose<WebviewModel>((ref) => WebviewModel(
-          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-          cancelPaymentUsecase: getIt.get<CancelPaymentUsecase>(),
-          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-          getPaymentStatusUsecase: getIt.get<GetPaymentStatusUsecase>(),
-        ));
+final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
+    (ref) => WebviewModel(
+        exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+        cancelPaymentUsecase: getIt.get<CancelPaymentUsecase>(),
+        flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+        getPaymentStatusUsecase: getIt.get<GetPaymentStatusUsecase>(),
+        moveToNextStageUsecase: getIt.get<MoveToNextStageUsecase>()));
 
 final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
     (ref) => RatePageModel(

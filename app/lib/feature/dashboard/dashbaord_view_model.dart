@@ -223,6 +223,9 @@ class DashboardPageModel extends BasePageViewModel {
             getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
+          applyActivationRules(userSubject.value);
+
+          loadAdmissionMenus.add(Resource.success(data: true));
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
@@ -306,9 +309,11 @@ class DashboardPageModel extends BasePageViewModel {
       createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        applyActivationRules(data);
+        if (data.data?.statusId == 0) {
+          applyActivationRules(data);
 
-        loadAdmissionMenus.add(Resource.success(data: true));
+          loadAdmissionMenus.add(Resource.success(data: true));
+        }
 
         userSubject.add(Resource.success(data: data.data));
       }
