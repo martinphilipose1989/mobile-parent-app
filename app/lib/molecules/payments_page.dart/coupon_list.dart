@@ -5,7 +5,9 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:app/utils/common_widgets/data_status_widget.dart';
 import 'package:app/utils/common_widgets/dotted_border.dart';
+import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -120,95 +122,73 @@ class CouponList extends StatelessWidget {
                   stream: model!.fetchCouponsListModel,
                   initialData: Resource.none(),
                   dataBuilder: (context, data) {
-                    return data!.status == Status.loading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : data.data?.data?.isEmpty == true
-                            ? const Center(
-                                child:
-                                    CommonText(text: 'No Coupons Available.'))
-                            : ListView(
-                                children: List.generate(
-                                  (data.data?.data?.length ?? 0),
-                                  (index) {
-                                    FetchCouponsDataModel
-                                        fetchCouponsDataModel =
-                                        data.data!.data![index];
-                                    return AppStreamBuilder<bool>(
-                                      stream: model.showMore,
-                                      initialData: model.showMore.value,
-                                      dataBuilder: (context, data) {
-                                        return SizedBox(
-                                          height: data! &&
-                                                  index == model.couponShowMore
+                    return DataStatusWidget(
+                      status: data?.status ?? Status.none,
+                      loadingWidget: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      successWidget: () => Visibility(
+                          visible: data?.data?.data?.isNotEmpty ?? false,
+                          replacement:
+                              NoDataFoundWidget(title: "No Coupons Found"),
+                          child: ListView.builder(
+                              itemCount: data?.data?.data?.length,
+                              itemBuilder: (context, index) {
+                                FetchCouponsDataModel? fetchCouponsDataModel =
+                                    data?.data?.data?[index];
+                                return AppStreamBuilder<bool>(
+                                  stream: model.showMore,
+                                  initialData: model.showMore.value,
+                                  dataBuilder: (context, data) {
+                                    return SizedBox(
+                                      height:
+                                          data! && index == model.couponShowMore
                                               ? 270.h
                                               : 200.h,
-                                          width: 350.w,
+                                      width: 350.w,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Card(
+                                          elevation: 2,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Card(
-                                              elevation: 2,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        // Image.asset(
-                                                        //     AppImages.sbiBankIcon),
-                                                        // CommonSizedBox.sizedBox(
-                                                        //     height: 10, width: 10),
-                                                        CustomPaint(
-                                                            painter: DashRectPainter(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .primary,
-                                                                strokeWidth:
-                                                                    1.5,
-                                                                gap: 3),
-                                                            child: Container(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              height: 40.h,
-                                                              width: 145.w,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primary
-                                                                      .withOpacity(
-                                                                          0.2)),
-                                                              child: CommonText(
-                                                                text: fetchCouponsDataModel
-                                                                        .couponCode ??
-                                                                    "",
-                                                                style: AppTypography
-                                                                    .subtitle2
-                                                                    .copyWith(
-                                                                        color: Theme.of(context)
-                                                                            .colorScheme
-                                                                            .primary),
-                                                              ),
-                                                            )),
-                                                        const Spacer(),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context,
-                                                                fetchCouponsDataModel);
-                                                          },
+                                                    // Image.asset(
+                                                    //     AppImages.sbiBankIcon),
+                                                    // CommonSizedBox.sizedBox(
+                                                    //     height: 10, width: 10),
+                                                    CustomPaint(
+                                                        painter: DashRectPainter(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .primary,
+                                                            strokeWidth: 1.5,
+                                                            gap: 3),
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          height: 40.h,
+                                                          width: 145.w,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary
+                                                                  .withOpacity(
+                                                                      0.2)),
                                                           child: CommonText(
-                                                            text: 'Apply',
+                                                            text: fetchCouponsDataModel
+                                                                    ?.couponCode ??
+                                                                "",
                                                             style: AppTypography
                                                                 .subtitle2
                                                                 .copyWith(
@@ -217,68 +197,83 @@ class CouponList extends StatelessWidget {
                                                                         .colorScheme
                                                                         .primary),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    CommonSizedBox.sizedBox(
-                                                        height: 10, width: 10),
-                                                    CommonText(
-                                                      text: fetchCouponsDataModel
-                                                              .description ??
-                                                          '',
-                                                      style: AppTypography
-                                                          .subtitle2,
-                                                    ),
-                                                    CommonSizedBox.sizedBox(
-                                                        height: 10, width: 10),
-                                                    const Divider(),
-                                                    CommonSizedBox.sizedBox(
-                                                        height: 10, width: 10),
-                                                    CommonText(
-                                                      text: fetchCouponsDataModel
-                                                              .termsAndConditions ??
-                                                          '',
-                                                      style:
-                                                          AppTypography.caption,
-                                                      overflow: data &&
-                                                              index ==
-                                                                  model
-                                                                      .couponShowMore
-                                                          ? TextOverflow.visible
-                                                          : TextOverflow
-                                                              .ellipsis,
-                                                    ),
-                                                    CommonSizedBox.sizedBox(
-                                                        height: 10, width: 10),
+                                                        )),
+                                                    const Spacer(),
                                                     InkWell(
                                                       onTap: () {
-                                                        model.couponShowMore =
-                                                            index;
-                                                        model.showMore
-                                                            .add(!data);
+                                                        Navigator.pop(context,
+                                                            fetchCouponsDataModel);
                                                       },
                                                       child: CommonText(
-                                                        text: data &&
-                                                                index ==
-                                                                    model
-                                                                        .couponShowMore
-                                                            ? '- Show Less'
-                                                            : '+ Show More',
+                                                        text: 'Apply',
                                                         style: AppTypography
-                                                            .caption,
+                                                            .subtitle2
+                                                            .copyWith(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
+                                                CommonSizedBox.sizedBox(
+                                                    height: 10, width: 10),
+                                                CommonText(
+                                                  text: fetchCouponsDataModel
+                                                          ?.description ??
+                                                      '',
+                                                  style:
+                                                      AppTypography.subtitle2,
+                                                ),
+                                                CommonSizedBox.sizedBox(
+                                                    height: 10, width: 10),
+                                                const Divider(),
+                                                CommonSizedBox.sizedBox(
+                                                    height: 10, width: 10),
+                                                CommonText(
+                                                  text: fetchCouponsDataModel
+                                                          ?.termsAndConditions ??
+                                                      '',
+                                                  style: AppTypography.caption,
+                                                  overflow: data &&
+                                                          index ==
+                                                              model
+                                                                  .couponShowMore
+                                                      ? TextOverflow.visible
+                                                      : TextOverflow.ellipsis,
+                                                ),
+                                                CommonSizedBox.sizedBox(
+                                                    height: 10, width: 10),
+                                                InkWell(
+                                                  onTap: () {
+                                                    model.couponShowMore =
+                                                        index;
+                                                    model.showMore.add(!data);
+                                                  },
+                                                  child: CommonText(
+                                                    text: data &&
+                                                            index ==
+                                                                model
+                                                                    .couponShowMore
+                                                        ? '- Show Less'
+                                                        : '+ Show More',
+                                                    style:
+                                                        AppTypography.caption,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      ),
                                     );
                                   },
-                                ),
-                              );
+                                );
+                              })),
+                      errorWidget: () => NoDataFoundWidget(
+                          title: "${data?.dealSafeAppError?.error.message}"),
+                    );
                   },
                 ))
               ],

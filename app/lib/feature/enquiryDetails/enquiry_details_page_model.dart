@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -19,6 +18,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -891,10 +891,16 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     if (!(detail.studentDetails?.dob ?? '')
         .toLowerCase()
         .contains("invalid date")) {
-      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
-          ? DateTime.parse(
-              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
-          : DateTime.now();
+      // studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+      //     ? DateTime.parse((detail.studentDetails?.dob ?? ''))
+      //     : DateTime.now();
+      if (detail.studentDetails?.dob == null ||
+          (detail.studentDetails?.dob?.isEmpty ?? false)) {
+        studentDob = DateTime.now(); // Default to current date
+      } else {
+        DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+        studentDob = dateFormat.tryParse(detail.studentDetails?.dob ?? '');
+      }
     }
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';

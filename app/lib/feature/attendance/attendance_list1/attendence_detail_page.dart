@@ -5,17 +5,19 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:data/data.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'attendance_details_page_view.dart';
 
 import 'attendance_details_view_model.dart';
 
+// ignore: must_be_immutable
 class AttendanceDetailsPage extends BasePage<AttendanceDetailsViewModel> {
   AttendanceDetailPageParameter attendanceDetailPageParameter;
 
-  AttendanceDetailsPage({required this.attendanceDetailPageParameter});
+  AttendanceDetailsPage(
+      {super.key, required this.attendanceDetailPageParameter});
 
   @override
   State<AttendanceDetailsPage> createState() => _AttendanceDetailsPageState();
@@ -46,7 +48,6 @@ class _AttendanceDetailsPageState extends AppBasePageState<
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceDetailsViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Student Attendance',
       notShowNotificationAndUserBatch: false,
@@ -56,13 +57,11 @@ class _AttendanceDetailsPageState extends AppBasePageState<
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, AttendanceDetailsViewModel model) {
-    // TODO: implement buildView
     return AttendanceDetailsPageView(provideBase());
   }
 
@@ -84,7 +83,6 @@ class AttendanceDetailPageParameter {
       this.fromDate,
       this.academicyearId}); // toJson method
   Map<String, dynamic> toJson() {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return {
       'studentId': studentId,
       'toDate': toDate,

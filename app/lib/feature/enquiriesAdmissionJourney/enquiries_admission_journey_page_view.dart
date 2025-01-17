@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
 import 'package:app/model/resource.dart';
@@ -24,9 +22,11 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/registration_details/registrations_widgets_read_only/menu.dart';
 
+// ignore: must_be_immutable
 class EnquiriesAdmissionsJourneyPageView
     extends BasePageViewWidget<EnquiriesAdmissionsJourneyViewModel> {
   EnquiryDetailArgs enquiryDetail;
+  // ignore: use_key_in_widget_constructors
   EnquiriesAdmissionsJourneyPageView(
     super.providerBase, {
     required this.enquiryDetail,
@@ -257,6 +257,7 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppImages.eyeIcon,
+                      // ignore: deprecated_member_use
                       color: Theme.of(context).primaryColor,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),

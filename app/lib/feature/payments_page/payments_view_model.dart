@@ -130,7 +130,8 @@ class PaymentsPageModel extends BasePageViewModel {
       required String studentId,
       required String academicYrsId,
       required String feeSubTypeIds}) {
-    // exceptionHandlerBinder.handle(block: () {
+    _fetchCouponsListModel.add(Resource.loading());
+
     GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
       feeCategoryIds: feeCategoryIds,
       feeSubCategoryIds: feeSubCategoryIds,
@@ -139,22 +140,18 @@ class PaymentsPageModel extends BasePageViewModel {
       academicYrsId: academicYrsId,
       feeSubTypeIds: feeSubTypeIds,
     );
-    //   RequestManager<FetchCouponsListModel>(
-    //     params,
-    //     createCall: () => _getCouponsUsecase.execute(params: params),
-    //   ).asFlow().listen((result) {
-    //     _fetchCouponsListModel.add(result);
-    //   }).onError((error) {
-    //     // exceptionHandlerBinder.showError(error!);
-    //   });
-    // }).execute();
+
     ApiResponseHandler.apiCallHandler(
         exceptionHandlerBinder: exceptionHandlerBinder,
         flutterToastErrorPresenter: flutterToastErrorPresenter,
         params: params,
         createCall: (params) => getCouponsUsecase.execute(params: params),
-        onSuccess: (result) {},
-        onError: (error) {});
+        onSuccess: (result) {
+          _fetchCouponsListModel.add(Resource.success(data: result));
+        },
+        onError: (error) {
+          _fetchCouponsListModel.add(Resource.error(error: error));
+        });
   }
 
   //end

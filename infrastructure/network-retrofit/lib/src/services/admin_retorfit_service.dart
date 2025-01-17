@@ -19,7 +19,7 @@ abstract class AdminRetorfitService {
   }
 
   @GET(
-      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}&platform=app')
+      'admin/concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}&platform=app')
   Future<HttpResponse<GetCouponsResponseEntity>> getCoupons({
     @Path('student_id') required String studentId,
     @Path('fee_type_ids') required String feeTypeIds,
