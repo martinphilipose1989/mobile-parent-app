@@ -56,7 +56,8 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
                 : SizedBox(
                     height: MediaQuery.of(context).size.height - 100,
                     width: MediaQuery.of(context).size.width,
-                    child: const PaymentHistoryPage());
+                    child: PaymentHistoryPage(
+                        paymentArguments: model.paymentArguments));
           },
         )
       ],
