@@ -29,6 +29,7 @@ class TabbarViewModel extends BasePageViewModel {
   }
 
   late TabController tabController;
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
 
   final BehaviorSubject<int> indexSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> isSelected = BehaviorSubject<bool>.seeded(true);

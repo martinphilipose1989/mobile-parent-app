@@ -29,7 +29,7 @@ void main() async {
         showLogs: true,
         frontEndUrl: EnvQA.frontEndUrl,
         notificationUrl: EnvQA.notificationUrl,
-        subjectSelectionUrl: EnvQA.subjectSelectionUrl),
+        subjectSelectionUrl: EnvQA.subjectSelectionUrl, bearerBaseUrl: EnvQA.bearerBaseUrl),
   );
   startApp();
 }

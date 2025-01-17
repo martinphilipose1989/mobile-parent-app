@@ -543,6 +543,16 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetBearerListUsecase getBearerListUseCase(
+     AdminRepository adminRepository ) {
+
+    return GetBearerListUsecase(adminRepository: adminRepository);
+
+
+  }
+
+
+  @lazySingleton
   GetBrandUsecase getBrandUsecase(EnquiryRepository enquiryRepository) {
     return GetBrandUsecase(enquiryRepository: enquiryRepository);
   }

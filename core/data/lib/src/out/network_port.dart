@@ -343,4 +343,8 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, NewEnrolmentResponse>> createNewEnrolment(
       {required NewEnrolmentCreate newEnrolmentCreate});
+
+
+  Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
+      {required int studentId});
 }

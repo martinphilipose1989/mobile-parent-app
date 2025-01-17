@@ -29,7 +29,7 @@ void main() async {
         showLogs: false,
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
-        subjectSelectionUrl: EnvProd.subjectSelectionUrl),
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl, bearerBaseUrl: ''),
   );
   startApp();
 }

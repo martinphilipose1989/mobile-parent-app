@@ -132,9 +132,12 @@ export 'src/usecase/marketing/move_to_next_stage_usecase.dart';
 export 'src/usecase/marketing/get_brand_usecase.dart';
 export 'src/usecase/marketing/get_admission_vas_usecase.dart';
 export 'src/usecase/finance/cancel_payment_usecase.dart';
+export 'src/usecase/student_detail/get_bearer_list_usecase.dart';
 
 export 'src/usecase/finance/download_fee_type_usecase.dart';
 export 'src/usecase/finance/download_transaction_history_usecase.dart';
 export 'src/usecase/finance/download_student_ledger_usecase.dart';
 
 export 'src/usecase/finance/new_enrolment_usecase.dart';
+
+

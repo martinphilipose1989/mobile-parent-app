@@ -26,8 +26,9 @@ class FlavorValues {
   final String frontEndUrl;
   final String notificationUrl;
   final String subjectSelectionUrl;
-
+final String bearerBaseUrl;
   const FlavorValues({
+    required this.bearerBaseUrl,
     required this.notificationUrl,
     required this.transportUrl,
     required this.attendance,

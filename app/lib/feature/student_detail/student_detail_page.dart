@@ -11,11 +11,11 @@ import 'student_detail_page_viewmodel.dart';
 import 'student_detail_pageview.dart';
 
 class StudentDetailPage extends BasePage<StudentDetailPageViewModel> {
-  StudentDetailPage({super.key,
-    // required this.studentId
+  StudentDetailPage({super.key
+
   });
 
-  // final int studentId;
+
 
   @override
   StudentDetailPageState createState() => StudentDetailPageState();
@@ -26,7 +26,7 @@ class StudentDetailPageState
   @override
   Widget buildView(BuildContext context, StudentDetailPageViewModel model) {
     return StudentDetailPageView(provideBase(),
-       // studentId: model.selectedStudent?.first.id
+
     );
   }
 
@@ -43,22 +43,26 @@ class StudentDetailPageState
   @override
   void onModelReady(StudentDetailPageViewModel model) {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    // model.selectedStudent = ProviderScope.containerOf(context)
-    //     .read(dashboardViewModelProvider)
-    //     .selectedStudentId;
-    // if (model.selectedStudent!.isEmpty ||
-    //     model.selectedStudent?.first.id == null) {
-    //   return;
-    // } else {
-    //   // model.selectedStudent?.first.id;
-    //   model.getStudentDetail(studentId: widget.studentId);
-    // }
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+        .selectedStudentId;
+    if (model.selectedStudent!.isEmpty ||
+        model.selectedStudent?.first.id == null) {
+      return;
+    } else {
+    final student= model.selectedStudent?.first.id;
+      model.getStudentDetail(studentId: student);
+    }
     super.onModelReady(model);
+    print("hi this page ");
+    model.getBearerList(studentId: model.selectedStudent?.first.id);
+
+
   }
 
-  @override
-  PreferredSizeWidget? buildAppbar(StudentDetailPageViewModel model) {
-    return const CommonAppBar(
-        appbarTitle: "Student Profile", showBackButton: true);
-  }
+  // @override
+  // PreferredSizeWidget? buildAppbar(StudentDetailPageViewModel model) {
+  //   return const CommonAppBar(
+  //       appbarTitle: "Student Profile", showBackButton: true);
+  // }
 }

@@ -68,4 +68,8 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'SUBJECT_SELECTION_URL')
   static const String subjectSelectionUrl = _EnvQA.subjectSelectionUrl;
+
+
+  @EnviedField(varName: 'BEARER_BASE_URL')
+  static const String bearerBaseUrl = _EnvQA.bearerBaseUrl;
 }

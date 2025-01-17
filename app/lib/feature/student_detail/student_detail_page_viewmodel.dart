@@ -11,37 +11,64 @@ class StudentDetailPageViewModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-//  final GetStudentDetailUsecase getStudentDetailUsecase;
+ final StudentDetailUseCase studentDetailUsecase;
+ final GetBearerListUsecase getBearerListUsecase;
 
-  // final BehaviorSubject<Resource<GetStudentDetailData>>
-  //     _studentDetailSubject = BehaviorSubject.seeded(Resource.none());
-  // late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
-  //
-  // Stream<Resource<GetStudentDetailData>> get studentDetailStream =>
-  //     _studentDetailSubject.stream;
+  final BehaviorSubject<Resource<StudentData>>
+      _studentDetailSubject = BehaviorSubject.seeded(Resource.none());
+  late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
+
+  Stream<Resource<StudentData>> get studentDetailStream =>
+      _studentDetailSubject.stream;
 
   StudentDetailPageViewModel(
       {required this.exceptionHandlerBinder,
-     // required this.getStudentDetailUsecase,
+       required this.getBearerListUsecase,
+        required this.studentDetailUsecase,
       required this.flutterToastErrorPresenter});
 
-  // void getStudentDetail({required int studentId}) {
-  //   _studentDetailSubject.add(Resource.loading());
-  //   GetStudentDetailUsecaseParams params =
-  //       GetStudentDetailUsecaseParams(studentId: studentId);
-  //   ApiResponseHandler.apiCallHandler(
-  //     exceptionHandlerBinder: exceptionHandlerBinder,
-  //     flutterToastErrorPresenter: flutterToastErrorPresenter,
-  //     params: params,
-  //     createCall: (params) => getStudentDetailUsecase.execute(params: params),
-  //     onSuccess: (data) {
-  //       _studentDetailSubject.add(
-  //         Resource.success(data: data?.data),
-  //       );
-  //     },
-  //     onError: (error) {
-  //       _studentDetailSubject.add(Resource.error());
-  //     },
-  //   );
-  // }
+  final BehaviorSubject<Resource<List<BearerResponse>>> bearerResponse =
+  BehaviorSubject.seeded(Resource.none());
+
+  Stream<Resource<List<BearerResponse>>> get bearerStream =>
+      bearerResponse.stream;
+
+  void getBearerList({required int studentId}) {
+    bearerResponse.add(Resource.loading());
+    final GetBearerListUsecaseParams params =
+    GetBearerListUsecaseParams(studentId: studentId);
+
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: flutterToastErrorPresenter,
+      params: params,
+      createCall: (params) => getBearerListUsecase.execute(params: params),
+      onSuccess: (result) {
+        bearerResponse.add(Resource.success(data: result?.data));
+      },
+      onError: (error) {
+        bearerResponse.add(Resource.error(error: error));
+      },
+    );
+  }
+
+  void getStudentDetail({required int studentId}) {
+    _studentDetailSubject.add(Resource.loading());
+    StudentDetailUseCaseParams params =
+    StudentDetailUseCaseParams( studentId);
+    ApiResponseHandler.apiCallHandler(
+      exceptionHandlerBinder: exceptionHandlerBinder,
+      flutterToastErrorPresenter: flutterToastErrorPresenter,
+      params: params,
+      createCall: (params) => studentDetailUsecase.execute(params: params),
+      onSuccess: (data) {
+        _studentDetailSubject.add(
+          Resource.success(data: data?.data),
+        );
+      },
+      onError: (error) {
+        _studentDetailSubject.add(Resource.error());
+      },
+    );
+  }
 }

@@ -79,6 +79,9 @@ abstract class AppModule {
   @Named("FrontEndUrl")
   String get frontEndUrl => FlavorConfig.instance.values.frontEndUrl;
 
+  @Named("bearerBaseUrl")
+  String get bearerBaseUrl => FlavorConfig.instance.values.bearerBaseUrl;
+
   @Named("SubjectSelectionUrl")
   String get subjectSelectionUrl =>
       FlavorConfig.instance.values.subjectSelectionUrl;

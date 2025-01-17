@@ -7,6 +7,7 @@ import 'package:domain/src/usecase/transport/upload_intimation_file.dart';
 import '../usecase/transport/create_intimation_usecase.dart';
 
 abstract class TransportRepository {
+
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
 

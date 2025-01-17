@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:network_retrofit/src/network_adapter.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
+import 'package:network_retrofit/src/services/bearer_retrofit_service.dart';
 import 'package:network_retrofit/src/services/disciplinary_retrofit_services.dart';
 import 'package:network_retrofit/src/services/finance_retrofit_service.dart';
 import 'package:network_retrofit/src/services/gatemanagement_retrofit_service.dart';
@@ -100,6 +101,11 @@ abstract class NetworkModule {
       TicketRetrofitService(dio, ticketingBaseUrl: ticketingBaseUrl);
 
   @lazySingleton
+  BearerRetorfitService  bearerRetorfitService(
+      Dio dio, @Named('bearerBaseUrl') String bearerBaseUrl) =>
+      BearerRetorfitService(dio, bearerBaseUrl: bearerBaseUrl);
+
+  @lazySingleton
   AdminRetorfitService providerAdminFinanceRetrofitService(
           Dio dio, @Named('adminBaseUrl') String adminBaseUrl) =>
       AdminRetorfitService(dio, adminBaseUrl: adminBaseUrl);
@@ -155,6 +161,7 @@ abstract class NetworkModule {
           GatemanagementService gatemanagementService,
           MarketingSerivce marketingSerivce,
           NotificationSerivce notificationService,
+          BearerRetorfitService bearerRetrofitService,
           TokenRetrofitService tokenRetrofitService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
@@ -168,5 +175,5 @@ abstract class NetworkModule {
           gatemanagementService: gatemanagementService,
           marketingSerivce: marketingSerivce,
           notificationSerivce: notificationService,
-          tokenRetrofitService: tokenRetrofitService);
+          tokenRetrofitService: tokenRetrofitService, bearerRetorfitService: bearerRetrofitService);
 }

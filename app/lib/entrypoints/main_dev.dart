@@ -32,7 +32,7 @@ void main() async {
         marketingUrl: EnvDev.marketingBaseUrl,
         frontEndUrl: EnvDev.frontEndUrl,
         notificationUrl: EnvDev.notificationUrl,
-        subjectSelectionUrl: EnvDev.subjectSelectionUrl),
+        subjectSelectionUrl: EnvDev.subjectSelectionUrl, bearerBaseUrl: ''),
   );
   startApp();
 }

@@ -143,7 +143,10 @@ final attendanceDetailsProvider =
 final studentDetailPageViewModelProvider = ChangeNotifierProvider.autoDispose<StudentDetailPageViewModel>(
       (ref) => StudentDetailPageViewModel(
 
- exceptionHandlerBinder:  getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:     getIt.get<FlutterToastErrorPresenter>(),
+ exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+        flutterToastErrorPresenter:  getIt.get<FlutterToastErrorPresenter>(),
+        studentDetailUsecase: getIt.get<StudentDetailUseCase>(),
+        getBearerListUsecase: getIt.get<GetBearerListUsecase>(),
 
       ),
 );

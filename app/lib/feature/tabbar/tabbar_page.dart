@@ -53,6 +53,9 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   void onModelReady(TabbarViewModel model) {
+    model.selectedStudent = ProviderScope.containerOf(context)
+        .read(dashboardViewModelProvider)
+    .selectedStudentId;
     // model.menuItems = [
     //   MenuItem(
     //       menuItem: "Fees",
@@ -76,6 +79,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     //       drawerItmes: model.dailyDiary)
     // ];
     model.getUserDetails();
+
     super.onModelReady(model);
   }
 
@@ -100,7 +104,9 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                   ),
                 ),
               ),
-          StudentDetailPage()
+
+        StudentDetailPage()
+
             ],
           );
         });
