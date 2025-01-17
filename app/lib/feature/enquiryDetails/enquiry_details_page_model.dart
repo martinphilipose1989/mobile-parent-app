@@ -152,33 +152,50 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       'id': 0,
       'image': AppImages.registrationIcon,
       'name': "Registration",
-      'isActive': true
+      'isActive': true,
+      'key': 'registration'
     },
-    {'id': 1, 'image': AppImages.call, 'name': "Call", 'isActive': true},
-    {'id': 2, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 1,
+      'image': AppImages.call,
+      'name': "Call",
+      'isActive': true,
+      'key': 'call'
+    },
+    {
+      'id': 2,
+      'image': AppImages.email,
+      'name': "Email",
+      'isActive': true,
+      'key': 'email'
+    },
     {
       'id': 3,
       'image': AppImages.editDetails,
       'name': "Edit Details",
-      'isActive': true
+      'isActive': true,
+      'key': 'edit'
     },
     {
       'id': 4,
       'image': AppImages.schoolTour,
       'name': "School Tour",
-      'isActive': true
+      'isActive': true,
+      'key': 'tour'
     },
     {
       'id': 5,
       'image': AppImages.timeline,
       'name': "Timeline",
-      'isActive': true
+      'isActive': true,
+      'key': 'timeline'
     },
     {
       'id': 6,
       'image': AppImages.payments,
       'name': "Payments",
       'isActive': true,
+      'key': 'payments'
     },
   ];
 
@@ -558,6 +575,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             for (var item in menuData) {
               if (item['name'] == "Registration" ||
                   item['name'] == "Payments") {
+                item['isActive'] = false;
+              }
+            }
+          }
+
+          if (enquiryDetailArgs?.status != "Open") {
+            for (var item in menuData) {
+              if (item['key'] == "edit") {
                 item['isActive'] = false;
               }
             }
