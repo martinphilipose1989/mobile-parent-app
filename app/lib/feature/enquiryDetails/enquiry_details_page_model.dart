@@ -559,7 +559,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                   EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
                     ?.any((stage) =>
-                        stage.stageName == "Registration Fees" &&
+                        (stage.stageName == "Registration Fees" ||
+                            stage.stageName == "Academic Kit Selling") &&
                         stage.status == "Completed") ??
                 false;
             // Update the isActive status for "Registration" in menuData

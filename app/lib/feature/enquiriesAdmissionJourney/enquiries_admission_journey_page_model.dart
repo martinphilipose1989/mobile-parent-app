@@ -83,7 +83,8 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
               enquiryDetailArgs.enquiryType?.toLowerCase() !=
                   EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.any((stage) =>
-                    stage.stage == "Registration Fees" &&
+                    (stage.stage == "Registration Fees" ||
+                        stage.stage == "Academic Kit Selling") &&
                     stage.status == "Completed") ??
                 false;
             // Update the isActive status for "Registration" in menuData
@@ -192,27 +193,43 @@ class EnquiriesAdmissionsJourneyViewModel extends BasePageViewModel {
       'id': 0,
       'image': AppImages.registrationIcon,
       'name': "Registration",
-      'isActive': true
+      'isActive': true,
+      'key': 'registration'
     },
-    {'id': 1, 'image': AppImages.call, 'name': "Call", 'isActive': true},
-    {'id': 2, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 1,
+      'image': AppImages.call,
+      'name': "Call",
+      'isActive': true,
+      'key': 'call'
+    },
+    {
+      'id': 2,
+      'image': AppImages.email,
+      'name': "Email",
+      'isActive': true,
+      'key': 'email'
+    },
     {
       'id': 3,
       'image': AppImages.schoolTour,
       'name': "School Tour",
-      'isActive': true
+      'isActive': true,
+      'key': 'tour'
     },
     {
       'id': 4,
       'image': AppImages.timeline,
       'name': "Timeline",
-      'isActive': true
+      'isActive': true,
+      'key': 'timeline'
     },
     {
       'id': 5,
       'image': AppImages.payments,
       'name': "Payments",
       'isActive': true,
+      'key': 'payments'
     },
   ];
 
