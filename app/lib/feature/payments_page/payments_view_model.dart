@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
@@ -115,6 +117,7 @@ class PaymentsPageModel extends BasePageViewModel {
 // calling coupons list api
 
   bool isDiscountApplied = false;
+  List<FetchCouponsDataModel> appliedCouponList = [];
 
   final BehaviorSubject<Resource<FetchCouponsListModel>>
       _fetchCouponsListModel =
@@ -295,6 +298,44 @@ class PaymentsPageModel extends BasePageViewModel {
     amount.text = newTotalAmount.toString();
     finalAmount.value = newTotalAmount.toString();
     selectedFees.add(getPendingFeesFeeModel);
+
+    setCouponMaxCount(fetchCouponsDataModel, index);
+  }
+
+  void setCouponMaxCount(
+      FetchCouponsDataModel fetchCouponsDataModel, int index) {
+    if (appliedCouponList.isEmpty) {
+      appliedCouponList.add(fetchCouponsDataModel);
+      appliedCouponList[0].appliedCouponCount =
+          appliedCouponList[0].appliedCouponCount + 1;
+    } else {
+      final int couponIndex = appliedCouponList
+          .indexWhere((coupon) => coupon.id == fetchCouponsDataModel.id);
+
+      appliedCouponList[couponIndex].appliedCouponCount =
+          appliedCouponList[couponIndex].appliedCouponCount + 1;
+    }
+
+    for (int i = 0; i < appliedCouponList.length; i++) {
+      log("couponCode  ${appliedCouponList[i].couponCode} ===== ${appliedCouponList[i].maxCount} === ${appliedCouponList[i].appliedCouponCount}");
+    }
+  }
+
+  void clearCoupon(String couponId) {
+    if (appliedCouponList.isNotEmpty) {
+      final int couponIndex =
+          appliedCouponList.indexWhere((coupon) => coupon.id == couponId);
+      if (appliedCouponList[couponIndex].appliedCouponCount > 0) {
+        appliedCouponList[couponIndex].appliedCouponCount =
+            appliedCouponList[couponIndex].appliedCouponCount - 1;
+      } else {
+        appliedCouponList.removeWhere((coupon) => coupon.id == couponId);
+      }
+
+      for (int i = 0; i < appliedCouponList.length; i++) {
+        log("couponCode  ${appliedCouponList[i].couponCode} ===== ${appliedCouponList[i].maxCount} === ${appliedCouponList[i].appliedCouponCount}");
+      }
+    }
   }
 
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();

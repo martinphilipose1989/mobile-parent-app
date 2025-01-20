@@ -13,24 +13,40 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+import 'package:collection/collection.dart';
+
+class CouponListArgs {
+  final GetPendingFeesFeeModel getPendingFeesFeeModel;
+  final List<FetchCouponsDataModel>? appliedCouponList;
+
+  CouponListArgs(
+      {required this.getPendingFeesFeeModel,
+      this.appliedCouponList = const []});
+}
 
 class CouponList extends StatelessWidget {
-  final GetPendingFeesFeeModel getPendingFeesFeeModel;
-  const CouponList({super.key, required this.getPendingFeesFeeModel});
+  final CouponListArgs couponListArgs;
+  const CouponList({super.key, required this.couponListArgs});
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<PaymentsPageModel>(
         onModelReady: (model) {
           model.getCouponsList(
-              academicYrsId: getPendingFeesFeeModel.academicYearId.toString(),
-              feeSubTypeIds: getPendingFeesFeeModel.feeSubTypeId.toString(),
-              feeCategoryIds: getPendingFeesFeeModel.feeCategoryIds ?? "",
-              feeSubCategoryIds: getPendingFeesFeeModel.feeSubCategoryIds ?? "",
-              feeTypeIds: getPendingFeesFeeModel.feeTypeId.toString(),
-              studentId: getPendingFeesFeeModel.studentId == null
-                  ? getPendingFeesFeeModel.enquiryId
-                  : getPendingFeesFeeModel.studentId.toString());
+              academicYrsId: couponListArgs
+                  .getPendingFeesFeeModel.academicYearId
+                  .toString(),
+              feeSubTypeIds:
+                  couponListArgs.getPendingFeesFeeModel.feeSubTypeId.toString(),
+              feeCategoryIds:
+                  couponListArgs.getPendingFeesFeeModel.feeCategoryIds ?? "",
+              feeSubCategoryIds:
+                  couponListArgs.getPendingFeesFeeModel.feeSubCategoryIds ?? "",
+              feeTypeIds:
+                  couponListArgs.getPendingFeesFeeModel.feeTypeId.toString(),
+              studentId: couponListArgs.getPendingFeesFeeModel.studentId == null
+                  ? couponListArgs.getPendingFeesFeeModel.enquiryId
+                  : couponListArgs.getPendingFeesFeeModel.studentId.toString());
         },
         builder: (context, model, child) {
           return Scaffold(
@@ -201,8 +217,36 @@ class CouponList extends StatelessWidget {
                                                     const Spacer(),
                                                     InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(context,
-                                                            fetchCouponsDataModel);
+                                                        final selectedCoupon = couponListArgs
+                                                            .appliedCouponList
+                                                            ?.firstWhereOrNull(
+                                                                (coupon) =>
+                                                                    coupon.id ==
+                                                                    fetchCouponsDataModel
+                                                                        ?.id);
+
+                                                        if (selectedCoupon !=
+                                                            null) {
+                                                          if (selectedCoupon
+                                                                  .maxCount ==
+                                                              selectedCoupon
+                                                                  .appliedCouponCount) {
+                                                            model
+                                                                .flutterToastErrorPresenter
+                                                                .show(
+                                                              Exception(),
+                                                              context,
+                                                              "The maximum applied limit for this coupon has been reached.",
+                                                            );
+                                                          } else {
+                                                            Navigator.pop(
+                                                                context,
+                                                                fetchCouponsDataModel);
+                                                          }
+                                                        } else {
+                                                          Navigator.pop(context,
+                                                              fetchCouponsDataModel);
+                                                        }
                                                       },
                                                       child: CommonText(
                                                         text: 'Apply',

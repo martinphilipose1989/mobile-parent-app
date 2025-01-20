@@ -12,10 +12,7 @@ part 'admin_retorfit_service.g.dart';
 abstract class AdminRetorfitService {
   factory AdminRetorfitService(Dio dio,
       {String? baseUrl, String? mdmBaseUrl, String? adminBaseUrl}) {
-    return _AdminRetorfitService(
-      dio,
-      baseUrl: adminBaseUrl,
-    );
+    return _AdminRetorfitService(dio, baseUrl: adminBaseUrl);
   }
 
   @GET(

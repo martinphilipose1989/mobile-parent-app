@@ -34,23 +34,25 @@ class GetCouponsDataEntity extends BaseLayerDataTransformer<
   String? termsAndConditions;
   @JsonKey(name: "description")
   String? description;
+  @JsonKey(name: "max_count")
+  int? maxCount;
 
-  GetCouponsDataEntity({
-    this.id,
-    this.couponType,
-    this.concessionPercentage,
-    this.concessionMaxAmount,
-    this.concessionFixedAmount,
-    this.concessionGroupId,
-    this.transactionType,
-    this.isActiveCoupon,
-    this.couponOrderNo,
-    this.couponCode,
-    this.userCouponCount,
-    this.totalCoupon,
-    this.termsAndConditions,
-    this.description,
-  });
+  GetCouponsDataEntity(
+      {this.id,
+      this.couponType,
+      this.concessionPercentage,
+      this.concessionMaxAmount,
+      this.concessionFixedAmount,
+      this.concessionGroupId,
+      this.transactionType,
+      this.isActiveCoupon,
+      this.couponOrderNo,
+      this.couponCode,
+      this.userCouponCount,
+      this.totalCoupon,
+      this.termsAndConditions,
+      this.description,
+      this.maxCount});
 
   factory GetCouponsDataEntity.fromJson(Map<String, dynamic> json) =>
       _$GetCouponsDataEntityFromJson(json);
@@ -59,7 +61,6 @@ class GetCouponsDataEntity extends BaseLayerDataTransformer<
 
   @override
   FetchCouponsDataModel transform() {
-    // TODO: implement transform
     return FetchCouponsDataModel(
         concessionFixedAmount: concessionFixedAmount,
         concessionGroupId: concessionGroupId,
@@ -74,6 +75,7 @@ class GetCouponsDataEntity extends BaseLayerDataTransformer<
         termsAndConditions: termsAndConditions,
         totalCoupon: totalCoupon,
         transactionType: transactionType,
-        userCouponCount: userCouponCount);
+        userCouponCount: userCouponCount,
+        maxCount: maxCount);
   }
 }

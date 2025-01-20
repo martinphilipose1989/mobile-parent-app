@@ -227,6 +227,9 @@ class DashboardPageModel extends BasePageViewModel {
 
           loadAdmissionMenus.add(Resource.success(data: true));
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
+          if (result.data?.data?.students?.isEmpty ?? false) {
+            return;
+          }
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
 

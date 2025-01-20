@@ -313,12 +313,10 @@ class PaymentsPageState
 
   @override
   PreferredSizeWidget? buildAppbar(PaymentsPageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
-      notShowNotificationAndUserBatch: true,
-      appbarTitle: 'Payments Page',
-      showBackButton: true,
-    );
+        notShowNotificationAndUserBatch: true,
+        appbarTitle: 'Payments Page',
+        showBackButton: true);
   }
 
   @override
