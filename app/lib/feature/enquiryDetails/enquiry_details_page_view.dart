@@ -28,9 +28,9 @@ class EnquiriesDetailsPageView
   EnquiriesDetailsPageView(super.providerBase, this.enquiryDetailArgs);
 
   actionOnMenu(
-      int index, BuildContext context, EnquiriesDetailsPageModel model) {
-    switch (index) {
-      case 0:
+      String menuKey, BuildContext context, EnquiriesDetailsPageModel model) {
+    switch (menuKey) {
+      case 'registration':
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
@@ -38,13 +38,13 @@ class EnquiriesDetailsPageView
           "enquiryDetailArgs": enquiryDetailArgs,
           "enquiryDetail": model.enquiryDetail.value
         });
-      case 1:
+      case 'call':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
-      case 2:
+      case 'email':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
-      case 3:
+      case 'edit':
         if (model.selectedValue.value == 0) {
           List<Future> mdmAttributes = [
             model.getMdmAttribute(infoType: 'grade'),
@@ -82,7 +82,7 @@ class EnquiriesDetailsPageView
           model.showMenuOnFloatingButton.add(false);
         }
         return null;
-      case 4:
+      case 'tour':
         model.showMenuOnFloatingButton.add(false);
         return (model.isDetailView())
             ? Navigator.of(context)
@@ -101,11 +101,11 @@ class EnquiriesDetailsPageView
                   }
                 },
               );
-      case 5:
+      case 'timeline':
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.enquiriesTimelinePage,
             arguments: enquiryDetailArgs);
-      case 6:
+      case 'payments':
         model.showMenuOnFloatingButton.add(false);
         model.moveToNextStage();
         return;
@@ -552,21 +552,12 @@ class EnquiriesDetailsPageView
                                     .where((e) => e['isActive'] == true)
                                     .toList(),
                                 onTap: (index) {
-                                  final isRegistrationNotActive = model
-                                              .menuData.first['name']
-                                              .toString()
-                                              .toLowerCase() ==
-                                          'registration' &&
-                                      model.menuData.first['isActive'] == false;
-                                  if (isRegistrationNotActive) {
-                                    actionOnMenu(
-                                        model.menuData[index]['id'] + 1,
-                                        context,
-                                        model);
-                                  } else {
-                                    actionOnMenu(model.menuData[index]['id'],
-                                        context, model);
-                                  }
+                                  final activeMenuList = model.menuData
+                                      .where((e) => e['isActive'] == true)
+                                      .toList();
+
+                                  actionOnMenu(activeMenuList[index]['key'],
+                                      context, model);
                                 },
                                 showMenuOnFloatingButton:
                                     model.showMenuOnFloatingButton,

@@ -59,6 +59,7 @@ class SplashViewModel extends BasePageViewModel {
             case Status.success:
               Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
                   RoutePaths.tabbar, (route) => false);
+
               break;
             case Status.error:
               break;

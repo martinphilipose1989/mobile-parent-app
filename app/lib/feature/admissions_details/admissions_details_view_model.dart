@@ -1,5 +1,3 @@
-
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/payments/payments_pages/payments.dart';
@@ -34,6 +32,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.moveToNextStageUsecase,
       this.makePaymentRequestUsecase,
       this.getUserDetailsUsecase) {
+    getUserDetails();
     initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(
@@ -363,43 +362,16 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
   }
 
   void moveToNextStage({String from = "payment"}) {
-    moveStageSubject.add(Resource.loading());
-    MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
-      enquiryId: "${enquiryDetailArgs.enquiryId}",
-      currentStage: enquiryDetails.value.currentStage,
+    navigatorKey.currentState?.pushNamed(
+      RoutePaths.payments,
+      arguments: PaymentArguments(
+          phoneNo: '',
+          module: Modules.admission,
+          enquiryId: enquiryDetailArgs.enquiryId,
+          enquiryNo: enquiryDetailArgs.enquiryNumber,
+          studentName: "${enquiryDetailArgs.studentName} ",
+          currentStage: enquiryDetails.value.currentStage),
     );
-    exceptionHandlerBinder.handle(block: () {
-      RequestManager(
-        params,
-        createCall: () => moveToNextStageUsecase.execute(params: params),
-      ).asFlow().listen((data) {
-        if (data.status == Status.error) {
-          // exceptionHandlerBinder.showError(data.dealSafeAppError!);
-          moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
-        }
-        if (data.status == Status.success) {
-          moveStageSubject.add(Resource.success(data: data.data));
-
-          navigatorKey.currentState
-              ?.pushNamed(
-            RoutePaths.payments,
-            arguments: PaymentArguments(
-              phoneNo: '',
-              module: Modules.admission,
-              enquiryId: enquiryDetailArgs.enquiryId,
-              enquiryNo: enquiryDetailArgs.enquiryNumber,
-              studentName: "${enquiryDetailArgs.studentName} ",
-            ),
-          )
-              .then((_) {
-            getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
-            getAdmissionJourney(
-                enquiryID: enquiryDetailArgs.enquiryId ?? '',
-                type: 'admission');
-          });
-        }
-      });
-    }).execute();
   }
 
   // USER DETAILS

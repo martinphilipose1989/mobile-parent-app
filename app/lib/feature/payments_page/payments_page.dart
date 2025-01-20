@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/di/states/viewmodels.dart';
+import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/payments_page/payments_page_view.dart';
 import 'package:app/feature/payments_page/payments_view_model.dart';
 import 'package:app/feature/webview/webview_page.dart';
@@ -143,6 +144,11 @@ class PaymentsPageState
                             'Current Date Cheque / Post Dated Cheque / ...') {
                           Navigator.pushNamed(context, RoutePaths.webview,
                                   arguments: WebviewArguments(
+                                      module:
+                                          widget.paymentPageeArguments.modules,
+                                      enquiryDetailArgs: EnquiryDetailArgs(
+                                          enquiryId: widget
+                                              .paymentPageeArguments.enquiryId),
                                       paymentType: model.dynamicPaymentType
                                           ?.toLowerCase(),
                                       paymentsLink: model.dynamicPaymentType ==
@@ -222,6 +228,20 @@ class PaymentsPageState
                                             ""
                                         ? () {}
                                         : () {
+                                            // razorpay, billdesk, paytmEDC, grayQuest
+                                            if (stringValue ==
+                                                "Pay Online-Billdesk") {
+                                              stringValue = "Billdesk";
+                                            }
+                                            if (stringValue ==
+                                                "E-Mandate-GrayQuest") {
+                                              stringValue = "GrayQuest";
+                                            }
+                                            if (stringValue ==
+                                                "EMI-GrayQuest") {
+                                              stringValue = "GrayQuest";
+                                            }
+
                                             switch (stringValue) {
                                               case 'Current Date Cheque / Post Dated Cheque / ...':
                                                 model.selectedPaymentMode = 8;
@@ -242,6 +262,10 @@ class PaymentsPageState
                                                     .setProviderIdAndServiceProvider(
                                                         stringValue ?? '');
                                                 break;
+                                              case 'GrayQuest':
+                                                model
+                                                    .setProviderIdAndServiceProvider(
+                                                        stringValue ?? '');
                                               default:
                                             }
                                             if (stringValue ==
@@ -307,9 +331,13 @@ class PaymentPageeArguments {
   final List<GetPendingFeesPaymentModeModel> finalPaymentModelList;
   final List<GetPendingFeesFeeModel> selectedPendingFessList;
   final Modules? modules;
+  final String? enquiryId;
+  final String? currentStage;
 
   PaymentPageeArguments(
       {required this.finalPaymentModelList,
       required this.selectedPendingFessList,
-      this.modules});
+      this.modules,
+      this.enquiryId,
+      this.currentStage});
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
+
 import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -20,7 +21,8 @@ class WebviewModel extends BasePageViewModel {
       {required this.exceptionHandlerBinder,
       required this.getPaymentStatusUsecase,
       required this.cancelPaymentUsecase,
-      required this.flutterToastErrorPresenter});
+      required this.flutterToastErrorPresenter,
+      required this.moveToNextStageUsecase});
 
   late String webViewUrl;
   late Timer timer;
@@ -66,5 +68,38 @@ class WebviewModel extends BasePageViewModel {
         createCall: (params) => cancelPaymentUsecase.execute(params: params),
         onSuccess: (response) {},
         onError: (error) {});
+  }
+
+  //**************** MOVE TO NEXT STAGE  ****************//
+  final MoveToNextStageUsecase moveToNextStageUsecase;
+
+  final BehaviorSubject<Resource<MoveToNextStageEnquiryResponse>>
+      moveStageSubject = BehaviorSubject.seeded(Resource.none());
+
+  Stream<Resource<MoveToNextStageEnquiryResponse>> get moveStageStream =>
+      moveStageSubject.stream;
+  void moveToNextStage(
+      {String from = "payment",
+      required String currentStage,
+      required String enquiryId}) {
+    moveStageSubject.add(Resource.loading());
+    MoveToNextStageUsecaseParams params = MoveToNextStageUsecaseParams(
+      enquiryId: "${enquiryDetailArgs?.enquiryId}",
+      currentStage: currentStage,
+    );
+    exceptionHandlerBinder.handle(block: () {
+      RequestManager(
+        params,
+        createCall: () => moveToNextStageUsecase.execute(params: params),
+      ).asFlow().listen((data) {
+        if (data.status == Status.error) {
+          // exceptionHandlerBinder.showError(data.dealSafeAppError!);
+          moveStageSubject.add(Resource.error(error: data.dealSafeAppError));
+        }
+        if (data.status == Status.success) {
+          moveStageSubject.add(Resource.success(data: data.data));
+        }
+      });
+    }).execute();
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/profile_picker.dart';
 import 'package:app/utils/common_primary_elevated_button.dart';

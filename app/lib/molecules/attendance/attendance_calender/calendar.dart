@@ -70,13 +70,13 @@ class _CalendarState extends State<Calendar> {
                       selectedMonth = value;
                       model?.selectedmonth = selectedMonth;
                       debugPrint(selectedMonth.toString());
-                      model?.getAttendanceList(
-                          model: AttendanceCountRequestModel(
-                              studentId: model?.selectedStudent?.first.id,
-                              attendanceDate:
-                                  DateFormatter.convertDateToYearMonth(
-                                      selectedMonth),
-                              academicYearId: model?.academicId ?? 26));
+                      // model?.getAttendanceList(
+                      //     model: AttendanceCountRequestModel(
+                      //         studentId: model?.selectedStudent?.first.id,
+                      //         attendanceDate:
+                      //             DateFormatter.convertDateToYearMonth(
+                      //                 selectedMonth),
+                      //         academicYearId: model?.academicId ?? 26));
                     }),
                   ),
                   Expanded(
@@ -86,13 +86,13 @@ class _CalendarState extends State<Calendar> {
                       selectDate: (DateTime value) => setState(() {
                         selectedDate = value;
 
-                        Navigator.pushNamed(
-                            context, RoutePaths.attendanceDetailspage,
-                            arguments: AttendanceDetailPageParameter(
-                                academicyearId: model?.academicId,
-                                studentId: [model?.selectedStudent?.first.id],
-                                toDate: converter(selectedDate),
-                                fromDate: converter(selectedDate)));
+                        // Navigator.pushNamed(
+                        //     context, RoutePaths.attendanceDetailspage,
+                        //     arguments: AttendanceDetailPageParameter(
+                        //         academicyearId: model?.academicId,
+                        //         studentId: [model?.selectedStudent?.first.id],
+                        //         toDate: converter(selectedDate),
+                        //         fromDate: converter(selectedDate)));
                       }),
                     ),
                   ),
@@ -128,16 +128,19 @@ class _Body extends StatelessWidget {
 
     return Column(
       children: [
-      Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('M',style: TextStyle(fontSize: 10.sp),),
-            Text('T',style: TextStyle(fontSize: 10.sp)),
-            Text('W',style: TextStyle(fontSize: 10.sp)),
-            Text('T',style: TextStyle(fontSize: 10.sp)),
-            Text('F',style: TextStyle(fontSize: 10.sp)),
-            Text('S',style: TextStyle(fontSize: 10.sp)),
-            Text('S',style: TextStyle(fontSize: 10.sp)),
+            Text(
+              'M',
+              style: TextStyle(fontSize: 10.sp),
+            ),
+            Text('T', style: TextStyle(fontSize: 10.sp)),
+            Text('W', style: TextStyle(fontSize: 10.sp)),
+            Text('T', style: TextStyle(fontSize: 10.sp)),
+            Text('F', style: TextStyle(fontSize: 10.sp)),
+            Text('S', style: TextStyle(fontSize: 10.sp)),
+            Text('S', style: TextStyle(fontSize: 10.sp)),
           ],
         ),
         const SizedBox(height: 10),
@@ -241,8 +244,13 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.h,),
-       CommonText(text: "Select Date",style: AppTypography.subtitle2.copyWith(fontSize: 8.sp),),
+          SizedBox(
+            height: 10.h,
+          ),
+          CommonText(
+            text: "Select Date",
+            style: AppTypography.subtitle2.copyWith(fontSize: 8.sp),
+          ),
           Row(
             children: [
               Expanded(
@@ -256,13 +264,19 @@ class _Header extends StatelessWidget {
                 onPressed: () {
                   onChange(selectedMonth.addMonth(-1));
                 },
-                icon:  Icon(Icons.arrow_left_sharp,size: 26.h,),
+                icon: Icon(
+                  Icons.arrow_left_sharp,
+                  size: 26.h,
+                ),
               ),
               IconButton(
                 onPressed: () {
                   onChange(selectedMonth.addMonth(1));
                 },
-                icon:  Icon(Icons.arrow_right_sharp,size: 26.h,),
+                icon: Icon(
+                  Icons.arrow_right_sharp,
+                  size: 26.h,
+                ),
               ),
             ],
           ),

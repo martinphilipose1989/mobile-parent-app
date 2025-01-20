@@ -5,7 +5,10 @@ import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/finance/cancel_payment_order_request.dart';
 import 'package:network_retrofit/src/model/request/finance/download_student_ledger/download_student_ledger.dart';
 import 'package:network_retrofit/src/model/request/finance/new_enrolment/new_enrolment_create.dart';
+import 'package:network_retrofit/src/model/request/undertaking/undertaking.dart';
 import 'package:network_retrofit/src/model/response/new_enrolment/new_enrolment_response.dart';
+import 'package:network_retrofit/src/model/response/terms_and_condition/term_and_condition.dart';
+import 'package:network_retrofit/src/model/response/undertaking/undertaking.dart';
 import 'package:network_retrofit/src/model/response/vas_option/vas_option_response_entity.dart';
 import '../model/request/finance/get_academic_year_request.dart';
 import 'package:network_retrofit/src/model/request/finance/get_payment_status_request.dart';
@@ -113,4 +116,13 @@ abstract class FinanceRetrofitService {
   @POST('/finance/transactions/student/fee/bulk-create')
   Future<HttpResponse<NewEnrolmentResponseEntity>> newEnrolment(
       @Body() NewEnrolmentCreateEntity request);
+
+  // ************ terms and condition ******** //
+  @GET('/finance/transactions/link/file')
+  Future<HttpResponse<TermsAndConditionsFileEntity>> getTermsAndConditionFile(
+      @Query("fileName") String fileName);
+
+  @POST("/finance/transactions/undertakingTaken")
+  Future<HttpResponse<UndertakingResponseEntity>> underTakingStudent(
+      @Body() UndertakingRequestEntity body);
 }

@@ -29,6 +29,7 @@ enum ErrorType {
   filePickerFailed,
   imagePickerFailed,
   imagePickerCancelled,
+  downloadFailed,
   uiInvalidAmoun,
 
   // Auth Error

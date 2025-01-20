@@ -37,7 +37,7 @@ abstract class ApiResponseHandler {
             AppError(
               throwable: Exception(),
               error: error.error,
-              type: ErrorType.unknown,
+              type: ErrorType.netServerMessage,
             ),
           );
         }
@@ -56,7 +56,7 @@ abstract class ApiResponseHandler {
         flutterToastErrorPresenter.show(
             appError!.throwable,
             navigatorKey.currentContext!,
-            "It seems the connection is taking too long. Please check your internet connection and try again.");
+            "It seems the connection is taking too long.");
 
       case 499:
       // flutterToastErrorPresenter.show(

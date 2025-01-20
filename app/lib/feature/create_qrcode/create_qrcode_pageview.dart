@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:app/feature/create_qrcode/create_qrcode_viewmodel.dart';
-import 'package:app/feature/gate_pass/create_edit_gate_pass/create_edit_gate_pass_page.dart';
+
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
@@ -30,12 +30,12 @@ class CreateQrcodePageView extends BasePageViewWidget<CreateQrcodeViewModel> {
               child: CommonElevatedButton(
                   onPressed: () {
                     navigatorKey.currentState?.pushNamed(
-                        RoutePaths.createEditGatePassPage,
-                       );
+                      RoutePaths.createEditGatePassPage,
+                    );
 
                     return;
                     // un comment this for Create Qr code and comment above call
-                    model.requestGatePass();
+                    // model.requestGatePass();
                   },
                   // text: "Create Gate-Pass"),
                   text: "Create Gate-Pass"),

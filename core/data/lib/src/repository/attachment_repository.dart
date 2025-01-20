@@ -46,9 +46,7 @@ class AttachmentRepositoryImpl implements AttachmentRepository {
           if (exception is LocalError) {
             return Left(
               LocalError(
-                cause: Exception(
-                  exception.toString(),
-                ),
+                cause: Exception(exception.toString()),
                 message: exception.toString(),
                 errorType: exception.errorType,
               ),
@@ -56,9 +54,7 @@ class AttachmentRepositoryImpl implements AttachmentRepository {
           } else {
             return Left(
               LocalError(
-                  cause: Exception(
-                    exception.toString(),
-                  ),
+                  cause: Exception(exception.toString()),
                   message: exception.toString(),
                   errorType: ErrorType.unknown),
             );
@@ -66,9 +62,46 @@ class AttachmentRepositoryImpl implements AttachmentRepository {
         default:
           return Left(
             LocalError(
-                cause: Exception(
-                  exception.toString(),
-                ),
+                cause: Exception(exception.toString()),
+                message: exception.toString(),
+                errorType: ErrorType.unknown),
+          );
+      }
+    }
+  }
+
+  @override
+  Future<Either<BaseError, UploadFile>> downloadFile(
+      {required String downloadUrlPath,
+      void Function(int count, int total)? onReceiveProgress}) async {
+    try {
+      UploadFile file = await attachmentPort.downloadFile(
+          downloadUrlPath: downloadUrlPath,
+          onReceiveProgress: onReceiveProgress);
+      return Right(file);
+    } catch (exception) {
+      switch (exception.runtimeType) {
+        case LocalError:
+          if (exception is LocalError) {
+            return Left(
+              LocalError(
+                cause: Exception(exception.toString()),
+                message: exception.toString(),
+                errorType: exception.errorType,
+              ),
+            );
+          } else {
+            return Left(
+              LocalError(
+                  cause: Exception(exception.toString()),
+                  message: exception.toString(),
+                  errorType: ErrorType.unknown),
+            );
+          }
+        default:
+          return Left(
+            LocalError(
+                cause: Exception(exception.toString()),
                 message: exception.toString(),
                 errorType: ErrorType.unknown),
           );
