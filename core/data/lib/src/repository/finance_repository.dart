@@ -80,7 +80,7 @@ class FinanceRepositoryImpl extends FinanceRepository {
   @override
   Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
       getTransactionTypeFeesCollected(
-          {required List<int> students, required List<int> academicYear}) {
+          {required List<dynamic> students, required List<int> academicYear}) {
     return networkPort.getTransactionTypeFeesCollected(
         students: students, academicYear: academicYear);
   }

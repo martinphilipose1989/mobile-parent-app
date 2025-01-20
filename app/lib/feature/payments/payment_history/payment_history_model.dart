@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
+import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/model/resource.dart';
 
 import 'package:app/utils/api_response_handler.dart';
@@ -31,6 +32,10 @@ class PaymentHistoryModel extends BasePageViewModel {
   final DownloadTransactionHistoryUsecase downloadTransactionHistoryUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
+  // For Enquiry Only
+  PaymentArguments? paymentArguments;
+  int? phoneNo;
+
   PaymentHistoryModel(
       {required this.exceptionHandlerBinder,
       required this.getAcademicYearUsecase,
@@ -51,7 +56,7 @@ class PaymentHistoryModel extends BasePageViewModel {
       BehaviorSubject<int>.seeded(0);
 
   late List<GetGuardianStudentDetailsStudentModel>? selectedStudent;
-  List<int> studentIDs = [];
+  List<dynamic> studentIDs = [];
 
   // Calling academic year api
 
@@ -327,5 +332,24 @@ class PaymentHistoryModel extends BasePageViewModel {
       return match.group(1);
     }
     return null;
+  }
+
+  void updateStudentDetailsForEnquiry(PaymentArguments paymentArguments) {
+    List<GetGuardianStudentDetailsStudentModel> tempList = [];
+    tempList.add(GetGuardianStudentDetailsStudentModel(
+        id: paymentArguments.enquiryId,
+        studentDisplayName:
+            "${paymentArguments.studentName} ${paymentArguments.enquiryNo}"));
+
+    //
+    //
+
+    // _getGuardianStudentDetailsModel.add(Resource.success(data: tempList));
+    selectedStudent = tempList;
+    if (paymentArguments.enquiryId != null) {
+      studentIDs.add(paymentArguments.enquiryId);
+    }
+
+    getAcademicYear();
   }
 }

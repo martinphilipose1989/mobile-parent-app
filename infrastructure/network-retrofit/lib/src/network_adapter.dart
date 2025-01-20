@@ -1044,7 +1044,7 @@ class NetworkAdapter implements NetworkPort {
   @override
   Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
       getTransactionTypeFeesCollected(
-          {required List<int> students,
+          {required List<dynamic> students,
           required List<int> academicYear}) async {
     var response = await safeApiCall(financeRetrofitService
         .getTransactionTypeFeesCollected(GetTransactionTypeFeesCollectesRequest(

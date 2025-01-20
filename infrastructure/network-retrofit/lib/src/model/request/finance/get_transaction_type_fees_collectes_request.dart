@@ -6,7 +6,7 @@ part 'get_transaction_type_fees_collectes_request.g.dart';
 @JsonSerializable(explicitToJson: true)
 class GetTransactionTypeFeesCollectesRequest {
   @JsonKey(name: "students")
-  final List<int> students;
+  final List<dynamic> students;
 
   @JsonKey(name: "academic_years")
   final List<int> academicYear;

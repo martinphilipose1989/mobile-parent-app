@@ -39,7 +39,7 @@ abstract class FinanceRepository {
 
   Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
       getTransactionTypeFeesCollected(
-          {required List<int> students, required List<int> academicYear});
+          {required List<dynamic> students, required List<int> academicYear});
 
   Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
       {required PaymentOrderModel paymentOrderModel});

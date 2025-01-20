@@ -26,7 +26,7 @@ class GetTransactionTypeFeesCollectedUsecase extends BaseUseCase<
 }
 
 class GetTransactionTypeFeesCollectedUsecaseParams extends Params {
-  final List<int> students;
+  final List<dynamic> students;
   final List<int> academicYear;
 
   GetTransactionTypeFeesCollectedUsecaseParams({
