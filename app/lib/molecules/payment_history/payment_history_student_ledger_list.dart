@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/currency_formatter.dart';

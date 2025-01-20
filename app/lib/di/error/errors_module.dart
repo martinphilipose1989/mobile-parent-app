@@ -32,10 +32,10 @@ abstract class ErrorsModule {
       FlutterAlertErrorPresenter alertErrorPresenter) {
     return SelectorErrorPresenter((e) {
       switch (e.runtimeType) {
-        case FormatException:
+        case FormatException _:
           return toastErrorPresenter;
 
-        case NetworkError:
+        case NetworkError _:
           return snackBarErrorPresenter;
 
         default:

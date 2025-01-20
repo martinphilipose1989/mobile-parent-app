@@ -1,10 +1,14 @@
+import 'package:app/di/states/viewmodels.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/create_intimation/create_intimation_view_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_date_picker.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/date_formatter.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart' hide State;
 import 'package:domain/domain.dart' hide State;
 
@@ -13,16 +17,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
-import '../../di/states/viewmodels.dart';
-import '../../model/resource.dart';
-import '../../utils/common_widgets/app_images.dart';
-import '../../utils/common_widgets/common_popups.dart';
-import '../../utils/stream_builder/app_stream_builder.dart';
-
 class CreateIntimationPopup extends StatefulWidget {
   final int userid;
   final int schoolId;
-  CreateIntimationPopup(
+  const CreateIntimationPopup(
       {super.key, required this.userid, required this.schoolId});
 
   @override
@@ -46,7 +44,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 SizedBox(
                   height: 16.h,
                 ),
-    Text(
+                Text(
                   "Raise Intimation",
                   style: AppTypography.h5,
                 ),
@@ -145,7 +143,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                             .stream, // Your stream to listen to
                         dataBuilder: (context, snapshot) {
                           // Check the state of the stream
-                          if (snapshot?.data?.status == Status.loading) {
+                          if (snapshot?.status == Status.loading) {
                             // Show CircularProgressIndicator when loading
                             return Center(
                               child: CircularProgressIndicator(),

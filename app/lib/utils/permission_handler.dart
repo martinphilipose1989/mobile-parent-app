@@ -72,6 +72,7 @@ class PermissionHandlerService {
     if (!status.isGranted) {
       onPermanentlyClosedCall.call(true);
     } else {
+      // ignore: unused_local_variable
       Position position = await getUserLocation();
 
       return true;

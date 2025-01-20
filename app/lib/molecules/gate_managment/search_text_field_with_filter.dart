@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// ignore: must_be_immutable
 class SearchTextFieldWithFilter extends StatelessWidget {
-   SearchTextFieldWithFilter(
+  SearchTextFieldWithFilter(
       {super.key,
       required this.model,
       this.filterCallBack,

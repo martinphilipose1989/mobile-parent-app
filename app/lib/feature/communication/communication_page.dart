@@ -42,7 +42,6 @@ class CommunicationPageState
 
   @override
   PreferredSizeWidget? buildAppbar(CommunicationPageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: true,
       appbarTitle: 'Edu Tickets',

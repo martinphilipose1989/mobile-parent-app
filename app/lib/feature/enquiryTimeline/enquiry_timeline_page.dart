@@ -10,7 +10,7 @@ import '../../base/app_base_page.dart';
 
 class EnquiriesTimelinePage extends BasePage<EnquiriesTimelinePageModel> {
   final EnquiryDetailArgs enquiryDetail;
-  const EnquiriesTimelinePage({super.key,required this.enquiryDetail});
+  const EnquiriesTimelinePage({super.key, required this.enquiryDetail});
 
   @override
   EnquiriesTimelinePageState createState() => EnquiriesTimelinePageState();
@@ -26,12 +26,13 @@ class EnquiriesTimelinePageState
 
   @override
   void onModelReady(EnquiriesTimelinePageModel model) {
-    model.getEnquiryTimeLine(enquiryID: widget.enquiryDetail.enquiryId??'',);
+    model.getEnquiryTimeLine(
+      enquiryID: widget.enquiryDetail.enquiryId ?? '',
+    );
   }
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesTimelinePageModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       notShowNotificationAndUserBatch: false,
       appbarTitle: 'Enquiry Timeline',
@@ -41,7 +42,7 @@ class EnquiriesTimelinePageState
 
   @override
   Widget buildView(BuildContext context, EnquiriesTimelinePageModel model) {
-    return EnquiriesTimelinePageView(provideBase(),widget.enquiryDetail);
+    return EnquiriesTimelinePageView(provideBase(), widget.enquiryDetail);
   }
 
   @override

@@ -239,7 +239,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Either<LocalError, LogoutResponse>> logOut() async {
     try {
-      showSideDrawer.add(false);
+      showDrawerMenu.add(false);
       final idTokenHint = await secureStorageService
           .getFromDisk(secureStorageService.idTokenKey);
       final result = await appAuthPort.logout(idTokenHint: idTokenHint);

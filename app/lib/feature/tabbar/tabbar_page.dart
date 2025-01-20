@@ -20,6 +20,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared/shared.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'package:app/base/app_base_page.dart';
@@ -117,10 +118,10 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   Widget? buildDrawer() {
-    log("buildDrawer ${showSideDrawer.value}");
+    log("buildDrawer ${showDrawerMenu.value}");
     return AppStreamBuilder<bool>(
-      stream: showSideDrawer,
-      initialData: showSideDrawer.value,
+      stream: showDrawerMenu,
+      initialData: showDrawerMenu.value,
       dataBuilder: (context, sideDrawer) => Visibility(
           replacement: SizedBox(),
           visible: sideDrawer ?? false,

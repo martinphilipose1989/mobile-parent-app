@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: must_be_immutable
 
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';

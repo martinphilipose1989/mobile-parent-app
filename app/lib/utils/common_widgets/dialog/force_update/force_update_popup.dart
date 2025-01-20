@@ -1,20 +1,28 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../app_typography.dart';
-import '../../common_elevated_button.dart';
-import '../../common_text_widget.dart';
-
 class ForceUpdatePopup extends StatelessWidget {
-final IconData icon;
-final Color iconColor;
-final String message;
-final String buttonText;
-final bool barrierDismissible;
-  dynamic? popParameter;
- final Function(bool shouldRoute) onChanged;
-ForceUpdatePopup({super.key,this.popParameter, required this.icon, required this.iconColor, required this.message, required this.buttonText, required this.barrierDismissible, required this.onChanged});
+  final IconData icon;
+  final Color iconColor;
+  final String message;
+  final String buttonText;
+  final bool barrierDismissible;
+  dynamic popParameter;
+  final Function(bool shouldRoute) onChanged;
+  ForceUpdatePopup(
+      {super.key,
+      this.popParameter,
+      required this.icon,
+      required this.iconColor,
+      required this.message,
+      required this.buttonText,
+      required this.barrierDismissible,
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +53,11 @@ ForceUpdatePopup({super.key,this.popParameter, required this.icon, required this
                 onPressed: () {
                   onChanged(true);
                   Navigator.pop(context, popParameter);
-
                 },
                 text: 'Ok',
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                textStyle: AppTypography.subtitle2.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary),
+                textStyle: AppTypography.subtitle2
+                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
               ))
         ],
       ),

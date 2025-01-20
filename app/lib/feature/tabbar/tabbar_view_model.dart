@@ -262,6 +262,7 @@ class TabbarViewModel extends BasePageViewModel {
   }
 
   void setDrawerMenuItems(Resource<User> data) {
+    showDrawerMenu.add(true);
     for (int i = 0; i < fessItems.length; i++) {
       if (fessItems[i].key == "payments" ||
           fessItems[i].key == "new_enrolment") {

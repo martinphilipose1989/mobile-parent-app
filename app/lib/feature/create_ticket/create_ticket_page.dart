@@ -28,7 +28,6 @@ class _CreateTicketPageState
 
   @override
   PreferredSizeWidget? buildAppbar(CreateTicketViewModel model) {
-    // TODO: implement buildAppbar
     return const CommonAppBar(
       appbarTitle: 'Edu Tickets',
       notShowNotificationAndUserBatch: false,
@@ -38,13 +37,11 @@ class _CreateTicketPageState
 
   @override
   Color scaffoldBackgroundColor() {
-    // TODO: implement scaffoldBackgroundColor
     return Colors.white;
   }
 
   @override
   Widget buildView(BuildContext context, CreateTicketViewModel model) {
-    // TODO: implement buildView
     return CreateTicketPageView(provideBase(), model);
   }
 

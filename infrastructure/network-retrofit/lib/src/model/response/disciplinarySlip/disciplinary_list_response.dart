@@ -1,13 +1,13 @@
- import 'package:data/data.dart';
-
- import '../../../../network_retrofit.dart';
+import 'package:data/data.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'disciplinary_list_response.g.dart';
 
-
-
 @JsonSerializable()
-class DisciplinaryListEntity {
+class DisciplinaryListEntity
+    implements
+        BaseLayerDataTransformer<DisciplinaryListEntity,
+            DisciplinaryListModel> {
   @JsonKey(name: "status")
   int status;
   @JsonKey(name: "data")
@@ -24,7 +24,8 @@ class DisciplinaryListEntity {
     required this.success,
   });
 
-  factory DisciplinaryListEntity.fromJson(Map<String, dynamic> json) => _$DisciplinaryListEntityFromJson(json);
+  factory DisciplinaryListEntity.fromJson(Map<String, dynamic> json) =>
+      _$DisciplinaryListEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$DisciplinaryListEntityToJson(this);
 
@@ -36,23 +37,27 @@ class DisciplinaryListEntity {
 
   @override
   DisciplinaryListModel transform() {
-  return DisciplinaryListModel(status: status, data: data.transform(), message: message, success: success);
+    return DisciplinaryListModel(
+        status: status,
+        data: data.transform(),
+        message: message,
+        success: success);
   }
 }
 
 @JsonSerializable()
-class DisciplinaryDataEntity {
+class DisciplinaryDataEntity
+    implements
+        BaseLayerDataTransformer<DisciplinaryDataEntity, DisciplinaryData> {
   @JsonKey(name: "data")
   List<SlipInfoEntity> slipinfo;
 
-
-
   DisciplinaryDataEntity({
     required this.slipinfo,
-
   });
 
-  factory DisciplinaryDataEntity.fromJson(Map<String, dynamic> json) => _$DisciplinaryDataEntityFromJson(json);
+  factory DisciplinaryDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$DisciplinaryDataEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$DisciplinaryDataEntityToJson(this);
 
@@ -64,45 +69,44 @@ class DisciplinaryDataEntity {
 
   @override
   DisciplinaryData transform() {
-return DisciplinaryData(data: slipinfo.map((e)=>e.transform()).toList()
-);
+    return DisciplinaryData(data: slipinfo.map((e) => e.transform()).toList());
   }
-
 }
 
 @JsonSerializable()
-class SlipInfoEntity {
-  @JsonKey(name: "id",defaultValue: 0)
+class SlipInfoEntity
+    implements BaseLayerDataTransformer<SlipInfoEntity, SlipInfo> {
+  @JsonKey(name: "id", defaultValue: 0)
   int id;
-  @JsonKey(name: "academic_year_id",defaultValue: 0)
+  @JsonKey(name: "academic_year_id", defaultValue: 0)
   int academicYearId;
-  @JsonKey(name: "student_id",defaultValue: 0)
+  @JsonKey(name: "student_id", defaultValue: 0)
   int studentId;
-  @JsonKey(name: "disciplinary_slip_id",defaultValue: 0)
+  @JsonKey(name: "disciplinary_slip_id", defaultValue: 0)
   int disciplinarySlipId;
-  @JsonKey(name: "infraction_id",defaultValue: 0)
+  @JsonKey(name: "infraction_id", defaultValue: 0)
   int infractionId;
-  @JsonKey(name: "disciplinary_action_id",defaultValue: 0)
+  @JsonKey(name: "disciplinary_action_id", defaultValue: 0)
   int disciplinaryActionId;
-  @JsonKey(name: "date",)
+  @JsonKey(name: "date")
   DateTime date;
-  @JsonKey(name: "time",defaultValue: "")
+  @JsonKey(name: "time", defaultValue: "")
   String time;
-  @JsonKey(name: "description",)
+  @JsonKey(name: "description")
   String description;
-  @JsonKey(name: "created_at",)
+  @JsonKey(name: "created_at")
   DateTime createdAt;
-  @JsonKey(name: "updated_at",)
+  @JsonKey(name: "updated_at")
   DateTime updatedAt;
-  @JsonKey(name: "acknowledgement_details",defaultValue: [])
+  @JsonKey(name: "acknowledgement_details", defaultValue: [])
   List<AcknowledgementDetailEntity> acknowledgementDetails;
-  @JsonKey(name: "disciplinary_slip",defaultValue: "")
+  @JsonKey(name: "disciplinary_slip", defaultValue: "")
   String disciplinarySlip;
-  @JsonKey(name: "disciplinary_slip_description",defaultValue: "")
+  @JsonKey(name: "disciplinary_slip_description", defaultValue: "")
   String disciplinarySlipDescription;
-  @JsonKey(name: "infraction",defaultValue: "")
+  @JsonKey(name: "infraction", defaultValue: "")
   String infraction;
-  @JsonKey(name: "disciplinary_action",defaultValue: "")
+  @JsonKey(name: "disciplinary_action", defaultValue: "")
   String disciplinaryAction;
 
   SlipInfoEntity({
@@ -124,7 +128,8 @@ class SlipInfoEntity {
     required this.disciplinaryAction,
   });
 
-  factory SlipInfoEntity.fromJson(Map<String, dynamic> json) => _$SlipInfoEntityFromJson(json);
+  factory SlipInfoEntity.fromJson(Map<String, dynamic> json) =>
+      _$SlipInfoEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$SlipInfoEntityToJson(this);
 
@@ -135,24 +140,39 @@ class SlipInfoEntity {
 
   @override
   SlipInfo transform() {
-return SlipInfo(id: id, academicYearId: academicYearId, studentId: studentId,
-    disciplinarySlipId: disciplinarySlipId, infractionId: infractionId,
-    disciplinaryActionId: disciplinaryActionId, date: date, time: time,
-    description: description, createdAt: createdAt, updatedAt: updatedAt,
-    acknowledgementDetails: acknowledgementDetails.map((e)=>e.transform()).toList(), disciplinarySlip: disciplinarySlip, disciplinarySlipDescription: disciplinarySlipDescription, infraction: infraction, disciplinaryAction: disciplinaryAction);
+    return SlipInfo(
+        id: id,
+        academicYearId: academicYearId,
+        studentId: studentId,
+        disciplinarySlipId: disciplinarySlipId,
+        infractionId: infractionId,
+        disciplinaryActionId: disciplinaryActionId,
+        date: date,
+        time: time,
+        description: description,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        acknowledgementDetails:
+            acknowledgementDetails.map((e) => e.transform()).toList(),
+        disciplinarySlip: disciplinarySlip,
+        disciplinarySlipDescription: disciplinarySlipDescription,
+        infraction: infraction,
+        disciplinaryAction: disciplinaryAction);
   }
-
 }
 
 @JsonSerializable()
-class AcknowledgementDetailEntity {
-  @JsonKey(name: "id",defaultValue: 1)
+class AcknowledgementDetailEntity
+    implements
+        BaseLayerDataTransformer<AcknowledgementDetailEntity,
+            AcknowledgementDetail> {
+  @JsonKey(name: "id", defaultValue: 1)
   int id;
-  @JsonKey(name: "student_warning_id",defaultValue: 0)
+  @JsonKey(name: "student_warning_id", defaultValue: 0)
   int studentWarningId;
-  @JsonKey(name: "user_id",defaultValue: 0)
+  @JsonKey(name: "user_id", defaultValue: 0)
   int userId;
-  @JsonKey(name: "acknowledgement_role",defaultValue: "")
+  @JsonKey(name: "acknowledgement_role", defaultValue: "")
   String acknowledgementRole;
   @JsonKey(name: "acknowledgement_date")
   DateTime acknowledgementDate;
@@ -165,21 +185,23 @@ class AcknowledgementDetailEntity {
     required this.acknowledgementDate,
   });
 
-  factory AcknowledgementDetailEntity.fromJson(Map<String, dynamic> json) => _$AcknowledgementDetailEntityFromJson(json);
+  factory AcknowledgementDetailEntity.fromJson(Map<String, dynamic> json) =>
+      _$AcknowledgementDetailEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AcknowledgementDetailEntityToJson(this);
   @override
-     AcknowledgementDetailEntity restore(AcknowledgementDetail data) {
+  AcknowledgementDetailEntity restore(AcknowledgementDetail data) {
     // TODO: implement restore
     throw UnimplementedError();
   }
 
   @override
   AcknowledgementDetail transform() {
-  return AcknowledgementDetail(id: id, studentWarningId: studentWarningId, userId: userId, acknowledgementRole: acknowledgementRole, acknowledgementDate: acknowledgementDate);
+    return AcknowledgementDetail(
+        id: id,
+        studentWarningId: studentWarningId,
+        userId: userId,
+        acknowledgementRole: acknowledgementRole,
+        acknowledgementDate: acknowledgementDate);
   }
-
-
-
 }
-

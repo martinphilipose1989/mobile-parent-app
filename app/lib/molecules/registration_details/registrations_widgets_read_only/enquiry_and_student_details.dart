@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/molecules/registration_details/registrations_widgets_read_only/details_item.dart';
 import 'package:app/utils/app_typography.dart';
@@ -31,7 +33,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title:  CommonText(
+            title: CommonText(
               text: 'Enquiry Details',
               style: AppTypography.subtitle2,
             ),
@@ -76,7 +78,7 @@ class EnquiryAndStudentDetails extends StatelessWidget {
               width: 1,
             )),
         child: ExpansionTile(
-            title:  CommonText(
+            title: CommonText(
               text: 'Student Details',
               style: AppTypography.subtitle2,
             ),

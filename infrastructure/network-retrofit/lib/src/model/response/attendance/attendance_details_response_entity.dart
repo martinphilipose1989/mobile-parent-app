@@ -2,8 +2,12 @@ import 'package:data/data.dart';
 
 import '../../../../network_retrofit.dart';
 part 'attendance_details_response_entity.g.dart';
+
 @JsonSerializable()
-class AttendanceDetailsResponseEntity implements BaseLayerDataTransformer<AttendanceDetailsResponseEntity,AttendanceDetailsResponseModel> {
+class AttendanceDetailsResponseEntity
+    implements
+        BaseLayerDataTransformer<AttendanceDetailsResponseEntity,
+            AttendanceDetailsResponseModel> {
   @JsonKey(name: "status")
   int status;
   @JsonKey(name: "data")
@@ -20,9 +24,11 @@ class AttendanceDetailsResponseEntity implements BaseLayerDataTransformer<Attend
     required this.success,
   });
 
-  factory AttendanceDetailsResponseEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailsResponseEntityFromJson(json);
+  factory AttendanceDetailsResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceDetailsResponseEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttendanceDetailsResponseEntityToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$AttendanceDetailsResponseEntityToJson(this);
 
   @override
   AttendanceDetailsResponseEntity restore(AttendanceDetailsResponseModel data) {
@@ -32,22 +38,28 @@ class AttendanceDetailsResponseEntity implements BaseLayerDataTransformer<Attend
 
   @override
   AttendanceDetailsResponseModel transform() {
-return AttendanceDetailsResponseModel(status: status, data: data.transform(), message: message, success: success);
+    return AttendanceDetailsResponseModel(
+        status: status,
+        data: data.transform(),
+        message: message,
+        success: success);
   }
 }
 
 @JsonSerializable()
-class AttendanceResponseEntity implements BaseLayerDataTransformer<AttendanceResponseEntity,AttendanceResponseData>{
+class AttendanceResponseEntity
+    implements
+        BaseLayerDataTransformer<AttendanceResponseEntity,
+            AttendanceResponseData> {
   @JsonKey(name: "data")
   List<AttendanceDetailDataEntity> data;
 
-
-  AttendanceResponseEntity ({
+  AttendanceResponseEntity({
     required this.data,
-
   });
 
-  factory AttendanceResponseEntity .fromJson(Map<String, dynamic> json) => _$AttendanceResponseEntityFromJson(json);
+  factory AttendanceResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceResponseEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceResponseEntityToJson(this);
 
@@ -59,12 +71,16 @@ class AttendanceResponseEntity implements BaseLayerDataTransformer<AttendanceRes
 
   @override
   AttendanceResponseData transform() {
-return AttendanceResponseData(data: data.map((e)=>e.transform()).toList());
+    return AttendanceResponseData(
+        data: data.map((e) => e.transform()).toList());
   }
 }
 
 @JsonSerializable()
-class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceDetailDataEntity,AttendanceDetailsData> {
+class AttendanceDetailDataEntity
+    implements
+        BaseLayerDataTransformer<AttendanceDetailDataEntity,
+            AttendanceDetailsData> {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "academic_year_id")
@@ -88,7 +104,6 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
   @JsonKey(name: "attendance_details")
   List<AttendanceDetailEntity>? attendanceDetails;
 
-
   AttendanceDetailDataEntity({
     required this.id,
     required this.academicYearId,
@@ -101,8 +116,6 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
     required this.attendanceDate,
     required this.globalStudentId,
     required this.attendanceDetails,
-
-
   });
 
   factory AttendanceDetailDataEntity.fromJson(Map<String, dynamic> json) =>
@@ -118,25 +131,26 @@ class AttendanceDetailDataEntity implements BaseLayerDataTransformer<AttendanceD
 
   @override
   AttendanceDetailsData transform() {
-    return AttendanceDetailsData(id: id,
-      academicYearId: academicYearId,
-      schoolId: schoolId,
-      brandId: brandId,
-      boardId: boardId,
-      gradeId: gradeId,
-      shiftId: shiftId,
-      divisionId: divisionId,
-      attendanceDate: attendanceDate,
-      globalStudentId: globalStudentId,
-      attendanceDetails: attendanceDetails?.map((e) => e.transform())
-          .toList());
+    return AttendanceDetailsData(
+        id: id,
+        academicYearId: academicYearId,
+        schoolId: schoolId,
+        brandId: brandId,
+        boardId: boardId,
+        gradeId: gradeId,
+        shiftId: shiftId,
+        divisionId: divisionId,
+        attendanceDate: attendanceDate,
+        globalStudentId: globalStudentId,
+        attendanceDetails:
+            attendanceDetails?.map((e) => e.transform()).toList());
   }
 }
 
-
-
 @JsonSerializable()
-class AttendanceDetailEntity {
+class AttendanceDetailEntity
+    implements
+        BaseLayerDataTransformer<AttendanceDetailEntity, AttendanceDetail> {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "attendance_id")
@@ -173,7 +187,8 @@ class AttendanceDetailEntity {
     this.attendanceRemark,
     this.period,
   });
-  factory AttendanceDetailEntity.fromJson(Map<String, dynamic> json) => _$AttendanceDetailEntityFromJson(json);
+  factory AttendanceDetailEntity.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceDetailEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceDetailEntityToJson(this);
 
@@ -185,15 +200,17 @@ class AttendanceDetailEntity {
 
   @override
   AttendanceDetail transform() {
-return AttendanceDetail(id: id, attendanceId: attendanceId,
-    attendanceType: attendanceType, subjectId: subjectId,
-    timetableId: timetableId, globalStudentId: globalStudentId,
-    attendanceRemark: attendanceRemark, startTime: startTime,
-    endTime: endTime,  period: period, );
+    return AttendanceDetail(
+      id: id,
+      attendanceId: attendanceId,
+      attendanceType: attendanceType,
+      subjectId: subjectId,
+      timetableId: timetableId,
+      globalStudentId: globalStudentId,
+      attendanceRemark: attendanceRemark,
+      startTime: startTime,
+      endTime: endTime,
+      period: period,
+    );
   }
 }
-
-
-
-
-

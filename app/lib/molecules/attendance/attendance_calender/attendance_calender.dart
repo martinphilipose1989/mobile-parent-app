@@ -16,17 +16,17 @@ import '../../../utils/stream_builder/app_stream_builder.dart';
 import '../attandance_details/student_details.dart' as studeuntdetailsmolecule;
 
 class AttendanceCalender extends StatelessWidget {
-  String? name;
-  String? schoolName;
-  String? boardName;
-  String? grade;
-  String? shift;
-  String? division;
-  String? stream;
-  String? course;
-  String? house;
-  String? image;
-  AttendanceCalender(
+  final String? name;
+  final String? schoolName;
+  final String? boardName;
+  final String? grade;
+  final String? shift;
+  final String? division;
+  final String? stream;
+  final String? course;
+  final String? house;
+  final String? image;
+  const AttendanceCalender(
       {super.key,
       this.name,
       this.course,
