@@ -52,10 +52,21 @@ class DashboardPageModel extends BasePageViewModel {
       required this.flutterToastErrorPresenter});
 
   final List<String> images = [
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    // Add more image paths if needed
+    AppImages.banner1,
+    AppImages.banner2,
+    AppImages.banner3,
+    AppImages.banner4,
+    AppImages.banner5,
+    AppImages.banner6,
+    AppImages.banner7,
+    AppImages.banner8,
+    AppImages.banner9,
+    AppImages.banner10,
+    AppImages.banner11,
+    AppImages.banner12,
+    AppImages.banner13,
+    AppImages.banner14,
+    AppImages.banner15,
   ];
 
   late String mobileNo;
@@ -133,7 +144,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     // VAS
     {
-      'name': 'New Enrollment',
+      'name': 'Value Added Services',
       'image': AppImages.activity,
       'isSelected': false,
       'isActive': false,

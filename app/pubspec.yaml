@@ -130,6 +130,7 @@ flutter:
   assets:
     - assets/images/icons/
     - assets/images/
+    - assets/images/banner_images/
     - assets/rating/
     - .env.dev
     - .env.prod
