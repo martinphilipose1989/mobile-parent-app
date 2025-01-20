@@ -188,7 +188,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.createEditGatePassPage;
       case 'subject selection':
         return RoutePaths.webview;
-      case 'new enrollment':
+      case 'value added services':
         return RoutePaths.newEnrolmentPage;
 
       default:
