@@ -42,8 +42,8 @@ class AdminRepositoryImpl extends AdminRepository {
   // }
   @override
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
-      {required int studentId}) {
-    return networkPort.getBearerList(studentId: studentId);
+      {required int studentId,required String platform}) {
+    return networkPort.getBearerList(studentId: studentId, platform: platform);
   }
 
 

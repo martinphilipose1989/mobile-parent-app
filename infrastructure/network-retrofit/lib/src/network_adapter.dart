@@ -1737,9 +1737,9 @@ final  BearerRetorfitService bearerRetorfitService;
 
   @override
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
-      {required int studentId}) async {
+      {required int studentId,required String platform}) async {
     final response =
-    await safeApiCall(bearerRetorfitService.getBearerList(studentId));
+    await safeApiCall(bearerRetorfitService.getBearerList(studentId,platform));
 
     return response.fold((l) {
       return Left(l);

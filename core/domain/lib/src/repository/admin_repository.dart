@@ -5,7 +5,7 @@ import 'package:shared/shared.dart';
 abstract class AdminRepository {
 
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
-      {required int studentId});
+      {required int studentId,required String platform});
 
   Future<Either<NetworkError, FetchCouponsListModel>> getCoupons(
       {required String studentId,

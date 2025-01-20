@@ -36,7 +36,7 @@ class StudentDetailPageViewModel extends BasePageViewModel {
   void getBearerList({required int studentId}) {
     bearerResponse.add(Resource.loading());
     final GetBearerListUsecaseParams params =
-    GetBearerListUsecaseParams(studentId: studentId);
+    GetBearerListUsecaseParams(studentId: studentId, platform: 'app');
 
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,

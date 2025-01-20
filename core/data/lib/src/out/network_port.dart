@@ -346,5 +346,7 @@ abstract class NetworkPort {
 
 
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
-      {required int studentId});
+      {
+        required int studentId,
+      required String platform});
 }

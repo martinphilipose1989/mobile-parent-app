@@ -27,6 +27,7 @@ abstract class BearerRetorfitService {
 
   @GET(_getBearerList)
   Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(
-      @Path('studentId') int studentId);
+      @Path('studentId') int studentId,
+  @Query('platform') String app);
 
 }

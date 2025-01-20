@@ -10,14 +10,15 @@ class GetBearerListUsecase extends BaseUseCase<NetworkError,
   @override
   Future<Either<NetworkError, GetBearerListResponse>> execute(
       {required GetBearerListUsecaseParams params}) {
-    return adminRepository.getBearerList(studentId: params.studentId);
+    return adminRepository.getBearerList(studentId: params.studentId, platform: params.platform);
   }
 }
 
 class GetBearerListUsecaseParams extends Params {
   final int studentId;
+  final String platform;
 
-  GetBearerListUsecaseParams({required this.studentId});
+  GetBearerListUsecaseParams( {required this.platform,required this.studentId});
 
   @override
   Either<AppError, bool> verify() {
