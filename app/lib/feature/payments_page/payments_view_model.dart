@@ -177,44 +177,45 @@ class PaymentsPageModel extends BasePageViewModel {
   void getPaymentOrder(int paymentModeId, int serviceProviderId) {
     exceptionHandlerBinder.handle(block: () {
       GetPaymentOrderUsecaseParams params = GetPaymentOrderUsecaseParams(
-          paymentOrderModel: PaymentOrderModel(
-              orders: Orders(
-                  amount: int.parse(amount.text),
-                  currency: "INR",
-                  paymentGateway:
-                      dynamicPaymentType?.toLowerCase() == "grayquest"
-                          ? "grayQuest"
-                          : dynamicPaymentType?.toLowerCase(),
-                  receipt: "RCPT#123",
-                  lobId: selectedFees.value[0].lobSegmentId,
-                  transactionTypeId: 1,
-                  serviceProviderId: serviceProviderId,
-                  bankWalletMerchantId: 2,
-                  paymentModeId: paymentModeId,
-                  studentFees: List.generate(
-                    selectedFees.value.length,
-                    (index) => StudentFee(
-                      feeId: selectedFees.value[index].feeId,
-                      id: selectedFees.value[index].id,
-                      amount: selectedFees.value[index].isDiscountApplied
-                          ? selectedFees.value[index].discountedAmount
-                          : selectedFees.value[index].pending,
-                      amountBeforeDiscount:
-                          selectedFees.value[index].isDiscountApplied
-                              ? int.parse(selectedFees.value[index].pending
-                                      ?.split('.')[0] ??
-                                  '0')
-                              : null,
-                      couponId: selectedFees.value[index].isDiscountApplied
-                          ? selectedFees.value[index].couponId ?? ''
-                          : null,
-                    ),
-                  ),
-                  additionalInfo: AdditionalInfo(
-                      customerEmail: userSubject.value.data?.email,
-                      customerName: userSubject.value.data?.userName,
-                      customerContact: userSubject.value.data?.phoneNumber),
-                  device: null)));
+        paymentOrderModel: PaymentOrderModel(
+          orders: Orders(
+            amount: int.parse(amount.text),
+            currency: "INR",
+            paymentGateway: dynamicPaymentType?.toLowerCase() == "grayquest"
+                ? "grayQuest"
+                : dynamicPaymentType?.toLowerCase(),
+            receipt: "RCPT#123",
+            lobId: selectedFees.value[0].lobSegmentId,
+            //  transactionTypeId: 1,
+            serviceProviderId: serviceProviderId,
+            //  bankWalletMerchantId: 2,
+            paymentModeId: paymentModeId,
+            studentFees: List.generate(
+              selectedFees.value.length,
+              (index) => StudentFee(
+                feeId: selectedFees.value[index].feeId,
+                id: selectedFees.value[index].id,
+                amount: selectedFees.value[index].isDiscountApplied
+                    ? selectedFees.value[index].discountedAmount
+                    : selectedFees.value[index].pending,
+                amountBeforeDiscount: selectedFees
+                        .value[index].isDiscountApplied
+                    ? int.parse(
+                        selectedFees.value[index].pending?.split('.')[0] ?? '0')
+                    : null,
+                couponId: selectedFees.value[index].isDiscountApplied
+                    ? selectedFees.value[index].couponId ?? ''
+                    : null,
+              ),
+            ),
+            additionalInfo: AdditionalInfo(
+                customerEmail: userSubject.value.data?.email,
+                customerName: userSubject.value.data?.userName,
+                customerContact: userSubject.value.data?.phoneNumber),
+            device: null,
+          ),
+        ),
+      );
       RequestManager<GetPaymentOrderResponseModel>(
         params,
         createCall: () => getPaymentOrderUsecase.execute(params: params),
