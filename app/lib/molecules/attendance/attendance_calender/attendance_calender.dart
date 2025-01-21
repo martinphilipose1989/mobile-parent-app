@@ -4,17 +4,16 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/attendance/attendance_calender/attendance_calender_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attendance_calender/calendar.dart';
-import 'package:app/themes_setup.dart';
+
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-import '../../../utils/common_widgets/app_images.dart';
+
 import '../../../utils/stream_builder/app_stream_builder.dart';
 import '../attandance_details/student_details.dart' as studeuntdetailsmolecule;
-import 'attendance_count.dart';
 
 class AttendanceCalender extends StatelessWidget {
   String? name;
@@ -26,20 +25,19 @@ class AttendanceCalender extends StatelessWidget {
   String? stream;
   String? course;
   String? house;
-String? image;
-  AttendanceCalender({
-    super.key,
-    this.name,
-    this.course,
-    this.house,
-    this.division,
-    this.schoolName,
-    this.stream,
-    this.boardName,
-    this.grade,
-    this.shift,
-    this.image
-  });
+  String? image;
+  AttendanceCalender(
+      {super.key,
+      this.name,
+      this.course,
+      this.house,
+      this.division,
+      this.schoolName,
+      this.stream,
+      this.boardName,
+      this.grade,
+      this.shift,
+      this.image});
 
   @override
   Widget build(BuildContext context) {

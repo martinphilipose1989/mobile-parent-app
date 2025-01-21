@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: unused_local_variable
 
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
@@ -363,11 +363,11 @@ class BusRouteListPageView
 
   Widget _trackBus({required void Function() onTap}) {
     return Container(
-      padding:  EdgeInsets.only(left: 22.0, right: 22.0),
+      padding: EdgeInsets.only(left: 22.0, right: 22.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-  CommonText(
+          CommonText(
             text: "Track Bus",
             style: AppTypography.subtitle1,
           ),

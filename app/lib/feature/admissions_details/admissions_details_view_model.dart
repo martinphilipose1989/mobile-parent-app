@@ -32,6 +32,7 @@ class AdmissionsDetailsViewModel extends BasePageViewModel {
       this.moveToNextStageUsecase,
       this.makePaymentRequestUsecase,
       this.getUserDetailsUsecase) {
+    getUserDetails();
     initializeLoadingState();
     getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId ?? '');
     getAdmissionJourney(

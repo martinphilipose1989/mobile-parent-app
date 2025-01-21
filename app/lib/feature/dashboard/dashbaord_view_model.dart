@@ -54,10 +54,21 @@ class DashboardPageModel extends BasePageViewModel {
       required this.sendTokenUsecase});
 
   final List<String> images = [
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    // Add more image paths if needed
+    AppImages.banner1,
+    AppImages.banner2,
+    AppImages.banner3,
+    AppImages.banner4,
+    AppImages.banner5,
+    AppImages.banner6,
+    AppImages.banner7,
+    AppImages.banner8,
+    AppImages.banner9,
+    AppImages.banner10,
+    AppImages.banner11,
+    AppImages.banner12,
+    AppImages.banner13,
+    AppImages.banner14,
+    AppImages.banner15,
   ];
 
   late String mobileNo;
@@ -135,7 +146,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     // VAS
     {
-      'name': 'New Enrollment',
+      'name': 'Value Added Services',
       'image': AppImages.activity,
       'isSelected': false,
       'isActive': false,
@@ -179,7 +190,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.createEditGatePassPage;
       case 'subject selection':
         return RoutePaths.webview;
-      case 'new enrollment':
+      case 'value added services':
         return RoutePaths.newEnrolmentPage;
 
       default:
@@ -229,6 +240,9 @@ class DashboardPageModel extends BasePageViewModel {
 
           loadAdmissionMenus.add(Resource.success(data: true));
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
+          if (result.data?.data?.students?.isEmpty ?? false) {
+            return;
+          }
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
 

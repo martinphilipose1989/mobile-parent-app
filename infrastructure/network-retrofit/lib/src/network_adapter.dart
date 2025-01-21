@@ -968,9 +968,8 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, TransportEnrollmentResponseModel>>
       getTransportEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
-    // transportEnrollmentDetail: vasDetailRequest,
-    var response = await safeApiCall(
-        apiService.getTransportEnrollmentDetail(token: mdmToken));
+    var response = await safeApiCall(apiService.getTransportEnrollmentDetail(
+        token: mdmToken, transportEnrollmentDetail: vasDetailRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

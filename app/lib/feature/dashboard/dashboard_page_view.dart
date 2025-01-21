@@ -240,7 +240,9 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
   Widget bannerPage(List<String> images) {
     return SizedBox(
-        height: 220.h, width: 379.06.w, child: CommonPageView(images: images));
+        height: 220.h,
+        width: double.infinity,
+        child: CommonPageView(images: images));
   }
 
   Widget introductionTile(DashboardPageModel model, BuildContext context) {

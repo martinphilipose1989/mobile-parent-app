@@ -65,7 +65,7 @@ class AttendanceCalenderViewModel extends BasePageViewModel {
                   attendanceDate:
                       DateFormatter.convertDateToYearMonth(selectedmonth),
                   academicYearId:
-                      result?.data?.data?.profile!.academicYearId ?? 26));
+                      result.data?.data?.profile!.academicYearId ?? 26));
         }
 
         if (result.status == Status.error) {}
