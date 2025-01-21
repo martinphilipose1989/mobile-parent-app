@@ -26,10 +26,10 @@ void main() async {
         logoutEndpoint: EnvProd.logoutEndpoint,
         gateUrl: EnvProd.gateBaseUrl,
         marketingUrl: EnvProd.marketingBaseUrl,
-        showLogs: true,
+        showLogs: false,
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
-        subjectSelectionUrl: EnvProd.subjectSelectionUrl),
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl, androidApiKey: '', androidAppId: '', androidSenderId: '', androidProjectId: ''),
   );
   startApp();
 }

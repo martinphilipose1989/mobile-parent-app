@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "79098057580",
+    "project_id": "hubblehox-parent",
+    "storage_bucket": "hubblehox-parent.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79098057580:android:7f0031e93ff8ab7aa25949",
+        "android_client_info": {
+          "package_name": "com.hubblehox.hubbleorion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79098057580:android:d4cea193110e0680a25949",
+        "android_client_info": {
+          "package_name": "com.hubblehox.hubbleorion.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79098057580:android:8592c86708a10a60a25949",
+        "android_client_info": {
+          "package_name": "com.hubblehox.hubbleorion.qa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

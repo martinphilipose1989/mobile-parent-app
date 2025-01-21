@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments_page/payments_view_model.dart';
+import 'package:app/molecules/payments_page.dart/coupon_list.dart';
 import 'package:app/molecules/payments_page.dart/payments_page_radio_button.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -124,14 +123,20 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                                                 .differenceAmount ??
                                                             ''))
                                                     .toString();
+                                                model.clearCoupon(
+                                                    "${data[index].couponId}");
                                               }
                                             : () {
-                                                log("APPLY ${data[index].academicYearId}");
-
-                                                Navigator.pushNamed(context,
-                                                        RoutePaths.couponList,
-                                                        arguments: data[index])
-                                                    .then(
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  RoutePaths.couponList,
+                                                  arguments: CouponListArgs(
+                                                    getPendingFeesFeeModel:
+                                                        data[index],
+                                                    appliedCouponList:
+                                                        model.appliedCouponList,
+                                                  ),
+                                                ).then(
                                                   (value) {
                                                     if (value != null) {
                                                       FetchCouponsDataModel
