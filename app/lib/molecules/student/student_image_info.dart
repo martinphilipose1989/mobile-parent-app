@@ -10,7 +10,11 @@ import '../../utils/common_widgets/app_images.dart';
 import '../../utils/common_widgets/common_text_widget.dart';
 
 class StudentImageInfo extends StatelessWidget {
-  const StudentImageInfo({super.key});
+  const StudentImageInfo({super.key, this.img, this.name, this.rollno, this.active});
+  final String? img;
+  final String? name;
+  final String? rollno;
+  final String? active;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,12 @@ class StudentImageInfo extends StatelessWidget {
           ),
           child:
           SvgPicture.asset(fit: BoxFit.fitWidth, AppImages.bannerProfile),
-
+          // padding: EdgeInsets.only(
+          //   top: 67.h + 24.h,
+          //   left: 16,
+          //   right: 16,
+          //   bottom: 24,
+          //  ),
           decoration: BoxDecoration(
             // color: const Color(0xFFF6F6F6),
             borderRadius: BorderRadius.all(
@@ -46,7 +55,7 @@ class StudentImageInfo extends StatelessWidget {
                 radius: 45.r,
                 child: ClipOval(
                     child: CommonImageWidget(
-                      imageUrl: "avatarImagePath",
+                      imageUrl: img??"",
                       fallbackAssetImagePath: AppImages.defaultStudentAvatar,
                       imageHeight: 120.r,
                       imageWidth: 120.r,
@@ -70,11 +79,11 @@ class StudentImageInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonText(
-                        text: "Khevna Shah",
+                        text: name??"",
                         style: AppTypography.h5,
                       ),
                       CommonText(
-                        text: "En-202023456",
+                        text: rollno??"",
                         style: AppTypography.caption,
                       )
                     ],
@@ -89,7 +98,7 @@ class StudentImageInfo extends StatelessWidget {
                         border: Border.all(color: AppColors.primary)),
                     padding: EdgeInsets.all(6),
                     child: CommonText(
-                      text: "Active",
+                      text: active??"Active",
                       style: AppTypography.caption,
                     ),
                   ),

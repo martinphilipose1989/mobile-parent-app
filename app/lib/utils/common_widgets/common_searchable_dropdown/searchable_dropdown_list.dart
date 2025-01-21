@@ -14,7 +14,7 @@ class CommonSearchableDropDown extends StatefulWidget {
   final bool showAstreik;
   final double? width;
   final bool displayZerothIndex;
-  final Function(List<String> selectedValues) onMultiSelect;
+  final Function(List<String> selectedValues)? onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
   final BehaviorSubject<String>? singleSelectItemSubject;
   const CommonSearchableDropDown(
@@ -26,7 +26,7 @@ class CommonSearchableDropDown extends StatefulWidget {
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
-      required this.onMultiSelect,
+     this.onMultiSelect,
       this.onSingleSelect,
       this.singleSelectItemSubject});
 

@@ -181,7 +181,7 @@ class AppRouter {
 
       case RoutePaths.profileEdit:
         return CupertinoPageRoute(
-            builder: (context) =>  StudentProfileEdit(),
+            builder: (context) =>  StudentProfileEdit(studentData: settings.arguments as StudentDataArgs,),
             settings: const RouteSettings(name: RoutePaths.profileEdit));
 
       case RoutePaths.profile:
@@ -192,7 +192,8 @@ class AppRouter {
       case RoutePaths.ticketListPage:
         return CupertinoPageRoute(
             builder: (context) => const TicketListPage(),
-            settings: const RouteSettings(name: RoutePaths.ticketListPage));
+            settings: const RouteSettings(name: RoutePaths.ticketListPage),
+        );
 
       case RoutePaths.createTicketPage:
         return CupertinoPageRoute(

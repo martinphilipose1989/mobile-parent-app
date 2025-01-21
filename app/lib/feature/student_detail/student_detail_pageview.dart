@@ -1,24 +1,17 @@
 // ignore_for_file: use_super_parameters
 
-import 'dart:ffi';
-
+import 'package:app/feature/student_profile_edit/student_profile_edit_page.dart';
 import 'package:app/molecules/student/InfoTitleRow.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
-import 'package:app/utils/common_widgets/common_image_widget.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
-import '../../molecules/student/bearerList.dart';
 import '../../molecules/student/student_image_info.dart';
 import '../../molecules/tansport/visitor_details_row.dart';
 import '../../utils/common_widgets/data_status_widget.dart';
@@ -69,13 +62,22 @@ class StudentDetailPageView
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StudentImageInfo(),
+                    StudentImageInfo(
+                      active: "Active",
+                      name:
+                          "${student?.data?.profile!.firstName} ${student?.data?.profile!.lastName}",
+                      img: student?.data?.profile!.profileImageUrl,
+                      rollno: student?.data?.profile!.crtEnrOn,
+                    ),
+
                     SizedBox(height: 16.h),
                     Infotitlerow(
                       infoText: "Basic Details",
                       visible: true,
                       onTap: () {
-                        Navigator.pushNamed(context, RoutePaths.profileEdit);
+                        Navigator.pushNamed(context, RoutePaths.profileEdit,
+                            arguments:
+                                StudentDataArgs(studentData: student?.data));
                       },
                     ),
                     SizedBox(height: 16.h),
@@ -89,21 +91,21 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Board",
-                        value1: student?.data?.profile?.crtBoard ?? "NA",
+                        value1: student.data?.profile?.crtBoard ?? "NA",
                         title2: "Course",
-                        value2: student?.data?.profile?.courseName),
+                        value2: student.data?.profile?.courseName),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Grade",
-                        value1: student?.data?.profile?.crtGrade ?? "NA",
+                        value1: student.data?.profile?.crtGrade ?? "NA",
                         title2: "Division",
-                        value2: student?.data?.profile?.crtDivision),
+                        value2: student.data?.profile?.crtDivision),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Shift",
-                        value1: student?.data?.profile?.crtShift ?? "NA",
+                        value1: student.data?.profile?.crtShift ?? "NA",
                         title2: "House",
-                        value2: student?.data?.profile?.crtHouse ?? "NA"),
+                        value2: student.data?.profile?.crtHouse ?? "NA"),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
@@ -111,20 +113,19 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Physical Disability",
-                        value1:
-                            student?.data?.medicalInfo?.disablilityDetails ??
-                                "NA",
+                        value1: student.data?.medicalInfo?.disablilityDetails ??
+                            "NA",
                         title2: "Medical History",
                         value2:
-                            student?.data?.medicalInfo?.medicalHistoryDetails ??
+                            student.data?.medicalInfo?.medicalHistoryDetails ??
                                 "NA"),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Alergies",
                         value1:
-                            student?.data?.medicalInfo?.allergyDetails ?? "NA",
+                            student.data?.medicalInfo?.allergyDetails ?? "NA",
                         title2: "Personalised Learning Needs",
-                        value2: student?.data?.medicalInfo
+                        value2: student.data?.medicalInfo
                             ?.personalizedLearningNeedsDetails),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
@@ -133,16 +134,16 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                       title1: "Parent First Name ",
-                      value1: student?.data?.parent?.first.firstName ?? "",
+                      value1: student.data?.parent?.first.firstName ?? "",
                       title2: "Parent Last Name",
-                      value2: student?.data?.parent?.first.lastName ?? "",
+                      value2: student.data?.parent?.first.lastName ?? "",
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "Phone",
-                        value1: student?.data?.parent?.first.mobileNo ?? "",
+                        value1: student.data?.parent?.first.mobileNo ?? "",
                         title2: "Email",
-                        value2: student?.data?.parent?.first.email ?? ""),
+                        value2: student.data?.parent?.first.email ?? ""),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
@@ -151,152 +152,84 @@ class StudentDetailPageView
                     VisitorDetailsRow(
                         title1: "Address Line 1",
                         value1: student
-                                ?.data
+                                .data
                                 ?.contactInfo
                                 ?.residentialInformation
                                 ?.first
-                                ?.houseBuildingNo ??
+                                .houseBuildingNo ??
                             "",
                         title2: "Address Line 2",
-                        value2: student?.data?.contactInfo
+                        value2: student.data?.contactInfo
                             ?.residentialInformation?.first.streetName),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: "City",
-                        value1: student?.data?.contactInfo
+                        value1: student.data?.contactInfo
                                 ?.residentialInformation?.first.city ??
                             "NA",
                         title2: "State",
-                        value2: student?.data?.contactInfo
+                        value2: student.data?.contactInfo
                                 ?.residentialInformation?.first.state ??
                             "NA"),
                     VisitorDetailsRow(
                       title1: "Pincode",
-                      value1: (student?.data?.contactInfo
-                                  ?.residentialInformation?.first.pincode ??
+                      value1: (student.data?.contactInfo?.residentialInformation
+                                  ?.first.pincode ??
                               0)
                           .toString(),
                     ),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    // Infotitlerow(infoText: "Bearers "),
-                    // SizedBox(height: 16.h),
-                    // SizedBox(
-                    //   height: 160,
-                    //   child: ListView(
-                    //     scrollDirection: Axis.horizontal,
-                    //     children: [
-                    //       Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: CommonImageWidget(imageHeight: 50,
-                    //                 imageWidth: 80,
-                    //                 imageUrl: ""),
-                    //           ),
-                    //           Expanded(child: Text("Teacher"))
-                    //         ],
-                    //       ),
-                    //       SizedBox(
-                    //         width: 20,
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: CommonImageWidget(
-                    //                 imageHeight: 10, imageUrl: ""),
-                    //           ),
-                    //           Expanded(child: Text("Teacher"))
-                    //         ],
-                    //       ),
-                    //       SizedBox(
-                    //         width: 20,
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: CommonImageWidget(
-                    //                 imageHeight: 10, imageUrl: ""),
-                    //           ),
-                    //           Expanded(child: Text("Teacher"))
-                    //         ],
-                    //       ),
-                    //       SizedBox(
-                    //         width: 20,
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: CommonImageWidget(
-                    //                 imageHeight: 10, imageUrl: ""),
-                    //           ),
-                    //           Expanded(child: Text("Teacher"))
-                    //         ],
-                    //       ),
-                    //       SizedBox(
-                    //         width: 20,
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           Expanded(
-                    //             child: CommonImageWidget(
-                    //                 imageHeight: 10, imageUrl: ""),
-                    //           ),
-                    //           Expanded(child: Text("Teacher"))
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
 
-                    AppStreamBuilder<Resource<List<BearerResponse>>>(
-                        stream: model.bearerStream,
-                        initialData: Resource.none(),
-                        dataBuilder: (context, bearer) {
-                          return DataStatusWidget(
-                              status: bearer?.status ?? Status.none,
-                           errorWidget: ()=>Center(
-                             child: NoDataFoundWidget(
-                               title: bearer?.dealSafeAppError?.error.message
-                                   .contains("internet") ??
-                                   false
-                                   ? "No Internet Connection"
-                                   : "Something Went Wrong",
-                               subtitle: bearer?.dealSafeAppError?.error.message
-                                   .contains("internet") ??
-                                   false
-                                   ? "It seems you're offline. Please check your internet connection and try again."
-                                   : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-                               onPressed: () {
-                                 model.getBearerList(studentId: model.selectedStudent?.first.id);
-                               //   model.getStudentDetail(
-                               //       studentId: model.selectedStudent?.first.id);
-                         },
-                             ),
-                           ),
-                           loadingWidget: ()=> Center(child: CircularProgressIndicator()),
-                           successWidget: ()=> Column(crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CommonText(
-                                    text: "Bearers",
-                                    style: AppTypography.subtitle2),
-                                SizedBox(height: 16.h),
-
-                                /// bearerList is empty
-                                bearer?.data?.isEmpty == true
-                                    ? BearerList(
-                                    model: model,
-                                    bearerList:  [],
-                                    studentId:0)
-                                    : BearerList(
-                                        model: model,
-                                        bearerList: bearer?.data ?? [],
-                                        studentId:
-                                            model.selectedStudent?.first.id)
-                              ],
-                            ),
-                          );
-                        }),
+                    // AppStreamBuilder<Resource<List<BearerResponse>>>(
+                    //     stream: model.bearerStream,
+                    //     initialData: Resource.none(),
+                    //     dataBuilder: (context, bearer) {
+                    //       return DataStatusWidget(
+                    //           status: bearer?.status ?? Status.none,
+                    //        errorWidget: ()=>Center(
+                    //          child: NoDataFoundWidget(
+                    //            title: bearer?.dealSafeAppError?.error.message
+                    //                .contains("internet") ??
+                    //                false
+                    //                ? "No Internet Connection"
+                    //                : "Something Went Wrong",
+                    //            subtitle: bearer?.dealSafeAppError?.error.message
+                    //                .contains("internet") ??
+                    //                false
+                    //                ? "It seems you're offline. Please check your internet connection and try again."
+                    //                : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                    //            onPressed: () {
+                    //              model.getBearerList(studentId: model.selectedStudent?.first.id);
+                    //            //   model.getStudentDetail(
+                    //            //       studentId: model.selectedStudent?.first.id);
+                    //      },
+                    //          ),
+                    //        ),
+                    //        loadingWidget: ()=> Center(child: CircularProgressIndicator()),
+                    //        successWidget: ()=> Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             CommonText(
+                    //                 text: "Bearers",
+                    //                 style: AppTypography.subtitle2),
+                    //             SizedBox(height: 16.h),
+                    //
+                    //             /// bearerList is empty
+                    //             bearer?.data?.isEmpty == true
+                    //                 ? BearerList(
+                    //                 model: model,
+                    //                 bearerList:  [],
+                    //                 studentId:0)
+                    //                 : BearerList(
+                    //                     model: model,
+                    //                     bearerList: bearer?.data ?? [],
+                    //                     studentId:
+                    //                         model.selectedStudent?.first.id)
+                    //           ],
+                    //         ),
+                    //       );
+                    //     }),
                   ],
                 ),
               ),

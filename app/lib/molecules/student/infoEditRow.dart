@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class InfoEditRow extends StatelessWidget {
   final String labelText;
   final String? labelText2;
+  final FormFieldValidator<String>? validatorleft;
+  final FormFieldValidator<String>? validatorright;
   final TextEditingController? controllerleft;
   final TextEditingController? controllerRight;
   final bool readOnly;
@@ -15,7 +17,7 @@ class InfoEditRow extends StatelessWidget {
   this.labelText2,
       this.controllerleft,
       this.controllerRight,
-      required this.readOnly});
+      required this.readOnly, this.validatorleft, this.validatorright});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class InfoEditRow extends StatelessWidget {
               readOnly: readOnly,
               labelText: labelText,
               controller: controllerleft,
+              validator: validatorleft,
             ),
           ),
           SizedBox(
@@ -40,6 +43,7 @@ class InfoEditRow extends StatelessWidget {
               readOnly: readOnly,
               labelText: labelText2,
               controller: controllerRight,
+              validator: validatorright,
             ),
           )
         ],

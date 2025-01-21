@@ -25,6 +25,32 @@ class StudentProfileEditViewModel extends BasePageViewModel {
      // required this.getStudentDetailUsecase,
       required this.flutterToastErrorPresenter});
 
+
+TextEditingController schoolController=TextEditingController();
+TextEditingController dobController=TextEditingController();
+TextEditingController boardController=TextEditingController();
+TextEditingController courseController=TextEditingController();
+TextEditingController gradeController=TextEditingController();
+TextEditingController divisionController=TextEditingController();
+TextEditingController shiftController=TextEditingController();
+TextEditingController houseController=TextEditingController();
+TextEditingController physicalController=TextEditingController();
+TextEditingController medicalController=TextEditingController();
+TextEditingController allergyController=TextEditingController();
+TextEditingController learningController=TextEditingController();
+TextEditingController pfirstnameController=TextEditingController();
+TextEditingController plastnameController=TextEditingController();
+TextEditingController phoneController=TextEditingController();
+TextEditingController emailController=TextEditingController();
+TextEditingController addline1Controller=TextEditingController();
+TextEditingController addLine2Controller=TextEditingController();
+TextEditingController cityController=TextEditingController();
+TextEditingController statesController=TextEditingController();
+TextEditingController pinController=TextEditingController();
+
+
+
+
   // void getStudentDetail({required int studentId}) {
   //   _studentDetailSubject.add(Resource.loading());
   //   GetStudentDetailUsecaseParams params =
@@ -44,4 +70,9 @@ class StudentProfileEditViewModel extends BasePageViewModel {
   //     },
   //   );
   // }
+
+
+
+
+
 }

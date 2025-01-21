@@ -2,6 +2,7 @@ import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,11 +12,9 @@ import 'student_profile_edit_page_viewmodel.dart';
 import 'student_profile_edit_pageview.dart';
 
 class StudentProfileEdit extends BasePage<StudentProfileEditViewModel> {
-  StudentProfileEdit({super.key,
-    // required this.studentId
-  });
+  StudentProfileEdit({super.key, required this.studentData});
 
-  // final int studentId;
+  final StudentDataArgs studentData;
 
   @override
   StudentProfileEditState createState() => StudentProfileEditState();
@@ -25,8 +24,9 @@ class StudentProfileEditState
     extends AppBasePageState<StudentProfileEditViewModel, StudentProfileEdit> {
   @override
   Widget buildView(BuildContext context, StudentProfileEditViewModel model) {
-    return StudentProfileEditView(provideBase(),
-       // studentId: model.selectedStudent?.first.id
+    return StudentProfileEditView(
+      provideBase(),widget.studentData.studentData!
+
     );
   }
 
@@ -61,4 +61,10 @@ class StudentProfileEditState
     return const CommonAppBar(
         appbarTitle: "Student Profile", showBackButton: true);
   }
+}
+
+class StudentDataArgs {
+  final StudentData? studentData;
+
+  StudentDataArgs({this.studentData});
 }
