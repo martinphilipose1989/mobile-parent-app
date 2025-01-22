@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
             useInheritedMediaQuery: true,
             builder: (context, child) {
               return MaterialApp(
+
+
+                //  supportedLocales: AppLocalizations.supportedLocales,
                   navigatorKey: navigatorKey,
                   builder: (context, widget) => AppStreamBuilder<bool>(
                       stream: logoutOnTokenExpiry.stream,
@@ -65,7 +68,8 @@ class MyApp extends StatelessWidget {
                           ],
                         );
                       }),
-                  localizationsDelegates: const [
+                  localizationsDelegates:  [
+                    //AppLocalizations(Locale.fromSubtags("en")),
                     Strings.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate

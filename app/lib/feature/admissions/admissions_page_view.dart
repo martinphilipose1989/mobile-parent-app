@@ -6,6 +6,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
@@ -61,7 +62,7 @@ class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
                       ),
                       child: Center(
                         child: Text(
-                          'Open Enquiries',
+                          Strings.of(context).open_enquiry,
                           style: AppTypography.subtitle2.copyWith(
                             color: model.selectedTab.value == 0
                                 ? Theme.of(context).colorScheme.primary
@@ -89,7 +90,7 @@ class AdmissionsPageView extends BasePageViewWidget<AdmissionsViewModel> {
                       ),
                       child: Center(
                         child: Text(
-                          'Closed Enquiries',
+                       Strings.of(context).closed_enquiries,
                           style: AppTypography.subtitle2.copyWith(
                             color: model.selectedTab.value == 1
                                 ? Theme.of(context).colorScheme.primary

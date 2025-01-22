@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/arrival_info_tile.dart';
@@ -62,8 +63,8 @@ class BusRouteListPageView
                                               ?.dealSafeAppError?.error.message
                                               .contains("internet") ??
                                           false
-                                      ? "No Internet Connection"
-                                      : "Something Went Wrong",
+                                      ? Strings.of(context).no_internet_connection
+                                      : Strings.of(context).something_got_wrong,
                                   subtitle: busStopsListData
                                               ?.dealSafeAppError?.error.message
                                               .contains("internet") ??

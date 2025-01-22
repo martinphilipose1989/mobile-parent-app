@@ -31,6 +31,7 @@ import 'package:app/utils/url_launcher.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
@@ -516,8 +517,8 @@ class RegistrationsDetailsPageView
                   model: model,
                 );
               case Status.error:
-                return const Center(
-                  child: CommonText(text: "Subjects not found"),
+                return  Center(
+                  child: CommonText(text: Strings.of(context).subject_not_found),
                 );
               default:
                 return const Center(
@@ -554,8 +555,8 @@ class RegistrationsDetailsPageView
                   parentInfo: model.parentInfo,
                 );
               case Status.error:
-                return const Center(
-                  child: Text('Enquiries not found'),
+                return  Center(
+                  child: Text(Strings.of(context).enquiry_not_found),
                 );
               default:
                 return const Center(
@@ -579,8 +580,8 @@ class RegistrationsDetailsPageView
                   contactDetail: model.contactDetails,
                 );
               case Status.error:
-                return const Center(
-                  child: Text('Enquiries not found'),
+                return  Center(
+                  child: Text(Strings.of(context).enquiry_not_found),
                 );
               default:
                 return const Center(
@@ -602,8 +603,8 @@ class RegistrationsDetailsPageView
               case Status.success:
                 return MedicalDetail(medicalDetails: data?.data);
               case Status.error:
-                return const Center(
-                  child: Text('Enquiries not found'),
+                return  Center(
+                  child: Text(Strings.of(context).enquiry_not_found),
                 );
               default:
                 return const Center(
@@ -625,8 +626,8 @@ class RegistrationsDetailsPageView
                 case Status.success:
                   return BankDetail(bankDetails: result?.data);
                 case Status.error:
-                  return const Center(
-                    child: Text('Enquiries not found'),
+                  return  Center(
+                    child: Text(Strings.of(context).enquiry_not_found),
                   );
                 default:
                   return const Center(
@@ -658,8 +659,8 @@ class RegistrationsDetailsPageView
                       model: model,
                       enquiryID: enquiryDetailArgs?.enquiryId);
                 case Status.error:
-                  return const Center(
-                    child: Text('Enquiries not found'),
+                  return  Center(
+                    child: Text(Strings.of(context).enquiry_not_found),
                   );
                 default:
                   return const Center(
@@ -754,8 +755,8 @@ class RegistrationsDetailsPageView
                           enquiryDetailArgs: enquiryDetailArgs,
                           newAdmissionDetail: result?.data?.data);
                 case Status.error:
-                  return const Center(
-                    child: Text('Enquiries not found'),
+                  return  Center(
+                    child: Text(Strings.of(context).enquiry_not_found),
                   );
                 default:
                   return const Center(

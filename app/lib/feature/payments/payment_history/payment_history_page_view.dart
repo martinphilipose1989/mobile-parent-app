@@ -8,6 +8,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
@@ -52,7 +53,7 @@ class PaymentsHistoryView extends BasePageViewWidget<PaymentHistoryModel> {
                                     }
                                   });
                             },
-                            dropdownName: 'Select Academic year',
+                            dropdownName: Strings.of(context).select_academic_year,
                             showAstreik: true,
                             showBorderColor: true,
                             items:
