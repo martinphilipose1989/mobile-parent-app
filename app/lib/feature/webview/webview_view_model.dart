@@ -102,4 +102,12 @@ class WebviewModel extends BasePageViewModel {
       });
     }).execute();
   }
+
+  @override
+  dispose() {
+    _getPaymentStatusModel.close();
+    moveStageSubject.close();
+    timer.cancel();
+    super.dispose();
+  }
 }

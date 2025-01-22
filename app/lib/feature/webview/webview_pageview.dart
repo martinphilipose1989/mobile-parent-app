@@ -27,7 +27,8 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
           // Handle successful payment
           model.timer.cancel();
           Navigator.pop(context, true);
-        } else if (value.data?.data?.toLowerCase() == "failure") {
+        } else if (value.data?.data?.toLowerCase() == "failure" ||
+            value.data?.data?.toLowerCase() == "failed") {
           // Handle failed payment
           model.timer.cancel();
           Navigator.pop(context, false);
