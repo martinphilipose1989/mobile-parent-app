@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/trip_list/completed_trip_list_tile.dart';
@@ -75,13 +76,13 @@ CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
                             title: tripData?.dealSafeAppError?.error.message
                                         .contains("internet") ??
                                     false
-                                ? "No Internet Connection"
-                                : "Something Went Wrong",
+                                ? Strings.of(context).no_internet_connection
+                                : Strings.of(context).something_got_wrong,
                             subtitle: tripData?.dealSafeAppError?.error.message
                                         .contains("internet") ??
                                     false
-                                ? "It seems you're offline. Please check your internet connection and try again."
-                                : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                ? Strings.of(context).it_seems_you_re_offline
+                                : Strings.of(context).no_internet_connection,
                             onPressed: () {
                               model.refreshMyDutyList();
                             },
@@ -145,8 +146,8 @@ CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
                                           },
                                         ),
                                       ),
-                                      child: const NoDataFoundWidget(
-                                        title: "No Trip List Found",
+                                      child:  NoDataFoundWidget(
+                                        title: Strings.of(context).no_trip_found,
                                       ),
                                     );
                                   },

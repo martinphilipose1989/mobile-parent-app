@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'create_edit_gate_pass_viewmodel.dart';
@@ -53,7 +54,7 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                               bottomPadding: 16,
                               showAstreik: true,
-                              labelText: "Parent Name",
+                              labelText: Strings.of(context).parent_name,
                               readOnly: true,
                               controller: model.visitorNameController,
                               keyboardType: TextInputType.name,
@@ -63,7 +64,7 @@ class CreateEditGatePassPageView
                               ],
                               validator: (value) {
                                 if (Validator.isEmpty(value!)) {
-                                  return "Parent Name cannot be empty";
+                                  return Strings.of(context).parent_name_cannot_be_empty;
                                 }
                                 return null;
                               },
@@ -76,7 +77,7 @@ class CreateEditGatePassPageView
                                     return CommonTextFormField(
                                       bottomPadding: 16,
                                       showAstreik: true,
-                                      labelText: "Student Name",
+                                      labelText: Strings.of(context).student_name,
                                       readOnly: true,
                                       controller: model.studentNameController,
                                       keyboardType: TextInputType.name,
@@ -84,7 +85,7 @@ class CreateEditGatePassPageView
                                           ? null
                                           : (value) {
                                               if (Validator.isEmpty(value!)) {
-                                                return "Student Name cannot be empty";
+                                                return Strings.of(context).student_name_cannot_be_empty;
                                               }
                                               return null;
                                             },
@@ -104,9 +105,9 @@ class CreateEditGatePassPageView
                                     },
                                     validator: (value) {
                                       if (Validator.isEmpty(value!)) {
-                                        return "Contact number cannot be empty";
+                                        return Strings.of(context).contact_number_cannot_be_empty;
                                       } else if (value.length < 10) {
-                                        return "Contact number cannot be less than 10 digits";
+                                        return Strings.of(context).contact_number_cannot_be_less_than_digits;
                                       }
                                       return null;
                                     },
@@ -115,15 +116,15 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                               bottomPadding: 16,
                               showAstreik: true,
-                              labelText: "Email ID",
+                              labelText: Strings.of(context).email_iD,
                               readOnly: true,
                               controller: model.emailIDController,
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (Validator.isEmpty(value!)) {
-                                  return "Email cannot be empty";
+                                  return Strings.of(context).email_cannot_be_empty;
                                 } else if (!Validator.validateEmail(value)) {
-                                  return "Email is not valid";
+                                  return Strings.of(context).email_is_not_valid;
                                 }
                                 return null;
                               },
@@ -132,7 +133,7 @@ class CreateEditGatePassPageView
                               bottomPadding: 16,
                               readOnly: true,
                               showAstreik: true,
-                              labelText: "Visit Date & Time",
+                              labelText: Strings.of(context).visit_Date_Time,
                               controller: model.visitDateTimeController,
                               onTap: () async {
                                 await DateTimeUtils.pickDateTime(context,
@@ -147,14 +148,14 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                                 bottomPadding: 16,
                                 showAstreik: true,
-                                labelText: "Point Of Contact",
+                                labelText: Strings.of(context).point_Of_contact,
                                 // inputFormatters: [
                                 //   FilteringTextInputFormatter.allow(
                                 //       RegExp(r'^[a-zA-Z\s]+$')),
                                 // ],
                                 validator: (value) {
                                   if (Validator.isEmpty(value!)) {
-                                    return "Point of contact cannot be empty";
+                                    return Strings.of(context).point_of_contact_cannot_be_empty;
                                   }
                                   return null;
                                 },
@@ -184,7 +185,7 @@ class CreateEditGatePassPageView
                                     validator: (value) {
                                       if (value == null ||
                                           Validator.isEmpty(value)) {
-                                        return "Purpose of visit cannot be empty";
+                                        return Strings.of(context).purpose_of_visit_cannot_be_empty;
                                       }
                                       return null;
                                     },
@@ -229,7 +230,7 @@ class CreateEditGatePassPageView
                                           ? (value) {
                                               if (value == null ||
                                                   Validator.isEmpty(value)) {
-                                                return "Select school cannot be empty";
+                                                return Strings.of(context).select_school_cannot_be_empty;
                                               }
                                               return null;
                                             }
@@ -242,12 +243,12 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                               bottomPadding: 16,
                               showAstreik: true,
-                              labelText: "Coming From",
+                              labelText: Strings.of(context).coming_from,
                               controller: model.comingFromController,
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 if (Validator.isEmpty(value!)) {
-                                  return "Coming from cannot be empty";
+                                  return Strings.of(context).coming_from_cannot_be_empty;
                                 }
 
                                 return null;
@@ -256,11 +257,11 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                                 bottomPadding: 16,
                                 showAstreik: true,
-                                labelText: "Guest Count",
+                                labelText: Strings.of(context).guest_count,
                                 controller: model.guestCountController,
                                 validator: (value) {
                                   if (Validator.isEmpty(value!)) {
-                                    return "Guest count cannot be empty";
+                                    return Strings.of(context).guest_count_cannot_be_empty;
                                   }
 
                                   return null;
@@ -274,7 +275,7 @@ class CreateEditGatePassPageView
                             CommonTextFormField(
                                 bottomPadding: 16,
                                 showAstreik: false,
-                                labelText: "Vehicle Number",
+                                labelText: Strings.of(context).vehicle_number,
                                 keyboardType: TextInputType.text,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
@@ -298,7 +299,7 @@ class CreateEditGatePassPageView
                         dataBuilder: (context, data) {
                           return CommonPrimaryElevatedButton(
                             isLoading: data?.data ?? false,
-                            title: "Submit",
+                            title: Strings.of(context).submit,
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               if (model.formKey.currentState!.validate()) {

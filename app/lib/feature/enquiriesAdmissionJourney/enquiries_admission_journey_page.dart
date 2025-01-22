@@ -10,6 +10,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../enquiries/enquiries_page_model.dart';
@@ -45,7 +46,7 @@ class _AdmissionsPageState extends AppBasePageState<
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesAdmissionsJourneyViewModel model) {
     return CommonAppBar(
-        appbarTitle: 'Enquiry Details',
+        appbarTitle: Strings.of(context).enquiry_details,
         notShowNotificationAndUserBatch: false,
         showBackButton: true,
         onBackPressed: () {

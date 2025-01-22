@@ -14,6 +14,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CancelSchoolTourPageView
@@ -44,7 +45,7 @@ class CancelSchoolTourPageView
                       type: enquiryDetailArgs.isFrom ?? 'enquiry');
           }
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('School tour cancelled successfully')),
+     SnackBar(content: Text(Strings.of(context).school_tour_cancelled)),
           );
           if((enquiryDetailArgs.isFrom ?? 'enquiry') == 'enquiry'){
             Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.enquiriesAdmissionsJourneyPage));
@@ -108,7 +109,7 @@ class CancelSchoolTourPageView
                             CommonTextFormField(
                               showAstreik: true,
                               controller: model.controller,
-                              labelText: "Comment",
+                              labelText: Strings.of(context).comment,
                               validator: (value)=> AppValidators.validateNotEmpty(value, "Comment"),
                             ),
                           ],

@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesTimelinePageView
@@ -42,7 +43,7 @@ class EnquiriesTimelinePageView
             height: 10,
           ),
           CommonText(
-            text: "Timeline",
+            text: Strings.of(context).timeline,
             style: AppTypography.body1.copyWith(color: AppColors.textDark),
           ),
           const SizedBox(

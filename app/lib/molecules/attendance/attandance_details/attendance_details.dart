@@ -2,6 +2,7 @@ import 'package:app/molecules/attendance/attandance_details/student_details.dart
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 import '../../../themes_setup.dart';
 import '../../../utils/app_typography.dart';
@@ -31,7 +32,7 @@ String? image;
             name: name,
          title: "$schoolName|$boardName",
          subtitle: "$course| $shift| $division| $house | $grade",
-         subtitle2: "stream:$stream "),
+         subtitle2: "${Strings.of(context).stream}:$stream "),
         const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -42,7 +43,7 @@ String? image;
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Date : ",
+                      text: Strings.of(context).date,
                       style: AppTypography.caption.copyWith(
                         fontWeight: FontWeight.w400,
                         color: AppColors.textDark,
@@ -59,7 +60,7 @@ String? image;
                 ),
               ),
               CommonText(
-                text: "View Notes",
+                text: Strings.of(context).view_notes,
                 style: AppTypography.caption.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,

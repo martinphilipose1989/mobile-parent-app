@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/subjects.dart';
 
 class ChequeFeeTypeDropdown<T extends DropDownValues> extends StatefulWidget {
@@ -67,7 +68,7 @@ class _ChequeFeeTypeDropdownState<T extends DropDownValues>
                   children: [
                     Expanded(
                       child: Text(
-                        'Select ',
+                        Strings.of(context).select,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,

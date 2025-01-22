@@ -8,6 +8,7 @@ import 'package:app/utils/enums/new_enrolment_enum.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -25,11 +26,11 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final BehaviorSubject<VasOptions> selectedVasOption =
       BehaviorSubject.seeded(VasOptions.kidsClub);
   final vasOptions = [
-    ToggleOption(value: VasOptions.kidsClub, text: "Kids Club"),
-    ToggleOption(value: VasOptions.cafeteria, text: "Cafeteria"),
+    ToggleOption(value: VasOptions.kidsClub, text: Strings.current.kids_club),
+    ToggleOption(value: VasOptions.cafeteria, text: Strings.current.cafeteria),
     // ToggleOption(value: VasOptions.psa, text: "PSA"),
     // ToggleOption(value: VasOptions.summerCamp, text: "Summer Camp"),
-    ToggleOption(value: VasOptions.transport, text: "Transport"),
+    ToggleOption(value: VasOptions.transport, text: Strings.current.transport),
   ];
 
   NewEnrolmentViewModel(

@@ -20,6 +20,7 @@ import 'package:app/utils/url_launcher.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesDetailsPageView
@@ -177,7 +178,7 @@ class EnquiriesDetailsPageView
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CommonText(
-                                text: "Admission Journey",
+                                text: Strings.of(context).admission_journey,
                                 style: AppTypography.body1,
                               ),
                               Row(
@@ -188,7 +189,7 @@ class EnquiriesDetailsPageView
                                     width: 5,
                                   ),
                                   CommonText(
-                                    text: "View Details",
+                                    text: Strings.of(context).view_details,
                                     style: AppTypography.subtitle2.copyWith(
                                       color: AppColors.primary,
                                     ),
@@ -205,8 +206,8 @@ class EnquiriesDetailsPageView
                                 height: 10,
                               ),
                               CommonTabPage(
-                                firstTabTitle: "Enquiry Details",
-                                secondTabTitle: "Upload Documents",
+                                firstTabTitle: Strings.of(context).enquiry_details,
+                                secondTabTitle: Strings.of(context).upload_documents,
                                 tabController: model.tabController,
                                 selectedValue: model.selectedValue,
                                 onSecondTabChange: () {
@@ -337,9 +338,9 @@ class EnquiriesDetailsPageView
                                                             if (snapshot
                                                                     ?.status ==
                                                                 Status.error) {
-                                                              return const CommonText(
+                                                              return  CommonText(
                                                                   text:
-                                                                      "Details not found");
+                                                                      Strings.of(context).details_not_found);
                                                             } else {
                                                               return const CircularProgressIndicator();
                                                             }
@@ -383,9 +384,9 @@ class EnquiriesDetailsPageView
                                                                         ?.status ==
                                                                     Status
                                                                         .error) {
-                                                                  return const CommonText(
+                                                                  return CommonText(
                                                                       text:
-                                                                          "Details not found");
+                                                                      Strings.of(context).details_not_found);
                                                                 } else {
                                                                   return const CircularProgressIndicator();
                                                                 }
@@ -405,9 +406,9 @@ class EnquiriesDetailsPageView
                                                                         ?.status ==
                                                                     Status
                                                                         .error) {
-                                                                  return const CommonText(
+                                                                  return  CommonText(
                                                                       text:
-                                                                          "Details not found");
+                                                                      Strings.of(context).details_not_found);
                                                                 }
                                                                 if (snapshot
                                                                         ?.status ==
@@ -440,9 +441,9 @@ class EnquiriesDetailsPageView
                                                         }
                                                         if (snapshot?.status ==
                                                             Status.error) {
-                                                          return const CommonText(
+                                                          return CommonText(
                                                               text:
-                                                                  "Details not found");
+                                                              Strings.of(context).details_not_found);
                                                         } else {
                                                           return EnquiriesDetailsViewWidget(
                                                             enquiryDetailArgs:
@@ -470,9 +471,9 @@ class EnquiriesDetailsPageView
                                                             if (snapshot
                                                                     ?.status ==
                                                                 Status.error) {
-                                                              return const CommonText(
+                                                              return  CommonText(
                                                                   text:
-                                                                      "Details not found");
+                                                                  Strings.of(context).details_not_found);
                                                             } else {
                                                               return EnquiriesDetailsViewWidget(
                                                                 enquiryDetailArgs:
@@ -499,9 +500,9 @@ class EnquiriesDetailsPageView
                                                             if (snapshot
                                                                     ?.status ==
                                                                 Status.error) {
-                                                              return const CommonText(
+                                                              return CommonText(
                                                                   text:
-                                                                      "Details not found");
+                                                                  Strings.of(context).details_not_found);
                                                             } else {
                                                               return EnquiriesDetailsViewWidget(
                                                                 enquiryDetailArgs:

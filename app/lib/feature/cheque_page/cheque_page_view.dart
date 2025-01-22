@@ -19,6 +19,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class ChequePageView extends BasePageViewWidget<ChequePageModel> {
@@ -32,14 +33,14 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
         CommonSizedBox.sizedBox(height: 20, width: 10),
         CommonTextFormField(
           showAstreik: true,
-          labelText: 'Payment Type',
+          labelText: Strings.of(context).payment_type,
           controller: model.payemntType,
           readOnly: true,
         ),
         CommonSizedBox.sizedBox(height: 20, width: 10),
         CommonTextFormField(
           showAstreik: true,
-          labelText: 'In Favour',
+          labelText: Strings.of(context).in_favor,
           controller: model.inFavour,
           readOnly: true,
         ),
@@ -260,7 +261,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                                           CommonTextFormField(
                                                         showAstreik: true,
                                                         labelText:
-                                                            'Cheque Image',
+                                                            Strings.of(context).cheque_image,
                                                         controller: model
                                                             .chequeImage[index],
                                                         validator: (value) =>
@@ -276,7 +277,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                           height: 20, width: 10),
                                       CommonTextFormField(
                                         showAstreik: true,
-                                        labelText: 'IFSC Code',
+                                        labelText: Strings.of(context).ifsc_code,
                                         controller:
                                             model.ifscCodeControllers[index],
                                         inputFormatters: [
@@ -306,7 +307,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                           height: 20, width: 10),
                                       CommonTextFormField(
                                         showAstreik: true,
-                                        labelText: 'Issuer Name',
+                                        labelText: Strings.of(context).issuer_name,
                                         controller:
                                             model.issueNameControllers[index],
                                         validator: (value) =>
@@ -320,7 +321,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                                         builder: (context, value, child) {
                                           return CommonTextFormField(
                                             showAstreik: true,
-                                            labelText: 'Amount',
+                                            labelText: Strings.of(context).amount,
                                             readOnly: value &&
                                                 model
                                                         .chequeTypeControllers[
@@ -366,7 +367,7 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                             model.noOfCheques.add(model.noOfCheques.value + 1);
                           },
                           child: CommonText(
-                            text: '+Add Another Cheque',
+                            text: Strings.of(context).add_another_cheque,
                             style: AppTypography.subtitle2.copyWith(
                                 color: Theme.of(context).colorScheme.primary),
                           ),
@@ -423,11 +424,10 @@ class ChequePageView extends BasePageViewWidget<ChequePageModel> {
                         model.checkIfAllAmountMatches((value) {
                           if (value) {
                             CommonPopups().showWarning(context,
-                                'The amount entered in the cheques should be equal to the payable amount above');
-                          }
+Strings.of(context).the_amount_entered);                      }
                         }, model);
                       },
-                      text: 'Submit',
+                      text: Strings.of(context).submit,
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       textStyle: AppTypography.subtitle2.copyWith(
                           color: Theme.of(context).colorScheme.onTertiary),
