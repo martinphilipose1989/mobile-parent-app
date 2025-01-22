@@ -55,7 +55,7 @@ class StudentDetailPageState
     }
     super.onModelReady(model);
     print("hi this page ");
- //model.getBearerList(studentId: model.selectedStudent?.first.id);
+ model.getBearerList(studentId: model.selectedStudent?.first.id);
 
 
   }

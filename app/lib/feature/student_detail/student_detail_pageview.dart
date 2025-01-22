@@ -12,8 +12,11 @@ import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../model/resource.dart';
+import '../../molecules/student/bearerList.dart';
 import '../../molecules/student/student_image_info.dart';
 import '../../molecules/tansport/visitor_details_row.dart';
+import '../../utils/app_typography.dart';
+import '../../utils/common_widgets/common_text_widget.dart';
 import '../../utils/common_widgets/data_status_widget.dart';
 import '../../utils/common_widgets/no_data_found_widget.dart';
 import '../../utils/stream_builder/app_stream_builder.dart';
@@ -182,54 +185,54 @@ class StudentDetailPageView
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
 
-                    // AppStreamBuilder<Resource<List<BearerResponse>>>(
-                    //     stream: model.bearerStream,
-                    //     initialData: Resource.none(),
-                    //     dataBuilder: (context, bearer) {
-                    //       return DataStatusWidget(
-                    //           status: bearer?.status ?? Status.none,
-                    //        errorWidget: ()=>Center(
-                    //          child: NoDataFoundWidget(
-                    //            title: bearer?.dealSafeAppError?.error.message
-                    //                .contains("internet") ??
-                    //                false
-                    //                ? "No Internet Connection"
-                    //                : "Something Went Wrong",
-                    //            subtitle: bearer?.dealSafeAppError?.error.message
-                    //                .contains("internet") ??
-                    //                false
-                    //                ? "It seems you're offline. Please check your internet connection and try again."
-                    //                : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-                    //            onPressed: () {
-                    //              model.getBearerList(studentId: model.selectedStudent?.first.id);
-                    //            //   model.getStudentDetail(
-                    //            //       studentId: model.selectedStudent?.first.id);
-                    //      },
-                    //          ),
-                    //        ),
-                    //        loadingWidget: ()=> Center(child: CircularProgressIndicator()),
-                    //        successWidget: ()=> Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             CommonText(
-                    //                 text: "Bearers",
-                    //                 style: AppTypography.subtitle2),
-                    //             SizedBox(height: 16.h),
-                    //
-                    //             /// bearerList is empty
-                    //             bearer?.data?.isEmpty == true
-                    //                 ? BearerList(
-                    //                 model: model,
-                    //                 bearerList:  [],
-                    //                 studentId:0)
-                    //                 : BearerList(
-                    //                     model: model,
-                    //                     bearerList: bearer?.data ?? [],
-                    //                     studentId:
-                    //                         model.selectedStudent?.first.id)
-                    //           ],
-                    //         ),
-                    //       );
-                    //     }),
+                    AppStreamBuilder<Resource<List<BearerResponse>>>(
+                        stream: model.bearerStream,
+                        initialData: Resource.none(),
+                        dataBuilder: (context, bearer) {
+                          return DataStatusWidget(
+                              status: bearer?.status ?? Status.none,
+                           errorWidget: ()=>Center(
+                             child: NoDataFoundWidget(
+                               title: bearer?.dealSafeAppError?.error.message
+                                   .contains("internet") ??
+                                   false
+                                   ? "No Internet Connection"
+                                   : "Something Went Wrong",
+                               subtitle: bearer?.dealSafeAppError?.error.message
+                                   .contains("internet") ??
+                                   false
+                                   ? "It seems you're offline. Please check your internet connection and try again."
+                                   : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                               onPressed: () {
+                                 model.getBearerList(studentId: model.selectedStudent?.first.id);
+                                 // model.getStudentDetail(
+                                 //     studentId: model.selectedStudent?.first.id);
+                         },
+                             ),
+                           ),
+                           loadingWidget: ()=> Center(child: CircularProgressIndicator()),
+                           successWidget: ()=> Column(crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CommonText(
+                                    text: "Bearers",
+                                    style: AppTypography.subtitle2),
+                                SizedBox(height: 16.h),
+
+                                /// bearerList is empty
+                                bearer?.data?.isEmpty == true
+                                    ? BearerList(
+                                    model: model,
+                                    bearerList:  [],
+                                    studentId:0)
+                                    : BearerList(
+                                        model: model,
+                                        bearerList: bearer?.data ?? [],
+                                        studentId:
+                                            model.selectedStudent?.first.id)
+                              ],
+                            ),
+                          );
+                        }),
                   ],
                 ),
               ),

@@ -50,7 +50,7 @@ class Strings {
     return Localizations.of<Strings>(context, Strings);
   }
 
-  /// `MyAppName`
+  /// `Hubble Orion`
   String get appName {
     return Intl.message(
       'Hubble Orion',
