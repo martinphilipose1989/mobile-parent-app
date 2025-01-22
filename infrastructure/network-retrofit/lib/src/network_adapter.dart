@@ -824,6 +824,7 @@ class NetworkAdapter implements NetworkPort {
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
+
       default:
         var response = await safeApiCall(
             apiService.getCancellationReason(token: mdmToken));
@@ -1544,7 +1545,7 @@ class NetworkAdapter implements NetworkPort {
       required int studentId,
       required String app}) async {
     final response = await safeApiCall(
-        transportService.getMyDutyList(page, 10, dayId, 10, app));
+        transportService.getMyDutyList(page, 10, dayId, studentId, app));
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
@@ -1554,10 +1555,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params}) async {
     final response = await safeApiCall(
-      transportService.getStudentProfile(
-        params.studentId,
-        platform: platform,
-      ),
+      transportService.getStudentProfile(params.studentId, platform: platform),
     );
 
     return response.fold(
@@ -1733,6 +1731,16 @@ class NetworkAdapter implements NetworkPort {
       {required UndertakingRequest body}) async {
     final response = await safeApiCall(financeRetrofitService
         .underTakingStudent(UndertakingRequestEntity().restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentDetails(
+      {required int studentId, required int year}) async {
+    final response = await safeApiCall(
+        apiService.getStudentDetails(studentId, year, mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

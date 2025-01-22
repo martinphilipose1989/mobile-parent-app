@@ -5,28 +5,21 @@ class GetMdmAttributeUsecase extends BaseUseCase<BaseError,
     GetMdmAttributeUsecaseParams, MdmAttributeBaseModel> {
   final EnquiryRepository _enquiryRepository;
 
-  GetMdmAttributeUsecase(
-    this._enquiryRepository,
-  );
+  GetMdmAttributeUsecase(this._enquiryRepository);
 
   @override
   Future<Either<BaseError, MdmAttributeBaseModel>> execute({
     required GetMdmAttributeUsecaseParams params,
   }) {
     return _enquiryRepository.getMdmAttribute(
-      infoType: params.infoType,
-      id: params.id
-    );
+        infoType: params.infoType, id: params.id);
   }
 }
 
 class GetMdmAttributeUsecaseParams extends Params {
   final String infoType;
   final int? id;
-  GetMdmAttributeUsecaseParams({
-    required this.infoType,
-    this.id
-  });
+  GetMdmAttributeUsecaseParams({required this.infoType, this.id});
 
   @override
   Either<AppError, bool> verify() {
