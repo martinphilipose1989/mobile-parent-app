@@ -1,11 +1,11 @@
 import 'package:domain/domain.dart';
 import 'package:domain/src/usecase/base/base_usecase.dart';
 
-class GetStudentYearlyDetails extends BaseUseCase<NetworkError,
+class GetStudentYearlyDetailsUsecase extends BaseUseCase<NetworkError,
     GetStudentYearlyDetailsParams, MdmAttributeBaseModel> {
   final MDMRepository mdmRepository;
 
-  GetStudentYearlyDetails({required this.mdmRepository});
+  GetStudentYearlyDetailsUsecase({required this.mdmRepository});
   @override
   Future<Either<NetworkError, MdmAttributeBaseModel>> execute(
       {required GetStudentYearlyDetailsParams params}) {

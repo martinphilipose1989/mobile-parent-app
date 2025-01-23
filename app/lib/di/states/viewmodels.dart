@@ -566,12 +566,13 @@ final notificationProvider =
 final newEnrolmentViewModelProvider =
     ChangeNotifierProvider.autoDispose<NewEnrolmentViewModel>(
   (ref) => NewEnrolmentViewModel(
-    getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
-    newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
-    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-    studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
-  ),
+      getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
+      newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
+      getStudentYearlyDetailsUsecase:
+          getIt.get<GetStudentYearlyDetailsUsecase>()),
 );
 
 final pdfViewmodelProvider = ChangeNotifierProvider.autoDispose(
