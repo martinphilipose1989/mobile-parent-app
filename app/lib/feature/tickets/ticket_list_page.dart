@@ -3,6 +3,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'ticket_list_page_view.dart';
@@ -26,8 +27,8 @@ class _TicketListPageState
   @override
   PreferredSizeWidget? buildAppbar(TicketListViewModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
-      appbarTitle: 'Tickets',
+    return  CommonAppBar(
+      appbarTitle: Strings.of(context).tickets,
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
     );

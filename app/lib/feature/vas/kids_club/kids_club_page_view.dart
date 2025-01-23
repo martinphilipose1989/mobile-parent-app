@@ -13,6 +13,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
@@ -61,7 +62,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                           false),
                               replacement: NoDataFoundWidget(
                                   title:
-                                      "No VAS option for Kids Club available"),
+                                  Strings.of(context).no_VAS_option_for_Kids_Club_available),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -94,7 +95,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                       .spaceBetween,
                                               children: [
                                                 CommonText(
-                                                  text: "Calculated Amount",
+                                                  text: Strings.of(context).calculated_amount,
                                                   style: AppTypography.body2,
                                                 ),
                                                 CommonText(
@@ -270,7 +271,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                   onPressed: () {
                                                     model.calculateFees();
                                                   },
-                                                  text: "Calculate",
+                                                  text: Strings.of(context).calculate,
                                                   backgroundColor:
                                                       AppColors.accent,
                                                   width: double.infinity,
@@ -351,7 +352,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                               .enrollKidsClub();
                                                         }
                                                       },
-                                                      text: "Enroll Now",
+                                                      text: Strings.of(context).enroll_now,
                                                       backgroundColor:
                                                           AppColors.accent,
                                                       textStyle: AppTypography
@@ -370,7 +371,7 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                       onPressed: () {
                                                         model.reset();
                                                       },
-                                                      text: "Reset",
+                                                      text: Strings.of(context).reset,
                                                       backgroundColor:
                                                           AppColors.primaryOn,
                                                       textStyle: AppTypography
@@ -387,8 +388,8 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                               ),
                             ));
                       } else {
-                        return const Center(
-                          child: CommonText(text: "Data not found"),
+                        return  Center(
+                          child: CommonText(text: Strings.of(context).no_data_found),
                         );
                       }
                     }),

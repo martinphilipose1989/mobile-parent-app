@@ -5,6 +5,7 @@ import 'package:app/feature/notification/notification_viewmodel.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -52,7 +53,7 @@ class NotificationPageState
   @override
   PreferredSizeWidget? buildAppbar(NotificationPageViewModel model) {
     return AppBar(
-      title: Text("Notification"),
+      title: Text(Strings.of(context).notification),
     );
   }
 }

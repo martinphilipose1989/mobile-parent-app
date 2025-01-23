@@ -1,7 +1,6 @@
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/notification/notification_list_item.dart';
 import 'package:app/themes_setup.dart';
-
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -9,6 +8,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -129,7 +129,8 @@ class NotificationPageView
           AppStreamBuilder<Resource<List<NotificationDetail>>>(
             dataBuilder: (BuildContext context, notification) {
               return CommonTabPage(
-                firstTabTitle: "Unread(${notification?.data?.length ?? 0})",
+                firstTabTitle:
+                    "${Strings.of(context).unread}(${notification?.data?.length ?? 0})",
                 onFirstTabChange: () {
                   model.pageNumber = 1;
                   model.selectedValue.add(0);
@@ -155,7 +156,8 @@ class NotificationPageView
                           limit: 10,
                           page: model.pageNumber));
                 },
-                secondTabTitle: "Read(${notification?.data?.length ?? 0})",
+                secondTabTitle:
+                    "${Strings.of(context).read}(${notification?.data?.length ?? 0})",
                 // tabController: model.tabController,
                 selectedValue: model.selectedValue, tabController: null,
               );
@@ -179,14 +181,14 @@ class NotificationPageView
                                           ?.dealSafeAppError?.error.message
                                           .contains("internet") ??
                                       false
-                                  ? "No Internet Connection"
-                                  : "Something Went Wrong",
+                                  ? Strings.of(context).no_internet_connection
+                                  : Strings.of(context).something_got_wrong,
                               subtitle: notification
                                           ?.dealSafeAppError?.error.message
                                           .contains("internet") ??
                                       false
-                                  ? "It seems you're offline. Please check your internet connection and try again."
-                                  : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                  ? Strings.of(context).it_seems_you_re_offline
+                                  : Strings.of(context).an_unexpected_error,
                               onPressed: () {
                                 model.fetchNotification(
                                     notificationRequestModel:
@@ -201,7 +203,8 @@ class NotificationPageView
                             ),
                           ),
                       successWidget: () => notification?.data?.isEmpty ?? false
-                          ? NoDataFoundWidget(title: "No data found")
+                          ? NoDataFoundWidget(
+                              title: Strings.of(context).no_data_found)
                           : ListView.separated(
                               controller: model.scrollController,
                               shrinkWrap: true,

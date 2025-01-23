@@ -4,20 +4,21 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class AttendanceDetails extends StatelessWidget {
   final String date;
   final String name;
-  String? schoolName;
-  String? boardName;
-  String? grade;
-  String? shift;
-  String? division;
-  String? stream;
-  String? course;
-  String? house;
-  String? image;
-  AttendanceDetails(
+  final String? schoolName;
+  final String? boardName;
+  final String? grade;
+  final String? shift;
+  final String? division;
+  final String? stream;
+  final String? course;
+  final String? house;
+  final String? image;
+  const AttendanceDetails(
       {super.key,
       required this.date,
       required this.name,
@@ -40,7 +41,7 @@ class AttendanceDetails extends StatelessWidget {
             name: name,
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house | $grade",
-            subtitle2: "stream:$stream "),
+            subtitle2: "${Strings.of(context).stream}:$stream "),
         const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -51,7 +52,7 @@ class AttendanceDetails extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Date : ",
+                      text: Strings.of(context).date,
                       style: AppTypography.caption.copyWith(
                         fontWeight: FontWeight.w400,
                         color: AppColors.textDark,
@@ -68,7 +69,7 @@ class AttendanceDetails extends StatelessWidget {
                 ),
               ),
               CommonText(
-                text: "View Notes",
+                text: Strings.of(context).view_notes,
                 style: AppTypography.caption.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,

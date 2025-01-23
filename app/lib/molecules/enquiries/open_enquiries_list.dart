@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OpenedEnquiriesListPage extends StatelessWidget {
@@ -31,7 +32,7 @@ class OpenedEnquiriesListPage extends StatelessWidget {
               dataBuilder: (context, data) {
                 return Visibility(
                     visible: data?.isNotEmpty ?? false,
-                    replacement: NoDataFoundWidget(title: "No Enquires found"),
+                    replacement: NoDataFoundWidget(title: Strings.of(context).no_enquiry_found),
                     child: ListV(
                       enquiries: data,
                       scrollController: model.scrollController,
@@ -41,8 +42,8 @@ class OpenedEnquiriesListPage extends StatelessWidget {
             );
           }
           if (result?.status == Status.error && model.pageNumber == 1) {
-            return const Center(
-              child: CommonText(text: 'Enquiries not found'),
+            return Center(
+              child: CommonText(text: Strings.of(context).enquiry_not_found),
             );
           } else {
             return const SizedBox.shrink();

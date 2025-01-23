@@ -12,6 +12,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import 'package:collection/collection.dart';
 
@@ -50,8 +51,8 @@ class CouponList extends StatelessWidget {
         },
         builder: (context, model, child) {
           return Scaffold(
-            appBar: const CommonAppBar(
-              appbarTitle: 'Apply Coupon',
+            appBar:  CommonAppBar(//Strings.of(context)
+              appbarTitle: Strings.of(context).apply_couppon,
               notShowNotificationAndUserBatch: true,
               showBackButton: true,
             ),
@@ -145,7 +146,7 @@ class CouponList extends StatelessWidget {
                       successWidget: () => Visibility(
                           visible: data?.data?.data?.isNotEmpty ?? false,
                           replacement:
-                              NoDataFoundWidget(title: "No Coupons Found"),
+                              NoDataFoundWidget(title: Strings.of(context).no_coupons_found),
                           child: ListView.builder(
                               itemCount: data?.data?.data?.length,
                               itemBuilder: (context, index) {
@@ -236,7 +237,7 @@ class CouponList extends StatelessWidget {
                                                                 .show(
                                                               Exception(),
                                                               context,
-                                                              "The maximum applied limit for this coupon has been reached.",
+                                                              Strings.of(context).the_max_applied_coupon,
                                                             );
                                                           } else {
                                                             Navigator.pop(
@@ -249,7 +250,7 @@ class CouponList extends StatelessWidget {
                                                         }
                                                       },
                                                       child: CommonText(
-                                                        text: 'Apply',
+                                                        text: Strings.of(context).apply,
                                                         style: AppTypography
                                                             .subtitle2
                                                             .copyWith(
@@ -300,8 +301,8 @@ class CouponList extends StatelessWidget {
                                                             index ==
                                                                 model
                                                                     .couponShowMore
-                                                        ? '- Show Less'
-                                                        : '+ Show More',
+                                                        ? Strings.of(context).show_less
+                                                        : Strings.of(context).show_more,
                                                     style:
                                                         AppTypography.caption,
                                                   ),

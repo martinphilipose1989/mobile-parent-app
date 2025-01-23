@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/toggle_button.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class EnquiriesPageView extends BasePageViewWidget<EnquiriesPageModel> {
@@ -46,12 +47,12 @@ class EnquiriesPageView extends BasePageViewWidget<EnquiriesPageModel> {
                   Tab(
                     child: ToggleButton(
                         toggleCondition: model.selectedTab.value == 0,
-                        title: "Open Enquiries"),
+                        title: Strings.of(context).open_enquiry),
                   ),
                   Tab(
                     child: ToggleButton(
                         toggleCondition: model.selectedTab.value == 1,
-                        title: "Closed Enquiries"),
+                        title: Strings.of(context).closed_enquiries),
                   ),
                 ],
               );

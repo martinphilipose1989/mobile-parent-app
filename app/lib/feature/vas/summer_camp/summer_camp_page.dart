@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class SummerCampDetailPage extends BasePage<SummerCampDetailViewModel> {
@@ -55,8 +56,8 @@ class SummerCampDetailPageState
   PreferredSizeWidget? buildAppbar(SummerCampDetailViewModel model) {
     return widget.hideAppBar
         ? null
-        : const CommonAppBar(
-            appbarTitle: 'Summer Camp',
+        :  CommonAppBar(
+            appbarTitle: Strings.of(context).summer_camp,
             notShowNotificationAndUserBatch: false,
             showBackButton: true,
           );

@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/registration_details/registrations_widgets_read_only/menu.dart';
@@ -229,7 +230,7 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CommonText(
-                text: 'Admission Journey',
+                text: Strings.of(context).admission_journey,
                 style: AppTypography.subtitle1,
               ),
               InkWell(
@@ -243,7 +244,7 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                         enquiryID: "${enquiryDetail.enquiryId}");
                     model.getAdmissionJourney(
                         enquiryID: "${enquiryDetail.enquiryId}",
-                        type: "enquiry");
+                        type: Strings.of(context).enquiry);
                   });
                 },
                 child: Row(
@@ -255,7 +256,7 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     CommonText(
-                      text: 'View Details',
+                      text: Strings.of(context).view_details,
                       style: AppTypography.subtitle1
                           .copyWith(color: Theme.of(context).primaryColor),
                     ),
@@ -310,8 +311,8 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                             : (result?.data?.data ?? []).indexWhere(
                                 (element) => (element.status != "Open")));
                   case Status.error:
-                    return const Center(
-                      child: Text('Enquiries not found'),
+                    return  Center(
+                      child: Text(Strings.of(context).enquiry_not_found),
                     );
                   default:
                     return const Center(

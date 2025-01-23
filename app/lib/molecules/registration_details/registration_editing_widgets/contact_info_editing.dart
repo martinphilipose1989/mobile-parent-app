@@ -10,6 +10,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import '../../../utils/app_validators.dart';
 
@@ -32,7 +33,7 @@ class ContactInfoEditing extends StatelessWidget {
             )),
         child: ExpansionTile(
             title: CommonText(
-              text: "Emergency Contact",
+              text: Strings.of(context).emergency_contact,
               style: AppTypography.subtitle2,
             ),
             children: [
@@ -76,7 +77,7 @@ class ContactInfoEditing extends StatelessWidget {
             )),
         child:  ExpansionTile(
             title: CommonText(
-              text: "Point Of Contact",
+              text: Strings.of(context).point_Of_contact,
               style: AppTypography.subtitle2,
             ),
             children: [
@@ -87,8 +88,7 @@ class ContactInfoEditing extends StatelessWidget {
                     const Divider(
                       height: 1,
                       thickness: 1,
-                    ),
-                    const CommonText(text:'Preference 1'),
+                    ), CommonText(text:Strings.of(context).preference1),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
                       items: model.contactRelationshipOptions,
@@ -108,7 +108,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Mobile Number',
+                        labelText: Strings.of(context).parent_mobile_no,
                         controller:model.parentMobileNumberController1,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
@@ -137,13 +137,13 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Email Id',
+                        labelText: Strings.of(context).parent_email_Id,
                         controller:model.parentEmailIdController1,
 
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent Email Id",checkSpecialCharacters: false,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                    const CommonText(text:'Preference 2'),
+                 CommonText(text:Strings.of(context).preference2),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CustomDropdownButton(
                       items: model.contactRelationshipOptions,
@@ -162,7 +162,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Mobile Number',
+                        labelText: Strings.of(context).parent_mobile_no,
                         controller:model.parentMobileNumberController2,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
@@ -190,7 +190,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Email Id',
+                        labelText: Strings.of(context).parent_email_Id,
                         controller:model.parentEmailIdController2,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
                     ),
@@ -201,7 +201,7 @@ class ContactInfoEditing extends StatelessWidget {
                       items: model.contactRelationshipOptions,
                       width: MediaQuery.of(context).size.width,
                       isMutiSelect: false,
-                      dropdownName: 'Parent Type',
+                      dropdownName: Strings.of(context).parent_type,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "ParentType",),
                       showAstreik: false,
                       onMultiSelect: (selectedValues) {},
@@ -214,7 +214,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Mobile Number',
+                        labelText: Strings.of(context).parent_mobile_no,
                         controller:model.parentMobileNumberController3,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
@@ -242,7 +242,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Parent Email Id',
+                        labelText: Strings.of(context).parent_email_Id,
                         controller:model.parentEmailIdController3,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Parent EmailId",checkSpecialCharacters: false,),
                     ),
@@ -261,7 +261,7 @@ class ContactInfoEditing extends StatelessWidget {
             )),
         child: ExpansionTile(
             title:  CommonText(
-              text: "Residential Details",
+              text: Strings.of(context).residential_details,
               style: AppTypography.subtitle2,
             ),
             children: [
@@ -276,21 +276,21 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 20, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
-                      labelText: 'House No./ Building',
+                      labelText: Strings.of(context).house_no,
                       controller: model.houseOrBuildingController,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "House No/ Building",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
-                      labelText: 'Street Name',
+                      labelText: Strings.of(context).street_name,
                       controller:model.streetNameController,
                       validator: (value)=> AppValidators.validateNotEmpty(value, "Street Name",checkSpecialCharacters: true,),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
-                      labelText: 'Landmark',
+                      labelText: Strings.of(context).landmark,
                       controller:model.landMarkController,
                         validator: (value)=> AppValidators.validateNotEmpty(value, "Landmark",checkSpecialCharacters: true,),
                     ),
@@ -322,7 +322,7 @@ class ContactInfoEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
-                      labelText: "Pin Code",
+                      labelText: Strings.of(context).pin_code,
                       controller: model.residentialPinCodeController,
                       focusNode: model.residentialPinCodeFocusNode,
                       keyboardType: TextInputType.number,
@@ -389,11 +389,11 @@ class ContactInfoEditing extends StatelessWidget {
                       }
                     ),
            CommonText(
-                      text: "Is Permanent Address Same As Present?",
+                      text: Strings.of(context).is_Permanent_Address_same_as_present,
                       style: AppTypography.subtitle2,
                     ),
                     CommonRadioButtonWidget(
-                      title: 'Yes',
+                      title: Strings.of(context).yes,
                       commonRadioButton: model.radioButtonController3,
                       value: 'Yes',
                       onOptionSelected: (newValue){
@@ -410,7 +410,7 @@ class ContactInfoEditing extends StatelessWidget {
                       },
                     ),
                     CommonRadioButtonWidget(
-                      title: 'No',
+                      title: Strings.of(context).no,
                       commonRadioButton: model.radioButtonController3,
                       value: 'No',
                       onOptionSelected: (newValue){
@@ -438,7 +438,7 @@ class ContactInfoEditing extends StatelessWidget {
                               CommonTextFormField(
                                 showAstreik: true,
                                 readOnly: model.radioButtonController3.selectedItem == "Yes",
-                                labelText: 'House No./ Building',
+                                labelText: Strings.of(context).house_no,
                                 controller: model.permanentHouseOrBuildingController,
                                 validator: (value)=> AppValidators.validateNotEmpty(value, "House No/ Building",checkSpecialCharacters: true,),
                               ),
@@ -446,14 +446,14 @@ class ContactInfoEditing extends StatelessWidget {
                               CommonTextFormField(
                                 showAstreik: true,
                                 readOnly: model.radioButtonController3.selectedItem == "Yes",
-                                labelText: 'Street Name',
+                                labelText: Strings.of(context).street_name,
                                 controller:model.permanentStreetNameController,
                                 validator: (value)=> AppValidators.validateNotEmpty(value, "Street Name",checkSpecialCharacters: true,),
                               ),
                               CommonSizedBox.sizedBox(height: 15, width: 10),
                               CommonTextFormField(
                                 showAstreik: true,
-                                labelText: 'Landmark',
+                                labelText: Strings.of(context).landmark,
                                 readOnly: model.radioButtonController3.selectedItem == "Yes",
                                 controller:model.permanentLandMarkController,
                                   validator: (value)=> AppValidators.validateNotEmpty(value, "Landmark",checkSpecialCharacters: true,),
@@ -488,7 +488,7 @@ class ContactInfoEditing extends StatelessWidget {
                               CommonTextFormField(
                                 showAstreik: true,
                                 readOnly: model.radioButtonController3.selectedItem == "Yes",
-                                labelText: "Pin Code",
+                                labelText: Strings.of(context).pin_code,
                                 controller: model.permanentResidentialPinCodeController,
                                 focusNode: model.permanentPinCodeFocusNode,
                                 keyboardType: TextInputType.number,

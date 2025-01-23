@@ -15,6 +15,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 
@@ -146,7 +147,7 @@ class ScheduleCompetencyTestPageView
                           ),
                           /// when reschedule school tour then use this widget
                           CommonText(
-                            text: isReschedule? "Change Time" : "Select Time",
+                            text: isReschedule? Strings.of(context).change_time: Strings.of(context).select_time,
                             style: AppTypography.body1
                                 .copyWith(color: AppColors.textDark),
                           ),
@@ -204,7 +205,7 @@ class ScheduleCompetencyTestPageView
                                 );
                               }
                               else{
-                                return const CommonText(text: "Slots are not available");
+                                return  CommonText(text: Strings.of(context).slots_not_available);
                               }
                             }
                           ),

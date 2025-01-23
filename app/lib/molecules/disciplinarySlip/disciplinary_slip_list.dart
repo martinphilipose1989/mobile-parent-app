@@ -6,6 +6,7 @@ import 'package:data/data.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart';
@@ -60,7 +61,7 @@ class DisciplinarySlipList extends StatelessWidget {
                         itemCount: data!.data!.data.data.length,
                       )
                     : NoDataFoundWidget(
-                        title: "No Slip Available",
+                        title: Strings.of(context).no_slip_available,
                       );
           },
         );

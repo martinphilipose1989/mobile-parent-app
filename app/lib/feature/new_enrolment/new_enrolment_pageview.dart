@@ -22,6 +22,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -38,7 +39,7 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         onData: (value) {
           if (value.status == Status.success) {
             // model.newEnrolmentSubject.add(Resource.none());
-            CommonPopups().showSuccess(context, "Student Enrolment Successful",
+            CommonPopups().showSuccess(context, Strings.of(context).student_enrolment_successful,
                 (val) {
               Navigator.of(context)
                   .popUntil(ModalRoute.withName(RoutePaths.tabbar));
@@ -69,8 +70,8 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                                         subtitle:
                                             "${studentProfile.courseName?.orEmpty('N/A')}| ${studentProfile.crtShift.orEmpty('N/A')}| ${studentProfile.crtDivision.orEmpty('N/A')}| ${studentProfile.crtHouse.orEmpty('N/A')} | ${studentProfile.crtGrade.orEmpty('N/A')}",
                                         subtitle2:
-                                            "Stream: ${studentProfile.streamName.orEmpty('N/A')}")
-                                    : Text("No Data"),
+                                            "${Strings.of(context).stream} ${studentProfile.streamName.orEmpty('N/A')}")
+                                    : Text(Strings.of(context).no_data),
                               );
                       }),
                   AppStreamBuilder<Resource<List<MdmAttributeModel>>>(

@@ -11,6 +11,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class DetailsViewSchoolTourPageView
@@ -63,7 +64,7 @@ class DetailsViewSchoolTourPageView
                                 },
                               );
                             default:
-                              return const Center(child: Text("School tour details not found"),);
+                              return  Center(child: Text(Strings.of(context).school_tour_details_not_found),);
                           }
                         },
                       ),
@@ -90,7 +91,7 @@ class DetailsViewSchoolTourPageView
                     onPressed: () {
                       Navigator.of(context).pushNamed(RoutePaths.cancelSchoolTourPage,arguments: [enquiryDetail,model.schoolVisitDetailData.value]);
                     },
-                    text: 'Cancel Tour',
+                    text: Strings.of(context).cancel_tour,
                     borderColor: Theme.of(context).primaryColor,
                     borderWidth: 1,
                     width: 171.w,
@@ -112,7 +113,7 @@ class DetailsViewSchoolTourPageView
                         }
                        );
                     },
-                    text: 'Reschedule Tour',
+                    text: Strings.of(context).reschedule_tour,
                     backgroundColor: AppColors.accent,
                     width: 171.w,
                     height: 40.h,
