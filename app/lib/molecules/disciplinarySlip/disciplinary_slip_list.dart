@@ -1,9 +1,9 @@
 import 'package:app/model/resource.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
+
 import 'package:app/utils/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -59,8 +59,9 @@ class DisciplinarySlipList extends StatelessWidget {
                         },
                         itemCount: data!.data!.data.data.length,
                       )
-                 
-                : NoDataFoundWidget(title: "No Slip Available",);
+                    : NoDataFoundWidget(
+                        title: "No Slip Available",
+                      );
           },
         );
       },

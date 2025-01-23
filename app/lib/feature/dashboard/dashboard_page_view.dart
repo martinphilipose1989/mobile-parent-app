@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -210,7 +208,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 getIt.get<String>(instanceName: "SubjectSelectionUrl");
             final selectedStudent = model.dashboardState.selectedStudent;
 
-            log("SubjectSelectionUrl =======> $subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}");
             Navigator.pushNamed(
               context,
               receivedRoutePath,

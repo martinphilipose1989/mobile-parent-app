@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
-import 'package:app/feature/payments/payments_pages/payments.dart';
+
 import 'package:app/feature/registration_details/registrations_details_view_model.dart';
+import 'package:app/model/resource.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/bank_details_editing.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/contact_info_editing.dart';
 import 'package:app/molecules/registration_details/registration_editing_widgets/enquiry_and_student_editing.dart';
@@ -32,8 +31,6 @@ import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
-
-import '../../model/resource.dart';
 
 class RegistrationsDetailsPageView
     extends BasePageViewWidget<RegistrationsDetailsViewModel> {

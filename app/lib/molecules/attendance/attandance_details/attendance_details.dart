@@ -1,15 +1,13 @@
 import 'package:app/molecules/attendance/attandance_details/student_details.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../themes_setup.dart';
-import '../../../utils/app_typography.dart';
-import '../../../utils/common_widgets/app_images.dart';
-
 class AttendanceDetails extends StatelessWidget {
   final String date;
-final String name;
+  final String name;
   String? schoolName;
   String? boardName;
   String? grade;
@@ -18,20 +16,31 @@ final String name;
   String? stream;
   String? course;
   String? house;
-String? image;
- AttendanceDetails({super.key, required this.date, required this.name,this.stream,this.division,
-    this.shift,this.boardName,this.image,this.schoolName,this.course,this.grade,this.house});
+  String? image;
+  AttendanceDetails(
+      {super.key,
+      required this.date,
+      required this.name,
+      this.stream,
+      this.division,
+      this.shift,
+      this.boardName,
+      this.image,
+      this.schoolName,
+      this.course,
+      this.grade,
+      this.house});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-     StudentDetails(
+        StudentDetails(
             image: image,
             name: name,
-         title: "$schoolName|$boardName",
-         subtitle: "$course| $shift| $division| $house | $grade",
-         subtitle2: "stream:$stream "),
+            title: "$schoolName|$boardName",
+            subtitle: "$course| $shift| $division| $house | $grade",
+            subtitle2: "stream:$stream "),
         const SizedBox(height: 20, width: double.infinity),
         Padding(
           padding: const EdgeInsets.all(16.0),

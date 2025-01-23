@@ -60,7 +60,7 @@ class DisciplinaryDetails extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-          CommonText(
+              CommonText(
                 text: "Disciplinary Slip",
                 style: AppTypography.subtitle1,
               ),
@@ -79,88 +79,86 @@ class DisciplinaryDetails extends StatelessWidget {
                                 CommonPopups().showInfo(
                                   context,
                                   barrierDismissible: true,
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Column(
-                                          children: List.generate(
-                                            snapshot?.data?.data.length ?? 0,
-                                            (index) {
-                                              return infoRow(
-                                                  context,
-                                                  getColorFromJson(snapshot!
-                                                      .data!
-                                                      .data[index]
-                                                      .attributes
-                                                      .description),
-                                                  snapshot.data!.data[index]
-                                                      .attributes.name);
-                                            },
-                                          ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Column(
+                                        children: List.generate(
+                                          snapshot?.data?.data.length ?? 0,
+                                          (index) {
+                                            return infoRow(
+                                                context,
+                                                getColorFromJson(snapshot!
+                                                    .data!
+                                                    .data[index]
+                                                    .attributes
+                                                    .description),
+                                                snapshot.data!.data[index]
+                                                    .attributes.name);
+                                          },
                                         ),
+                                      ),
 
-                                        // Flexible(
-                                        // fit:FlexFit.loose,
-                                        //   child: ListView.separated(
-                                        //       itemBuilder:
-                                        //           (BuildContext context, int index) {
-                                        //         if (snapshot?.data?.data != null) {
-                                        //           return infoRow(
-                                        //               context,
-                                        //               getColorFromJson(snapshot!
-                                        //                   .data!
-                                        //                   .data[index]
-                                        //                   .attributes
-                                        //                   .description),
-                                        //               snapshot.data!.data[index]
-                                        //                   .attributes.name);
-                                        //         }
-                                        //       },
-                                        //       shrinkWrap: true,
-                                        //       separatorBuilder:
-                                        //           (BuildContext context, int index) {
-                                        //         return SizedBox(
-                                        //           height: 10.h,
-                                        //         );
-                                        //       },
-                                        //       itemCount: snapshot?.data?.data.length ?? 0),
-                                        // ),
-                                        SizedBox(
-                                          height: 20.h,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            CommonElevatedButton(
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              text: "close",
-                                              textColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .primaryContainer,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.3,
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
+                                      // Flexible(
+                                      // fit:FlexFit.loose,
+                                      //   child: ListView.separated(
+                                      //       itemBuilder:
+                                      //           (BuildContext context, int index) {
+                                      //         if (snapshot?.data?.data != null) {
+                                      //           return infoRow(
+                                      //               context,
+                                      //               getColorFromJson(snapshot!
+                                      //                   .data!
+                                      //                   .data[index]
+                                      //                   .attributes
+                                      //                   .description),
+                                      //               snapshot.data!.data[index]
+                                      //                   .attributes.name);
+                                      //         }
+                                      //       },
+                                      //       shrinkWrap: true,
+                                      //       separatorBuilder:
+                                      //           (BuildContext context, int index) {
+                                      //         return SizedBox(
+                                      //           height: 10.h,
+                                      //         );
+                                      //       },
+                                      //       itemCount: snapshot?.data?.data.length ?? 0),
+                                      // ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          CommonElevatedButton(
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            text: "close",
+                                            textColor: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  title:Text(
+                                  title: Text(
                                     "Slip Information",
                                     style: AppTypography.h6,
                                   ),
                                 );
                               },
-                              child: Container(
+                              child: SizedBox(
                                 width: 40.w,
                                 height: 40.h,
                                 child: Icon(

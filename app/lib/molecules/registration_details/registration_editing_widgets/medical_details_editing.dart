@@ -21,7 +21,7 @@ class MedicalDetailsEditing extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         CommonText(
+          CommonText(
             text: "Medical Information",
             style: AppTypography.subtitle1,
           ),
@@ -32,7 +32,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             color: AppColors.textPaleGray,
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
-      CommonText(
+          CommonText(
             text: "Has the child ever been hospitalized?",
             style: AppTypography.subtitle1,
           ),
@@ -52,14 +52,14 @@ class MedicalDetailsEditing extends StatelessWidget {
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if((data??'') == "Yes")...[
+                  if ((data ?? '') == "Yes") ...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Year Of Hospitalization',
                       maxLength: 4,
                       readOnly: true,
-                      onTap: (){
+                      onTap: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -70,15 +70,21 @@ class MedicalDetailsEditing extends StatelessWidget {
                                 width: 300,
                                 height: 300,
                                 child: YearPicker(
-                                  firstDate: DateTime(DateTime.now().year - 20, 1),
+                                  firstDate:
+                                      DateTime(DateTime.now().year - 20, 1),
                                   lastDate: DateTime(DateTime.now().year),
-                                  selectedDate: model.yearOfHospitalizationController.text.trim().isNotEmpty ? 
-                                    DateTime(int.parse(model
+                                  selectedDate: model
+                                          .yearOfHospitalizationController.text
+                                          .trim()
+                                          .isNotEmpty
+                                      ? DateTime(int.parse(model
                                           .yearOfHospitalizationController
-                                          .text)) : DateTime.now(),
+                                          .text))
+                                      : DateTime.now(),
                                   onChanged: (DateTime dateTime) {
-                                    if(dateTime != null){
-                                      model.yearOfHospitalizationController.text = dateTime.year.toString();
+                                    if (dateTime != null) {
+                                      model.yearOfHospitalizationController
+                                          .text = dateTime.year.toString();
                                     }
                                     Navigator.pop(context);
                                   },
@@ -89,14 +95,16 @@ class MedicalDetailsEditing extends StatelessWidget {
                         );
                       },
                       controller: model.yearOfHospitalizationController,
-                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Year Of Hospitalization'),
+                      validator: (value) => AppValidators.validateNotEmpty(
+                          value, 'Year Of Hospitalization'),
                     ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
-                     CommonTextFormField(
+                    CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Reason Of Hospitalization',
-                      controller:model.reasonOfHospitalizationController,
-                      validator: (value)=> AppValidators.validateNotEmpty(value, 'Reason Of Hospitalization'),
+                      controller: model.reasonOfHospitalizationController,
+                      validator: (value) => AppValidators.validateNotEmpty(
+                          value, 'Reason Of Hospitalization'),
                     ),
                   ],
                 ],
@@ -104,7 +112,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             },
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-     CommonText(
+          CommonText(
             text: "Physical Disabilities",
             style: AppTypography.subtitle1,
           ),
@@ -124,22 +132,22 @@ class MedicalDetailsEditing extends StatelessWidget {
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if((data??'')== "Yes")...[
+                  if ((data ?? '') == "Yes") ...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Specify Disability',
-                       controller: model.specificDisabilityController,
-                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Disability'),
+                      controller: model.specificDisabilityController,
+                      validator: (value) => AppValidators.validateNotEmpty(
+                          value, 'Specify Disability'),
                     ),
                   ]
                 ],
               );
             },
           ),
-          
           CommonSizedBox.sizedBox(height: 15, width: 10),
-   CommonText(
+          CommonText(
             text: "Medical History",
             style: AppTypography.subtitle1,
           ),
@@ -159,13 +167,14 @@ class MedicalDetailsEditing extends StatelessWidget {
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if((data??'') == "Yes")...[
+                  if ((data ?? '') == "Yes") ...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Specify Medical History',
-                       controller: model.specifyMedicalHistoryController,
-                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Medical History'),
+                      controller: model.specifyMedicalHistoryController,
+                      validator: (value) => AppValidators.validateNotEmpty(
+                          value, 'Specify Medical History'),
                     ),
                   ]
                 ],
@@ -173,7 +182,7 @@ class MedicalDetailsEditing extends StatelessWidget {
             },
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-CommonText(
+          CommonText(
             text: "Allergies",
             style: AppTypography.subtitle1,
           ),
@@ -193,13 +202,14 @@ CommonText(
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if((data??'')=="Yes")...[
+                  if ((data ?? '') == "Yes") ...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
                       labelText: 'Specify Allergies',
-                       controller: model.specifyAllergiesController,
-                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Allergies'),
+                      controller: model.specifyAllergiesController,
+                      validator: (value) => AppValidators.validateNotEmpty(
+                          value, 'Specify Allergies'),
                     ),
                   ]
                 ],
@@ -208,9 +218,9 @@ CommonText(
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
           StreamBuilder<List<String>>(
-            stream: model.bloodGroup,
-            builder: (context, snapshot) {
-              return CustomDropdownButton(
+              stream: model.bloodGroup,
+              builder: (context, snapshot) {
+                return CustomDropdownButton(
                   items: model.bloodGroup.value,
                   width: MediaQuery.of(context).size.width,
                   isMutiSelect: false,
@@ -219,20 +229,22 @@ CommonText(
                   onMultiSelect: (selectedValues) {},
                   showBorderColor: true,
                   singleSelectItemSubject: model.selectedBloodGroup,
-                  onSingleSelect: (val){
-                    var bloodGroup = model.bloodGroupAttribute?.firstWhere((element)=> (element.attributes?.group??'').contains(val));
+                  onSingleSelect: (val) {
+                    var bloodGroup = model.bloodGroupAttribute?.firstWhere(
+                        (element) =>
+                            (element.attributes?.group ?? '').contains(val));
                     model.selectedBloodGroup.value = val;
                     CommonDataClass group = CommonDataClass();
                     group.id = bloodGroup?.id;
                     group.value = bloodGroup?.attributes?.group;
                     model.selectedBloodGroupEntity = group;
                   },
-                  validator: (value)=> AppValidators.validateDropdown(value, 'Blood group'),
-              );
-            }
-          ),
+                  validator: (value) =>
+                      AppValidators.validateDropdown(value, 'Blood group'),
+                );
+              }),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-      CommonText(
+          CommonText(
             text: "Personalised Learning Needs",
             style: AppTypography.subtitle1,
           ),
@@ -252,12 +264,12 @@ CommonText(
             dataBuilder: (context, data) {
               return Column(
                 children: [
-                  if((data??'')== "Yes")...[
+                  if ((data ?? '') == "Yes") ...[
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     StreamBuilder<List<String>>(
-                      stream: model.personalisedLearningNeeds,
-                      builder: (context, snapshot) {
-                        return CustomDropdownButton(
+                        stream: model.personalisedLearningNeeds,
+                        builder: (context, snapshot) {
+                          return CustomDropdownButton(
                             items: model.personalisedLearningNeeds.value,
                             width: MediaQuery.of(context).size.width,
                             isMutiSelect: false,
@@ -265,20 +277,27 @@ CommonText(
                             showAstreik: true,
                             onMultiSelect: (selectedValues) {},
                             showBorderColor: true,
-                            singleSelectItemSubject: model.selectedPersonalisedLearningNeedSubject,
-                            onSingleSelect: (val){
-                              var bloodGroup = model.personalisedLearningNeedsAttribute?.firstWhere((element)=> (element.attributes?.name??'').contains(val));
-                              model.selectedPersonalisedLearningNeedSubject.value = val;
+                            singleSelectItemSubject:
+                                model.selectedPersonalisedLearningNeedSubject,
+                            onSingleSelect: (val) {
+                              var bloodGroup = model
+                                  .personalisedLearningNeedsAttribute
+                                  ?.firstWhere((element) =>
+                                      (element.attributes?.name ?? '')
+                                          .contains(val));
+                              model.selectedPersonalisedLearningNeedSubject
+                                  .value = val;
                               CommonDataClass group = CommonDataClass();
                               group.id = bloodGroup?.id;
                               group.value = bloodGroup?.attributes?.name;
                               model.selectedPersonalisedLearningNeed = group;
                             },
-                        );
-                      }
-                    ),
+                          );
+                        }),
                   ],
-                  const SizedBox(height: 50,)
+                  const SizedBox(
+                    height: 50,
+                  )
                 ],
               );
             },

@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
@@ -316,10 +314,6 @@ class PaymentsPageModel extends BasePageViewModel {
       appliedCouponList[couponIndex].appliedCouponCount =
           appliedCouponList[couponIndex].appliedCouponCount + 1;
     }
-
-    for (int i = 0; i < appliedCouponList.length; i++) {
-      log("couponCode  ${appliedCouponList[i].couponCode} ===== ${appliedCouponList[i].maxCount} === ${appliedCouponList[i].appliedCouponCount}");
-    }
   }
 
   void clearCoupon(String couponId) {
@@ -331,10 +325,6 @@ class PaymentsPageModel extends BasePageViewModel {
             appliedCouponList[couponIndex].appliedCouponCount - 1;
       } else {
         appliedCouponList.removeWhere((coupon) => coupon.id == couponId);
-      }
-
-      for (int i = 0; i < appliedCouponList.length; i++) {
-        log("couponCode  ${appliedCouponList[i].couponCode} ===== ${appliedCouponList[i].maxCount} === ${appliedCouponList[i].appliedCouponCount}");
       }
     }
   }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
@@ -75,9 +73,7 @@ class PDFDialogState extends State<PDFDialog> {
                                 autoSpacing: true,
                                 pageFling: true,
                                 fitPolicy: FitPolicy.HEIGHT,
-                                onLinkHandler: (uri) {
-                                  log("URI $uri");
-                                },
+                                onLinkHandler: (uri) {},
                               ),
                       );
                     }),

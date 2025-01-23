@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -31,7 +29,7 @@ abstract class ApiResponseHandler {
         }
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
-        log("ERROR ==> $error");
+
         if (error is NetworkError) {
           onError(
             AppError(

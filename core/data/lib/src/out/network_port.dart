@@ -280,7 +280,7 @@ abstract class NetworkPort {
       findByCategorySubCategory(
           {required int categoryId, required int subCategoryId});
 
-  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationlog(
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
       {required String communocationId});
 
   Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(

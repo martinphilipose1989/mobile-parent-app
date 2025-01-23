@@ -1269,10 +1269,10 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, GetCommunicationDetails>> createCommunication//log
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
       {required String communocationId}) async {
     var response = await safeApiCall(ticketRetrofitService
-        .createCommunication//logcommunocationId: communocationId));
+        .createCommunicationLog(communocationId: communocationId));
     return response.fold(
       (l) {
         return Left(l);
