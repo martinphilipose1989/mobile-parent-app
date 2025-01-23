@@ -1100,21 +1100,723 @@ class Strings {
     );
   }
 
-  /// `I accept the terms & conditions`
-  String get i_accept_the_terms {
-    return Intl.message(
-      'I accept the terms & conditions',
-      name: 'i_accept_the_terms',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Please accept the terms and conditions`
   String get please_accept {
     return Intl.message(
       'Please accept the terms and conditions',
       name: 'please_accept',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Emergency Contact`
+  String get emergency_contact {
+    return Intl.message(
+      'Emergency Contact',
+      name: 'emergency_contact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Point Of Contact`
+  String get point_Of_Contact {
+    return Intl.message(
+      'Point Of Contact',
+      name: 'point_Of_Contact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Mobile Number`
+  String get parent_mobile_no {
+    return Intl.message(
+      'Parent Mobile Number',
+      name: 'parent_mobile_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Email Id`
+  String get parent_email_Id {
+    return Intl.message(
+      'Parent Email Id',
+      name: 'parent_email_Id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Residential Details`
+  String get residential_details {
+    return Intl.message(
+      'Residential Details',
+      name: 'residential_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `House No./ Building`
+  String get house_no {
+    return Intl.message(
+      'House No./ Building',
+      name: 'house_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preference 2`
+  String get preference2 {
+    return Intl.message(
+      'Preference 2',
+      name: 'preference2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pin Code`
+  String get pin_code {
+    return Intl.message(
+      'Pin Code',
+      name: 'pin_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is Permanent Address Same As Present?`
+  String get is_Permanent_Address_same_as_present {
+    return Intl.message(
+      'Is Permanent Address Same As Present?',
+      name: 'is_Permanent_Address_same_as_present',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Landmark`
+  String get landmark {
+    return Intl.message(
+      'Landmark',
+      name: 'landmark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Street Name`
+  String get street_name {
+    return Intl.message(
+      'Street Name',
+      name: 'street_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student First Name`
+  String get student_first_name {
+    return Intl.message(
+      'Student First Name',
+      name: 'student_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent First Name`
+  String get parent_first_name {
+    return Intl.message(
+      'Parent First Name',
+      name: 'parent_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Office Address`
+  String get office_Address {
+    return Intl.message(
+      'Office Address',
+      name: 'office_Address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Pan Card No`
+  String get mother_pan_card_no {
+    return Intl.message(
+      'Mother\'s Pan Card No',
+      name: 'mother_pan_card_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Last Name`
+  String get parent_last_name {
+    return Intl.message(
+      'Parent Last Name',
+      name: 'parent_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student Last Name`
+  String get student_last_name {
+    return Intl.message(
+      'Student Last Name',
+      name: 'student_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prefference 1`
+  String get preference1 {
+    return Intl.message(
+      'Prefference 1',
+      name: 'preference1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eligible Grade`
+  String get eligible_grade {
+    return Intl.message(
+      'Eligible Grade',
+      name: 'eligible_grade',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student Aadhar No`
+  String get student_Aadhar_no {
+    return Intl.message(
+      'Student Aadhar No',
+      name: 'student_Aadhar_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Existing School Name`
+  String get existing_School_Name {
+    return Intl.message(
+      'Existing School Name',
+      name: 'existing_School_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Place Of Birth`
+  String get place_Of_birth {
+    return Intl.message(
+      'Place Of Birth',
+      name: 'place_Of_birth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prefference 3`
+  String get preference3 {
+    return Intl.message(
+      'Prefference 3',
+      name: 'preference3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enquiry Type`
+  String get enquiry_type {
+    return Intl.message(
+      'Enquiry Type',
+      name: 'enquiry_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student Detail`
+  String get student_detail {
+    return Intl.message(
+      'Student Detail',
+      name: 'student_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Type`
+  String get parent_type {
+    return Intl.message(
+      'Parent Type',
+      name: 'parent_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School Location`
+  String get school_location {
+    return Intl.message(
+      'School Location',
+      name: 'school_location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enquiry Number`
+  String get enquiry_no {
+    return Intl.message(
+      'Enquiry Number',
+      name: 'enquiry_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enquiry Date`
+  String get enquiry_dt {
+    return Intl.message(
+      'Enquiry Date',
+      name: 'enquiry_dt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status :`
+  String get status {
+    return Intl.message(
+      'Status :',
+      name: 'status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply Action`
+  String get apply_action {
+    return Intl.message(
+      'Apply Action',
+      name: 'apply_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's Pan Card No`
+  String get father_Pan_Card_No {
+    return Intl.message(
+      'Father\'s Pan Card No',
+      name: 'father_Pan_Card_No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's Pan Card No`
+  String get gardian_Pan_Card_No {
+    return Intl.message(
+      'Guardian\'s Pan Card No',
+      name: 'gardian_Pan_Card_No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Office Address`
+  String get office_address {
+    return Intl.message(
+      'Office Address',
+      name: 'office_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Pan Card No`
+  String get mother_Pan_Card_No {
+    return Intl.message(
+      'Mother\'s Pan Card No',
+      name: 'mother_Pan_Card_No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Area`
+  String get area {
+    return Intl.message(
+      'Area',
+      name: 'area',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Aadhar Card No`
+  String get mother_Aadhar_Card_no {
+    return Intl.message(
+      'Mother\'s Aadhar Card No',
+      name: 'mother_Aadhar_Card_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's First Name`
+  String get mother_first_name {
+    return Intl.message(
+      'Mother\'s First Name',
+      name: 'mother_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sibling's First Name`
+  String get sibling_first_name {
+    return Intl.message(
+      'Sibling\'s First Name',
+      name: 'sibling_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Last Name`
+  String get Mother_last_name {
+    return Intl.message(
+      'Mother\'s Last Name',
+      name: 'Mother_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sibling's Last Name`
+  String get sibling_last_name {
+    return Intl.message(
+      'Sibling\'s Last Name',
+      name: 'sibling_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Details`
+  String get mother_Details {
+    return Intl.message(
+      'Mother\'s Details',
+      name: 'mother_Details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's Mobile Number`
+  String get father_Mobile_Number {
+    return Intl.message(
+      'Father\'s Mobile Number',
+      name: 'father_Mobile_Number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Mobile Number`
+  String get mother_Mobile_Number {
+    return Intl.message(
+      'Mother\'s Mobile Number',
+      name: 'mother_Mobile_Number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custodian Guardian`
+  String get custodian_guardian {
+    return Intl.message(
+      'Custodian Guardian',
+      name: 'custodian_guardian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are Parent Saperated`
+  String get are_parent_saper {
+    return Intl.message(
+      'Are Parent Saperated',
+      name: 'are_parent_saper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Legal Guardian`
+  String get legal_guardian {
+    return Intl.message(
+      'Legal Guardian',
+      name: 'legal_guardian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Applicable`
+  String get not_applicable {
+    return Intl.message(
+      'Not Applicable',
+      name: 'not_applicable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's Mobile Number`
+  String get guardian_Mobile_Number {
+    return Intl.message(
+      'Guardian\'s Mobile Number',
+      name: 'guardian_Mobile_Number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's Email ID`
+  String get father_Email_ID {
+    return Intl.message(
+      'Father\'s Email ID',
+      name: 'father_Email_ID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Email ID`
+  String get mother_Email_ID {
+    return Intl.message(
+      'Mother\'s Email ID',
+      name: 'mother_Email_ID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of Birth`
+  String get date_of_birth {
+    return Intl.message(
+      'Date of Birth',
+      name: 'date_of_birth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father`
+  String get father {
+    return Intl.message(
+      'Father',
+      name: 'father',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother`
+  String get mother {
+    return Intl.message(
+      'Mother',
+      name: 'mother',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Who Has The Custody Of the Child?`
+  String get who_Has_The_Custody_Of_the_Child {
+    return Intl.message(
+      'Who Has The Custody Of the Child?',
+      name: 'who_Has_The_Custody_Of_the_Child',
+      desc: '',
+      args: [],
+    );
+  }
+
+  // skipped getter for the 'are_parent_Separated?' key
+
+  /// `Guardian's Email ID`
+  String get gardian_Email_ID {
+    return Intl.message(
+      'Guardian\'s Email ID',
+      name: 'gardian_Email_ID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Students`
+  String get students {
+    return Intl.message(
+      'Students',
+      name: 'students',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non-Vibgyor Student`
+  String get non_vibgyor_Student {
+    return Intl.message(
+      'Non-Vibgyor Student',
+      name: 'non_vibgyor_Student',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is Sibling`
+  String get is_sibling {
+    return Intl.message(
+      'Is Sibling',
+      name: 'is_sibling',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vibgyor Student`
+  String get vibgyor_student {
+    return Intl.message(
+      'Vibgyor Student',
+      name: 'vibgyor_student',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's detail`
+  String get father_detail {
+    return Intl.message(
+      'Father\'s detail',
+      name: 'father_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sibling's detail`
+  String get sibling_detail {
+    return Intl.message(
+      'Sibling\'s detail',
+      name: 'sibling_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For Sibling 1`
+  String get for_sibling_1 {
+    return Intl.message(
+      'For Sibling 1',
+      name: 'for_sibling_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For Sibling 2`
+  String get for_sibling_2 {
+    return Intl.message(
+      'For Sibling 2',
+      name: 'for_sibling_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's detail`
+  String get guardian_detail {
+    return Intl.message(
+      'Guardian\'s detail',
+      name: 'guardian_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's First Name`
+  String get father_first_name {
+    return Intl.message(
+      'Father\'s First Name',
+      name: 'father_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's First Name`
+  String get gardian_first_name {
+    return Intl.message(
+      'Guardian\'s First Name',
+      name: 'gardian_first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's Last Name`
+  String get father_last_name {
+    return Intl.message(
+      'Father\'s Last Name',
+      name: 'father_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's Last Name`
+  String get gardian_last_name {
+    return Intl.message(
+      'Guardian\'s Last Name',
+      name: 'gardian_last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Father's Aadhar Card No`
+  String get father_adhar_no {
+    return Intl.message(
+      'Father\'s Aadhar Card No',
+      name: 'father_adhar_no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian's Aadhar Card No`
+  String get gardian_adhar_no {
+    return Intl.message(
+      'Guardian\'s Aadhar Card No',
+      name: 'gardian_adhar_no',
       desc: '',
       args: [],
     );
@@ -1245,6 +1947,26 @@ class Strings {
     return Intl.message(
       'Change Time',
       name: 'change_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
       desc: '',
       args: [],
     );
@@ -1885,6 +2607,636 @@ class Strings {
     return Intl.message(
       'No Admissions Found',
       name: 'no_admission_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attachment`
+  String get attachment {
+    return Intl.message(
+      'Attachment',
+      name: 'attachment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Attachment`
+  String get add_attachment {
+    return Intl.message(
+      'Add Attachment',
+      name: 'add_attachment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note cannot be empty`
+  String get note_cannot_be_empty {
+    return Intl.message(
+      'Note cannot be empty',
+      name: 'note_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Note`
+  String get enter_note {
+    return Intl.message(
+      'Enter Note',
+      name: 'enter_note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get note {
+    return Intl.message(
+      'Note',
+      name: 'note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test Time`
+  String get test_Time {
+    return Intl.message(
+      'Test Time',
+      name: 'test_Time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test details`
+  String get test_details {
+    return Intl.message(
+      'Test details',
+      name: 'test_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request Date`
+  String get request_date {
+    return Intl.message(
+      'Request Date',
+      name: 'request_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Raise Intimation`
+  String get raise_Intimation {
+    return Intl.message(
+      'Raise Intimation',
+      name: 'raise_Intimation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mode`
+  String get mode {
+    return Intl.message(
+      'Mode',
+      name: 'mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School`
+  String get school {
+    return Intl.message(
+      'School',
+      name: 'school',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disciplinary Slip`
+  String get disciplinary_Slip {
+    return Intl.message(
+      'Disciplinary Slip',
+      name: 'disciplinary_Slip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slip Information`
+  String get slip_information {
+    return Intl.message(
+      'Slip Information',
+      name: 'slip_information',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Slip Available`
+  String get no_slip_available {
+    return Intl.message(
+      'No Slip Available',
+      name: 'no_slip_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test Result`
+  String get test_Result {
+    return Intl.message(
+      'Test Result',
+      name: 'test_Result',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School tour Scheduled details`
+  String get school_tour_scheduled_details {
+    return Intl.message(
+      'School tour Scheduled details',
+      name: 'school_tour_scheduled_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selected Time`
+  String get selected_Time {
+    return Intl.message(
+      'Selected Time',
+      name: 'selected_Time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student Disciplinary Action`
+  String get student_disciplinary_action {
+    return Intl.message(
+      'Student Disciplinary Action',
+      name: 'student_disciplinary_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disciplinary Action : `
+  String get disciplinary_Action {
+    return Intl.message(
+      'Disciplinary Action : ',
+      name: 'disciplinary_Action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent`
+  String get parent {
+    return Intl.message(
+      'Parent',
+      name: 'parent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Acknowledge`
+  String get acknowledge {
+    return Intl.message(
+      'Acknowledge',
+      name: 'acknowledge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Acknowledged`
+  String get acknowledged {
+    return Intl.message(
+      'Acknowledged',
+      name: 'acknowledged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slip`
+  String get slip {
+    return Intl.message(
+      'Slip',
+      name: 'slip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Detail`
+  String get payment_det {
+    return Intl.message(
+      'Payment Detail',
+      name: 'payment_det',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partially Paid`
+  String get partially_paid {
+    return Intl.message(
+      'Partially Paid',
+      name: 'partially_paid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reallocation`
+  String get reallocation {
+    return Intl.message(
+      'Reallocation',
+      name: 'reallocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply Coupon`
+  String get apply_couppon {
+    return Intl.message(
+      'Apply Coupon',
+      name: 'apply_couppon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The maximum applied limit for this coupon has been reached.`
+  String get the_max_applied_coupon {
+    return Intl.message(
+      'The maximum applied limit for this coupon has been reached.',
+      name: 'the_max_applied_coupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `- Show Less`
+  String get show_less {
+    return Intl.message(
+      '- Show Less',
+      name: 'show_less',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bank Info`
+  String get bank_Info {
+    return Intl.message(
+      'Bank Info',
+      name: 'bank_Info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Type`
+  String get account_type {
+    return Intl.message(
+      'Account Type',
+      name: 'account_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I accept the terms & conditions`
+  String get i_accept_the_terms {
+    return Intl.message(
+      'I accept the terms & conditions',
+      name: 'i_accept_the_terms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UPI Id`
+  String get upi_id {
+    return Intl.message(
+      'UPI Id',
+      name: 'upi_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UnderTaking`
+  String get underTaking {
+    return Intl.message(
+      'UnderTaking',
+      name: 'underTaking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UPI info`
+  String get upi_info {
+    return Intl.message(
+      'UPI info',
+      name: 'upi_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+ Show More`
+  String get show_more {
+    return Intl.message(
+      '+ Show More',
+      name: 'show_more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Coupons Found`
+  String get no_coupons_found {
+    return Intl.message(
+      'No Coupons Found',
+      name: 'no_coupons_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due Date`
+  String get due_date {
+    return Intl.message(
+      'Due Date',
+      name: 'due_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Concession`
+  String get concession {
+    return Intl.message(
+      'Concession',
+      name: 'concession',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees Type`
+  String get fee_type {
+    return Intl.message(
+      'Fees Type',
+      name: 'fee_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees Sub Type`
+  String get fee_subtype {
+    return Intl.message(
+      'Fees Sub Type',
+      name: 'fee_subtype',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees Category`
+  String get fees_category {
+    return Intl.message(
+      'Fees Category',
+      name: 'fees_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Pending fees found.`
+  String get no_pending_fees_found {
+    return Intl.message(
+      'No Pending fees found.',
+      name: 'no_pending_fees_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fees Sub Category`
+  String get fees_sub_category {
+    return Intl.message(
+      'Fees Sub Category',
+      name: 'fees_sub_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Academic Year`
+  String get academic_year {
+    return Intl.message(
+      'Academic Year',
+      name: 'academic_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction ID`
+  String get transaction_iD {
+    return Intl.message(
+      'Transaction ID',
+      name: 'transaction_iD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction Date`
+  String get transaction_dt {
+    return Intl.message(
+      'Transaction Date',
+      name: 'transaction_dt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Student Ledger Found`
+  String get no_student_ledger_found {
+    return Intl.message(
+      'No Student Ledger Found',
+      name: 'no_student_ledger_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Mode`
+  String get payment_mode {
+    return Intl.message(
+      'Payment Mode',
+      name: 'payment_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fee Receipt Number`
+  String get fee_reciept_number {
+    return Intl.message(
+      'Fee Receipt Number',
+      name: 'fee_reciept_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical Information`
+  String get medical_information {
+    return Intl.message(
+      'Medical Information',
+      name: 'medical_information',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Has the child ever been hospitalized?`
+  String get has_hospitalised {
+    return Intl.message(
+      'Has the child ever been hospitalized?',
+      name: 'has_hospitalised',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year Of Hospitalization`
+  String get year_Of_Hospitalization {
+    return Intl.message(
+      'Year Of Hospitalization',
+      name: 'year_Of_Hospitalization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason Of Hospitalization`
+  String get reason_Of_Hospitalization {
+    return Intl.message(
+      'Reason Of Hospitalization',
+      name: 'reason_Of_Hospitalization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Year`
+  String get select_Year {
+    return Intl.message(
+      'Select Year',
+      name: 'select_Year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Physical Disabilities`
+  String get physical_disabilities {
+    return Intl.message(
+      'Physical Disabilities',
+      name: 'physical_disabilities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specify Disability`
+  String get specify__disability {
+    return Intl.message(
+      'Specify Disability',
+      name: 'specify__disability',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical History`
+  String get medical_history {
+    return Intl.message(
+      'Medical History',
+      name: 'medical_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specify Medical History`
+  String get specify_Medical_History {
+    return Intl.message(
+      'Specify Medical History',
+      name: 'specify_Medical_History',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allergies`
+  String get allergies {
+    return Intl.message(
+      'Allergies',
+      name: 'allergies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specify Allergies`
+  String get specify_allergies {
+    return Intl.message(
+      'Specify Allergies',
+      name: 'specify_allergies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personalised Learning Needs`
+  String get personalised_Learning_Needs {
+    return Intl.message(
+      'Personalised Learning Needs',
+      name: 'personalised_Learning_Needs',
       desc: '',
       args: [],
     );

@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 
 class ArrivalInfoTile extends StatelessWidget {
   final String vehicleNumber;
@@ -77,7 +78,7 @@ class ArrivalInfoTile extends StatelessWidget {
                 SizedBox(width: 4.w),
                 Flexible(
                   child: CommonText(
-                      text: "$totalStudents Students",
+                      text: "$totalStudents ${Strings.of(context).students}",
                       style: AppTypography.smallCaption),
                 ),
               ],

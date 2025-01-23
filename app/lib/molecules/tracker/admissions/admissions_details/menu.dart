@@ -4,6 +4,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 
 class Menu extends StatelessWidget {
   final List menuData;
@@ -23,7 +24,7 @@ class Menu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CommonText(
-            text: 'Apply Action',
+            text: Strings.of(context).apply_action,
             style: AppTypography.subtitle2,
           ),
           Column(

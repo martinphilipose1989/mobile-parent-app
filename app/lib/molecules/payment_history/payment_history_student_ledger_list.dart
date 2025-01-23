@@ -13,6 +13,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
+import 'package:localisation/strings.dart';
 
 class PaymentHistoryStudentLedgerList extends StatefulWidget {
   final List<domain.GetPendingFeesFeeModel> fees;
@@ -90,7 +91,7 @@ class _PaymentHistoryStudentLedgerState
             height: MediaQuery.of(context).size.height,
             child: fees.isEmpty
                 ? CommonText(
-                    text: 'No Student Ledger Found',
+                    text: Strings.of(context).no_student_ledger_found,
                     style: AppTypography.subtitle2,
                   )
                 : ListView.separated(

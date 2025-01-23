@@ -11,6 +11,7 @@ import 'package:domain/domain.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart';
@@ -47,14 +48,14 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                   height: 16.h,
                 ),
     Text(
-                  "Raise Intimation",
+                  Strings.of(context).raise_Intimation,
                   style: AppTypography.h5,
                 ),
                 SizedBox(
                   height: 20.h,
                 ),
                 CommonDatePickerWidget(
-                  labelName: "Request Date",
+                  labelName: Strings.of(context).request_date,
                   isDisabled: false,
                   controller: model!.dateController,
                   onDateSelected: (selectedDate) {
@@ -68,10 +69,10 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 ),
                 CommonTextFormField(
                   showAstreik: true,
-                  labelText: "Note",
+                  labelText: Strings.of(context).note,
                   controller: model.noteController,
                   decoration: InputDecoration(
-                      hintText: "Enter Note",
+                      hintText: Strings.of(context).enter_note,
                       // Default border when not focused
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -83,7 +84,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                       )),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Note cannot be empty"; // Error message
+                      return Strings.of(context).note_cannot_be_empty; // Error message
                     }
                     return null; // Input is valid
                   },
@@ -93,8 +94,8 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                 ),
                 CommonTextFormField(
                   showAstreik: false,
-                  labelText: "Attachment",
-                  hintText: "Add Attachment",
+                  labelText: Strings.of(context).attachment,
+                  hintText: Strings.of(context).add_attachment,
                   controller: model.attachmentController,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -131,7 +132,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        text: "Cancel",
+                        text: Strings.of(context).cancel,
                         backgroundColor: AppColors.disableNeutral80,
                       ),
                     ),
@@ -164,7 +165,7 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                           // Default UI
                           return ElevatedButton(
                             onPressed: model.createIntimation,
-                            child: Text("Submit"),
+                            child: Text(Strings.of(context).submit),
                           );
                         },
                         initialData: Resource.none(),
@@ -193,6 +194,9 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
             ),
           );
         },
-        providerBase: createIntimationProvider);
+
+        providerBase: createIntimationProvider
+
+    );
   }
 }

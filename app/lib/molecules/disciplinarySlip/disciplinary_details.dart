@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../feature/disciplinarySlip/disciplinary_details_view_model.dart';
@@ -51,7 +52,7 @@ class DisciplinaryDetails extends StatelessWidget {
             name: name,
             title: "$schoolName|$boardName",
             subtitle: "$course| $shift| $division| $house| $grade ",
-            subtitle2: "Stream: $stream "),
+            subtitle2: "${Strings.of(context).stream} $stream "),
         SizedBox(
           height: 20.h,
         ),
@@ -61,7 +62,7 @@ class DisciplinaryDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
           CommonText(
-                text: "Disciplinary Slip",
+                text: Strings.of(context).disciplinary_Slip,
                 style: AppTypography.subtitle1,
               ),
               BaseWidget(
@@ -140,7 +141,7 @@ class DisciplinaryDetails extends StatelessWidget {
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
-                                              text: "close",
+                                              text: Strings.of(context).close,
                                               textColor: Theme.of(context)
                                                   .colorScheme
                                                   .primaryContainer,
@@ -155,7 +156,7 @@ class DisciplinaryDetails extends StatelessWidget {
                                     ),
                                   ),
                                   title:Text(
-                                    "Slip Information",
+                                    Strings.of(context).slip_information,
                                     style: AppTypography.h6,
                                   ),
                                 );

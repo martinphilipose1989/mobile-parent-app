@@ -3,6 +3,7 @@ import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class CompetencyTestScheduledDetailsWidget extends StatelessWidget {
   final CompetencyTestDetails competencyTestDetails;
@@ -13,7 +14,7 @@ class CompetencyTestScheduledDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CommonText(text: "Test details",style: AppTypography.body1.copyWith(color: AppColors.textDark),),
+        CommonText(text: Strings.of(context).test_details,style: AppTypography.body1.copyWith(color: AppColors.textDark),),
         const SizedBox(height: 10,),
         Container(
           height: 1,
@@ -21,14 +22,14 @@ class CompetencyTestScheduledDetailsWidget extends StatelessWidget {
           color: const Color(0xffE0E0E0),
         ),
         const SizedBox(height: 10,),
-        _detailItem(title: "Test Time",subtitle: competencyTestDetails.slot??''),
+        _detailItem(title: Strings.of(context).test_Time,subtitle: competencyTestDetails.slot??''),
         const SizedBox(height: 10,),
-        _detailItem(title: "Mode",subtitle: competencyTestDetails.mode??''),
+        _detailItem(title: Strings.of(context).mode,subtitle: competencyTestDetails.mode??''),
         const SizedBox(height: 10,),
-        _detailItem(title: "School",subtitle: competencyTestDetails.status??''),
+        _detailItem(title: Strings.of(context).school,subtitle: competencyTestDetails.status??''),
         if(competencyTestDetails.testResult == "Pass" || competencyTestDetails.testResult == "Fail")...[
           const SizedBox(height: 10,),
-        _detailItem(title: "Test Result",subtitle: competencyTestDetails.testResult??''),  
+        _detailItem(title: Strings.of(context).test_Result,subtitle: competencyTestDetails.testResult??''),
         ],
         const SizedBox(height: 10,),
       ],

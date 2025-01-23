@@ -10,6 +10,7 @@ import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class MedicalDetailsEditing extends StatelessWidget {
   const MedicalDetailsEditing({super.key, required this.model});
@@ -22,7 +23,7 @@ class MedicalDetailsEditing extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
          CommonText(
-            text: "Medical Information",
+            text: Strings.of(context).medical_history,//Strings.of(context)
             style: AppTypography.subtitle1,
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
@@ -33,16 +34,16 @@ class MedicalDetailsEditing extends StatelessWidget {
           ),
           CommonSizedBox.sizedBox(height: 10, width: 10),
       CommonText(
-            text: "Has the child ever been hospitalized?",
+            text: Strings.of(context).has_hospitalised,
             style: AppTypography.subtitle1,
           ),
           CommonRadioButtonWidget(
-            title: 'Yes',
+            title: Strings.of(context).yes,
             commonRadioButton: model.radioButtonController4,
             value: 'Yes',
           ),
           CommonRadioButtonWidget(
-            title: 'No',
+            title: Strings.of(context).no,
             commonRadioButton: model.radioButtonController4,
             value: 'No',
           ),
@@ -56,7 +57,7 @@ class MedicalDetailsEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
-                      labelText: 'Year Of Hospitalization',
+                      labelText: Strings.of(context).year_Of_Hospitalization,
                       maxLength: 4,
                       readOnly: true,
                       onTap: (){
@@ -64,7 +65,7 @@ class MedicalDetailsEditing extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text("Select Year"),
+                              title: Text(Strings.of(context).select_Year),
                               content: SizedBox(
                                 // Need to use container to add size constraint.
                                 width: 300,
@@ -94,7 +95,7 @@ class MedicalDetailsEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                      CommonTextFormField(
                       showAstreik: false,
-                      labelText: 'Reason Of Hospitalization',
+                      labelText: Strings.of(context).reason_Of_Hospitalization,
                       controller:model.reasonOfHospitalizationController,
                       validator: (value)=> AppValidators.validateNotEmpty(value, 'Reason Of Hospitalization'),
                     ),
@@ -105,16 +106,16 @@ class MedicalDetailsEditing extends StatelessWidget {
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
      CommonText(
-            text: "Physical Disabilities",
+            text: Strings.of(context).physical_disabilities,
             style: AppTypography.subtitle1,
           ),
           CommonRadioButtonWidget(
-            title: 'Yes',
+            title: Strings.of(context).yes,
             commonRadioButton: model.radioButtonController5,
             value: 'Yes',
           ),
           CommonRadioButtonWidget(
-            title: 'No',
+            title: Strings.of(context).no,
             commonRadioButton: model.radioButtonController5,
             value: 'No',
           ),
@@ -128,7 +129,7 @@ class MedicalDetailsEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
-                      labelText: 'Specify Disability',
+                      labelText: Strings.of(context).specify__disability,
                        controller: model.specificDisabilityController,
                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Disability'),
                     ),
@@ -140,16 +141,16 @@ class MedicalDetailsEditing extends StatelessWidget {
           
           CommonSizedBox.sizedBox(height: 15, width: 10),
    CommonText(
-            text: "Medical History",
+            text: Strings.of(context).medical_history,
             style: AppTypography.subtitle1,
           ),
           CommonRadioButtonWidget(
-            title: 'Yes',
+            title: Strings.of(context).yes,
             commonRadioButton: model.radioButtonController7,
             value: 'Yes',
           ),
           CommonRadioButtonWidget(
-            title: 'No',
+            title: Strings.of(context).no,
             commonRadioButton: model.radioButtonController7,
             value: 'No',
           ),
@@ -163,7 +164,7 @@ class MedicalDetailsEditing extends StatelessWidget {
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
-                      labelText: 'Specify Medical History',
+                      labelText: Strings.of(context).specify_Medical_History,
                        controller: model.specifyMedicalHistoryController,
                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Medical History'),
                     ),
@@ -174,16 +175,16 @@ class MedicalDetailsEditing extends StatelessWidget {
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
 CommonText(
-            text: "Allergies",
+            text: Strings.of(context).allergies,
             style: AppTypography.subtitle1,
           ),
           CommonRadioButtonWidget(
-            title: 'Yes',
+            title: Strings.of(context).yes,
             commonRadioButton: model.radioButtonController8,
             value: 'Yes',
           ),
           CommonRadioButtonWidget(
-            title: 'No',
+            title: Strings.of(context).no,
             commonRadioButton: model.radioButtonController8,
             value: 'No',
           ),
@@ -197,7 +198,7 @@ CommonText(
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: false,
-                      labelText: 'Specify Allergies',
+                      labelText: Strings.of(context).specify_allergies,
                        controller: model.specifyAllergiesController,
                        validator: (value)=> AppValidators.validateNotEmpty(value, 'Specify Allergies'),
                     ),
@@ -233,16 +234,16 @@ CommonText(
           ),
           CommonSizedBox.sizedBox(height: 15, width: 10),
       CommonText(
-            text: "Personalised Learning Needs",
+            text: Strings.of(context).personalised_Learning_Needs,
             style: AppTypography.subtitle1,
           ),
           CommonRadioButtonWidget(
-            title: 'Yes',
+            title: Strings.of(context).yes,
             commonRadioButton: model.radioButtonController9,
             value: 'Yes',
           ),
           CommonRadioButtonWidget(
-            title: 'No',
+            title: Strings.of(context).no,
             commonRadioButton: model.radioButtonController9,
             value: 'No',
           ),
