@@ -280,7 +280,7 @@ abstract class NetworkPort {
       findByCategorySubCategory(
           {required int categoryId, required int subCategoryId});
 
-  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationlog(
       {required String communocationId});
 
   Future<Either<NetworkError, SendCommunicationModel>> sendCommunication(
@@ -347,6 +347,6 @@ abstract class NetworkPort {
   Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
       {required UndertakingRequest body});
 
-  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentDetails(
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentYearlyDetails(
       {required int studentId, required int year});
 }

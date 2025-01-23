@@ -1269,10 +1269,10 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
+  Future<Either<NetworkError, GetCommunicationDetails>> createCommunication//log
       {required String communocationId}) async {
     var response = await safeApiCall(ticketRetrofitService
-        .createCommunicationLog(communocationId: communocationId));
+        .createCommunication//logcommunocationId: communocationId));
     return response.fold(
       (l) {
         return Left(l);
@@ -1737,10 +1737,10 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentDetails(
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentYearlyDetails(
       {required int studentId, required int year}) async {
     final response = await safeApiCall(
-        apiService.getStudentDetails(studentId, year, mdmToken));
+        apiService.getStudentYearlyDetails(studentId, year, mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
