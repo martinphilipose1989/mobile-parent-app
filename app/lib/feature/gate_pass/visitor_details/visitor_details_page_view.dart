@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'dart:typed_data';
 
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
@@ -293,7 +291,6 @@ class KidsClubDetailPageView extends BasePageViewWidget<KidsClubViewModel> {
                                                     flex: 1,
                                                     child: CommonElevatedButton(
                                                       onPressed: () {
-                                                        log("message");
                                                         if (onSelectVasEnrolment !=
                                                             null) {
                                                           onSelectVasEnrolment

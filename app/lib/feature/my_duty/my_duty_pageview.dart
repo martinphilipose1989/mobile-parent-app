@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
@@ -39,20 +36,25 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
               options: model.tripStatusType,
               onSelect: (value) => {model.getMyDutyList()}),
         ),
- Padding(
-   padding: const EdgeInsets.all(8.0),
-   child: Row(
-     mainAxisAlignment: MainAxisAlignment.end,
-     children: [
-   InkWell(child: SvgPicture.asset(AppImages.duty_list),
-   onTap: (){
-   //  ProviderScope.containerOf(context).read(createIntimationProvider).pickImage(UpoladFileTypeEnum.image);
-CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
-   },
-   
-   ),
-          ],),
- ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                child: SvgPicture.asset(AppImages.duty_list),
+                onTap: () {
+                  //  ProviderScope.containerOf(context).read(createIntimationProvider).pickImage(UpoladFileTypeEnum.image);
+                  CommonPopups().showCreateIntimation(
+                    context,
+                    studentId: 10,
+                    userId: 1,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         AppStreamBuilder<String>(
             stream: model.selectedTripStatus,
             initialData: model.selectedTripStatus.value,

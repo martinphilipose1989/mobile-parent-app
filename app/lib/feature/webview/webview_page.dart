@@ -27,7 +27,7 @@ class _WebviewPageState extends AppBasePageState<WebviewModel, WebviewPage> {
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     model.webViewUrl = widget.webviewArguments.paymentsLink;
     model.enquiryDetailArgs = widget.webviewArguments.enquiryDetailArgs;
-    if (mounted && model.enquiryDetailArgs == null) {
+    if (mounted && model.enquiryDetailArgs?.enquiryNumber == null) {
       model.timer = Timer.periodic(
         Duration(seconds: model.timerSeconds),
         (timer) => model.getPaymentStatus(widget.webviewArguments.orderId!),

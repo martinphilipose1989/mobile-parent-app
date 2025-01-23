@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 
@@ -68,7 +66,6 @@ class PdfViewmodel extends BasePageViewModel {
 
   @override
   dispose() {
-    log("DISPOSE");
     underTakingSubject.close();
     super.dispose();
   }

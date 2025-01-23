@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -110,9 +108,7 @@ class TransportDetailViewModel extends BasePageViewModel {
               .add(event.data ?? TransportEnrollmentResponseModel());
           setData(transportEnrollmentDetail.value);
         }
-        if (event.status == Status.error) {
-          log("Error");
-        }
+        if (event.status == Status.error) {}
       }).onError((error) {
         // exceptionHandlerBinder.showError(error);
       });
@@ -183,7 +179,6 @@ class TransportDetailViewModel extends BasePageViewModel {
   }
 
   Future<void> calculateFees() async {
-    log("selectedPickUpZone $selectedPickUpZone");
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
         feeCalculationRequest: VasEnrollmentFeeCalculationRequest(

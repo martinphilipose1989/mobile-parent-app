@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';

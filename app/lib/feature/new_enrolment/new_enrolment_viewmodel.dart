@@ -18,6 +18,7 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final StudentDetailUseCase studentDetailsUsecase;
   final NewEnrolmentUsecase newEnrolmentUsecase;
   final GetMdmAttributeUsecase getMdmAttributeUsecase;
+  final GetStudentYearlyDetailsUsecase getStudentYearlyDetailsUsecase;
 
   // TAB CONTROLLER
   late TabController tabController;
@@ -38,7 +39,8 @@ class NewEnrolmentViewModel extends BasePageViewModel {
       required this.exceptionHandlerBinder,
       required this.studentDetailsUsecase,
       required this.newEnrolmentUsecase,
-      required this.getMdmAttributeUsecase});
+      required this.getMdmAttributeUsecase,
+      required this.getStudentYearlyDetailsUsecase});
 
   final dashBoardState = DashboardState();
 
@@ -117,6 +119,29 @@ class NewEnrolmentViewModel extends BasePageViewModel {
 
     academicYearId = selectedYear?.attributes?.shortNameTwoDigit;
     selectedAcademicYear.add(selectedYear?.attributes?.name ?? '');
+  }
+
+  // ************************ STUDENT YEARLY DETAILS ************************
+  final BehaviorSubject<Resource<MdmAttributeBaseModel>> studentYearlyDetails =
+      BehaviorSubject.seeded(Resource.none());
+
+  Future<void> getStudentYearlyDetails(
+      {required int studentId, required int academicYearId}) async {
+    studentYearlyDetails.add(Resource.loading());
+    final GetStudentYearlyDetailsParams params = GetStudentYearlyDetailsParams(
+        studentId: selectedStudentId!, year: academicYearId);
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) =>
+            getStudentYearlyDetailsUsecase.execute(params: params),
+        onSuccess: (result) {
+          studentYearlyDetails.add(Resource.success(data: result));
+        },
+        onError: (error) {
+          studentYearlyDetails.add(Resource.error());
+        });
   }
 
   @override

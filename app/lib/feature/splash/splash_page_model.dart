@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -102,7 +101,6 @@ class SplashViewModel extends BasePageViewModel {
       createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        log("User details: ${data.data}");
         if (data.data != null) {
           userSubject.add(data.data!);
           Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!,
@@ -111,8 +109,6 @@ class SplashViewModel extends BasePageViewModel {
       }
     }).onError((error) {
       if (error is LocalError) {
-        log("STATUS ERROR LocalError");
-
         login();
       }
     });
