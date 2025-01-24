@@ -119,6 +119,12 @@ class NewEnrolmentViewModel extends BasePageViewModel {
 
     academicYearId = selectedYear?.attributes?.shortNameTwoDigit;
     selectedAcademicYear.add(selectedYear?.attributes?.name ?? '');
+    if (studentProfileSubject.hasValue &&
+        studentProfileSubject.value.data != null) {
+      getStudentYearlyDetails(
+          studentId: studentProfileSubject.value.data!.profile!.id ?? 0,
+          academicYearId: int.tryParse(academicYearId!) ?? 0);
+    }
   }
 
   // ************************ STUDENT YEARLY DETAILS ************************

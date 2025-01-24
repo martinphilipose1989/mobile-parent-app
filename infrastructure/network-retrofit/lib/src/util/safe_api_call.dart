@@ -57,7 +57,6 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
             // TODO: Handle this case.
             break;
           case DioExceptionType.connectionError:
-            // TODO: Handle this case.
             return Left(
               NetworkError(
                   message:
@@ -69,12 +68,21 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
 
         break;
 
+      case FormatException:
+        return Left(
+          NetworkError(
+              message: "Response format is invalid.",
+              httpError: 400,
+              cause: throwable),
+        );
+
       case IOException:
         return Left(NetworkError(
             message: throwable.toString(), httpError: 502, cause: throwable));
 
       case HttpException:
-        final eitherResponse = (throwable as DioException).response as HttpResponse<dynamic>;
+        final eitherResponse =
+            (throwable as DioException).response as HttpResponse<dynamic>;
         return Left(getError(apiResponse: eitherResponse.response));
 
       default:

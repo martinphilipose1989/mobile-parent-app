@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/response/fetch_stops/fetch_stops_response_entity.dart';
+import 'package:network_retrofit/src/model/response/transport/bus_route_response_entity.dart';
+import 'package:network_retrofit/src/model/response/transport/fetch_stops_logs_entity.dart';
+import 'package:network_retrofit/src/model/response/transport/get_student_profile_entity_response.dart';
 import 'package:network_retrofit/src/model/response/transport/student_attendance_response_entity.dart';
+import 'package:network_retrofit/src/model/response/transport/trip_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
-
-import '../../network_retrofit.dart';
-import '../model/response/transport/bus_route_response_entity.dart';
-import '../model/response/transport/fetch_stops_logs_entity.dart';
-import '../model/response/transport/get_student_profile_entity_response.dart';
-import '../model/response/transport/trip_response_entity.dart';
 
 part 'transport_service.g.dart';
 
