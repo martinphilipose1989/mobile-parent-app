@@ -16,6 +16,7 @@ class StudentProfileEdit extends BasePage<StudentProfileEditViewModel> {
 
   final StudentDataArgs studentData;
 
+
   @override
   StudentProfileEditState createState() => StudentProfileEditState();
 }
@@ -25,8 +26,8 @@ class StudentProfileEditState
   @override
   Widget buildView(BuildContext context, StudentProfileEditViewModel model) {
     return StudentProfileEditView(
-      provideBase(),widget.studentData.studentData!
-
+      provideBase(),widget.studentData.studentData!,
+widget.studentData.bearerResponse!
     );
   }
 
@@ -65,6 +66,6 @@ class StudentProfileEditState
 
 class StudentDataArgs {
   final StudentData? studentData;
-
-  StudentDataArgs({this.studentData});
+final List<BearerResponse>? bearerResponse;
+  StudentDataArgs({this.studentData,this.bearerResponse, });
 }

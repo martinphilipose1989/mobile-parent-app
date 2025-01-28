@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
@@ -17,7 +19,7 @@ class StudentDetailPageViewModel extends BasePageViewModel {
   final BehaviorSubject<Resource<StudentData>>
       _studentDetailSubject = BehaviorSubject.seeded(Resource.none());
   late List<GetGuardianStudentDetailsStudentModel>? selectedStudent=[];
-
+ late List<BearerResponse> bererList=[];
   Stream<Resource<StudentData>> get studentDetailStream =>
       _studentDetailSubject.stream;
 
@@ -45,6 +47,7 @@ class StudentDetailPageViewModel extends BasePageViewModel {
       createCall: (params) => getBearerListUsecase.execute(params: params),
       onSuccess: (result) {
         bearerResponse.add(Resource.success(data: result?.data));
+bererList=result?.data??[];
       },
       onError: (error) {
         bearerResponse.add(Resource.error(error: error));

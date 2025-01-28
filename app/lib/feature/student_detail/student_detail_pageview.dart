@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../di/states/viewmodels.dart';
 import '../../model/resource.dart';
 import '../../molecules/student/bearerList.dart';
 import '../../molecules/student/student_image_info.dart';
@@ -74,14 +75,17 @@ class StudentDetailPageView
                     ),
 
                     SizedBox(height: 16.h),
-                    Infotitlerow(
-                      infoText: "Basic Details",
-                      visible: true,
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutePaths.profileEdit,
-                            arguments:
-                                StudentDataArgs(studentData: student?.data));
-                      },
+                    BaseWidget(
+                      builder: (BuildContext context, StudentDetailPageViewModel? model, Widget? child) { return Infotitlerow(
+                        infoText: "Basic Details",
+                        visible: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, RoutePaths.profileEdit,
+                              arguments:
+                              StudentDataArgs(studentData: student?.data,bearerResponse: model?.bererList));
+                        },
+                      );}, providerBase: studentDetailPageViewModelProvider,
+
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(

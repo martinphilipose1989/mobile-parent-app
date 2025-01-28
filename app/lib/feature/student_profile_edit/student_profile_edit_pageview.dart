@@ -22,10 +22,10 @@ import 'student_profile_edit_page_viewmodel.dart';
 class StudentProfileEditView
     extends BasePageViewWidget<StudentProfileEditViewModel> {
   final StudentData studentData;
-
+final List<BearerResponse> bearerList;
   StudentProfileEditView(
     ProviderBase<StudentProfileEditViewModel> model,
-    this.studentData,
+    this.studentData, this.bearerList,
     // {required this.studentId}
   ) : super(model);
 
@@ -340,48 +340,7 @@ class StudentProfileEditView
               SizedBox(
                 height: 150,
                 width: 1.sw,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    // Display each bearer
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Stack(children: [
-                              InkWell(
-                                onTap: () {
-                                  CommonPopups().showEdit(context, () {});
-                                },
-                                child: CommonImageWidget(
-                                    imageUrl: "",
-                                    clipBehavior: Clip.hardEdge,
-                                    imageWidth: 80,
-                                    imageHeight: 70),
-                              ),
-                              Positioned(
-                                  bottom: -20,
-                                  right: 1.w,
-                                  child: SvgPicture.asset(
-                                    AppImages.edit,
-                                    height: 26,
-                                    width: 26,
-                                  )),
-                            ]),
-                            const SizedBox(height: 12),
-                            Text("Ajay Shah")
-                          ],
-                        ),
-                        SizedBox(width: 16.w),
-                      ],
-                    );
-                  },
-                ),
+                child: BearerList(bearerList: bearerList, studentId: studentData.profile?.id??0, model: model)
               )
             ],
           ),
