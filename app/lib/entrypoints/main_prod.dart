@@ -30,10 +30,10 @@ void main() async {
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
         subjectSelectionUrl: EnvProd.subjectSelectionUrl,
-        androidApiKey: '',
-        androidAppId: '',
-        androidSenderId: '',
-        androidProjectId: ''),
+        androidApiKey: EnvProd.androidApiKey,
+        androidAppId: EnvProd.androidAppId,
+        androidSenderId: EnvProd.senderId,
+        androidProjectId: EnvProd.projectId),
   );
   startApp();
 }

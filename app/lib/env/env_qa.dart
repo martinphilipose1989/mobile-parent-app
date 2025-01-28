@@ -92,7 +92,4 @@ abstract class EnvQA {
 
   @EnviedField(varName: 'PROJECT_ID')
   static const String projectId = _EnvQA.projectId;
-
-  @EnviedField(varName: 'BEARER_BASE_URL')
-  static const String bearerBaseUrl = _EnvQA.bearerBaseUrl;
 }

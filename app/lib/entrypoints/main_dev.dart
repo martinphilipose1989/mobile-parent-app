@@ -37,7 +37,6 @@ void main() async {
       androidAppId: EnvDev.androidAppId,
       androidSenderId: EnvDev.senderId,
       androidProjectId: EnvDev.projectId,
-      bearerBaseUrl: EnvDev.bearerBaseUrl,
     ),
   );
   startApp();

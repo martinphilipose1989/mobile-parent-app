@@ -93,4 +93,7 @@ abstract class EnvDev {
 
   @EnviedField(varName: 'PROJECT_ID')
   static const String projectId = _EnvDev.projectId;
+
+  @EnviedField(varName: 'BEARER_BASE_URL')
+  static const String bearerBaseUrl = _EnvDev.bearerBaseUrl;
 }
