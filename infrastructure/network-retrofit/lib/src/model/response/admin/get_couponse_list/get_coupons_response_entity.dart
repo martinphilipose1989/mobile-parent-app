@@ -30,10 +30,10 @@ class GetCouponsResponseEntity extends BaseLayerDataTransformer<
 
   @override
   FetchCouponsListModel transform() {
-    // TODO: implement transform
     return FetchCouponsListModel(
         data: data
             ?.map((e) => FetchCouponsDataModel(
+                maxCount: e.maxCount,
                 concessionFixedAmount: e.concessionFixedAmount,
                 concessionGroupId: e.concessionGroupId,
                 concessionMaxAmount: e.concessionMaxAmount,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page_model.dart';
 import 'package:app/model/resource.dart';
@@ -20,23 +18,26 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/registration_details/registrations_widgets_read_only/menu.dart';
 
+// ignore: must_be_immutable
 class EnquiriesAdmissionsJourneyPageView
     extends BasePageViewWidget<EnquiriesAdmissionsJourneyViewModel> {
   EnquiryDetailArgs enquiryDetail;
+  // ignore: use_key_in_widget_constructors
   EnquiriesAdmissionsJourneyPageView(
     super.providerBase, {
     required this.enquiryDetail,
   });
 
-  actionOnMenu(int index, BuildContext context,
+  actionOnMenu(String menuKey, BuildContext context,
       EnquiriesAdmissionsJourneyViewModel model) {
     setEnquiryDetailsArgs(model);
-    switch (index) {
-      case 0:
+    switch (menuKey) {
+      case 'registration':
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context)
             .pushNamed(RoutePaths.registrationDetails, arguments: {
@@ -48,13 +49,13 @@ class EnquiriesAdmissionsJourneyPageView
           model.getAdmissionJourney(
               enquiryID: "${enquiryDetail.enquiryId}", type: "enquiry");
         });
-      case 1:
+      case 'call':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchPhone('+91 6003000700', context: context);
-      case 2:
+      case 'email':
         model.showMenuOnFloatingButton.add(false);
         return UrlLauncher.launchEmail('example@example.com', context: context);
-      case 3:
+      case 'tour':
         {
           model.showMenuOnFloatingButton.add(false);
           return (model.isDetailView())
@@ -81,11 +82,11 @@ class EnquiriesAdmissionsJourneyPageView
                   },
                 );
         }
-      case 4:
+      case 'timeline':
         model.showMenuOnFloatingButton.add(false);
         return Navigator.of(context).pushNamed(RoutePaths.enquiriesTimelinePage,
             arguments: enquiryDetail);
-      case 5:
+      case 'payments':
         model.showMenuOnFloatingButton.add(false);
 
         model.moveToNextStage();
@@ -147,19 +148,12 @@ class EnquiriesAdmissionsJourneyPageView
                               .where((e) => e['isActive'] == true)
                               .toList(),
                           onTap: (index) {
-                            final isRegistrationNotActive = model
-                                        .menuData.first['name']
-                                        .toString()
-                                        .toLowerCase() ==
-                                    'registration' &&
-                                model.menuData.first['isActive'] == false;
-                            if (isRegistrationNotActive) {
-                              actionOnMenu(model.menuData[index]['id'] + 1,
-                                  context, model);
-                            } else {
-                              actionOnMenu(
-                                  model.menuData[index]['id'], context, model);
-                            }
+                            final activeMenuList = model.menuData
+                                .where((e) => e['isActive'] == true)
+                                .toList();
+
+                            actionOnMenu(
+                                activeMenuList[index]['key'], context, model);
                           },
                           showMenuOnFloatingButton:
                               model.showMenuOnFloatingButton,
@@ -236,7 +230,7 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CommonText(
-                text: 'Admission Journey',
+                text: Strings.of(context).admission_journey,
                 style: AppTypography.subtitle1,
               ),
               InkWell(
@@ -250,18 +244,19 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                         enquiryID: "${enquiryDetail.enquiryId}");
                     model.getAdmissionJourney(
                         enquiryID: "${enquiryDetail.enquiryId}",
-                        type: "enquiry");
+                        type: Strings.of(context).enquiry);
                   });
                 },
                 child: Row(
                   children: [
                     SvgPicture.asset(
                       AppImages.eyeIcon,
+                      // ignore: deprecated_member_use
                       color: Theme.of(context).primaryColor,
                     ),
                     CommonSizedBox.sizedBox(height: 10, width: 10),
                     CommonText(
-                      text: 'View Details',
+                      text: Strings.of(context).view_details,
                       style: AppTypography.subtitle1
                           .copyWith(color: Theme.of(context).primaryColor),
                     ),
@@ -316,8 +311,8 @@ class StudentEnquiryDetailsCard extends StatelessWidget {
                             : (result?.data?.data ?? []).indexWhere(
                                 (element) => (element.status != "Open")));
                   case Status.error:
-                    return const Center(
-                      child: Text('Enquiries not found'),
+                    return  Center(
+                      child: Text(Strings.of(context).enquiry_not_found),
                     );
                   default:
                     return const Center(

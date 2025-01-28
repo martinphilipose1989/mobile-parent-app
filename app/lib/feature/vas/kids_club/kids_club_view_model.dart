@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -204,7 +202,6 @@ class KidsClubViewModel extends BasePageViewModel {
   }
 
   void setFeeSubTypeId(String value) {
-    log("FEE TYPE $value");
     // Update the selected fee sub-type
     selectedFeeSubType.value = value;
 

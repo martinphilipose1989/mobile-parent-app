@@ -27,21 +27,24 @@ class FetchCouponsDataModel {
   int? totalCoupon;
   String? termsAndConditions;
   String? description;
+  int? maxCount;
+  int appliedCouponCount;
 
-  FetchCouponsDataModel({
-    this.id,
-    this.couponType,
-    this.concessionPercentage,
-    this.concessionMaxAmount,
-    this.concessionFixedAmount,
-    this.concessionGroupId,
-    this.transactionType,
-    this.isActiveCoupon,
-    this.couponOrderNo,
-    this.couponCode,
-    this.userCouponCount,
-    this.totalCoupon,
-    this.termsAndConditions,
-    this.description,
-  });
+  FetchCouponsDataModel(
+      {this.id,
+      this.couponType,
+      this.concessionPercentage,
+      this.concessionMaxAmount,
+      this.concessionFixedAmount,
+      this.concessionGroupId,
+      this.transactionType,
+      this.isActiveCoupon,
+      this.couponOrderNo,
+      this.couponCode,
+      this.userCouponCount,
+      this.totalCoupon,
+      this.termsAndConditions,
+      this.description,
+      this.maxCount,
+      this.appliedCouponCount = 0});
 }

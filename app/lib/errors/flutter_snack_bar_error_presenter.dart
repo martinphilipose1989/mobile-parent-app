@@ -1,13 +1,16 @@
+import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 
-class FlutterSnackBarErrorPresenter<T extends String> extends SnackBarErrorPresenter<T> {
+class FlutterSnackBarErrorPresenter<T extends String>
+    extends SnackBarErrorPresenter<T> {
   FlutterSnackBarErrorPresenter({super.duration});
 
   @override
   void show(Exception throwable, BuildContext context, String data) {
     final snackBar = SnackBar(
-      content: Text(data),
+      content: Text(data, style: TextStyle(color: Colors.white)),
+      backgroundColor: AppColors.failure,
       duration: super.duration.toFlutter(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

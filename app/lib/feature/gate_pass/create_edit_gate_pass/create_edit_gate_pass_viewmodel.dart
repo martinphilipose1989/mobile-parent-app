@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
 import 'package:app/feature/gate_pass/visitor_details/visitor_details_page.dart';

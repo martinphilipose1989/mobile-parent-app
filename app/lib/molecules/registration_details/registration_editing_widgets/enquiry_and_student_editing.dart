@@ -13,6 +13,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 class EnquiryAndStudentEditing extends StatelessWidget {
   final RegistrationsDetailsViewModel model;
@@ -35,7 +36,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
               )),
           child: ExpansionTile(
               title: CommonText(
-                text: 'Enquiry Details',
+                text: Strings.of(context).enquiry_details,
                 style: AppTypography.subtitle2,
               ),
               children: [
@@ -50,28 +51,28 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       CommonSizedBox.sizedBox(height: 20, width: 10),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: "Enquiry Number",
+                        labelText: Strings.of(context).enquiry_no,
                         readOnly: true,
                         controller: model.enquiryNumberController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Enquiry Date',
+                        labelText: Strings.of(context).enquiry_dt,
                         readOnly: true,
                         controller: model.enquiryDateController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: "Enquiry Type",
+                        labelText: Strings.of(context).enquiry_type,
                         readOnly: true,
                         controller: model.enquiryTypeController,
                       ),
                       CommonSizedBox.sizedBox(height: 15, width: 10),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: "School Location",
+                        labelText: Strings.of(context).school_location,
                         readOnly: true,
                         controller: model.schoolLocationController,
                       ),
@@ -92,7 +93,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
               )),
           child: ExpansionTile(
               title: CommonText(
-                text: 'Student Details',
+                text: Strings.of(context).student_detail,
                 style: AppTypography.subtitle2,
               ),
               children: [
@@ -107,7 +108,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       CommonSizedBox.sizedBox(height: 20, width: 10),
                       CommonTextFormField(
                         showAstreik: true,
-                        labelText: "Student First Name",
+                        labelText: Strings.of(context).student_first_name,
                         controller: model.studentFirstNameController,
                         validator: (value) => AppValidators.validateNotEmpty(
                             value, 'Student first name'),
@@ -117,7 +118,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       ),
                       CommonTextFormField(
                         showAstreik: true,
-                        labelText: "Student Last Name",
+                        labelText: Strings.of(context).student_last_name,
                         controller: model.studentLastNameController,
                         validator: (value) => AppValidators.validateNotEmpty(
                             value, 'Student last name'),
@@ -181,7 +182,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       CommonTextFormField(
                         showAstreik: false,
                         readOnly: true,
-                        labelText: "Eligible Grade",
+                        labelText: Strings.of(context).eligible_grade,
                         controller: model.studentEligibleGradeController,
                       ),
                       const SizedBox(
@@ -189,7 +190,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       ),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: "Student Aadhar No",
+                        labelText: Strings.of(context).student_Aadhar_no,
                         controller: model.studentAadharController,
                         keyboardType: TextInputType.number,
                         maxLength: 12,
@@ -240,7 +241,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                       ),
                       CommonTextFormField(
                         showAstreik: false,
-                        labelText: 'Existing School Name',
+                        labelText: Strings.of(context).existing_School_Name,
                         controller: model.existingSchoolNameController,
                         validator: (value) => AppValidators.validateNotEmpty(
                             value, 'Existing school name'),
@@ -374,7 +375,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent First Name',
+                                  labelText: Strings.of(context).parent_first_name,
                                   controller:
                                       model.studentsFatherFirstNameController,
                                   validator: (value) =>
@@ -384,7 +385,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Last Name',
+                                  labelText: Strings.of(context).parent_last_name,
                                   controller:
                                       model.studentsFatherLastNameController,
                                   validator: (value) =>
@@ -394,7 +395,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Email ID',
+                                  labelText: Strings.of(context).parent_email_Id,
                                   controller:
                                       model.studentsFatherEmailController,
                                   validator: (value) =>
@@ -403,7 +404,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Mobile Number',
+                                  labelText: Strings.of(context).parent_mobile_no,
                                   controller:
                                       model.studentsFatherContactController,
                                   validator: (value) =>
@@ -424,17 +425,17 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent First Name',
+                                  labelText: Strings.of(context).parent_first_name,
                                   controller:
                                       model.studentsMotherFirstNameController,
                                   validator: (value) =>
                                       AppValidators.validateNotEmpty(
-                                          value, 'Parent first name'),
+                                          value, Strings.of(context).parent_first_name),
                                 ),
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Last Name',
+                                  labelText: Strings.of(context).parent_last_name,
                                   controller:
                                       model.studentsMotherLastNameController,
                                   validator: (value) =>
@@ -444,7 +445,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Email ID',
+                                  labelText: Strings.of(context).parent_email_Id,
                                   controller:
                                       model.studentsMotherEmailController,
                                   validator: (value) =>
@@ -453,7 +454,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                                 CommonSizedBox.sizedBox(height: 15, width: 10),
                                 CommonTextFormField(
                                   showAstreik: true,
-                                  labelText: 'Parent Mobile Number',
+                                  labelText: Strings.of(context).parent_mobile_no,
                                   maxLength: 10,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly
@@ -513,7 +514,7 @@ class EnquiryAndStudentEditing extends StatelessWidget {
                           }),
                       const SizedBox(height: 20),
                       CommonTextFormField(
-                        labelText: 'Place Of Birth',
+                        labelText: Strings.of(context).place_Of_birth,
                         showAstreik: true,
                         controller: model.placeOfBirthController,
                         validator: (value) => AppValidators.validateNotEmpty(

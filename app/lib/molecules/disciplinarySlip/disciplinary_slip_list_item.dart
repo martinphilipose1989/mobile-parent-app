@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart';
@@ -94,7 +95,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                           width: 5.h,
                         ),
                         CommonText(
-                          text: "Slip ${widget.disciplinaryId}",
+                          text: "${Strings.of(context).slip} ${widget.disciplinaryId}",
                           style: AppTypography.caption
                               .copyWith(color: AppColors.titleNeutral5),
                         ),
@@ -148,7 +149,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                       height: 10.h,
                     ),
                     CommonText(
-                      text: "Student Disciplinary Action",
+                      text: Strings.of(context).student_disciplinary_action,
                       style: AppTypography.subtitle2
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
@@ -192,7 +193,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       CommonText(
-                                        text: "Disciplinary Action : ",
+                                        text: Strings.of(context).disciplinary_Action,
                                         style: AppTypography.body2.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -236,7 +237,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                                                         "Parent"
                                                     ? CommonElevatedButton(
                                                         onPressed: () {},
-                                                        text: "Acknowledge",
+                                                        text: Strings.of(context).acknowledge,
                                                         backgroundColor:
                                                             AppColors.disable,
                                                         textColor:
@@ -258,11 +259,11 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
                                                           CommonPopups()
                                                               .showSuccess(
                                                             context,
-                                                            "Acknowledged",
+                                                            Strings.of(context).acknowledged,
                                                             (shouldRoute) {},
                                                           );
                                                         },
-                                                        text: "Acknowledge",
+                                                        text: Strings.of(context).acknowledge,
                                                         backgroundColor:
                                                             AppColors.primary,
                                                         textColor:

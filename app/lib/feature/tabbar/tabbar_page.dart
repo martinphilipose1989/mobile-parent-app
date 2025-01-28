@@ -2,6 +2,7 @@ import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
 import 'package:app/feature/student_detail/student_detail_page.dart';
+import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/molecules/drawer/expansion_list.dart';
@@ -15,8 +16,11 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -43,6 +47,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   void didChangeDependencies() {
     model.tabController =
         TabController(initialIndex: BOTTOM_NAV_INDEX, length: 3, vsync: this);
+    model.getUserDetails();
     super.didChangeDependencies();
   }
 
@@ -53,9 +58,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   void onModelReady(TabbarViewModel model) {
-    model.selectedStudent = ProviderScope.containerOf(context)
-        .read(dashboardViewModelProvider)
-    .selectedStudentId;
     // model.menuItems = [
     //   MenuItem(
     //       menuItem: "Fees",
@@ -79,7 +81,6 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
     //       drawerItmes: model.dailyDiary)
     // ];
     model.getUserDetails();
-
     super.onModelReady(model);
   }
 
@@ -99,7 +100,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                   child: CommonText(
-                    text: "Coming Soon !!!",
+                    text: Strings.of(context).coming_soon,
                     style: AppTypography.body1,
                   ),
                 ),
@@ -114,8 +115,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   PreferredSizeWidget? buildAppbar(TabbarViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Dashboard',
+    return  CommonAppBar(
+      appbarTitle: Strings.of(context).dashboard,
     );
   }
 
@@ -136,16 +137,22 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
         width: MediaQuery.of(context!).size.width * 0.8,
         child: Padding(
           padding: const EdgeInsets.only(top: 32.0),
-          child: ListView(
-              //    SizedBox(),
-              children: model.menuItems
-                  .map((e) => Visibility(
-                      visible: e.menuItemActive ?? false,
-                      child: CustomExpansionList(
-                        title: e.menuItem ?? "",
-                        nameList: e.drawerItmes,
-                      )))
-                  .toList()),
+          child: AppStreamBuilder<List<MenuItem>>(
+              stream: model.menuItems,
+              initialData: [],
+              dataBuilder: (context, menus) {
+                return ListView(
+                    //    SizedBox(),
+                    children: menus
+                            ?.map((e) => Visibility(
+                                visible: e.menuItemActive ?? false,
+                                child: CustomExpansionList(
+                                  title: e.menuItem ?? "",
+                                  nameList: e.drawerItmes,
+                                )))
+                            .toList() ??
+                        []);
+              }),
         ));
   }
 
@@ -177,7 +184,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: Strings.of(context).home,
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],
@@ -199,7 +206,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Notification',
+                          text: Strings.of(context).notification,
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

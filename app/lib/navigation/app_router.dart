@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:app/feature/admissions/admissions_page.dart';
@@ -93,9 +92,7 @@ class AppRouter {
       case RoutePaths.couponList:
         return CupertinoPageRoute(
             builder: (context) => CouponList(
-                  getPendingFeesFeeModel:
-                      settings.arguments as GetPendingFeesFeeModel,
-                ),
+                couponListArgs: settings.arguments as CouponListArgs),
             settings: const RouteSettings(name: RoutePaths.couponList));
       case RoutePaths.chequePayment:
         return CupertinoPageRoute(

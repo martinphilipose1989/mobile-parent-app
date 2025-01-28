@@ -1,9 +1,14 @@
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/terms_and_condition/pdf.dart';
+import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -19,22 +24,34 @@ import 'dashboard_state.dart';
 @injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
   final Sendtokenusecase sendTokenUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   BehaviorSubject<ParentStudentStatusEnum> statusSubject =
       BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
 
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   Stream<Resource<User>> get userStream => userSubject.stream;
 
   var dashboardState = DashboardState();
 
+  // Terms and Condition
+
+  final TermsAndConditionUsecase termsAndConditionUsecase;
+
   DashboardPageModel(
+      {required this.exceptionHandlerBinder,
+      required this.getGuardianStudentDetailsUsecase,
+      required this.tokenresponseUsecase,
+      required this.getUserRoleBasePermissionUsecase,
+      required this.getUserDetailsUsecase,
+      required this.termsAndConditionUsecase,
+      required this.flutterToastErrorPresenter});
     this.exceptionHandlerBinder,
     this._getGuardianStudentDetailsUsecase,
     this.tokenresponseUsecase,
@@ -45,18 +62,24 @@ class DashboardPageModel extends BasePageViewModel {
   );
 
   final List<String> images = [
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    // Add more image paths if needed
+    AppImages.banner1,
+    AppImages.banner2,
+    AppImages.banner3,
+    AppImages.banner4,
+    AppImages.banner5,
+    AppImages.banner6,
+    AppImages.banner7,
+    AppImages.banner8,
+    AppImages.banner9,
+    AppImages.banner10,
+    AppImages.banner11,
+    AppImages.banner12,
+    AppImages.banner13,
+    AppImages.banner14,
+    AppImages.banner15,
   ];
 
   late String mobileNo;
-
-  final List<String> dropdownValues = [
-    'Vipul patel EN1437465346',
-    'Amit patel EN1437465346'
-  ];
 
   final List trackerTemp = [
     {
@@ -131,7 +154,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     // VAS
     {
-      'name': 'New Enrollment',
+      'name': 'Value Added Services',
       'image': AppImages.activity,
       'isSelected': false,
       'isActive': false,
@@ -175,7 +198,7 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.createEditGatePassPage;
       case 'subject selection':
         return RoutePaths.webview;
-      case 'new enrollment':
+      case 'value added services':
         return RoutePaths.newEnrolmentPage;
 
       default:
@@ -218,21 +241,40 @@ class DashboardPageModel extends BasePageViewModel {
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
-            _getGuardianStudentDetailsUsecase.execute(params: params),
+            getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
+          if (result.data?.data?.students?.isEmpty ?? false) {
+            return;
+          }
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
+
+          processTermsAndConditionsSequentially(tempList);
+          applyActivationRules(userSubject.value);
+          showDrawerMenu.add(true);
+          loadAdmissionMenus.add(Resource.success(data: true));
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  Future<void> processTermsAndConditionsSequentially(
+      List<GetGuardianStudentDetailsStudentModel> tempList) async {
+    for (var item in tempList) {
+      if ((item.isUndertakingTaken == null ||
+              item.isUndertakingTaken == false) &&
+          (item.undertakingFile?.isNotEmpty ?? false)) {
+        await getTermsAndConditionUrl(undertakingFile: item.undertakingFile!);
+      }
+    }
   }
 
   Future<void> getUserRoleBaseDetails() async {
@@ -292,12 +334,14 @@ class DashboardPageModel extends BasePageViewModel {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        applyActivationRules(data);
+        if (data.data?.statusId == 0) {
+          applyActivationRules(data);
 
-        loadAdmissionMenus.add(Resource.success(data: true));
+          loadAdmissionMenus.add(Resource.success(data: true));
+        }
 
         userSubject.add(Resource.success(data: data.data));
 
@@ -363,16 +407,19 @@ class DashboardPageModel extends BasePageViewModel {
       });
     }).execute();
   }
+  }
 
-  final List<Map<String, String>> drawerItems = [
-    {'text': 'Fees', 'route': ''},
-    {'text': 'Payments', 'route': ''},
-    {'text': 'Transaction History', 'route': ''},
-    {'text': 'Receipt', 'route': ''},
-    {'text': 'Daily Diary', 'route': ''},
-    {'text': 'Class Update', 'route': ''},
-    {'text': 'Assignment', 'route': ''},
-  ];
+    // final List<Map<String, String>> drawerItems = [
+    //   {'text': 'Fees', 'route': ''},
+    //   {'text': 'Payments', 'route': ''},
+    //   {'text': 'Transaction History', 'route': ''},
+    //   {'text': 'Receipt', 'route': ''},
+    //   {'text': 'Daily Diary', 'route': ''},
+    //   {'text': 'Class Update', 'route': ''},
+    //   {'text': 'Assignment', 'route': ''},
+    // ];
+  }
+
   @override
   void dispose() {
     dashboardState.dispose();

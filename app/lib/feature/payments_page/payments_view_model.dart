@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -13,16 +15,19 @@ import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 @injectable
 class PaymentsPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetValidatePayNowUseCase _getValidatePayNowUseCase;
-  final GetPaymentOrderUsecase _getPaymentOrderUsecase;
-  final GetCouponsUsecase _getCouponsUsecase;
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetValidatePayNowUseCase getValidatePayNowUseCase;
+  final GetPaymentOrderUsecase getPaymentOrderUsecase;
+  final GetCouponsUsecase getCouponsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
+
   PaymentsPageModel(
-      this.exceptionHandlerBinder,
-      this._getValidatePayNowUseCase,
-      this._getPaymentOrderUsecase,
-      this._getCouponsUsecase,
-      this._getUserDetailsUsecase);
+      {required this.exceptionHandlerBinder,
+      required this.flutterToastErrorPresenter,
+      required this.getValidatePayNowUseCase,
+      required this.getPaymentOrderUsecase,
+      required this.getCouponsUsecase,
+      required this.getUserDetailsUsecase});
 
   final BehaviorSubject<String> selectedPaymentType =
       BehaviorSubject<String>.seeded('');
@@ -86,7 +91,7 @@ class PaymentsPageModel extends BasePageViewModel {
           paymentMode: paymentMode, studentFeeIds: studentFeeids);
       RequestManager<GetValidateOnPayModel>(
         params,
-        createCall: () => _getValidatePayNowUseCase.execute(params: params),
+        createCall: () => getValidatePayNowUseCase.execute(params: params),
       ).asFlow().listen((result) {
         _getValidateOnPayModel.add(result);
         if (result.status == Status.error) {}
@@ -110,6 +115,7 @@ class PaymentsPageModel extends BasePageViewModel {
 // calling coupons list api
 
   bool isDiscountApplied = false;
+  List<FetchCouponsDataModel> appliedCouponList = [];
 
   final BehaviorSubject<Resource<FetchCouponsListModel>>
       _fetchCouponsListModel =
@@ -125,24 +131,28 @@ class PaymentsPageModel extends BasePageViewModel {
       required String studentId,
       required String academicYrsId,
       required String feeSubTypeIds}) {
-    exceptionHandlerBinder.handle(block: () {
-      GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
-        feeCategoryIds: feeCategoryIds,
-        feeSubCategoryIds: feeSubCategoryIds,
-        feeTypeIds: feeTypeIds,
-        studentId: studentId,
-        academicYrsId: academicYrsId,
-        feeSubTypeIds: feeSubTypeIds,
-      );
-      RequestManager<FetchCouponsListModel>(
-        params,
-        createCall: () => _getCouponsUsecase.execute(params: params),
-      ).asFlow().listen((result) {
-        _fetchCouponsListModel.add(result);
-      }).onError((error) {
-        // exceptionHandlerBinder.showError(error!);
-      });
-    }).execute();
+    _fetchCouponsListModel.add(Resource.loading());
+
+    GetCouponsUsecaseParams params = GetCouponsUsecaseParams(
+      feeCategoryIds: feeCategoryIds,
+      feeSubCategoryIds: feeSubCategoryIds,
+      feeTypeIds: feeTypeIds,
+      studentId: studentId,
+      academicYrsId: academicYrsId,
+      feeSubTypeIds: feeSubTypeIds,
+    );
+
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) => getCouponsUsecase.execute(params: params),
+        onSuccess: (result) {
+          _fetchCouponsListModel.add(Resource.success(data: result));
+        },
+        onError: (error) {
+          _fetchCouponsListModel.add(Resource.error(error: error));
+        });
   }
 
   //end
@@ -165,47 +175,48 @@ class PaymentsPageModel extends BasePageViewModel {
   void getPaymentOrder(int paymentModeId, int serviceProviderId) {
     exceptionHandlerBinder.handle(block: () {
       GetPaymentOrderUsecaseParams params = GetPaymentOrderUsecaseParams(
-          paymentOrderModel: PaymentOrderModel(
-              orders: Orders(
-                  amount: int.parse(amount.text),
-                  currency: "INR",
-                  paymentGateway:
-                      dynamicPaymentType?.toLowerCase() == "grayquest"
-                          ? "grayQuest"
-                          : dynamicPaymentType?.toLowerCase(),
-                  receipt: "RCPT#123",
-                  lobId: selectedFees.value[0].lobSegmentId,
-                  transactionTypeId: 1,
-                  serviceProviderId: serviceProviderId,
-                  bankWalletMerchantId: 2,
-                  paymentModeId: paymentModeId,
-                  studentFees: List.generate(
-                    selectedFees.value.length,
-                    (index) => StudentFee(
-                      feeId: selectedFees.value[index].feeId,
-                      id: selectedFees.value[index].id,
-                      amount: selectedFees.value[index].isDiscountApplied
-                          ? selectedFees.value[index].discountedAmount
-                          : selectedFees.value[index].pending,
-                      amountBeforeDiscount:
-                          selectedFees.value[index].isDiscountApplied
-                              ? int.parse(selectedFees.value[index].pending
-                                      ?.split('.')[0] ??
-                                  '0')
-                              : null,
-                      couponId: selectedFees.value[index].isDiscountApplied
-                          ? selectedFees.value[index].couponId ?? ''
-                          : null,
-                    ),
-                  ),
-                  additionalInfo: AdditionalInfo(
-                      customerEmail: userSubject.value.data?.email,
-                      customerName: userSubject.value.data?.userName,
-                      customerContact: userSubject.value.data?.phoneNumber),
-                  device: null)));
+        paymentOrderModel: PaymentOrderModel(
+          orders: Orders(
+            amount: int.parse(amount.text),
+            currency: "INR",
+            paymentGateway: dynamicPaymentType?.toLowerCase() == "grayquest"
+                ? "grayQuest"
+                : dynamicPaymentType?.toLowerCase(),
+            receipt: "RCPT#123",
+            lobId: selectedFees.value[0].lobSegmentId,
+            //  transactionTypeId: 1,
+            serviceProviderId: serviceProviderId,
+            //  bankWalletMerchantId: 2,
+            paymentModeId: paymentModeId,
+            studentFees: List.generate(
+              selectedFees.value.length,
+              (index) => StudentFee(
+                feeId: selectedFees.value[index].feeId,
+                id: selectedFees.value[index].id,
+                amount: selectedFees.value[index].isDiscountApplied
+                    ? selectedFees.value[index].discountedAmount
+                    : selectedFees.value[index].pending,
+                amountBeforeDiscount: selectedFees
+                        .value[index].isDiscountApplied
+                    ? int.parse(
+                        selectedFees.value[index].pending?.split('.')[0] ?? '0')
+                    : null,
+                couponId: selectedFees.value[index].isDiscountApplied
+                    ? selectedFees.value[index].couponId ?? ''
+                    : null,
+              ),
+            ),
+            additionalInfo: AdditionalInfo(
+                customerEmail: userSubject.value.data?.email,
+                customerName: userSubject.value.data?.userName,
+                customerContact: userSubject.value.data?.phoneNumber),
+            device: null,
+          ),
+        ),
+      );
       RequestManager<GetPaymentOrderResponseModel>(
         params,
-        createCall: () => _getPaymentOrderUsecase.execute(params: params),
+        createCall: () => getPaymentOrderUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {}
         _getPaymentOrderResponseModel.add(result);
@@ -286,6 +297,36 @@ class PaymentsPageModel extends BasePageViewModel {
     amount.text = newTotalAmount.toString();
     finalAmount.value = newTotalAmount.toString();
     selectedFees.add(getPendingFeesFeeModel);
+
+    setCouponMaxCount(fetchCouponsDataModel, index);
+  }
+
+  void setCouponMaxCount(
+      FetchCouponsDataModel fetchCouponsDataModel, int index) {
+    if (appliedCouponList.isEmpty) {
+      appliedCouponList.add(fetchCouponsDataModel);
+      appliedCouponList[0].appliedCouponCount =
+          appliedCouponList[0].appliedCouponCount + 1;
+    } else {
+      final int couponIndex = appliedCouponList
+          .indexWhere((coupon) => coupon.id == fetchCouponsDataModel.id);
+
+      appliedCouponList[couponIndex].appliedCouponCount =
+          appliedCouponList[couponIndex].appliedCouponCount + 1;
+    }
+  }
+
+  void clearCoupon(String couponId) {
+    if (appliedCouponList.isNotEmpty) {
+      final int couponIndex =
+          appliedCouponList.indexWhere((coupon) => coupon.id == couponId);
+      if (appliedCouponList[couponIndex].appliedCouponCount > 0) {
+        appliedCouponList[couponIndex].appliedCouponCount =
+            appliedCouponList[couponIndex].appliedCouponCount - 1;
+      } else {
+        appliedCouponList.removeWhere((coupon) => coupon.id == couponId);
+      }
+    }
   }
 
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
@@ -293,7 +334,7 @@ class PaymentsPageModel extends BasePageViewModel {
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
         userSubject.add(Resource.success(data: data.data));

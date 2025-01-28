@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/dashboard/dashboard_state.dart';
@@ -65,7 +64,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     if (_pageSubject.value == 1) {
       _busStopsListSubject.add(Resource.loading(data: null));
     }
-    debugPrint("trip_id=====" + "${trip?.id}");
+
     final GetAllBusStopsParams params = GetAllBusStopsParams(
         routeId: trip?.id ?? '', dayId: DateTime.now().weekday, app: 'app');
 
@@ -114,6 +113,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     );
   }
 
+  // ignore: unused_field
   Position? _busPosition;
 
   void getUserLoacation() async {

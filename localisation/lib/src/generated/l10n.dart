@@ -50,6 +50,56 @@ class Strings {
     return Localizations.of<Strings>(context, Strings);
   }
 
+  /// `Hello`
+  String get hello {
+    return Intl.message(
+      'Hello',
+      name: 'hello',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dashboard`
+  String get dashboard {
+    return Intl.message(
+      'Dashboard',
+      name: 'dashboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coming Soon !!!`
+  String get coming_soon {
+    return Intl.message(
+      'Coming Soon !!!',
+      name: 'coming_soon',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Hubble Orion`
   String get appName {
     return Intl.message(

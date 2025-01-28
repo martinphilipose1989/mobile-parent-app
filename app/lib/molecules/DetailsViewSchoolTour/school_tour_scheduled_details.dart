@@ -4,6 +4,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 
 class SchoolTourScheduledDetailsWidget extends StatelessWidget {
   final SchoolVisitDetail schoolVisitDetail;
@@ -14,7 +15,7 @@ class SchoolTourScheduledDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CommonText(text: "School tour Scheduled details",style: AppTypography.body1.copyWith(color: AppColors.textDark),),
+        CommonText(text: Strings.of(context).school_tour_scheduled_details,style: AppTypography.body1.copyWith(color: AppColors.textDark),),
         const SizedBox(height: 10,),
         Container(
           height: 1,
@@ -22,11 +23,11 @@ class SchoolTourScheduledDetailsWidget extends StatelessWidget {
           color: const Color(0xffE0E0E0),
         ),
         const SizedBox(height: 10,),
-        _detailItem(title: "Date",subtitle: DateFormat('dd/MM/yyyy').format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString()))),),
+        _detailItem(title: Strings.of(context).date,subtitle: DateFormat('dd/MM/yyyy').format(DateTime.parse((schoolVisitDetail.schoolVisitDate??DateTime.now().toString()))),),
         const SizedBox(height: 10,),
-        _detailItem(title: "Selected Time",subtitle: schoolVisitDetail.slot??''),
+        _detailItem(title: Strings.of(context).selected_Time,subtitle: schoolVisitDetail.slot??''),
         const SizedBox(height: 10,),
-        _detailItem(title: "Comments",subtitle: schoolVisitDetail.comment??''),
+        _detailItem(title: Strings.of(context).comments,subtitle: schoolVisitDetail.comment??''),
         const SizedBox(height: 10,),
 
       ],

@@ -5,6 +5,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localisation/strings.dart';
 
 class ListItem extends StatelessWidget {
   final String image;
@@ -111,7 +112,7 @@ class ListItem extends StatelessWidget {
                               letterSpacing: 0.25,
                             )),
                         CommonText(
-                            text: "Status: $status",
+                            text: "${Strings.of(context).status} $status",
                             style: AppTypography.smallCaption.copyWith(
                               color: AppColors.textGray,
                               letterSpacing: 0.25,

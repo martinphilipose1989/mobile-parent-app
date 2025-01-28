@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -10,6 +8,7 @@ import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
+
 import 'package:app/navigation/route_paths.dart';
 
 import 'package:app/utils/app_typography.dart';
@@ -23,6 +22,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
@@ -40,8 +40,16 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          const Tracker(),
-          CommonSizedBox.sizedBox(height: 15, width: 10),
+          AppStreamBuilder<Resource<User>>(
+              stream: model.userSubject,
+              initialData: Resource.none(),
+              dataBuilder: (context, userData) {
+                return Visibility(
+                  visible: userData?.data?.statusId == 0,
+                  child: const Tracker(),
+                );
+              }),
+          //  CommonSizedBox.sizedBox(height: 15, width: 10),
           // AppStreamBuilder<Resource<bool>>(
           //     stream: model.loadAdmissionMenus,
           //     initialData: Resource.none(),
@@ -81,7 +89,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Child Progress/Academic Progress'),
+                      title(Strings.of(context).child_progress),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -123,7 +131,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Fees'),
+                      title(Strings.of(context).fees),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -154,7 +162,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Parent Services'),
+                      title(Strings.of(context).parent_service),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -173,7 +181,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   );
                 }
                 return SizedBox.shrink();
-              })
+              }),
         ],
       ),
     );
@@ -201,7 +209,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 getIt.get<String>(instanceName: "SubjectSelectionUrl");
             final selectedStudent = model.dashboardState.selectedStudent;
 
-            log("SubjectSelectionUrl =======> $subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}");
             Navigator.pushNamed(
               context,
               receivedRoutePath,
@@ -231,7 +238,9 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
   Widget bannerPage(List<String> images) {
     return SizedBox(
-        height: 220.h, width: 379.06.w, child: CommonPageView(images: images));
+        height: 220.h,
+        width: double.infinity,
+        child: CommonPageView(images: images));
   }
 
   Widget introductionTile(DashboardPageModel model, BuildContext context) {
@@ -265,7 +274,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   initialData: Resource.none(),
                   dataBuilder: (context, userModel) {
                     return CommonText(
-                      text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                      text: ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
                       style: AppTypography.subtitle2,
                     );
                   },

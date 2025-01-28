@@ -34,6 +34,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_enti
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/notification/notification_request_Entity.dart';
+import 'package:network_retrofit/src/model/request/undertaking/undertaking.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
 import 'package:network_retrofit/src/services/admin_retorfit_service.dart';
@@ -827,6 +828,7 @@ class NetworkAdapter implements NetworkPort {
         return response.fold((l) {
           return Left(l);
         }, (r) => Right(r.data.transform()));
+
       default:
         var response = await safeApiCall(
             apiService.getCancellationReason(token: mdmToken));
@@ -967,9 +969,8 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, TransportEnrollmentResponseModel>>
       getTransportEnrollmentDetail(
           {required VasDetailRequest vasDetailRequest}) async {
-    // transportEnrollmentDetail: vasDetailRequest,
-    var response = await safeApiCall(
-        apiService.getTransportEnrollmentDetail(token: mdmToken));
+    var response = await safeApiCall(apiService.getTransportEnrollmentDetail(
+        token: mdmToken, transportEnrollmentDetail: vasDetailRequest));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));
@@ -1548,7 +1549,7 @@ class NetworkAdapter implements NetworkPort {
       required int studentId,
       required String app}) async {
     final response = await safeApiCall(
-        transportService.getMyDutyList(page, 10, dayId, 10, app));
+        transportService.getMyDutyList(page, 10, dayId, studentId, app));
 
     return response.fold(
         (error) => Left(error), (data) => Right(data.data.transform()));
@@ -1558,10 +1559,7 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params}) async {
     final response = await safeApiCall(
-      transportService.getStudentProfile(
-        params.studentId,
-        platform: platform,
-      ),
+      transportService.getStudentProfile(params.studentId, platform: platform),
     );
 
     return response.fold(
@@ -1741,6 +1739,36 @@ class NetworkAdapter implements NetworkPort {
     await safeApiCall(transportService
         .getBearerList(studentId,platform));
 
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, TermsAndConditionsFile>> getTermsAndConditionFile(
+      {required String url}) async {
+    final response =
+        await safeApiCall(financeRetrofitService.getTermsAndConditionFile(url));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
+      {required UndertakingRequest body}) async {
+    final response = await safeApiCall(financeRetrofitService
+        .underTakingStudent(UndertakingRequestEntity().restore(body)));
+    return response.fold((l) {
+      return Left(l);
+    }, (r) => Right(r.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentYearlyDetails(
+      {required int studentId, required int year}) async {
+    final response = await safeApiCall(
+        apiService.getStudentYearlyDetails(studentId, year, mdmToken));
     return response.fold((l) {
       return Left(l);
     }, (r) => Right(r.data.transform()));

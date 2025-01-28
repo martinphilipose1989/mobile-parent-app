@@ -18,7 +18,8 @@ class AppImages {
   static const String status_open = 'assets/images/icons/status.svg';
   static const String avatar = 'assets/images/icons/avatar.svg';
   static const String icon5 = 'assets/images/icon-5.svg';
-  static const String transactionHistory = 'assets/images/transaction-minus.svg';
+  static const String transactionHistory =
+      'assets/images/transaction-minus.svg';
   static const String receipt = 'assets/images/receipt.svg';
   static const String icon6 = 'assets/images/icon-6.svg';
   static const String icon7 = 'assets/images/icon-7.svg';
@@ -54,7 +55,7 @@ class AppImages {
   static const String application = "assets/images/application.svg";
   static const String pageViewImages = 'assets/images/image 1.png';
   static const String userSearch = 'assets/images/user-search (3) 1.svg';
-  static const String parent= 'assets/images/user-square.svg';
+  static const String parent = 'assets/images/user-square.svg';
   static const String activity = 'assets/images/activity.svg';
   static const String bus = 'assets/images/bus.svg';
   static const String gift = 'assets/images/gift.svg';
@@ -142,4 +143,21 @@ class AppImages {
   static const String searchIcon = "assets/images/search_icon.svg";
   static const String filterIcon = "assets/images/filter.svg";
   static const String gate = "assets/images/Gate Pass.svg";
+
+  // BANNER IMAGES
+  static const String banner1 = "assets/images/banner_images/350x180_1.jpg";
+  static const String banner2 = "assets/images/banner_images/350x180_2.jpg";
+  static const String banner3 = "assets/images/banner_images/350x180_3.jpg";
+  static const String banner4 = "assets/images/banner_images/350x180_4.jpg";
+  static const String banner5 = "assets/images/banner_images/350x180_5.jpg";
+  static const String banner6 = "assets/images/banner_images/350x180_6.jpg";
+  static const String banner7 = "assets/images/banner_images/350x180_7.jpg";
+  static const String banner8 = "assets/images/banner_images/350x180_8.jpg";
+  static const String banner9 = "assets/images/banner_images/350x180_9.jpg";
+  static const String banner10 = "assets/images/banner_images/350x180_10.jpg";
+  static const String banner11 = "assets/images/banner_images/350x180_11.jpg";
+  static const String banner12 = "assets/images/banner_images/350x180_12.jpg";
+  static const String banner13 = "assets/images/banner_images/350x180_13.jpg";
+  static const String banner14 = "assets/images/banner_images/350x180_14.jpg";
+  static const String banner15 = "assets/images/banner_images/350x180_15.jpg";
 }

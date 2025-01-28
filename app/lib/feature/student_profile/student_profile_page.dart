@@ -4,6 +4,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -55,7 +56,7 @@ class StudentProfilePageState
 
   @override
   PreferredSizeWidget? buildAppbar(StudentProfilePageViewModel model) {
-    return const CommonAppBar(
-        appbarTitle: "Student Profile", showBackButton: true);
+    return  CommonAppBar(
+        appbarTitle: Strings.of(context).student_profile, showBackButton: true);
   }
 }

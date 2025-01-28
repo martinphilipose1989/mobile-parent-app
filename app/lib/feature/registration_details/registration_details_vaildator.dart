@@ -3,6 +3,7 @@ import 'package:app/utils/app_validators.dart';
 import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class RegistrationDetailsValidator {
   final RegistrationsDetailsViewModel model;
@@ -415,7 +416,7 @@ class RegistrationDetailsValidator {
 
     List<Map<String, dynamic>> bankFields = [
       {
-        'field': 'IFSC Code',
+        'field': Strings.of(context).ifsc_code,
         'controller': model.ifscCodeController,
         'minLength': 9
       },
@@ -477,8 +478,8 @@ class RegistrationDetailsValidator {
 
     // Validate terms and conditions acceptance
     if (model.radioButtonController6.selectedItem !=
-        'I accept the terms & conditions') {
-      errorMessage = 'Please accept the terms and conditions';
+        Strings.of(context).i_accept_the_terms) {
+      errorMessage = Strings.of(context).please_accept;
     }
 
     if (errorMessage.isNotEmpty) {

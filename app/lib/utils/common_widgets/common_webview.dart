@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -93,13 +91,11 @@ class CommonWebViewState extends State<CommonWebView> {
         // },
         // IOS COMPATIBLE VERSION
         onReceivedError: (controller, req, error) {
-          log("onReceivedHttpError: PATH ${req.url.path} DESC ${error.description}");
           if (widget.onLoadError != null) {
             widget.onLoadError!(controller, req.url);
           }
         },
         onReceivedHttpError: (controller, req, error) {
-          log("onReceivedHttpError: PATH ${req.url.path} ERROR ${error.statusCode}");
           if (widget.onLoadHttpError != null) {
             widget.onLoadHttpError!(controller, req.url);
           }

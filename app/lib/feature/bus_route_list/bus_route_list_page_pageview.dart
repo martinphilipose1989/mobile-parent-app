@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: unused_local_variable
 
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/arrival_info_tile.dart';
@@ -62,14 +63,16 @@ class BusRouteListPageView
                                               ?.dealSafeAppError?.error.message
                                               .contains("internet") ??
                                           false
-                                      ? "No Internet Connection"
-                                      : "Something Went Wrong",
+                                      ? Strings.of(context)
+                                          .no_internet_connection
+                                      : Strings.of(context).something_got_wrong,
                                   subtitle: busStopsListData
                                               ?.dealSafeAppError?.error.message
                                               .contains("internet") ??
                                           false
-                                      ? "It seems you're offline. Please check your internet connection and try again."
-                                      : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                      ? Strings.of(context)
+                                          .it_seems_you_re_offline
+                                      : Strings.of(context).an_unexpected_error,
                                   onPressed: () {
                                     model.refreshMyDutyList();
                                   },
@@ -119,7 +122,7 @@ class BusRouteListPageView
                                                           StaffListViewModel?
                                                               staffmodel,
                                                           Widget? child) {
-                                                        return _trackBus(
+                                                        return _trackBus(context: context,
                                                             onTap: () {
                                                           staffmodel?.getStaffList(
                                                               routeId: int
@@ -155,9 +158,9 @@ class BusRouteListPageView
                                                   ],
                                                 ),
                                               ),
-                                              child: const NoDataFoundWidget(
+                                              child:  NoDataFoundWidget(
                                                 title:
-                                                    "No Bus Stops List Found",
+                                                 Strings.of(context).no_bus_stops
                                               ),
                                             );
                                           }));
@@ -361,14 +364,14 @@ class BusRouteListPageView
     );
   }
 
-  Widget _trackBus({required void Function() onTap}) {
+  Widget _trackBus({required void Function() onTap,required BuildContext context}) {
     return Container(
-      padding:  EdgeInsets.only(left: 22.0, right: 22.0),
+      padding: EdgeInsets.only(left: 22.0, right: 22.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-  CommonText(
-            text: "Track Bus",
+          CommonText(
+            text: Strings.of(context).track_bus,
             style: AppTypography.subtitle1,
           ),
           InkWell(
@@ -562,7 +565,7 @@ class TimelineTile extends StatelessWidget {
                                                 vertical: 6, horizontal: 10),
                                             child: CommonText(
                                               text:
-                                                  "Currently at $stopName \n(Updated 1 mins ago)",
+                                                  "${Strings.of(context).currently_at} $stopName \n${Strings.of(context).updated1_min}",
                                               maxLines: 3,
                                               style: AppTypography.smallCaption
                                                   .copyWith(

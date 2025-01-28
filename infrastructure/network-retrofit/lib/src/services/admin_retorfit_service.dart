@@ -14,14 +14,11 @@ part 'admin_retorfit_service.g.dart';
 abstract class AdminRetorfitService {
   factory AdminRetorfitService(Dio dio,
       {String? baseUrl, String? mdmBaseUrl, String? adminBaseUrl}) {
-    return _AdminRetorfitService(
-      dio,
-      baseUrl: adminBaseUrl,
-    );
+    return _AdminRetorfitService(dio, baseUrl: adminBaseUrl);
   }
 
   @GET(
-      'concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}&platform=app')
+      'admin/concession/fetch-coupons?student_id={student_id}&fee_type_ids={fee_type_ids}&fee_category_ids={fee_category_ids}&fee_sub_category_ids={fee_sub_category_ids}&fee_sub_type_ids={fee_sub_type_ids}&academic_yrs_id={academic_yrs_id}&platform=app')
   Future<HttpResponse<GetCouponsResponseEntity>> getCoupons({
     @Path('student_id') required String studentId,
     @Path('fee_type_ids') required String feeTypeIds,
@@ -36,7 +33,7 @@ abstract class AdminRetorfitService {
       {@Path('id') required int studentId,
       @Query('platform') required String app});
 
-  @POST('school-subject/fetch-school-subjects')
+  @POST('admin/school-subject/fetch-school-subjects')
   Future<HttpResponse<SubjectListResponseEntity>> getSubjectList(
       {@Body() required SubjectListingRequest subjectListingRequest,
       @Query('platform') required String app});

@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments_page/payments_view_model.dart';
+import 'package:app/molecules/payments_page.dart/coupon_list.dart';
 import 'package:app/molecules/payments_page.dart/payments_page_radio_button.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/themes_setup.dart';
@@ -12,6 +11,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
@@ -124,14 +124,20 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                                                 .differenceAmount ??
                                                             ''))
                                                     .toString();
+                                                model.clearCoupon(
+                                                    "${data[index].couponId}");
                                               }
                                             : () {
-                                                log("APPLY ${data[index].academicYearId}");
-
-                                                Navigator.pushNamed(context,
-                                                        RoutePaths.couponList,
-                                                        arguments: data[index])
-                                                    .then(
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  RoutePaths.couponList,
+                                                  arguments: CouponListArgs(
+                                                    getPendingFeesFeeModel:
+                                                        data[index],
+                                                    appliedCouponList:
+                                                        model.appliedCouponList,
+                                                  ),
+                                                ).then(
                                                   (value) {
                                                     if (value != null) {
                                                       FetchCouponsDataModel
@@ -148,8 +154,8 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                               },
                                         child: CommonText(
                                           text: data[index].isDiscountApplied
-                                              ? 'Clear'
-                                              : 'Apply Coupons',
+                                              ? Strings.of(context).clear
+                                              : Strings.of(context).apply_coupons,
                                           style: AppTypography.subtitle2
                                               .copyWith(
                                                   color: Theme.of(context)
@@ -171,12 +177,12 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
             CommonText(
-              text: 'Select payment Method',
+              text: Strings.of(context).select_payments_method,
               style: AppTypography.body2,
             ),
             PaymentsPageRadioButton(
               model: model,
-              title: 'Current Date Cheque / Post Dated Cheque / ...',
+              title: Strings.of(context).current_date_cheque,
               value: 'Current Date Cheque / Post Dated Cheque / ...',
             ),
             SizedBox(
@@ -191,9 +197,9 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                         : PaymentsPageRadioButton(
                             model: model,
                             title:
-                                model.paymentModes[index].serviceProvider ?? '',
+                                model.paymentModes[index].paymentModeName ?? '',
                             value:
-                                model.paymentModes[index].serviceProvider ?? "",
+                                model.paymentModes[index].paymentModeName ?? "",
                           );
                   },
                   itemCount: model.paymentModes.length),

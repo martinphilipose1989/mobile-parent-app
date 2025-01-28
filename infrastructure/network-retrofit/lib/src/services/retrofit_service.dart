@@ -318,4 +318,12 @@ abstract class RetrofitService {
       @Query('filters[parent_id]') int id,
       @Query("fields[0]") String name,
       @Header("Authorization") token);
+
+  // STUDENT
+
+  @GET('/api/ac-student-yearly-details')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStudentYearlyDetails(
+      @Query('filters[student_id]') int studentId,
+      @Query("filters[acadmin_year_id]") int year,
+      @Header("Authorization") String token);
 }

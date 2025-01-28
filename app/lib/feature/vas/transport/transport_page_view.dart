@@ -18,6 +18,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
@@ -79,7 +80,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             CommonText(
-                                              text: "Calculated Amount",
+                                              text: Strings.of(context).calculated_amount,
                                               style: AppTypography.body2,
                                             ),
                                             CommonText(
@@ -96,7 +97,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                 height: 16.h,
                               ),
                               CommonText(
-                                text: "Select Bus Type",
+                                text: Strings.of(context).select_bus_type,
                                 style: AppTypography.subtitle2,
                               ),
                               SizedBox(height: 10.h),
@@ -148,7 +149,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               onPressed: () {
                                                 model.calculateFees();
                                               },
-                                              text: "Calculate",
+                                              text: Strings.of(context).calculate,
                                               backgroundColor: AppColors.accent,
                                               width: double.infinity,
                                               textStyle: AppTypography.subtitle2
@@ -167,47 +168,54 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                   onPressed: () {
                                                     if (onSelectVasEnrolment !=
                                                         null) {
-                                                      onSelectVasEnrolment?.call(StudentEnrolmentFee(
-                                                          enquiryNo: model
-                                                              .enquiryDetailArgs
-                                                              ?.enquiryNumber,
-                                                          academicYearId: model
-                                                              .enquiryDetailArgs
-                                                              ?.academicYearId,
-                                                          boardId: model
-                                                              .enquiryDetailArgs
-                                                              ?.boardId,
-                                                          courseId: model
-                                                              .enquiryDetailArgs
-                                                              ?.courseId,
-                                                          schoolId: model
-                                                              .enquiryDetailArgs
-                                                              ?.schoolId,
-                                                          shiftId: model
-                                                              .enquiryDetailArgs
-                                                              ?.shiftId,
-                                                          gradeId: model
-                                                              .enquiryDetailArgs
-                                                              ?.gradeId,
-                                                          streamId: model
-                                                              .enquiryDetailArgs
-                                                              ?.streamId,
-                                                          brandId:
-                                                              model.enquiryDetailArgs?.brandId,
-                                                          studentId: model.enquiryDetailArgs?.studentId,
-                                                          globalUserId: model.enquiryDetailArgs?.studentGlobalId,
-                                                          feeType: EnrolmentFeeType.transport.type,
-                                                          batchId: model.batchID,
-                                                          feeSubTypeId: model.feeSubTypeID,
-                                                          feeCategoryId: model.feeCategoryID,
-                                                          periodOfServiceId: model.periodOfServiceID,
-                                                          feeSubcategoryEnd: model.selectedDropZone?.zoneName,
-                                                          feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
+                                                      onSelectVasEnrolment?.call(
+                                                          StudentEnrolmentFee(
+                                                              // enquiryNo: model
+                                                              //     .enquiryDetailArgs
+                                                              //     ?.enquiryNumber,
+                                                              academicYearId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.academicYearId,
+                                                              boardId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.boardId,
+                                                              courseId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.courseId,
+                                                              schoolId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.schoolId,
+                                                              shiftId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.shiftId,
+                                                              gradeId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.gradeId,
+                                                              streamId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.streamId,
+                                                              brandId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.brandId,
+                                                              studentId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentId,
+                                                              globalUserId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentGlobalId,
+                                                              feeType:
+                                                                  EnrolmentFeeType.transport.type,
+                                                              batchId: model.batchID,
+                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              feeCategoryId: model.feeCategoryID,
+                                                              periodOfServiceId: model.periodOfServiceID,
+                                                              feeSubcategoryEnd: model.selectedDropZone?.zoneName,
+                                                              feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
                                                     } else {
                                                       model.enrollTransport();
                                                     }
                                                   },
-                                                  text: "Enroll Now",
+                                                  text: Strings.of(context).enroll_now,
                                                   backgroundColor:
                                                       AppColors.accent,
                                                   textStyle: AppTypography
@@ -239,7 +247,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                     model.selectedDropZone =
                                                         null;
                                                   },
-                                                  text: "Reset",
+                                                  text: Strings.of(context).reset,
                                                   backgroundColor:
                                                       AppColors.primaryOn,
                                                   textStyle: AppTypography
@@ -256,8 +264,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                           ),
                         );
                       } else {
-                        return const CommonText(
-                            text: "Transport Details not found");
+                        return CommonText(
+                            text:Strings.of(context).no_data_found);
                       }
                     }),
               ),
@@ -311,7 +319,7 @@ class SelectServiceType extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonText(
-                        text: "Select The Service Type",
+                        text: Strings.of(context).select_service_type,
                         style: AppTypography.subtitle2,
                       ),
                       SizedBox(height: 10.h),
@@ -356,7 +364,7 @@ class ChooseOneWayToRoute extends StatelessWidget {
                     children: [
                       SizedBox(height: 15.h),
                       CommonText(
-                        text: "Choose One Way Route",
+                        text: Strings.of(context).choose_One_Way_Route,
                         style: AppTypography.subtitle2,
                       ),
                       SizedBox(height: 10.h),
@@ -443,9 +451,9 @@ class PickUpPointToSchool extends StatelessWidget {
                             );
                           }),
                       SizedBox(height: 15.h),
-                      const CommonTextFormField(
+                CommonTextFormField(
                         showAstreik: false,
-                        labelText: "Drop Point",
+                        labelText: Strings.of(context).drop_Point,
                         readOnly: true,
                       ),
                       SizedBox(height: 15.h),
@@ -473,9 +481,9 @@ class SchoolToDropPoint extends StatelessWidget {
                   visible: selectServiceType?.toLowerCase() == "one way",
                   child: Column(
                     children: [
-                      const CommonTextFormField(
+                  CommonTextFormField(
                         showAstreik: false,
-                        labelText: "Pickup Point",
+                        labelText: Strings.of(context).pickup_Point,
                         readOnly: true,
                       ),
                       SizedBox(height: 15.h),
