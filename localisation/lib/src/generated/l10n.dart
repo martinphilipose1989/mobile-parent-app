@@ -1660,15 +1660,7 @@ class Strings {
     );
   }
 
-  /// `Are Parent's Separated?`
-  String get are_parent_Separated {
-    return Intl.message(
-      'Are Parent\'s Separated?',
-      name: 'are_parent_Separated',
-      desc: '',
-      args: [],
-    );
-  }
+  // skipped getter for the 'are_parent_Separated?' key
 
   /// `Guardian's Email ID`
   String get gardian_Email_ID {
