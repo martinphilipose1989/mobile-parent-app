@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apply_coupons": MessageLookupByLibrary.simpleMessage("Apply Coupons"),
         "apply_couppon": MessageLookupByLibrary.simpleMessage("Apply Coupon"),
         "approved": MessageLookupByLibrary.simpleMessage("Approved"),
+        "are_parent_Separated":
+            MessageLookupByLibrary.simpleMessage("Are Parent\'s Separated?"),
         "are_parent_saper":
             MessageLookupByLibrary.simpleMessage("Are Parent Saperated"),
         "area": MessageLookupByLibrary.simpleMessage("Area"),
