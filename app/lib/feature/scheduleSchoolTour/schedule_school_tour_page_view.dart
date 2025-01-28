@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 
@@ -51,7 +52,7 @@ class ScheduleSchoolTourPageView
           }
           if(isReschedule){
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('School tour rescheduled successfully')),
+      SnackBar(content: Text(Strings.of(context).school_tour_rescheduled_successfully)),
             );
             schoolVisitDetail?.schoolVisitDate = DateFormat('dd-MM-yyyy').parse(model.selectedDate).toIso8601String();
             schoolVisitDetail?.slot = model.selectedTime;
@@ -65,7 +66,7 @@ class ScheduleSchoolTourPageView
             ProviderScope.containerOf(context).read(enquiriesAdmissionsJourneyProvider(enquiryDetailArgs)).getEnquiryDetail(enquiryID: enquiryDetailArgs.enquiryId??'');
 
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('School tour scheduled successfully')),
+     SnackBar(content: Text(Strings.of(context).school_tour_scheduled_successfully)),
             );
             Navigator.pop(context,true);
           }
@@ -98,7 +99,7 @@ class ScheduleSchoolTourPageView
                                 year: "${snapshot?.data?.data!.academicYearId}",
                                 id: snapshot?.data?.data?.enquiryNumber??'',
                                 title: snapshot?.data?.data?.existingSchoolName??'',
-                                subtitle: "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
+                                subtitle: "${snapshot?.data?.data?.grade} | ${snapshot?.data?.data?.existingSchoolBoard} | ${enquiryDetailArgs.shift} | ${Strings.of(context).stream}-${enquiryDetailArgs.stream}",
                                 buttontext: snapshot?.data?.data?.currentStage??'',
 
                                 status: enquiryDetailArgs.status??'',
@@ -130,7 +131,7 @@ class ScheduleSchoolTourPageView
                           ),                      
                           /// when reschedule school tour then use this widget
                           CommonText(
-                            text: isReschedule? "Change Time" : "Select Time",
+                            text: isReschedule? Strings.of(context).change_time : Strings.of(context).select_time,
                             style: AppTypography.body1
                                 .copyWith(color: AppColors.textDark),
                           ),
@@ -145,7 +146,7 @@ class ScheduleSchoolTourPageView
                                 return const Center(child: CircularProgressIndicator(),);
                               }
                               if(snapshot?.status == Status.success){
-                                return ((snapshot?.data?.data??[]).isEmpty) ?  const CommonText(text: "Slots are not available"): StreamBuilder<int>(
+                                return ((snapshot?.data?.data??[]).isEmpty) ?  CommonText(text: Strings.of(context).slots_not_available): StreamBuilder<int>(
                                   stream: model.selectedTimeIndex,
                                   builder: (context, snapshot) {
                                     return SizedBox(
@@ -187,7 +188,7 @@ class ScheduleSchoolTourPageView
                                 );  
                               }
                               else{
-                                return const CommonText(text: "Slots are not available");
+                                return  CommonText(text: Strings.of(context).slots_not_available);
                               }
                             }
                           ),
@@ -199,8 +200,8 @@ class ScheduleSchoolTourPageView
                             child: CommonTextFormField(
                               controller: model.commentController,
                               showAstreik: true,
-                              labelText: "Comment",
-                              hintText: "Add Comment",
+                              labelText: Strings.of(context).comment,
+                              hintText: Strings.of(context).add_comment,
                               validator:(value)=> AppValidators.validateNotEmpty(value, "Comment"),
                             ),
                           ),

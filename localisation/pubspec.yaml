@@ -14,10 +14,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.16.0
-# intl_utils: ^1.9.0 // if you want to manually generate uncomment this
+  intl_utils: ^2.8.8
+    #^1.9.0 // if you want to manually generate uncomment this
 
 flutter:
 

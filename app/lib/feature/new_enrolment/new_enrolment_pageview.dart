@@ -22,6 +22,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -38,7 +39,8 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
         onData: (value) {
           if (value.status == Status.success) {
             // model.newEnrolmentSubject.add(Resource.none());
-            CommonPopups().showSuccess(context, "Student Enrolment Successful",
+            CommonPopups().showSuccess(
+                context, Strings.of(context).student_enrolment_successful,
                 (val) {
               Navigator.of(context)
                   .popUntil(ModalRoute.withName(RoutePaths.tabbar));
@@ -69,8 +71,8 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                                         subtitle:
                                             "${studentProfile.courseName?.orEmpty('N/A')}| ${studentProfile.crtShift.orEmpty('N/A')}| ${studentProfile.crtDivision.orEmpty('N/A')}| ${studentProfile.crtHouse.orEmpty('N/A')} | ${studentProfile.crtGrade.orEmpty('N/A')}",
                                         subtitle2:
-                                            "Stream: ${studentProfile.streamName.orEmpty('N/A')}")
-                                    : Text("No Data"),
+                                            "${Strings.of(context).stream} ${studentProfile.streamName.orEmpty('N/A')}")
+                                    : Text(Strings.of(context).no_data),
                               );
                       }),
                   AppStreamBuilder<Resource<List<MdmAttributeModel>>>(
@@ -110,12 +112,12 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                         options: model.vasOptions,
                         onSelect: (value) => {}),
                   ),
-                  AppStreamBuilder<String>(
-                    stream: model.selectedAcademicYear,
-                    initialData: '',
-                    dataBuilder: (context, selectedAcademicYear) {
+                  AppStreamBuilder<Resource<MdmAttributeBaseModel>>(
+                    stream: model.studentYearlyDetails,
+                    initialData: Resource.none(),
+                    dataBuilder: (context, studentYearlyDetails) {
                       return Visibility(
-                        visible: selectedAcademicYear?.isNotEmpty ?? false,
+                        visible: studentYearlyDetails?.status == Status.success,
                         child: Expanded(
                           child: StreamBuilder<VasOptions>(
                             stream: model.selectedVasOption,
@@ -151,19 +153,21 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
 
   Widget _getPageForOption(VasOptions option, NewEnrolmentViewModel model) {
     final profile = model.studentProfileSubject.value.data?.profile;
+    final yearlyDetails =
+        model.studentYearlyDetails.value.data?.data?[0].attributes;
 
     final enquiryDetailArgs = EnquiryDetailArgs(
-        schoolId: profile?.schoolParentId,
-        boardId: profile?.crtBoardId,
+        schoolId: yearlyDetails?.schoolParentId ?? profile?.schoolParentId,
+        boardId: yearlyDetails?.boardId ?? profile?.crtBoardId,
         academicYearId: int.tryParse(
             model.academicYearId ?? "${profile?.academicYearId.toString()}"),
-        courseId: profile?.crtCourseId,
-        streamId: profile?.crtStreamId,
-        gradeId: profile?.crtGradeId,
-        shiftId: profile?.crtShiftId,
-        studentId: profile?.id,
+        courseId: yearlyDetails?.courseId ?? profile?.crtCourseId,
+        streamId: yearlyDetails?.streamId ?? profile?.crtStreamId,
+        gradeId: yearlyDetails?.gradeId ?? profile?.crtGradeId,
+        shiftId: yearlyDetails?.shiftId ?? profile?.crtShiftId,
+        studentId: yearlyDetails?.studentId ?? profile?.id,
         studentGlobalId: profile?.globalId,
-        brandId: profile?.crtBrandId,
+        brandId: yearlyDetails?.brandId ?? profile?.crtBrandId,
         enquiryNumber: profile?.crtEnrOn);
 
     switch (option) {

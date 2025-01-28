@@ -12,6 +12,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
@@ -67,7 +68,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                       CommonSizedBox.sizedBox(
                                           height: 10, width: 10),
                                       CommonText(
-                                        text: 'Mark As Closed',
+                                        text: Strings.of(context).mark_as_closed,
                                         style: AppTypography.subtitle2.copyWith(
                                           color: Theme.of(context).primaryColor,
                                         ),
@@ -173,7 +174,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                              CommonText(
-                                            text: 'Priority :',
+                                            text:Strings.of(context).priority,
                                             style: AppTypography.subtitle2,
                                           ),
                                           Container(
@@ -214,7 +215,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                   CommonText(
-                                            text: 'Assigned To :',
+                                            text: Strings.of(context).assign_to,
                                             style: AppTypography.subtitle2,
                                           ),
                                           CommonText(
@@ -232,7 +233,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                             CommonText(
-                              text: 'Comments',
+                              text: Strings.of(context).comment,
                               style: AppTypography.subtitle2.copyWith(),
                             ),
                             Column(
@@ -289,7 +290,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                                                           softWrap: true,
                                                           style: AppTypography
                                                               .subtitle2,
-                                                          text: "You"),
+                                                          text: Strings.of(context).you),
                                                       CommonText(
                                                           softWrap: true,
                                                           style: AppTypography
@@ -408,7 +409,7 @@ class CommunicationPageView extends BasePageViewWidget<CommunicationPageModel> {
                             maxLines: 1,
                             controller: model.commentController,
                             labelText: '',
-                            hintText: 'Add Comments',
+                            hintText: Strings.of(context).add_comment,
                             keyboardType: TextInputType.multiline,
                             prefix: Padding(
                               padding: const EdgeInsets.all(9.0),

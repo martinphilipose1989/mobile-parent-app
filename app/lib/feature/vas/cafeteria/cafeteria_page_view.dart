@@ -13,6 +13,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
@@ -49,7 +50,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                             ?.isNotEmpty ??
                                         false),
                             replacement: NoDataFoundWidget(
-                                title: "No VAS option for Cafeteria available"),
+                                title: Strings.of(context).no_VAS_option_for_cafeteria_available),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -80,7 +81,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               CommonText(
-                                                text: "Calculated Amount",
+                                                text: Strings.of(context).calculated_amount,
                                                 style: AppTypography.body2,
                                               ),
                                               CommonText(
@@ -99,7 +100,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                   height: 16.h,
                                 ),
                                 CommonText(
-                                  text: "Opt For",
+                                  text: Strings.of(context).opt_for,
                                   style: AppTypography.subtitle2,
                                 ),
                                 SizedBox(height: 10.h),
@@ -126,7 +127,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                   height: 15.h,
                                 ),
                                 CommonText(
-                                  text: "Period Of Service",
+                                  text: Strings.of(context).period_of_service,
                                   style: AppTypography.subtitle2,
                                 ),
                                 SizedBox(
@@ -172,7 +173,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                 onPressed: () {
                                                   model.calculateFees();
                                                 },
-                                                text: "Calculate",
+                                                text: Strings.of(context).calculate,
                                                 backgroundColor:
                                                     AppColors.accent,
                                                 width: double.infinity,
@@ -246,7 +247,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                         model.enrollCafeteria();
                                                       }
                                                     },
-                                                    text: "Enroll Now",
+                                                    text: Strings.of(context).enroll_now,
                                                     backgroundColor:
                                                         AppColors.accent,
                                                     textStyle: AppTypography
@@ -265,7 +266,7 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                     onPressed: () {
                                                       model.reset();
                                                     },
-                                                    text: "Reset",
+                                                    text: Strings.of(context).reset,
                                                     backgroundColor:
                                                         AppColors.primaryOn,
                                                     textStyle: AppTypography
@@ -288,8 +289,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                   );
                 });
           } else {
-            return const Center(
-              child: CommonText(text: "Data not found"),
+            return  Center(
+              child: CommonText(text: Strings.of(context).no_data_found),
             );
           }
         });

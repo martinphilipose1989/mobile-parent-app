@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -24,6 +22,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
@@ -90,7 +89,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Child Progress/Academic Progress'),
+                      title(Strings.of(context).child_progress),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -132,7 +131,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Fees'),
+                      title(Strings.of(context).fees),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -163,7 +162,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title('Parent Services'),
+                      title(Strings.of(context).parent_service),
                       CommonSizedBox.sizedBox(height: 10, width: 10),
                       chipsList(
                           context,
@@ -210,7 +209,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 getIt.get<String>(instanceName: "SubjectSelectionUrl");
             final selectedStudent = model.dashboardState.selectedStudent;
 
-            log("SubjectSelectionUrl =======> $subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}");
             Navigator.pushNamed(
               context,
               receivedRoutePath,
@@ -276,7 +274,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   initialData: Resource.none(),
                   dataBuilder: (context, userModel) {
                     return CommonText(
-                      text: 'Hello, ${userModel?.data?.userName ?? ''}',
+                      text: ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
                       style: AppTypography.subtitle2,
                     );
                   },

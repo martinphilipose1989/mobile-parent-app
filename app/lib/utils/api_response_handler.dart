@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/myapp.dart';
@@ -27,18 +25,18 @@ abstract class ApiResponseHandler {
           onError(result.dealSafeAppError);
           _displayError(
               appError: result.dealSafeAppError,
+              exceptionHandlerBinder: exceptionHandlerBinder,
               flutterToastErrorPresenter: flutterToastErrorPresenter);
         }
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
-        log("ERROR ==> $error");
+
         if (error is NetworkError) {
           onError(
             AppError(
-              throwable: Exception(),
-              error: error.error,
-              type: ErrorType.netServerMessage,
-            ),
+                throwable: Exception(),
+                error: error.error,
+                type: ErrorType.netServerMessage),
           );
         }
       });
@@ -47,11 +45,13 @@ abstract class ApiResponseHandler {
 
   static void _displayError(
       {required AppError? appError,
+      required FlutterExceptionHandlerBinder exceptionHandlerBinder,
       required FlutterToastErrorPresenter flutterToastErrorPresenter}) {
     switch (appError?.error.code) {
       case 401:
         flutterToastErrorPresenter.show(appError!.throwable,
             navigatorKey.currentContext!, "Session Expired please login again");
+
       case 408: // Connection Timeout
         flutterToastErrorPresenter.show(
             appError!.throwable,

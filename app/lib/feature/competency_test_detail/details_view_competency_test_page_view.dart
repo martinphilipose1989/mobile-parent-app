@@ -12,6 +12,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class DetailsViewCompetencyTestPageView
@@ -108,7 +109,7 @@ class DetailsViewCompetencyTestPageView
                                 }
                                );
                             },
-                            text: 'Reschedule Test',
+                            text: Strings.of(context).reschedule_test,
                             backgroundColor: AppColors.accent,
                             width: 171.w,
                             height: 40.h,
@@ -124,7 +125,7 @@ class DetailsViewCompetencyTestPageView
           );  
         }
         else{
-          return const Center(child: CommonText(text: 'Competency test details not found.'),);
+          return  Center(child: CommonText(text: Strings.of(context).competency_test_details),);
         }
       }
     );

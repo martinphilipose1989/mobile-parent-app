@@ -9,6 +9,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' as domain;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 class PendingAmountExpansionTile extends StatefulWidget {
   final PaymentsModel model;
@@ -58,11 +59,11 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                   ),
                         data.data?[i].fees.isEmpty == true &&
                                 data.data?.length == 1
-                            ? const SizedBox(
+                            ? SizedBox(
                                 height: 300,
                                 child: Center(
                                   child: CommonText(
-                                      text: "No Pending fees found."),
+                                      text: Strings.of(context).no_pending_fees_found),
                                 ),
                               )
                             : Column(
@@ -272,8 +273,8 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text(
-                                                          'Academic Year'),
+                                                       Text(
+                                                          Strings.of(context).academic_year),
                                                       Text(data
                                                               .data?[i]
                                                               .fees[index]
@@ -288,8 +289,8 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text(
-                                                          'Period Of Service'),
+                                                      Text(
+                                                          Strings.of(context).period_of_service),
                                                       Text(data
                                                               .data?[i]
                                                               .fees[index]
@@ -304,7 +305,7 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text('Fees'),
+                                               Text(Strings.of(context).fees),
                                                       Text(CurrencyFormatter
                                                           .formatToRupee(data
                                                                   .data?[i]
@@ -320,7 +321,7 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text('Concession',
+                                                       Text(Strings.of(context).concession,
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .green)),
@@ -345,8 +346,8 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text(
-                                                          'Partially Paid',
+                                                Text(
+                                                    Strings.of(context).partially_paid,
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .green)),
@@ -371,8 +372,8 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      const Text(
-                                                          'Reallocation', // 'Reallocation (Transport)',
+                                                  Text(
+                                                      Strings.of(context).reallocation, // 'Reallocation (Transport)',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .green)),
@@ -401,8 +402,8 @@ class _CustomExpansionTileState extends State<PendingAmountExpansionTile> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-                                                            const Text(
-                                                                'Due Date'),
+                                                           Text(
+                                                               Strings.of(context).due_date),
                                                             Text(DateFormatter
                                                                 .formatDate(data
                                                                         .data?[

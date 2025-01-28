@@ -11,6 +11,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
@@ -153,8 +154,8 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
                                               },
                                         child: CommonText(
                                           text: data[index].isDiscountApplied
-                                              ? 'Clear'
-                                              : 'Apply Coupons',
+                                              ? Strings.of(context).clear
+                                              : Strings.of(context).apply_coupons,
                                           style: AppTypography.subtitle2
                                               .copyWith(
                                                   color: Theme.of(context)
@@ -176,12 +177,12 @@ class PaymentsPageView extends BasePageViewWidget<PaymentsPageModel> {
             ),
             CommonSizedBox.sizedBox(height: 20, width: 10),
             CommonText(
-              text: 'Select payment Method',
+              text: Strings.of(context).select_payments_method,
               style: AppTypography.body2,
             ),
             PaymentsPageRadioButton(
               model: model,
-              title: 'Current Date Cheque / Post Dated Cheque / ...',
+              title: Strings.of(context).current_date_cheque,
               value: 'Current Date Cheque / Post Dated Cheque / ...',
             ),
             SizedBox(

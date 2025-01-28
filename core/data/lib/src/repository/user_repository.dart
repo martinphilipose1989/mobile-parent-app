@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:services/services.dart';
@@ -209,7 +207,6 @@ class UserRepositoryImpl extends UserRepository {
             token: token),
       );
     } catch (error) {
-      log("ERROR $error");
       return Left(
         LocalError(
           errorType: ErrorType.storageError,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/model/resource.dart';
@@ -257,9 +255,7 @@ class TabbarViewModel extends BasePageViewModel {
         }
 
         setDrawerMenuItems(data);
-      } else if (data.status == Status.error) {
-        log("ERROR ${data.dealSafeAppError?.error.message}");
-      }
+      } else if (data.status == Status.error) {}
     });
   }
 

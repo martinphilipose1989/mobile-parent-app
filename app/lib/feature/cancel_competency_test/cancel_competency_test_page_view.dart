@@ -15,13 +15,17 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CancelCompetencyTestPageView
     extends BasePageViewWidget<CancelCompetencyPageModel> {
   final CompetencyTestDetails competencyTestDetail;
   final EnquiryDetailArgs enquiryDetailArgs;
-  CancelCompetencyTestPageView(super.providerBase,this.competencyTestDetail,this.enquiryDetailArgs);
+
+  CancelCompetencyTestPageView(
+      super.providerBase, this.competencyTestDetail, this.enquiryDetailArgs);
+
   @override
   Widget build(BuildContext context, CancelCompetencyPageModel model) {
     return AppStreamBuilder<Resource<CompetencyTestDetailBase>>(
@@ -35,9 +39,11 @@ class CancelCompetencyTestPageView
                   enquiryID: enquiryDetailArgs.enquiryId ?? '',
                   type: enquiryDetailArgs.isFrom ?? 'enquiry');
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Competency test cancelled successfully')),
+            SnackBar(
+                content: Text(Strings.of(context).competency_test_cancelled)),
           );
-          Navigator.of(context).popUntil(ModalRoute.withName(RoutePaths.admissionsDetails));
+          Navigator.of(context)
+              .popUntil(ModalRoute.withName(RoutePaths.admissionsDetails));
         }
       },
       dataBuilder: (context, data) {
@@ -53,23 +59,26 @@ class CancelCompetencyTestPageView
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListItem(
-                          image: AppImages.personIcon,
-                          name: enquiryDetailArgs.studentName??'',
-                          year: enquiryDetailArgs.academicYear??'',
-                          id: enquiryDetailArgs.enquiryNumber??'',
-                          title: enquiryDetailArgs.school??'',
-                          subtitle: "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
-                          buttontext: enquiryDetailArgs.currentStage??'',
-                          status: enquiryDetailArgs.status ?? '',
-                        ),
+                        image: AppImages.personIcon,
+                        name: enquiryDetailArgs.studentName ?? '',
+                        year: enquiryDetailArgs.academicYear ?? '',
+                        id: enquiryDetailArgs.enquiryNumber ?? '',
+                        title: enquiryDetailArgs.school ?? '',
+                        subtitle:
+                            "${enquiryDetailArgs.grade} | ${enquiryDetailArgs.board} | ${enquiryDetailArgs.shift} | Stream-${enquiryDetailArgs.stream}",
+                        buttontext: enquiryDetailArgs.currentStage ?? '',
+                        status: enquiryDetailArgs.status ?? '',
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                      CompetencyTestScheduledDetailsWidget(competencyTestDetails: competencyTestDetail,),
+                      CompetencyTestScheduledDetailsWidget(
+                        competencyTestDetails: competencyTestDetail,
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const CommonText(text: "Cancel Test"),
+                 CommonText(text: Strings.of(context).cancel_test),
                       const SizedBox(
                         height: 10,
                       ),
@@ -80,7 +89,7 @@ class CancelCompetencyTestPageView
                             CustomDropdownButton(
                               width: MediaQuery.of(context).size.width,
                               onMultiSelect: (selectedValues) {},
-                              dropdownName: 'Reason For Cancellation',
+                              dropdownName: Strings.of(context).reason_for_cancellation,
                               showAstreik: true,
                               showBorderColor: true,
                               items: model.reasonTypes,
@@ -90,7 +99,9 @@ class CancelCompetencyTestPageView
                                 }
                               },
                               isMutiSelect: false,
-                              validator: (value) => AppValidators.validateDropdown(value, "cancellation reason"),
+                              validator: (value) =>
+                                  AppValidators.validateDropdown(
+                                      value, "cancellation reason"),
                             ),
                             const SizedBox(
                               height: 20,
@@ -98,9 +109,11 @@ class CancelCompetencyTestPageView
                             CommonTextFormField(
                               controller: model.controller,
                               showAstreik: true,
-                              labelText: "Comment",
+                              labelText: Strings.of(context).comment,
                               hintText: "",
-                              validator: (value) => AppValidators.validateNotEmpty(value, "Comment"),
+                              validator: (value) =>
+                                  AppValidators.validateNotEmpty(
+                                      value, "Comment"),
                             ),
                           ],
                         ),
@@ -110,9 +123,9 @@ class CancelCompetencyTestPageView
                 ),
               ),
             ),
-            if(data?.status == Status.loading)... [const CommonAppLoader()]
+            if (data?.status == Status.loading) ...[const CommonAppLoader()]
           ],
-        );    
+        );
       },
     );
   }

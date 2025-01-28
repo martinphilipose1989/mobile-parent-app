@@ -610,4 +610,10 @@ abstract class DomainModule {
   UndertakingUsecase undertakingUsecase(FinanceRepository financeRepository) {
     return UndertakingUsecase(financeRepository: financeRepository);
   }
+
+  @lazySingleton
+  GetStudentYearlyDetailsUsecase getStudentYearlyDetails(
+      MDMRepository mdmRepository) {
+    return GetStudentYearlyDetailsUsecase(mdmRepository: mdmRepository);
+  }
 }

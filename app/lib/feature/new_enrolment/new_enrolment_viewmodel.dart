@@ -8,6 +8,7 @@ import 'package:app/utils/enums/new_enrolment_enum.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -17,6 +18,7 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final StudentDetailUseCase studentDetailsUsecase;
   final NewEnrolmentUsecase newEnrolmentUsecase;
   final GetMdmAttributeUsecase getMdmAttributeUsecase;
+  final GetStudentYearlyDetailsUsecase getStudentYearlyDetailsUsecase;
 
   // TAB CONTROLLER
   late TabController tabController;
@@ -25,11 +27,11 @@ class NewEnrolmentViewModel extends BasePageViewModel {
   final BehaviorSubject<VasOptions> selectedVasOption =
       BehaviorSubject.seeded(VasOptions.kidsClub);
   final vasOptions = [
-    ToggleOption(value: VasOptions.kidsClub, text: "Kids Club"),
-    ToggleOption(value: VasOptions.cafeteria, text: "Cafeteria"),
+    ToggleOption(value: VasOptions.kidsClub, text: Strings.current.kids_club),
+    ToggleOption(value: VasOptions.cafeteria, text: Strings.current.cafeteria),
     // ToggleOption(value: VasOptions.psa, text: "PSA"),
     // ToggleOption(value: VasOptions.summerCamp, text: "Summer Camp"),
-    ToggleOption(value: VasOptions.transport, text: "Transport"),
+    ToggleOption(value: VasOptions.transport, text: Strings.current.transport),
   ];
 
   NewEnrolmentViewModel(
@@ -37,7 +39,8 @@ class NewEnrolmentViewModel extends BasePageViewModel {
       required this.exceptionHandlerBinder,
       required this.studentDetailsUsecase,
       required this.newEnrolmentUsecase,
-      required this.getMdmAttributeUsecase});
+      required this.getMdmAttributeUsecase,
+      required this.getStudentYearlyDetailsUsecase});
 
   final dashBoardState = DashboardState();
 
@@ -116,6 +119,35 @@ class NewEnrolmentViewModel extends BasePageViewModel {
 
     academicYearId = selectedYear?.attributes?.shortNameTwoDigit;
     selectedAcademicYear.add(selectedYear?.attributes?.name ?? '');
+    if (studentProfileSubject.hasValue &&
+        studentProfileSubject.value.data != null) {
+      getStudentYearlyDetails(
+          studentId: studentProfileSubject.value.data!.profile!.id ?? 0,
+          academicYearId: int.tryParse(academicYearId!) ?? 0);
+    }
+  }
+
+  // ************************ STUDENT YEARLY DETAILS ************************
+  final BehaviorSubject<Resource<MdmAttributeBaseModel>> studentYearlyDetails =
+      BehaviorSubject.seeded(Resource.none());
+
+  Future<void> getStudentYearlyDetails(
+      {required int studentId, required int academicYearId}) async {
+    studentYearlyDetails.add(Resource.loading());
+    final GetStudentYearlyDetailsParams params = GetStudentYearlyDetailsParams(
+        studentId: selectedStudentId!, year: academicYearId);
+    ApiResponseHandler.apiCallHandler(
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        params: params,
+        createCall: (params) =>
+            getStudentYearlyDetailsUsecase.execute(params: params),
+        onSuccess: (result) {
+          studentYearlyDetails.add(Resource.success(data: result));
+        },
+        onError: (error) {
+          studentYearlyDetails.add(Resource.error());
+        });
   }
 
   @override

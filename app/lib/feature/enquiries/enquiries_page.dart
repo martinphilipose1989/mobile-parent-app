@@ -4,6 +4,7 @@ import 'package:app/feature/enquiries/enquiries_page_view.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -30,9 +31,9 @@ class EnquiriesPageState
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesPageModel model) {
-    return const CommonAppBar(
+    return  CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Enquiries',
+      appbarTitle: Strings.of(context).enquiry,
       showBackButton: true,
     );
   }

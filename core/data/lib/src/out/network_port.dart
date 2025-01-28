@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:network_retrofit/network_retrofit.dart';
-import 'package:shared/shared.dart';
 
 abstract class NetworkPort {
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -349,4 +348,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, UndertakingResponse>> underTakingStudent(
       {required UndertakingRequest body});
+
+  Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentYearlyDetails(
+      {required int studentId, required int year});
 }

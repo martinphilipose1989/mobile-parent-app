@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/api_response_handler.dart';
@@ -24,15 +22,13 @@ class StaffListViewModel extends BasePageViewModel {
 
   BehaviorSubject<int> selectIndex = BehaviorSubject.seeded(0);
 
+  StaffListViewModel({
+    required this.flutterToastErrorPresenter,
+    required this.exceptionHandlerBinder,
+    required this.getStaffListUsecase,
+  });
 
-
-  StaffListViewModel(
-      {required this.flutterToastErrorPresenter,
-      required this.exceptionHandlerBinder,
-      required this.getStaffListUsecase,
-});
-
-  void getStaffList({required int routeId,required String app}) {
+  void getStaffList({required int routeId, required String app}) {
     staffResponse.add(Resource.loading());
     final GetStaffListUseCaseParams params =
         GetStaffListUseCaseParams(platform: app, schoolId: routeId);
@@ -50,7 +46,4 @@ class StaffListViewModel extends BasePageViewModel {
       },
     );
   }
-
-
-
 }

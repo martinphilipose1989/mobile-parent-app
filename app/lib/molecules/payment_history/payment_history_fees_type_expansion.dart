@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -105,7 +103,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                                 .fees
                                                                 .first
                                                                 .urlKey;
-                                                        log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
+
                                                         widget.model
                                                             .downloadFeeType(
                                                                 urlKey:
@@ -127,7 +125,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                               .fees
                                                               .first
                                                               .urlKey;
-                                                      log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
+
                                                       widget.model
                                                           .downloadFeeType(
                                                               urlKey:

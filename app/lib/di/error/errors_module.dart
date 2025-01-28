@@ -32,10 +32,10 @@ abstract class ErrorsModule {
       FlutterAlertErrorPresenter alertErrorPresenter) {
     return SelectorErrorPresenter((e) {
       switch (e.runtimeType) {
-        case FormatException:
+        case FormatException _:
           return toastErrorPresenter;
 
-        case NetworkError:
+        case NetworkError _:
           return snackBarErrorPresenter;
 
         default:
@@ -47,7 +47,10 @@ abstract class ErrorsModule {
   @lazySingleton
   ExceptionMapperStorage providersGlobalErrors() {
     return ExceptionMapperStorage.instance
-        .register<NetworkError, String>((e) => "NetworkError registered error")
+        .register<NetworkError, String>((e) =>
+            (e as NetworkError).error.message.isNotEmpty
+                ? e.error.message
+                : "An unexpected error occurred. Please try again later.")
         .register<FormatException, String>(
             (e) => "Format Exception registered error")
         .condition<AlertTexts>(

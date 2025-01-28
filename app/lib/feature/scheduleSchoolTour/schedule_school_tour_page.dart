@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -69,8 +70,8 @@ model.getEnquiryDetail(enquiryID: model.enquiryID);
     return CommonAppBar(
       notShowNotificationAndUserBatch: false,
       appbarTitle: widget.isReschedule
-          ? 'Reschedule School Tour'
-          : 'Schedule School Tour',
+          ? Strings.of(context).reschedule_school_tour
+          : Strings.of(context).schedule_school_tour,
       showBackButton: true,
     );
   }

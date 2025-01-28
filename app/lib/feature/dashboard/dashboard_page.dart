@@ -41,8 +41,8 @@ class DashboardPageState
   void onModelReady(DashboardPageModel model) async {
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
-    final token=SharedPreferenceHelper.getString("token");
-    print("-------token"+"$token");
+    final token = SharedPreferenceHelper.getString("token");
+    print("-------token" + "$token");
     model.getUserDetails();
   }
 

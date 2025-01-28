@@ -22,6 +22,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class AdmissionsDetailsPageView
@@ -163,13 +164,13 @@ class AdmissionsDetailsPageView
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CommonText(
-                      text: 'Admission Journey',
+                      text: Strings.of(context).admission_journey,
                       style: AppTypography.subtitle1,
                     ),
                     if ((model.enquiryDetailArgs.enquiryType ==
                             EnquiryTypeEnum.psa.type &&
                         model.enquiryDetailArgs.admissionStatus ==
-                            "Approved")) ...{
+                           Strings.of(context).approved)) ...{
                       InkWell(
                         onTap: () {
                           setEnquiryDetailsArgs(model);
@@ -198,7 +199,7 @@ class AdmissionsDetailsPageView
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                             CommonText(
-                              text: 'View Details',
+                              text: Strings.of(context).view_details,
                               style: AppTypography.subtitle1.copyWith(
                                   color: Theme.of(context).primaryColor),
                             ),
@@ -208,7 +209,7 @@ class AdmissionsDetailsPageView
                     } else if ((model.enquiryDetailArgs.enquiryType ==
                             EnquiryTypeEnum.kidsClub.type &&
                         model.enquiryDetailArgs.admissionStatus ==
-                            "Approved")) ...{
+                           Strings.of(context).approved)) ...{
                       InkWell(
                         onTap: () {
                           setEnquiryDetailsArgs(model);
@@ -237,7 +238,7 @@ class AdmissionsDetailsPageView
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                             CommonText(
-                              text: 'View Details',
+                              text: Strings.of(context).view_details,
                               style: AppTypography.subtitle1.copyWith(
                                   color: Theme.of(context).primaryColor),
                             ),
@@ -272,7 +273,7 @@ class AdmissionsDetailsPageView
                             ),
                             CommonSizedBox.sizedBox(height: 10, width: 10),
                             CommonText(
-                              text: 'View Details',
+                              text: Strings.of(context).view_details,
                               style: AppTypography.subtitle1.copyWith(
                                   color: Theme.of(context).primaryColor),
                             ),
@@ -336,8 +337,8 @@ class AdmissionsDetailsPageView
                                   : (result?.data?.data ?? []).indexWhere(
                                       (element) => (element.status != "Open")));
                         case Status.error:
-                          return const Center(
-                            child: Text('Admission journey not found'),
+                          return  Center(
+                            child: Text(Strings.of(context).admission_journey_not_found),
                           );
                         default:
                           return const Center(

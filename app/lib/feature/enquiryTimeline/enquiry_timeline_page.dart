@@ -5,6 +5,7 @@ import 'package:app/feature/enquiryTimeline/enquiry_timeline_page_view.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 import '../../base/app_base_page.dart';
 
@@ -32,9 +33,9 @@ class EnquiriesTimelinePageState
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesTimelinePageModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
+    return CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Enquiry Timeline',
+      appbarTitle: Strings.of(context).enquiry_Timeline,
       showBackButton: true,
     );
   }

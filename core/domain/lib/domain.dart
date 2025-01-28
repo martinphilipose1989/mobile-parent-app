@@ -140,3 +140,4 @@ export 'src/usecase/finance/download_student_ledger_usecase.dart';
 export 'src/usecase/finance/new_enrolment_usecase.dart';
 export 'src/usecase/finance/terms_and_condition_usecase.dart';
 export 'src/usecase/finance/undertaking_usecase.dart';
+export 'src/usecase/finance/get_student_yearly_details.dart';

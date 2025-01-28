@@ -7,6 +7,7 @@ import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../../feature/attendance/attendance_list1/attendance_details_view_model.dart';
@@ -27,19 +28,19 @@ class AttendanceList extends StatelessWidget {
           decoration: const BoxDecoration(
             color: AppColors.textPaleGray,
           ),
-          child: const Row(
+          child:  Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  CommonText(text: "Periods"),
+                  CommonText(text: Strings.of(context).periods),
                   Icon(
                     CupertinoIcons.arrow_up,
                     color: AppColors.titleNeutral5,
                   )
                 ],
               ),
-              CommonText(text: "Attendance"),
+              CommonText(text: Strings.of(context).attendance),
             ],
           ),
         ),
@@ -85,13 +86,13 @@ class AttendanceList extends StatelessWidget {
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
                                                 6)
-                                        ? const CommonText(
-                                            text: "Bus Attendance")
+                                        ?  CommonText(
+                                            text: Strings.of(context).bus_attendance)
                                         : CommonText(
                                             text:
                                                 //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
                                                 //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
-                                                "Period ${period?.map((e) {
+                                                "${Strings.of(context).period}${period?.map((e) {
                                             //  return  "${period.indexOf(e) + 1}";
                                             return (period.indexOf(e) + 1)
                                                 .toString();

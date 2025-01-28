@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/terms_and_condition/pdf.dart';
@@ -236,9 +234,6 @@ class DashboardPageModel extends BasePageViewModel {
             getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
-          applyActivationRules(userSubject.value);
-
-          loadAdmissionMenus.add(Resource.success(data: true));
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
           if (result.data?.data?.students?.isEmpty ?? false) {
             return;
@@ -248,22 +243,28 @@ class DashboardPageModel extends BasePageViewModel {
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
-          if (dashboardState.selectedStudent?.isUndertakingTaken == null ||
-              dashboardState.selectedStudent?.isUndertakingTaken == false) {
-            if (dashboardState.selectedStudent?.undertakingFile != null ||
-                (dashboardState.selectedStudent?.undertakingFile?.isNotEmpty ??
-                    false)) {
-              getTermsAndConditionUrl(
-                  undertakingFile:
-                      dashboardState.selectedStudent?.undertakingFile ?? '');
-            }
-          }
+
+          processTermsAndConditionsSequentially(tempList);
+          applyActivationRules(userSubject.value);
+          showDrawerMenu.add(true);
+          loadAdmissionMenus.add(Resource.success(data: true));
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  Future<void> processTermsAndConditionsSequentially(
+      List<GetGuardianStudentDetailsStudentModel> tempList) async {
+    for (var item in tempList) {
+      if ((item.isUndertakingTaken == null ||
+              item.isUndertakingTaken == false) &&
+          (item.undertakingFile?.isNotEmpty ?? false)) {
+        await getTermsAndConditionUrl(undertakingFile: item.undertakingFile!);
+      }
+    }
   }
 
   Future<void> getUserRoleBaseDetails() async {
@@ -394,7 +395,8 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  void getTermsAndConditionUrl({required String undertakingFile}) {
+  Future<void> getTermsAndConditionUrl(
+      {required String undertakingFile}) async {
     TermsAndConditionUsecaseParams params =
         TermsAndConditionUsecaseParams(url: undertakingFile);
     ApiResponseHandler.apiCallHandler(
@@ -403,16 +405,14 @@ class DashboardPageModel extends BasePageViewModel {
         flutterToastErrorPresenter: flutterToastErrorPresenter,
         createCall: (params) =>
             termsAndConditionUsecase.execute(params: params),
-        onSuccess: (result) {
-          log("getTermsAndConditionUrl");
-
-          showPdfViewer(url: result?.data?.url ?? '');
+        onSuccess: (result) async {
+          await showPdfViewer(url: result?.data?.url ?? '');
         },
         onError: (error) {});
   }
 
-  showPdfViewer({required String url}) {
-    showDialog(
+  Future<void> showPdfViewer({required String url}) async {
+    await showDialog(
       barrierDismissible: false,
       context: navigatorKey.currentContext!,
       builder: (context) => PDFDialog(

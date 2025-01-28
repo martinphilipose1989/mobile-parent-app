@@ -1,14 +1,6 @@
-import 'dart:developer';
-
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/notification/notification_list_item.dart';
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
-import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
-import 'package:app/utils/common_widgets/common_popups.dart';
-
-import 'package:app/utils/common_widgets/common_refresh_indicator.dart';
 import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
@@ -16,6 +8,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -61,15 +54,16 @@ class NotificationPageView
                               : AppColors.lightgrey,
                         ),
                         onTap: () {
-                          model.pageNumber=1;
+                          model.pageNumber = 1;
                           model.selectedStatusValue.add(0);
                           model.fetchNotification(
                               notificationRequestModel:
                                   NotificationRequestModel(
                                       userId: 305,
                                       userType: 2,
-                                      type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
-
+                                      type: model.getType(
+                                          model.selectedStatusValue.value,
+                                          model.selectedValue.value),
                                       limit: 10,
                                       page: model.pageNumber));
                         },
@@ -85,15 +79,16 @@ class NotificationPageView
                               : AppColors.lightgrey,
                         ),
                         onTap: () {
-                          model.pageNumber=1;
+                          model.pageNumber = 1;
                           model.selectedStatusValue.add(1);
                           model.fetchNotification(
                               notificationRequestModel:
                                   NotificationRequestModel(
                                       userId: 305,
                                       userType: 2,
-                                      type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
-
+                                      type: model.getType(
+                                          model.selectedStatusValue.value,
+                                          model.selectedValue.value),
                                       limit: 10,
                                       page: model.pageNumber));
                         },
@@ -109,7 +104,7 @@ class NotificationPageView
                               : AppColors.lightgrey,
                         ),
                         onTap: () {
-                          model.pageNumber=1;
+                          model.pageNumber = 1;
                           model.selectedStatusValue.add(2);
                           model.fetchNotification(
                               notificationRequestModel:
@@ -132,37 +127,43 @@ class NotificationPageView
             height: 10.w,
           ),
           AppStreamBuilder<Resource<List<NotificationDetail>>>(
-   dataBuilder: (BuildContext context,notification){
-  return CommonTabPage(
-              firstTabTitle: "Unread(${notification?.data?.length??0})",
-              onFirstTabChange: () {
-                model.pageNumber=1;
-                model.selectedValue.add(0);
+            dataBuilder: (BuildContext context, notification) {
+              return CommonTabPage(
+                firstTabTitle:
+                    "${Strings.of(context).unread}(${notification?.data?.length ?? 0})",
+                onFirstTabChange: () {
+                  model.pageNumber = 1;
+                  model.selectedValue.add(0);
 
-                model.fetchNotification(
-                    notificationRequestModel: NotificationRequestModel(
-                        userId: 305,//for time being
-                        userType: 2,
-                        type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
-
-                        limit: 10,
-                        page: model.pageNumber));
-              },
-              onSecondTabChange: () {
-                model.pageNumber=1;
-                model.selectedValue.add(1);
-                model.fetchNotification(
-                    notificationRequestModel: NotificationRequestModel(
-                        userId: 305,
-                        userType: 2,
-                        type: model.getType(model.selectedStatusValue.value, model.selectedValue.value),
-                        limit: 10,
-                        page: model.pageNumber));
-              },
-              secondTabTitle: "Read(${notification?.data?.length??0})",
-              // tabController: model.tabController,
-              selectedValue: model.selectedValue, tabController: null,
-            );}, stream: model.notificationStream, initialData: Resource.none(),
+                  model.fetchNotification(
+                      notificationRequestModel: NotificationRequestModel(
+                          userId: 305, //for time being
+                          userType: 2,
+                          type: model.getType(model.selectedStatusValue.value,
+                              model.selectedValue.value),
+                          limit: 10,
+                          page: model.pageNumber));
+                },
+                onSecondTabChange: () {
+                  model.pageNumber = 1;
+                  model.selectedValue.add(1);
+                  model.fetchNotification(
+                      notificationRequestModel: NotificationRequestModel(
+                          userId: 305,
+                          userType: 2,
+                          type: model.getType(model.selectedStatusValue.value,
+                              model.selectedValue.value),
+                          limit: 10,
+                          page: model.pageNumber));
+                },
+                secondTabTitle:
+                    "${Strings.of(context).read}(${notification?.data?.length ?? 0})",
+                // tabController: model.tabController,
+                selectedValue: model.selectedValue, tabController: null,
+              );
+            },
+            stream: model.notificationStream,
+            initialData: Resource.none(),
           ),
           Expanded(
             child: Padding(
@@ -176,17 +177,18 @@ class NotificationPageView
                           const Center(child: CircularProgressIndicator()),
                       errorWidget: () => Center(
                             child: NoDataFoundWidget(
-                              title: notification?.dealSafeAppError?.error.message
+                              title: notification
+                                          ?.dealSafeAppError?.error.message
                                           .contains("internet") ??
                                       false
-                                  ? "No Internet Connection"
-                                  : "Something Went Wrong",
+                                  ? Strings.of(context).no_internet_connection
+                                  : Strings.of(context).something_got_wrong,
                               subtitle: notification
                                           ?.dealSafeAppError?.error.message
                                           .contains("internet") ??
                                       false
-                                  ? "It seems you're offline. Please check your internet connection and try again."
-                                  : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                  ? Strings.of(context).it_seems_you_re_offline
+                                  : Strings.of(context).an_unexpected_error,
                               onPressed: () {
                                 model.fetchNotification(
                                     notificationRequestModel:
@@ -201,20 +203,24 @@ class NotificationPageView
                             ),
                           ),
                       successWidget: () => notification?.data?.isEmpty ?? false
-                          ? NoDataFoundWidget(title: "No data found")
+                          ? NoDataFoundWidget(
+                              title: Strings.of(context).no_data_found)
                           : ListView.separated(
-                        controller: model.scrollController,
+                              controller: model.scrollController,
                               shrinkWrap: true,
-                              itemCount:
-                              notification?.data?.length??0,
+                              itemCount: notification?.data?.length ?? 0,
                               itemBuilder: (BuildContext context, int index) {
-                              print ( notification?.data?.length??0,);
-                              final notificationItem = notification?.data?[index];
+                                final notificationItem =
+                                    notification?.data?[index];
                                 return NotificationListItem(
-                                   // subject:snapshot?.data?[index].mode?.modeContent?.subject??""
-                                    subject: notificationItem?.mode?.modeContent?.subject??""    ,
-                                    content: notificationItem?.mode?.modeContent?.content??""
-                              // content: snapshot?.data?[index].mode?.modeContent?.content??""
+                                    // subject:snapshot?.data?[index].mode?.modeContent?.subject??""
+                                    subject: notificationItem
+                                            ?.mode?.modeContent?.subject ??
+                                        "",
+                                    content: notificationItem
+                                            ?.mode?.modeContent?.content ??
+                                        ""
+                                    // content: snapshot?.data?[index].mode?.modeContent?.content??""
                                     );
                               },
                               separatorBuilder:
@@ -229,8 +235,6 @@ class NotificationPageView
               ),
             ),
           )
-
-
         ],
       ),
     );

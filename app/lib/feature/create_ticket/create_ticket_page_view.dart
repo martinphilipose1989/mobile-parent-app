@@ -8,6 +8,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../utils/app_typography.dart';
@@ -35,7 +36,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                       width: MediaQuery.of(context).size.width,
                       onMultiSelect: (selectedValues) {},
                       dropdownName: 'Category',
-                      hint: 'Select Category',
+                      hint: Strings.of(context).select_category,
                       showAstreik: true,
                       showBorderColor: true,
                       items:
@@ -61,7 +62,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                       width: MediaQuery.of(context).size.width,
                       onMultiSelect: (selectedValues) {},
                       dropdownName: 'Sub Category',
-                      hint: 'Select Sub Category',
+                      hint: Strings.of(context).select_sub_category,
                       showAstreik: true,
                       showBorderColor: true,
                       items:
@@ -95,14 +96,13 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                       Row(
                             children: [
                               CommonText(
-                                text: 'Instructions',
+                                text: Strings.of(context).instructions,
                                 style: AppTypography.subtitle2,
                               ),
                             ],
                           ),
           CommonText(
-                            text:
-                                'Now You Can Request/Check This From Menu > Fees > Payment Details ',
+                            text:Strings.of(context).now_you_can,
                             style: AppTypography.body2,
                           ),
                           SizedBox(
@@ -113,7 +113,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                             children: [
                               InkWell(
                                 child: Text(
-                                  "Go To Payment Details",
+                                 Strings.of(context).go_to_payments,
                                   style: AppTypography.subtitle2.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -139,7 +139,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                               child: CommonTextFormField(
                                 showAstreik: true,
                                 controller: model.subjectController,
-                                labelText: "Subject",
+                                labelText: Strings.of(context).subject,
                               )),
                           SizedBox(
                             height: 24.h,
@@ -149,7 +149,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                               child: CommonTextFormField(
                                 controller: model.responseController,
                                 showAstreik: true,
-                                labelText: "Response",
+                                labelText: Strings.of(context).response,
                               )),
                           SizedBox(
                             height: 24.h,
@@ -159,8 +159,8 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                               child: CommonTextFormField(
                                 showAstreik: false,
                                 controller: model.commentController,
-                                labelText: "Comments",
-                                hintText: "Add Comment...",
+                                labelText: Strings.of(context).comments,
+                                hintText: Strings.of(context).add_comment1,
                               )),
                         ],
                       ),
@@ -204,7 +204,7 @@ class CreateTicketPageView extends BasePageViewWidget<CreateTicketViewModel> {
                                           model.createticket();
                                         }
                                       : () {},
-                                  text: 'Submit',
+                                  text: Strings.of(context).submit,
                                   borderRadius: BorderRadius.circular(10),
                                   backgroundColor: boolData == true
                                       ? Theme.of(context).colorScheme.secondary
