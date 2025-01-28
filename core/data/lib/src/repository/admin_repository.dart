@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 
 class AdminRepositoryImpl extends AdminRepository {
   final NetworkPort networkPort;
@@ -28,4 +29,17 @@ class AdminRepositoryImpl extends AdminRepository {
     // TODO: implement getStudentDetail
     return networkPort.getStudentDetail(id: id);
   }
+
+  @override
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken({required int? id, required SendTokenRequestEntity token}) {
+ return networkPort.sendToken(userId: id, sendTokenRequestEntity: token);
+
+  }
+
+  // @override
+  // Future<Either<NetworkError, SendTokenResponseModel>> sendToken({required int? id, }) {
+  // return networkPort.sendToken(userId: id, sendTokenRequestEntity: SendTokenRequestEntity(tokenEntity: TokenEntity(appToken: appToken)));
+  // }
+
+
 }

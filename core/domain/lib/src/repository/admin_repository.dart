@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:shared/shared.dart';
 
 abstract class AdminRepository {
@@ -12,4 +13,8 @@ abstract class AdminRepository {
 
   Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
       {required int id});
+
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
+      {required int? id,required SendTokenRequestEntity token });
+
 }

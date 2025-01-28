@@ -589,6 +589,11 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
+    return Sendtokenusecase(adminRepository: adminRepository);
+  }
+
+  @lazySingleton
   DownloadFileFromUrlUsecase downloadFileFromUrlUsecase(
       AttachmentRepository attachmentRepository) {
     return DownloadFileFromUrlUsecase(

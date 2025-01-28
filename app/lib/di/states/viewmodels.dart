@@ -87,7 +87,8 @@ final dashboardViewModelProvider =
       getUserRoleBasePermissionUsecase:
           getIt.get<GetUserRoleBasePermissionUsecase>(),
       getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
-      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>()),
+      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>(),
+      sendTokenUsecase: getIt.get<Sendtokenusecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(

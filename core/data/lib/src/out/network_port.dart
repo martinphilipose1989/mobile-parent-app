@@ -45,6 +45,8 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
       getGuardianStudentDetails({required int mobileNo});
+  Future<Either<NetworkError, SendTokenResponseModel>>
+ sendToken({required int? userId,required SendTokenRequestEntity sendTokenRequestEntity });
 
   Future<Either<NetworkError, TripResponse>> getMyDutyList(
       {required int page,

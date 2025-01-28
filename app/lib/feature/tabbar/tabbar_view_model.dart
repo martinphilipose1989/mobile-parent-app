@@ -20,7 +20,7 @@ class TabbarViewModel extends BasePageViewModel {
   final GetUserDetailsUsecase getUserDetailsUsecase;
 
   // Initialize userSubject without accessing it during declaration
-  final BehaviorSubject<User> userSubject = BehaviorSubject<User>();
+  final BehaviorSubject<User?> userSubject = BehaviorSubject<User>();
 
   TabbarViewModel(
       {required this.exceptionHandlerBinder,
@@ -156,7 +156,7 @@ class TabbarViewModel extends BasePageViewModel {
         menu: 'Transport App',
         route: RoutePaths.myDutyPage,
         icon: AppImages.bus,
-        isActive: false),
+        isActive: true),
     DrawerItems(
         key: 'forms_download',
         menu: 'Forms Download',
@@ -250,7 +250,9 @@ class TabbarViewModel extends BasePageViewModel {
       createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        userSubject.add(data.data!);
+        if (data.data != null) {
+          userSubject.add(data.data);
+        }
 
         setDrawerMenuItems(data);
       } else if (data.status == Status.error) {}

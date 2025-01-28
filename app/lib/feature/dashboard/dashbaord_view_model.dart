@@ -8,21 +8,22 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:injectable/injectable.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'dashboard_state.dart';
 
-@injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
+  final Sendtokenusecase sendTokenUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
@@ -47,7 +48,8 @@ class DashboardPageModel extends BasePageViewModel {
       required this.getUserRoleBasePermissionUsecase,
       required this.getUserDetailsUsecase,
       required this.termsAndConditionUsecase,
-      required this.flutterToastErrorPresenter});
+      required this.flutterToastErrorPresenter,
+      required this.sendTokenUsecase});
 
   final List<String> images = [
     AppImages.banner1,
@@ -316,6 +318,7 @@ class DashboardPageModel extends BasePageViewModel {
 
   BehaviorSubject<Resource<bool>> loadAdmissionMenus =
       BehaviorSubject.seeded(Resource.none());
+
   void getUserDetails() {
     loadAdmissionMenus.add(Resource.loading());
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
@@ -331,6 +334,17 @@ class DashboardPageModel extends BasePageViewModel {
         }
 
         userSubject.add(Resource.success(data: data.data));
+
+        FirebaseMessaging.instance.getToken().then((value) {
+          if (value != null) {
+            sendToken(userId: data.data?.id, appToken: value);
+            print("FCM Token" "FCM Token: $value");
+          } else {
+            print("Error" "Failed to get FCM token");
+          }
+        }).catchError((error) {
+          print("Exception" "Error getting FCM token: $error");
+        });
       }
     });
   }
@@ -362,26 +376,23 @@ class DashboardPageModel extends BasePageViewModel {
         }
       }
     }
+  }
 
-    for (int index = 0; index < progress.length; index++) {
-      if (index < progress.length) {
-        if (data.data?.statusId != 0) {
-          progress[index]['isActive'] = true;
-        } else {
-          progress[index]['isActive'] = false;
-        }
-      }
-    }
-
-    for (int index = 0; index < parentServices.length; index++) {
-      if (index < parentServices.length) {
-        if (data.data?.statusId != 0) {
-          parentServices[index]['isActive'] = true;
-        } else {
-          parentServices[index]['isActive'] = false;
-        }
-      }
-    }
+  Future<void> sendToken({int? userId, String? appToken}) async {
+    await exceptionHandlerBinder.handle(block: () {
+      SendTokenUseCaseParams params = SendTokenUseCaseParams(
+        userid: userId,
+        appToken: appToken,
+      );
+      RequestManager(
+        params,
+        createCall: () => sendTokenUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {}
+      }).onError((error) {
+        // exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
   }
 
   Future<void> getTermsAndConditionUrl(
@@ -409,6 +420,15 @@ class DashboardPageModel extends BasePageViewModel {
     );
   }
 
+  final List<Map<String, String>> drawerItems = [
+    {'text': 'Fees', 'route': ''},
+    {'text': 'Payments', 'route': ''},
+    {'text': 'Transaction History', 'route': ''},
+    {'text': 'Receipt', 'route': ''},
+    {'text': 'Daily Diary', 'route': ''},
+    {'text': 'Class Update', 'route': ''},
+    {'text': 'Assignment', 'route': ''},
+  ];
   @override
   void dispose() {
     dashboardState.dispose();

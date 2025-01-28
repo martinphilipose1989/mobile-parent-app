@@ -65,7 +65,7 @@ class CustomExpansionList extends StatelessWidget {
                                   RoutePaths.payments,
                                   arguments: PaymentArguments(
                                       phoneNo:
-                                          "+91${model.userSubject.value.phoneNumber}"),
+                                          "+91${model.userSubject.value?.phoneNumber}"),
                                 );
                               } else if (e.key == "subject_selection") {
                                 final String subjectSelectionUrl =
@@ -84,7 +84,7 @@ class CustomExpansionList extends StatelessWidget {
                                   arguments: WebviewArguments(
                                       enquiryDetailArgs: EnquiryDetailArgs(),
                                       paymentsLink:
-                                          '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}'),
+                                          '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}'),
                                 );
                               } else {
                                 Navigator.pushNamed(context, e.route!);
