@@ -29,6 +29,8 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/review_page/rate_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
+import 'package:app/feature/student_detail/student_detail_page.dart';
+import 'package:app/feature/student_profile_edit/student_profile_edit_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/tickets/ticket_list_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
@@ -174,10 +176,21 @@ class AppRouter {
             builder: (context) => const AttendanceCalenderPage(),
             settings: const RouteSettings(name: RoutePaths.attendanceCalender));
 
+      case RoutePaths.profileEdit:
+        return CupertinoPageRoute(
+            builder: (context) =>  StudentProfileEdit(studentData: settings.arguments as StudentDataArgs,),
+            settings: const RouteSettings(name: RoutePaths.profileEdit));
+
+      case RoutePaths.profile:
+        return CupertinoPageRoute(
+            builder: (context) =>  StudentDetailPage(),
+            settings: const RouteSettings(name: RoutePaths.profile));
+
       case RoutePaths.ticketListPage:
         return CupertinoPageRoute(
             builder: (context) => const TicketListPage(),
-            settings: const RouteSettings(name: RoutePaths.ticketListPage));
+            settings: const RouteSettings(name: RoutePaths.ticketListPage),
+        );
 
       case RoutePaths.createTicketPage:
         return CupertinoPageRoute(

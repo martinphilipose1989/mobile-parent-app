@@ -1,6 +1,7 @@
 import 'package:domain/domain.dart';
 
 abstract class TransportRepository {
+
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
 

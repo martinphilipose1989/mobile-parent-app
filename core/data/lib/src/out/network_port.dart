@@ -351,4 +351,10 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, MdmAttributeBaseModel>> getStudentYearlyDetails(
       {required int studentId, required int year});
+
+
+  Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
+      {
+        required int studentId,
+      required String platform});
 }

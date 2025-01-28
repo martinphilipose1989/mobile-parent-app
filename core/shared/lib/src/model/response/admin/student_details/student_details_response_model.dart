@@ -14,6 +14,11 @@ class StudentDetailsResponseModel {
 
 class StudentData {
   Profile? profile;
+  List<Parent>? parent;
+  List<SiblingsInfo>? siblingsInfo;
+  ContactInfo? contactInfo;
+  List<GuardianContactInfo>? guardianContactInfo;
+  MedicalInfo? medicalInfo;
 
   Academics? academics;
 
@@ -161,7 +166,7 @@ class Profile {
   int? id;
   String? firstName;
   String? lastName;
-  DateTime? dob;
+  DateTime dob;
   String? birthPlace;
   int? status;
   int? genderId;
@@ -280,4 +285,49 @@ class SiblingsInfo {
     required this.schoolName,
     required this.gradeId,
   });
+
+
+
+}
+
+class MedicalInfo {
+  bool? pastHospitalization;
+  int? lastHospitalizationYear;
+  String? reasonForHospitalization;
+  bool? isPhsicallyDisabled;
+  String? disablilityDetails;
+  bool? hasMedicalHistory;
+  String? medicalHistoryDetails;
+  bool? hasAllergy;
+  String? allergyDetails;
+  bool? hasPersonalizedLearningNeeds;
+  String? personalizedLearningNeedsDetails;
+
+  MedicalInfo({
+    this.pastHospitalization,
+    this.lastHospitalizationYear,
+    this.reasonForHospitalization,
+    this.isPhsicallyDisabled,
+    this.disablilityDetails,
+    this.hasMedicalHistory,
+    this.medicalHistoryDetails,
+    this.hasAllergy,
+    this.allergyDetails,
+    this.hasPersonalizedLearningNeeds,
+    this.personalizedLearningNeedsDetails,
+  });
+
+}
+
+class ContactInfo {
+  String? address;
+  String? emergencyContact;
+  List<ResidentialInformation>? residentialInformation;
+
+  ContactInfo({
+    this.address,
+    this.emergencyContact,
+    this.residentialInformation,
+  });
+
 }

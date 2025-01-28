@@ -8,6 +8,7 @@ import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -267,6 +268,22 @@ class DashboardPageModel extends BasePageViewModel {
     }
   }
 
+  Future<void> getTermsAndConditionUrl(
+      {required String undertakingFile}) async {
+    TermsAndConditionUsecaseParams params =
+        TermsAndConditionUsecaseParams(url: undertakingFile);
+    ApiResponseHandler.apiCallHandler(
+        params: params,
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        createCall: (params) =>
+            termsAndConditionUsecase.execute(params: params),
+        onSuccess: (result) async {
+          await showPdfViewer(url: result?.data?.url ?? '');
+        },
+        onError: (error) {});
+  }
+
   Future<void> getUserRoleBaseDetails() async {
     await exceptionHandlerBinder.handle(block: () {
       TokenresponseUsecaseParams params = TokenresponseUsecaseParams();
@@ -395,22 +412,6 @@ class DashboardPageModel extends BasePageViewModel {
     }).execute();
   }
 
-  Future<void> getTermsAndConditionUrl(
-      {required String undertakingFile}) async {
-    TermsAndConditionUsecaseParams params =
-        TermsAndConditionUsecaseParams(url: undertakingFile);
-    ApiResponseHandler.apiCallHandler(
-        params: params,
-        exceptionHandlerBinder: exceptionHandlerBinder,
-        flutterToastErrorPresenter: flutterToastErrorPresenter,
-        createCall: (params) =>
-            termsAndConditionUsecase.execute(params: params),
-        onSuccess: (result) async {
-          await showPdfViewer(url: result?.data?.url ?? '');
-        },
-        onError: (error) {});
-  }
-
   Future<void> showPdfViewer({required String url}) async {
     await showDialog(
       barrierDismissible: false,
@@ -420,15 +421,6 @@ class DashboardPageModel extends BasePageViewModel {
     );
   }
 
-  final List<Map<String, String>> drawerItems = [
-    {'text': 'Fees', 'route': ''},
-    {'text': 'Payments', 'route': ''},
-    {'text': 'Transaction History', 'route': ''},
-    {'text': 'Receipt', 'route': ''},
-    {'text': 'Daily Diary', 'route': ''},
-    {'text': 'Class Update', 'route': ''},
-    {'text': 'Assignment', 'route': ''},
-  ];
   @override
   void dispose() {
     dashboardState.dispose();

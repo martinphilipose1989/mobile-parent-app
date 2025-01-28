@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/student_detail/student_detail_page.dart';
 import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
@@ -9,6 +10,7 @@ import 'package:app/molecules/drawer/expansion_list.dart';
 import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 
@@ -19,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:localisation/strings.dart';
 
+import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'package:app/base/app_base_page.dart';
@@ -43,7 +46,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   void didChangeDependencies() {
     model.tabController =
-        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 3, vsync: this);
     model.getUserDetails();
     super.didChangeDependencies();
   }
@@ -55,7 +58,29 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   void onModelReady(TabbarViewModel model) {
-
+    // model.menuItems = [
+    //   MenuItem(
+    //       menuItem: "Fees",
+    //       menuItemActive: false,
+    //       drawerItmes: model.fessItems),
+    //   MenuItem(
+    //       menuItem: "Child Progress/Academic Progress",
+    //       menuItemActive: false,
+    //       drawerItmes: model.progressItems),
+    //   MenuItem(
+    //       menuItem: "Parent Services",
+    //       menuItemActive: false,
+    //       drawerItmes: model.parentServices),
+    //   MenuItem(
+    //       menuItem: "Info",
+    //       menuItemActive: false,
+    //       drawerItmes: model.infoItems),
+    //   MenuItem(
+    //       menuItem: "Daily Diary",
+    //       menuItemActive: false,
+    //       drawerItmes: model.dailyDiary)
+    // ];
+    model.getUserDetails();
     super.onModelReady(model);
   }
 
@@ -80,6 +105,9 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                   ),
                 ),
               ),
+
+        StudentDetailPage()
+
             ],
           );
         });
@@ -179,6 +207,28 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
                           text: Strings.of(context).notification,
+                          style: Theme.of(context).textTheme.bodyMedium),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                BOTTOM_NAV_INDEX = 2;
+                model.onItemTapped(BOTTOM_NAV_INDEX);
+              },
+              child: AbsorbPointer(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+              SvgPicture.asset(AppImages.usertagIcon,color: Colors.black,height: 22,),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: CommonText(
+                          text: 'Student Profile',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

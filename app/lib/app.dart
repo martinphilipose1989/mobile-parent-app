@@ -77,8 +77,6 @@ void startApp() async {
     if (FlavorConfig.isPROD() || FlavorConfig.isQA()) {
       debugPrint = (String? message, {int? wrapWidth}) {};
     }
-    runApp(const ProviderScope(child: MyApp(
-
-    )));
+    runApp(const ProviderScope(child: MyApp()));
   });
 }

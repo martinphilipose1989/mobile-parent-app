@@ -126,7 +126,7 @@ class ProfileEntity
   @JsonKey(name: "last_name")
   String? lastName;
   @JsonKey(name: "dob")
-  DateTime? dob;
+  DateTime dob;
   @JsonKey(name: "birth_place")
   String? birthPlace;
   @JsonKey(name: "status")
@@ -220,7 +220,7 @@ class ProfileEntity
       {this.id,
       this.firstName,
       this.lastName,
-      this.dob,
+      required this.dob,
       this.birthPlace,
       this.status,
       this.genderId,

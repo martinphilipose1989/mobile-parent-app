@@ -40,6 +40,11 @@ class AdminRepositoryImpl extends AdminRepository {
   // Future<Either<NetworkError, SendTokenResponseModel>> sendToken({required int? id, }) {
   // return networkPort.sendToken(userId: id, sendTokenRequestEntity: SendTokenRequestEntity(tokenEntity: TokenEntity(appToken: appToken)));
   // }
+  @override
+  Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
+      {required int studentId,required String platform}) {
+    return networkPort.getBearerList(studentId: studentId, platform: platform);
+  }
 
 
 }

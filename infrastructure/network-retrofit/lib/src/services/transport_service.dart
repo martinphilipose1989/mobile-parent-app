@@ -8,6 +8,13 @@ import 'package:network_retrofit/src/model/response/transport/student_attendance
 import 'package:network_retrofit/src/model/response/transport/trip_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../network_retrofit.dart';
+import '../model/response/bearer/get_bearer_list_response_entity.dart';
+import '../model/response/transport/bus_route_response_entity.dart';
+import '../model/response/transport/fetch_stops_logs_entity.dart';
+import '../model/response/transport/get_student_profile_entity_response.dart';
+import '../model/response/transport/trip_response_entity.dart';
+
 part 'transport_service.g.dart';
 
 const String _getMyDutyList = "transport-service/parent/route-list";
@@ -21,6 +28,9 @@ const String _getStudentattendance =
 const String _fetchStopsLogs = "transport-service/parent/fetch-stop-logs";
 const String _getBusStopsList = 'transport-service/parent/bus-stops';
 const String _fetchStops = "transport-service/route/fetch-stops";
+
+const String _getBearerList =
+    "transport-service/mobile-app/bearer-list/{studentId}";
 
 @RestApi()
 abstract class TransportService {
@@ -70,4 +80,10 @@ abstract class TransportService {
   Future<HttpResponse<FetchStopResponseEntity>> fetchStops(
       {@Body() required FetchStopRequest fetchStopRequest,
       @Query('platform') required String platform});
+
+  @GET(_getBearerList)
+  Future<HttpResponse<GetBearerListResponseEntity>> getBearerList(
+      @Path('studentId') int studentId,
+      @Query('platform') String app);
+
 }

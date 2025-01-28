@@ -99,6 +99,7 @@ abstract class NetworkModule {
           Dio dio, @Named('ticketBaseUrl') String ticketingBaseUrl) =>
       TicketRetrofitService(dio, ticketingBaseUrl: ticketingBaseUrl);
 
+
   @lazySingleton
   AdminRetorfitService providerAdminFinanceRetrofitService(
           Dio dio, @Named('adminBaseUrl') String adminBaseUrl) =>
@@ -155,6 +156,7 @@ abstract class NetworkModule {
           GatemanagementService gatemanagementService,
           MarketingSerivce marketingSerivce,
           NotificationSerivce notificationService,
+
           TokenRetrofitService tokenRetrofitService) =>
       NetworkAdapter(
           ticketRetrofitService: ticketRetrofitService,
@@ -168,5 +170,5 @@ abstract class NetworkModule {
           gatemanagementService: gatemanagementService,
           marketingSerivce: marketingSerivce,
           notificationSerivce: notificationService,
-          tokenRetrofitService: tokenRetrofitService);
+          tokenRetrofitService: tokenRetrofitService, );
 }
