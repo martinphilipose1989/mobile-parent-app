@@ -18,8 +18,11 @@ class FlavorValues {
   final String tokenEndpoint;
   final String? logoutEndpoint;
   final String transportUrl;
-
+final String androidApiKey;
   final String discoveryUrl;
+  final String androidAppId;
+  final String androidSenderId;
+  final String  androidProjectId;
   final String keyCloakIntrospectUrl;
   final String gateUrl;
   final String marketingUrl;
@@ -48,6 +51,7 @@ final String bearerBaseUrl;
     required this.marketingUrl,
     required this.frontEndUrl,
     required this.subjectSelectionUrl,
+   required this.androidApiKey,    required this.androidAppId,    required this.androidSenderId,   required this.androidProjectId,
     this.logoutEndpoint,
     logSqlStatements = false,
     this.showLogs = false,

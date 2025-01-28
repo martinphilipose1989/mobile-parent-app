@@ -81,13 +81,6 @@ final tabbarViewModelProvider =
 final dashboardViewModelProvider =
     ChangeNotifierProvider.autoDispose<DashboardPageModel>(
   (ref) => DashboardPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetGuardianStudentDetailsUsecase>(),
-      getIt.get<TokenresponseUsecase>(),
-      getIt.get<GetUserRoleBasePermissionUsecase>(),
-      getIt.get<GetUserDetailsUsecase>(),
- getIt.get<Sendtokenusecase>(),
-));
       flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
       exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
       getGuardianStudentDetailsUsecase:
@@ -96,7 +89,8 @@ final dashboardViewModelProvider =
       getUserRoleBasePermissionUsecase:
           getIt.get<GetUserRoleBasePermissionUsecase>(),
       getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
-      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>()),
+      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>(),
+      sendTokenUsecase: getIt.get<Sendtokenusecase>()),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
@@ -152,15 +146,14 @@ final attendanceDetailsProvider =
       getIt.get<StudentDetailUseCase>()),
 );
 
-final studentDetailPageViewModelProvider = ChangeNotifierProvider.autoDispose<StudentDetailPageViewModel>(
-      (ref) => StudentDetailPageViewModel(
-
- exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-        flutterToastErrorPresenter:  getIt.get<FlutterToastErrorPresenter>(),
-        studentDetailUsecase: getIt.get<StudentDetailUseCase>(),
-        getBearerListUsecase: getIt.get<GetBearerListUsecase>(),
-
-      ),
+final studentDetailPageViewModelProvider =
+    ChangeNotifierProvider.autoDispose<StudentDetailPageViewModel>(
+  (ref) => StudentDetailPageViewModel(
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    studentDetailUsecase: getIt.get<StudentDetailUseCase>(),
+    getBearerListUsecase: getIt.get<GetBearerListUsecase>(),
+  ),
 );
 
 final attendanceCalenderProvider =
@@ -341,9 +334,8 @@ final cancelCompetencyTestPageModelProvider =
 final studentProfileEditViewModelProvider =
     ChangeNotifierProvider.autoDispose<StudentProfileEditViewModel>(
   (ref) => StudentProfileEditViewModel(
-
-
-    exceptionHandlerBinder:  getIt.get<FlutterExceptionHandlerBinder>(), flutterToastErrorPresenter:  getIt.get<FlutterToastErrorPresenter>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
   ),
 );
 

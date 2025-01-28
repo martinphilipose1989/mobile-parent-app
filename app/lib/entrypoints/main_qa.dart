@@ -26,10 +26,15 @@ void main() async {
         logoutEndpoint: EnvQA.logoutEndpoint,
         gateUrl: EnvQA.gateBaseUrl,
         marketingUrl: EnvQA.marketingBaseUrl,
-        showLogs: true,
+        showLogs: false,
         frontEndUrl: EnvQA.frontEndUrl,
         notificationUrl: EnvQA.notificationUrl,
-        subjectSelectionUrl: EnvQA.subjectSelectionUrl, bearerBaseUrl: EnvQA.bearerBaseUrl),
+        subjectSelectionUrl: EnvQA.subjectSelectionUrl,
+        androidApiKey: EnvQA.androidApiKey,
+        androidAppId: EnvQA.androidAppId,
+        androidSenderId: EnvQA.senderId,
+        androidProjectId: EnvQA.projectId,
+        bearerBaseUrl: EnvQA.bearerBaseUrl),
   );
   startApp();
 }

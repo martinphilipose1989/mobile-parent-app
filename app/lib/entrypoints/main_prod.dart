@@ -29,7 +29,11 @@ void main() async {
         showLogs: true,
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
-        subjectSelectionUrl: EnvProd.subjectSelectionUrl, bearerBaseUrl: ''),
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl,
+        androidApiKey: '',
+        androidAppId: '',
+        androidSenderId: '',
+        androidProjectId: ''),
   );
   startApp();
 }

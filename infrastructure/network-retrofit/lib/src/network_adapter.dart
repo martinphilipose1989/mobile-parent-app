@@ -46,6 +46,7 @@ import 'package:network_retrofit/src/services/keycloak_service.dart';
 import 'package:network_retrofit/src/services/marketing_retrofit_serivce.dart';
 import 'package:network_retrofit/src/services/notification_service.dart';
 import 'package:network_retrofit/src/services/ticket_retrofit_service.dart';
+
 import 'package:network_retrofit/src/services/token_retrofit_service.dart';
 import 'package:network_retrofit/src/services/transport_service.dart';
 import 'package:network_retrofit/src/util/safe_api_call.dart';
@@ -76,8 +77,7 @@ class NetworkAdapter implements NetworkPort {
 
   NetworkAdapter(
       {required this.apiService,
-
-        required this.notificationSerivce,
+      required this.notificationSerivce,
       required this.transportService,
       required this.attendanceRetorfitService,
       required this.disciplinaryRetorfitService,
@@ -86,7 +86,8 @@ class NetworkAdapter implements NetworkPort {
       required this.ticketRetrofitService,
       required this.keyCloakService,
       required this.gatemanagementService,
-      required this.marketingSerivce,required this.tokenRetrofitService});
+      required this.marketingSerivce,
+      required this.tokenRetrofitService});
 
   @override
   Future<Either<NetworkError, GetsibglingListModel>> getSiblingsList(
@@ -1721,23 +1722,23 @@ class NetworkAdapter implements NetworkPort {
   }
 
   @override
-  Future<Either<NetworkError, SendTokenResponseModel>> sendToken ({required int? userId, required SendTokenRequestEntity sendTokenRequestEntity}) async {
-    final response = await safeApiCall(
-        tokenRetrofitService.sendToken(
-   userId: userId??0,sendTokenRequestEntity: sendTokenRequestEntity));
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
+      {required int? userId,
+      required SendTokenRequestEntity sendTokenRequestEntity}) async {
+    final response = await safeApiCall(tokenRetrofitService.sendToken(
+        userId: userId ?? 0, sendTokenRequestEntity: sendTokenRequestEntity));
 
     return response.fold(
-          (error) => Left(error),
-          (data) => Right(data.data.transform()),
+      (error) => Left(error),
+      (data) => Right(data.data.transform()),
     );
   }
 
   @override
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
-      {required int studentId,required String platform}) async {
+      {required int studentId, required String platform}) async {
     final response =
-    await safeApiCall(transportService
-        .getBearerList(studentId,platform));
+        await safeApiCall(transportService.getBearerList(studentId, platform));
 
     return response.fold((l) {
       return Left(l);

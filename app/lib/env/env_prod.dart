@@ -69,4 +69,28 @@ abstract class EnvProd {
 
   @EnviedField(varName: 'SUBJECT_SELECTION_URL')
   static const String subjectSelectionUrl = _EnvProd.subjectSelectionUrl;
+
+  @EnviedField(varName: 'ANDROID_API_KEY')
+  static const String androidApiKey = _EnvProd.androidApiKey;
+
+  @EnviedField(varName: 'ANDROID_APP_ID')
+  static const String androidAppId = _EnvProd.androidAppId;
+
+  @EnviedField(varName: 'ANDROID_PACKAGE_NAME')
+  static const String androidAppPackageName = _EnvProd.androidAppPackageName;
+
+  @EnviedField(varName: 'IOS_API_KEY')
+  static const String iosApiKey = _EnvProd.iosApiKey;
+
+  @EnviedField(varName: 'IOS_APP_ID')
+  static const String iosAppId = _EnvProd.iosAppId;
+
+  @EnviedField(varName: 'IOS_PACKAGE_NAME')
+  static const String iosAppPackageName = _EnvProd.iosAppPackageName;
+
+  @EnviedField(varName: 'SENDER_ID')
+  static const String senderId = _EnvProd.senderId;
+
+  @EnviedField(varName: 'PROJECT_ID')
+  static const String projectId = _EnvProd.projectId;
 }

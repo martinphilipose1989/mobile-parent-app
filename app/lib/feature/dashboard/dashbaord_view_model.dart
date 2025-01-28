@@ -13,15 +13,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:injectable/injectable.dart';
-import 'package:push_notification/notification.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'dashboard_state.dart';
 
-@injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
   final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
@@ -51,15 +49,8 @@ class DashboardPageModel extends BasePageViewModel {
       required this.getUserRoleBasePermissionUsecase,
       required this.getUserDetailsUsecase,
       required this.termsAndConditionUsecase,
-      required this.flutterToastErrorPresenter});
-    this.exceptionHandlerBinder,
-    this._getGuardianStudentDetailsUsecase,
-    this.tokenresponseUsecase,
-    this.getUserRoleBasePermissionUsecase,
-    this._getUserDetailsUsecase,
-    this.sendTokenUsecase,
-    //this.sendTokenUsecase
-  );
+      required this.flutterToastErrorPresenter,
+      required this.sendTokenUsecase});
 
   final List<String> images = [
     AppImages.banner1,
@@ -277,6 +268,22 @@ class DashboardPageModel extends BasePageViewModel {
     }
   }
 
+  Future<void> getTermsAndConditionUrl(
+      {required String undertakingFile}) async {
+    TermsAndConditionUsecaseParams params =
+        TermsAndConditionUsecaseParams(url: undertakingFile);
+    ApiResponseHandler.apiCallHandler(
+        params: params,
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        createCall: (params) =>
+            termsAndConditionUsecase.execute(params: params),
+        onSuccess: (result) async {
+          await showPdfViewer(url: result?.data?.url ?? '');
+        },
+        onError: (error) {});
+  }
+
   Future<void> getUserRoleBaseDetails() async {
     await exceptionHandlerBinder.handle(block: () {
       TokenresponseUsecaseParams params = TokenresponseUsecaseParams();
@@ -398,26 +405,20 @@ class DashboardPageModel extends BasePageViewModel {
         params,
         createCall: () => sendTokenUsecase.execute(params: params),
       ).asFlow().listen((result) {
-        if (result.status == Status.success) {
-          print("sent Token");
-        }
+        if (result.status == Status.success) {}
       }).onError((error) {
-        print(error);
         // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
   }
-  }
 
-    // final List<Map<String, String>> drawerItems = [
-    //   {'text': 'Fees', 'route': ''},
-    //   {'text': 'Payments', 'route': ''},
-    //   {'text': 'Transaction History', 'route': ''},
-    //   {'text': 'Receipt', 'route': ''},
-    //   {'text': 'Daily Diary', 'route': ''},
-    //   {'text': 'Class Update', 'route': ''},
-    //   {'text': 'Assignment', 'route': ''},
-    // ];
+  Future<void> showPdfViewer({required String url}) async {
+    await showDialog(
+      barrierDismissible: false,
+      context: navigatorKey.currentContext!,
+      builder: (context) => PDFDialog(
+          pdfUrl: url, selectedStudent: dashboardState.selectedStudent),
+    );
   }
 
   @override

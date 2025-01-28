@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:push_notification/notification.dart';
+import 'package:services/services.dart';
 
 import 'dependencies.dart';
 
+import 'flavors/firebase_config.dart';
 import 'myapp.dart';
 
 void startApp() async {
@@ -17,28 +19,44 @@ void startApp() async {
   await configureDependencies(DependencyConfigurationContext());
   // final alice = getIt<Alice>();
 
-  await Firebase.initializeApp(
-
-    options: FirebaseOptions(
-
-      apiKey: "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo",
-      appId: "1:79098057580:android:8592c86708a10a60a25949",
-      messagingSenderId: "79098057580",
-      projectId: "hubblehox-parent",
-   iosBundleId: "com.neosofttech.enterprise.connecto",
-
-    ),
-  );
+// if(FlavorConfig.isQA())
+//   if (Platform.isAndroid)
+//     await Firebase.initializeApp(
+//         options: FirebaseOptions(
+//             apiKey: "AIzaSyDhrNcuys3B6YvkL22dhxJeaEbwSIbosDo",
+//             appId: "1:79098057580:android:8592c86708a10a60a25949",
+//             messagingSenderId: "79098057580",
+//             projectId: "hubblehox-parent",
+//           ///  iosBundleId:"com.hubblehox.hubbleorion",
+//
+//         )
+//     );
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: FirebaseConfig.firebaseOptions,
+    );
+  }
+  // if (Firebase.apps.isEmpty) {
+  //   await Firebase.initializeApp(
+  //  // name: "hubblehox-parent",
+  //       options: FirebaseOptions(
+  //           apiKey: "AIzaSyBhw2KUhoEL0rY4jtf7YUtyLdCzQhvY3eY",
+  //           appId: "1:79098057580:android:8592c86708a10a60a25949",
+  //           messagingSenderId: "79098057580",
+  //           projectId: "hubblehox-parent",
+  //           iosBundleId:"com.hubblehox.hubbleorion",
+  //
+  //       )
+  //   );
+  // } else {
+  //   print("Firebase already initialized");
+  // }
 
   FirebaseMessaging.instance.getToken().then((value) {
     if (value != null) {
-      print("FCM Token" "FCM Token: $value");
-    } else {
-      print("Error" "Failed to get FCM token");
-    }
-  }).catchError((error) {
-    print("Exception" "Error getting FCM token: $error");
-  });
+      SharedPreferenceHelper.saveString("token", value);
+    } else {}
+  }).catchError((error) {});
 
   // if (kDebugMode) {
   //   try {
@@ -59,8 +77,6 @@ void startApp() async {
     if (FlavorConfig.isPROD() || FlavorConfig.isQA()) {
       debugPrint = (String? message, {int? wrapWidth}) {};
     }
-    runApp(const ProviderScope(child: MyApp(
-
-    )));
+    runApp(const ProviderScope(child: MyApp()));
   });
 }
