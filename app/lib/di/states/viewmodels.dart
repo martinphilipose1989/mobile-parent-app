@@ -593,6 +593,7 @@ final newEnrolmentViewModelProvider =
       studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
       getStudentYearlyDetailsUsecase:
           getIt.get<GetStudentYearlyDetailsUsecase>()),
+
 );
 
 final pdfViewmodelProvider = ChangeNotifierProvider.autoDispose(
