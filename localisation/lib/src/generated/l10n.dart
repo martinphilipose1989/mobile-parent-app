@@ -3249,6 +3249,446 @@ class Strings {
       args: [],
     );
   }
+
+  /// `Basic Detail`
+  String get basic_detail {
+    return Intl.message(
+      'Basic Detail',
+      name: 'basic_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School Name`
+  String get school_name {
+    return Intl.message(
+      'School Name',
+      name: 'school_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of Birth`
+  String get dob {
+    return Intl.message(
+      'Date of Birth',
+      name: 'dob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Board`
+  String get board {
+    return Intl.message(
+      'Board',
+      name: 'board',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course`
+  String get course {
+    return Intl.message(
+      'Course',
+      name: 'course',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grade`
+  String get grade {
+    return Intl.message(
+      'Grade',
+      name: 'grade',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Division`
+  String get division {
+    return Intl.message(
+      'Division',
+      name: 'division',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift`
+  String get shift {
+    return Intl.message(
+      'Shift',
+      name: 'shift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `House`
+  String get house {
+    return Intl.message(
+      'House',
+      name: 'house',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical Details`
+  String get medical_details {
+    return Intl.message(
+      'Medical Details',
+      name: 'medical_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Physical Disability`
+  String get physical_disability {
+    return Intl.message(
+      'Physical Disability',
+      name: 'physical_disability',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allergies`
+  String get alergies {
+    return Intl.message(
+      'Allergies',
+      name: 'alergies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone {
+    return Intl.message(
+      'Phone',
+      name: 'phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Details`
+  String get parent_details {
+    return Intl.message(
+      'Parent Details',
+      name: 'parent_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent First Name `
+  String get parent_First_name {
+    return Intl.message(
+      'Parent First Name ',
+      name: 'parent_First_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Last Name`
+  String get parent_Last_Name {
+    return Intl.message(
+      'Parent Last Name',
+      name: 'parent_Last_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address `
+  String get address {
+    return Intl.message(
+      'Address ',
+      name: 'address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Line 1`
+  String get address_Line_1 {
+    return Intl.message(
+      'Address Line 1',
+      name: 'address_Line_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Line 2`
+  String get address_Line_2 {
+    return Intl.message(
+      'Address Line 2',
+      name: 'address_Line_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get city {
+    return Intl.message(
+      'City',
+      name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `State`
+  String get state {
+    return Intl.message(
+      'State',
+      name: 'state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pincode`
+  String get pincode {
+    return Intl.message(
+      'Pincode',
+      name: 'pincode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Learning Needs`
+  String get learning_needs {
+    return Intl.message(
+      'Learning Needs',
+      name: 'learning_needs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Board_cannot_be_empty`
+  String get board_cannot_be_empty {
+    return Intl.message(
+      'Board_cannot_be_empty',
+      name: 'board_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School name cannot be empty`
+  String get school_name_cannot_empty {
+    return Intl.message(
+      'School name cannot be empty',
+      name: 'school_name_cannot_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date Of Birth cannot be empty`
+  String get date_Of_birth_cannot_be_empty {
+    return Intl.message(
+      'Date Of Birth cannot be empty',
+      name: 'date_Of_birth_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course cannot be empty`
+  String get course_cannot_be_empty {
+    return Intl.message(
+      'Course cannot be empty',
+      name: 'course_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grade cannot be empty`
+  String get grade_cannot_be_empty {
+    return Intl.message(
+      'Grade cannot be empty',
+      name: 'grade_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Division cannot be empty`
+  String get division_cannot_be_empty {
+    return Intl.message(
+      'Division cannot be empty',
+      name: 'division_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift cannot be empty`
+  String get shift_cannot_be_empty {
+    return Intl.message(
+      'Shift cannot be empty',
+      name: 'shift_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `House cannot be empty`
+  String get house_cannot_be_empty {
+    return Intl.message(
+      'House cannot be empty',
+      name: 'house_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allergies cannot be empty`
+  String get allergies_cannot_be_empty {
+    return Intl.message(
+      'Allergies cannot be empty',
+      name: 'allergies_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Learning Needs cannot be empty`
+  String get learning_needs_cannot_be_empty {
+    return Intl.message(
+      'Learning Needs cannot be empty',
+      name: 'learning_needs_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Name cannot be empty`
+  String get first_name_cannot_be_empty {
+    return Intl.message(
+      'First Name cannot be empty',
+      name: 'first_name_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `last Name cannot be empty`
+  String get last_name_cannot_be_empty {
+    return Intl.message(
+      'last Name cannot be empty',
+      name: 'last_name_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone cannot be empty`
+  String get phone_cannot_be_empty {
+    return Intl.message(
+      'Phone cannot be empty',
+      name: 'phone_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City cannot be empty`
+  String get city_cannot_be_empty {
+    return Intl.message(
+      'City cannot be empty',
+      name: 'city_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your session has expired. Please log in again to continue.`
+  String get your_session_expired {
+    return Intl.message(
+      'Your session has expired. Please log in again to continue.',
+      name: 'your_session_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `State cannot be empty`
+  String get state_cannot_be_empty {
+    return Intl.message(
+      'State cannot be empty',
+      name: 'state_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Physical Disability  cannot be empty`
+  String get physical_disability_cannot_be_empty {
+    return Intl.message(
+      'Physical Disability  cannot be empty',
+      name: 'physical_disability_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medical History cannot be empty`
+  String get medical_history_cannot_be_empty {
+    return Intl.message(
+      'Medical History cannot be empty',
+      name: 'medical_history_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Line 1 cannot be empty`
+  String get address_Line1_cannot_be_empty {
+    return Intl.message(
+      'Address Line 1 cannot be empty',
+      name: 'address_Line1_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Line 2 cannot be empty`
+  String get address_Line2_cannot_be_empty {
+    return Intl.message(
+      'Address Line 2 cannot be empty',
+      name: 'address_Line2_cannot_be_empty',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Strings> {

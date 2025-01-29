@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../di/states/viewmodels.dart';
@@ -47,13 +48,13 @@ class StudentDetailPageView
                 title: student?.dealSafeAppError?.error.message
                             .contains("internet") ??
                         false
-                    ? "No Internet Connection"
-                    : "Something Went Wrong",
+                    ? Strings.of(context).no_internet_connection
+                    : Strings.of(context).something_got_wrong,
                 subtitle: student?.dealSafeAppError?.error.message
                             .contains("internet") ??
                         false
-                    ? "It seems you're offline. Please check your internet connection and try again."
-                    : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                    ? Strings.of(context).it_seems_you_re_offline
+                    : Strings.of(context).an_unexpected_error,
                 onPressed: () {
                   model.getStudentDetail(
                       studentId: model.selectedStudent?.first.id);
@@ -77,7 +78,7 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     BaseWidget(
                       builder: (BuildContext context, StudentDetailPageViewModel? model, Widget? child) { return Infotitlerow(
-                        infoText: "Basic Details",
+                        infoText: Strings.of(context).basic_detail,
                         visible: true,
                         onTap: () {
                           Navigator.pushNamed(context, RoutePaths.profileEdit,
@@ -89,75 +90,75 @@ class StudentDetailPageView
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                      title1: "School Name",
+                      title1: Strings.of(context).school_name,
                       value1: student?.data?.profile?.crtSchool ?? " ",
-                      title2: "Date of Birth",
+                      title2: Strings.of(context).date_of_birth,
                       value2: DateFormat('dd-MM-yyyy')
                           .format(student!.data!.profile!.dob),
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Board",
+                        title1: Strings.of(context).board,
                         value1: student.data?.profile?.crtBoard ?? "NA",
-                        title2: "Course",
+                        title2: Strings.of(context).course,
                         value2: student.data?.profile?.courseName),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Grade",
+                        title1: Strings.of(context).grade,
                         value1: student.data?.profile?.crtGrade ?? "NA",
-                        title2: "Division",
+                        title2: Strings.of(context).division,
                         value2: student.data?.profile?.crtDivision),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Shift",
+                        title1: Strings.of(context).shift,
                         value1: student.data?.profile?.crtShift ?? "NA",
-                        title2: "House",
+                        title2: Strings.of(context).house,
                         value2: student.data?.profile?.crtHouse ?? "NA"),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    Infotitlerow(infoText: "Medical Details"),
+                    Infotitlerow(infoText: Strings.of(context).medical_details),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Physical Disability",
+                        title1: Strings.of(context).physical_disability,
                         value1: student.data?.medicalInfo?.disablilityDetails ??
                             "NA",
-                        title2: "Medical History",
+                        title2: Strings.of(context).medical_history,
                         value2:
                             student.data?.medicalInfo?.medicalHistoryDetails ??
                                 "NA"),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Alergies",
+                        title1: Strings.of(context).allergies,
                         value1:
                             student.data?.medicalInfo?.allergyDetails ?? "NA",
-                        title2: "Personalised Learning Needs",
+                        title2: Strings.of(context).personalised_Learning_Needs,
                         value2: student.data?.medicalInfo
                             ?.personalizedLearningNeedsDetails),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    Infotitlerow(infoText: "Parent Details"),
+                    Infotitlerow(infoText: Strings.of(context).parent_details),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                      title1: "Parent First Name ",
+                      title1: Strings.of(context).parent_First_name,
                       value1: student.data?.parent?.first.firstName ?? "",
-                      title2: "Parent Last Name",
+                      title2: Strings.of(context).parent_last_name,
                       value2: student.data?.parent?.first.lastName ?? "",
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Phone",
+                        title1: Strings.of(context).phone,
                         value1: student.data?.parent?.first.mobileNo ?? "",
-                        title2: "Email",
+                        title2: Strings.of(context).email,
                         value2: student.data?.parent?.first.email ?? ""),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    Infotitlerow(infoText: "Address "),
+                    Infotitlerow(infoText: Strings.of(context).address),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Address Line 1",
+                        title1: Strings.of(context).address_Line_1,
                         value1: student
                                 .data
                                 ?.contactInfo
@@ -165,21 +166,21 @@ class StudentDetailPageView
                                 ?.first
                                 .houseBuildingNo ??
                             "",
-                        title2: "Address Line 2",
+                        title2: Strings.of(context).address_Line_2,
                         value2: student.data?.contactInfo
                             ?.residentialInformation?.first.streetName),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "City",
+                        title1: Strings.of(context).city,
                         value1: student.data?.contactInfo
                                 ?.residentialInformation?.first.city ??
                             "NA",
-                        title2: "State",
+                        title2: Strings.of(context).state,
                         value2: student.data?.contactInfo
                                 ?.residentialInformation?.first.state ??
                             "NA"),
                     VisitorDetailsRow(
-                      title1: "Pincode",
+                      title1: Strings.of(context).pincode,
                       value1: (student.data?.contactInfo?.residentialInformation
                                   ?.first.pincode ??
                               0)
@@ -200,13 +201,13 @@ class StudentDetailPageView
                                title: bearer?.dealSafeAppError?.error.message
                                    .contains("internet") ??
                                    false
-                                   ? "No Internet Connection"
-                                   : "Something Went Wrong",
+                                   ? Strings.of(context).no_internet_connection
+                                   : Strings.of(context).something_got_wrong,
                                subtitle: bearer?.dealSafeAppError?.error.message
                                    .contains("internet") ??
                                    false
-                                   ? "It seems you're offline. Please check your internet connection and try again."
-                                   : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                   ? Strings.of(context).it_seems_you_re_offline
+                                   : Strings.of(context).an_unexpected_error,
                                onPressed: () {
                                  model.getBearerList(studentId: model.selectedStudent?.first.id);
                                  // model.getStudentDetail(
@@ -218,7 +219,7 @@ class StudentDetailPageView
                            successWidget: ()=> Column(crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CommonText(
-                                    text: "Bearers",
+                                    text: Strings.of(context).bearers,
                                     style: AppTypography.subtitle2),
                                 SizedBox(height: 16.h),
 

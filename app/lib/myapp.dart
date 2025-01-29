@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
                         if (value) {
                           CommonPopups().showError(
                               navigatorKey.currentState!.overlay!.context,
-                              'Your session has expired. Please log in again to continue.',
-                              (shouldRoute) {
+Strings.of(context).your_session_expired,  (shouldRoute) {
                             getIt
                                 .get<LogoutUsecase>()
                                 .execute(params: LogoutUsecaseParams())

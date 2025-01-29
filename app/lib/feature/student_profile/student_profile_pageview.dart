@@ -101,7 +101,7 @@ class StudentProfilePageView
                                     ?.routeStopMapping?.first.stop?.stopName ??
                                 ""
                             : "",
-                        title2: "Drop Time",
+                        title2: Strings.of(context).drop_time,
                         value2: "N/A"),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
