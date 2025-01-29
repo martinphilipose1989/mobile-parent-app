@@ -26,7 +26,7 @@ void main() async {
         logoutEndpoint: EnvQA.logoutEndpoint,
         gateUrl: EnvQA.gateBaseUrl,
         marketingUrl: EnvQA.marketingBaseUrl,
-        showLogs: false,
+        showLogs: true,
         frontEndUrl: EnvQA.frontEndUrl,
         notificationUrl: EnvQA.notificationUrl,
         subjectSelectionUrl: EnvQA.subjectSelectionUrl,
