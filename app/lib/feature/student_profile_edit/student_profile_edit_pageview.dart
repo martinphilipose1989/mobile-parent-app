@@ -3,17 +3,13 @@
 import 'package:app/molecules/student/InfoTitleRow.dart';
 import 'package:app/molecules/student/infoEditRow.dart';
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
+
 import 'package:app/utils/common_widgets/common_image_widget.dart';
-import 'package:app/utils/common_widgets/common_popups.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -342,7 +338,7 @@ class BearerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 200.h,
       width: 1.sw,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -360,9 +356,9 @@ class BearerList extends StatelessWidget {
                   CommonImageWidget(
                       imageUrl: bearerList[index].profileImage??"",
                       clipBehavior: Clip.hardEdge,
-                      imageWidth: 50,
-                      imageHeight: 50),
-                  const SizedBox(height: 12),
+                      imageWidth: 50.h,
+                      imageHeight: 50.h),
+                  SizedBox(height: 12.w),
                   Text("${bearerList[index].firstName}")
                 ],
               ),
