@@ -69,32 +69,7 @@ final List<BearerResponse> bearerList;
             .toString() ??
         "NA";
 
-    //return AppStreamBuilder<Resource<GetStudentDetailData>>(
-    //     initialData: Resource.none(),
-    //     stream: model.studentDetailStream,
-    //     dataBuilder: (context, student) {
-    //       return DataStatusWidget(
-    //         status: student?.status ?? Status.none,
-    //         loadingWidget: () =>
-    //             const Center(child: CircularProgressIndicator()),
-    //         errorWidget: () => Center(
-    //           child: NoDataFoundWidget(
-    //             title: student?.dealSafeAppError?.error.message
-    //                         .contains("internet") ??
-    //                     false
-    //                 ? "No Internet Connection"
-    //                 : "Something Went Wrong",
-    //             subtitle: student?.dealSafeAppError?.error.message
-    //                         .contains("internet") ??
-    //                     false
-    //                 ? "It seems you're offline. Please check your internet connection and try again."
-    //                 : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-    //             onPressed: () {
-    //               model.getStudentDetail(studentId: studentId);
-    //             },
-    //           ),
-    //         ),
-    //         successWidget: () =>
+
 
     return Padding(
         padding: const EdgeInsets.all(16.0),
