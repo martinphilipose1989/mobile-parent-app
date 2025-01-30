@@ -99,6 +99,10 @@ android {
         release {
             // Only replace with signingConfigs.debug so `flutter run --release` works locally.
             signingConfig signingConfigs.release
+
+            
+           
+
         }
     }
     lintOptions {
