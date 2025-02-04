@@ -75,7 +75,7 @@ class HighlightListState extends State<HighlightList> {
                     Text(
                       widget.chipValues[index].name ?? "",
                       style: TextStyle(
-                        fontSize: 10.sp,
+                        fontSize: 14.sp,
                         color: isSelected
                             ? Theme.of(context).colorScheme.primary
                             : Colors.black,
