@@ -28,7 +28,7 @@ abstract class AdminRetorfitService {
     @Path('academic_yrs_id') required String academicYrsId,
   });
 
-  @GET('studentProfile/{id}')
+  @GET('admin/studentProfile/{id}')
   Future<HttpResponse<StudentDetailsResponseEntity>> getStudentDetails(
       {@Path('id') required int studentId,
       @Query('platform') required String app});
@@ -38,10 +38,8 @@ abstract class AdminRetorfitService {
       {@Body() required SubjectListingRequest subjectListingRequest,
       @Query('platform') required String app});
 
-  @POST('studentProfile/getEnrollmentDetail')
+  @POST('admin/studentProfile/getEnrollmentDetail')
   Future<HttpResponse<SiblingProfileResponseEntity>> getSiblingDetail(
       {@Body() required GetSiblingDetailRequest getSiblingDetailRequest,
       @Query('platform') required String app});
-
-  
 }

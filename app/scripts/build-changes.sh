@@ -30,10 +30,24 @@ done
 if [ ${#changed_packages[@]} -eq 0 ]; then
   echo "No changed packages detected."
 else
-  # Create a comma-separated list of package names
-  changed_packages_list=$(IFS=,; echo "${changed_packages[*]}")
-  echo "Running melos for the following packages: $changed_packages_list"
-  
-  # Execute the melos command for the detected packages
-  melos exec --scope=$changed_packages_list -- flutter pub run build_runner build --delete-conflicting-outputs
+  # Filter out 'shared' package from the changed packages list
+  filtered_packages=()
+  for package in "${changed_packages[@]}"; do
+    if [[ "$package" != "shared" ]]; then
+      filtered_packages+=("$package")
+    fi
+  done
+
+  # Check if there are any packages left after filtering
+  if [ ${#filtered_packages[@]} -eq 0 ]; then
+    echo "No relevant packages to run melos on after filtering."
+  else
+    # Create a comma-separated list of package names
+    changed_packages_list=$(IFS=,; echo "${filtered_packages[*]}")
+    echo "Running melos for the following packages: $changed_packages_list"
+
+    # Execute the melos command for the filtered packages
+    melos exec --scope=$changed_packages_list -- flutter pub run build_runner build --delete-conflicting-outputs
+  fi
 fi
+
