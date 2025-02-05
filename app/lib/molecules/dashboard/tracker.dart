@@ -25,7 +25,7 @@ class Tracker extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-             CommonText(
+            CommonText(
               text: Strings.of(context).tracker,
               style: AppTypography.subtitle1,
             ),
@@ -63,16 +63,19 @@ class Tracker extends StatelessWidget {
         height: 36.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(width: 1, color: const Color(0xff666666)),
+            border: Border.all(width: 1, color: AppColors.textGray),
             color: Colors.white),
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 10.0.w),
+          padding: EdgeInsets.symmetric(horizontal: 10.0.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(icon,height: 20.h,),
-         SizedBox(
+              SvgPicture.asset(
+                icon,
+                height: 20.h,
+              ),
+              SizedBox(
                 width: 5.w,
               ),
               CommonText(

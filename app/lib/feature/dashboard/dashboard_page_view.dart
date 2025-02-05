@@ -10,6 +10,7 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
@@ -37,7 +38,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           CommonSizedBox.sizedBox(height: 10, width: 10),
           introductionTile(model, context),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
           AppStreamBuilder<Resource<User>>(
@@ -233,6 +233,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
     return CommonText(
       text: titleValue,
       style: AppTypography.subtitle1,
+      color: AppColors.textDark,
     );
   }
 
@@ -246,7 +247,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
   Widget introductionTile(DashboardPageModel model, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(children: [
           Container(
@@ -274,7 +274,8 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   initialData: Resource.none(),
                   dataBuilder: (context, userModel) {
                     return CommonText(
-                      text: ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
+                      text:
+                          ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
                       style: AppTypography.subtitle2,
                     );
                   },

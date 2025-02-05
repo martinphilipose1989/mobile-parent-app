@@ -160,4 +160,13 @@ class AppImages {
   static const String banner13 = "assets/images/banner_images/350x180_13.jpg";
   static const String banner14 = "assets/images/banner_images/350x180_14.jpg";
   static const String banner15 = "assets/images/banner_images/350x180_15.jpg";
+
+  static const String gatePassIcon = "assets/images/gate_pass_icon.svg";
+  static const String newEnrolmentIcon = "assets/images/new_enrolment_icon.svg";
+  static const String studentProfileIcon =
+      "assets/images/student_profile_icon.svg";
+  static const String subjectSelectionNewIcon =
+      "assets/images/subject_selection_icon.svg";
+  static const String valueAddedServiceIcon =
+      "assets/images/value_added_service_icon.svg";
 }

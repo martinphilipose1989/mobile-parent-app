@@ -1,4 +1,5 @@
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
+import 'package:app/themes_setup.dart';
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,7 +79,7 @@ class HighlightListState extends State<HighlightList> {
                         fontSize: 14.sp,
                         color: isSelected
                             ? Theme.of(context).colorScheme.primary
-                            : Colors.black,
+                            : AppColors.textGray,
                       ),
                     ),
                   ],

@@ -56,12 +56,16 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                     }
                   },
                 )
-              : InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: const Icon(Icons.menu_outlined),
-                )),
+              : SizedBox()
+
+          // InkWell(
+          //     onTap: () {
+          //       Scaffold.of(context).openDrawer();
+          //     },
+          //     child: const Icon(Icons.menu_outlined),
+          //   )
+
+          ),
       title: CommonText(
         text: appbarTitle,
         style: AppTypography.subtitle1,
@@ -74,22 +78,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(right: 10),
                 child: InkWell(
                   onTap: () {
-                    //  Scaffold.of(context).openDrawer();
                     Navigator.pushNamed(context, RoutePaths.notification);
-                    // Navigator.of(context).push(MaterialPageRoute<void>(
-                    // fullscreenDialog: true,
-                    // builder: (BuildContext context) {}
-
-                    // ProviderScope.containerOf(context)
-                    //                    //     .read(notificationProvider).fetchNotification(notificationRequestModel: NotificationRequestModel(userId: 305, userType: 2, type: type, limit: limit, page: page))
-                    //    showBottomSheet(backgroundColor: Colors.white,
-                    //    context: context,
-                    // // Makes the bottom sheet full-screen
-                    //    shape: RoundedRectangleBorder(
-                    //    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                    //    ),
-                    //  builder: (context) => NotificationPage(), // Your custom page widget
-                    //    );
                   },
                   child: SvgPicture.asset(AppImages.notificationLogo),
                 ),
@@ -105,11 +94,11 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // });
                     CommonPopups().showError(
                       context,
-                      "Are you sure you want to logout?",    (shouldRoute) {
-                      model?.logOut();
-                    },);
-
-
+                      "Are you sure you want to logout?",
+                      (shouldRoute) {
+                        model?.logOut();
+                      },
+                    );
                   },
                   child: Container(
                       height: 32.h,
