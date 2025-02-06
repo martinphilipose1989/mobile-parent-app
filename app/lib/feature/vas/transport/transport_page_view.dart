@@ -8,6 +8,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+import 'package:app/utils/common_widgets/common_searchable_dropdown/searchable_dropdown_list.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
@@ -80,7 +81,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             CommonText(
-                                              text: Strings.of(context).calculated_amount,
+                                              text: Strings.of(context)
+                                                  .calculated_amount,
                                               style: AppTypography.body2,
                                             ),
                                             CommonText(
@@ -149,7 +151,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               onPressed: () {
                                                 model.calculateFees();
                                               },
-                                              text: Strings.of(context).calculate,
+                                              text:
+                                                  Strings.of(context).calculate,
                                               backgroundColor: AppColors.accent,
                                               width: double.infinity,
                                               textStyle: AppTypography.subtitle2
@@ -215,7 +218,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                       model.enrollTransport();
                                                     }
                                                   },
-                                                  text: Strings.of(context).enroll_now,
+                                                  text: Strings.of(context)
+                                                      .enroll_now,
                                                   backgroundColor:
                                                       AppColors.accent,
                                                   textStyle: AppTypography
@@ -247,7 +251,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                     model.selectedDropZone =
                                                         null;
                                                   },
-                                                  text: Strings.of(context).reset,
+                                                  text:
+                                                      Strings.of(context).reset,
                                                   backgroundColor:
                                                       AppColors.primaryOn,
                                                   textStyle: AppTypography
@@ -265,7 +270,7 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                         );
                       } else {
                         return CommonText(
-                            text:Strings.of(context).no_data_found);
+                            text: Strings.of(context).no_data_found);
                       }
                     }),
               ),
@@ -436,7 +441,7 @@ class PickUpPointToSchool extends StatelessWidget {
                           stream: model.oneWayPickupPoint,
                           initialData: model.oneWayPickupPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Pickup Point",
                               showAstreik: true,
@@ -451,7 +456,7 @@ class PickUpPointToSchool extends StatelessWidget {
                             );
                           }),
                       SizedBox(height: 15.h),
-                CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: Strings.of(context).drop_Point,
                         readOnly: true,
@@ -481,7 +486,7 @@ class SchoolToDropPoint extends StatelessWidget {
                   visible: selectServiceType?.toLowerCase() == "one way",
                   child: Column(
                     children: [
-                  CommonTextFormField(
+                      CommonTextFormField(
                         showAstreik: false,
                         labelText: Strings.of(context).pickup_Point,
                         readOnly: true,
@@ -491,7 +496,7 @@ class SchoolToDropPoint extends StatelessWidget {
                           stream: model.oneWayDropPoint,
                           initialData: model.oneWayDropPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Drop Point",
                               showAstreik: true,
@@ -534,7 +539,7 @@ class BothWayRoutes extends StatelessWidget {
                           stream: model.oneWayPickupPoint,
                           initialData: model.oneWayPickupPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Pickup Point",
                               showAstreik: true,
@@ -553,7 +558,7 @@ class BothWayRoutes extends StatelessWidget {
                           stream: model.oneWayDropPoint,
                           initialData: model.oneWayDropPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Drop Point",
                               showAstreik: true,
