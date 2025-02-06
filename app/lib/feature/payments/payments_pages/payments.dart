@@ -74,7 +74,6 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
 
   @override
   Widget? buildBottomNavigationBar(PaymentsModel model) {
-    // TODO: implement buildBottomNavigationBar
     return AppStreamBuilder<bool>(
         stream: model.paymentsLoader,
         initialData: model.paymentsLoader.value,
@@ -103,8 +102,8 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                         children: [
                           CommonText(
                             text: 'Total Amount',
-                            style: AppTypography.body1
-                                .copyWith(color: Colors.grey),
+                            style: AppTypography.smallCaption
+                                .copyWith(color: AppColors.textGray),
                           ),
                           AppStreamBuilder<int>(
                             stream: model.totalAmount,
