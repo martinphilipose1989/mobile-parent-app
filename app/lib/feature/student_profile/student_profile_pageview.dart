@@ -276,6 +276,7 @@ class StudentImageInfo extends StatelessWidget {
       ],
     );
   }
+
 }
 
 class StudentBasicInfoTile extends StatelessWidget {
