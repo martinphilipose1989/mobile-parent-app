@@ -7,6 +7,7 @@ import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.d
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/coming_soon/coming_soon.dart';
 import 'package:app/feature/create_ticket/create_ticket_page.dart';
 import 'package:app/feature/communication/communication_page.dart';
 import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
@@ -178,18 +179,20 @@ class AppRouter {
 
       case RoutePaths.profileEdit:
         return CupertinoPageRoute(
-            builder: (context) =>  StudentProfileEdit(studentData: settings.arguments as StudentDataArgs,),
+            builder: (context) => StudentProfileEdit(
+                  studentData: settings.arguments as StudentDataArgs,
+                ),
             settings: const RouteSettings(name: RoutePaths.profileEdit));
 
       case RoutePaths.profile:
         return CupertinoPageRoute(
-            builder: (context) =>  StudentDetailPage(),
+            builder: (context) => StudentDetailPage(),
             settings: const RouteSettings(name: RoutePaths.profile));
 
       case RoutePaths.ticketListPage:
         return CupertinoPageRoute(
-            builder: (context) => const TicketListPage(),
-            settings: const RouteSettings(name: RoutePaths.ticketListPage),
+          builder: (context) => const TicketListPage(),
+          settings: const RouteSettings(name: RoutePaths.ticketListPage),
         );
 
       case RoutePaths.createTicketPage:
@@ -387,10 +390,11 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => NewEnrolmentPage(),
             settings: RouteSettings(name: RoutePaths.newEnrolmentPage));
+
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(
-          builder: (context) => Container(),
+          builder: (context) => ComingSoonScreen(),
         );
     }
   }

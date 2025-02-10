@@ -30,102 +30,144 @@ class NotificationPageView
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // SizedBox(height: 10.w,),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              padding: EdgeInsets.all(6),
-              decoration: const BoxDecoration(
-                color: AppColors.lightgrey,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16),
-                ),
-              ),
-              child: AppStreamBuilder<int>(
-                stream: model.selectedStatusValue,
-                dataBuilder: (context, data) {
-                  return Row(
-                    children: [
-                      InkWell(
-                        child: Chip(
-                          label: Text("Today"),
-                          backgroundColor: data == 0
-                              ? AppColors.primaryLighter
-                              : AppColors.lightgrey,
+          SizedBox(height: 10.w),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 9),
+            decoration: const BoxDecoration(
+              color: AppColors.lightgrey,
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            child: AppStreamBuilder<int>(
+              stream: model.selectedStatusValue,
+              dataBuilder: (context, data) {
+                return Row(
+                  children: [
+                    InkWell(
+                      child: Chip(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color: data == 0
+                                  ? AppColors.primary
+                                  : AppColors.textLightGray,
+                            )),
+                        label: Text(
+                          "Today",
+                          style: TextStyle(
+                            color: data == 0
+                                ? AppColors.primary
+                                : AppColors.textGray,
+                          ),
                         ),
-                        onTap: () {
-                          model.pageNumber = 1;
-                          model.selectedStatusValue.add(0);
-                          model.fetchNotification(
-                              notificationRequestModel:
-                                  NotificationRequestModel(
-                                      userId: 305,
-                                      userType: 2,
-                                      type: model.getType(
-                                          model.selectedStatusValue.value,
-                                          model.selectedValue.value),
-                                      limit: 10,
-                                      page: model.pageNumber));
-                        },
+                        backgroundColor: data == 0
+                            ? AppColors.primaryLighter
+                            : AppColors.lightgrey,
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      InkWell(
-                        child: Chip(
-                          label: Text("This Week"),
-                          backgroundColor: data == 1
-                              ? AppColors.primaryLighter
-                              : AppColors.lightgrey,
+                      onTap: () {
+                        model.pageNumber = 1;
+                        model.selectedStatusValue.add(0);
+                        model.fetchNotification(
+                          notificationRequestModel: NotificationRequestModel(
+                            userId: model.userId,
+                            userType: model.userType,
+                            type: model.getType(model.selectedStatusValue.value,
+                                model.selectedValue.value),
+                            limit: 10,
+                            page: model.pageNumber,
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    InkWell(
+                      child: Chip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: BorderSide(
+                            color: data == 1
+                                ? AppColors.primary
+                                : AppColors.textLightGray,
+                          ),
                         ),
-                        onTap: () {
-                          model.pageNumber = 1;
-                          model.selectedStatusValue.add(1);
-                          model.fetchNotification(
-                              notificationRequestModel:
-                                  NotificationRequestModel(
-                                      userId: 305,
-                                      userType: 2,
-                                      type: model.getType(
-                                          model.selectedStatusValue.value,
-                                          model.selectedValue.value),
-                                      limit: 10,
-                                      page: model.pageNumber));
-                        },
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      InkWell(
-                        child: Chip(
-                          label: Text("Important"),
-                          backgroundColor: data == 2
-                              ? AppColors.primaryLighter
-                              : AppColors.lightgrey,
+                        label: Text(
+                          "This Week",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: data == 1
+                                ? AppColors.primary
+                                : AppColors.textGray,
+                          ),
                         ),
-                        onTap: () {
-                          model.pageNumber = 1;
-                          model.selectedStatusValue.add(2);
-                          model.fetchNotification(
-                              notificationRequestModel:
-                                  NotificationRequestModel(
-                                      userId: 305,
-                                      userType: 2,
-                                      type: model.NOTIFICATION_LIST_TYPE[3],
-                                      limit: 10,
-                                      page: model.pageNumber));
-                        },
+                        backgroundColor: data == 1
+                            ? AppColors.primaryLighter
+                            : AppColors.lightgrey,
                       ),
-                    ],
-                  );
-                },
-                initialData: 0,
-              ),
+                      onTap: () {
+                        model.pageNumber = 1;
+                        model.selectedStatusValue.add(1);
+                        model.fetchNotification(
+                          notificationRequestModel: NotificationRequestModel(
+                            userId: model.userId,
+                            userType: model.userType,
+                            type: model.getType(model.selectedStatusValue.value,
+                                model.selectedValue.value),
+                            limit: 10,
+                            page: model.pageNumber,
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    InkWell(
+                      child: Chip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: BorderSide(
+                            color: data == 2
+                                ? AppColors.primary
+                                : AppColors.textLightGray,
+                          ),
+                        ),
+                        label: Text(
+                          "Important",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: data == 2
+                                ? AppColors.primary
+                                : AppColors.textGray,
+                          ),
+                        ),
+                        backgroundColor: data == 2
+                            ? AppColors.primaryLighter
+                            : AppColors.lightgrey,
+                      ),
+                      onTap: () {
+                        model.pageNumber = 1;
+                        model.selectedStatusValue.add(2);
+
+                        model.fetchNotification(
+                          notificationRequestModel: NotificationRequestModel(
+                            userId: model.userId,
+                            userType: model.userType,
+                            type: model.getType(model.selectedStatusValue.value,
+                                model.selectedValue.value),
+                            limit: 10,
+                            page: model.pageNumber,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+              initialData: 0,
             ),
           ),
-          SizedBox(
-            height: 10.w,
-          ),
+          SizedBox(height: 10.w),
           AppStreamBuilder<Resource<List<NotificationDetail>>>(
             dataBuilder: (BuildContext context, notification) {
               return CommonTabPage(
@@ -136,25 +178,29 @@ class NotificationPageView
                   model.selectedValue.add(0);
 
                   model.fetchNotification(
-                      notificationRequestModel: NotificationRequestModel(
-                          userId: 305, //for time being
-                          userType: 2,
-                          type: model.getType(model.selectedStatusValue.value,
-                              model.selectedValue.value),
-                          limit: 10,
-                          page: model.pageNumber));
+                    notificationRequestModel: NotificationRequestModel(
+                      userId: model.userId,
+                      userType: model.userType,
+                      type: model.getType(model.selectedStatusValue.value,
+                          model.selectedValue.value),
+                      limit: 10,
+                      page: model.pageNumber,
+                    ),
+                  );
                 },
                 onSecondTabChange: () {
                   model.pageNumber = 1;
                   model.selectedValue.add(1);
                   model.fetchNotification(
-                      notificationRequestModel: NotificationRequestModel(
-                          userId: 305,
-                          userType: 2,
-                          type: model.getType(model.selectedStatusValue.value,
-                              model.selectedValue.value),
-                          limit: 10,
-                          page: model.pageNumber));
+                    notificationRequestModel: NotificationRequestModel(
+                      userId: model.userId,
+                      userType: model.userType,
+                      type: model.getType(model.selectedStatusValue.value,
+                          model.selectedValue.value),
+                      limit: 10,
+                      page: model.pageNumber,
+                    ),
+                  );
                 },
                 secondTabTitle:
                     "${Strings.of(context).read}(${notification?.data?.length ?? 0})",
@@ -191,14 +237,17 @@ class NotificationPageView
                                   : Strings.of(context).an_unexpected_error,
                               onPressed: () {
                                 model.fetchNotification(
-                                    notificationRequestModel:
-                                        NotificationRequestModel(
-                                            userId: 305,
-                                            userType: 2,
-                                            type:
-                                                model.NOTIFICATION_LIST_TYPE[0],
-                                            limit: 10,
-                                            page: model.pageNumber));
+                                  notificationRequestModel:
+                                      NotificationRequestModel(
+                                    userId: model.userId,
+                                    userType: model.userType,
+                                    type: model.getType(
+                                        model.selectedStatusValue.value,
+                                        model.selectedValue.value),
+                                    limit: 10,
+                                    page: model.pageNumber,
+                                  ),
+                                );
                               },
                             ),
                           ),

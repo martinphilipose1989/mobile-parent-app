@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/terms_and_condition/pdf.dart';
@@ -10,7 +12,6 @@ import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
 
@@ -96,15 +97,16 @@ class DashboardPageModel extends BasePageViewModel {
     },
     {
       'name': 'View Gate Pass',
-      'image': AppImages.gift,
+      'image': AppImages.gatePassIcon,
       'isSelected': false,
       'isActive': false,
       'key': 'view_gate_pass'
     },
     {
       'name': 'Create Gate Pass',
-      'image': AppImages.admissionIcon,
+      'image': AppImages.gatePassIcon,
       'isSelected': false,
+      'isActive': false,
       'key': 'create_gate_pass'
     },
   ];
@@ -112,27 +114,40 @@ class DashboardPageModel extends BasePageViewModel {
   final List progress = [
     {
       'name': 'Student Profile',
-      'image': AppImages.personIcon,
-      'isSelected': false,
+      'image': AppImages.studentProfileIcon,
+      'isSelected': true,
+      'isActive': false,
       'key': 'student_profile'
     },
     // Coming Soon Features
     // {
     //   'name': 'Discipline Slips',
     //   'image': AppImages.document,
-    //   'isSelected': false
+    //   'isSelected': false,
+    //  'isActive': false,
     // },
     // {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
     // {
     //   'name': 'Marksheet',
     //   'image': AppImages.documentNormal,
-    //   'isSelected': false
+    //   'isSelected': false,
+    //'isActive': true,
     // }
   ];
 
   final List enquiryAndAdmissionTemp = [
-    {'name': 'Tickets', 'image': AppImages.receiptSearch, 'isSelected': false},
-    {'name': 'Application', 'image': AppImages.cube, 'isSelected': false}
+    {
+      'name': 'Tickets',
+      'image': AppImages.receiptSearch,
+      'isSelected': false,
+      'isActive': false
+    },
+    {
+      'name': 'Application',
+      'image': AppImages.cube,
+      'isSelected': false,
+      'isActive': false
+    }
   ];
 
   final List feesTemp = [
@@ -146,7 +161,7 @@ class DashboardPageModel extends BasePageViewModel {
     // VAS
     {
       'name': 'Value Added Services',
-      'image': AppImages.activity,
+      'image': AppImages.valueAddedServiceIcon,
       'isSelected': false,
       'isActive': false,
       'key': 'enrollment'
@@ -156,7 +171,7 @@ class DashboardPageModel extends BasePageViewModel {
   final List parentServices = [
     {
       'name': 'Subject Selection',
-      'image': AppImages.subjectSelectionIcon,
+      'image': AppImages.subjectSelectionNewIcon,
       'isSelected': false,
       'isActive': false,
       'key': 'subject selection'
@@ -355,12 +370,12 @@ class DashboardPageModel extends BasePageViewModel {
         FirebaseMessaging.instance.getToken().then((value) {
           if (value != null) {
             sendToken(userId: data.data?.id, appToken: value);
-            print("FCM Token" "FCM Token: $value");
+            log("FCM Token" "FCM Token: $value");
           } else {
-            print("Error" "Failed to get FCM token");
+            log("Error" "Failed to get FCM token");
           }
         }).catchError((error) {
-          print("Exception" "Error getting FCM token: $error");
+          log("Exception" "Error getting FCM token: $error");
         });
       }
     });

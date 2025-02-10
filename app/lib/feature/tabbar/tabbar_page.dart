@@ -105,9 +105,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                   ),
                 ),
               ),
-
-        StudentDetailPage()
-
+              StudentDetailPage()
             ],
           );
         });
@@ -115,7 +113,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   PreferredSizeWidget? buildAppbar(TabbarViewModel model) {
-    return  CommonAppBar(
+    return CommonAppBar(
       appbarTitle: Strings.of(context).dashboard,
     );
   }
@@ -191,6 +189,28 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                 ),
               ),
             ),
+            // InkWell(
+            //   onTap: () {
+            //     BOTTOM_NAV_INDEX = 1;
+            //     model.onItemTapped(BOTTOM_NAV_INDEX);
+            //   },
+            //   child: AbsorbPointer(
+            //     child: Column(
+            //       children: [
+            //         const SizedBox(
+            //           height: 5,
+            //         ),
+            //         const Icon(Icons.notifications),
+            //         Padding(
+            //           padding: const EdgeInsets.only(top: 5),
+            //           child: CommonText(
+            //               text: Strings.of(context).notification,
+            //               style: Theme.of(context).textTheme.bodyMedium),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 BOTTOM_NAV_INDEX = 1;
@@ -202,29 +222,11 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.notifications),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: CommonText(
-                          text: Strings.of(context).notification,
-                          style: Theme.of(context).textTheme.bodyMedium),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                BOTTOM_NAV_INDEX = 2;
-                model.onItemTapped(BOTTOM_NAV_INDEX);
-              },
-              child: AbsorbPointer(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
+                    SvgPicture.asset(
+                      AppImages.usertagIcon,
+                      color: Colors.black,
+                      height: 22,
                     ),
-              SvgPicture.asset(AppImages.usertagIcon,color: Colors.black,height: 22,),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(

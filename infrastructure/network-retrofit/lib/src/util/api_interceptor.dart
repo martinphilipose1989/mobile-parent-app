@@ -41,6 +41,8 @@ class ApiInterceptor extends QueuedInterceptorsWrapper {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
-if (err.response?.statusCode == 401) {logoutOnTokenExpiry.add(true);}
+    if (err.response?.statusCode == 401) {
+      logoutOnTokenExpiry.add(true);
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -10,10 +12,12 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/dashboard/tracker.dart';
 
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
+import 'package:app/utils/common_widgets/common_searchable_dropdown/searchable_dropdown_list.dart';
 
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -36,8 +40,8 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         children: [
           CommonSizedBox.sizedBox(height: 10, width: 10),
           introductionTile(model, context),
-          CommonSizedBox.sizedBox(height: 15, width: 10),
 
+          CommonSizedBox.sizedBox(height: 15, width: 10),
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
           AppStreamBuilder<Resource<User>>(
@@ -233,6 +237,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
     return CommonText(
       text: titleValue,
       style: AppTypography.subtitle1,
+      color: AppColors.textDark,
     );
   }
 
@@ -245,88 +250,96 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
 
   Widget introductionTile(DashboardPageModel model, BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(children: [
-          Container(
-              height: 32.h,
-              width: 32.w,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
+        Expanded(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 32.h,
+                width: 32.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      Theme.of(context).colorScheme.primary.withOpacity(0.2)),
-              child: Icon(
-                Icons.person,
-                size: 16,
-                color: Theme.of(context).colorScheme.primary,
-              )),
-          const SizedBox(
-            width: 10,
-          ),
-          Builder(builder: (context) {
-            return BaseWidget(
-              providerBase: dashboardViewModelProvider,
-              builder: (context, model, _) {
-                return AppStreamBuilder<Resource<User>>(
-                  stream: model!.userStream,
-                  initialData: Resource.none(),
-                  dataBuilder: (context, userModel) {
-                    return CommonText(
-                      text: ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
-                      style: AppTypography.subtitle2,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                ),
+                child: Icon(
+                  Icons.person,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: BaseWidget(
+                  providerBase: dashboardViewModelProvider,
+                  builder: (context, model, _) {
+                    return AppStreamBuilder<Resource<User>>(
+                      stream: model!.userStream,
+                      initialData: Resource.none(),
+                      dataBuilder: (context, userModel) {
+                        return CommonText(
+                          text:
+                              ' ${Strings.of(context).hello}, ${userModel?.data?.userName ?? ""}',
+                          style: AppTypography.subtitle2,
+                          maxLines: 2,
+                          overflow: TextOverflow
+                              .ellipsis, // ✅ Prevents breaking layout
+                        );
+                      },
                     );
                   },
-                );
-              },
-            );
-          })
-        ]),
-        SizedBox(
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
           child: AppStreamBuilder<ParentStudentStatusEnum>(
-              stream: model.statusSubject.stream,
-              initialData: model.statusSubject.value,
-              dataBuilder: (context, status) {
-                return Visibility(
-                  visible: status == ParentStudentStatusEnum.admission,
-                  child: AppStreamBuilder<
-                      Resource<GetGuardianStudentDetailsModel>>(
-                    stream: model.getGuardianStudentDetailsModel,
-                    initialData: Resource.none(),
-                    dataBuilder: (context, data) {
-                      return data!.status == Status.loading
-                          ? const SizedBox(
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          : data.data?.data?.students == null
-                              ? const SizedBox.shrink()
-                              : SizedBox(
-                                  height: 60.h,
-                                  width: 128.w,
-                                  child: CustomDropdownButton(
-                                    dropdownName: '',
-                                    width: 300,
-                                    showAstreik: false,
-                                    showBorderColor: true,
-                                    displayZerothIndex: true,
-                                    items: data.data?.data?.students!
-                                            .map((e) => e.studentDisplayName)
-                                            .toList() ??
-                                        [],
-                                    isMutiSelect: true,
-                                    onMultiSelect: (selectedValues) {
-                                      model
-                                          .getSelectedStudentid(selectedValues);
-                                    },
-                                    onSingleSelect: (selectedValue) {},
-                                  ),
-                                );
-                    },
-                  ),
-                );
-              }),
-        )
+            stream: model.statusSubject.stream,
+            initialData: model.statusSubject.value,
+            dataBuilder: (context, status) {
+              return Visibility(
+                visible: status == ParentStudentStatusEnum.admission,
+                child:
+                    AppStreamBuilder<Resource<GetGuardianStudentDetailsModel>>(
+                  stream: model.getGuardianStudentDetailsModel,
+                  initialData: Resource.none(),
+                  dataBuilder: (context, data) {
+                    return data!.status == Status.loading
+                        ? const SizedBox(
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        : data.data?.data?.students == null
+                            ? const SizedBox.shrink()
+                            : SizedBox(
+                                height: 60.h,
+                                width: 128.w,
+                                child: CustomDropdownButton(
+                                  dropdownName: '',
+                                  width: 300,
+                                  showAstreik: false,
+                                  showBorderColor: true,
+                                  displayZerothIndex: true,
+                                  items: data.data?.data?.students!
+                                          .map((e) => e.studentDisplayName)
+                                          .toList() ??
+                                      [],
+                                  isMutiSelect: true,
+                                  onMultiSelect: (selectedValues) {
+                                    model.getSelectedStudentid(selectedValues);
+                                  },
+                                  onSingleSelect: (selectedValue) {},
+                                ),
+                              );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

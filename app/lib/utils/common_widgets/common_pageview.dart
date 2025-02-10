@@ -12,7 +12,7 @@ class CommonPageView extends StatefulWidget {
 }
 
 class CommonPageViewState extends State<CommonPageView> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
 
   @override
@@ -57,7 +57,7 @@ class CommonPageViewState extends State<CommonPageView> {
               decoration: BoxDecoration(
                 color: _currentPage == index
                     ? Theme.of(context).primaryColor
-                    : AppColors.textNeutral35,
+                    : AppColors.dividerColor,
                 borderRadius: BorderRadius.circular(4.0),
               ),
             ),
