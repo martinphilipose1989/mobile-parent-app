@@ -41,6 +41,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add Attachment"),
         "add_comment": MessageLookupByLibrary.simpleMessage("Add Comment"),
         "add_comment1": MessageLookupByLibrary.simpleMessage("Add Comment..."),
+        "address": MessageLookupByLibrary.simpleMessage("Address "),
+        "address_Line1_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
+            "Address Line 1 cannot be empty"),
+        "address_Line2_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
+            "Address Line 2 cannot be empty"),
+        "address_Line_1":
+            MessageLookupByLibrary.simpleMessage("Address Line 1"),
+        "address_Line_2":
+            MessageLookupByLibrary.simpleMessage("Address Line 2"),
         "admission": MessageLookupByLibrary.simpleMessage("Admission"),
         "admission_journey":
             MessageLookupByLibrary.simpleMessage("Admission Journey"),
@@ -48,7 +57,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Admission journey not found"),
         "admission_not_found":
             MessageLookupByLibrary.simpleMessage("Admissions not found"),
+        "alergies": MessageLookupByLibrary.simpleMessage("Allergies"),
         "allergies": MessageLookupByLibrary.simpleMessage("Allergies"),
+        "allergies_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Allergies cannot be empty"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "an_unexpected_error": MessageLookupByLibrary.simpleMessage(
             "An unexpected error occurred. Please try again later or contact support if the issue persists."),
@@ -70,7 +82,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "attendance": MessageLookupByLibrary.simpleMessage("Attendance"),
         "bank_Info": MessageLookupByLibrary.simpleMessage("Bank Info"),
         "bank_name": MessageLookupByLibrary.simpleMessage("Bank Name"),
+        "basic_detail": MessageLookupByLibrary.simpleMessage("Basic Detail"),
         "bearers": MessageLookupByLibrary.simpleMessage("Bearers"),
+        "board": MessageLookupByLibrary.simpleMessage("Board"),
+        "board_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Board_cannot_be_empty"),
         "branch_name": MessageLookupByLibrary.simpleMessage("Branch Name"),
         "bus_attendance":
             MessageLookupByLibrary.simpleMessage("Bus Attendance"),
@@ -88,6 +104,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Child Progress/Academic Progress"),
         "choose_One_Way_Route":
             MessageLookupByLibrary.simpleMessage("Choose One Way Route"),
+        "city": MessageLookupByLibrary.simpleMessage("City"),
+        "city_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("City cannot be empty"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("Closed"),
@@ -110,6 +129,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Contact number cannot be less than 10 digits"),
         "continue1": MessageLookupByLibrary.simpleMessage("Continue"),
+        "course": MessageLookupByLibrary.simpleMessage("Course"),
+        "course_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Course cannot be empty"),
         "create_gate_pass":
             MessageLookupByLibrary.simpleMessage("Create Gate-Pass"),
         "create_new_ticket":
@@ -121,6 +143,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Custodian Guardian"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "date": MessageLookupByLibrary.simpleMessage("Date : "),
+        "date_Of_birth_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
+            "Date Of Birth cannot be empty"),
         "date_of_birth": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "details_not_found":
             MessageLookupByLibrary.simpleMessage("Details not found"),
@@ -128,12 +152,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Disciplinary Action : "),
         "disciplinary_Slip":
             MessageLookupByLibrary.simpleMessage("Disciplinary Slip"),
+        "division": MessageLookupByLibrary.simpleMessage("Division"),
+        "division_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Division cannot be empty"),
+        "dob": MessageLookupByLibrary.simpleMessage("Date of Birth"),
         "drop_Point": MessageLookupByLibrary.simpleMessage("Drop Point"),
         "drop_location": MessageLookupByLibrary.simpleMessage("Drop Location"),
         "drop_time": MessageLookupByLibrary.simpleMessage("Drop Time"),
         "due_date": MessageLookupByLibrary.simpleMessage("Due Date"),
         "eligible_grade":
             MessageLookupByLibrary.simpleMessage("Eligible Grade"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
         "email_cannot_be_empty":
             MessageLookupByLibrary.simpleMessage("Email cannot be empty"),
         "email_iD": MessageLookupByLibrary.simpleMessage("Email ID"),
@@ -178,6 +207,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fees_category": MessageLookupByLibrary.simpleMessage("Fees Category"),
         "fees_sub_category":
             MessageLookupByLibrary.simpleMessage("Fees Sub Category"),
+        "first_name_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("First Name cannot be empty"),
         "for_sibling_1": MessageLookupByLibrary.simpleMessage("For Sibling 1"),
         "for_sibling_2": MessageLookupByLibrary.simpleMessage("For Sibling 2"),
         "gardian_Email_ID":
@@ -193,6 +224,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "go_back": MessageLookupByLibrary.simpleMessage("Go Back"),
         "go_to_payments":
             MessageLookupByLibrary.simpleMessage("Go To Payment Details"),
+        "grade": MessageLookupByLibrary.simpleMessage("Grade"),
+        "grade_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Grade cannot be empty"),
         "guardian_Mobile_Number":
             MessageLookupByLibrary.simpleMessage("Guardian\'s Mobile Number"),
         "guardian_detail":
@@ -204,6 +238,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Has the child ever been hospitalized?"),
         "hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "house": MessageLookupByLibrary.simpleMessage("House"),
+        "house_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("House cannot be empty"),
         "house_no": MessageLookupByLibrary.simpleMessage("House No./ Building"),
         "i_accept_the_terms": MessageLookupByLibrary.simpleMessage(
             "I accept the terms & conditions"),
@@ -220,14 +257,24 @@ class MessageLookup extends MessageLookupByLibrary {
             "It seems you\'re offline. Please check your internet connection and try again."),
         "kids_club": MessageLookupByLibrary.simpleMessage("Kids Club"),
         "landmark": MessageLookupByLibrary.simpleMessage("Landmark"),
+        "last_name_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("last Name cannot be empty"),
+        "learning_needs":
+            MessageLookupByLibrary.simpleMessage("Learning Needs"),
+        "learning_needs_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
+            "Learning Needs cannot be empty"),
         "legal_guardian":
             MessageLookupByLibrary.simpleMessage("Legal Guardian"),
         "lets_get_started":
             MessageLookupByLibrary.simpleMessage("Lets get Started"),
         "mark_as_closed":
             MessageLookupByLibrary.simpleMessage("Mark As Closed"),
+        "medical_details":
+            MessageLookupByLibrary.simpleMessage("Medical Details"),
         "medical_history":
             MessageLookupByLibrary.simpleMessage("Medical History"),
+        "medical_history_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
+            "Medical History cannot be empty"),
         "medical_information":
             MessageLookupByLibrary.simpleMessage("Medical Information"),
         "mode": MessageLookupByLibrary.simpleMessage("Mode"),
@@ -306,8 +353,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "opt_for": MessageLookupByLibrary.simpleMessage("Opt For"),
         "pSA_Sub_Type": MessageLookupByLibrary.simpleMessage("PSA Sub Type"),
         "parent": MessageLookupByLibrary.simpleMessage("Parent"),
+        "parent_First_name":
+            MessageLookupByLibrary.simpleMessage("Parent First Name "),
+        "parent_Last_Name":
+            MessageLookupByLibrary.simpleMessage("Parent Last Name"),
         "parent_contact_number":
             MessageLookupByLibrary.simpleMessage("Parent Contact Number"),
+        "parent_details":
+            MessageLookupByLibrary.simpleMessage("Parent Details"),
         "parent_email_Id":
             MessageLookupByLibrary.simpleMessage("Parent Email Id"),
         "parent_first_name":
@@ -338,13 +391,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "periods": MessageLookupByLibrary.simpleMessage("Periods"),
         "personalised_Learning_Needs":
             MessageLookupByLibrary.simpleMessage("Personalised Learning Needs"),
+        "phone": MessageLookupByLibrary.simpleMessage("Phone"),
+        "phone_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Phone cannot be empty"),
         "physical_disabilities":
             MessageLookupByLibrary.simpleMessage("Physical Disabilities"),
+        "physical_disability":
+            MessageLookupByLibrary.simpleMessage("Physical Disability"),
+        "physical_disability_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage(
+                "Physical Disability  cannot be empty"),
         "pickup_Point": MessageLookupByLibrary.simpleMessage("Pickup Point"),
         "pickup_location":
             MessageLookupByLibrary.simpleMessage("Pickup Location"),
         "pickup_time": MessageLookupByLibrary.simpleMessage("Pickup Time"),
         "pin_code": MessageLookupByLibrary.simpleMessage("Pin Code"),
+        "pincode": MessageLookupByLibrary.simpleMessage("Pincode"),
         "place_Of_birth":
             MessageLookupByLibrary.simpleMessage("Place Of Birth"),
         "please_accept": MessageLookupByLibrary.simpleMessage(
@@ -390,6 +452,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "school": MessageLookupByLibrary.simpleMessage("School"),
         "school_location":
             MessageLookupByLibrary.simpleMessage("School Location"),
+        "school_name": MessageLookupByLibrary.simpleMessage("School Name"),
+        "school_name_cannot_empty":
+            MessageLookupByLibrary.simpleMessage("School name cannot be empty"),
         "school_tour_cancelled": MessageLookupByLibrary.simpleMessage(
             "School tour cancelled successfully"),
         "school_tour_details_not_found": MessageLookupByLibrary.simpleMessage(
@@ -426,6 +491,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "selected_Time": MessageLookupByLibrary.simpleMessage("Selected Time"),
         "session_expired": MessageLookupByLibrary.simpleMessage(
             "Your Session has expired.Please log in again to continue"),
+        "shift": MessageLookupByLibrary.simpleMessage("Shift"),
+        "shift_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("Shift cannot be empty"),
         "show_less": MessageLookupByLibrary.simpleMessage("- Show Less"),
         "show_more": MessageLookupByLibrary.simpleMessage("+ Show More"),
         "sibling_detail":
@@ -447,6 +515,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Specify Disability"),
         "specify_allergies":
             MessageLookupByLibrary.simpleMessage("Specify Allergies"),
+        "state": MessageLookupByLibrary.simpleMessage("State"),
+        "state_cannot_be_empty":
+            MessageLookupByLibrary.simpleMessage("State cannot be empty"),
         "status": MessageLookupByLibrary.simpleMessage("Status :"),
         "stream": MessageLookupByLibrary.simpleMessage("Stream:"),
         "street_name": MessageLookupByLibrary.simpleMessage("Street Name"),
@@ -518,6 +589,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "year_Of_Hospitalization":
             MessageLookupByLibrary.simpleMessage("Year Of Hospitalization"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-        "you": MessageLookupByLibrary.simpleMessage("You")
+        "you": MessageLookupByLibrary.simpleMessage("You"),
+        "your_session_expired": MessageLookupByLibrary.simpleMessage(
+            "Your session has expired. Please log in again to continue.")
       };
 }

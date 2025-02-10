@@ -33,7 +33,8 @@ void main() async {
         androidApiKey: EnvQA.androidApiKey,
         androidAppId: EnvQA.androidAppId,
         androidSenderId: EnvQA.senderId,
-        androidProjectId: EnvQA.projectId),
+        androidProjectId: EnvQA.projectId
+    ),
   );
   startApp();
 }
