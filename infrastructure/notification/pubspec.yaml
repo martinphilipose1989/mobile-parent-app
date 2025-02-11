@@ -1,24 +1,37 @@
-name: push_notification
+name: notification
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: ^3.5.4
   flutter: ">=1.17.0"
-
 
 dependencies:
   flutter:
     sdk: flutter
- 
-  firebase_core: ^3.9.0
-  firebase_messaging: ^15.1.6
+  get_it:
+  injectable:  
+  dependency_injection:
+    path: ../../dependency-injection/
+  data:
+    path: ../../core/data/ 
+  firebase_messaging:
+  firebase_core:
+  flutter_local_notifications:
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
+  injectable_generator:
+  build_runner: ^2.2.0
+  json_serializable: '>4.4.0'
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

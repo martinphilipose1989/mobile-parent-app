@@ -621,4 +621,48 @@ abstract class DomainModule {
       MDMRepository mdmRepository) {
     return GetStudentYearlyDetailsUsecase(mdmRepository: mdmRepository);
   }
+
+  @lazySingleton
+  ConfigureOnLaunchPushNotificationUseCase
+      configureOnLaunchPushNotificationUseCaseProvider(
+          NotificationRepository repository) {
+    return ConfigureOnLaunchPushNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  ConfigurePushNotificationUseCase configurePushNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return ConfigurePushNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  InitLocalNotificationUseCase initLocalNotificationsUseCaseProvider(
+      NotificationRepository repository) {
+    return InitLocalNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  ListenNotificationUseCase listenNotificationsUseCaseProvider(
+      NotificationRepository repository) {
+    return ListenNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  RequestNotificationPermissionUseCase
+      requestNotificationPermissionUseCaseProvider(
+          NotificationRepository repository) {
+    return RequestNotificationPermissionUseCase(repository);
+  }
+
+  @lazySingleton
+  ScheduleLocalNotificationUseCase scheduleLocalNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return ScheduleLocalNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  UnSubscribePushNotificationUseCase unSubScribePushNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return UnSubscribePushNotificationUseCase(repository);
+  }
 }

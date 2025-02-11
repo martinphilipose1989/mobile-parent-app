@@ -5,6 +5,7 @@ library shared;
 
 //constants
 export 'src/const/error_type.dart';
+export 'src/const/notification_type_enum.dart';
 
 //models
 
@@ -224,3 +225,9 @@ export 'src/model/response/terms_and_condition/terms_and_condition.dart';
 
 export 'src/model/request/undertaking/undertaking.dart';
 export 'src/model/response/undertaking/undertaking.dart';
+
+// notification
+
+export "src/model/notification/notificaiton_message.dart";
+export "src/model/notification/remote_message.dart";
+export "src/model/notification/remote_notification.dart";

@@ -6,6 +6,8 @@ import 'package:database_floor/floor.dart';
 import 'package:dependency_injection/dependency_injection.dart';
 import 'package:get_it/get_it.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:notification/notification.dart';
+
 import 'package:services/services.dart';
 import 'package:themes/themes.dart';
 
@@ -39,6 +41,8 @@ final configurators = [
 
   // key cloak
   AppAuthDependenciesConfigurator(),
+
+  NotificationDependencyConfigurator()
 ];
 
 Future configureDependencies(DependencyConfigurationContext context) async {

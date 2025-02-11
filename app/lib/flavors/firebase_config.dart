@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:app/env/env_dev.dart';
 import 'package:app/env/env_prod.dart';
 import 'package:app/env/env_qa.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:notification/notification.dart';
 
 import 'flavor_config.dart';
 

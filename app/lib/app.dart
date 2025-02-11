@@ -1,12 +1,11 @@
 import 'package:app/flavors/flavor_config.dart';
 import 'package:dependency_injection/dependency_injection.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:push_notification/notification.dart';
+import 'package:notification/notification.dart';
+// import 'package:push_notification/notification.dart';
 import 'package:services/services.dart';
 
 import 'dependencies.dart';
@@ -67,7 +66,7 @@ void startApp() async {
   //   }
   //}
 
-  await PushNotificationService.init();
+  // await PushNotificationService.init();
   //alice.setNavigatorKey(navigatorKey);
   // alice.setNavigatorKey(navigatorKey);
   SystemChrome.setPreferredOrientations([

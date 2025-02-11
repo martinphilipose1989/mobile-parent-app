@@ -105,7 +105,9 @@ abstract class DataModule {
   }
 
   @lazySingleton
-  NotificationRepository notificationrepository(NetworkPort networkPort) {
-    return NotificationRepositoryImpl(networkPort: networkPort);
+  NotificationRepository notificationrepository(
+      NetworkPort networkPort, NotificationPort notificationPort) {
+    return NotificationRepositoryImpl(
+        networkPort: networkPort, notificationPort: notificationPort);
   }
 }
