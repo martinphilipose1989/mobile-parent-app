@@ -1,19 +1,16 @@
 // ignore_for_file: use_super_parameters
 
-import 'package:app/molecules/student/InfoTitleRow.dart';
-import 'package:app/molecules/student/infoEditRow.dart';
+import '../../molecules/student/InfoTitleRow.dart';
+import '../../molecules/student/infoEditRow.dart';
 import 'package:app/themes_setup.dart';
-import 'package:app/utils/app_typography.dart';
-import 'package:app/utils/common_widgets/app_images.dart';
-import 'package:app/utils/common_widgets/common_image_widget.dart';
-import 'package:app/utils/common_widgets/common_popups.dart';
-import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
+
+import '../../utils/common_widgets/common_image_widget.dart';
+import '../../utils/common_widgets/common_textformfield_widget.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/student/student_image_info.dart';
@@ -68,32 +65,7 @@ final List<BearerResponse> bearerList;
             .toString() ??
         "NA";
 
-    //return AppStreamBuilder<Resource<GetStudentDetailData>>(
-    //     initialData: Resource.none(),
-    //     stream: model.studentDetailStream,
-    //     dataBuilder: (context, student) {
-    //       return DataStatusWidget(
-    //         status: student?.status ?? Status.none,
-    //         loadingWidget: () =>
-    //             const Center(child: CircularProgressIndicator()),
-    //         errorWidget: () => Center(
-    //           child: NoDataFoundWidget(
-    //             title: student?.dealSafeAppError?.error.message
-    //                         .contains("internet") ??
-    //                     false
-    //                 ? "No Internet Connection"
-    //                 : "Something Went Wrong",
-    //             subtitle: student?.dealSafeAppError?.error.message
-    //                         .contains("internet") ??
-    //                     false
-    //                 ? "It seems you're offline. Please check your internet connection and try again."
-    //                 : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
-    //             onPressed: () {
-    //               model.getStudentDetail(studentId: studentId);
-    //             },
-    //           ),
-    //         ),
-    //         successWidget: () =>
+
 
     return Padding(
         padding: const EdgeInsets.all(16.0),
@@ -104,61 +76,61 @@ final List<BearerResponse> bearerList;
               StudentImageInfo(active:"Active",  name:  studentData.profile!.firstName!+" "+studentData.profile!.lastName!,img: studentData.profile!.profileImageUrl,rollno: studentData.profile!.crtEnrOn,),
               SizedBox(height: 16.h),
               Infotitlerow(
-                infoText: "Basic Details",
+                infoText: Strings.of(context).basic_detail,
               ),
               SizedBox(height: 16.h),
               InfoEditRow(
-                  labelText: "School Name",
+                  labelText: Strings.of(context).school_name,
                   controllerleft: model.schoolController,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return "School name cannot be empty";
+                      return Strings.of(context).school_name_cannot_empty;
                     }
                     return null;
                   },
-                  labelText2: "Date Of Birth",
+                  labelText2: Strings.of(context).date_of_birth,
                   controllerRight: model.dobController,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Date Of Birth cannot be empty";
+                      return Strings.of(context).date_of_birth;
                     }
                     return null;
                   },
                   readOnly: true),
               SizedBox(height: 16.h),
               InfoEditRow(
-                  labelText: "Board",
+                  labelText: Strings.of(context).board,
                   controllerleft: model.boardController,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Board cannot be empty";
+                      return Strings.of(context).board_cannot_be_empty;
                     }
                     return null;
                   },
-                  labelText2: "Course",
+                  labelText2: Strings.of(context).course,
                   controllerRight: model.courseController,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Course cannot be empty";
+                      return Strings.of(context).course_cannot_be_empty;
                     }
                     return null;
                   },
                   readOnly: true),
               SizedBox(height: 16.h),
               InfoEditRow(
-                  labelText: "Grade",
+                  labelText: Strings.of(context).grade,
                   controllerleft: model.gradeController,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Grade cannot be empty";
+                      return Strings.of(context).grade_cannot_be_empty;
                     }
                     return null;
                   },
-                  labelText2: "Division",
+                  labelText2: Strings.of(context).division,
                   controllerRight: model.divisionController,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Division cannot be empty";
+                      return Strings.of(context).division_cannot_be_empty;
                     }
                     return null;
                   },
@@ -166,18 +138,18 @@ final List<BearerResponse> bearerList;
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.shiftController,
-                  labelText: "Shift",
+                  labelText: Strings.of(context).shift,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Shift cannot be empty";
+                      return Strings.of(context).shift_cannot_be_empty;
                     }
                     return null;
                   },
-                  labelText2: "House",
+                  labelText2: Strings.of(context).house,
                   controllerRight: model.houseController,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " House cannot be empty";
+                      return Strings.of(context).house_cannot_be_empty;
                     }
                     return null;
                   },
@@ -188,42 +160,42 @@ final List<BearerResponse> bearerList;
               ),
               SizedBox(height: 12.h),
               Infotitlerow(
-                infoText: "Medical Details",
+                infoText: Strings.of(context).medical_details,
               ),
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.physicalController,
-                  labelText: "Physical Disability",
+                  labelText: Strings.of(context).physical_disability,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Physical Disability cannot be empty";
+                      return Strings.of(context).physical_disability_cannot_be_empty;
                     }
                     return null;
                   },
-                  labelText2: "Medical History",
+                  labelText2: Strings.of(context).medical_history,
                   controllerRight: model.medicalController,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Medical History cannot be empty";
+                      return Strings.of(context).medical_history_cannot_be_empty;
                     }
                     return null;
                   },
                   readOnly: false),
               SizedBox(height: 16.h),
               InfoEditRow(
-                  labelText: "Allergies",
+                  labelText: Strings.of(context).allergies,
                   controllerleft: model.allergyController,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Allergies cannot be empty";
+                      return Strings.of(context).allergies_cannot_be_empty;
                     }
                     return null;
                   },
                   controllerRight: model.learningController,
-                  labelText2: "Learning Needs",
+                  labelText2: Strings.of(context).learning_needs,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Learning Needs cannot be empty";
+                      return Strings.of(context).learning_needs_cannot_be_empty;
                     }
                     return null;
                   },
@@ -234,23 +206,23 @@ final List<BearerResponse> bearerList;
               ),
               SizedBox(height: 12.h),
               Infotitlerow(
-                infoText: "Parent Details",
+                infoText: Strings.of(context).parent_details,
               ),
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.pfirstnameController,
-                  labelText: "Parent First Name",
+                  labelText: Strings.of(context).parent_First_name,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " First Name cannot be empty";
+                      return Strings.of(context).first_name_cannot_be_empty;
                     }
                     return null;
                   },
                   controllerRight: model.plastnameController,
-                  labelText2: "Parent Last Name",
+                  labelText2: Strings.of(context).parent_last_name,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Last Name cannot be empty";
+                      return Strings.of(context).last_name_cannot_be_empty;
                     }
                     return null;
                   },
@@ -258,18 +230,18 @@ final List<BearerResponse> bearerList;
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.phoneController,
-                  labelText: "Phone",
+                  labelText: Strings.of(context).phone,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Phone cannot be empty";
+                      return Strings.of(context).phone_cannot_be_empty;
                     }
                     return null;
                   },
                   controllerRight: model.emailController,
-                  labelText2: "Email",
+                  labelText2: Strings.of(context).email,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Email cannot be empty";
+                      return Strings.of(context).email_cannot_be_empty;
                     }
                     return null;
                   },
@@ -280,42 +252,42 @@ final List<BearerResponse> bearerList;
               ),
               SizedBox(height: 12.h),
               Infotitlerow(
-                infoText: "Address",
+                infoText: Strings.of(context).address,
               ),
               SizedBox(height: 12.h),
               InfoEditRow(
                   controllerleft: model.addline1Controller,
-                  labelText: "Address Line 1",
+                  labelText: Strings.of(context).address_Line_1,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Address Line 1 cannot be empty";
+                      return Strings.of(context).address_Line1_cannot_be_empty;
                     }
                     return null;
                   },
                   controllerRight: model.addLine2Controller,
-                  labelText2: "Address Line 2",
+                  labelText2: Strings.of(context).address_Line_2,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " Address Line 2 cannot be empty";
+                      return Strings.of(context).address_Line2_cannot_be_empty;
                     }
                     return null;
                   },
                   readOnly: false),
               SizedBox(height: 16.h),
               InfoEditRow(
-                  labelText: "City",
+                  labelText: Strings.of(context).city,
                   controllerleft: model.cityController,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " City cannot be empty";
+                      return Strings.of(context).city_cannot_be_empty;
                     }
                     return null;
                   },
                   controllerRight: model.statesController,
-                  labelText2: "States",
+                  labelText2: Strings.of(context).state,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
-                      return " States cannot be empty";
+                      return Strings.of(context).state_cannot_be_empty;
                     }
                     return null;
                   },
@@ -325,7 +297,7 @@ final List<BearerResponse> bearerList;
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: CommonTextFormField(
                     showAstreik: true,
-                    labelText: "PinCode",
+                    labelText: Strings.of(context).pincode,
                     controller: model.pinController,
                     maxLength: 6,
                   )),
@@ -335,7 +307,7 @@ final List<BearerResponse> bearerList;
               ),
               SizedBox(height: 16.h),
               Infotitlerow(
-                infoText: "Bearers",
+                infoText: Strings.of(context).bearers,
               ),
               SizedBox(
                 height: 150,
@@ -366,7 +338,7 @@ class BearerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 200.h,
       width: 1.sw,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -382,11 +354,11 @@ class BearerList extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CommonImageWidget(
-                      imageUrl: "",
+                      imageUrl: bearerList[index].profileImage??"",
                       clipBehavior: Clip.hardEdge,
-                      imageWidth: 50,
-                      imageHeight: 50),
-                  const SizedBox(height: 12),
+                      imageWidth: 50.h,
+                      imageHeight: 50.h),
+                  SizedBox(height: 12.w),
                   Text("${bearerList[index].firstName}")
                 ],
               ),
@@ -399,90 +371,5 @@ class BearerList extends StatelessWidget {
   }
 }
 
-// class BearerList extends StatelessWidget {
-//   const BearerList(
-//       {super.key,
-//       required this.bearerList,
-//       required this.studentId,
-//       required this.model});
 
-//   final List<BearerResponse> bearerList;
-//   final int studentId;
-//   final StudentProfileEditViewModel model;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 200,
-//       width: 1.sw,
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           SizedBox(
-//             width: 0.7.sw,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: bearerList.length,
-//               shrinkWrap: true,
-//               itemBuilder: (context, index) {
-//                 return Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     Column(
-//                       mainAxisSize: MainAxisSize.min,
-//                       children: [
-//                         CommonImageWidget(
-//                             imageUrl: "${bearerList[index].DetailImage}",
-//                             clipBehavior: Clip.hardEdge,
-//                             imageWidth: 50,
-//                             imageHeight: 50),
-//                         const SizedBox(height: 12),
-//                         Text("${bearerList[index].firstName}")
-//                       ],
-//                     ),
-//                     SizedBox(width: 16.w),
-//                   ],
-//                 );
-//               },
-//             ),
-//           ),
-//           SizedBox(width: 16.w),
-//           Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               InkWell(
-//                 onTap: () {
-//                   showDialog(
-//                       context: context,
-//                       barrierDismissible: false,
-//                       builder: (context) {
-//                         return AddNewBearer(
-//                             studentId: studentId,
-//                             cancelCallback: () {
-//                               Navigator.pop(context);
-//                             },
-//                             addNewBearerCallback: () {});
-//                       }).then((value) {
-//                     if (value == true) {
-//                       model.getStudentDetail(studentId: studentId);
-//                     }
-//                   });
-//                 },
-//                 child: const CommonImageWidget(
-//                     imageUrl: "imageUrl",
-//                     fallbackAssetImagePath: AppImages.addBearerIcon,
-//                     clipBehavior: Clip.hardEdge,
-//                     imageWidth: 50,
-//                     imageHeight: 50),
-//               ),
-//               const SizedBox(height: 12),
-//               const Text("Add New")
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
