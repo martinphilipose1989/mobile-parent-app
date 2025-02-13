@@ -1,7 +1,6 @@
 import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 
-import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,11 +10,7 @@ import 'student_detail_page_viewmodel.dart';
 import 'student_detail_pageview.dart';
 
 class StudentDetailPage extends BasePage<StudentDetailPageViewModel> {
-  StudentDetailPage({super.key
-
-  });
-
-
+  StudentDetailPage({super.key});
 
   @override
   StudentDetailPageState createState() => StudentDetailPageState();
@@ -25,8 +20,8 @@ class StudentDetailPageState
     extends AppBasePageState<StudentDetailPageViewModel, StudentDetailPage> {
   @override
   Widget buildView(BuildContext context, StudentDetailPageViewModel model) {
-    return StudentDetailPageView(provideBase(),
-
+    return StudentDetailPageView(
+      provideBase(),
     );
   }
 
@@ -50,14 +45,12 @@ class StudentDetailPageState
         model.selectedStudent?.first.id == null) {
       return;
     } else {
-    final student= model.selectedStudent?.first.id;
+      final student = model.selectedStudent?.first.id;
       model.getStudentDetail(studentId: student);
     }
     super.onModelReady(model);
 
- model.getBearerList(studentId: model.selectedStudent?.first.id);
-
-
+    model.getBearerList(studentId: model.selectedStudent?.first.id);
   }
 
   // @override

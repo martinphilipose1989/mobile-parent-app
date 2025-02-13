@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/dependencies.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/dashboard/dashbaord_view_model.dart';
@@ -17,7 +15,6 @@ import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_pageview.dart';
-import 'package:app/utils/common_widgets/common_searchable_dropdown/searchable_dropdown_list.dart';
 
 import 'package:app/utils/common_widgets/common_sizedbox.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
@@ -314,25 +311,23 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                           )
                         : data.data?.data?.students == null
                             ? const SizedBox.shrink()
-                            : SizedBox(
-                                height: 60.h,
-                                width: 128.w,
-                                child: CustomDropdownButton(
-                                  dropdownName: '',
-                                  width: 300,
-                                  showAstreik: false,
-                                  showBorderColor: true,
-                                  displayZerothIndex: true,
-                                  items: data.data?.data?.students!
-                                          .map((e) => e.studentDisplayName)
-                                          .toList() ??
-                                      [],
-                                  isMutiSelect: true,
-                                  onMultiSelect: (selectedValues) {
-                                    model.getSelectedStudentid(selectedValues);
-                                  },
-                                  onSingleSelect: (selectedValue) {},
-                                ),
+                            : CustomDropdownButton(
+                                singleSelectItemSubject: model.selectedStudent,
+                                dropdownName: '',
+                                showAstreik: false,
+                                width: 0.8.sw,
+                                showBorderColor: true,
+                                items: data.data?.data?.students!
+                                        .map((e) => e.studentDisplayName)
+                                        .toList() ??
+                                    [],
+                                isMutiSelect: false,
+                                onMultiSelect: (selectedValues) {
+                                  // model.getSelectedStudentid(selectedValues);
+                                },
+                                onSingleSelect: (selectedValue) {
+                                  model.getSelectedStudentid([selectedValue]);
+                                },
                               );
                   },
                 ),

@@ -1,10 +1,8 @@
 import 'package:app/errors/flutter_toast_error_presenter.dart';
-import 'package:app/model/resource.dart';
-import 'package:app/utils/api_response_handler.dart';
-import 'package:domain/domain.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:rxdart/subjects.dart';
+
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class StudentProfileEditViewModel extends BasePageViewModel {
@@ -22,34 +20,30 @@ class StudentProfileEditViewModel extends BasePageViewModel {
 
   StudentProfileEditViewModel(
       {required this.exceptionHandlerBinder,
-     // required this.getStudentDetailUsecase,
+      // required this.getStudentDetailUsecase,
       required this.flutterToastErrorPresenter});
 
-
-TextEditingController schoolController=TextEditingController();
-TextEditingController dobController=TextEditingController();
-TextEditingController boardController=TextEditingController();
-TextEditingController courseController=TextEditingController();
-TextEditingController gradeController=TextEditingController();
-TextEditingController divisionController=TextEditingController();
-TextEditingController shiftController=TextEditingController();
-TextEditingController houseController=TextEditingController();
-TextEditingController physicalController=TextEditingController();
-TextEditingController medicalController=TextEditingController();
-TextEditingController allergyController=TextEditingController();
-TextEditingController learningController=TextEditingController();
-TextEditingController pfirstnameController=TextEditingController();
-TextEditingController plastnameController=TextEditingController();
-TextEditingController phoneController=TextEditingController();
-TextEditingController emailController=TextEditingController();
-TextEditingController addline1Controller=TextEditingController();
-TextEditingController addLine2Controller=TextEditingController();
-TextEditingController cityController=TextEditingController();
-TextEditingController statesController=TextEditingController();
-TextEditingController pinController=TextEditingController();
-
-
-
+  TextEditingController schoolController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController boardController = TextEditingController();
+  TextEditingController courseController = TextEditingController();
+  TextEditingController gradeController = TextEditingController();
+  TextEditingController divisionController = TextEditingController();
+  TextEditingController shiftController = TextEditingController();
+  TextEditingController houseController = TextEditingController();
+  TextEditingController physicalController = TextEditingController();
+  TextEditingController medicalController = TextEditingController();
+  TextEditingController allergyController = TextEditingController();
+  TextEditingController learningController = TextEditingController();
+  TextEditingController pfirstnameController = TextEditingController();
+  TextEditingController plastnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController addline1Controller = TextEditingController();
+  TextEditingController addLine2Controller = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController statesController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
 
   // void getStudentDetail({required int studentId}) {
   //   _studentDetailSubject.add(Resource.loading());
@@ -70,9 +64,4 @@ TextEditingController pinController=TextEditingController();
   //     },
   //   );
   // }
-
-
-
-
-
 }

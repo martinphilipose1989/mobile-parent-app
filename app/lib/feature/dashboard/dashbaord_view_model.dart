@@ -11,9 +11,9 @@ import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:notification/notification.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
@@ -214,6 +214,8 @@ class DashboardPageModel extends BasePageViewModel {
 
   List<GetGuardianStudentDetailsStudentModel>? selectedStudentId = [];
 
+  BehaviorSubject<String> selectedStudent = BehaviorSubject.seeded('');
+
   void getSelectedStudentid(List<String> names) {
     List<GetGuardianStudentDetailsStudentModel> tempList = [];
     for (var student
@@ -259,6 +261,7 @@ class DashboardPageModel extends BasePageViewModel {
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
+          selectedStudent.add(tempList.first.studentDisplayName ?? '');
 
           processTermsAndConditionsSequentially(tempList);
           applyActivationRules(userSubject.value);
