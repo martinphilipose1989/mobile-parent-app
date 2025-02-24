@@ -160,11 +160,11 @@ class DisciplinaryDetails extends StatelessWidget {
                                 );
                               },
                               child: SizedBox(
-                                width: 40.w,
-                                height: 40.h,
+                                width: 50.w,
+                                height: 50.h,
                                 child: Icon(
                                   CupertinoIcons.info,
-                                  size: 24,
+                                  size: 30,
                                 ),
                               ));
                     },
