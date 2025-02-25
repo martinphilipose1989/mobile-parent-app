@@ -1774,4 +1774,45 @@ class NetworkAdapter implements NetworkPort {
       return Left(l);
     }, (r) => Right(r.data.transform()));
   }
+
+  @override
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadBearerImage({required File file, required String platform}) async{
+
+ final    response = await safeApiCall(transportService.uploadProfileImage(file: file,platform: platform));
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+  }
+
+  @override
+  Future<Either<NetworkError, CreateBearerResponse>> createBearer({required CreateBearerRequest request}) async{
+    final response = await safeApiCall(
+      apiService.createBearer(
+        CreateBearerRequestEntity(
+          data: CreateBearerRequesDataEntity(
+              firstName: request.data?.firstName,
+              lastName: request.data?.lastName,
+              profileImage: request.data?.profileImage),
+        ),
+      ),
+    );
+
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+
+  }
+
+  @override
+  Future<Either<NetworkError, MapStudenttoBearerResponse>> mapBearerToGuardians({required MapStudenttoBearerRequest request}) async{
+    final response = await safeApiCall(apiService.mapBearerToGuardians(
+      MapStudenttoBearerRequestEntity(
+        data: MapStudenttoBearerRequestDataEntity(
+          guardianId: request.data?.guardianId,
+          guardianRelationshipId: request.data?.guardianRelationshipId,
+          studentId: request.data?.studentId,
+        ),
+      ),
+    ));
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+  }
 }

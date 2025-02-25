@@ -357,4 +357,17 @@ abstract class NetworkPort {
       {
         required int studentId,
       required String platform});
+
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadBearerImage({
+    required File file,
+    required String platform,
+
+  });
+
+  Future<Either<NetworkError, CreateBearerResponse>> createBearer(
+      {required CreateBearerRequest request});
+
+  Future<Either<NetworkError, MapStudenttoBearerResponse>> mapBearerToGuardians(
+      {required MapStudenttoBearerRequest request});
+
 }

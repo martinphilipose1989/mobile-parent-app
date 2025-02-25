@@ -176,6 +176,13 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'subject selection'
     },
+    {
+      'name': 'Add Bearer',
+      'image': AppImages.profile,
+      'isSelected': false,
+      'isActive': true,
+      'key': 'add bearer'
+    },
   ];
 
   String returnRouteValue(String routeValue) {
@@ -206,7 +213,8 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.webview;
       case 'value added services':
         return RoutePaths.newEnrolmentPage;
-
+      case 'add bearer':
+        return 'Add Bearer';
       default:
         return '';
     }
@@ -451,6 +459,7 @@ class Chips {
   final String? name;
   final String? image;
   bool isSelected;
+  final VoidCallback? onTap;
 
-  Chips({this.name, this.image, this.isSelected = false});
+  Chips( {this.name, this.image, this.isSelected = false, this.onTap});
 }

@@ -26,6 +26,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../utils/common_widgets/dialog/add_new_bearer/add_new_bearer.dart';
+
 class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
   DashboardPageView(super.providerBase);
 
@@ -164,7 +166,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       title(Strings.of(context).parent_service),
-                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      CommonSizedBox.sizedBox(height: 10.h, width: 10.w),
                       chipsList(
                           context,
                           model.parentServices
@@ -218,7 +220,24 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   paymentsLink:
                       '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}'),
             );
-          } else {
+          }
+          else if (receivedRoutePath == 'Add Bearer'){
+            final selectedStudentid = model.dashboardState.selectedStudent?.id;
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AddNewBearer(
+                      studentId: selectedStudentid,
+                      cancelCallback: () {
+                        Navigator.pop(context);
+                      },
+                      addNewBearerCallback: () {});
+                });
+
+          }
+
+          else {
             Navigator.pushNamed(
               context,
               receivedRoutePath,

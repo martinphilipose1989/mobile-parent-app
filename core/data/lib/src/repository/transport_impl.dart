@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:data/data.dart';
 
 class TransportRepositoryimpl extends TransportRepository {
@@ -62,5 +64,22 @@ class TransportRepositoryimpl extends TransportRepository {
           {required UploadIntimationFileUseCaseParams params}) {
     return networkPort.uploadIntimationFile(
         documentID: params.id, file: params.file);
+  }
+
+  @override
+  Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage({required File file, required String platform}) {
+   return networkPort.uploadBearerImage(file: file, platform: platform);
+  }
+
+  @override
+  Future<Either<NetworkError, CreateBearerResponse>> createBearer(
+      {required CreateBearerRequest request}) {
+    return networkPort.createBearer(request: request);
+  }
+
+  @override
+  Future<Either<NetworkError, MapStudenttoBearerResponse>> mapBearerToGuardians(
+      {required MapStudenttoBearerRequest request}) {
+    return networkPort.mapBearerToGuardians(request: request);
   }
 }

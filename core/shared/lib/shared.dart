@@ -190,6 +190,7 @@ export 'src/model/response/transport/fetch_stops_logs_model.dart';
 export 'src/model/response/transport/get_bearer_response.dart';
 export 'src/model/response/transport/get_studentprofile_response.dart';
 export 'src/model/response/transport/guardian_detail_response.dart';
+export 'src/model/response/transport/create_bearer_response.dart';
 export 'src/model/response/transport/route_stop_mapping_response.dart';
 export 'src/model/response/transport/stop_response.dart';
 export 'src/model/response/transport/trip_response.dart';
@@ -197,7 +198,11 @@ export 'src/model/response/transport/student_attendance_response_model.dart';
 export 'src/model/response/transport/get_student_profile_response.dart';
 export 'src/model/response/transport/staff_list_response_model.dart';
 export 'src/model/response/transport/create_intimation_response_model.dart';
+export 'src/model/response/transport/map_student_bearer_response.dart';
+
 export 'src/model/request/transport/CreateIntimationRequestModel.dart';
+export 'src/model/request/transport/create_bearer_request.dart';
+export 'src/model/request/transport/map_student_bearer_request.dart';
 
 //login
 export 'src/model/response/login/auth_response.dart';
