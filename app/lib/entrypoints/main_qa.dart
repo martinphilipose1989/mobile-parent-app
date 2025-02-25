@@ -34,6 +34,7 @@ void main() async {
         androidAppId: EnvQA.androidAppId,
         androidSenderId: EnvQA.senderId,
         androidProjectId: EnvQA.projectId
+
     ),
   );
   startApp();
