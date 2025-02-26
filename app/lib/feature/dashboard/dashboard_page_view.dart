@@ -37,7 +37,6 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
         children: [
           CommonSizedBox.sizedBox(height: 10, width: 10),
           introductionTile(model, context),
-
           CommonSizedBox.sizedBox(height: 15, width: 10),
           bannerPage(model.images),
           CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -46,40 +45,39 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               initialData: Resource.none(),
               dataBuilder: (context, userData) {
                 return Visibility(
-                  visible: userData?.data?.statusId == 0,
+                  visible: userData?.data?.statusId != 0,
                   child: const Tracker(),
                 );
               }),
-          //  CommonSizedBox.sizedBox(height: 15, width: 10),
-          // AppStreamBuilder<Resource<bool>>(
-          //     stream: model.loadAdmissionMenus,
-          //     initialData: Resource.none(),
-          //     dataBuilder: (context, value) {
-          //       if (model.trackerTemp
-          //           .where((tracker) => tracker['isActive'] == true)
-          //           .isNotEmpty) {
-          //         return Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             title('Tracker'),
-          //             CommonSizedBox.sizedBox(height: 10, width: 10),
-          //             chipsList(
-          //                 context,
-          //                 model.trackerTemp
-          //                     .where((e) => e['isActive'] == true)
-          //                     .map((track) => Chips(
-          //                           name: track['name'],
-          //                           image: track['image'],
-          //                           isSelected: track['isSelected'],
-          //                         ))
-          //                     .toList(),
-          //                 model)
-          //           ],
-          //         );
-          //       }
-          //       return const SizedBox.shrink();
-          //     }),
-
+          CommonSizedBox.sizedBox(height: 15, width: 10),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.trackerTemp
+                    .where((tracker) => tracker['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Tracker'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          model.trackerTemp
+                              .where((e) => e['isActive'] == true)
+                              .map((track) => Chips(
+                                    name: track['name'],
+                                    image: track['image'],
+                                    isSelected: track['isSelected'],
+                                  ))
+                              .toList(),
+                          model)
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,
               initialData: Resource.none(),
@@ -107,20 +105,19 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 }
                 return const SizedBox.shrink();
               }),
-
-          // CommonSizedBox.sizedBox(height: 10, width: 10),
-          // title('Enquiry & Admission'),
-          // CommonSizedBox.sizedBox(height: 10, width: 10),
-          // chipsList(
-          //     context,
-          //     List.generate(
-          //       model.enquiryAndAdmissionTemp.length,
-          //       (i) => Chips(
-          //           name: model.enquiryAndAdmissionTemp[i]['name'],
-          //           image: model.enquiryAndAdmissionTemp[i]['image'],
-          //           isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
-          //     ),
-          //     model),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          title('Enquiry & Admission'),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
+          chipsList(
+              context,
+              List.generate(
+                model.enquiryAndAdmissionTemp.length,
+                (i) => Chips(
+                    name: model.enquiryAndAdmissionTemp[i]['name'],
+                    image: model.enquiryAndAdmissionTemp[i]['image'],
+                    isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
+              ),
+              model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,
