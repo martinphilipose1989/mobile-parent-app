@@ -180,7 +180,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Add Bearer',
       'image': AppImages.addPerson,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'add bearer'
     },
   ];
@@ -409,6 +409,7 @@ class DashboardPageModel extends BasePageViewModel {
             trackerTemp[index]['isActive'] = true;
           }
         }
+
       }
 
       if (index < feesTemp.length) {
@@ -416,6 +417,13 @@ class DashboardPageModel extends BasePageViewModel {
           feesTemp[index]['isActive'] = true;
         } else {
           feesTemp[index]['isActive'] = false;
+        }
+      }
+      if (index < parentServices.length) {
+        if (data.data?.statusId != 0) {
+          parentServices[index]['isActive'] = true;
+        } else {
+          parentServices[index]['isActive'] = false;
         }
       }
     }
