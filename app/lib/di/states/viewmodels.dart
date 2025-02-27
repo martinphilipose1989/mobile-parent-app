@@ -61,6 +61,7 @@ import '../../feature/bus_route_list/bus_route_list_page_viewmodel.dart';
 import '../../feature/my_duty/my_duty_page_viewmodel.dart';
 import '../../feature/student_profile/student_profile_page_viewmodel.dart';
 
+import '../../utils/common_widgets/dialog/add_new_bearer/add_new_bearer_viewmodel.dart';
 import '../../utils/common_widgets/dialog/staff_list_view_model.dart';
 
 final splashViewModelProvider =
@@ -602,4 +603,16 @@ final pdfViewmodelProvider = ChangeNotifierProvider.autoDispose(
       downloadFileFromUrlUsecase: getIt.get<DownloadFileFromUrlUsecase>(),
       exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
       flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>()),
+);
+
+
+final addNewBearerViewmodelProvider =
+ChangeNotifierProvider.autoDispose<AddNewBearerViewmodel>(
+      (ref) => AddNewBearerViewmodel(
+    createBearerUsecase: getIt.get<CreateBearerUsecase>(),
+    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+    uploadBearerProfileUsecase: getIt.get<UploadBearerProfileUsecase>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+  ),
 );

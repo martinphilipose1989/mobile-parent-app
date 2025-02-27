@@ -326,4 +326,14 @@ abstract class RetrofitService {
       @Query('filters[student_id]') int studentId,
       @Query("filters[acadmin_year_id]") int year,
       @Header("Authorization") String token);
+
+  @POST("/api/ac-guardians")
+  Future<HttpResponse<CreateBearerResponseEntity>> createBearer(
+      @Body() CreateBearerRequestEntity request);
+
+
+  @POST("/api/ac-student-guardians")
+  Future<HttpResponse<MapStudenttoBearerResponseEntity>> mapBearerToGuardians(
+      @Body() MapStudenttoBearerRequestEntity request);
+
 }

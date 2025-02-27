@@ -39,6 +39,18 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  UploadBearerProfileUsecase uploadBearerProfileUsecase(
+      TransportRepository transportRepository) {
+    return UploadBearerProfileUsecase(transportRepository: transportRepository);
+  }
+
+  @lazySingleton
+  CreateBearerUsecase createBearerUsecase(
+      TransportRepository transportRepository) {
+    return CreateBearerUsecase(transportRepository: transportRepository);
+  }
+
+  @lazySingleton
   AttendanceCountUsecase getAttendanceList(AttendanceRepository repository) {
     return AttendanceCountUsecase(
       attendanceRepository: repository,

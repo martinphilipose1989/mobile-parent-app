@@ -100,32 +100,7 @@ class DisciplinaryDetails extends StatelessWidget {
                                         ),
                                       ),
 
-                                      // Flexible(
-                                      // fit:FlexFit.loose,
-                                      //   child: ListView.separated(
-                                      //       itemBuilder:
-                                      //           (BuildContext context, int index) {
-                                      //         if (snapshot?.data?.data != null) {
-                                      //           return infoRow(
-                                      //               context,
-                                      //               getColorFromJson(snapshot!
-                                      //                   .data!
-                                      //                   .data[index]
-                                      //                   .attributes
-                                      //                   .description),
-                                      //               snapshot.data!.data[index]
-                                      //                   .attributes.name);
-                                      //         }
-                                      //       },
-                                      //       shrinkWrap: true,
-                                      //       separatorBuilder:
-                                      //           (BuildContext context, int index) {
-                                      //         return SizedBox(
-                                      //           height: 10.h,
-                                      //         );
-                                      //       },
-                                      //       itemCount: snapshot?.data?.data.length ?? 0),
-                                      // ),
+
                                       SizedBox(
                                         height: 20.h,
                                       ),
@@ -160,11 +135,11 @@ class DisciplinaryDetails extends StatelessWidget {
                                 );
                               },
                               child: SizedBox(
-                                width: 40.w,
-                                height: 40.h,
+                                width: 50.w,
+                                height: 50.h,
                                 child: Icon(
                                   CupertinoIcons.info,
-                                  size: 24,
+                                  size: 30,
                                 ),
                               ));
                     },
