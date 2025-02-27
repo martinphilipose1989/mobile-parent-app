@@ -154,7 +154,9 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
   Widget _getPageForOption(VasOptions option, NewEnrolmentViewModel model) {
     final profile = model.studentProfileSubject.value.data?.profile;
     final yearlyDetails =
-        model.studentYearlyDetails.value.data?.data?[0].attributes;
+        model.studentYearlyDetails.value.data?.data?.isEmpty ?? false
+            ? null
+            : model.studentYearlyDetails.value.data?.data?[0].attributes;
 
     final enquiryDetailArgs = EnquiryDetailArgs(
         schoolId: yearlyDetails?.schoolParentId ?? profile?.schoolParentId,
