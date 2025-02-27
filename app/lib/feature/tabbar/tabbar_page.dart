@@ -46,7 +46,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   @override
   void didChangeDependencies() {
     model.tabController =
-        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 3, vsync: this);
+        TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
     model.getUserDetails();
     super.didChangeDependencies();
   }
@@ -94,17 +94,17 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             controller: model.tabController,
             children: [
               const DashboardPage(),
-              Container(
-                color: AppColors.primaryOn,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: CommonText(
-                    text: Strings.of(context).coming_soon,
-                    style: AppTypography.body1,
-                  ),
-                ),
-              ),
+              // Container(
+              //   color: AppColors.primaryOn,
+              //   height: MediaQuery.of(context).size.height,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: Center(
+              //     child: CommonText(
+              //       text: Strings.of(context).coming_soon,
+              //       style: AppTypography.body1,
+              //     ),
+              //   ),
+              // ),
               StudentDetailPage()
             ],
           );

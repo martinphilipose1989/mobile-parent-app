@@ -178,7 +178,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     {
       'name': 'Add Bearer',
-      'image': AppImages.profile,
+      'image': AppImages.addPerson,
       'isSelected': false,
       'isActive': true,
       'key': 'add bearer'
@@ -461,5 +461,5 @@ class Chips {
   bool isSelected;
   final VoidCallback? onTap;
 
-  Chips( {this.name, this.image, this.isSelected = false, this.onTap});
+  Chips({this.name, this.image, this.isSelected = false, this.onTap});
 }
