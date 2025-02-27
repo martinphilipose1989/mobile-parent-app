@@ -47,79 +47,80 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
               initialData: Resource.none(),
               dataBuilder: (context, userData) {
                 return Visibility(
-                  visible: userData?.data?.statusId != 0,
+                  visible: userData?.data?.statusId == 0,
                   child: const Tracker(),
                 );
               }),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          AppStreamBuilder<Resource<bool>>(
-              stream: model.loadAdmissionMenus,
-              initialData: Resource.none(),
-              dataBuilder: (context, value) {
-                if (model.trackerTemp
-                    .where((tracker) => tracker['isActive'] == true)
-                    .isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      title('Tracker'),
-                      CommonSizedBox.sizedBox(height: 10, width: 10),
-                      chipsList(
-                          context,
-                          model.trackerTemp
-                              .where((e) => e['isActive'] == true)
-                              .map((track) => Chips(
-                                    name: track['name'],
-                                    image: track['image'],
-                                    isSelected: track['isSelected'],
-                                  ))
-                              .toList(),
-                          model)
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              }),
-          AppStreamBuilder<Resource<bool>>(
-              stream: model.loadAdmissionMenus,
-              initialData: Resource.none(),
-              dataBuilder: (context, value) {
-                if (model.progress
-                    .where((p) => p['isActive'] == true)
-                    .isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      title(Strings.of(context).child_progress),
-                      CommonSizedBox.sizedBox(height: 10, width: 10),
-                      chipsList(
-                          context,
-                          List.generate(
-                            model.progress.length,
-                            (i) => Chips(
-                                name: model.progress[i]['name'],
-                                image: model.progress[i]['image'],
-                                isSelected: model.progress[i]['isSelected']),
-                          ),
-                          model),
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              }),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          title('Enquiry & Admission'),
-          CommonSizedBox.sizedBox(height: 10, width: 10),
-          chipsList(
-              context,
-              List.generate(
-                model.enquiryAndAdmissionTemp.length,
-                (i) => Chips(
-                    name: model.enquiryAndAdmissionTemp[i]['name'],
-                    image: model.enquiryAndAdmissionTemp[i]['image'],
-                    isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
-              ),
-              model),
+          // AppStreamBuilder<Resource<bool>>(
+          //     stream: model.loadAdmissionMenus,
+          //     initialData: Resource.none(),
+          //     dataBuilder: (context, value) {
+          //       if (model.trackerTemp
+          //           .where((tracker) => tracker['isActive'] == true)
+          //           .isNotEmpty) {
+          //         return Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             title('Tracker'),
+          //             CommonSizedBox.sizedBox(height: 10, width: 10),
+          //             chipsList(
+          //                 context,
+          //                 model.trackerTemp
+          //                     .where((e) => e['isActive'] == true)
+          //                     .map((track) => Chips(
+          //                           name: track['name'],
+          //                           image: track['image'],
+          //                           isSelected: track['isSelected'],
+          //                         ))
+          //                     .toList(),
+          //                 model)
+          //           ],
+          //         );
+          //       }
+          //       return const SizedBox.shrink();
+          //     }),
+
+          // AppStreamBuilder<Resource<bool>>(
+          //     stream: model.loadAdmissionMenus,
+          //     initialData: Resource.none(),
+          //     dataBuilder: (context, value) {
+          //       if (model.progress
+          //           .where((p) => p['isActive'] == true)
+          //           .isNotEmpty) {
+          //         return Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             title(Strings.of(context).child_progress),
+          //             CommonSizedBox.sizedBox(height: 10, width: 10),
+          //             chipsList(
+          //                 context,
+          //                 List.generate(
+          //                   model.progress.length,
+          //                   (i) => Chips(
+          //                       name: model.progress[i]['name'],
+          //                       image: model.progress[i]['image'],
+          //                       isSelected: model.progress[i]['isSelected']),
+          //                 ),
+          //                 model),
+          //           ],
+          //         );
+          //       }
+          //       return const SizedBox.shrink();
+          //     }),
+          // CommonSizedBox.sizedBox(height: 10, width: 10),
+          // title('Enquiry & Admission'),
+          // CommonSizedBox.sizedBox(height: 10, width: 10),
+          // chipsList(
+          //     context,
+          //     List.generate(
+          //       model.enquiryAndAdmissionTemp.length,
+          //       (i) => Chips(
+          //           name: model.enquiryAndAdmissionTemp[i]['name'],
+          //           image: model.enquiryAndAdmissionTemp[i]['image'],
+          //           isSelected: model.enquiryAndAdmissionTemp[i]['isSelected']),
+          //     ),
+          //     model),
           CommonSizedBox.sizedBox(height: 10, width: 10),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,
@@ -217,8 +218,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                   paymentsLink:
                       '$subjectSelectionUrl?platform=mobile&authToken=${model.userSubject.value.data?.token}&unique_url_key=${selectedStudent?.urlKey}&date=0101${DateTime.now().year}'),
             );
-          }
-          else if (receivedRoutePath == 'Add Bearer'){
+          } else if (receivedRoutePath == 'Add Bearer') {
             final selectedStudentid = model.dashboardState.selectedStudent?.id;
             showDialog(
                 context: context,
@@ -231,10 +231,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                       },
                       addNewBearerCallback: () {});
                 });
-
-          }
-
-          else {
+          } else {
             Navigator.pushNamed(
               context,
               receivedRoutePath,
