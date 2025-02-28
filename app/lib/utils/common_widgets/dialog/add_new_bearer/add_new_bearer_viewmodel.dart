@@ -1,10 +1,13 @@
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/myapp.dart';
 import 'package:app/utils/api_response_handler.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -92,6 +95,9 @@ class AddNewBearerViewmodel extends BasePageViewModel {
       createCall: (params) => createBearerUsecase.execute(params: params),
       onSuccess: (data) {
         bearerSubject.add(Resource.success());
+
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text(Strings.of(navigatorKey.currentContext!).bearer_added_successfully)));
+
       },
       onError: (error) {
         bearerSubject.add(Resource.error());

@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 // ignore: must_be_immutable
@@ -117,7 +118,7 @@ class AddNewBearer extends StatelessWidget {
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     Theme.of(context).colorScheme.onPrimary,
-                                title: "Add Bearer",
+                                title: Strings.of(context).add_bearer,
                                 titleTextStyle: AppTypography.body2,
                                 onPressed: () {
                                   model.createBearer(studentId: studentId);
