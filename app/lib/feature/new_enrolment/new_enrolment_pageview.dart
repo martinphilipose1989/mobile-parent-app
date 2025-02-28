@@ -8,10 +8,13 @@ import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart'
     as student;
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_dropdown.dart';
 
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
+import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/toggle_option_list.dart';
 
 import 'package:app/utils/enums/new_enrolment_enum.dart';
@@ -79,41 +82,73 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                     initialData: Resource.none(),
                     dataBuilder: (context, academicYear) {
                       return academicYear?.status != Status.loading
-                          ? CustomDropdownButton(
-                              topPadding: 24,
-                              rightPadding: 16,
-                              bottomPadding: 16,
-                              leftPadding: 16,
-                              dropdownName: 'Select Academic Year',
-                              singleSelectItemSubject:
-                                  model.selectedAcademicYear,
-                              validator: (value){
-                                DateTime now = DateTime.now();
-                                int currentYear = now.year;
-                                int nextYear = currentYear + 1;
-                                String expectedYear = '$currentYear-$nextYear';
+                          ? Column(
+                            children: [
 
-                                if (value == null || value != expectedYear) {
-                                  return 'Please select Ay$expectedYear from dropdown';
+                              CustomDropdownButton(
+                                  topPadding: 24,
+                                  rightPadding: 16,
+                                  bottomPadding: 16,
+                                  leftPadding: 16,
+                                  dropdownName: 'Select Academic Year',
+                                  singleSelectItemSubject:
+                                      model.selectedAcademicYear,
+                                  validator: (value){
+                                    DateTime now = DateTime.now();
+                                    int currentYear = now.year;
+                                    int nextYear = currentYear + 1;
+                                    String expectedYear = '$currentYear-$nextYear';
+
+                                    if (value == null || value != expectedYear) {
+                                      return 'Please select Ay$expectedYear from dropdown';
+                                    }
+                                    return null;
+                                  },
+                                  showAstreik: true,
+                                  showBorderColor: false,
+                                  isMutiSelect: false,
+                                  onMultiSelect: (_) {},
+                                  onSingleSelect: (value) {
+                                    model.selectAcademicYear(value);
+                                  },
+                                  items: academicYear?.data
+                                          ?.map(
+                                              (year) => year.attributes?.name ?? '')
+                                          .toList() ??
+                                      [],
+                                ),
+                               AppStreamBuilder<String>(
+                                stream: model.selectedAcademicYear,
+                                initialData: "",
+                                dataBuilder: (context, snapshot) {
+                                  DateTime now = DateTime.now();
+                                  int currentYear = now.year;
+                                  int nextYear = (currentYear + 1) % 100;
+                                  String expectedYear = '$currentYear - $nextYear';
+
+                                  return expectedYear != snapshot?.trim() ?
+                                       Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16.0),
+                                      child: CommonText(
+                                        text: Strings.of(context).please_select_current_yr,
+                                        textAlign: TextAlign.start,
+                                        softWrap: true,
+                                        style: AppTypography.caption,
+                                        color: AppColors.failure,
+                                      ),
+                                    ),
+                                  )
+                                    : SizedBox();
                                 }
-                                return null;
-                              },
-                              showAstreik: true,
-                              showBorderColor: false,
-                              isMutiSelect: false,
-                              onMultiSelect: (_) {},
-                              onSingleSelect: (value) {
-                                model.selectAcademicYear(value);
-                              },
-                              items: academicYear?.data
-                                      ?.map(
-                                          (year) => year.attributes?.name ?? '')
-                                      .toList() ??
-                                  [],
-                            )
+                              )
+                            ],
+                          )
                           : SizedBox.shrink();
                     },
                   ),
+
                   Padding(
                     padding: REdgeInsets.all(16.0),
                     child: ToggleOptionList<VasOptions>(
