@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("+Add Another Cheque"),
         "add_attachment":
             MessageLookupByLibrary.simpleMessage("Add Attachment"),
+        "add_bearer": MessageLookupByLibrary.simpleMessage("Add Bearer"),
         "add_comment": MessageLookupByLibrary.simpleMessage("Add Comment"),
         "add_comment1": MessageLookupByLibrary.simpleMessage("Add Comment..."),
         "address": MessageLookupByLibrary.simpleMessage("Address "),
@@ -83,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "bank_Info": MessageLookupByLibrary.simpleMessage("Bank Info"),
         "bank_name": MessageLookupByLibrary.simpleMessage("Bank Name"),
         "basic_detail": MessageLookupByLibrary.simpleMessage("Basic Detail"),
+        "bearer_added_successfully":
+            MessageLookupByLibrary.simpleMessage("Bearer Added Successfully"),
         "bearers": MessageLookupByLibrary.simpleMessage("Bearers"),
         "board": MessageLookupByLibrary.simpleMessage("Board"),
         "board_cannot_be_empty":
@@ -411,6 +414,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Place Of Birth"),
         "please_accept": MessageLookupByLibrary.simpleMessage(
             "Please accept the terms and conditions"),
+        "please_select_current_yr": MessageLookupByLibrary.simpleMessage(
+            "Please select the current year"),
         "point_Of_Contact":
             MessageLookupByLibrary.simpleMessage("Point Of Contact"),
         "point_Of_contact":

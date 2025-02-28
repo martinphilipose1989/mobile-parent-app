@@ -36,7 +36,7 @@ class BearerList extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CommonImageWidget(
-                      imageUrl: "",
+                      imageUrl: bearerList[index].profileImage??"",
                       clipBehavior: Clip.hardEdge,
                       imageWidth: 80,
                       imageHeight: 70),

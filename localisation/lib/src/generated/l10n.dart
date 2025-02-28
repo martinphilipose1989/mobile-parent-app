@@ -3689,6 +3689,36 @@ class Strings {
       args: [],
     );
   }
+
+  /// `Please select the current year`
+  String get please_select_current_yr {
+    return Intl.message(
+      'Please select the current year',
+      name: 'please_select_current_yr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bearer Added Successfully`
+  String get bearer_added_successfully {
+    return Intl.message(
+      'Bearer Added Successfully',
+      name: 'bearer_added_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Bearer`
+  String get add_bearer {
+    return Intl.message(
+      'Add Bearer',
+      name: 'add_bearer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Strings> {
