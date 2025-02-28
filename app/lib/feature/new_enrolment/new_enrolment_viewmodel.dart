@@ -119,13 +119,17 @@ class NewEnrolmentViewModel extends BasePageViewModel {
 
     academicYearId = selectedYear?.attributes?.shortNameTwoDigit;
     selectedAcademicYear.add(selectedYear?.attributes?.name ?? '');
-    if (studentProfileSubject.hasValue &&
-        studentProfileSubject.value.data != null) {
-      getStudentYearlyDetails(
-          studentId: studentProfileSubject.value.data!.profile!.id ?? 0,
-          academicYearId: int.tryParse(academicYearId!) ?? 0);
+    print('${DateTime.now().year.toString().substring(2)}----------');
+  print ( "year"+ '${academicYearId}');
+   if(academicYearId== (DateTime.now().year+1).toString().substring(2)) {
+      if (studentProfileSubject.hasValue &&
+          studentProfileSubject.value.data != null) {
+        getStudentYearlyDetails(
+            studentId: studentProfileSubject.value.data!.profile!.id ?? 0,
+            academicYearId: int.tryParse(academicYearId!) ?? 0);
+      }
     }
-  }
+ }
 
   // ************************ STUDENT YEARLY DETAILS ************************
   final BehaviorSubject<Resource<MdmAttributeBaseModel>> studentYearlyDetails =
