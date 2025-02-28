@@ -54,7 +54,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                     borderRadius: BorderRadius.circular(8.0),
                                     border: Border.all(width: 1)),
                                 child: ExpansionTile(
-                                    title: Row(
+                                    title: Row(crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [

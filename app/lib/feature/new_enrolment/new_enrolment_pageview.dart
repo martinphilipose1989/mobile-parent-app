@@ -2,8 +2,7 @@ import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journe
 import 'package:app/feature/new_enrolment/new_enrolment_viewmodel.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_page.dart';
 import 'package:app/feature/vas/kids_club/kids_club_page.dart';
-import 'package:app/feature/vas/psa/psa_page.dart';
-import 'package:app/feature/vas/summer_camp/summer_camp_page.dart';
+
 import 'package:app/feature/vas/transport/transport_page.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/molecules/attendance/attandance_details/student_details.dart'
@@ -88,6 +87,17 @@ class NewEnrolmentPageView extends BasePageViewWidget<NewEnrolmentViewModel> {
                               dropdownName: 'Select Academic Year',
                               singleSelectItemSubject:
                                   model.selectedAcademicYear,
+                              validator: (value){
+                                DateTime now = DateTime.now();
+                                int currentYear = now.year;
+                                int nextYear = currentYear + 1;
+                                String expectedYear = '$currentYear-$nextYear';
+
+                                if (value == null || value != expectedYear) {
+                                  return 'Please select Ay$expectedYear from dropdown';
+                                }
+                                return null;
+                              },
                               showAstreik: true,
                               showBorderColor: false,
                               isMutiSelect: false,
