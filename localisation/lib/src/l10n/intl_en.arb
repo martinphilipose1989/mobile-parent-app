@@ -369,7 +369,7 @@
  "medical_history_cannot_be_empty": "Medical History cannot be empty",
  "address_Line1_cannot_be_empty": "Address Line 1 cannot be empty",
  "address_Line2_cannot_be_empty": "Address Line 2 cannot be empty",
- "please_select_current_yr": "Please select the current year",
+ "please_select_current_yr": "Please select AY 2025-26 only from the dropdown",
  "bearer_added_successfully": "Bearer Added Successfully",
 
 "add_bearer": "Add Bearer"
