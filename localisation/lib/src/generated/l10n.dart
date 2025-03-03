@@ -3690,10 +3690,10 @@ class Strings {
     );
   }
 
-  /// `Please select the current year`
+  /// `Please select AY 2025-26 only from the dropdown`
   String get please_select_current_yr {
     return Intl.message(
-      'Please select the current year',
+      'Please select AY 2025-26 only from the dropdown',
       name: 'please_select_current_yr',
       desc: '',
       args: [],
