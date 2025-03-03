@@ -178,7 +178,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     {
       'name': 'Add Bearer',
-      'image': AppImages.addPerson,
+      'image': AppImages.usertagIcon,
       'isSelected': false,
       'isActive': false,
       'key': 'add bearer'
