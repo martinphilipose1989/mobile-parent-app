@@ -152,55 +152,59 @@ class PaymentsView extends BasePageViewWidget<PaymentsModel> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                AppImages.studentIcon,
-                height: 20.h,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                child: AppStreamBuilder<
-                    Resource<List<GetGuardianStudentDetailsStudentModel>>>(
-                  stream: model.getGuardianStudentDetailsModel,
-                  initialData: Resource.none(),
-                  dataBuilder: (context, data) {
-                    return data?.status == Status.loading
-                        ? const SizedBox(
-                            child: CircularProgressIndicator(),
-                          )
-                        : data?.data == null
-                            ? const SizedBox.shrink()
-                            : SizedBox(
-                                // height: 55.h,
-                                width: 0.4.sw,
-                                child: CustomDropdownButton(
-                                  dropdownName: '',
-                                  width: 300,
-                                  showAstreik: false,
-                                  showBorderColor: false,
-                                  displayZerothIndex: false,
-                                  selectedValue: model.selectedStudent!
-                                      .map((e) => e.studentDisplayName ?? '')
-                                      .toList(),
-                                  items: data?.data
-                                          ?.map((e) => e.studentDisplayName)
-                                          .toList() ??
-                                      [],
-                                  isMutiSelect: true,
-                                  onMultiSelect: (selectedValues) {
-                                    model.getSelectedStudentIds(
-                                        students: data?.data ?? [],
-                                        selectedValues: selectedValues);
-                                  },
-                                ),
-                              );
-                  },
+          Expanded(
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  AppImages.studentIcon,
+                  height: 20.h,
                 ),
-              )
-            ],
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    child: AppStreamBuilder<
+                        Resource<List<GetGuardianStudentDetailsStudentModel>>>(
+                      stream: model.getGuardianStudentDetailsModel,
+                      initialData: Resource.none(),
+                      dataBuilder: (context, data) {
+                        return data?.status == Status.loading
+                            ? const SizedBox(
+                                child: CircularProgressIndicator(),
+                              )
+                            : data?.data == null
+                                ? const SizedBox.shrink()
+                                : SizedBox(
+                                    // height: 55.h,
+                                    width: 0.4.sw,
+                                    child: CustomDropdownButton(
+                                      dropdownName: '',
+                                      width: 300,
+                                      showAstreik: false,
+                                      showBorderColor: false,
+                                      displayZerothIndex: false,
+                                      selectedValue: model.selectedStudent!
+                                          .map((e) => e.studentDisplayName ?? '')
+                                          .toList(),
+                                      items: data?.data
+                                              ?.map((e) => e.studentDisplayName)
+                                              .toList() ??
+                                          [],
+                                      isMutiSelect: true,
+                                      onMultiSelect: (selectedValues) {
+                                        model.getSelectedStudentIds(
+                                            students: data?.data ?? [],
+                                            selectedValues: selectedValues);
+                                      },
+                                    ),
+                                  );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           AppStreamBuilder<Resource<GetAcademicYearModel>>(
             stream: model.getAcademicYearModel,

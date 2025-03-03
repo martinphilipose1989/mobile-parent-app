@@ -31,7 +31,7 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
         dataBuilder: (context, isLoading) {
           return Stack(
             children: [
-              Column(
+             ListView(
                   children: transactions?.isEmpty ?? false
                       ? [
                           CommonText(

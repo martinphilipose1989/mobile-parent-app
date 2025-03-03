@@ -415,7 +415,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_accept": MessageLookupByLibrary.simpleMessage(
             "Please accept the terms and conditions"),
         "please_select_current_yr": MessageLookupByLibrary.simpleMessage(
-            "Please select the current year"),
+            "Please select AY 2025-26 only from the dropdown"),
         "point_Of_Contact":
             MessageLookupByLibrary.simpleMessage("Point Of Contact"),
         "point_Of_contact":

@@ -116,8 +116,8 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Student Profile',
       'image': AppImages.studentProfileIcon,
       'isSelected': true,
-      'isActive': false,
-      'key': 'student_profile'
+      'isActive': true,
+      'key': 'student profile'
     },
     // Coming Soon Features
     // {
@@ -178,7 +178,7 @@ class DashboardPageModel extends BasePageViewModel {
     },
     {
       'name': 'Add Bearer',
-      'image': AppImages.addPerson,
+      'image': AppImages.usertagIcon,
       'isSelected': false,
       'isActive': false,
       'key': 'add bearer'
@@ -198,8 +198,6 @@ class DashboardPageModel extends BasePageViewModel {
       case 'application':
         return '';
       case 'payments':
-        return RoutePaths.payments;
-      case '':
         return RoutePaths.payments;
       case 'student profile':
         return RoutePaths.attendanceCalender;
@@ -424,6 +422,13 @@ class DashboardPageModel extends BasePageViewModel {
           parentServices[index]['isActive'] = true;
         } else {
           parentServices[index]['isActive'] = false;
+        }
+      }
+      if (index < progress.length) {
+        if (data.data?.statusId != 0) {
+          progress[index]['isActive'] = true;
+        } else {
+          progress[index]['isActive'] = false;
         }
       }
     }

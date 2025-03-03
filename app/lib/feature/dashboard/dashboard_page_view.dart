@@ -80,35 +80,35 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           //       }
           //       return const SizedBox.shrink();
           //     }),
-
-          // AppStreamBuilder<Resource<bool>>(
-          //     stream: model.loadAdmissionMenus,
-          //     initialData: Resource.none(),
-          //     dataBuilder: (context, value) {
-          //       if (model.progress
-          //           .where((p) => p['isActive'] == true)
-          //           .isNotEmpty) {
-          //         return Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             title(Strings.of(context).child_progress),
-          //             CommonSizedBox.sizedBox(height: 10, width: 10),
-          //             chipsList(
-          //                 context,
-          //                 List.generate(
-          //                   model.progress.length,
-          //                   (i) => Chips(
-          //                       name: model.progress[i]['name'],
-          //                       image: model.progress[i]['image'],
-          //                       isSelected: model.progress[i]['isSelected']),
-          //                 ),
-          //                 model),
-          //           ],
-          //         );
-          //       }
-          //       return const SizedBox.shrink();
-          //     }),
-          // CommonSizedBox.sizedBox(height: 10, width: 10),
+   title('Child Progreess/Academics'),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.progress
+                    .where((p) => p['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title(Strings.of(context).child_progress),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          List.generate(
+                            model.progress.length,
+                            (i) => Chips(
+                                name: model.progress[i]['name'],
+                                image: model.progress[i]['image'],
+                                isSelected: model.progress[i]['isSelected']),
+                          ),
+                          model),
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
+          CommonSizedBox.sizedBox(height: 10, width: 10),
           // title('Enquiry & Admission'),
           // CommonSizedBox.sizedBox(height: 10, width: 10),
           // chipsList(
