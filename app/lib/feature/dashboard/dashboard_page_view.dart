@@ -80,7 +80,7 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
           //       }
           //       return const SizedBox.shrink();
           //     }),
-  // title('Child Progreess/Academics'),
+   title('Child Progreess/Academics'),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,
               initialData: Resource.none(),
