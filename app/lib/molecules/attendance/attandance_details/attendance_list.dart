@@ -77,7 +77,8 @@ class AttendanceList extends StatelessWidget {
                                                     .first
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
-                                                5) ||
+                                                5) ? CommonText(
+                                        text: Strings.of(context).bus_attendance+"(Drop)"):
                                             (snapshot
                                                     .data
                                                     ?.data
@@ -87,7 +88,7 @@ class AttendanceList extends StatelessWidget {
                                                     .attendanceType ==
                                                 6)
                                         ?  CommonText(
-                                            text: Strings.of(context).bus_attendance)
+                                            text: Strings.of(context).bus_attendance+"(Pickup)")
                                         : CommonText(
                                             text:
                                                 //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?

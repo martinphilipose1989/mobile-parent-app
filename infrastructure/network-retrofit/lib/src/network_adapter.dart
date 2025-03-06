@@ -1379,7 +1379,7 @@ class NetworkAdapter implements NetworkPort {
         .getattendanceDetail(AttendanceDetailsRequestEntity(
             studentId: attendanceRequestModel.studentId,
             attendanceStartDate: attendanceRequestModel.attendanceEndDate,
-            attendanceEndDate: attendanceRequestModel.attendanceStartDate)));
+            attendanceEndDate: attendanceRequestModel.attendanceStartDate),'app'));
     return response.fold(
       (l) {
         return Left(l);

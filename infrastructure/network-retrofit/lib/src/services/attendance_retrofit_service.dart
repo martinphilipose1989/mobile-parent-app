@@ -29,7 +29,9 @@ abstract class AttendanceRetorfitService {
 
   @POST("academics/attendance/get-transport-attendance-list")
   Future<HttpResponse<AttendanceDetailsResponseEntity>> getattendanceDetail(
-      @Body() AttendanceDetailsRequestEntity attendanceDetailsResponeEntity);
+      @Body() AttendanceDetailsRequestEntity attendanceDetailsResponeEntity,
+      @Query('platform') String app
+      );
 
   @POST('academics/intimation/create')
   Future<HttpResponse<CreateIntimationResponseEntity>> createIntimation(

@@ -7,6 +7,7 @@ import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
 import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
@@ -26,6 +27,7 @@ class DashboardPageModel extends BasePageViewModel {
   final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
   final Sendtokenusecase sendTokenUsecase;
+  final LogoutUsecase logoutUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
   final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
@@ -44,8 +46,8 @@ class DashboardPageModel extends BasePageViewModel {
   final TermsAndConditionUsecase termsAndConditionUsecase;
 
   DashboardPageModel(
-      {required this.exceptionHandlerBinder,
-      required this.getGuardianStudentDetailsUsecase,
+      {required this.exceptionHandlerBinder,required this.logoutUsecase,
+        required this.getGuardianStudentDetailsUsecase,
       required this.tokenresponseUsecase,
       required this.getUserRoleBasePermissionUsecase,
       required this.getUserDetailsUsecase,
@@ -116,7 +118,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Student Profile',
       'image': AppImages.studentProfileIcon,
       'isSelected': true,
-      'isActive': true,
+      'isActive': false,
       'key': 'student profile'
     },
     // Coming Soon Features
@@ -239,7 +241,18 @@ class DashboardPageModel extends BasePageViewModel {
   }
 
   // Calling students list
-
+  void logOut() {
+    final LogoutUsecaseParams params = LogoutUsecaseParams();
+    RequestManager(params,
+        createCall: () => logoutUsecase.execute(params: params))
+        .asFlow()
+        .listen((data) {
+      if (data.status == Status.success) {
+        navigatorKey.currentState!
+            .pushNamedAndRemoveUntil(RoutePaths.splash, (route) => false);
+      }
+    }, onDone: () {}, onError: (error) {});
+  }
   final BehaviorSubject<Resource<GetGuardianStudentDetailsModel>>
       _getGuardianStudentDetailsModel = BehaviorSubject();
 
@@ -352,6 +365,10 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
+        CommonPopups().showError(navigatorKey.currentContext!, "SOmething went wrong please wait until we fix it ", (tr){
+         logOut();
+        },barrierDismissible: false);
+
         // exceptionHandlerBinder.showError(error!);
       });
     }).execute();

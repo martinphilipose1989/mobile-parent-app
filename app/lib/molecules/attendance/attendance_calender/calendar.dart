@@ -1,14 +1,23 @@
-import 'package:app/di/states/viewmodels.dart';
+
 import 'package:app/feature/attendance/attendance_calender/attendance_calender_view_model.dart';
 import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
-
+import 'package:data/data.dart'hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
+
+import '../../../di/states/viewmodels.dart';
+import '../../../feature/attendance/attendance_list1/attendence_detail_page.dart';
+import '../../../navigation/route_paths.dart';
+import '../../../utils/date_formatter.dart';
 
 extension DateTimeExt on DateTime {
   DateTime get monthStart => DateTime(year, month);
@@ -68,13 +77,13 @@ class _CalendarState extends State<Calendar> {
                       selectedMonth = value;
                       model?.selectedmonth = selectedMonth;
                       debugPrint(selectedMonth.toString());
-                      // model?.getAttendanceList(
-                      //     model: AttendanceCountRequestModel(
-                      //         studentId: model?.selectedStudent?.first.id,
-                      //         attendanceDate:
-                      //             DateFormatter.convertDateToYearMonth(
-                      //                 selectedMonth),
-                      //         academicYearId: model?.academicId ?? 26));
+                      model?.getAttendanceList(
+                          model: AttendanceCountRequestModel(
+                              studentId: model?.selectedStudent?.first.id,
+                              attendanceDate:
+                                  DateFormatter.convertDateToYearMonth(
+                                      selectedMonth),
+                              academicYearId: model?.academicId ?? 26));
                     }),
                   ),
                   Expanded(
@@ -84,13 +93,13 @@ class _CalendarState extends State<Calendar> {
                       selectDate: (DateTime value) => setState(() {
                         selectedDate = value;
 
-                        // Navigator.pushNamed(
-                        //     context, RoutePaths.attendanceDetailspage,
-                        //     arguments: AttendanceDetailPageParameter(
-                        //         academicyearId: model?.academicId,
-                        //         studentId: [model?.selectedStudent?.first.id],
-                        //         toDate: converter(selectedDate),
-                        //         fromDate: converter(selectedDate)));
+                        Navigator.pushNamed(
+                            context, RoutePaths.attendanceDetailspage,
+                            arguments: AttendanceDetailPageParameter(
+                                academicyearId: model?.academicId,
+                                studentId: [model?.selectedStudent?.first.id],
+                                toDate: converter(selectedDate),
+                                fromDate: converter(selectedDate)));
                       }),
                     ),
                   ),
