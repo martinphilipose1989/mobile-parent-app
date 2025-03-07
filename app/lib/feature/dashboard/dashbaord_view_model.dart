@@ -94,7 +94,7 @@ class DashboardPageModel extends BasePageViewModel {
       'name': 'Transport',
       'image': AppImages.bus,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'transport'
     },
     {
