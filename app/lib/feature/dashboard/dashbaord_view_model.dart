@@ -76,13 +76,13 @@ class DashboardPageModel extends BasePageViewModel {
   late String mobileNo;
 
   final List trackerTemp = [
-    {
-      'name': 'SR',
-      'image': AppImages.userSearch,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'sr'
-    },
+    // {
+    //   'name': 'SR',
+    //   'image': AppImages.userSearch,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'sr'
+    // },
     // {
     //   'name': 'Order',
     //   'image': AppImages.gift,
@@ -97,20 +97,20 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'transport'
     },
-    {
-      'name': 'View Gate Pass',
-      'image': AppImages.gatePassIcon,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'view_gate_pass'
-    },
-    {
-      'name': 'Create Gate Pass',
-      'image': AppImages.gatePassIcon,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'create_gate_pass'
-    },
+    // {
+    //   'name': 'View Gate Pass',
+    //   'image': AppImages.gatePassIcon,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'view_gate_pass'
+    // },
+    // {
+    //   'name': 'Create Gate Pass',
+    //   'image': AppImages.gatePassIcon,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'create_gate_pass'
+    // },
   ];
 
   final List progress = [

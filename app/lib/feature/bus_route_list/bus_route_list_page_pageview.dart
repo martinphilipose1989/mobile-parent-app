@@ -236,7 +236,7 @@ class BusRouteListPageView
             return StudentDetailsRowWidget(
                 name: data?.firstName,
                 desc: "Regular Student",
-                status: data?.attendanceList?.isNotEmpty ?? true
+                status: data?.attendanceList?.isNotEmpty==true
                     ? data?.attendanceList?.first.attendanceRemark
                     : '',
                 lname: data?.lastName,

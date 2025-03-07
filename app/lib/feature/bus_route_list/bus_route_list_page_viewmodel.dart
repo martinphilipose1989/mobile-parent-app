@@ -9,6 +9,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -91,8 +92,12 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
+          // academicYearId: 25,
+          attendanceStartDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
             studentId: dashBoardState.selectedStudent?.id,
             attendanceType: int.parse(trip?.routeType == '1' ? "5" : "6"));
+
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,

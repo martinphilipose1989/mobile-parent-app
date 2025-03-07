@@ -29,8 +29,8 @@ abstract class NetworkPort {
       {required CreateIntimationUseCaseParams params});
 
   Future<Either<NetworkError, AttendanceDetailsResponseModel>>
-      getAttendancedetail(
-          {required AttendanceDetailsRequestModel attendanceRequestModel});
+  getAttendancedetail(
+      {required AttendanceDetailsRequestModel attendanceRequestModel});
 
   Future<Either<NetworkError, CoReasonsListResponseModel>> getCoReasons();
 
@@ -44,35 +44,35 @@ abstract class NetworkPort {
       {required int studentId, int? academicYearID, DateTime? time});
 
   Future<Either<NetworkError, GetGuardianStudentDetailsModel>>
-      getGuardianStudentDetails({required int mobileNo});
+  getGuardianStudentDetails({required int mobileNo});
   Future<Either<NetworkError, SendTokenResponseModel>>
- sendToken({required int? userId,required SendTokenRequestEntity sendTokenRequestEntity });
+  sendToken({required int? userId,required SendTokenRequestEntity sendTokenRequestEntity });
 
   Future<Either<NetworkError, TripResponse>> getMyDutyList(
       {required int page,
-      required int dayId,
-      required int studentId,
-      required String app});
+        required int dayId,
+        required int studentId,
+        required String app});
 
   Future<Either<NetworkError, BusStopResponseModel>> getBusStopsList(
       {required String routeId, required int dayId, required String app});
 
   Future<Either<NetworkError, GetPendingFeesModel>> getPendingFees(
       {required String type,
-      required List students,
-      required List<int> academicYear,
-      required int applicableTo,
-      int? entityId,
-      int? brandId});
+        required List students,
+        required List<int> academicYear,
+        required int applicableTo,
+        int? entityId,
+        int? brandId});
 
   Future<Either<NetworkError, SchoolNamesModel>> getSchoolNames(
       {required List studentIds, required List<int> academicYearIds});
 
   Future<Either<NetworkError, EnquiryListModel>> getEnquiryList(
       {required String phone,
-      required int pageNumber,
-      int pageSize = 10,
-      required String status});
+        required int pageNumber,
+        int pageSize = 10,
+        required String status});
 
   Future<Either<NetworkError, EnquiryDetailBase>> getEnquiryDetail(
       {required String enquiryID});
@@ -94,7 +94,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, NewAdmissionBase>> updateNewAdmissionDetail(
       {required String enquiryID,
-      required NewAdmissionDetailEntity newAdmissionDetail});
+        required NewAdmissionDetailEntity newAdmissionDetail});
 
   Future<Either<NetworkError, IVTBase>> updateIvtDetail(
       {required String enquiryID, required IvtDetailResponseEntity ivtDetails});
@@ -110,11 +110,11 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, SingleResponse>> updateContactDetails(
       {required String enquiryID,
-      required ContactDetailsEntity contactDetails});
+        required ContactDetailsEntity contactDetails});
 
   Future<Either<NetworkError, SingleResponse>> updateMedicalDetails(
       {required String enquiryID,
-      required MedicalDetailsEntity medicalDetails});
+        required MedicalDetailsEntity medicalDetails});
 
   Future<Either<NetworkError, SingleResponse>> updateBankDetails(
       {required String enquiryID, required BankDetailsEntity bankDetails});
@@ -127,59 +127,59 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, SchoolVisitDetailBase>> createSchoolVisit(
       {required String enquiryID,
-      required SchoolCreationRequest schoolCreationRequest});
+        required SchoolCreationRequest schoolCreationRequest});
 
   Future<Either<NetworkError, SchoolVisitDetailBase>> rescheduleSchoolVisit(
       {required String enquiryID,
-      required RescheduleSchoolVisitRequest schoolCreationRequest});
+        required RescheduleSchoolVisitRequest schoolCreationRequest});
 
   Future<Either<NetworkError, SchoolVisitDetailBase>> cancelSchoolVisit(
       {required String enquiryID,
-      required SchoolVisitCancelRequest cancelSchoolRequest});
+        required SchoolVisitCancelRequest cancelSchoolRequest});
 
   Future<Either<NetworkError, AdmissionListBaseModel>> getAdmissionList(
       {required String phone,
-      required int pageNumber,
-      int pageSize = 10,
-      required String status});
+        required int pageNumber,
+        int pageSize = 10,
+        required String status});
 
   Future<Either<NetworkError, Slots>> getCompetencyTestSlots(
       {required String enquiryID, required date});
 
   Future<Either<NetworkError, CompetencyTestDetailBase>>
-      getCompetencyTestDetail({
+  getCompetencyTestDetail({
     required String enquiryID,
   });
 
   Future<Either<NetworkError, CompetencyTestDetailBase>> createCompetencyTest(
       {required String enquiryID,
-      required CompetencyTestCreationRequest competencyTestCreationRequest});
+        required CompetencyTestCreationRequest competencyTestCreationRequest});
 
   Future<Either<NetworkError, CompetencyTestDetailBase>>
-      rescheduleCompetencyTest(
-          {required String enquiryID,
-          required CompetencyTestRescheduleRequest
-              competencyTestCreationRequest});
+  rescheduleCompetencyTest(
+      {required String enquiryID,
+        required CompetencyTestRescheduleRequest
+        competencyTestCreationRequest});
 
   Future<Either<NetworkError, CompetencyTestDetailBase>> cancelCompetencyTest(
       {required String enquiryID,
-      required CancelCompetencyTestRequest cancelCompetencyTestRequest});
+        required CancelCompetencyTestRequest cancelCompetencyTestRequest});
 
   Future<Either<NetworkError, EnquiryFileUploadBase>> uploadEnquiryDocument(
       {required String enquiryID,
-      required String documentID,
-      required File file});
+        required String documentID,
+        required File file});
 
   Future<Either<NetworkError, DownloadEnquiryFileBase>> downloadEnquiryDocument(
       {required String enquiryID,
-      required String documentID,
-      required String download});
+        required String documentID,
+        required String download});
 
   Future<Either<NetworkError, DeleteEnquiryFileBase>> deleteEnquiryDocument(
       {required String enquiryID,
-      required String documentID,
-      required String delete,
-      required String verify});
+        required String documentID,
+        required String delete,
+        required String verify});
 
   Future<Either<NetworkError, MdmAttributeBaseModel>> getMdmAttribute(
       {required String infoType, int? id});
@@ -195,7 +195,7 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, SubjectDetailResponse>> selectOptionalSubject(
       {required List<SubjectSelectionRequest> subjectSelectionRequest,
-      required String enquiryID});
+        required String enquiryID});
 
   Future<Either<NetworkError, VasOptionResponse>> addVASOption(
       {required String enquiryID, required VasOptionRequest vasOptionRequest});
@@ -205,37 +205,37 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, TokenIntrospectionResponse>> getTokenResponse(
       {required String token,
-      required String clientId,
-      required String clientSecret});
+        required String clientId,
+        required String clientSecret});
 
   Future<Either<NetworkError, SubjectListResponse>> getSubjectList(
       {required SubjectListingRequest subjectListingRequest});
 
   Future<Either<NetworkError, PsaEnrollmentDetailResponseModel>>
-      getPsaEnrollmentDetail({required VasDetailRequest vasDetailRequest});
+  getPsaEnrollmentDetail({required VasDetailRequest vasDetailRequest});
 
   Future<Either<NetworkError, CafeteriaEnrollmentResponseModel>>
-      getCafeteriaEnrollmentDetail(
-          {required VasDetailRequest vasDetailRequest});
+  getCafeteriaEnrollmentDetail(
+      {required VasDetailRequest vasDetailRequest});
 
   Future<Either<NetworkError, SummerCampEnrollmentResponseModel>>
-      getSummerCampEnrollmentDetail(
-          {required VasDetailRequest vasDetailRequest});
+  getSummerCampEnrollmentDetail(
+      {required VasDetailRequest vasDetailRequest});
 
   Future<Either<NetworkError, KidsClubEnrollmentResponseModel>>
-      getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest});
+  getKidsClubEnrollmentDetail({required VasDetailRequest vasDetailRequest});
 
   Future<Either<NetworkError, TransportEnrollmentResponseModel>>
-      getTransportEnrollmentDetail(
-          {required VasDetailRequest vasDetailRequest});
+  getTransportEnrollmentDetail(
+      {required VasDetailRequest vasDetailRequest});
 
   Future<Either<NetworkError, VasOptionResponse>> calculateFees(
       {required VasEnrollmentFeeCalculationRequest feeCalculationRequest});
 
   Future<Either<NetworkError, VasOptionResponse>> addVasDeatil(
       {required String enquiryID,
-      required String type,
-      required VasEnrollmentRequest vasEnrollmentRequest});
+        required String type,
+        required VasEnrollmentRequest vasEnrollmentRequest});
 
   Future<Either<NetworkError, VasOptionResponse>> removeVasDeatil(
       {required String enquiryID, required String type});
@@ -250,8 +250,8 @@ abstract class NetworkPort {
       {required int id});
 
   Future<Either<NetworkError, GetTransactiontypefeesCollectedModel>>
-      getTransactionTypeFeesCollected(
-          {required List<int> students, required List<int> academicYear});
+  getTransactionTypeFeesCollected(
+      {required List<int> students, required List<int> academicYear});
 
   Future<Either<NetworkError, GetPaymentOrderResponseModel>> getPaymentOrder(
       {required PaymentOrderModel paymentOrderModel});
@@ -264,11 +264,11 @@ abstract class NetworkPort {
 
   Future<Either<NetworkError, FetchCouponsListModel>> getCoupons(
       {required String studentId,
-      required String feeTypeIds,
-      required String feeCategoryIds,
-      required String feeSubCategoryIds,
-      required String academicYrsId,
-      required String feeSubTypeIds});
+        required String feeTypeIds,
+        required String feeCategoryIds,
+        required String feeSubCategoryIds,
+        required String academicYrsId,
+        required String feeSubTypeIds});
 
   Future<Either<NetworkError, CommunicationListModel>> getTicketsList(
       {required int pageSize, required int page});
@@ -279,8 +279,8 @@ abstract class NetworkPort {
   Future<Either<NetworkError, CreateCommunicationModel>> createCommunication();
 
   Future<Either<NetworkError, FindByCategorySubCategoryModel>>
-      findByCategorySubCategory(
-          {required int categoryId, required int subCategoryId});
+  findByCategorySubCategory(
+      {required int categoryId, required int subCategoryId});
 
   Future<Either<NetworkError, GetCommunicationDetails>> createCommunicationLog(
       {required String communocationId});
@@ -295,27 +295,27 @@ abstract class NetworkPort {
       {required int id});
 
   Future<Either<NetworkError, UserRolePermissionResponse>>
-      getUserRolePermissions({required UserRolePermissionRequest request});
+  getUserRolePermissions({required UserRolePermissionRequest request});
 
   Future<Either<NetworkError, UploadFileResponseModel>> uploadProfileImage(
       {required UploadVisitorProfileUsecaseParams params});
 
   Future<Either<NetworkError, CreateGatepassResponseModel>>
-      createVisitorGatePass({required CreateGatePassModel request});
+  createVisitorGatePass({required CreateGatePassModel request});
 
   Future<Either<NetworkError, MdmCoReasonResponseModel>>
-      getPurposeOfVisitList();
+  getPurposeOfVisitList();
 
   Future<Either<NetworkError, VisitorDetailsResponseModel>> getVisitorDetails(
       {required GetVisitorDetailsUseCaseParams params});
 
   Future<Either<NetworkError, MoveToNextStageEnquiryResponse>>
-      moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
+  moveToNextStageEnquiry({required String enquiryId, String? enquiryStage});
 
   Future<Either<NetworkError, BrandResponse>> getBrandList();
 
   Future<Either<NetworkError, AdmissionVasDetailsResponse>>
-      getAdmissionVasDetails({required String enquiryId});
+  getAdmissionVasDetails({required String enquiryId});
   Future<Either<NetworkError, GetStudentProfileResponse>> getStudentProfile(
       {required GetStudentProfileUsecaseParams params});
 
@@ -326,7 +326,7 @@ abstract class NetworkPort {
       {required GetStaffListUseCaseParams params});
 
   Future<Either<NetworkError, UploadIntimationFileResponseModel>>
-      uploadIntimationFile({required int documentID, required File file});
+  uploadIntimationFile({required int documentID, required File file});
 
   Future<Either<NetworkError, dynamic>> cancelPaymentRequest(
       {required String paymentGateway, required String orderId});
@@ -356,7 +356,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
       {
         required int studentId,
-      required String platform});
+        required String platform});
 
   Future<Either<NetworkError, UploadFileResponseModel>> uploadBearerImage({
     required File file,

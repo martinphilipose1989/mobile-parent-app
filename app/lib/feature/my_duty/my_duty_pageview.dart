@@ -119,12 +119,14 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
                                           return model.refreshMyDutyList();
                                         },
                                         child: ListView.builder(
+                                          shrinkWrap: true,
                                           itemCount: itemCount,
                                           itemBuilder: (context, index) {
                                             if (index <
                                                 (tripData?.data?.length ?? 0)) {
+                                              print("hurrrayyyyyy");
                                               print(tripData?.data?[index].schoolId);
-                                              return data == "completed trips"
+                                              return   data == "completed trips"
                                                   ? CompletedTripListTile(
                                                       trip: tripData!
                                                           .data![index],
