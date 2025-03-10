@@ -1,9 +1,15 @@
 class GetStudentAttendance {
   int? status;
-  StudentAttendanceDetails? data;
+  StudentAttendance? data;
   String? message;
 
   GetStudentAttendance({this.status, this.data, this.message});
+}
+
+class StudentAttendance{
+  List<StudentAttendanceDetails>? attendents;
+
+  StudentAttendance({this.attendents});
 }
 
 class StudentAttendanceDetails {

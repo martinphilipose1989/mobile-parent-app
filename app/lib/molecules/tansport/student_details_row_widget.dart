@@ -71,16 +71,13 @@ class StudentDetailsRowWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Visibility(
-              visible: status?.isNotEmpty ?? false,
-              child: CommonElevatedButton(
-                  width: 100,
-                  onPressed: () {},
-                  text: status ?? "Absent",
-                  textColor: AppColors.primaryOn,
-                  backgroundColor:
-                      isPresent ? AppColors.success : AppColors.failure),
-            )
+            CommonElevatedButton(
+                width: 100,
+                onPressed: () {},
+                text: status ?? "Absent",
+                textColor: AppColors.primaryOn,
+                backgroundColor:
+                    isPresent ? AppColors.success : AppColors.failure)
           ],
         ),
       ),

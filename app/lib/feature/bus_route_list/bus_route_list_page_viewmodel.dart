@@ -42,7 +42,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
           Resource.none());
 
   final studentAttendanceSubject =
-      BehaviorSubject<Resource<GetStudentAttendance>>();
+      BehaviorSubject<Resource<GetStudentAttendance>>.seeded(Resource.none());
 
   Stream<Resource<GetStudentAttendance>> get studentAttendanceStream =>
       studentAttendanceSubject.stream;
@@ -105,9 +105,10 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       createCall: (params) =>
           getStudentAttendanceUseCase.execute(params: params),
       onSuccess: (result) {
+        _loadingSubject.add(true);
         studentAttendanceSubject.add(Resource.success(data: result));
 
-        //   _loadingSubject.add(false);
+
 
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },

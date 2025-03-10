@@ -3,7 +3,7 @@ part 'attendance_details_request_entity.g.dart';
 @JsonSerializable()
 class AttendanceDetailsRequestEntity {
   @JsonKey(name: "student_id")
-  List<String>? studentId;
+  List<dynamic>? studentId;
   @JsonKey(name: "attendance_start_date")
   String? attendanceStartDate;
   @JsonKey(name: "attendance_end_date")

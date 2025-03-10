@@ -1573,11 +1573,12 @@ class NetworkAdapter implements NetworkPort {
   Future<Either<NetworkError, GetStudentAttendance>> getStudentAttendance(
       {required GetStudentAttendanceUsecaseParams params}) async {
     final response = await safeApiCall(
-      transportService.getStudentAttendance(
-        studentId: params.studentId,
-        platform: platform,
-        attendanceType: params.attendanceType,
-      ),
+      // transportService.getStudentAttendance(
+      //   studentId: params.studentId,
+      //   platform: platform,
+      //   attendanceType: params.attendanceType,
+      // ),
+      attendanceRetorfitService.getStudentAttendance(AttendanceDetailsRequestEntity(studentId: [params.studentId],attendanceStartDate: params.attendanceStartDate,attendanceEndDate: params.attendanceEndDate),'app')
     );
 
     return response.fold(

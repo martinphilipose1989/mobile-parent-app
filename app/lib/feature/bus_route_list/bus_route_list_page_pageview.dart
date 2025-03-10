@@ -224,23 +224,24 @@ class BusRouteListPageView
         initialData: Resource.none(),
         dataBuilder: (context, snapshot) {
           List<AttendanceLogDetailsResponse>? attendanceList =
-              snapshot?.data?.data?.attendanceList;
+              snapshot?.data?.data?.attendents?.first.attendanceList;
           var data = snapshot?.data?.data;
-          var studentId = snapshot?.data?.data?.studentId;
+          var studentId = snapshot?.data?.data?.attendents?.first.studentId;
           // var attendanceListItem =
           // attendanceList!.isNotEmpty ? attendanceList.first : null;
           //// attendanceList empty or null
           if (snapshot?.status == Status.loading) {
             return const CircularProgressIndicator();
           } else {
+            print("----"+'${snapshot?.data?.data?.attendents?.first.firstName}');
             return StudentDetailsRowWidget(
-                name: data?.firstName,
+                name: snapshot?.data?.data?.attendents?.first.firstName,
                 desc: "Regular Student",
-                status: data?.attendanceList?.isNotEmpty==true
-                    ? data?.attendanceList?.first.attendanceRemark
-                    : '',
-                lname: data?.lastName,
-                image: '',
+                status: attendanceList?.isNotEmpty==true
+                    ? '${attendanceList?.first.attendanceRemark?[0].toUpperCase()}${attendanceList?.first.attendanceRemark?.substring(1)}'
+                    : 'Absent',
+                lname: snapshot?.data?.data?.attendents?.first.lastName,
+                image: snapshot?.data?.data?.attendents?.first.profileImage,
                 id: studentId,
                 onPressed: () {
                   Navigator.pushNamed(
