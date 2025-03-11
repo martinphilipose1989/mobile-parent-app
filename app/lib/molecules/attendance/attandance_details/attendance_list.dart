@@ -89,7 +89,31 @@ class AttendanceList extends StatelessWidget {
                                                 6)
                                         ?  CommonText(
                                             text: Strings.of(context).bus_attendance+"(Pickup)")
-                                        : CommonText(
+                                        : (snapshot
+                                                .data
+                                                ?.data
+                                                .data
+                                                .first
+                                                .attendanceDetails?[index]
+                                                .attendanceType ==
+                                                3)
+                                            ? SizedBox(width: 200,
+                                              child: CommonText(maxLines: 2,softWrap: true,
+                                                  text: Strings.of(context).bus_attendance+"(Reached School)"),
+                                            ):
+                                            (snapshot
+                                                .data
+                                                ?.data
+                                                .data
+                                                .first
+                                                .attendanceDetails?[index]
+                                                .attendanceType ==
+                                                4)
+                                                ? SizedBox(width: 150.w,
+                                                  child: CommonText(maxLines: 2,
+                                                  text: Strings.of(context).bus_attendance+"(Pickup from School)"),
+                                                ):
+                                            CommonText(
                                             text:
                                                 //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
                                                 //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
