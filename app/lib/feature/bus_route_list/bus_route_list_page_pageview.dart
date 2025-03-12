@@ -234,30 +234,58 @@ class BusRouteListPageView
             return const CircularProgressIndicator();
           } else {
             print("----"+'${snapshot?.data?.data?.attendents?.first.firstName}');
-            AttendanceLogDetailsResponse? preferredDetail = attendanceList
-                ?.where((e) => e.attendanceType == 5)
-                .firstOrNull ??
-                attendanceList?.where((e) => e.attendanceType == 4).firstOrNull;
-            return Visibility(
-              visible: attendanceList?.any((e) => e.attendanceType == 4 || e.attendanceType == 5) ?? false,
-              child: StudentDetailsRowWidget(
-                name: snapshot?.data?.data?.attendents?.first.firstName,
-                desc: "Regular Student",
-                status: preferredDetail != null
-                    ? model.getAttendanceStatus(preferredDetail.attendanceType)
-                    : 'Absent',
-                lname: snapshot?.data?.data?.attendents?.first.lastName,
-                image: snapshot?.data?.data?.attendents?.first.profileImage,
-                id: studentId,
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    RoutePaths.studentProfilePage,
-                    arguments: studentId,
-                  );
-                },
-              ),
+            AttendanceLogDetailsResponse? preferredDetail;
+
+            if (model.trip?.routeType == "1") {
+              preferredDetail = attendanceList
+                  ?.where((e) => e.attendanceType == 5)
+                  .firstOrNull ??
+                  attendanceList?.where((e) => e.attendanceType == 4).firstOrNull;
+            } else if (model.trip?.routeType == "2") {
+              preferredDetail = attendanceList
+                  ?.where((e) => e.attendanceType == 3)
+                  .firstOrNull ??
+                  attendanceList?.where((e) => e.attendanceType == 6).firstOrNull;
+            }
+
+            return StudentDetailsRowWidget(
+              name: snapshot?.data?.data?.attendents?.first.firstName,
+              desc: model.getAttendanceStatus(preferredDetail?.attendanceType),
+              status: preferredDetail != null
+                  ? preferredDetail.attendanceRemark
+                  : 'Absent',  // This only shows if `preferredDetail` is null
+              lname: snapshot?.data?.data?.attendents?.first.lastName,
+              image: snapshot?.data?.data?.attendents?.first.profileImage,
+              id: studentId,
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  RoutePaths.studentProfilePage,
+                  arguments: studentId,
+                );
+              },
             );
+        //second start  //   AttendanceLogDetailsResponse? preferredDetail = attendanceList
+          //       ?.where((e) => e.attendanceType == 5)
+          //       .firstOrNull ??
+          //       attendanceList?.where((e) => e.attendanceType == 4).firstOrNull;
+          //   return StudentDetailsRowWidget(
+          //     name: snapshot?.data?.data?.attendents?.first.firstName,
+          //     desc: "Regular Student",
+          //     status: preferredDetail != null
+          //         ? model.getAttendanceStatus(preferredDetail.attendanceType)
+          //         : 'Absent',
+          // lname: snapshot?.data?.data?.attendents?.first.lastName,
+          //     image: snapshot?.data?.data?.attendents?.first.profileImage,
+          //     id: studentId,
+          //     onPressed: () {
+          //       Navigator.pushNamed(
+          //         context,
+          //         RoutePaths.studentProfilePage,
+          //         arguments: studentId,
+          //       );
+          //     },
+          //   );//second end
             // return Visibility(visible: attendanceList?.map((e)=>e.attendanceType)==4||attendanceList?.map((e)=>e.attendanceType)==5,
             //   child: StudentDetailsRowWidget(
             //       name: snapshot?.data?.data?.attendents?.first.firstName,

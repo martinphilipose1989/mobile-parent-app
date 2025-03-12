@@ -171,19 +171,33 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   int? updatedRouteIndex;
   bool busLogsEmpty = true;
-
-  // RouteStopMappingModel? currentStop;
-  // RouteStopMappingModel? nextStop;
   String getAttendanceStatus(int? attendanceType) {
     switch (attendanceType) {
+      case 3:
+        return "Reached School";
       case 4:
         return "Picked from school";
       case 5:
         return "Dropped";
+      case 6:
+        return "Pickup";
       default:
         return "Absent";
     }
   }
+
+  // RouteStopMappingModel? currentStop;
+  // RouteStopMappingModel? nextStop;
+  // String getAttendanceStatus(int? attendanceType) {
+  //   switch (attendanceType) {
+  //     case 4:
+  //       return "Picked from school";
+  //     case 5:
+  //       return "Dropped";
+  //     default:
+  //       return "Absent";
+  //   }
+  // }
   void updatRoute(List<RouteStopMappingModel> a) {
     // a.sort(
     //   (a, b) => a.stop!.orderBy!.compareTo(b.stop!.orderBy!),
