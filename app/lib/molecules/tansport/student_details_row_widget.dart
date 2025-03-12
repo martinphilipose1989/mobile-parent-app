@@ -71,13 +71,16 @@ class StudentDetailsRowWidget extends StatelessWidget {
                 ),
               ],
             ),
-            CommonElevatedButton(
-                width: 100,
-                onPressed: () {},
-                text: status ?? "Absent",
-                textColor: AppColors.primaryOn,
-                backgroundColor:
-                    isPresent ? AppColors.success : AppColors.failure)
+            SizedBox(width: 10.w,),
+            Expanded(
+              child: CommonElevatedButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {},
+                  text: status ?? "Absent",
+                  textColor: AppColors.primaryOn,
+                  backgroundColor:
+                      isPresent ? AppColors.success : AppColors.failure),
+            )
           ],
         ),
       ),

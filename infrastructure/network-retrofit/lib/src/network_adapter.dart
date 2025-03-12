@@ -1378,7 +1378,7 @@ class NetworkAdapter implements NetworkPort {
     var response = await safeApiCall(attendanceRetorfitService
         .getattendanceDetail(AttendanceDetailsRequestEntity(
 
-
+attendanceType: [],
         studentId: attendanceRequestModel.studentId,
         attendanceStartDate: attendanceRequestModel.attendanceEndDate,
         attendanceEndDate: attendanceRequestModel.attendanceStartDate),"app"));
@@ -1578,7 +1578,7 @@ class NetworkAdapter implements NetworkPort {
       //   platform: platform,
       //   attendanceType: params.attendanceType,
       // ),
-      attendanceRetorfitService.getStudentAttendance(AttendanceDetailsRequestEntity(studentId: [params.studentId],attendanceStartDate: params.attendanceStartDate,attendanceEndDate: params.attendanceEndDate),'app')
+      attendanceRetorfitService.getStudentAttendance(AttendanceDetailsRequestEntity(studentId: [params.studentId],attendanceStartDate: params.attendanceStartDate,attendanceEndDate: params.attendanceEndDate,attendanceType: params.attendanceType),'app')
     );
 
     return response.fold(

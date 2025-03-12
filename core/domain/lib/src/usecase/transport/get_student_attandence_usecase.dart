@@ -16,7 +16,7 @@ class GetStudentAttendanceUseCase extends BaseUseCase<NetworkError,
 
 class GetStudentAttendanceUsecaseParams extends Params {
   final int studentId;
-  final int? attendanceType;
+  final List<int>? attendanceType;
   String? attendanceStartDate;
   String? attendanceEndDate;
   int? academicYearId;

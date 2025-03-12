@@ -93,11 +93,17 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
           // academicYearId: 25,
+
           attendanceStartDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
           attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
             studentId: dashBoardState.selectedStudent?.id,
-            attendanceType: int.parse(trip?.routeType == '1' ? "5" : "6"));
+          //  attendanceType: [int.parse(trip?.routeType == '1' ? "4" : "6")]
+         attendanceType: []
 
+        );
+    print("attendance type-----------");
+    print(getStudentAttendanceUsecaseParams.attendanceType);
+//int.parse(trip?.routeType == '1' ? "4" : "6")
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -168,7 +174,16 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   // RouteStopMappingModel? currentStop;
   // RouteStopMappingModel? nextStop;
-
+  String getAttendanceStatus(int? attendanceType) {
+    switch (attendanceType) {
+      case 4:
+        return "Picked from school";
+      case 5:
+        return "Dropped";
+      default:
+        return "Absent";
+    }
+  }
   void updatRoute(List<RouteStopMappingModel> a) {
     // a.sort(
     //   (a, b) => a.stop!.orderBy!.compareTo(b.stop!.orderBy!),

@@ -68,7 +68,7 @@ class IntimationDetails {
 class AttendanceLogDetailsResponse {
   int? id;
   int? attendanceId;
-  dynamic attendanceType;
+  int? attendanceType;
   dynamic subjectId;
   dynamic timetableId;
   int? globalStudentId;

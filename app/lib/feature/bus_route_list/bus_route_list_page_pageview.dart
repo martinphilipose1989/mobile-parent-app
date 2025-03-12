@@ -234,11 +234,17 @@ class BusRouteListPageView
             return const CircularProgressIndicator();
           } else {
             print("----"+'${snapshot?.data?.data?.attendents?.first.firstName}');
-            return StudentDetailsRowWidget(
+            AttendanceLogDetailsResponse? preferredDetail = attendanceList
+                ?.where((e) => e.attendanceType == 5)
+                .firstOrNull ??
+                attendanceList?.where((e) => e.attendanceType == 4).firstOrNull;
+            return Visibility(
+              visible: attendanceList?.any((e) => e.attendanceType == 4 || e.attendanceType == 5) ?? false,
+              child: StudentDetailsRowWidget(
                 name: snapshot?.data?.data?.attendents?.first.firstName,
                 desc: "Regular Student",
-                status: attendanceList?.isNotEmpty==true
-                    ? '${attendanceList?.first.attendanceRemark?[0].toUpperCase()}${attendanceList?.first.attendanceRemark?.substring(1)}'
+                status: preferredDetail != null
+                    ? model.getAttendanceStatus(preferredDetail.attendanceType)
                     : 'Absent',
                 lname: snapshot?.data?.data?.attendents?.first.lastName,
                 image: snapshot?.data?.data?.attendents?.first.profileImage,
@@ -249,7 +255,27 @@ class BusRouteListPageView
                     RoutePaths.studentProfilePage,
                     arguments: studentId,
                   );
-                });
+                },
+              ),
+            );
+            // return Visibility(visible: attendanceList?.map((e)=>e.attendanceType)==4||attendanceList?.map((e)=>e.attendanceType)==5,
+            //   child: StudentDetailsRowWidget(
+            //       name: snapshot?.data?.data?.attendents?.first.firstName,
+            //       desc: "Regular Student",
+            //       status: attendanceList?.isNotEmpty==true
+            //           ? model.getAttendanceStatus(attendanceList?.map((e)=>e.attendanceType) as int)
+            //           : 'Absent',
+            //       lname: snapshot?.data?.data?.attendents?.first.lastName,
+            //       image: snapshot?.data?.data?.attendents?.first.profileImage,
+            //       id: studentId,
+            //       onPressed: () {
+            //         Navigator.pushNamed(
+            //           context,
+            //           RoutePaths.studentProfilePage,
+            //           arguments: studentId,
+            //         );
+            //       }),
+            // );
           }
         });
   }

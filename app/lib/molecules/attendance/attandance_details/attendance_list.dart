@@ -88,7 +88,7 @@ class AttendanceList extends StatelessWidget {
                                                     .attendanceType ==
                                                 6)
                                         ?  CommonText(
-                                            text: Strings.of(context).bus_attendance+"(Pickup)")
+                                            text: Strings.of(context).bus_attendance+"(Pickup from stop)")
                                         : (snapshot
                                                 .data
                                                 ?.data
