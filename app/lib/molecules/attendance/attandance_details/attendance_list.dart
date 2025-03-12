@@ -87,8 +87,8 @@ class AttendanceList extends StatelessWidget {
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
                                                 6)
-                                        ?  SizedBox(width: 200,
-                                          child: CommonText(maxLines: 2,softWrap: true,
+                                        ?  SizedBox(width: 200.w,
+                                          child: CommonText(maxLines: 3,softWrap: true,
                                               text: Strings.of(context).bus_attendance+"(Pickup from stop)"),
                                         )
                                         : (snapshot
@@ -99,8 +99,8 @@ class AttendanceList extends StatelessWidget {
                                                 .attendanceDetails?[index]
                                                 .attendanceType ==
                                                 3)
-                                            ? SizedBox(width: 200,
-                                              child: CommonText(maxLines: 2,softWrap: true,
+                                            ? SizedBox(width: 200.w,
+                                              child: CommonText(maxLines: 3,softWrap: true,
                                                   text: Strings.of(context).bus_attendance+"(Reached School)"),
                                             ):
                                             (snapshot
@@ -112,7 +112,7 @@ class AttendanceList extends StatelessWidget {
                                                 .attendanceType ==
                                                 4)
                                                 ? SizedBox(width: 150.w,
-                                                  child: CommonText(maxLines: 2,
+                                                  child: CommonText(maxLines: 3,
                                                   text: Strings.of(context).bus_attendance+"(Pickup from School)"),
                                                 ):
                                             CommonText(
@@ -134,8 +134,7 @@ class AttendanceList extends StatelessWidget {
                                                       .attendanceDetails?[index]
                                                       .attendanceRemark?[0]
                                                       .toUpperCase()
-                                                } '
-                                           '${
+                                                }''${
                                                       snapshot
                                                           .data
                                                           ?.data

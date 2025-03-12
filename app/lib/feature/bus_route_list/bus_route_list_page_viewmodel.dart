@@ -171,6 +171,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   int? updatedRouteIndex;
   bool busLogsEmpty = true;
+
   String getAttendanceStatus(int? attendanceType) {
     switch (attendanceType) {
       case 3:
@@ -180,12 +181,11 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       case 5:
         return "Dropped";
       case 6:
-        return "Pickup";
+        return "Pickup from Stop";
       default:
         return "Absent";
     }
   }
-
   // RouteStopMappingModel? currentStop;
   // RouteStopMappingModel? nextStop;
   // String getAttendanceStatus(int? attendanceType) {
