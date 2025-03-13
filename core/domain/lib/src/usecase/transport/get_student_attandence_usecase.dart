@@ -16,9 +16,15 @@ class GetStudentAttendanceUseCase extends BaseUseCase<NetworkError,
 
 class GetStudentAttendanceUsecaseParams extends Params {
   final int studentId;
-  final int? attendanceType;
+  final List<int>? attendanceType;
+  String? attendanceStartDate;
+  String? attendanceEndDate;
+  int? academicYearId;
+  int? pageSize;
+  int? page;
 
-  GetStudentAttendanceUsecaseParams( {super.reloading, required this.studentId, this.attendanceType,});
+  GetStudentAttendanceUsecaseParams( {super.reloading, required this.studentId,   this.pageSize,
+    this.page,this.attendanceType,this.academicYearId,this.attendanceStartDate,this.attendanceEndDate});
 
   @override
   Either<AppError, bool> verify() {

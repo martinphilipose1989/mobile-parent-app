@@ -299,7 +299,7 @@ class _DisciplinarySlipListItemState extends State<DisciplinarySlipListItem> {
 String dateFormatToDDMMYYYhhmma(String time) {
   try {
     DateTime dateTime = DateTime.parse(time);
-    return DateFormat('dd/MM/yyyy  hh:mma').format(dateTime);
+    return DateFormat('dd/MM/yyyy').format(dateTime);
   } catch (e) {
     return '';
   }

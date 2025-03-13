@@ -11,7 +11,7 @@ class StudentAttendanceResponseEntity
   @JsonKey(name: "status")
   int? status;
   @JsonKey(name: "data")
-  StudentAttendanceDetailsEntity? data;
+  StudentDataEntity? data;
   @JsonKey(name: "message")
   String? message;
 
@@ -37,7 +37,34 @@ class StudentAttendanceResponseEntity
     );
   }
 }
+@JsonSerializable()
+class StudentDataEntity
+    implements
+        BaseLayerDataTransformer<StudentDataEntity,
+            StudentAttendance> {
 
+  @JsonKey(name: "data")
+  List<StudentAttendanceDetailsEntity>? data;
+
+  StudentDataEntity({this.data});
+
+  factory StudentDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$StudentDataEntityFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$StudentDataEntityToJson(this);
+
+  @override
+  StudentDataEntity restore(StudentAttendance data) {
+    return StudentDataEntity(); }
+
+  @override
+  StudentAttendance transform() {
+    return StudentAttendance(
+       attendents: data?.map((e)=>e.transform()).toList()
+    );
+  }
+}
 @JsonSerializable()
 class StudentAttendanceDetailsEntity
     implements
@@ -51,7 +78,7 @@ class StudentAttendanceDetailsEntity
   String? middleName;
   @JsonKey(name: "last_name")
   String? lastName;
-  @JsonKey(name: "profile_image")
+  @JsonKey(name: "profile_image_url")
   String? profileImage;
   @JsonKey(name: "crt_enr_on")
   String? crtEnrOn;
@@ -91,13 +118,14 @@ class StudentAttendanceDetailsEntity
   Map<String, dynamic> toJson() => _$StudentAttendanceDetailsEntityToJson(this);
 
   @override
-  StudentAttendanceDetailsEntity restore(StudentAttendanceDetails data) {
+  StudentAttendanceDetailsEntity restore( StudentAttendanceDetails data) {
     return StudentAttendanceDetailsEntity();
   }
 
   @override
   StudentAttendanceDetails transform() {
     return StudentAttendanceDetails(
+
       crtEnrOn: crtEnrOn,
       firstName: firstName,
       studentId: studentId,

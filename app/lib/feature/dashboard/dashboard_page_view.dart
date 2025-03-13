@@ -52,35 +52,35 @@ class DashboardPageView extends BasePageViewWidget<DashboardPageModel> {
                 );
               }),
           CommonSizedBox.sizedBox(height: 15, width: 10),
-          // AppStreamBuilder<Resource<bool>>(
-          //     stream: model.loadAdmissionMenus,
-          //     initialData: Resource.none(),
-          //     dataBuilder: (context, value) {
-          //       if (model.trackerTemp
-          //           .where((tracker) => tracker['isActive'] == true)
-          //           .isNotEmpty) {
-          //         return Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             title('Tracker'),
-          //             CommonSizedBox.sizedBox(height: 10, width: 10),
-          //             chipsList(
-          //                 context,
-          //                 model.trackerTemp
-          //                     .where((e) => e['isActive'] == true)
-          //                     .map((track) => Chips(
-          //                           name: track['name'],
-          //                           image: track['image'],
-          //                           isSelected: track['isSelected'],
-          //                         ))
-          //                     .toList(),
-          //                 model)
-          //           ],
-          //         );
-          //       }
-          //       return const SizedBox.shrink();
-          //     }),
-   title('Child Progreess/Academics'),
+          AppStreamBuilder<Resource<bool>>(
+              stream: model.loadAdmissionMenus,
+              initialData: Resource.none(),
+              dataBuilder: (context, value) {
+                if (model.trackerTemp
+                    .where((tracker) => tracker['isActive'] == true)
+                    .isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title('Tracker'),
+                      CommonSizedBox.sizedBox(height: 10, width: 10),
+                      chipsList(
+                          context,
+                          model.trackerTemp
+                              .where((e) => e['isActive'] == true)
+                              .map((track) => Chips(
+                                    name: track['name'],
+                                    image: track['image'],
+                                    isSelected: track['isSelected'],
+                                  ))
+                              .toList(),
+                          model)
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
+  // title('Child Progreess/Academics'),
           AppStreamBuilder<Resource<bool>>(
               stream: model.loadAdmissionMenus,
               initialData: Resource.none(),

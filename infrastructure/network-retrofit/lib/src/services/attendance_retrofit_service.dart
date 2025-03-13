@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/transport/create_intimation_request_entity.dart';
 import 'package:network_retrofit/src/model/response/transport/upload_intimation_file_response_entity.dart';
@@ -11,6 +12,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../model/response/attendance/attendance_details_response_entity.dart';
 import '../model/response/transport/create_intimation_response_entity.dart';
+import '../model/response/transport/student_attendance_response_entity.dart';
 
 part 'attendance_retrofit_service.g.dart';
 
@@ -29,7 +31,14 @@ abstract class AttendanceRetorfitService {
 
   @POST("academics/attendance/get-transport-attendance-list")
   Future<HttpResponse<AttendanceDetailsResponseEntity>> getattendanceDetail(
-      @Body() AttendanceDetailsRequestEntity attendanceDetailsResponeEntity);
+      @Body() AttendanceDetailsRequestEntity attendanceDetailsResponeEntity,
+      @Query('platform') String app
+      );
+  @POST("academics/attendance/get-transport-attendance-list")
+  Future<HttpResponse<StudentAttendanceResponseEntity>> getStudentAttendance(
+      @Body() AttendanceDetailsRequestEntity studentEntity,
+      @Query('platform') String app
+      );
 
   @POST('academics/intimation/create')
   Future<HttpResponse<CreateIntimationResponseEntity>> createIntimation(

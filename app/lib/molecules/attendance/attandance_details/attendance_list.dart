@@ -77,7 +77,8 @@ class AttendanceList extends StatelessWidget {
                                                     .first
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
-                                                5) ||
+                                                5) ? CommonText(
+                                        text: Strings.of(context).bus_attendance+"(Drop)"):
                                             (snapshot
                                                     .data
                                                     ?.data
@@ -86,9 +87,35 @@ class AttendanceList extends StatelessWidget {
                                                     .attendanceDetails?[index]
                                                     .attendanceType ==
                                                 6)
-                                        ?  CommonText(
-                                            text: Strings.of(context).bus_attendance)
-                                        : CommonText(
+                                        ?  SizedBox(width: 200.w,
+                                          child: CommonText(maxLines: 3,softWrap: true,
+                                              text: Strings.of(context).bus_attendance+"(Pickup from stop)"),
+                                        )
+                                        : (snapshot
+                                                .data
+                                                ?.data
+                                                .data
+                                                .first
+                                                .attendanceDetails?[index]
+                                                .attendanceType ==
+                                                3)
+                                            ? SizedBox(width: 200.w,
+                                              child: CommonText(maxLines: 3,softWrap: true,
+                                                  text: Strings.of(context).bus_attendance+"(Reached School)"),
+                                            ):
+                                            (snapshot
+                                                .data
+                                                ?.data
+                                                .data
+                                                .first
+                                                .attendanceDetails?[index]
+                                                .attendanceType ==
+                                                4)
+                                                ? SizedBox(width: 150.w,
+                                                  child: CommonText(maxLines: 3,
+                                                  text: Strings.of(context).bus_attendance+"(Pickup from School)"),
+                                                ):
+                                            CommonText(
                                             text:
                                                 //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
                                                 //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
@@ -98,14 +125,27 @@ class AttendanceList extends StatelessWidget {
                                                 .toString();
                                           }).join(", ")}"),
                                     CommonText(
-                                        text: snapshot
-                                                .data
-                                                ?.data
-                                                .data
-                                                .first
-                                                .attendanceDetails?[index]
-                                                .attendanceRemark ??
-                                            "",
+                                        text: '${
+                                                 snapshot
+                                                      .data
+                                                      ?.data
+                                                      .data
+                                                      .first
+                                                      .attendanceDetails?[index]
+                                                      .attendanceRemark?[0]
+                                                      .toUpperCase()
+                                                }''${
+                                                      snapshot
+                                                          .data
+                                                          ?.data
+                                                          .data
+                                                          .first
+                                                          .attendanceDetails?[
+                                                              index]
+                                                          .attendanceRemark?.substring(1)
+
+                                                    }'
+                                            ,
                                         style: AppTypography.caption
                                             .copyWith(color: AppColors.success))
                                   ],

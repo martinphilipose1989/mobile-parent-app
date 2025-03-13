@@ -9,6 +9,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -41,7 +42,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
           Resource.none());
 
   final studentAttendanceSubject =
-      BehaviorSubject<Resource<GetStudentAttendance>>();
+      BehaviorSubject<Resource<GetStudentAttendance>>.seeded(Resource.none());
 
   Stream<Resource<GetStudentAttendance>> get studentAttendanceStream =>
       studentAttendanceSubject.stream;
@@ -91,8 +92,18 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
+          // academicYearId: 25,
+
+          attendanceStartDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
             studentId: dashBoardState.selectedStudent?.id,
-            attendanceType: int.parse(trip?.routeType == '1' ? "5" : "6"));
+          //  attendanceType: [int.parse(trip?.routeType == '1' ? "4" : "6")]
+         attendanceType: []
+
+        );
+    print("attendance type-----------");
+    print(getStudentAttendanceUsecaseParams.attendanceType);
+//int.parse(trip?.routeType == '1' ? "4" : "6")
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -100,9 +111,10 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       createCall: (params) =>
           getStudentAttendanceUseCase.execute(params: params),
       onSuccess: (result) {
+        _loadingSubject.add(true);
         studentAttendanceSubject.add(Resource.success(data: result));
 
-        //   _loadingSubject.add(false);
+
 
         // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
@@ -160,9 +172,32 @@ class BusRouteListPageViewModel extends BasePageViewModel {
   int? updatedRouteIndex;
   bool busLogsEmpty = true;
 
+  String getAttendanceStatus(int? attendanceType) {
+    switch (attendanceType) {
+      case 3:
+        return "Reached School";
+      case 4:
+        return "Picked from school";
+      case 5:
+        return "Dropped";
+      case 6:
+        return "Pickup from Stop";
+      default:
+        return "Absent";
+    }
+  }
   // RouteStopMappingModel? currentStop;
   // RouteStopMappingModel? nextStop;
-
+  // String getAttendanceStatus(int? attendanceType) {
+  //   switch (attendanceType) {
+  //     case 4:
+  //       return "Picked from school";
+  //     case 5:
+  //       return "Dropped";
+  //     default:
+  //       return "Absent";
+  //   }
+  // }
   void updatRoute(List<RouteStopMappingModel> a) {
     // a.sort(
     //   (a, b) => a.stop!.orderBy!.compareTo(b.stop!.orderBy!),

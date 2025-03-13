@@ -198,7 +198,7 @@ class TripStop {
 
   int? orderBy;
 
-  int? distanceKm;
+  dynamic? distanceKm;
 
   String? zoneName;
 

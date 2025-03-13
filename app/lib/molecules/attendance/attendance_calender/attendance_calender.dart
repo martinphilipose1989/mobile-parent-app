@@ -12,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../../themes_setup.dart';
 import '../../../utils/stream_builder/app_stream_builder.dart';
 import '../attandance_details/student_details.dart' as studeuntdetailsmolecule;
+import 'attendance_count.dart';
 
 class AttendanceCalender extends StatelessWidget {
   String? name;
@@ -69,38 +71,38 @@ class AttendanceCalender extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.h, width: double.infinity),
-                    // snapshot?.status == Status.loading
-                    //     ? const Center(child: CircularProgressIndicator())
-                    //     :
-                    //          Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceEvenly,
-                    //             children: [
-                    //               AttendanceCountTile(
-                    //                 count:
-                    //                     snapshot?.data?.data.totalDays ?? "0",
-                    //                 countType: 'Total Days',
-                    //                 textColor:
-                    //                     Theme.of(context).colorScheme.primary,
-                    //               ),
-                    //               AttendanceCountTile(
-                    //                 count:
-                    //                     snapshot?.data?.data.presentDaysCount ??
-                    //                         "0",
-                    //                 countType: 'Present Days',
-                    //                 textColor: AppColors.success,
-                    //               ),
-                    //               AttendanceCountTile(
-                    //                 count:
-                    //                     snapshot?.data?.data.absentDaysCount ??
-                    //                         "0",
-                    //                 countType: 'Absent Days',
-                    //                 textColor: AppColors.failure,
-                    //               )
-                    //             ],
-                    //           )
-                    //   ,
-                    const Text("Coming Soon!!!"),
+                    snapshot?.status == Status.loading
+                        ? const Center(child: CircularProgressIndicator())
+                        :
+                             Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  AttendanceCountTile(
+                                    count:
+                                        snapshot?.data?.data.totalDays ?? "0",
+                                    countType: 'Total Days',
+                                    textColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  AttendanceCountTile(
+                                    count:
+                                        snapshot?.data?.data.presentDaysCount ??
+                                            "0",
+                                    countType: 'Present Days',
+                                    textColor: AppColors.success,
+                                  ),
+                                  AttendanceCountTile(
+                                    count:
+                                        snapshot?.data?.data.absentDaysCount ??
+                                            "0",
+                                    countType: 'Absent Days',
+                                    textColor: AppColors.failure,
+                                  )
+                                ],
+                              )
+                      ,
+                  //  const Text("Coming Soon!!!"),
                     SizedBox(height: 10.h, width: double.infinity)
                   ],
                 );

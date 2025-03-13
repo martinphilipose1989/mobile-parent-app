@@ -98,7 +98,7 @@ class StopModel {
   DateTime? startDate;
   DateTime? endDate;
   int? orderBy;
-  int? distanceKm;
+  dynamic? distanceKm;
   dynamic zoneName;
   int? schoolId;
   int? academicYrsId;
