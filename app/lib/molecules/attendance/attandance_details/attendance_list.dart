@@ -103,6 +103,7 @@ class AttendanceList extends StatelessWidget {
                                               child: CommonText(maxLines: 3,softWrap: true,
                                                   text: Strings.of(context).bus_attendance+"(Reached School)"),
                                             ):
+
                                             (snapshot
                                                 .data
                                                 ?.data
