@@ -1,0 +1,4 @@
+class StudentAttendanceResponseModel{
+
+  StudentAttendanceResponseModel();
+}

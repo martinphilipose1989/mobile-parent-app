@@ -50,23 +50,29 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   Widget getLayout() {
     return WillPopScope(
       onWillPop: onBackPressed,
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: scaffoldBackgroundColor(),
-        appBar: buildAppbar(),
-        extendBodyBehindAppBar: extendBodyBehindAppBar(),
-        body: buildScaffoldBody(context, _viewModel as VM),
-        drawer: buildDrawer(),
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
-        bottomNavigationBar: buildBottomNavigationBar(),
-        bottomSheet: buildBottomSheet(),
-        resizeToAvoidBottomInset: true,
+      child: GestureDetector(
+        onTap: (){
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: buildFloatingButton(_viewModel as VM),
+          backgroundColor: scaffoldBackgroundColor(),
+          appBar: buildAppbar(_viewModel as VM),
+          extendBodyBehindAppBar: extendBodyBehindAppBar(),
+          body: buildScaffoldBody(context, _viewModel as VM),
+          drawer: buildDrawer(),
+          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture(),
+          bottomNavigationBar: buildBottomNavigationBar(_viewModel as VM),
+          bottomSheet: buildBottomSheet(_viewModel as VM),
+          resizeToAvoidBottomInset: true,
+        ),
       ),
     );
   }
 
   /// Building a appbar of screen
-  PreferredSizeWidget? buildAppbar() {
+  PreferredSizeWidget? buildAppbar(VM model) {
     return null;
   }
 
@@ -81,12 +87,17 @@ abstract class CoreBasePageState<VM, T extends StatefulWidget> extends State<T>
   }
 
   /// Building a bottom-sheet
-  Widget? buildBottomSheet() {
+  Widget? buildBottomSheet(VM model) {
+    return null;
+  }
+
+  /// Building a floating button
+  Widget? buildFloatingButton(VM model) {
     return null;
   }
 
   /// Building a bottomNaviagtion Bar
-  Widget? buildBottomNavigationBar() {
+  Widget? buildBottomNavigationBar(VM model) {
     return null;
   }
 

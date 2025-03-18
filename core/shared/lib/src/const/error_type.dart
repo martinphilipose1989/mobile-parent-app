@@ -12,10 +12,32 @@ enum ErrorType {
   uiEmptyEmail,
   uiInvalidEmail,
   uiEmptyPassword,
+  uiEmptyField,
+  uiEmptyName,
+  uiVistorType,
+  uiPurposeOfVisit,
+  uiPorfileImage,
 
   //DB ERROR
   database,
   databaseNotSupported,
   databaseError1,
   databaseUserNotFound,
+
+  //ATTACHMENT ERROR
+  fileSizeExceed,
+  filePickerFailed,
+  imagePickerFailed,
+  imagePickerCancelled,
+  downloadFailed,
+  uiInvalidAmoun,
+
+  // Auth Error
+
+  appAuthUserCancelled,
+  appAuthPlatformException,
+  appLogoutException,
+
+  // Storage
+  storageError
 }

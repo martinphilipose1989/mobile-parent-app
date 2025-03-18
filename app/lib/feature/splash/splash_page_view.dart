@@ -1,3 +1,4 @@
+import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,20 @@ class SplashPageView extends BasePageViewWidget<SplashViewModel> {
           const SizedBox(
             height: 300,
           ),
-          SvgPicture.asset(AppImages.logoImage),
+          SvgPicture.asset(AppImages.appLogoWhite),
           const SizedBox(
             height: 300,
           ),
-          CommonElevatedButton(onPressed: () {}, text: 'Lets Get Started')
+          CommonElevatedButton(
+            onPressed: () {
+              // Navigator.of(context).pushReplacementNamed(
+              //   RoutePaths.otpPage,
+              // );
+              model.login();
+            },
+            text: 'Lets Get Started',
+            textStyle: AppTypography.subtitle2,
+          )
         ],
       ),
     );

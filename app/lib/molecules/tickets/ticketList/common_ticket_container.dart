@@ -1,0 +1,175 @@
+import 'package:app/di/states/viewmodels.dart';
+import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
+import 'package:app/utils/app_typography.dart';
+
+import 'package:app/utils/common_widgets/common_text_widget.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../utils/common_widgets/app_images.dart';
+
+import 'package:badges/badges.dart' as badges;
+
+class CommonTicketContainer extends StatelessWidget {
+  final String ticketNo;
+  final String? statusIcon;
+  final String? status;
+  final String time;
+  final String title;
+  final String subtitle;
+  final String? image;
+  final String name;
+  final String? id;
+  final int? index;
+  final int? communicationCount;
+  const CommonTicketContainer(
+      {super.key,
+      required this.index,
+      required this.ticketNo,
+      required this.status,
+      required this.statusIcon,
+      required this.time,
+      required this.title,
+      required this.subtitle,
+      required this.communicationCount,
+      this.image,
+      required this.id,
+      required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: AppColors.listItem,
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(children: [
+                  SvgPicture.asset(AppImages.ticket,height: 16.h,),
+              SizedBox(
+                    width: 10.w,
+                  ),
+                  Text(
+                    ticketNo,
+                    style: AppTypography.caption.copyWith(
+                        color: AppColors.textGray, fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Divider(
+                    thickness: 2.w,
+                    height: 2.h,
+                    color: Colors.black54,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  SvgPicture.asset(statusIcon ?? AppImages.status_open,height: 16.h,),
+       SizedBox(
+                    width: 10.w,
+                  ),
+                  Text(
+                    status ?? "Open",
+                    style: AppTypography.caption.copyWith(
+                        color: AppColors.textGray, fontWeight: FontWeight.w400),
+                  ),
+                ]),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Flexible(
+                  child: Text(
+                    time,
+                    style: AppTypography.caption.copyWith(
+                        color: AppColors.textGray, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            CommonText(
+              text: title,
+              style: AppTypography.subtitle2,
+            ),
+         SizedBox(
+              height: 2.h,
+            ),
+            CommonText(
+              text: subtitle,
+              style: AppTypography.body2.copyWith(color: AppColors.textGray),
+            ),
+     SizedBox(
+              height: 10.h,
+            ),
+            Container(
+                height: 32.h,
+                alignment: Alignment.center,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(children: [
+                          CircleAvatar(
+                            child: SvgPicture.asset(
+                              AppImages.avatar,
+                              height: 32.h,
+                              width: 32.w,
+                            ),
+                          ),
+                          SizedBox(width: 5.w,),
+                          CommonText(
+                            text: name,
+                            style: AppTypography.subtitle2
+                                .copyWith(color: AppColors.textGray),
+                          )
+                        ]),
+                      ),
+                      SizedBox(
+                        width: 40.w,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                    context, RoutePaths.communicationPage,
+                                    arguments: id)
+                                .then(
+                              (value) {
+                                ProviderScope.containerOf(context)
+                                    .read(ticketListProvider)
+                                    .getTicketStatus();
+                              },
+                            );
+                          },
+                          child: badges.Badge(
+                            showBadge: communicationCount == 0 ? false : true,
+                            position:
+                                badges.BadgePosition.topEnd(top: -10, end: -8),
+                            badgeStyle: badges.BadgeStyle(
+                                badgeColor:
+                                    Theme.of(context).colorScheme.secondary),
+                            badgeContent: Text(communicationCount.toString()),
+                            child: SvgPicture.asset(AppImages.messages,height: 20.h,),
+                          )),
+                    ]))
+          ],
+        ),
+      ),
+    );
+  }
+}

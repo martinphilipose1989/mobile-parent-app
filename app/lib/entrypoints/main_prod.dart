@@ -1,16 +1,39 @@
 import 'package:app/app.dart';
+import 'package:app/env/env_prod.dart';
 import 'package:app/flavors/flavor.dart';
 import 'package:app/flavors/flavor_config.dart';
 import 'package:app/flavors/flavor_values.dart';
 import 'package:app/secrets/app_secrets.dart';
 
-void main() {
+void main() async {
   FlavorConfig.initialize(
     flavor: Flavor.prod,
     values: const FlavorValues(
-      apiBaseUrl: "https://api.openweathermap.org/",
-      secrets: AppSecrets.appSecretsProd,
-    ),
+        apiBaseUrl: '',
+        financeBaseUrl: EnvProd.financeBaseUrl,
+        adminBaseUrl: EnvProd.adminBaseUrl,
+        mdmBaseUrl: EnvProd.mdmBaseUrl,
+        mdmToken: EnvProd.mdmToken,
+        attendance: EnvProd.attendance,
+        ticketingBaseUrl: EnvProd.ticketingBaseUrl,
+        secrets: AppSecrets.appSecretsProd,
+        disciplinarySlip: EnvProd.disciplinarySlip,
+        keyCloakIntrospectUrl: EnvProd.introspectUrl,
+        authorizationEndpoint: EnvProd.authorizationEndpoint,
+        tokenEndpoint: EnvProd.tokenEndpoint,
+        transportUrl: EnvProd.transportUrl,
+        discoveryUrl: EnvProd.discoveryUrl,
+        logoutEndpoint: EnvProd.logoutEndpoint,
+        gateUrl: EnvProd.gateBaseUrl,
+        marketingUrl: EnvProd.marketingBaseUrl,
+        showLogs: true,
+        frontEndUrl: EnvProd.frontEndUrl,
+        notificationUrl: EnvProd.notificationUrl,
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl,
+        androidApiKey: EnvProd.androidApiKey,
+        androidAppId: EnvProd.androidAppId,
+        androidSenderId: EnvProd.senderId,
+        androidProjectId: EnvProd.projectId),
   );
   startApp();
 }

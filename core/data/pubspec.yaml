@@ -10,12 +10,19 @@ environment:
 dependencies:
   get_it:
   injectable:
+  services:
+    path: ../../services/  
   dependency_injection:
     path: ../../dependency-injection/
   domain:
     path: ../domain
   shared:
     path: ../shared
+  file_picker: ^8.0.7
+  network_retrofit:
+    path: ../../infrastructure/network-retrofit
+
+  flutter_appauth: ^7.0.0
 
 
 dev_dependencies:

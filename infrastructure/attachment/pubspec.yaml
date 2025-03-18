@@ -1,0 +1,32 @@
+name: attachment
+description: "A new Flutter package project."
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get_it: 
+  injectable:
+  dio:
+  pretty_dio_logger:
+  permission_handler:
+  path_provider:
+  dependency_injection:
+    path: ../../dependency-injection/
+  data:
+    path: ../../core/data/
+  device_info_plus:   
+  image_picker: 
+  file_picker: 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  injectable_generator:
+  build_runner: ^2.2.0
+

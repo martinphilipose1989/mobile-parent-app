@@ -120,9 +120,9 @@ project.
 
 By default package names:
 
-`com.ampersand.hubblehox`
+`com.hubblehox.hubbleorion`
 
-To change the package name, simply search for all `com.ampersand.hubblehox`, then replace it with
+To change the package name, simply search for all `com.hubblehox.hubbleorion`, then replace it with
 the new package name, for example: `com.mycompany.`.
 
 ## Architecture
