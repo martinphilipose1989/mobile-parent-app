@@ -16,7 +16,7 @@ void main() async {
         mdmToken: EnvProd.mdmToken,
         attendance: EnvProd.attendance,
         ticketingBaseUrl: EnvProd.ticketingBaseUrl,
-        secrets: AppSecrets.appSecretsQA,
+        secrets: AppSecrets.appSecretsProd,
         disciplinarySlip: EnvProd.disciplinarySlip,
         keyCloakIntrospectUrl: EnvProd.introspectUrl,
         authorizationEndpoint: EnvProd.authorizationEndpoint,
@@ -26,10 +26,14 @@ void main() async {
         logoutEndpoint: EnvProd.logoutEndpoint,
         gateUrl: EnvProd.gateBaseUrl,
         marketingUrl: EnvProd.marketingBaseUrl,
-        showLogs: false,
+        showLogs: true,
         frontEndUrl: EnvProd.frontEndUrl,
         notificationUrl: EnvProd.notificationUrl,
-        subjectSelectionUrl: EnvProd.subjectSelectionUrl),
+        subjectSelectionUrl: EnvProd.subjectSelectionUrl,
+        androidApiKey: EnvProd.androidApiKey,
+        androidAppId: EnvProd.androidAppId,
+        androidSenderId: EnvProd.senderId,
+        androidProjectId: EnvProd.projectId),
   );
   startApp();
 }

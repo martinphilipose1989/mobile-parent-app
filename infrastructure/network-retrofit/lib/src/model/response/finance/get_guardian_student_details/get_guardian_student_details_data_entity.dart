@@ -26,11 +26,32 @@ class GetGuardianStudentDetailsDataEntity extends BaseLayerDataTransformer<
     // TODO: implement transform
     return GetGuardianStudentDetailsDataModel(
         students: students!
-            .map((e) => GetGuardianStudentDetailsStudentModel(
+            .map(
+              (e) => GetGuardianStudentDetailsStudentModel(
                 crtEnrOn: e.crtEnrOn,
                 id: e.id,
                 studentDisplayName: e.studentDisplayName,
-                urlKey: e.urlKey))
+                urlKey: e.urlKey,
+                undertakingFile: e.undertakingFile,
+                boardId: e.boardId,
+                boardName: e.boardName,
+                courseId: e.courseId,
+                crtLobId: e.crtLobId,
+                division: e.division,
+                divisionId: e.divisionId,
+                gradeId: e.gradeId,
+                gradeName: e.gradeName,
+                ipDuringUndertaking: e.ipDuringUndertaking,
+                isUndertakingTaken: e.isUndertakingTaken,
+                schoolId: e.schoolId,
+                shiftId: e.shiftId,
+                shiftName: e.shiftName,
+                streamId: e.streamId,
+                streamName: e.streamName,
+                studentYearlyId: e.studentYearlyId,
+                undertakingTakenOn: e.undertakingTakenOn,
+              ),
+            )
             .toList());
   }
 }

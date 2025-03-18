@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:appauth/src/utils/auth_config.dart';
 import 'package:data/data.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
@@ -25,8 +23,7 @@ class AppAuthAdapter implements AppAuthPort {
               tokenEndpoint: _config.tokenUrl,
               endSessionEndpoint: _config.logOutUrl?.isEmpty ?? false
                   ? null
-                  : _config.logOutUrl
-          ),
+                  : _config.logOutUrl),
           scopes: [
             "openid",
             "web-origins",

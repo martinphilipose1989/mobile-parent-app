@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
             useInheritedMediaQuery: true,
             builder: (context, child) {
               return MaterialApp(
+
+
+                //  supportedLocales: AppLocalizations.supportedLocales,
                   navigatorKey: navigatorKey,
                   builder: (context, widget) => AppStreamBuilder<bool>(
                       stream: logoutOnTokenExpiry.stream,
@@ -37,8 +40,7 @@ class MyApp extends StatelessWidget {
                         if (value) {
                           CommonPopups().showError(
                               navigatorKey.currentState!.overlay!.context,
-                              'Your session has expired. Please log in again to continue.',
-                              (shouldRoute) {
+Strings.of(context).your_session_expired,  (shouldRoute) {
                             getIt
                                 .get<LogoutUsecase>()
                                 .execute(params: LogoutUsecaseParams())
@@ -65,7 +67,8 @@ class MyApp extends StatelessWidget {
                           ],
                         );
                       }),
-                  localizationsDelegates: const [
+                  localizationsDelegates:  [
+                    //AppLocalizations(Locale.fromSubtags("en")),
                     Strings.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate

@@ -13,6 +13,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart' as domian;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TicketListScreen extends StatelessWidget {
@@ -35,9 +36,9 @@ class TicketListScreen extends StatelessWidget {
                 onThirdTabChange: () {
                   FocusScope.of(context).unfocus();
                 },
-                firstTabTitle: 'Open',
-                secondTabTitle: 'Reviewed',
-                thirdTabTitle: 'Closed',
+                firstTabTitle: Strings.of(context).open,
+                secondTabTitle: Strings.of(context).reviewed,
+                thirdTabTitle: Strings.of(context).closed,
                 onFirstTabChange: () {
                   FocusScope.of(context).unfocus();
                 },
@@ -95,7 +96,7 @@ class TicketListScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, RoutePaths.createTicketPage);
                 },
-                text: "Create New Ticket",
+                text: Strings.of(context).create_new_ticket,
             textStyle: AppTypography.subtitle2.copyWith(color: Colors.black),
 
               )

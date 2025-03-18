@@ -15,10 +15,9 @@ class VasDetailRequest {
     this.academicYearId,
   });
 
-
   factory VasDetailRequest.fromJson(Map<String, dynamic> json) =>
       VasDetailRequest(
-        schoolId: json["school_id"],
+        schoolId: json["school_parent_id"],
         boardId: json["board_id"],
         gradeId: json["grade_id"],
         streamId: json["stream_id"],
@@ -27,7 +26,7 @@ class VasDetailRequest {
       );
 
   Map<String, dynamic> toJson() => {
-        "school_id": schoolId,
+        "school_parent_id": schoolId,
         "board_id": boardId,
         "grade_id": gradeId,
         "stream_id": streamId,

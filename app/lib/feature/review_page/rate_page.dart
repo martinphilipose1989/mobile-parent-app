@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../base/app_base_page.dart';
@@ -41,9 +42,9 @@ class RatePageState extends AppBasePageState<RatePageModel, RatePage> {
   @override
   PreferredSizeWidget? buildAppbar(RatePageModel model) {
     // TODO: implement buildAppbar
-    return const CommonAppBar(
+    return  CommonAppBar(
       notShowNotificationAndUserBatch: true,
-      appbarTitle: 'Review Page',
+      appbarTitle: Strings.of(context).review_page,
       showBackButton: true,
     );
   }

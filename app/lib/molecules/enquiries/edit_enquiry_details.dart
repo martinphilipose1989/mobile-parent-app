@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
 import 'package:app/model/resource.dart';
@@ -361,12 +359,12 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
               return Column(
                 children: [
                   if ((model.selectedParentTypeSubject.value) == "Father") ...[
-                    CommonTextFormField(
-                      showAstreik: false,
-                      labelText: 'Global ID',
-                      readOnly: true,
-                      controller: model.fatherGlobalIdController,
-                    ),
+                    // CommonTextFormField(
+                    //   showAstreik: false,
+                    //   labelText: 'Global ID',
+                    //   readOnly: true,
+                    //   controller: model.fatherGlobalIdController,
+                    // ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,
@@ -401,12 +399,12 @@ class EditEnquiriesDetailsWidget extends StatelessWidget {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ] else ...[
-                    CommonTextFormField(
-                      showAstreik: false,
-                      labelText: 'Gloabal ID',
-                      readOnly: true,
-                      controller: model.motherGlobalIdController,
-                    ),
+                    // CommonTextFormField(
+                    //   showAstreik: false,
+                    //   labelText: 'Gloabal ID',
+                    //   readOnly: true,
+                    //   controller: model.motherGlobalIdController,
+                    // ),
                     CommonSizedBox.sizedBox(height: 15, width: 10),
                     CommonTextFormField(
                       showAstreik: true,

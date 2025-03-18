@@ -1,5 +1,4 @@
 import 'package:domain/domain.dart';
-import 'package:domain/src/usecase/finance/new_enrolment_usecase.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -37,6 +36,18 @@ abstract class DomainModule {
     return AttendanceDetailUsecase(
       attendanceRepository: repository,
     );
+  }
+
+  @lazySingleton
+  UploadBearerProfileUsecase uploadBearerProfileUsecase(
+      TransportRepository transportRepository) {
+    return UploadBearerProfileUsecase(transportRepository: transportRepository);
+  }
+
+  @lazySingleton
+  CreateBearerUsecase createBearerUsecase(
+      TransportRepository transportRepository) {
+    return CreateBearerUsecase(transportRepository: transportRepository);
   }
 
   @lazySingleton
@@ -543,6 +554,11 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+  GetBearerListUsecase getBearerListUseCase(AdminRepository adminRepository) {
+    return GetBearerListUsecase(adminRepository: adminRepository);
+  }
+
+  @lazySingleton
   GetBrandUsecase getBrandUsecase(EnquiryRepository enquiryRepository) {
     return GetBrandUsecase(enquiryRepository: enquiryRepository);
   }
@@ -587,5 +603,78 @@ abstract class DomainModule {
   @lazySingleton
   NewEnrolmentUsecase newEnrolmentUsecase(FinanceRepository financeRepository) {
     return NewEnrolmentUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
+    return Sendtokenusecase(adminRepository: adminRepository);
+  }
+
+  @lazySingleton
+  DownloadFileFromUrlUsecase downloadFileFromUrlUsecase(
+      AttachmentRepository attachmentRepository) {
+    return DownloadFileFromUrlUsecase(
+        attachmentRepository: attachmentRepository);
+  }
+
+  @lazySingleton
+  TermsAndConditionUsecase termsAndConditionUsecase(
+      FinanceRepository financeRepository) {
+    return TermsAndConditionUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  UndertakingUsecase undertakingUsecase(FinanceRepository financeRepository) {
+    return UndertakingUsecase(financeRepository: financeRepository);
+  }
+
+  @lazySingleton
+  GetStudentYearlyDetailsUsecase getStudentYearlyDetails(
+      MDMRepository mdmRepository) {
+    return GetStudentYearlyDetailsUsecase(mdmRepository: mdmRepository);
+  }
+
+  @lazySingleton
+  ConfigureOnLaunchPushNotificationUseCase
+      configureOnLaunchPushNotificationUseCaseProvider(
+          NotificationRepository repository) {
+    return ConfigureOnLaunchPushNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  ConfigurePushNotificationUseCase configurePushNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return ConfigurePushNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  InitLocalNotificationUseCase initLocalNotificationsUseCaseProvider(
+      NotificationRepository repository) {
+    return InitLocalNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  ListenNotificationUseCase listenNotificationsUseCaseProvider(
+      NotificationRepository repository) {
+    return ListenNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  RequestNotificationPermissionUseCase
+      requestNotificationPermissionUseCaseProvider(
+          NotificationRepository repository) {
+    return RequestNotificationPermissionUseCase(repository);
+  }
+
+  @lazySingleton
+  ScheduleLocalNotificationUseCase scheduleLocalNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return ScheduleLocalNotificationUseCase(repository);
+  }
+
+  @lazySingleton
+  UnSubscribePushNotificationUseCase unSubScribePushNotificationUseCaseProvider(
+      NotificationRepository repository) {
+    return UnSubscribePushNotificationUseCase(repository);
   }
 }

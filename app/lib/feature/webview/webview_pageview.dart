@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments/payments_pages/payments.dart';
 import 'package:app/feature/webview/webview_page.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
@@ -27,7 +25,8 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
           // Handle successful payment
           model.timer.cancel();
           Navigator.pop(context, true);
-        } else if (value.data?.data?.toLowerCase() == "failure") {
+        } else if (value.data?.data?.toLowerCase() == "failure" ||
+            value.data?.data?.toLowerCase() == "failed") {
           // Handle failed payment
           model.timer.cancel();
           Navigator.pop(context, false);
@@ -48,16 +47,18 @@ class WebviewPageView extends BasePageViewWidget<WebviewModel> {
           onWebViewCreated: (controller) {
             model.webViewController = controller;
           },
-          onLoadHttpError: (cont, uri) {
-            log("URI ${uri?.path}");
-          },
-          onLoadError: (controller, url) {
-            log("URL $url");
-          },
+          onLoadHttpError: (cont, uri) {},
+          onLoadError: (controller, url) {},
           onUpdateVisitedHistory: (controller, url) {
             if (url != null) {
               if (url.toString().contains('success')) {
                 // Handle successful payment
+                if (webviewArguments.module == Modules.admission) {
+                  model.moveToNextStage(
+                      currentStage: "${webviewArguments.currentStage}",
+                      enquiryId:
+                          "${webviewArguments.enquiryDetailArgs?.enquiryId}");
+                }
                 model.timer.cancel();
                 Navigator.pop(context, true);
                 url = null;

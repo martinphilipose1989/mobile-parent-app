@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/no_data_found_widget.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class OpenAdmissionsPage extends StatelessWidget {
   final AdmissionsViewModel model;
@@ -33,7 +34,7 @@ class OpenAdmissionsPage extends StatelessWidget {
                       return Visibility(
                           visible: data?.isNotEmpty ?? false,
                           replacement:
-                              NoDataFoundWidget(title: "No Admissions found"),
+                              NoDataFoundWidget(title: Strings.of(context).no_admission_found),
                           child: AdmissionsList(
                             admissionList: model.admissions.value,
                             scrollController: model.scrollController,
@@ -44,8 +45,8 @@ class OpenAdmissionsPage extends StatelessWidget {
                   );
                 }
                 if (result?.status == Status.error && model.pageNumber == 1) {
-                  return const Center(
-                    child: CommonText(text: 'Admissions not found'),
+                  return Center(
+                    child: CommonText(text:Strings.of(context).no_admission_found ),
                   );
                 } else {
                   return const SizedBox.shrink();

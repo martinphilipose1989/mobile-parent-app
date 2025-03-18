@@ -6,6 +6,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -37,8 +38,8 @@ class _AttendanceCalenderPageState extends AppBasePageState<
 
   @override
   PreferredSizeWidget? buildAppbar(AttendanceCalenderViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Student Profile',
+    return  CommonAppBar(
+      appbarTitle: Strings.of(context).student_profile,
       notShowNotificationAndUserBatch: false,
       showBackButton: true,
     );

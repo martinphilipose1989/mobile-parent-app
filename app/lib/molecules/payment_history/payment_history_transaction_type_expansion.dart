@@ -13,6 +13,7 @@ import 'package:app/utils/enums/finance_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_svg/svg.dart';
 
@@ -30,7 +31,7 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
         dataBuilder: (context, isLoading) {
           return Stack(
             children: [
-              Column(
+             ListView(
                   children: transactions?.isEmpty ?? false
                       ? [
                           CommonText(
@@ -70,7 +71,7 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
 
                                     // }
                                   },
-                                  title: Row(
+                                  title: Row(crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -78,17 +79,22 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          CommonText(
-                                            text: transactionModel
-                                                        .acknowledgementNo ==
-                                                    null
-                                                ? transactionModel
-                                                        .receiptNumber ??
-                                                    ''
-                                                : transactionModel
-                                                        .acknowledgementNo ??
-                                                    '',
-                                            style: AppTypography.subtitle2,
+                                          SizedBox(width:80.w,
+                                            child: CommonText(
+
+                                              text: transactionModel
+                                                          .acknowledgementNo ==
+                                                      null
+                                                  ? transactionModel
+                                                          .receiptNumber ??
+                                                      ''
+                                                  : transactionModel
+                                                          .acknowledgementNo ??
+                                                      '',
+                                              style: AppTypography.subtitle2,
+                                              softWrap: true,
+                                              maxLines: 3,
+                                            ),
                                           ),
                                           CommonText(
                                             text: DateFormatter.formatDate(
@@ -104,10 +110,14 @@ class PaymentHistoryTransationTypeExpansion extends StatelessWidget {
                                         thickness: 1,
                                         color: AppColors.textPaleGray,
                                       ),
-                                      CommonText(
-                                        text: transactionModel.paymentMode ??
-                                            'NA',
-                                        style: AppTypography.subtitle2,
+                                      SizedBox(width:60.w,
+                                        child: CommonText(
+                                          text: transactionModel.paymentMode ??
+                                              'NA',
+                                          style: AppTypography.subtitle2,
+                                          maxLines: 2,
+                                          softWrap: true,
+                                        ),
                                       ),
                                       const Divider(
                                         height: 10,

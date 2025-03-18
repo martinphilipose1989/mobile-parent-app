@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:app/di/states/viewmodels.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
 import 'package:app/utils/common_widgets/common_popups.dart';
@@ -14,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/trip_list/completed_trip_list_tile.dart';
@@ -38,20 +36,25 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
               options: model.tripStatusType,
               onSelect: (value) => {model.getMyDutyList()}),
         ),
- Padding(
-   padding: const EdgeInsets.all(8.0),
-   child: Row(
-     mainAxisAlignment: MainAxisAlignment.end,
-     children: [
-   InkWell(child: SvgPicture.asset(AppImages.duty_list),
-   onTap: (){
-   //  ProviderScope.containerOf(context).read(createIntimationProvider).pickImage(UpoladFileTypeEnum.image);
-CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
-   },
-   
-   ),
-          ],),
- ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                child: SvgPicture.asset(AppImages.duty_list),
+                onTap: () {
+                  //  ProviderScope.containerOf(context).read(createIntimationProvider).pickImage(UpoladFileTypeEnum.image);
+                  CommonPopups().showCreateIntimation(
+                    context,
+                    studentId: 10,
+                    userId: 1,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         AppStreamBuilder<String>(
             stream: model.selectedTripStatus,
             initialData: model.selectedTripStatus.value,
@@ -75,13 +78,13 @@ CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
                             title: tripData?.dealSafeAppError?.error.message
                                         .contains("internet") ??
                                     false
-                                ? "No Internet Connection"
-                                : "Something Went Wrong",
+                                ? Strings.of(context).no_internet_connection
+                                : Strings.of(context).something_got_wrong,
                             subtitle: tripData?.dealSafeAppError?.error.message
                                         .contains("internet") ??
                                     false
-                                ? "It seems you're offline. Please check your internet connection and try again."
-                                : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                                ? Strings.of(context).it_seems_you_re_offline
+                                : Strings.of(context).no_internet_connection,
                             onPressed: () {
                               model.refreshMyDutyList();
                             },
@@ -116,11 +119,14 @@ CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
                                           return model.refreshMyDutyList();
                                         },
                                         child: ListView.builder(
+                                          shrinkWrap: true,
                                           itemCount: itemCount,
                                           itemBuilder: (context, index) {
                                             if (index <
                                                 (tripData?.data?.length ?? 0)) {
-                                              return data == "completed trips"
+                                              print("hurrrayyyyyy");
+                                              print(tripData?.data?[index].schoolId);
+                                              return   data == "completed trips"
                                                   ? CompletedTripListTile(
                                                       trip: tripData!
                                                           .data![index],
@@ -145,8 +151,8 @@ CommonPopups().showCreateIntimation(context, studentId: 10, userId: 1, );
                                           },
                                         ),
                                       ),
-                                      child: const NoDataFoundWidget(
-                                        title: "No Trip List Found",
+                                      child:  NoDataFoundWidget(
+                                        title: Strings.of(context).no_trip_found,
                                       ),
                                     );
                                   },

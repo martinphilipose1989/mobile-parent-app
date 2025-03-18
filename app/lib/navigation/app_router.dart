@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:app/feature/admissions/admissions_page.dart';
@@ -8,6 +7,7 @@ import 'package:app/feature/attendance/attendance_list1/attendence_detail_page.d
 import 'package:app/feature/cancelSchoolTour/cancel_school_tour_page.dart';
 import 'package:app/feature/cancel_competency_test/cancel_competency_test_page.dart';
 import 'package:app/feature/cheque_page/cheque_page.dart';
+import 'package:app/feature/coming_soon/coming_soon.dart';
 import 'package:app/feature/create_ticket/create_ticket_page.dart';
 import 'package:app/feature/communication/communication_page.dart';
 import 'package:app/feature/competency_test_detail/details_view_competency_test_page.dart';
@@ -30,6 +30,8 @@ import 'package:app/feature/registration_details/registrations_details_page.dart
 import 'package:app/feature/review_page/rate_page.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page.dart';
+import 'package:app/feature/student_detail/student_detail_page.dart';
+import 'package:app/feature/student_profile_edit/student_profile_edit_page.dart';
 import 'package:app/feature/tabbar/tabbar_page.dart';
 import 'package:app/feature/tickets/ticket_list_page.dart';
 import 'package:app/feature/webview/webview_page.dart';
@@ -91,9 +93,7 @@ class AppRouter {
       case RoutePaths.couponList:
         return CupertinoPageRoute(
             builder: (context) => CouponList(
-                  getPendingFeesFeeModel:
-                      settings.arguments as GetPendingFeesFeeModel,
-                ),
+                couponListArgs: settings.arguments as CouponListArgs),
             settings: const RouteSettings(name: RoutePaths.couponList));
       case RoutePaths.chequePayment:
         return CupertinoPageRoute(
@@ -177,10 +177,23 @@ class AppRouter {
             builder: (context) => const AttendanceCalenderPage(),
             settings: const RouteSettings(name: RoutePaths.attendanceCalender));
 
+      case RoutePaths.profileEdit:
+        return CupertinoPageRoute(
+            builder: (context) => StudentProfileEdit(
+                  studentData: settings.arguments as StudentDataArgs,
+                ),
+            settings: const RouteSettings(name: RoutePaths.profileEdit));
+
+      case RoutePaths.profile:
+        return CupertinoPageRoute(
+            builder: (context) => StudentDetailPage(),
+            settings: const RouteSettings(name: RoutePaths.profile));
+
       case RoutePaths.ticketListPage:
         return CupertinoPageRoute(
-            builder: (context) => const TicketListPage(),
-            settings: const RouteSettings(name: RoutePaths.ticketListPage));
+          builder: (context) => const TicketListPage(),
+          settings: const RouteSettings(name: RoutePaths.ticketListPage),
+        );
 
       case RoutePaths.createTicketPage:
         return CupertinoPageRoute(
@@ -377,10 +390,11 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (context) => NewEnrolmentPage(),
             settings: RouteSettings(name: RoutePaths.newEnrolmentPage));
+
       default:
         // Replace by Empty Page
         return CupertinoPageRoute(
-          builder: (context) => Container(),
+          builder: (context) => ComingSoonScreen(),
         );
     }
   }

@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PsaDetailPage extends BasePage<PsaDetailViewModel> {
@@ -49,6 +50,16 @@ class PsaDetailPageState
   }
 
   @override
+  void didUpdateWidget(covariant PsaDetailPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getPsaDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildView(BuildContext context, PsaDetailViewModel model) {
     return PsaDetailPageView(provideBase(),
         onSelectVasEnrolment: widget.onSelectVasEnrolment);
@@ -58,8 +69,8 @@ class PsaDetailPageState
   PreferredSizeWidget? buildAppbar(PsaDetailViewModel model) {
     return widget.hideAppBar
         ? null
-        : const CommonAppBar(
-            appbarTitle: 'PSA Activity',
+        : CommonAppBar(
+            appbarTitle: Strings.of(context).psa_Activity,
             notShowNotificationAndUserBatch: false,
             showBackButton: true,
           );

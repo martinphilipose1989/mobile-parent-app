@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -19,6 +18,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -152,33 +152,50 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       'id': 0,
       'image': AppImages.registrationIcon,
       'name': "Registration",
-      'isActive': true
+      'isActive': true,
+      'key': 'registration'
     },
-    {'id': 1, 'image': AppImages.call, 'name': "Call", 'isActive': true},
-    {'id': 2, 'image': AppImages.email, 'name': "Email", 'isActive': true},
+    {
+      'id': 1,
+      'image': AppImages.call,
+      'name': "Call",
+      'isActive': true,
+      'key': 'call'
+    },
+    {
+      'id': 2,
+      'image': AppImages.email,
+      'name': "Email",
+      'isActive': true,
+      'key': 'email'
+    },
     {
       'id': 3,
       'image': AppImages.editDetails,
       'name': "Edit Details",
-      'isActive': true
+      'isActive': true,
+      'key': 'edit'
     },
     {
       'id': 4,
       'image': AppImages.schoolTour,
       'name': "School Tour",
-      'isActive': true
+      'isActive': true,
+      'key': 'tour'
     },
     {
       'id': 5,
       'image': AppImages.timeline,
       'name': "Timeline",
-      'isActive': true
+      'isActive': true,
+      'key': 'timeline'
     },
     {
       'id': 6,
       'image': AppImages.payments,
       'name': "Payments",
       'isActive': true,
+      'key': 'payments'
     },
   ];
 
@@ -243,8 +260,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
       BehaviorSubject<List<String>>.seeded([]);
 
   final List<String> parentType = ["Mother", "Father"];
-  TextEditingController fatherGlobalIdController = TextEditingController();
-  TextEditingController motherGlobalIdController = TextEditingController();
+  // TextEditingController fatherGlobalIdController = TextEditingController();
+  // TextEditingController motherGlobalIdController = TextEditingController();
   TextEditingController studentsFatherFirstNameController =
       TextEditingController();
   TextEditingController studentsFatherLastNameController =
@@ -542,7 +559,8 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
                   EnquiryTypeEnum.kidsClub.type.toLowerCase()) {
             bool isRegistrationFeesCompleted = result.data?.data?.enquiryStage
                     ?.any((stage) =>
-                        stage.stageName == "Registration Fees" &&
+                        (stage.stageName == "Registration Fees" ||
+                            stage.stageName == "Academic Kit Selling") &&
                         stage.status == "Completed") ??
                 false;
             // Update the isActive status for "Registration" in menuData
@@ -558,6 +576,14 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
             for (var item in menuData) {
               if (item['name'] == "Registration" ||
                   item['name'] == "Payments") {
+                item['isActive'] = false;
+              }
+            }
+          }
+
+          if (enquiryDetailArgs?.status != "Open") {
+            for (var item in menuData) {
+              if (item['key'] == "edit") {
                 item['isActive'] = false;
               }
             }
@@ -891,10 +917,16 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     if (!(detail.studentDetails?.dob ?? '')
         .toLowerCase()
         .contains("invalid date")) {
-      studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
-          ? DateTime.parse(
-              (detail.studentDetails?.dob ?? '').split('-').reversed.join('-'))
-          : DateTime.now();
+      // studentDob = (detail.studentDetails?.dob ?? '').isNotEmpty
+      //     ? DateTime.parse((detail.studentDetails?.dob ?? ''))
+      //     : DateTime.now();
+      if (detail.studentDetails?.dob == null ||
+          (detail.studentDetails?.dob?.isEmpty ?? false)) {
+        studentDob = DateTime.now(); // Default to current date
+      } else {
+        DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+        studentDob = dateFormat.tryParse(detail.studentDetails?.dob ?? '');
+      }
     }
     existingSchoolNameController.text =
         detail.existingSchoolDetails?.name ?? '';
@@ -923,10 +955,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -984,10 +1016,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     selectedGenderSubject.add(detail.studentDetails?.gender?.value ?? '');
     selectedGenderEntity = detail.studentDetails?.gender;
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =
@@ -1051,10 +1083,10 @@ class EnquiriesDetailsPageModel extends BasePageViewModel {
     ivtShiftSubject.add(detail.shift?.value ?? '');
     selectedParentTypeSubject.add(detail.enquirerParent ?? '');
     parentTypeController.text = detail.enquirerParent ?? '';
-    fatherGlobalIdController.text =
-        detail.parentDetails?.fatherDetails?.globalId ?? '';
-    motherGlobalIdController.text =
-        detail.parentDetails?.motherDetails?.globalId ?? '';
+    // fatherGlobalIdController.text =
+    //     detail.parentDetails?.fatherDetails?.globalId ?? '';
+    // motherGlobalIdController.text =
+    //     detail.parentDetails?.motherDetails?.globalId ?? '';
     studentsFatherFirstNameController.text =
         detail.parentDetails?.fatherDetails?.firstName ?? '';
     studentsFatherLastNameController.text =

@@ -38,29 +38,36 @@ class UpcomingTripListTile extends StatelessWidget {
           TripListTileHeader(trip: trip),
           const Divider(color: AppColors.textPalerGray),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TripTileDetailItem(
-                title: trip.routeStopMapping?.isEmpty ?? true
-                    ? ""
-                    : trip.routeStopMapping?.first.stop?.stopName ?? "",
-                titleTextStyle:
-                    AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-                subtitle: "",
-                subtitleTextStyle: AppTypography.h6),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              clipBehavior: Clip.none,
-              children: [
-                Image.asset(AppImages.routeImage, height: 48.h, width: 144.w),
-              ],
+            Expanded(
+              child: TripTileDetailItem(
+                  title: trip.routeStopMapping?.isEmpty ?? true
+                      ? ""
+                      : trip.routeStopMapping?.first.stop?.stopName ?? "",
+                  titleTextStyle:
+                      AppTypography.subtitle2.copyWith(color: AppColors.textDark),
+                  subtitle: "",
+                  subtitleTextStyle: AppTypography.h6),
             ),
-            TripTileDetailItem(
-                title: trip.routeStopMapping?.isEmpty ?? true
-                    ? ""
-                    : trip.routeStopMapping?.last.stop?.stopName ?? "",
-                titleTextStyle:
-                    AppTypography.subtitle2.copyWith(color: AppColors.textDark),
-                subtitle: '',
-                subtitleTextStyle: AppTypography.h6),
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(AppImages.routeImage, height: 48.h, width: 144.w),
+                ],
+              ),
+            ),
+            SizedBox(width: 20.w,),
+            Expanded(
+              child: TripTileDetailItem(
+                  title: trip.routeStopMapping?.isEmpty ?? true
+                      ? ""
+                      : trip.routeStopMapping?.last.stop?.stopName ?? "",
+                  titleTextStyle:
+                      AppTypography.subtitle2.copyWith(color: AppColors.textDark),
+                  subtitle: '',
+                  subtitleTextStyle: AppTypography.h6),
+            ),
           ]),
           const SizedBox(height: 16),
           Row(children: [

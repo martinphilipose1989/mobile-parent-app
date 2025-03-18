@@ -1,9 +1,15 @@
 class GetStudentAttendance {
   int? status;
-  StudentAttendanceDetails? data;
+  StudentAttendance? data;
   String? message;
 
   GetStudentAttendance({this.status, this.data, this.message});
+}
+
+class StudentAttendance{
+  List<StudentAttendanceDetails>? attendents;
+
+  StudentAttendance({this.attendents});
 }
 
 class StudentAttendanceDetails {
@@ -62,7 +68,7 @@ class IntimationDetails {
 class AttendanceLogDetailsResponse {
   int? id;
   int? attendanceId;
-  dynamic attendanceType;
+  int? attendanceType;
   dynamic subjectId;
   dynamic timetableId;
   int? globalStudentId;

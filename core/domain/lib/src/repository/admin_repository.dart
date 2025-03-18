@@ -1,7 +1,12 @@
 import 'package:dartz/dartz.dart';
+import 'package:network_retrofit/network_retrofit.dart';
 import 'package:shared/shared.dart';
 
 abstract class AdminRepository {
+
+  Future<Either<NetworkError, GetBearerListResponse>> getBearerList(
+      {required int studentId,required String platform});
+
   Future<Either<NetworkError, FetchCouponsListModel>> getCoupons(
       {required String studentId,
       required String feeTypeIds,
@@ -12,4 +17,8 @@ abstract class AdminRepository {
 
   Future<Either<NetworkError, StudentDetailsResponseModel>> getStudentDetail(
       {required int id});
+
+  Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
+      {required int? id,required SendTokenRequestEntity token });
+
 }

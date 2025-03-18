@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/model/resource.dart';
@@ -85,8 +83,8 @@ class TransportDetailViewModel extends BasePageViewModel {
   int periodOfServiceID = 0;
   int feeSubTypeID = 0;
   int feeCategoryID = 0;
-  String? feeSubCategoryStart;
-  String? feeSubCategoryEnd;
+  // String? feeSubCategoryStart;
+  // String? feeSubCategoryEnd;
 
   Future<void> getTransportEnrollmentDetail() async {
     exceptionHandlerBinder.handle(block: () {
@@ -110,9 +108,7 @@ class TransportDetailViewModel extends BasePageViewModel {
               .add(event.data ?? TransportEnrollmentResponseModel());
           setData(transportEnrollmentDetail.value);
         }
-        if (event.status == Status.error) {
-          log("Error");
-        }
+        if (event.status == Status.error) {}
       }).onError((error) {
         // exceptionHandlerBinder.showError(error);
       });
@@ -171,6 +167,8 @@ class TransportDetailViewModel extends BasePageViewModel {
         // exceptionHandlerBinder.showError(error);
       });
     }).execute();
+
+    resetFees();
   }
 
   void setData(TransportEnrollmentResponseModel transportEnrollmentDetail) {
@@ -181,7 +179,6 @@ class TransportDetailViewModel extends BasePageViewModel {
   }
 
   Future<void> calculateFees() async {
-    log("selectedPickUpZone $selectedPickUpZone");
     exceptionHandlerBinder.handle(block: () {
       CalculateFeesUsecaseParams params = CalculateFeesUsecaseParams(
         feeCalculationRequest: VasEnrollmentFeeCalculationRequest(
@@ -213,6 +210,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           var amount = event.data?.data?["amount"].toString();
           fee.add(amount ?? '0');
           showLoader.add(false);
+          scrollToTop();
         }
         if (event.status == Status.error) {
           showLoader.add(false);
@@ -332,7 +330,7 @@ class TransportDetailViewModel extends BasePageViewModel {
           list!.map((e) => e.periodOfService ?? '').toList();
     }
 
-    //oneWayPickupPoint.value.toSet().toList().firstWhere(test);
+    resetFees();
   }
 
   void setPeriodOfService(String value) {
@@ -341,6 +339,7 @@ class TransportDetailViewModel extends BasePageViewModel {
                 ps.periodOfService?.toLowerCase() == value.toLowerCase())
             .periodOfServiceId ??
         0;
+    resetFees();
   }
 
   void setFeeSubType(String selectedValue) {
@@ -362,12 +361,11 @@ class TransportDetailViewModel extends BasePageViewModel {
   void setFeeCategory(String selectedValue) {
     if ((radioButtonServiceType.selectedItem ?? '').toLowerCase() ==
         "both way") {
+      radioButtonOneWayRouteType.selectItem(null);
       fetchStop(forBothWay: true, routeType: "1");
       fetchStop(forBothWay: true, routeType: "2");
-      if (!feeSubCategoryStart.isEmptyOrNull() ||
-          !feeSubCategoryEnd.isEmptyOrNull()) {
-        feeSubCategoryStart = null;
-        feeSubCategoryEnd = null;
+      if (!(selectedPickUpZone?.zoneName.isEmptyOrNull() ?? false) ||
+          !(selectedDropZone?.zoneName.isEmptyOrNull() ?? false)) {
         selectedDropZone = null;
         selectedPickUpZone = null;
       }
@@ -377,6 +375,8 @@ class TransportDetailViewModel extends BasePageViewModel {
                 element.feeCategory == radioButtonServiceType.selectedItem)
             ?.feeCategoryId ??
         0;
+
+    resetFees();
   }
 
   final ScrollController scrollController = ScrollController();
@@ -387,5 +387,11 @@ class TransportDetailViewModel extends BasePageViewModel {
       duration: Duration(milliseconds: 500), // Duration for smooth scrolling
       curve: Curves.easeInOut, // Animation curve
     );
+  }
+
+  void resetFees() {
+    if (fee.value.isNotEmpty) {
+      fee.value = '';
+    }
   }
 }

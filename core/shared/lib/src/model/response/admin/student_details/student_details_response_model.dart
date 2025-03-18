@@ -14,6 +14,11 @@ class StudentDetailsResponseModel {
 
 class StudentData {
   Profile? profile;
+  List<Parent>? parent;
+  List<SiblingsInfo>? siblingsInfo;
+  ContactInfo? contactInfo;
+  List<GuardianContactInfo>? guardianContactInfo;
+  MedicalInfo? medicalInfo;
 
   Academics? academics;
 
@@ -161,7 +166,7 @@ class Profile {
   int? id;
   String? firstName;
   String? lastName;
-  DateTime? dob;
+  DateTime dob;
   String? birthPlace;
   int? status;
   int? genderId;
@@ -205,56 +210,57 @@ class Profile {
   DateTime? updatedAt;
   String? profileImageUrl;
   int? crtLobId;
+  int? schoolParentId;
 
-  Profile({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.dob,
-    required this.birthPlace,
-    required this.status,
-    required this.genderId,
-    required this.gender,
-    required this.nationality,
-    required this.caste,
-    required this.subCaste,
-    required this.subCasteId,
-    required this.isParentsSeperated,
-    required this.religion,
-    required this.bloodGroup,
-    required this.motherTongue,
-    required this.studentTypes,
-    required this.crtBoard,
-    required this.crtGrade,
-    required this.crtDivision,
-    required this.crtDivId,
-    required this.crtBrandId,
-    required this.brandName,
-    required this.crtEnrOn,
-    required this.crtShift,
-    required this.crtSchool,
-    required this.crtHouse,
-    required this.crtHouseId,
-    required this.emergencyContactNo,
-    required this.profileImage,
-    required this.academicYearId,
-    required this.academicYearName,
-    required this.casteId,
-    required this.crtBoardId,
-    required this.crtGradeId,
-    required this.crtShiftId,
-    required this.crtSchoolId,
-    required this.crtCourseId,
-    required this.crtStreamId,
-    required this.globalId,
-    required this.studentTypeId,
-    required this.courseName,
-    required this.streamName,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.profileImageUrl,
-    required this.crtLobId,
-  });
+  Profile(
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.dob,
+      required this.birthPlace,
+      required this.status,
+      required this.genderId,
+      required this.gender,
+      required this.nationality,
+      required this.caste,
+      required this.subCaste,
+      required this.subCasteId,
+      required this.isParentsSeperated,
+      required this.religion,
+      required this.bloodGroup,
+      required this.motherTongue,
+      required this.studentTypes,
+      required this.crtBoard,
+      required this.crtGrade,
+      required this.crtDivision,
+      required this.crtDivId,
+      required this.crtBrandId,
+      required this.brandName,
+      required this.crtEnrOn,
+      required this.crtShift,
+      required this.crtSchool,
+      required this.crtHouse,
+      required this.crtHouseId,
+      required this.emergencyContactNo,
+      required this.profileImage,
+      required this.academicYearId,
+      required this.academicYearName,
+      required this.casteId,
+      required this.crtBoardId,
+      required this.crtGradeId,
+      required this.crtShiftId,
+      required this.crtSchoolId,
+      required this.crtCourseId,
+      required this.crtStreamId,
+      required this.globalId,
+      required this.studentTypeId,
+      required this.courseName,
+      required this.streamName,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.profileImageUrl,
+      required this.crtLobId,
+      required this.schoolParentId});
 }
 
 class SiblingsInfo {
@@ -279,4 +285,49 @@ class SiblingsInfo {
     required this.schoolName,
     required this.gradeId,
   });
+
+
+
+}
+
+class MedicalInfo {
+  bool? pastHospitalization;
+  int? lastHospitalizationYear;
+  String? reasonForHospitalization;
+  bool? isPhsicallyDisabled;
+  String? disablilityDetails;
+  bool? hasMedicalHistory;
+  String? medicalHistoryDetails;
+  bool? hasAllergy;
+  String? allergyDetails;
+  bool? hasPersonalizedLearningNeeds;
+  String? personalizedLearningNeedsDetails;
+
+  MedicalInfo({
+    this.pastHospitalization,
+    this.lastHospitalizationYear,
+    this.reasonForHospitalization,
+    this.isPhsicallyDisabled,
+    this.disablilityDetails,
+    this.hasMedicalHistory,
+    this.medicalHistoryDetails,
+    this.hasAllergy,
+    this.allergyDetails,
+    this.hasPersonalizedLearningNeeds,
+    this.personalizedLearningNeedsDetails,
+  });
+
+}
+
+class ContactInfo {
+  String? address;
+  String? emergencyContact;
+  List<ResidentialInformation>? residentialInformation;
+
+  ContactInfo({
+    this.address,
+    this.emergencyContact,
+    this.residentialInformation,
+  });
+
 }

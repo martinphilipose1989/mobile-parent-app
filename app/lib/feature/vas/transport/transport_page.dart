@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPage extends BasePage<TransportDetailViewModel> {
@@ -40,6 +41,16 @@ class TransportPageState
       ProviderScope.containerOf(context).read(transportPageModelProvider);
 
   @override
+  void didUpdateWidget(covariant TransportPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs.academicYearId !=
+        widget.enquiryDetailArgs.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getTransportEnrollmentDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   didChangeDependencies() {
     viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
     viewModel.getTransportEnrollmentDetail();
@@ -56,8 +67,8 @@ class TransportPageState
   PreferredSizeWidget? buildAppbar(TransportDetailViewModel model) {
     return widget.hideAppBar
         ? null
-        : const CommonAppBar(
-            appbarTitle: 'Transport',
+        :  CommonAppBar(
+            appbarTitle: Strings.of(context).transport,
             notShowNotificationAndUserBatch: false,
             showBackButton: true,
           );

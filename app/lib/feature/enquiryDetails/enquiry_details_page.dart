@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/enquiriesAdmissionJourney/enquiries_admission_journey_page.dart';
 import 'package:app/feature/enquiryDetails/enquiry_details_page_model.dart';
@@ -14,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:localisation/strings.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
@@ -44,9 +43,9 @@ class EnquiriesDetailsPageState
 
   @override
   PreferredSizeWidget? buildAppbar(EnquiriesDetailsPageModel model) {
-    return const CommonAppBar(
+    return  CommonAppBar(
       notShowNotificationAndUserBatch: false,
-      appbarTitle: 'Enquiry Details',
+      appbarTitle: Strings.of(context).enquiry_details,
       showBackButton: true,
     );
   }
@@ -86,7 +85,7 @@ class EnquiriesDetailsPageState
                               model.showMenuOnFloatingButton.add(true);
                             }
                           },
-                          text: data! ? 'Close' : 'Action',
+                          text: data! ? Strings.of(context).close : Strings.of(context).action,
                           icon: data ? Icons.close : Icons.add,
                           borderRadius: BorderRadius.circular(10),
                           textColor: Theme.of(context).colorScheme.onTertiary,
@@ -156,8 +155,8 @@ class EnquiriesDetailsPageState
                               }
                             },
                             text: model.selectedValue.value == 0
-                                ? 'Cancel'
-                                : 'Go Back',
+                                ? Strings.of(context).cancel
+                                : Strings.of(context).go_back,
                             borderColor: Theme.of(context).primaryColor,
                             borderWidth: 1,
                             width: 171.w,
@@ -400,19 +399,19 @@ class EnquiriesDetailsPageState
                                 // model.selectedValue.add(model.selectedValue.value+1);
                               } else if (model.selectedValue.value == 1) {
                                 //model.showPopUP(context);
-                                model.moveToNextStage(from: 'submit');
+                                model.moveToNextStage(from: Strings.of(context).submit);
                               }
                             },
                             text: model.selectedValue.value == 0
-                                ? 'Next'
+                                ? Strings.of(context).next
                                 : widget.enquiryDetailArgs.enquiryType ==
                                             EnquiryTypeEnum.psa.type ||
                                         widget.enquiryDetailArgs.enquiryType
                                                 ?.toLowerCase() ==
                                             EnquiryTypeEnum.kidsClub.type
                                                 .toLowerCase()
-                                    ? "Move to admission"
-                                    : "Submit",
+                                    ? Strings.of(context).move_to_admission
+                                    : Strings.of(context).submit,
                             backgroundColor: AppColors.accent,
                             width: 171.w,
                             height: 40.h,

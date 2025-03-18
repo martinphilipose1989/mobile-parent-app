@@ -7,6 +7,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:injectable/injectable.dart';
+import 'package:localisation/strings.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -68,7 +69,7 @@ class OtpPageModel extends BasePageViewModel {
           // Handle any additional stream errors
           CommonPopups().showError(
             navigatorKey.currentContext!,
-            'An unexpected error occurred.',
+           Strings.of(     navigatorKey.currentContext!).an_unexpected_error_occurred,
             (shouldRoute) {},
           );
         },
@@ -77,13 +78,14 @@ class OtpPageModel extends BasePageViewModel {
         if (expetion.errorType == ErrorType.appAuthUserCancelled) {
           CommonPopups().showError(
             navigatorKey.currentContext!,
-            "User cancelled authentication",
+              Strings.of(     navigatorKey.currentContext!).user_cancelled_authentication,
+
             (shouldRoute) {},
           );
         } else {
           CommonPopups().showError(
             navigatorKey.currentContext!,
-            "Unknown error occured",
+            error.error.message,
             (shouldRoute) {},
           );
         }

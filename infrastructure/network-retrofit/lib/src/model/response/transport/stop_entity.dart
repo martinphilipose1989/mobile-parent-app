@@ -24,7 +24,7 @@ class StopEntity implements BaseLayerDataTransformer<StopEntity, TripStop> {
   @JsonKey(name: "order_by")
   int? orderBy;
   @JsonKey(name: "distance_km")
-  int? distanceKm;
+  dynamic? distanceKm;
   @JsonKey(name: "zone_name")
   String? zoneName;
   @JsonKey(name: "school_id")

@@ -10,6 +10,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -119,7 +120,7 @@ class RatePageView extends BasePageViewWidget<RatePageModel> {
                             child: CommonTextFormField(
                               controller: model.commentController,
                               showAstreik: false,
-                              labelText: "Comments",
+                              labelText: Strings.of(context).comments,
                             ),
                           ),
                           CommonSizedBox.sizedBox(height: 10, width: 10),

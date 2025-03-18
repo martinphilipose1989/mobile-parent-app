@@ -13,6 +13,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
@@ -59,7 +60,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                 (data?.data?.data?.feeCategory?.isNotEmpty ??
                                     false),
                             replacement: NoDataFoundWidget(
-                                title: "No VAS Option for PSA available"),
+                                title: Strings.of(context).no_VAS_Option_for_PSA_available),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -90,7 +91,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               CommonText(
-                                                text: "Calculated Amount",
+                                                text: Strings.of(context).calculated_amount,
                                                 style: AppTypography.body2,
                                               ),
                                               CommonText(
@@ -109,7 +110,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                   height: 16.h,
                                 ),
                                 CommonText(
-                                  text: "Select Post School Activity",
+                                  text: Strings.of(context).select_post_school_activity,
                                   style: AppTypography.subtitle2,
                                 ),
                                 SizedBox(
@@ -243,7 +244,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                 onPressed: () {
                                                   model.calculateFees();
                                                 },
-                                                text: "Calculate",
+                                                text: Strings.of(context).calculate,
                                                 backgroundColor:
                                                     AppColors.accent,
                                                 width: double.infinity,
@@ -267,9 +268,9 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                           null) {
                                                         onSelectVasEnrolment?.call(
                                                             StudentEnrolmentFee(
-                                                          enquiryNo: model
-                                                              .enquiryDetailArgs
-                                                              ?.enquiryNumber,
+                                                          // enquiryNo: model
+                                                          //     .enquiryDetailArgs
+                                                          //     ?.enquiryNumber,
                                                           academicYearId: model
                                                               .enquiryDetailArgs
                                                               ?.academicYearId,
@@ -318,7 +319,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                         model.enrollPsa();
                                                       }
                                                     },
-                                                    text: "Enroll Now",
+                                                    text: Strings.of(context).enroll_now,
                                                     backgroundColor:
                                                         AppColors.accent,
                                                     textStyle: AppTypography
@@ -337,7 +338,7 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                                                     onPressed: () {
                                                       model.reset();
                                                     },
-                                                    text: "Reset",
+                                                    text: Strings.of(context).reset,
                                                     backgroundColor:
                                                         AppColors.primaryOn,
                                                     textStyle: AppTypography
@@ -355,8 +356,8 @@ class PsaDetailPageView extends BasePageViewWidget<PsaDetailViewModel> {
                           ),
                         );
                       } else {
-                        return const Center(
-                          child: CommonText(text: "Data not found"),
+                        return Center(
+                          child: CommonText(text: Strings.of(context).no_data_found),
                         );
                       }
                     }),

@@ -55,7 +55,7 @@ abstract class RetrofitService {
   static const String _schoolLocation = '/api/ac-schools';
   static const String _batch = '/api/ac-batches';
   static const String _academicYear =
-      '/api/ac-academic-years?fields[1]=name&fields[2]=short_name&fields[3]=short_name_two_digit';
+      '/api/ac-academic-years?fields[1]=name&fields[2]=short_name&fields[3]=short_name_two_digit&sort=short_name_two_digit:ASC';
   static const String _psaSubType =
       '/api/ac-spa-activity-types?fields[1]=name&fields[2]=short_name';
   static const String _psaCategory =
@@ -318,4 +318,22 @@ abstract class RetrofitService {
       @Query('filters[parent_id]') int id,
       @Query("fields[0]") String name,
       @Header("Authorization") token);
+
+  // STUDENT
+
+  @GET('/api/ac-student-yearly-details')
+  Future<HttpResponse<MdmBaseResponseBaseEntity>> getStudentYearlyDetails(
+      @Query('filters[student_id]') int studentId,
+      @Query("filters[acadmin_year_id]") int year,
+      @Header("Authorization") String token);
+
+  @POST("/api/ac-guardians")
+  Future<HttpResponse<CreateBearerResponseEntity>> createBearer(
+      @Body() CreateBearerRequestEntity request);
+
+
+  @POST("/api/ac-student-guardians")
+  Future<HttpResponse<MapStudenttoBearerResponseEntity>> mapBearerToGuardians(
+      @Body() MapStudenttoBearerRequestEntity request);
+
 }

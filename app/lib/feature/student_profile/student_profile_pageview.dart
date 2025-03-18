@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import '../../molecules/tansport/visitor_details_row.dart';
@@ -42,13 +43,13 @@ class StudentProfilePageView
                 title: student?.dealSafeAppError?.error.message
                             .contains("internet") ??
                         false
-                    ? "No Internet Connection"
-                    : "Something Went Wrong",
+                    ? Strings.of(context).no_internet_connection
+                    : Strings.of(context).something_got_wrong,
                 subtitle: student?.dealSafeAppError?.error.message
                             .contains("internet") ??
                         false
-                    ? "It seems you're offline. Please check your internet connection and try again."
-                    : "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+                    ? Strings.of(context).it_seems_you_re_offline
+                    : Strings.of(context).an_unexpected_error,
                 onPressed: () {
                   model.getStudentProfile(studentId: studentId);
                 },
@@ -63,9 +64,9 @@ class StudentProfilePageView
                     StudentImageInfo(student: student?.data),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                      title1: "Bus Service",
-                      value1: "Two way",
-                      title2: "Parent Contact Number",
+                      title1: Strings.of(context).bus_service,
+                      value1: Strings.of(context).two_way,
+                      title2: Strings.of(context).parent_contact_number,
                       value2: student?.data?.guardiansDetails?.isNotEmpty ??
                               false
                           ? "${student?.data?.guardiansDetails?.first.mobileNo}"
@@ -73,7 +74,7 @@ class StudentProfilePageView
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                      title1: "Pickup Location",
+                      title1: Strings.of(context).pickup_location,
                       value1: student?.data?.transportDetails?.route
                                   ?.routeStopMapping?.isNotEmpty ??
                               false
@@ -81,7 +82,7 @@ class StudentProfilePageView
                                   ?.routeStopMapping?.first.stop?.stopName ??
                               ""
                           : "",
-                      title2: "Pickup Time",
+                      title2: Strings.of(context).pickup_time,
                       value2: student?.data?.transportDetails?.route
                                   ?.routeStopMapping?.isNotEmpty ??
                               false
@@ -92,7 +93,7 @@ class StudentProfilePageView
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: "Drop Location",
+                        title1: Strings.of(context).drop_location,
                         value1: student?.data?.transportDetails?.route
                                     ?.routeStopMapping?.isNotEmpty ??
                                 false
@@ -100,7 +101,7 @@ class StudentProfilePageView
                                     ?.routeStopMapping?.first.stop?.stopName ??
                                 ""
                             : "",
-                        title2: "Drop Time",
+                        title2: Strings.of(context).drop_time,
                         value2: "N/A"),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
@@ -108,7 +109,7 @@ class StudentProfilePageView
                     Column(
                       children: [
                 CommonText(
-                            text: "Bearers", style: AppTypography.subtitle2),
+                            text: Strings.of(context).bearers, style: AppTypography.subtitle2),
                         SizedBox(height: 16.h),
 
                         /// bearerList is empty
@@ -176,92 +177,7 @@ class BearerList extends StatelessWidget {
   }
 }
 
-// class BearerList extends StatelessWidget {
-//   const BearerList(
-//       {super.key,
-//       required this.bearerList,
-//       required this.studentId,
-//       required this.model});
 
-//   final List<BearerResponse> bearerList;
-//   final int studentId;
-//   final StudentProfilePageViewModel model;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 200,
-//       width: 1.sw,
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           SizedBox(
-//             width: 0.7.sw,
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: bearerList.length,
-//               shrinkWrap: true,
-//               itemBuilder: (context, index) {
-//                 return Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     Column(
-//                       mainAxisSize: MainAxisSize.min,
-//                       children: [
-//                         CommonImageWidget(
-//                             imageUrl: "${bearerList[index].profileImage}",
-//                             clipBehavior: Clip.hardEdge,
-//                             imageWidth: 50,
-//                             imageHeight: 50),
-//                         const SizedBox(height: 12),
-//                         Text("${bearerList[index].firstName}")
-//                       ],
-//                     ),
-//                     SizedBox(width: 16.w),
-//                   ],
-//                 );
-//               },
-//             ),
-//           ),
-//           SizedBox(width: 16.w),
-//           Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               InkWell(
-//                 onTap: () {
-//                   showDialog(
-//                       context: context,
-//                       barrierDismissible: false,
-//                       builder: (context) {
-//                         return AddNewBearer(
-//                             studentId: studentId,
-//                             cancelCallback: () {
-//                               Navigator.pop(context);
-//                             },
-//                             addNewBearerCallback: () {});
-//                       }).then((value) {
-//                     if (value == true) {
-//                       model.getStudentProfile(studentId: studentId);
-//                     }
-//                   });
-//                 },
-//                 child: const CommonImageWidget(
-//                     imageUrl: "imageUrl",
-//                     fallbackAssetImagePath: AppImages.addBearerIcon,
-//                     clipBehavior: Clip.hardEdge,
-//                     imageWidth: 50,
-//                     imageHeight: 50),
-//               ),
-//               const SizedBox(height: 12),
-//               const Text("Add New")
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class StudentImageInfo extends StatelessWidget {
   const StudentImageInfo({super.key, this.student});
@@ -289,13 +205,11 @@ class StudentImageInfo extends StatelessWidget {
             ),
           ),
           child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  //  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CommonText(
                       text:
@@ -362,6 +276,7 @@ class StudentImageInfo extends StatelessWidget {
       ],
     );
   }
+
 }
 
 class StudentBasicInfoTile extends StatelessWidget {

@@ -17,9 +17,12 @@ class GetUserRoleBasePermissionUsecase extends BaseUseCase<BaseError,
         if (result.success == true) {
           return userRepository.storeUserResponse(result);
         } else {
+
           logoutOnTokenExpiry.add(true);
+
           return Left(NetworkError(
               httpError: 401, cause: Exception(), message: "Unauthorized"));
+
         }
       }),
     );

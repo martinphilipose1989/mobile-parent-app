@@ -8,6 +8,7 @@ import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
+import 'package:app/utils/common_widgets/common_searchable_dropdown/searchable_dropdown_list.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/common_widgets/common_textformfield_widget.dart';
@@ -18,6 +19,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
@@ -79,7 +81,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             CommonText(
-                                              text: "Calculated Amount",
+                                              text: Strings.of(context)
+                                                  .calculated_amount,
                                               style: AppTypography.body2,
                                             ),
                                             CommonText(
@@ -96,12 +99,10 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                 height: 16.h,
                               ),
                               CommonText(
-                                text: "Select Bus Type",
+                                text: Strings.of(context).select_bus_type,
                                 style: AppTypography.subtitle2,
                               ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
+                              SizedBox(height: 10.h),
 
                               const SelectBusType(),
                               SizedBox(height: 15.h),
@@ -134,8 +135,6 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                       onMultiSelect: (selectedValues) {},
                                       onSingleSelect: (selectedValue) {
                                         model.setPeriodOfService(selectedValue);
-                                        // model.feeSubCategoryStart =
-                                        //     selectedValue;
                                       },
                                     );
                                   },
@@ -152,7 +151,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                               onPressed: () {
                                                 model.calculateFees();
                                               },
-                                              text: "Calculate",
+                                              text:
+                                                  Strings.of(context).calculate,
                                               backgroundColor: AppColors.accent,
                                               width: double.infinity,
                                               textStyle: AppTypography.subtitle2
@@ -171,47 +171,55 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                   onPressed: () {
                                                     if (onSelectVasEnrolment !=
                                                         null) {
-                                                      onSelectVasEnrolment?.call(StudentEnrolmentFee(
-                                                          enquiryNo: model
-                                                              .enquiryDetailArgs
-                                                              ?.enquiryNumber,
-                                                          academicYearId: model
-                                                              .enquiryDetailArgs
-                                                              ?.academicYearId,
-                                                          boardId: model
-                                                              .enquiryDetailArgs
-                                                              ?.boardId,
-                                                          courseId: model
-                                                              .enquiryDetailArgs
-                                                              ?.courseId,
-                                                          schoolId: model
-                                                              .enquiryDetailArgs
-                                                              ?.schoolId,
-                                                          shiftId: model
-                                                              .enquiryDetailArgs
-                                                              ?.shiftId,
-                                                          gradeId: model
-                                                              .enquiryDetailArgs
-                                                              ?.gradeId,
-                                                          streamId: model
-                                                              .enquiryDetailArgs
-                                                              ?.streamId,
-                                                          brandId:
-                                                              model.enquiryDetailArgs?.brandId,
-                                                          studentId: model.enquiryDetailArgs?.studentId,
-                                                          globalUserId: model.enquiryDetailArgs?.studentGlobalId,
-                                                          feeType: EnrolmentFeeType.transport.type,
-                                                          batchId: model.batchID,
-                                                          feeSubTypeId: model.feeSubTypeID,
-                                                          feeCategoryId: model.feeCategoryID,
-                                                          periodOfServiceId: model.periodOfServiceID,
-                                                          feeSubcategoryEnd: model.selectedDropZone?.zoneName,
-                                                          feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
+                                                      onSelectVasEnrolment?.call(
+                                                          StudentEnrolmentFee(
+                                                              // enquiryNo: model
+                                                              //     .enquiryDetailArgs
+                                                              //     ?.enquiryNumber,
+                                                              academicYearId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.academicYearId,
+                                                              boardId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.boardId,
+                                                              courseId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.courseId,
+                                                              schoolId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.schoolId,
+                                                              shiftId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.shiftId,
+                                                              gradeId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.gradeId,
+                                                              streamId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.streamId,
+                                                              brandId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.brandId,
+                                                              studentId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentId,
+                                                              globalUserId: model
+                                                                  .enquiryDetailArgs
+                                                                  ?.studentGlobalId,
+                                                              feeType:
+                                                                  EnrolmentFeeType.transport.type,
+                                                              batchId: model.batchID,
+                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              feeCategoryId: model.feeCategoryID,
+                                                              periodOfServiceId: model.periodOfServiceID,
+                                                              feeSubcategoryEnd: model.selectedDropZone?.zoneName,
+                                                              feeSubcategoryStart: model.selectedPickUpZone?.zoneName));
                                                     } else {
                                                       model.enrollTransport();
                                                     }
                                                   },
-                                                  text: "Enroll Now",
+                                                  text: Strings.of(context)
+                                                      .enroll_now,
                                                   backgroundColor:
                                                       AppColors.accent,
                                                   textStyle: AppTypography
@@ -238,12 +246,13 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                                                         .selectItem(null);
                                                     model.feeSubTypeID = 0;
                                                     model.feeCategoryID = 0;
-                                                    model.feeSubCategoryStart =
+                                                    model.selectedPickUpZone =
                                                         null;
-                                                    model.feeSubCategoryEnd =
+                                                    model.selectedDropZone =
                                                         null;
                                                   },
-                                                  text: "Reset",
+                                                  text:
+                                                      Strings.of(context).reset,
                                                   backgroundColor:
                                                       AppColors.primaryOn,
                                                   textStyle: AppTypography
@@ -260,8 +269,8 @@ class TransportPageView extends BasePageViewWidget<TransportDetailViewModel> {
                           ),
                         );
                       } else {
-                        return const CommonText(
-                            text: "Transport Details not found");
+                        return CommonText(
+                            text: Strings.of(context).no_data_found);
                       }
                     }),
               ),
@@ -315,7 +324,7 @@ class SelectServiceType extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonText(
-                        text: "Select The Service Type",
+                        text: Strings.of(context).select_service_type,
                         style: AppTypography.subtitle2,
                       ),
                       SizedBox(height: 10.h),
@@ -360,7 +369,7 @@ class ChooseOneWayToRoute extends StatelessWidget {
                     children: [
                       SizedBox(height: 15.h),
                       CommonText(
-                        text: "Choose One Way Route",
+                        text: Strings.of(context).choose_One_Way_Route,
                         style: AppTypography.subtitle2,
                       ),
                       SizedBox(height: 10.h),
@@ -420,33 +429,43 @@ class PickUpPointToSchool extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
         builder: (context, model, _) {
-          return Column(
-            children: [
-              AppStreamBuilder(
-                  stream: model!.oneWayPickupPoint,
-                  initialData: model.oneWayPickupPoint.value,
-                  dataBuilder: (context, oneWayList) {
-                    return CustomDropdownButton(
-                      items: oneWayList?.toSet().toList() ?? [],
-                      dropdownName: "Pickup Point",
-                      showAstreik: true,
-                      showBorderColor: true,
-                      isMutiSelect: false,
-                      onMultiSelect: (_) {},
-                      onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(
-                            routeType: "pickup", selectedValue: selectedValue);
-                      },
-                    );
-                  }),
-              SizedBox(height: 15.h),
-              const CommonTextFormField(
-                showAstreik: false,
-                labelText: "Drop Point",
-                readOnly: true,
-              ),
-            ],
-          );
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "one way",
+                  child: Column(
+                    children: [
+                      AppStreamBuilder(
+                          stream: model.oneWayPickupPoint,
+                          initialData: model.oneWayPickupPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CommonSearchableDropDown(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Pickup Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(
+                                    routeType: "pickup",
+                                    selectedValue: selectedValue);
+                              },
+                            );
+                          }),
+                      SizedBox(height: 15.h),
+                      CommonTextFormField(
+                        showAstreik: false,
+                        labelText: Strings.of(context).drop_Point,
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 15.h),
+                    ],
+                  ),
+                );
+              });
         },
         providerBase: transportPageModelProvider);
   }
@@ -459,33 +478,43 @@ class SchoolToDropPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
         builder: (context, model, _) {
-          return Column(
-            children: [
-              const CommonTextFormField(
-                showAstreik: false,
-                labelText: "Pickup Point",
-                readOnly: true,
-              ),
-              SizedBox(height: 15.h),
-              AppStreamBuilder(
-                  stream: model!.oneWayDropPoint,
-                  initialData: model.oneWayDropPoint.value,
-                  dataBuilder: (context, oneWayList) {
-                    return CustomDropdownButton(
-                      items: oneWayList?.toSet().toList() ?? [],
-                      dropdownName: "Drop Point",
-                      showAstreik: true,
-                      showBorderColor: true,
-                      isMutiSelect: false,
-                      onMultiSelect: (_) {},
-                      onSingleSelect: (selectedValue) {
-                        model.filterPeriodService(
-                            routeType: "drop", selectedValue: selectedValue);
-                      },
-                    );
-                  }),
-            ],
-          );
+          return AppStreamBuilder<String?>(
+              stream: model!.radioButtonServiceType.selectedItemStream,
+              initialData: model.radioButtonServiceType.selectedItem,
+              dataBuilder: (context, selectServiceType) {
+                return Visibility(
+                  visible: selectServiceType?.toLowerCase() == "one way",
+                  child: Column(
+                    children: [
+                      CommonTextFormField(
+                        showAstreik: false,
+                        labelText: Strings.of(context).pickup_Point,
+                        readOnly: true,
+                      ),
+                      SizedBox(height: 15.h),
+                      AppStreamBuilder(
+                          stream: model.oneWayDropPoint,
+                          initialData: model.oneWayDropPoint.value,
+                          dataBuilder: (context, oneWayList) {
+                            return CommonSearchableDropDown(
+                              items: oneWayList?.toSet().toList() ?? [],
+                              dropdownName: "Drop Point",
+                              showAstreik: true,
+                              showBorderColor: true,
+                              isMutiSelect: false,
+                              onMultiSelect: (_) {},
+                              onSingleSelect: (selectedValue) {
+                                model.filterPeriodService(
+                                    routeType: "drop",
+                                    selectedValue: selectedValue);
+                              },
+                            );
+                          }),
+                      SizedBox(height: 15.h),
+                    ],
+                  ),
+                );
+              });
         },
         providerBase: transportPageModelProvider);
   }
@@ -510,7 +539,7 @@ class BothWayRoutes extends StatelessWidget {
                           stream: model.oneWayPickupPoint,
                           initialData: model.oneWayPickupPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Pickup Point",
                               showAstreik: true,
@@ -529,7 +558,7 @@ class BothWayRoutes extends StatelessWidget {
                           stream: model.oneWayDropPoint,
                           initialData: model.oneWayDropPoint.value,
                           dataBuilder: (context, oneWayList) {
-                            return CustomDropdownButton(
+                            return CommonSearchableDropDown(
                               items: oneWayList?.toSet().toList() ?? [],
                               dropdownName: "Drop Point",
                               showAstreik: true,
@@ -543,6 +572,7 @@ class BothWayRoutes extends StatelessWidget {
                               },
                             );
                           }),
+                      SizedBox(height: 15.h),
                     ],
                   ),
                 );

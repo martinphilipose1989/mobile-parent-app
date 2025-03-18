@@ -1,15 +1,22 @@
-import 'package:app/di/states/viewmodels.dart';
+
 import 'package:app/feature/attendance/attendance_calender/attendance_calender_view_model.dart';
-import 'package:app/navigation/route_paths.dart';
+import 'package:app/themes_setup.dart';
+
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
-import 'package:data/data.dart' hide State;
+import 'package:data/data.dart'hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
+import '../../../di/states/viewmodels.dart';
 import '../../../feature/attendance/attendance_list1/attendence_detail_page.dart';
+import '../../../navigation/route_paths.dart';
 import '../../../utils/date_formatter.dart';
 
 extension DateTimeExt on DateTime {
@@ -128,16 +135,30 @@ class _Body extends StatelessWidget {
 
     return Column(
       children: [
-      Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('M',style: TextStyle(fontSize: 10.sp),),
-            Text('T',style: TextStyle(fontSize: 10.sp)),
-            Text('W',style: TextStyle(fontSize: 10.sp)),
-            Text('T',style: TextStyle(fontSize: 10.sp)),
-            Text('F',style: TextStyle(fontSize: 10.sp)),
-            Text('S',style: TextStyle(fontSize: 10.sp)),
-            Text('S',style: TextStyle(fontSize: 10.sp)),
+            Text('M',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('T',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('W',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('T',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('F',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('S',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
+            Text('S',
+                style: AppTypography.subtitle1
+                    .copyWith(color: AppColors.textGray)),
           ],
         ),
         const SizedBox(height: 10),
@@ -207,15 +228,18 @@ class _RowItem extends StatelessWidget {
                 : null,
         child: Text(
           number.toString(),
-          style: TextStyle(
-              fontSize: 10.sp,
-              color: isPassed
-                  ? isActiveMonth
-                      ? Colors.grey
-                      : Colors.transparent
-                  : isActiveMonth
-                      ? Colors.black
-                      : Colors.white),
+          style: isSelected
+              ? AppTypography.subtitle2
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.w500)
+              : TextStyle(
+                  fontSize: 14.sp,
+                  color: isPassed
+                      ? isActiveMonth
+                          ? Colors.grey
+                          : Colors.transparent
+                      : isActiveMonth
+                          ? Colors.black
+                          : AppColors.textGray),
         ),
       ),
     );
@@ -241,28 +265,41 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.h,),
-       CommonText(text: "Select Date",style: AppTypography.subtitle2.copyWith(fontSize: 8.sp),),
+          SizedBox(
+            height: 10.h,
+          ),
+          CommonText(
+            text: "Select Date",
+            style: AppTypography.subtitle2.copyWith(color: AppColors.textGray),
+          ),
           Row(
             children: [
               Expanded(
                 child: Text(
                   '${intToDay(selectedDate!.weekday)} ${intToMonth(selectedMonth.month)} ${selectedDate!.day}',
                   textAlign: TextAlign.left,
-                  style: AppTypography.subtitle2,
+                  style: AppTypography.h6.copyWith(color: AppColors.textGray),
                 ),
               ),
               IconButton(
                 onPressed: () {
                   onChange(selectedMonth.addMonth(-1));
                 },
-                icon:  Icon(Icons.arrow_left_sharp,size: 26.h,),
+                icon: Icon(
+                  Icons.chevron_left,
+                  size: 24.w,
+                  color: AppColors.textGray,
+                ),
               ),
               IconButton(
                 onPressed: () {
                   onChange(selectedMonth.addMonth(1));
                 },
-                icon:  Icon(Icons.arrow_right_sharp,size: 26.h,),
+                icon: Icon(
+                  Icons.chevron_right,
+                  size: 24.w,
+                  color: AppColors.textGray,
+                ),
               ),
             ],
           ),

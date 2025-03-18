@@ -14,7 +14,7 @@ class CommonSearchableDropDown extends StatefulWidget {
   final bool showAstreik;
   final double? width;
   final bool displayZerothIndex;
-  final Function(List<String> selectedValues) onMultiSelect;
+  final Function(List<String> selectedValues)? onMultiSelect;
   final Function(String selectedValue)? onSingleSelect;
   final BehaviorSubject<String>? singleSelectItemSubject;
   const CommonSearchableDropDown(
@@ -26,7 +26,7 @@ class CommonSearchableDropDown extends StatefulWidget {
       required this.showBorderColor,
       this.displayZerothIndex = false,
       this.width,
-      required this.onMultiSelect,
+      this.onMultiSelect,
       this.onSingleSelect,
       this.singleSelectItemSubject});
 
@@ -97,6 +97,7 @@ class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
 
           // dropdownDecoratorProps: const DropDownDecoratorProps(),
           decoratorProps: DropDownDecoratorProps(),
+
           popupProps: PopupProps.dialog(
             dialogProps: DialogProps(
               contentPadding:
@@ -105,13 +106,20 @@ class _CommonSearchableDropDownState extends State<CommonSearchableDropDown> {
             showSearchBox: true,
             fit: FlexFit.tight,
             itemBuilder: (context, item, isDisabled, isSelected) {
-              return CommonText(
-                text: item,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  CommonText(
+                    text: item,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textDark,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  const Divider(height: 1, color: AppColors.textGray),
+                ],
               );
             },
           ),

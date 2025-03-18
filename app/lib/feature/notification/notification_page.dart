@@ -2,9 +2,9 @@ import 'package:app/base/app_base_page.dart';
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/feature/notification/notification_viewmodel.dart';
 
-import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
@@ -27,14 +27,7 @@ class NotificationPageState
 
   @override
   void onModelReady(NotificationPageViewModel model) {
-  model.getUserDetails();
-    model.fetchNotification(
-        notificationRequestModel: NotificationRequestModel(
-            userId: model.userId,
-            userType: 2,
-            type: model.NOTIFICATION_LIST_TYPE[0],
-            limit: 10,
-            page: 1));
+    model.getUserDetails();
 
     super.onModelReady(model);
   }
@@ -52,7 +45,7 @@ class NotificationPageState
   @override
   PreferredSizeWidget? buildAppbar(NotificationPageViewModel model) {
     return AppBar(
-      title: Text("Notification"),
+      title: Text(Strings.of(context).notification),
     );
   }
 }

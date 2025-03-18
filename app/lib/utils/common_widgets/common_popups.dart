@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app/molecules/create_intimation/create_intimation_popup.dart';
+import 'package:app/molecules/student/editbearer.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
@@ -72,6 +73,46 @@ class CommonPopups {
     );
   }
 
+  void showActions(
+      BuildContext context,
+      Function(bool shouldRoute) onLogout, VoidCallback onProfile) {
+ showDialog(
+       context: context,
+       builder: (BuildContext context) {
+
+         return AlertDialog(contentPadding: EdgeInsets.all(10),
+         content: Column(
+           children: [
+             InkWell(
+               child: Text("Student Profile"),
+               onTap: onProfile,
+             ),
+             InkWell(child: Text("Logout"),onTap:(){onLogout;} ,)
+           ],
+         ),
+         );
+       }
+
+  );
+  }
+
+  void showEdit(
+      BuildContext context,
+   VoidCallback update) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+
+          return AlertDialog(contentPadding: EdgeInsets.all(10),
+            content: BearerEditPopup()
+          );
+        }
+
+    );
+  }
+
+
+
   // Method to show a gallery permission popup
   void showGallerySettingPermission(
       BuildContext context,
@@ -118,6 +159,8 @@ class CommonPopups {
     );
   }
 /////showforceupdate
+
+
 
   void _showDialog(BuildContext context,
       {required IconData icon,

@@ -13,7 +13,7 @@ import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/enums/enquiry_enum.dart';
 import 'package:app/utils/stream_builder/app_stream_builder.dart';
-import 'package:domain/domain.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,7 +74,6 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
 
   @override
   Widget? buildBottomNavigationBar(PaymentsModel model) {
-    // TODO: implement buildBottomNavigationBar
     return AppStreamBuilder<bool>(
         stream: model.paymentsLoader,
         initialData: model.paymentsLoader.value,
@@ -103,8 +102,8 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                         children: [
                           CommonText(
                             text: 'Total Amount',
-                            style: AppTypography.body1
-                                .copyWith(color: Colors.grey),
+                            style: AppTypography.smallCaption
+                                .copyWith(color: AppColors.textGray),
                           ),
                           AppStreamBuilder<int>(
                             stream: model.totalAmount,
@@ -139,6 +138,11 @@ class PaymentsPageState extends AppBasePageState<PaymentsModel, Payments>
                                 Navigator.pushNamed(
                                     context, RoutePaths.paymentsPage,
                                     arguments: PaymentPageeArguments(
+                                        currentStage: widget
+                                            .paymentArguments.currentStage,
+                                        enquiryId:
+                                            widget.paymentArguments.enquiryId,
+                                        modules: widget.paymentArguments.module,
                                         finalPaymentModelList:
                                             model.finalPaymentModelList,
                                         selectedPendingFessList:
@@ -181,12 +185,15 @@ class PaymentArguments {
   final String? studentName;
   final String phoneNo;
   final Modules module;
+  // MARKETING MODULE
+  final String? currentStage;
 
   PaymentArguments(
       {required this.phoneNo,
       this.enquiryId,
       this.enquiryNo,
       this.studentName,
+      this.currentStage,
       this.module = Modules.finance});
 
   @override

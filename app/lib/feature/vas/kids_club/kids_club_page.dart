@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class KidsClubDeatilDetailPage extends BasePage<KidsClubViewModel> {
@@ -33,8 +34,13 @@ class KidsClubDeatilDetailPageState
   }
 
   @override
-  void onModelReady(KidsClubViewModel model) {
-    // model.getKidsClubDetail();
+  void didUpdateWidget(covariant KidsClubDeatilDetailPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getKidsClubDetail();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   KidsClubViewModel get viewModel =>
@@ -57,8 +63,8 @@ class KidsClubDeatilDetailPageState
   PreferredSizeWidget? buildAppbar(KidsClubViewModel model) {
     return widget.hideAppBar == true
         ? null
-        : const CommonAppBar(
-            appbarTitle: 'Kids Club',
+        : CommonAppBar(
+            appbarTitle: Strings.of(context).kids_club,
             notShowNotificationAndUserBatch: false,
             showBackButton: true,
           );

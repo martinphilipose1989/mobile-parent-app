@@ -221,7 +221,7 @@ class StopEntity extends BaseLayerDataTransformer<StopEntity, StopModel> {
   @JsonKey(name: "order_by")
   int? orderBy;
   @JsonKey(name: "distance_km")
-  int? distanceKm;
+  dynamic? distanceKm;
   @JsonKey(name: "zone_name")
   dynamic zoneName;
   @JsonKey(name: "school_id")

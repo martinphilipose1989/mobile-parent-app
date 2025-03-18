@@ -18,26 +18,24 @@ class TripTileDetailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CommonText(
-              text: title,
-              style: titleTextStyle ?? AppTypography.caption,
-              color: titleTextStyle?.color ?? AppColors.textGray,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis),
-          subtitle.isEmpty
-              ? const SizedBox.shrink()
-              : CommonText(
-                  text: subtitle,
-                  color: AppColors.textDark,
-                  style: subtitleTextStyle ?? AppTypography.subtitle2,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CommonText(
+            text: title,
+            style: titleTextStyle ?? AppTypography.caption,
+            color: titleTextStyle?.color ?? AppColors.textGray,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis),
+        subtitle.isEmpty
+            ? const SizedBox.shrink()
+            : CommonText(
+                text: subtitle,
+                color: AppColors.textDark,
+                style: subtitleTextStyle ?? AppTypography.subtitle2,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis),
+      ],
     );
   }
 }

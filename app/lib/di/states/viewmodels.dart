@@ -33,6 +33,8 @@ import 'package:app/feature/review_page/rate_view_model.dart';
 import 'package:app/feature/scheduleSchoolTour/schedule_school_tour_page_model.dart';
 import 'package:app/feature/schedule_competency_test/schedule_competency_test_page_model.dart';
 import 'package:app/feature/splash/splash_page_model.dart';
+import 'package:app/feature/student_detail/student_detail_page_viewmodel.dart';
+import 'package:app/feature/student_profile_edit/student_profile_edit_page_viewmodel.dart';
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
 import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/feature/vas/kids_club/kids_club_view_model.dart';
@@ -41,6 +43,7 @@ import 'package:app/feature/vas/summer_camp/summer_camp_view_model.dart';
 import 'package:app/feature/vas/transport/transport_view_model.dart';
 import 'package:app/feature/webview/webview_view_model.dart';
 import 'package:app/molecules/create_intimation/create_intimation_view_model.dart';
+import 'package:app/molecules/terms_and_condition/pdf_viewmodel.dart';
 import 'package:app/utils/commonTime/common_time_model.dart';
 import 'package:app/utils/common_calendar/common_calendar_model.dart';
 import 'package:app/utils/common_widgets/common_chip_list/common_chip_list_view_model.dart';
@@ -58,6 +61,7 @@ import '../../feature/bus_route_list/bus_route_list_page_viewmodel.dart';
 import '../../feature/my_duty/my_duty_page_viewmodel.dart';
 import '../../feature/student_profile/student_profile_page_viewmodel.dart';
 
+import '../../utils/common_widgets/dialog/add_new_bearer/add_new_bearer_viewmodel.dart';
 import '../../utils/common_widgets/dialog/staff_list_view_model.dart';
 
 final splashViewModelProvider =
@@ -78,11 +82,16 @@ final tabbarViewModelProvider =
 final dashboardViewModelProvider =
     ChangeNotifierProvider.autoDispose<DashboardPageModel>(
   (ref) => DashboardPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetGuardianStudentDetailsUsecase>(),
-      getIt.get<TokenresponseUsecase>(),
-      getIt.get<GetUserRoleBasePermissionUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      getGuardianStudentDetailsUsecase:
+          getIt.get<GetGuardianStudentDetailsUsecase>(),
+      tokenresponseUsecase: getIt.get<TokenresponseUsecase>(),
+      getUserRoleBasePermissionUsecase:
+          getIt.get<GetUserRoleBasePermissionUsecase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+      termsAndConditionUsecase: getIt.get<TermsAndConditionUsecase>(),
+      sendTokenUsecase: getIt.get<Sendtokenusecase>(), logoutUsecase: getIt.get<LogoutUsecase>(),),
 );
 
 final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
@@ -97,11 +106,12 @@ final paymentsModelProvider = ChangeNotifierProvider.autoDispose<PaymentsModel>(
 final paymentsPageModelProvider =
     ChangeNotifierProvider.autoDispose<PaymentsPageModel>(
   (ref) => PaymentsPageModel(
-      getIt.get<FlutterExceptionHandlerBinder>(),
-      getIt.get<GetValidatePayNowUseCase>(),
-      getIt.get<GetPaymentOrderUsecase>(),
-      getIt.get<GetCouponsUsecase>(),
-      getIt.get<GetUserDetailsUsecase>()),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      getCouponsUsecase: getIt.get<GetCouponsUsecase>(),
+      getPaymentOrderUsecase: getIt.get<GetPaymentOrderUsecase>(),
+      getUserDetailsUsecase: getIt.get<GetUserDetailsUsecase>(),
+      getValidatePayNowUseCase: getIt.get<GetValidatePayNowUseCase>()),
 );
 
 final createIntimationProvider =
@@ -135,6 +145,16 @@ final attendanceDetailsProvider =
       getIt.get<FlutterExceptionHandlerBinder>(),
       getIt.get<AttendanceDetailUsecase>(),
       getIt.get<StudentDetailUseCase>()),
+);
+
+final studentDetailPageViewModelProvider =
+    ChangeNotifierProvider.autoDispose<StudentDetailPageViewModel>(
+  (ref) => StudentDetailPageViewModel(
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    studentDetailUsecase: getIt.get<StudentDetailUseCase>(),
+    getBearerListUsecase: getIt.get<GetBearerListUsecase>(),
+  ),
 );
 
 final attendanceCalenderProvider =
@@ -312,6 +332,13 @@ final cancelCompetencyTestPageModelProvider =
     getIt.get<FlutterToastErrorPresenter>(),
   ),
 );
+final studentProfileEditViewModelProvider =
+    ChangeNotifierProvider.autoDispose<StudentProfileEditViewModel>(
+  (ref) => StudentProfileEditViewModel(
+    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+  ),
+);
 
 final commonCalendarModelProvider =
     ChangeNotifierProvider.autoDispose<CommonCalendarModel>(
@@ -396,13 +423,13 @@ final paymentHistoryStudentLedgerProvider =
               getIt.get<FlutterExceptionHandlerBinder>(),
             ));
 
-final webViewProvider =
-    ChangeNotifierProvider.autoDispose<WebviewModel>((ref) => WebviewModel(
-          exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-          cancelPaymentUsecase: getIt.get<CancelPaymentUsecase>(),
-          flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-          getPaymentStatusUsecase: getIt.get<GetPaymentStatusUsecase>(),
-        ));
+final webViewProvider = ChangeNotifierProvider.autoDispose<WebviewModel>(
+    (ref) => WebviewModel(
+        exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+        cancelPaymentUsecase: getIt.get<CancelPaymentUsecase>(),
+        flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+        getPaymentStatusUsecase: getIt.get<GetPaymentStatusUsecase>(),
+        moveToNextStageUsecase: getIt.get<MoveToNextStageUsecase>()));
 
 final ratePageModelProvider = ChangeNotifierProvider.autoDispose<RatePageModel>(
     (ref) => RatePageModel(
@@ -560,9 +587,32 @@ final notificationProvider =
 final newEnrolmentViewModelProvider =
     ChangeNotifierProvider.autoDispose<NewEnrolmentViewModel>(
   (ref) => NewEnrolmentViewModel(
-    newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
+      getMdmAttributeUsecase: getIt.get<GetMdmAttributeUsecase>(),
+      newEnrolmentUsecase: getIt.get<NewEnrolmentUsecase>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
+      getStudentYearlyDetailsUsecase:
+          getIt.get<GetStudentYearlyDetailsUsecase>()),
+
+);
+
+final pdfViewmodelProvider = ChangeNotifierProvider.autoDispose(
+  (ref) => PdfViewmodel(
+      undertakingUsecase: getIt.get<UndertakingUsecase>(),
+      downloadFileFromUrlUsecase: getIt.get<DownloadFileFromUrlUsecase>(),
+      exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+      flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>()),
+);
+
+
+final addNewBearerViewmodelProvider =
+ChangeNotifierProvider.autoDispose<AddNewBearerViewmodel>(
+      (ref) => AddNewBearerViewmodel(
+    createBearerUsecase: getIt.get<CreateBearerUsecase>(),
+    chooseFileUseCase: getIt.get<ChooseFileUseCase>(),
+    uploadBearerProfileUsecase: getIt.get<UploadBearerProfileUsecase>(),
     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-    studentDetailsUsecase: getIt.get<StudentDetailUseCase>(),
   ),
 );

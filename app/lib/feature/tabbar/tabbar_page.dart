@@ -1,6 +1,7 @@
 import 'package:app/di/states/viewmodels.dart';
 
 import 'package:app/feature/dashboard/dashboard_page.dart';
+import 'package:app/feature/student_detail/student_detail_page.dart';
 import 'package:app/feature/tabbar/tabbar_class.dart';
 
 import 'package:app/feature/tabbar/tabbar_view_model.dart';
@@ -9,13 +10,18 @@ import 'package:app/molecules/drawer/expansion_list.dart';
 import 'package:app/themes_setup.dart';
 
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/app_images.dart';
 
 import 'package:app/utils/common_widgets/common_appbar.dart';
 
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/constants/constants.dart';
+import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
+
+import 'package:flutter_svg/svg.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'package:app/base/app_base_page.dart';
@@ -41,6 +47,7 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
   void didChangeDependencies() {
     model.tabController =
         TabController(initialIndex: BOTTOM_NAV_INDEX, length: 2, vsync: this);
+    model.getUserDetails();
     super.didChangeDependencies();
   }
 
@@ -51,26 +58,29 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   void onModelReady(TabbarViewModel model) {
-    model.menuItems = [
-      MenuItem(
-          menuItem: "Fees", menuItemActive: true, drawerItmes: model.fessItems),
-      MenuItem(
-          menuItem: "Child Progress/Academic Progress",
-          menuItemActive: true,
-          drawerItmes: model.progressItems),
-      MenuItem(
-          menuItem: "Parent Services",
-          menuItemActive: false,
-          drawerItmes: model.parentServices),
-      MenuItem(
-          menuItem: "Info",
-          menuItemActive: false,
-          drawerItmes: model.infoItems),
-      MenuItem(
-          menuItem: "Daily Diary",
-          menuItemActive: false,
-          drawerItmes: model.dailyDiary)
-    ];
+    // model.menuItems = [
+    //   MenuItem(
+    //       menuItem: "Fees",
+    //       menuItemActive: false,
+    //       drawerItmes: model.fessItems),
+    //   MenuItem(
+    //       menuItem: "Child Progress/Academic Progress",
+    //       menuItemActive: false,
+    //       drawerItmes: model.progressItems),
+    //   MenuItem(
+    //       menuItem: "Parent Services",
+    //       menuItemActive: false,
+    //       drawerItmes: model.parentServices),
+    //   MenuItem(
+    //       menuItem: "Info",
+    //       menuItemActive: false,
+    //       drawerItmes: model.infoItems),
+    //   MenuItem(
+    //       menuItem: "Daily Diary",
+    //       menuItemActive: false,
+    //       drawerItmes: model.dailyDiary)
+    // ];
+    model.getUserDetails();
     super.onModelReady(model);
   }
 
@@ -84,17 +94,18 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
             controller: model.tabController,
             children: [
               const DashboardPage(),
-              Container(
-                color: AppColors.primaryOn,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: CommonText(
-                    text: "Coming Soon !!!",
-                    style: AppTypography.body1,
-                  ),
-                ),
-              ),
+              // Container(
+              //   color: AppColors.primaryOn,
+              //   height: MediaQuery.of(context).size.height,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: Center(
+              //     child: CommonText(
+              //       text: Strings.of(context).coming_soon,
+              //       style: AppTypography.body1,
+              //     ),
+              //   ),
+              // ),
+              StudentDetailPage()
             ],
           );
         });
@@ -102,8 +113,8 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
 
   @override
   PreferredSizeWidget? buildAppbar(TabbarViewModel model) {
-    return const CommonAppBar(
-      appbarTitle: 'Dashboard',
+    return CommonAppBar(
+      appbarTitle: Strings.of(context).dashboard,
     );
   }
 
@@ -124,16 +135,22 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
         width: MediaQuery.of(context!).size.width * 0.8,
         child: Padding(
           padding: const EdgeInsets.only(top: 32.0),
-          child: ListView(
-              //    SizedBox(),
-              children: model.menuItems
-                  .map((e) => Visibility(
-                      visible: e.menuItemActive ?? false,
-                      child: CustomExpansionList(
-                        title: e.menuItem ?? "",
-                        nameList: e.drawerItmes,
-                      )))
-                  .toList()),
+          child: AppStreamBuilder<List<MenuItem>>(
+              stream: model.menuItems,
+              initialData: [],
+              dataBuilder: (context, menus) {
+                return ListView(
+                    //    SizedBox(),
+                    children: menus
+                            ?.map((e) => Visibility(
+                                visible: e.menuItemActive ?? false,
+                                child: CustomExpansionList(
+                                  title: e.menuItem ?? "",
+                                  nameList: e.drawerItmes,
+                                )))
+                            .toList() ??
+                        []);
+              }),
         ));
   }
 
@@ -165,13 +182,35 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Home',
+                          text: Strings.of(context).home,
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],
                 ),
               ),
             ),
+            // InkWell(
+            //   onTap: () {
+            //     BOTTOM_NAV_INDEX = 1;
+            //     model.onItemTapped(BOTTOM_NAV_INDEX);
+            //   },
+            //   child: AbsorbPointer(
+            //     child: Column(
+            //       children: [
+            //         const SizedBox(
+            //           height: 5,
+            //         ),
+            //         const Icon(Icons.notifications),
+            //         Padding(
+            //           padding: const EdgeInsets.only(top: 5),
+            //           child: CommonText(
+            //               text: Strings.of(context).notification,
+            //               style: Theme.of(context).textTheme.bodyMedium),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 BOTTOM_NAV_INDEX = 1;
@@ -183,11 +222,15 @@ class TabbarPageState extends AppBasePageState<TabbarViewModel, TabbarPage>
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.notifications),
+                    SvgPicture.asset(
+                      AppImages.usertagIcon,
+                      color: Colors.black,
+                      height: 22,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: CommonText(
-                          text: 'Notification',
+                          text: 'Student Profile',
                           style: Theme.of(context).textTheme.bodyMedium),
                     )
                   ],

@@ -12,6 +12,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 
 import '../../../utils/app_validators.dart';
 import '../../../utils/stream_builder/app_stream_builder.dart';
@@ -39,7 +40,7 @@ class ParentInfoEditing extends StatelessWidget {
                 )),
             child: ExpansionTile(
                 title:  CommonText(
-                  text: "Father's Details",
+                  text: Strings.of(context).father_detail,
                   style: AppTypography.subtitle2,
                 ),
                 children: [
@@ -54,7 +55,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 20, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's First Name",
+                          labelText: Strings.of(context).father_first_name,
                           controller: model.fatherFirstNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'First Name',
@@ -65,7 +66,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Last Name",
+                          labelText: Strings.of(context).father_last_name,
                           controller: model.fatherLastNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Last Name',
@@ -76,7 +77,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Aadhar Card No",
+                          labelText: Strings.of(context).father_adhar_no,
                           controller: model.fatherAdharCardController,
                           keyboardType: TextInputType.number,
                           maxLength: 12,
@@ -92,7 +93,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Pan Card No",
+                          labelText: Strings.of(context).father_Pan_Card_No,
                           controller: model.fatherPanCardController,
                           inputFormatters: [
                             AppInputformatters.upperCaseFormatter()
@@ -271,7 +272,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Office Address",
+                          labelText: Strings.of(context).office_Address,
                           controller: model.officeAddressController,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Office Address',
@@ -295,7 +296,7 @@ class ParentInfoEditing extends StatelessWidget {
                         // ),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Area",
+                          labelText: Strings.of(context).area,
                           controller: model.fatherOfficeAreaController,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Office Address',
@@ -341,7 +342,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Pin Code",
+                          labelText: Strings.of(context).pin_code,
                           controller: model.pinCodeController,
                           focusNode: model.pinCodeFocusNode,
                           keyboardType: TextInputType.number,
@@ -437,7 +438,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Email ID",
+                          labelText: Strings.of(context).father_Email_ID,
                           controller: model.fatherEmailController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -448,7 +449,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Father's Mobile Number",
+                          labelText: Strings.of(context).father_Mobile_Number,
                           controller: model.fatherMobileController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
@@ -476,7 +477,7 @@ class ParentInfoEditing extends StatelessWidget {
                 )),
             child: ExpansionTile(
                 title:  CommonText(
-                  text: "Mother's Details",
+                  text: Strings.of(context).mother_Details,
                   style: AppTypography.subtitle2,
                 ),
                 children: [
@@ -491,7 +492,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 20, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's First Name",
+                          labelText: Strings.of(context).mother_first_name,
                           controller: model.motherFirstNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -502,7 +503,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Last Name",
+                          labelText: Strings.of(context).Mother_last_name,
                           controller: model.motherLastNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -513,7 +514,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Aadhar Card No",
+                          labelText: Strings.of(context).mother_Aadhar_Card_no,
                           controller: model.motherAdharCardController,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -529,7 +530,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Pan Card No",
+                          labelText: Strings.of(context).mother_Pan_Card_No,
                           controller: model.motherPanCardController,
                           maxLength: 10,
                           inputFormatters: [
@@ -706,7 +707,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Office Address",
+                          labelText: Strings.of(context).office_Address,
                           controller: model.motherOfficeAddressController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -734,7 +735,7 @@ class ParentInfoEditing extends StatelessWidget {
                         // ),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Area",
+                          labelText: Strings.of(context).area,
                           controller: model.motherOfficeAreaController,
                           validator: (value) => AppValidators.validateNotEmpty(
                               value, 'Area',
@@ -773,7 +774,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Pin Code",
+                          labelText: Strings.of(context).pin_code,
                           controller: model.motherPinCodeController,
                           focusNode: model.motherPinCodeFocusNode,
                           keyboardType: TextInputType.number,
@@ -872,7 +873,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Email ID",
+                          labelText: Strings.of(context).mother_Email_ID,
                           controller: model.motherEmailController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -883,7 +884,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: true,
-                          labelText: "Mother's Mobile Number",
+                          labelText: Strings.of(context).mother_Mobile_Number,
                           controller: model.motherMobileController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
@@ -911,7 +912,7 @@ class ParentInfoEditing extends StatelessWidget {
                 )),
             child: ExpansionTile(
                 title:  CommonText(
-                  text: "Guardian's Details",
+                  text: Strings.of(context).guardian_detail,
                   style: AppTypography.subtitle2,
                 ),
                 children: [
@@ -926,7 +927,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 20, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's First Name",
+                          labelText: Strings.of(context).gardian_first_name,
                           controller: model.guardianFirstNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -937,7 +938,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Last Name",
+                          labelText: Strings.of(context).gardian_last_name,
                           controller: model.guardianLastNameController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -948,7 +949,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Aadhar Card No.",
+                          labelText: Strings.of(context).gardian_adhar_no,
                           controller: model.guardianAdharCardController,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -964,7 +965,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Pan Card No.",
+                          labelText: Strings.of(context).gardian_Pan_Card_No,
                           controller: model.guardianPanCardController,
                           maxLength: 10,
                           validator: (value) => AppValidators.validateNotEmpty(
@@ -1014,19 +1015,19 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "House Number",
+                          labelText: Strings.of(context).house_no,
                           controller: model.guardianHouseNumberController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Street",
+                          labelText: Strings.of(context).street_name,
                           controller: model.guardianStreetController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Landmark",
+                          labelText: Strings.of(context).landmark,
                           controller: model.guardianLandmarkController,
                         ),
                         CommonSizedBox.sizedBox(height: 15, width: 10),
@@ -1069,7 +1070,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Pin Code",
+                          labelText: Strings.of(context).pin_code,
                           controller: model.guardianPinCodeController,
                           focusNode: model.guardianPinCodeFocusNode,
                           keyboardType: TextInputType.number,
@@ -1175,7 +1176,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Email ID",
+                          labelText: Strings.of(context).gardian_Email_ID,
                           controller: model.guardianEmailController,
                           validator: (value) => AppValidators.validateNotEmpty(
                             value,
@@ -1186,7 +1187,7 @@ class ParentInfoEditing extends StatelessWidget {
                         CommonSizedBox.sizedBox(height: 15, width: 10),
                         CommonTextFormField(
                           showAstreik: false,
-                          labelText: "Guardian's Mobile Number",
+                          labelText: Strings.of(context).guardian_Mobile_Number,
                           controller: model.guardianMobileController,
                           maxLength: 10,
                           inputFormatters: [
@@ -1199,17 +1200,17 @@ class ParentInfoEditing extends StatelessWidget {
                           ),
                         ),
                         CommonRadioButtonWidget(
-                          title: 'Custodian Guardian',
+                          title: Strings.of(context).custodian_guardian,
                           commonRadioButton: model.radioButtonController,
                           value: 'Custodian Guardian',
                         ),
                         CommonRadioButtonWidget(
-                          title: 'Legal Guardian',
+                          title: Strings.of(context).legal_guardian,
                           commonRadioButton: model.radioButtonController,
                           value: 'Legal Guardian',
                         ),
                         CommonRadioButtonWidget(
-                          title: 'Not Applicable',
+                          title: Strings.of(context).not_applicable,
                           commonRadioButton: model.radioButtonController,
                           value: 'Not Applicable',
                         ),
@@ -1228,7 +1229,7 @@ class ParentInfoEditing extends StatelessWidget {
                 )),
             child: ExpansionTile(
                 title:  CommonText(
-                  text: "Sibling's Details",
+                  text: Strings.of(context).sibling_detail,
                   style: AppTypography.subtitle2,
                 ),
                 children: [
@@ -1243,16 +1244,16 @@ class ParentInfoEditing extends StatelessWidget {
                         ),
                         CommonSizedBox.sizedBox(height: 10, width: 10),
                        CommonText(
-                          text: 'For Sibling 1',
+                          text: Strings.of(context).for_sibling_1,
                           style: AppTypography.subtitle2,
                         ),
                         CommonSizedBox.sizedBox(height: 10, width: 10),
        CommonText(
-                          text: 'Is Sibling',
+                          text: Strings.of(context).is_sibling,
                           style: AppTypography.subtitle2,
                         ),
                         CommonRadioButtonWidget(
-                          title: 'Vibgyor Student',
+                          title: Strings.of(context).vibgyor_student,
                           commonRadioButton: model.radioButtonController1,
                           value: 'Vibgyor Student',
                           onOptionSelected: (value) {
@@ -1267,7 +1268,7 @@ class ParentInfoEditing extends StatelessWidget {
                           },
                         ),
                         CommonRadioButtonWidget(
-                          title: 'Non-Vibgyor Student',
+                          title: Strings.of(context).non_vibgyor_Student,
                           commonRadioButton: model.radioButtonController1,
                           value: 'Non-Vibgyor Studente',
                           onOptionSelected: (value) {
@@ -1332,7 +1333,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 showAstreik: false,
                                 readOnly:
                                     selectStudentType == "Vibgyor Student",
-                                labelText: "Sibling First Name",
+                                labelText: Strings.of(context).sibling_first_name,
                                 controller: model.siblingFirstNameController,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
@@ -1351,7 +1352,7 @@ class ParentInfoEditing extends StatelessWidget {
                             dataBuilder: (context, selectStudentType) {
                               return CommonTextFormField(
                                 showAstreik: false,
-                                labelText: "Sibling Last Name",
+                                labelText: Strings.of(context).sibling_last_name,
                                 readOnly:
                                     selectStudentType == "Vibgyor Student",
                                 controller: model.siblingLastNameController,
@@ -1379,7 +1380,7 @@ class ParentInfoEditing extends StatelessWidget {
                                       controller: model.siblingDOBController,
                                       isDisabled: selectStudentType ==
                                           "Vibgyor Student",
-                                      labelName: "Date of birth",
+                                      labelName: Strings.of(context).date_of_birth,
                                       initialDate: data?.data?.data
                                               ?.siblingProfile?.dob ??
                                           model.siblingDOB,
@@ -1454,7 +1455,7 @@ class ParentInfoEditing extends StatelessWidget {
                                 readOnly:
                                     selectStudentType == "Vibgyor Student",
                                 showAstreik: false,
-                                labelText: "School",
+                                labelText: Strings.of(context).school,
                                 validator: (value) =>
                                     AppValidators.validateNotEmpty(
                                   value,
@@ -1516,7 +1517,7 @@ class ParentInfoEditing extends StatelessWidget {
   Align(
             alignment: Alignment.topLeft,
             child: CommonText(
-              text: "Are Parent's Separated?",
+              text: Strings.of(context).are_parent_saper,
               style: AppTypography.subtitle2,
             ),
           ),
@@ -1527,14 +1528,14 @@ class ParentInfoEditing extends StatelessWidget {
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 Expanded(
                   child: CommonRadioButtonWidget(
-                    title: 'Yes',
+                    title: Strings.of(context).yes,
                     commonRadioButton: model.radioButtonController2,
                     value: 'Yes',
                   ),
                 ),
                 Expanded(
                   child: CommonRadioButtonWidget(
-                    title: 'No',
+                    title: Strings.of(context).no,
                     commonRadioButton: model.radioButtonController2,
                     value: 'No',
                   ),
@@ -1551,7 +1552,7 @@ class ParentInfoEditing extends StatelessWidget {
                   child:  Align(
                     alignment: Alignment.topLeft,
                     child: CommonText(
-                      text: "Who Has The Custody Of the Child?",
+                      text: Strings.of(context).who_Has_The_Custody_Of_the_Child,
                       style: AppTypography.subtitle2,
                     ),
                   ),
@@ -1570,14 +1571,14 @@ class ParentInfoEditing extends StatelessWidget {
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         Expanded(
                           child: CommonRadioButtonWidget(
-                            title: 'Mother',
+                            title: Strings.of(context).mother,
                             commonRadioButton: model.radioButtonController10,
                             value: 'Mother',
                           ),
                         ),
                         Expanded(
                           child: CommonRadioButtonWidget(
-                            title: 'Father',
+                            title: Strings.of(context).father,
                             commonRadioButton: model.radioButtonController10,
                             value: 'Father',
                           ),

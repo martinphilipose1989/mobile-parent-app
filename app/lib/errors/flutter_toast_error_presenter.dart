@@ -1,8 +1,10 @@
+import 'package:app/themes_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_errors/flutter_errors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class FlutterToastErrorPresenter<T extends String> extends ToastErrorPresenter<T> {
+class FlutterToastErrorPresenter<T extends String>
+    extends ToastErrorPresenter<T> {
   @override
   void show(Exception throwable, BuildContext context, String data) {
     Fluttertoast.showToast(
@@ -10,7 +12,7 @@ class FlutterToastErrorPresenter<T extends String> extends ToastErrorPresenter<T
         toastLength: super.duration.toFlutter(),
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColors.failure,
         textColor: Colors.white,
         fontSize: 16.0);
   }

@@ -65,8 +65,11 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
 
   BehaviorSubject<bool> isEnroll = BehaviorSubject.seeded(false);
 
-  List<String> feeCategoryType = [];
+  BehaviorSubject<List<String>> feeCategoryType = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedFeeCategoryType = BehaviorSubject.seeded('');
+
+  List<String> feeSubType = [];
+  BehaviorSubject<String> selectedFeeSubType = BehaviorSubject.seeded('');
 
   BehaviorSubject<List<String>> periodOfService = BehaviorSubject.seeded([]);
   BehaviorSubject<String> selectedPeriodOfService = BehaviorSubject.seeded('');
@@ -106,8 +109,9 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   }
 
   void setData(CafeteriaEnrollmentResponseModel data) {
-    for (var element in (data.data?.feeCategory ?? [])) {
-      feeCategoryType.add(element.feeCategory ?? '');
+    for (var element in (data.data?.feeSubType ?? [])) {
+      //feeCategoryType.add(element.feeCategory ?? '');
+      feeSubType.add(element.feeSubType ?? '');
     }
   }
 
@@ -124,6 +128,7 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
         shiftId: enquiryDetailArgs?.shiftId,
         feeTypeId: FeesTypeIdEnum.cafeteriaFees.id,
         feeCategoryId: feeCategoryId,
+        feeSubTypeId: feeSubTypeID,
         periodOfServiceId: periodOfServiceID,
       ));
       RequestManager<VasOptionResponse>(params,
@@ -260,5 +265,20 @@ class CafeteriaDetailViewModel extends BasePageViewModel {
   void dispose() {
     scrollController.dispose(); // Dispose the controller when done
     super.dispose();
+  }
+
+  void setCategoryFeeSubType(String value) {
+    final feeSubType = cafeteriaEnrollmentDetail.value.data?.feeSubType
+        ?.firstWhereOrNull((element) => (element.feeSubType ?? '') == value);
+
+    feeSubTypeID = feeSubType?.feeSubTypeId ?? 0;
+    List<String> options = [];
+    for (FeeCategoryModel element
+        in cafeteriaEnrollmentDetail.value.data?.feeCategory ?? []) {
+      if (element.feeSubType == value) {
+        options.add(element.feeCategory ?? '');
+      }
+    }
+    feeCategoryType.add(options);
   }
 }

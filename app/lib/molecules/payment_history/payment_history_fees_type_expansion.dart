@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/feature/payments/payment_history/payment_history_model.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
@@ -41,11 +39,9 @@ class _PaymentHistoryFeesTypeExpansionState
               SizedBox(
                   height: MediaQuery.of(context).size.height / 1,
                   child: widget.groupedModels.isEmpty
-                      ? Center(
-                          child: CommonText(
-                            text: 'No Fees Type Found',
-                            style: AppTypography.subtitle2,
-                          ),
+                      ? CommonText(
+                          text: 'No Fees Type Found',
+                          style: AppTypography.subtitle2,
                         )
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -58,13 +54,14 @@ class _PaymentHistoryFeesTypeExpansionState
                                     borderRadius: BorderRadius.circular(8.0),
                                     border: Border.all(width: 1)),
                                 child: ExpansionTile(
-                                    title: Row(
+                                    title: Row(crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CommonText(
-                                          text:
-                                              "${widget.groupedModels[i].feeDisplayName}",
+                                          text: widget.groupedModels[i]
+                                                  .feeDisplayName ??
+                                              '',
                                           style: AppTypography.subtitle2,
                                         ),
                                         const Divider(
@@ -106,7 +103,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                                 .fees
                                                                 .first
                                                                 .urlKey;
-                                                        log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
+
                                                         widget.model
                                                             .downloadFeeType(
                                                                 urlKey:
@@ -128,7 +125,7 @@ class _PaymentHistoryFeesTypeExpansionState
                                                               .fees
                                                               .first
                                                               .urlKey;
-                                                      log("${widget.groupedModels[i].feeDisplayName} URL KEY $urlKey");
+
                                                       widget.model
                                                           .downloadFeeType(
                                                               urlKey:

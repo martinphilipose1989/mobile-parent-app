@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:app/errors/flutter_toast_error_presenter.dart';
@@ -70,8 +69,10 @@ class PaymentHistoryModel extends BasePageViewModel {
         createCall: () => getAcademicYearUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.data?.data != null) {
-          academicYearIds.add(result.data?.data![0].id ?? 0);
-          getFeesCollected();
+          if (result.data?.data?.isNotEmpty ?? false) {
+            academicYearIds.add(result.data?.data![0].id ?? 0);
+            getFeesCollected();
+          }
         }
         _getAcademicYearModel.add(result);
       }).onError((error) {
@@ -181,7 +182,9 @@ class PaymentHistoryModel extends BasePageViewModel {
         createCall: () => getPendingFeesUsecase.execute(params: params),
       ).asFlow().listen((result) {
         _getFeesTypeModel.add(result);
-        groupByFeeType(result.data?.data?.fees ?? []);
+        if (result.status == Status.success) {
+          groupByFeeType(result.data?.data?.fees ?? []);
+        }
       }).onError((error) {
         // exceptionHandlerBinder.showError(error!);
       });
@@ -197,35 +200,37 @@ class PaymentHistoryModel extends BasePageViewModel {
 
     Map<String, List<GetPendingFeesFeeModel>> groupedByFeeType = {};
     Map<String, String> feeIdToFeeTypeMap = {};
-
+    if (fees.isEmpty) {
+      return;
+    }
     for (var item in fees) {
       // Earlier group by fee Type was done by feeType, now it is done by feeId
-      String feeId = item.feeId.toString();
-      String feeType = item.feeType.toString();
+      if (item.feeId != null && item.feeType != null) {
+        String feeId = item.feeId.toString();
+        String feeType = item.feeType.toString();
 
-      // Maintain a mapping of feeId to feeType for display
-      feeIdToFeeTypeMap[feeId] = feeType;
+        // Maintain a mapping of feeId to feeType for display
+        feeIdToFeeTypeMap[feeId] = feeType;
 
-      if (groupedByFeeType.containsKey(feeId)) {
-        groupedByFeeType[feeId]!.add(item);
-      } else {
-        groupedByFeeType[feeId] = [item];
+        if (groupedByFeeType.containsKey(feeId)) {
+          groupedByFeeType[feeId]!.add(item);
+        } else {
+          groupedByFeeType[feeId] = [item];
+        }
       }
-
-      log("Grouped by fee type: ${item.feeType} ${item.feeId}");
+      _groupedModels.clear();
+      // Convert the grouped map to a list of Model objects
+      _groupedModels = groupedByFeeType.entries.map((entry) {
+        // Use the feeType from the mapping for display
+        String feeDisplayName = feeIdToFeeTypeMap[entry.key] ?? '';
+        return GroupByFeeTypeModel(
+          feeType: entry.key,
+          fees: entry.value,
+          feeDisplayName: feeDisplayName,
+          totalAmount: calculateTotalAmount(entry.value),
+        );
+      }).toList();
     }
-
-    // Convert the grouped map to a list of Model objects
-    _groupedModels = groupedByFeeType.entries.map((entry) {
-      // Use the feeType from the mapping for display
-      String feeDisplayName = feeIdToFeeTypeMap[entry.key] ?? '';
-      return GroupByFeeTypeModel(
-        feeType: entry.key,
-        fees: entry.value,
-        feeDisplayName: feeDisplayName,
-        totalAmount: calculateTotalAmount(entry.value),
-      );
-    }).toList();
   }
 
   String calculateTotalAmount(List<GetPendingFeesFeeModel> fees) {

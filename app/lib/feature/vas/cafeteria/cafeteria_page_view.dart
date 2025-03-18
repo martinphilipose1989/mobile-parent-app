@@ -2,6 +2,7 @@ import 'package:app/feature/vas/cafeteria/cafeteria_view_model.dart';
 import 'package:app/model/resource.dart';
 import 'package:app/themes_setup.dart';
 import 'package:app/utils/app_typography.dart';
+import 'package:app/utils/common_widgets/common_dropdown.dart';
 import 'package:app/utils/common_widgets/common_elevated_button.dart';
 import 'package:app/utils/common_widgets/common_loader/common_app_loader.dart';
 import 'package:app/utils/common_widgets/common_radio_button.dart/common_radio_button.dart';
@@ -13,6 +14,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
@@ -42,14 +44,17 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 16.w, vertical: 16.h),
                           child: Visibility(
-                            visible:
+                            visible: (data
+                                        ?.data?.data?.feeSubType?.isNotEmpty ??
+                                    false) &&
                                 (data?.data?.data?.feeCategory?.isNotEmpty ??
-                                        false) &&
-                                    (data?.data?.data?.periodOfService
-                                            ?.isNotEmpty ??
-                                        false),
+                                    false) &&
+                                (data?.data?.data?.periodOfService
+                                        ?.isNotEmpty ??
+                                    false),
                             replacement: NoDataFoundWidget(
-                                title: "No VAS option for Cafeteria available"),
+                                title: Strings.of(context)
+                                    .no_VAS_option_for_cafeteria_available),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -80,7 +85,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               CommonText(
-                                                text: "Calculated Amount",
+                                                text: Strings.of(context)
+                                                    .calculated_amount,
                                                 style: AppTypography.body2,
                                               ),
                                               CommonText(
@@ -95,68 +101,105 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                         ),
                                       );
                                     }),
-                                SizedBox(
-                                  height: 16.h,
+                                SizedBox(height: 16.h),
+                                CustomDropdownButton(
+                                  items: model.feeSubType.toSet().toList(),
+                                  dropdownName: 'Type of Service',
+                                  showAstreik: false,
+                                  showBorderColor: false,
+                                  isMutiSelect: false,
+                                  onMultiSelect: (_) {},
+                                  singleSelectItemSubject:
+                                      model.selectedFeeSubType,
+                                  onSingleSelect: (value) {
+                                    if (model.selectedFeeSubType.value ==
+                                        value) {
+                                      return;
+                                    }
+                                    model.setCategoryFeeSubType(value);
+                                  },
                                 ),
-                                CommonText(
-                                  text: "Opt For",
-                                  style: AppTypography.subtitle2,
-                                ),
-                                SizedBox(height: 10.h),
-                                Column(
-                                  children: List.generate(
-                                    model.feeCategoryType
-                                        .toSet()
-                                        .toList()
-                                        .length,
-                                    (index) {
-                                      return CommonRadioButtonWidget<String>(
-                                        commonRadioButton:
-                                            model.radioButtonFeeOption,
-                                        value: model.feeCategoryType[index],
-                                        title: model.feeCategoryType[index],
-                                        onOptionSelected: (value) {
-                                          model.setCategoryType(value!);
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 15.h,
-                                ),
-                                CommonText(
-                                  text: "Period Of Service",
-                                  style: AppTypography.subtitle2,
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
+                                AppStreamBuilder<List<String>>(
+                                    stream: model.feeCategoryType,
+                                    initialData: [],
+                                    dataBuilder: (context, feeCategoryType) {
+                                      return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            if (feeCategoryType?.isNotEmpty ??
+                                                false) ...[
+                                              SizedBox(height: 10.h),
+                                              CommonText(
+                                                text:
+                                                    Strings.of(context).opt_for,
+                                                style: AppTypography.subtitle2,
+                                              ),
+                                              SizedBox(height: 10.h),
+                                            ],
+                                            ...List.generate(
+                                              feeCategoryType
+                                                      ?.toSet()
+                                                      .toList()
+                                                      .length ??
+                                                  0,
+                                              (index) {
+                                                return CommonRadioButtonWidget<
+                                                    String>(
+                                                  commonRadioButton: model
+                                                      .radioButtonFeeOption,
+                                                  value: model.feeCategoryType
+                                                      .value[index],
+                                                  title: model.feeCategoryType
+                                                      .value[index],
+                                                  onOptionSelected: (value) {
+                                                    model.setCategoryType(
+                                                        value!);
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ]);
+                                    }),
                                 AppStreamBuilder<List<String>>(
                                     stream: model.periodOfService,
                                     initialData: const <String>[],
                                     dataBuilder: (context, snapshot) {
                                       return Column(
-                                        children: List.generate(
-                                          model.periodOfService.value
-                                              .toSet()
-                                              .toList()
-                                              .length,
-                                          (index) {
-                                            return CommonRadioButtonWidget(
-                                              commonRadioButton:
-                                                  model.radioButtonTerm,
-                                              value: model
-                                                  .periodOfService.value[index],
-                                              title: model
-                                                  .periodOfService.value[index],
-                                              onOptionSelected: (value) {
-                                                model
-                                                    .setPeriodOfService(value!);
-                                              },
-                                            );
-                                          },
-                                        ),
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (snapshot?.isNotEmpty ??
+                                              false) ...[
+                                            SizedBox(height: 15.h),
+                                            CommonText(
+                                              text: Strings.of(context)
+                                                  .period_of_service,
+                                              style: AppTypography.subtitle2,
+                                            ),
+                                            SizedBox(height: 10.h),
+                                          ],
+                                          ...List.generate(
+                                            model.periodOfService.value
+                                                .toSet()
+                                                .toList()
+                                                .length,
+                                            (index) {
+                                              return CommonRadioButtonWidget(
+                                                commonRadioButton:
+                                                    model.radioButtonTerm,
+                                                value: model.periodOfService
+                                                    .value[index],
+                                                title: model.periodOfService
+                                                    .value[index],
+                                                onOptionSelected: (value) {
+                                                  model.setPeriodOfService(
+                                                      value!);
+                                                },
+                                              );
+                                            },
+                                          )
+                                        ],
                                       );
                                     }),
                                 const SizedBox(
@@ -172,7 +215,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                 onPressed: () {
                                                   model.calculateFees();
                                                 },
-                                                text: "Calculate",
+                                                text: Strings.of(context)
+                                                    .calculate,
                                                 backgroundColor:
                                                     AppColors.accent,
                                                 width: double.infinity,
@@ -197,9 +241,9 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
-                                                            enquiryNo: model
-                                                                .enquiryDetailArgs
-                                                                ?.enquiryNumber,
+                                                            // enquiryNo: model
+                                                            //     .enquiryDetailArgs
+                                                            //     ?.enquiryNumber,
                                                             academicYearId: model
                                                                 .enquiryDetailArgs
                                                                 ?.academicYearId,
@@ -246,7 +290,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                         model.enrollCafeteria();
                                                       }
                                                     },
-                                                    text: "Enroll Now",
+                                                    text: Strings.of(context)
+                                                        .enroll_now,
                                                     backgroundColor:
                                                         AppColors.accent,
                                                     textStyle: AppTypography
@@ -265,7 +310,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                                                     onPressed: () {
                                                       model.reset();
                                                     },
-                                                    text: "Reset",
+                                                    text: Strings.of(context)
+                                                        .reset,
                                                     backgroundColor:
                                                         AppColors.primaryOn,
                                                     textStyle: AppTypography
@@ -288,8 +334,8 @@ class CafeteriaPageView extends BasePageViewWidget<CafeteriaDetailViewModel> {
                   );
                 });
           } else {
-            return const Center(
-              child: CommonText(text: "Data not found"),
+            return Center(
+              child: CommonText(text: Strings.of(context).no_data_found),
             );
           }
         });

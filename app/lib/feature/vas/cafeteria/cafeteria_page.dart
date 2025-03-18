@@ -7,6 +7,7 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class CafeteriaPage extends BasePage<CafeteriaDetailViewModel> {
@@ -50,6 +51,16 @@ class CafeteriaPageState
   }
 
   @override
+  void didUpdateWidget(covariant CafeteriaPage oldWidget) {
+    if (oldWidget.enquiryDetailArgs?.academicYearId !=
+        widget.enquiryDetailArgs?.academicYearId) {
+      viewModel.enquiryDetailArgs = widget.enquiryDetailArgs;
+      viewModel.getCafeteriaDetail();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildView(BuildContext context, CafeteriaDetailViewModel model) {
     return CafeteriaPageView(provideBase(),
         onSelectVasEnrolment: widget.onSelectVasEnrolment);
@@ -59,8 +70,8 @@ class CafeteriaPageState
   PreferredSizeWidget? buildAppbar(CafeteriaDetailViewModel model) {
     return widget.hideAppBar
         ? null
-        : const CommonAppBar(
-            appbarTitle: 'Cafeteria',
+        :  CommonAppBar(
+            appbarTitle: Strings.of(context).cafeteria,
             notShowNotificationAndUserBatch: false,
             showBackButton: true,
           );

@@ -3,6 +3,7 @@ import 'package:app/di/states/viewmodels.dart';
 import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'create_edit_gate_pass_page_view.dart';
@@ -47,8 +48,8 @@ class CreateEditGatePassPageState extends AppBasePageState<
 
   @override
   PreferredSizeWidget? buildAppbar(CreateEditGatePassViewModel model) {
-    return const CommonAppBar(
-        appbarTitle: "Create Gate Pass",
+    return  CommonAppBar(
+        appbarTitle: Strings.of(context).create_gate_pass,
         showBackButton: true,
         notShowNotificationAndUserBatch: true);
   }

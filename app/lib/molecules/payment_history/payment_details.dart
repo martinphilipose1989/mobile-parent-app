@@ -5,8 +5,10 @@ import 'package:app/utils/common_widgets/common_appbar.dart';
 import 'package:app/utils/common_widgets/common_text_widget.dart';
 import 'package:app/utils/currency_formatter.dart';
 import 'package:app/utils/date_formatter.dart';
+import 'package:app/utils/string_extension.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:localisation/strings.dart';
 
 class PaymentDetailScreen extends StatelessWidget {
   final GetPendingFeesFeeModel fee;
@@ -18,9 +20,9 @@ class PaymentDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(
+      appBar:  CommonAppBar(
         notShowNotificationAndUserBatch: true,
-        appbarTitle: 'Payment Detail',
+        appbarTitle: Strings.of(context).payment_det,
         showBackButton: true,
       ),
       body: Padding(
@@ -60,26 +62,27 @@ class PaymentDetailScreen extends StatelessWidget {
             Column(
               children: fee.feeId != null
                   ? [
-                      buildDetailRow('Fees Type', fee.feeType ?? ""),
-                      buildDetailRow('Fees Sub Type', fee.feeSubType ?? ""),
+                      buildDetailRow(Strings.of(context).fee_type, fee.feeType ?? ""),
+                      buildDetailRow(Strings.of(context).fee_subtype, fee.feeSubType ?? ""),
                       buildDetailRow(
-                          'Fees Category',
+                          Strings.of(context).fees_category,
                           fee.feeCategory == null
                               ? 'NA'
                               : fee.feeCategory ?? ""),
                       buildDetailRow(
-                          'Fees Sub Category',
+                          Strings.of(context).fees_sub_category,
                           fee.feeSubCategory == null
                               ? 'NA'
                               : fee.feeSubCategory ?? ""),
                     ]
                   : [
-                      buildDetailRow('Transaction ID', ''),
-                      buildDetailRow('Transaction Date',
-                          DateFormatter.formatDate(fee.createdOn ?? '')),
-                      buildDetailRow('Payment Mode', fee.paymentMode ?? ""),
                       buildDetailRow(
-                          'Fee Receipt Number', fee.instrumentNumber ?? ""),
+                          Strings.of(context).transaction_iD, fee.pgTransactionId.orEmpty('N/A')),
+                      buildDetailRow(Strings.of(context).transaction_dt,
+                          DateFormatter.formatDate(fee.createdOn ?? '')),
+                      buildDetailRow(Strings.of(context).payment_mode, fee.paymentMode ?? ""),
+                      buildDetailRow(
+                          Strings.of(context).fee_reciept_number, fee.instrumentNumber ?? ""),
                     ],
             )
           ],

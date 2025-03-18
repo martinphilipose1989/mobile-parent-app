@@ -41,20 +41,21 @@ class NotificationPageViewModel extends BasePageViewModel {
   final _throttleDuration = const Duration(milliseconds: 300);
   String getType(int selectedStatusValue, int selectedValue) {
     if (selectedStatusValue == 0 && selectedValue == -1) {
-      return NOTIFICATION_LIST_TYPE[0];
-    } else if (selectedStatusValue == 0 && selectedValue == 0)
-      return NOTIFICATION_LIST_TYPE[1];
-    else if (selectedStatusValue == 0 && selectedValue == 1)
-      return NOTIFICATION_LIST_TYPE[2];
-    else if (selectedStatusValue == 1 && selectedValue == 0)
-      return NOTIFICATION_LIST_TYPE[3];
-    else if (selectedStatusValue == 1 && selectedValue == 1)
-      return NOTIFICATION_LIST_TYPE[4];
-    else
-      return NOTIFICATION_LIST_TYPE[5];
+      return notificationListType[0];
+    } else if (selectedStatusValue == 0 && selectedValue == 0) {
+      return notificationListType[1];
+    } else if (selectedStatusValue == 0 && selectedValue == 1) {
+      return notificationListType[2];
+    } else if (selectedStatusValue == 1 && selectedValue == 0) {
+      return notificationListType[3];
+    } else if (selectedStatusValue == 1 && selectedValue == 1) {
+      return notificationListType[4];
+    } else {
+      return notificationListType[5];
+    }
   }
 
-  List<String> NOTIFICATION_LIST_TYPE = [
+  List<String> notificationListType = [
     'all-today',
     'unread-today',
     'read-today',
@@ -234,6 +235,14 @@ class NotificationPageViewModel extends BasePageViewModel {
 
         if (userSubject.value.data?.id != null) {
           userId = userSubject.value.data!.id!;
+
+          fetchNotification(
+              notificationRequestModel: NotificationRequestModel(
+                  userId: userId,
+                  userType: userType,
+                  type: getType(selectedStatusValue.value, selectedValue.value),
+                  limit: 10,
+                  page: pageNumber));
         }
       }
     });

@@ -1,66 +1,88 @@
 import 'dart:developer';
 
+import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
+import 'package:app/molecules/terms_and_condition/pdf.dart';
+import 'package:app/myapp.dart';
 import 'package:app/navigation/route_paths.dart';
+import 'package:app/utils/api_response_handler.dart';
 import 'package:app/utils/common_widgets/app_images.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
 import 'package:app/utils/enums/parent_student_status_enum.dart';
 import 'package:app/utils/request_manager.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_errors/flutter_errors.dart';
-import 'package:injectable/injectable.dart';
+import 'package:notification/notification.dart';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:services/services.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 import 'dashboard_state.dart';
 
-@injectable
 class DashboardPageModel extends BasePageViewModel {
   final FlutterExceptionHandlerBinder exceptionHandlerBinder;
-  final GetGuardianStudentDetailsUsecase _getGuardianStudentDetailsUsecase;
+  final GetGuardianStudentDetailsUsecase getGuardianStudentDetailsUsecase;
   final TokenresponseUsecase tokenresponseUsecase;
+  final Sendtokenusecase sendTokenUsecase;
+  final LogoutUsecase logoutUsecase;
   final GetUserRoleBasePermissionUsecase getUserRoleBasePermissionUsecase;
+  final FlutterToastErrorPresenter flutterToastErrorPresenter;
 
   BehaviorSubject<ParentStudentStatusEnum> statusSubject =
       BehaviorSubject.seeded(ParentStudentStatusEnum.enquiry);
 
-  final GetUserDetailsUsecase _getUserDetailsUsecase;
+  final GetUserDetailsUsecase getUserDetailsUsecase;
   final BehaviorSubject<Resource<User>> userSubject = BehaviorSubject();
 
   Stream<Resource<User>> get userStream => userSubject.stream;
 
   var dashboardState = DashboardState();
 
+  // Terms and Condition
+
+  final TermsAndConditionUsecase termsAndConditionUsecase;
+
   DashboardPageModel(
-      this.exceptionHandlerBinder,
-      this._getGuardianStudentDetailsUsecase,
-      this.tokenresponseUsecase,
-      this.getUserRoleBasePermissionUsecase,
-      this._getUserDetailsUsecase);
+      {required this.exceptionHandlerBinder,required this.logoutUsecase,
+        required this.getGuardianStudentDetailsUsecase,
+      required this.tokenresponseUsecase,
+      required this.getUserRoleBasePermissionUsecase,
+      required this.getUserDetailsUsecase,
+      required this.termsAndConditionUsecase,
+      required this.flutterToastErrorPresenter,
+      required this.sendTokenUsecase});
 
   final List<String> images = [
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    AppImages.pageViewImages,
-    // Add more image paths if needed
+    AppImages.banner1,
+    AppImages.banner2,
+    AppImages.banner3,
+    AppImages.banner4,
+    AppImages.banner5,
+    AppImages.banner6,
+    AppImages.banner7,
+    AppImages.banner8,
+    AppImages.banner9,
+    AppImages.banner10,
+    AppImages.banner11,
+    AppImages.banner12,
+    AppImages.banner13,
+    AppImages.banner14,
+    AppImages.banner15,
   ];
 
   late String mobileNo;
 
-  final List<String> dropdownValues = [
-    'Vipul patel EN1437465346',
-    'Amit patel EN1437465346'
-  ];
-
   final List trackerTemp = [
-    {
-      'name': 'SR',
-      'image': AppImages.userSearch,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'sr'
-    },
+    // {
+    //   'name': 'SR',
+    //   'image': AppImages.userSearch,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'sr'
+    // },
     // {
     //   'name': 'Order',
     //   'image': AppImages.gift,
@@ -75,45 +97,59 @@ class DashboardPageModel extends BasePageViewModel {
       'isActive': false,
       'key': 'transport'
     },
-    {
-      'name': 'View Gate Pass',
-      'image': AppImages.gift,
-      'isSelected': false,
-      'isActive': false,
-      'key': 'view_gate_pass'
-    },
-    {
-      'name': 'Create Gate Pass',
-      'image': AppImages.admissionIcon,
-      'isSelected': false,
-      'key': 'create_gate_pass'
-    },
+    // {
+    //   'name': 'View Gate Pass',
+    //   'image': AppImages.gatePassIcon,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'view_gate_pass'
+    // },
+    // {
+    //   'name': 'Create Gate Pass',
+    //   'image': AppImages.gatePassIcon,
+    //   'isSelected': false,
+    //   'isActive': false,
+    //   'key': 'create_gate_pass'
+    // },
   ];
 
   final List progress = [
     {
       'name': 'Student Profile',
-      'image': AppImages.personIcon,
-      'isSelected': false,
-      'key': 'student_profile'
+      'image': AppImages.studentProfileIcon,
+      'isSelected': true,
+      'isActive': false,
+      'key': 'student profile'
     },
     // Coming Soon Features
     // {
     //   'name': 'Discipline Slips',
     //   'image': AppImages.document,
-    //   'isSelected': false
+    //   'isSelected': false,
+    //  'isActive': false,
     // },
     // {'name': 'Performance', 'image': AppImages.activity, 'isSelected': false},
     // {
     //   'name': 'Marksheet',
     //   'image': AppImages.documentNormal,
-    //   'isSelected': false
+    //   'isSelected': false,
+    //'isActive': true,
     // }
   ];
 
   final List enquiryAndAdmissionTemp = [
-    {'name': 'Tickets', 'image': AppImages.receiptSearch, 'isSelected': false},
-    {'name': 'Application', 'image': AppImages.cube, 'isSelected': false}
+    {
+      'name': 'Tickets',
+      'image': AppImages.receiptSearch,
+      'isSelected': false,
+      'isActive': false
+    },
+    {
+      'name': 'Application',
+      'image': AppImages.cube,
+      'isSelected': false,
+      'isActive': false
+    }
   ];
 
   final List feesTemp = [
@@ -126,10 +162,10 @@ class DashboardPageModel extends BasePageViewModel {
     },
     // VAS
     {
-      'name': 'New Enrollment',
-      'image': AppImages.activity,
+      'name': 'Value Added Services',
+      'image': AppImages.valueAddedServiceIcon,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'enrollment'
     },
   ];
@@ -137,10 +173,17 @@ class DashboardPageModel extends BasePageViewModel {
   final List parentServices = [
     {
       'name': 'Subject Selection',
-      'image': AppImages.subjectSelectionIcon,
+      'image': AppImages.subjectSelectionNewIcon,
       'isSelected': false,
-      'isActive': true,
+      'isActive': false,
       'key': 'subject selection'
+    },
+    {
+      'name': 'Add Bearer',
+      'image': AppImages.usertagIcon,
+      'isSelected': false,
+      'isActive': false,
+      'key': 'add bearer'
     },
   ];
 
@@ -158,8 +201,6 @@ class DashboardPageModel extends BasePageViewModel {
         return '';
       case 'payments':
         return RoutePaths.payments;
-      case '':
-        return RoutePaths.payments;
       case 'student profile':
         return RoutePaths.attendanceCalender;
       case 'discipline slips':
@@ -170,15 +211,18 @@ class DashboardPageModel extends BasePageViewModel {
         return RoutePaths.createEditGatePassPage;
       case 'subject selection':
         return RoutePaths.webview;
-      case 'new enrollment':
+      case 'value added services':
         return RoutePaths.newEnrolmentPage;
-
+      case 'add bearer':
+        return 'Add Bearer';
       default:
         return '';
     }
   }
 
   List<GetGuardianStudentDetailsStudentModel>? selectedStudentId = [];
+
+  BehaviorSubject<String> selectedStudent = BehaviorSubject.seeded('');
 
   void getSelectedStudentid(List<String> names) {
     List<GetGuardianStudentDetailsStudentModel> tempList = [];
@@ -197,7 +241,18 @@ class DashboardPageModel extends BasePageViewModel {
   }
 
   // Calling students list
-
+  void logOut() {
+    final LogoutUsecaseParams params = LogoutUsecaseParams();
+    RequestManager(params,
+        createCall: () => logoutUsecase.execute(params: params))
+        .asFlow()
+        .listen((data) {
+      if (data.status == Status.success) {
+        navigatorKey.currentState!
+            .pushNamedAndRemoveUntil(RoutePaths.splash, (route) => false);
+      }
+    }, onDone: () {}, onError: (error) {});
+  }
   final BehaviorSubject<Resource<GetGuardianStudentDetailsModel>>
       _getGuardianStudentDetailsModel = BehaviorSubject();
 
@@ -213,21 +268,57 @@ class DashboardPageModel extends BasePageViewModel {
       RequestManager<GetGuardianStudentDetailsModel>(
         params,
         createCall: () =>
-            _getGuardianStudentDetailsUsecase.execute(params: params),
+            getGuardianStudentDetailsUsecase.execute(params: params),
       ).asFlow().listen((result) {
         if (result.status == Status.success) {
           List<GetGuardianStudentDetailsStudentModel> tempList = [];
+          if (result.data?.data?.students?.isEmpty ?? false) {
+            return;
+          }
           tempList.add(result.data!.data!.students![0]);
           selectedStudentId = tempList;
 
           if (selectedStudentId == null || selectedStudentId!.isEmpty) return;
           dashboardState.setValueOfSelectedStudent(tempList.first);
+          selectedStudent.add(tempList.first.studentDisplayName ?? '');
+
+          processTermsAndConditionsSequentially(tempList);
+          applyActivationRules(userSubject.value);
+          showDrawerMenu.add(true);
+          loadAdmissionMenus.add(Resource.success(data: true));
         }
         _getGuardianStudentDetailsModel.add(result);
       }).onError((error) {
         // // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
+  }
+
+  Future<void> processTermsAndConditionsSequentially(
+      List<GetGuardianStudentDetailsStudentModel> tempList) async {
+    for (var item in tempList) {
+      if ((item.isUndertakingTaken == null ||
+              item.isUndertakingTaken == false) &&
+          (item.undertakingFile?.isNotEmpty ?? false)) {
+        await getTermsAndConditionUrl(undertakingFile: item.undertakingFile!);
+      }
+    }
+  }
+
+  Future<void> getTermsAndConditionUrl(
+      {required String undertakingFile}) async {
+    TermsAndConditionUsecaseParams params =
+        TermsAndConditionUsecaseParams(url: undertakingFile);
+    ApiResponseHandler.apiCallHandler(
+        params: params,
+        exceptionHandlerBinder: exceptionHandlerBinder,
+        flutterToastErrorPresenter: flutterToastErrorPresenter,
+        createCall: (params) =>
+            termsAndConditionUsecase.execute(params: params),
+        onSuccess: (result) async {
+          await showPdfViewer(url: result?.data?.url ?? '');
+        },
+        onError: (error) {});
   }
 
   Future<void> getUserRoleBaseDetails() async {
@@ -274,6 +365,10 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
+        CommonPopups().showError(navigatorKey.currentContext!, "SOmething went wrong please wait until we fix it ", (tr){
+         logOut();
+        },barrierDismissible: false);
+
         // exceptionHandlerBinder.showError(error!);
       });
     }).execute();
@@ -281,19 +376,33 @@ class DashboardPageModel extends BasePageViewModel {
 
   BehaviorSubject<Resource<bool>> loadAdmissionMenus =
       BehaviorSubject.seeded(Resource.none());
+
   void getUserDetails() {
     loadAdmissionMenus.add(Resource.loading());
     final GetUserDetailsUsecaseParams params = GetUserDetailsUsecaseParams();
     RequestManager(
       params,
-      createCall: () => _getUserDetailsUsecase.execute(params: params),
+      createCall: () => getUserDetailsUsecase.execute(params: params),
     ).asFlow().listen((data) {
       if (data.status == Status.success) {
-        applyActivationRules(data);
+        if (data.data?.statusId == 0) {
+          applyActivationRules(data);
 
-        loadAdmissionMenus.add(Resource.success(data: true));
+          loadAdmissionMenus.add(Resource.success(data: true));
+        }
 
         userSubject.add(Resource.success(data: data.data));
+
+        FirebaseMessaging.instance.getToken().then((value) {
+          if (value != null) {
+            sendToken(userId: data.data?.id, appToken: value);
+            log("FCM Token" "FCM Token: $value");
+          } else {
+            log("Error" "Failed to get FCM token");
+          }
+        }).catchError((error) {
+          log("Exception" "Error getting FCM token: $error");
+        });
       }
     });
   }
@@ -315,6 +424,7 @@ class DashboardPageModel extends BasePageViewModel {
             trackerTemp[index]['isActive'] = true;
           }
         }
+
       }
 
       if (index < feesTemp.length) {
@@ -324,41 +434,47 @@ class DashboardPageModel extends BasePageViewModel {
           feesTemp[index]['isActive'] = false;
         }
       }
+      if (index < parentServices.length) {
+        if (data.data?.statusId != 0) {
+          parentServices[index]['isActive'] = true;
+        } else {
+          parentServices[index]['isActive'] = false;
+        }
+      }
+      if (index < progress.length) {
+        if (data.data?.statusId != 0) {
+          progress[index]['isActive'] = true;
+        } else {
+          progress[index]['isActive'] = false;
+        }
+      }
     }
+  }
 
-    final List<Map<String, String>> drawerItems = [
-      {'text': 'Fees', 'route': ''},
-      {'text': 'Payments', 'route': ''},
-      {'text': 'Transaction History', 'route': ''},
-      {'text': 'Receipt', 'route': ''},
-      {'text': 'Daily Diary', 'route': ''},
-      {'text': 'Class Update', 'route': ''},
-      {'text': 'Assignment', 'route': ''},
-    ];
-
-    Widget buildDrawer(BuildContext context, List<Map<String, String>> items) {
-      return Drawer(
-        child: ListView(
-          children: drawerItems.map((item) {
-            final text = item['text'] ?? '';
-            final route = item['route'] ?? '';
-            return ListTile(
-              title: Text(text),
-              onTap: () {
-                // Navigate to the specified route
-                if (route.isNotEmpty) {
-                  Navigator.pushNamed(
-                    // Replace 'context' with the actual context if this is part of a class
-                    context,
-                    route,
-                  );
-                }
-              },
-            );
-          }).toList(),
-        ),
+  Future<void> sendToken({int? userId, String? appToken}) async {
+    await exceptionHandlerBinder.handle(block: () {
+      SendTokenUseCaseParams params = SendTokenUseCaseParams(
+        userid: userId,
+        appToken: appToken,
       );
-    }
+      RequestManager(
+        params,
+        createCall: () => sendTokenUsecase.execute(params: params),
+      ).asFlow().listen((result) {
+        if (result.status == Status.success) {}
+      }).onError((error) {
+        // exceptionHandlerBinder.showError(error!);
+      });
+    }).execute();
+  }
+
+  Future<void> showPdfViewer({required String url}) async {
+    await showDialog(
+      barrierDismissible: false,
+      context: navigatorKey.currentContext!,
+      builder: (context) => PDFDialog(
+          pdfUrl: url, selectedStudent: dashboardState.selectedStudent),
+    );
   }
 
   @override
@@ -373,6 +489,7 @@ class Chips {
   final String? name;
   final String? image;
   bool isSelected;
+  final VoidCallback? onTap;
 
-  Chips({this.name, this.image, this.isSelected = false});
+  Chips({this.name, this.image, this.isSelected = false, this.onTap});
 }

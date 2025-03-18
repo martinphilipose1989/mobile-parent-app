@@ -13,6 +13,7 @@ import 'package:app/utils/stream_builder/app_stream_builder.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localisation/strings.dart';
 import 'package:statemanagement_riverpod/statemanagement_riverpod.dart';
 
 class SummerCampDetailPageView
@@ -61,7 +62,7 @@ class SummerCampDetailPageView
                                         false),
                             replacement: NoDataFoundWidget(
                                 title:
-                                    "No VAS option for Summer Camp available"),
+                                Strings.of(context).no_VAS_option_for_summer_camp_available),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -92,7 +93,7 @@ class SummerCampDetailPageView
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               CommonText(
-                                                text: "Calculated Amount",
+                                                text: Strings.of(context).calculated_amount,
                                                 style: AppTypography.body2,
                                               ),
                                               CommonText(
@@ -244,7 +245,7 @@ class SummerCampDetailPageView
                                                 onPressed: () {
                                                   model.calculateFees();
                                                 },
-                                                text: "Calculate",
+                                                text: Strings.of(context).calculate,
                                                 backgroundColor:
                                                     AppColors.accent,
                                                 width: double.infinity,
@@ -269,9 +270,9 @@ class SummerCampDetailPageView
                                                         onSelectVasEnrolment
                                                             ?.call(
                                                           StudentEnrolmentFee(
-                                                              enquiryNo: model
-                                                                  .enquiryDetailArgs
-                                                                  ?.enquiryNumber,
+                                                              // enquiryNo: model
+                                                              //     .enquiryDetailArgs
+                                                              //     ?.enquiryNumber,
                                                               academicYearId: model
                                                                   .enquiryDetailArgs
                                                                   ?.academicYearId,
@@ -304,9 +305,10 @@ class SummerCampDetailPageView
                                                                   ?.studentGlobalId,
                                                               batchId:
                                                                   model.batchID,
-                                                              feeSubcategoryId:
-                                                                  model.feeSubCategoryID,
-                                                              feeSubTypeId: model.feeSubTypeID,
+                                                              feeSubcategoryId: model
+                                                                  .feeSubCategoryID,
+                                                              feeSubTypeId: model
+                                                                  .feeSubTypeID,
                                                               periodOfServiceId: model.periodOfServiceID,
                                                               feeCategoryId: model.feeSubCategoryID,
                                                               feeType: EnrolmentFeeType.summerCamp.type),
@@ -316,7 +318,7 @@ class SummerCampDetailPageView
                                                             .enrollSummerCamp();
                                                       }
                                                     },
-                                                    text: "Enroll Now",
+                                                    text: Strings.of(context).enroll_now,
                                                     backgroundColor:
                                                         AppColors.accent,
                                                     textStyle: AppTypography
@@ -336,7 +338,7 @@ class SummerCampDetailPageView
                                                       model.reset(
                                                           isResetSubType: true);
                                                     },
-                                                    text: "Reset",
+                                                    text: Strings.of(context).reset,
                                                     backgroundColor:
                                                         AppColors.primaryOn,
                                                     textStyle: AppTypography
@@ -354,8 +356,8 @@ class SummerCampDetailPageView
                           ),
                         );
                       } else {
-                        return const Center(
-                          child: CommonText(text: "Data not found"),
+                        return Center(
+                          child: CommonText(text: Strings.of(context).no_data_found),
                         );
                       }
                     }),

@@ -86,8 +86,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
     if (widget.isMutiSelect != null && widget.isMutiSelect == true) {
       if (widget.displayZerothIndex) {
         List<String> addedZerothIndex = [];
-        addedZerothIndex.add(widget.items[0] ?? '');
-        selectedItemsSubject.add(addedZerothIndex);
+        if (widget.items.isNotEmpty) {
+          addedZerothIndex.add(widget.items[0] ?? '');
+          selectedItemsSubject.add(addedZerothIndex);
+        }
       } else {
         List<String> tempList = [];
         for (var element in widget.items) {
@@ -210,6 +212,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   dropdownStyleData: DropdownStyleData(
                     direction: DropdownDirection.left,
                     maxHeight: 200,
+                    width: widget.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
                       color: Colors.white,
