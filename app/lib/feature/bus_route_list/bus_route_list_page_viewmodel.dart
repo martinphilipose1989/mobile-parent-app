@@ -22,12 +22,17 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   final FetchStopLogsUsecase fetchStopLogsUsecase;
 
-  BusRouteListPageViewModel(
-      {required this.exceptionHandlerBinder,
-      required this.getStudentAttendanceUseCase,
-      required this.flutterToastErrorPresenter,
-      required this.getAllBusStopsUsecase,
-      required this.fetchStopLogsUsecase});
+  BusRouteListPageViewModel({
+    required this.exceptionHandlerBinder,
+    required this.getStudentAttendanceUseCase,
+    required this.flutterToastErrorPresenter,
+    required this.getAllBusStopsUsecase,
+    required this.fetchStopLogsUsecase,
+  }) {
+    {
+      startAutoRefresh(); // ✅ Call startAutoRefresh() inside constructor body
+    }
+  }
 
   TripResult? trip;
   late Timer timer;
@@ -92,18 +97,17 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
     GetStudentAttendanceUsecaseParams getStudentAttendanceUsecaseParams =
         GetStudentAttendanceUsecaseParams(
-          // academicYearId: 25,
+            // academicYearId: 25,
 
-          attendanceStartDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            attendanceStartDate:
+                DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
             studentId: dashBoardState.selectedStudent?.id,
-          //  attendanceType: [int.parse(trip?.routeType == '1' ? "4" : "6")]
-         attendanceType: []
+            //  attendanceType: [int.parse(trip?.routeType == '1' ? "4" : "6")]
+            attendanceType: []);
 
-        );
-    print("attendance type-----------");
     print(getStudentAttendanceUsecaseParams.attendanceType);
-//int.parse(trip?.routeType == '1' ? "4" : "6")
+
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -113,20 +117,22 @@ class BusRouteListPageViewModel extends BasePageViewModel {
       onSuccess: (result) {
         _loadingSubject.add(true);
         studentAttendanceSubject.add(Resource.success(data: result));
-
-
-
-        // fetchBusStopLogs(result?.data?.routeStopMapping ?? []);
       },
       onError: (error) {
         studentAttendanceSubject.add(Resource.error(data: null, error: error));
-        //  _loadingSubject.add(false);
       },
     );
   }
 
   // ignore: unused_field
   Position? _busPosition;
+
+  void startAutoRefresh() {
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      getStudentAttendance();
+      getBusStopsList();
+    });
+  }
 
   void getUserLoacation() async {
     PermissionHandlerService permission = PermissionHandlerService();
@@ -186,6 +192,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
         return "Absent";
     }
   }
+
   // RouteStopMappingModel? currentStop;
   // RouteStopMappingModel? nextStop;
   // String getAttendanceStatus(int? attendanceType) {
@@ -224,58 +231,15 @@ class BusRouteListPageViewModel extends BasePageViewModel {
 
   Stream<double> get distanceStream => distanceSubject.stream;
 
-  Future<void> checkBusProximity(
-      {required double latitude, required double longitude}) async {
-    // Check the distance to the bus stop
-    // if (nextStop?.stop == null) return;
 
-    // double distanceInMeters = Geolocator.distanceBetween(
-    //     19.141425, //latitude,
-    //     72.8309000, //  longitude,
-
-    //     double.parse(nextStop?.stop?.lat ?? '0'),
-    //     double.parse(nextStop?.stop?.long ?? '0'));
-
-    // if (distanceInMeters > 0 && distanceInMeters <= 50) {
-    //   log("IF distanceInMeters ${distanceInMeters.floor()}");
-    //   distanceSubject.add(distanceInMeters);
-    // } else {
-    //   log("ELSE distanceInMeters ${distanceInMeters.floor()}");
-    // }
-  }
 
   StreamSubscription<Position>?
       _positionSubscription; // Declare a StreamSubscription
   bool enableLiveLocation =
       false; // Example flag for enabling/disabling location tracking
 
-  void trackLiveLocation() {
-    PermissionHandlerService permission = PermissionHandlerService();
 
-    // Check if location tracking is enabled
-    if (enableLiveLocation) {
-      // If already subscribed, return to avoid duplicate subscriptions
-      _positionSubscription ??= permission.liveLocation().listen((position) {
-        // Call checkBusProximity whenever a new position is received
-        checkBusProximity(
-            latitude: position.latitude, longitude: position.longitude);
-      });
-    } else {
-      // If not enabled, pause the subscription
-      _positionSubscription?.pause();
-    }
-  }
 
-  void updateLiveLocationStatus(bool isEnabled) {
-    enableLiveLocation = isEnabled;
-
-    // If enabled, resume the stream; if disabled, pause it
-    if (enableLiveLocation) {
-      _positionSubscription?.resume();
-    } else {
-      _positionSubscription?.pause();
-    }
-  }
 
   String convertTo12HourFormat(String time) {
     // Split the input string to extract hours, minutes, and seconds
@@ -309,6 +273,7 @@ class BusRouteListPageViewModel extends BasePageViewModel {
     _busStopsListSubject.close();
     _positionSubscription?.cancel();
     _positionSubscription = null;
+
     super.dispose();
   }
 }
