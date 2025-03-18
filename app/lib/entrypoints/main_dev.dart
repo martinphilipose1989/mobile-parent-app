@@ -18,7 +18,7 @@ void main() async {
       secrets: AppSecrets.appSecretsDev,
       keyCloakIntrospectUrl: EnvDev.introspectUrl,
       logSqlStatements: true,
-      showLogs: true,
+      showLogs: false,
       authorizationEndpoint: EnvDev.authorizationEndpoint,
       tokenEndpoint: EnvDev.tokenEndpoint,
       apiBaseUrl: '',
