@@ -124,8 +124,7 @@ class MyDutyPageView extends BasePageViewWidget<MyDutyPageViewModel> {
                                           itemBuilder: (context, index) {
                                             if (index <
                                                 (tripData?.data?.length ?? 0)) {
-                                              print("hurrrayyyyyy");
-                                              print(tripData?.data?[index].schoolId);
+
                                               return   data == "completed trips"
                                                   ? CompletedTripListTile(
                                                       trip: tripData!

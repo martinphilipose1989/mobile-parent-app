@@ -559,14 +559,14 @@ final myDutyPageViewModelProvider = ChangeNotifierProvider
           exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
         ));
 
-final studentProfilePageViewModelProvider =
-    ChangeNotifierProvider.autoDispose<StudentProfilePageViewModel>(
-  (ref) => StudentProfilePageViewModel(
-    getStudentProfileUsecase: getIt.get<GetStudentProfileUsecase>(),
-    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
-    exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-  ),
-);
+// final studentProfilePageViewModelProvider =
+//     ChangeNotifierProvider.autoDispose<StudentProfilePageViewModel>(
+//   (ref) => StudentProfilePageViewModel(
+//     getStudentProfileUsecase: getIt.get<GetStudentProfileUsecase>(),
+//     flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+//     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
+//   ),
+// );
 
 final userViewModelProvider = ChangeNotifierProvider.autoDispose<UserViewModel>(
   (ref) => UserViewModel(

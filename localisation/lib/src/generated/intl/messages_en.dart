@@ -163,6 +163,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "drop_location": MessageLookupByLibrary.simpleMessage("Drop Location"),
         "drop_time": MessageLookupByLibrary.simpleMessage("Drop Time"),
         "due_date": MessageLookupByLibrary.simpleMessage("Due Date"),
+        "edited":
+            MessageLookupByLibrary.simpleMessage("Profile Edited Successfully"),
         "eligible_grade":
             MessageLookupByLibrary.simpleMessage("Eligible Grade"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -296,6 +298,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mother\'s First Name"),
         "mother_pan_card_no":
             MessageLookupByLibrary.simpleMessage("Mother\'s Pan Card No"),
+        "mothesFirstName":
+            MessageLookupByLibrary.simpleMessage("Mother\'s First Name"),
+        "mothesLastName":
+            MessageLookupByLibrary.simpleMessage("Mother\'s Last Name"),
+        "mothesemail": MessageLookupByLibrary.simpleMessage("Mother\'s Email"),
+        "mothesphone": MessageLookupByLibrary.simpleMessage("Mother\'s Phone"),
         "move_to_admission":
             MessageLookupByLibrary.simpleMessage("Move to admission"),
         "nA": MessageLookupByLibrary.simpleMessage("NA"),
@@ -452,6 +460,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "response": MessageLookupByLibrary.simpleMessage("Response"),
         "review_page": MessageLookupByLibrary.simpleMessage("Review Page"),
         "reviewed": MessageLookupByLibrary.simpleMessage("Reviewed"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "schedule_school_tour":
             MessageLookupByLibrary.simpleMessage("Schedule School Tour"),
         "school": MessageLookupByLibrary.simpleMessage("School"),
@@ -514,6 +523,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Slots are Not Available"),
         "something_got_wrong":
             MessageLookupByLibrary.simpleMessage("Somethimngt went wrong"),
+        "something_went_wrong_rbac": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong please wait until we fix it "),
         "specify_Medical_History":
             MessageLookupByLibrary.simpleMessage("Specify Medical History"),
         "specify__disability":

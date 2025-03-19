@@ -233,7 +233,7 @@ class BusRouteListPageView
           if (snapshot?.status == Status.loading) {
             return const CircularProgressIndicator();
           } else {
-            print("----"+'${snapshot?.data?.data?.attendents?.first.firstName}');
+
             AttendanceLogDetailsResponse? preferredDetail;
 
             if (model.trip?.routeType == "1") {

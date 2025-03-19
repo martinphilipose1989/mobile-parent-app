@@ -372,5 +372,13 @@
  "please_select_current_yr": "Please select AY 2025-26 only from the dropdown",
  "bearer_added_successfully": "Bearer Added Successfully",
 
-"add_bearer": "Add Bearer"
+"add_bearer": "Add Bearer",
+ "save": "Save",
+ "edited": "Profile Edited Successfully",
+ "something_went_wrong_rbac":"Something went wrong please wait until we fix it ",
+"mothesFirstName": "Mother's First Name",
+ "mothesLastName": "Mother's Last Name",
+ "mothesemail": "Mother's Email",
+ "mothesphone": "Mother's Phone"
+
 }

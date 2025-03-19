@@ -103,8 +103,8 @@ class BusRouteListPageViewModel extends BasePageViewModel {
                 DateFormat('yyyy-MM-dd').format(DateTime.now()),
             attendanceEndDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
             studentId: dashBoardState.selectedStudent?.id,
-            //  attendanceType: [int.parse(trip?.routeType == '1' ? "4" : "6")]
-            attendanceType: []);
+        attendanceType: []
+        );
 
     print(getStudentAttendanceUsecaseParams.attendanceType);
 

@@ -39,6 +39,10 @@ class StudentProfileEditViewModel extends BasePageViewModel {
   TextEditingController plastnameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController mfirstnameController = TextEditingController();
+  TextEditingController mlastnameController = TextEditingController();
+  TextEditingController mphoneController = TextEditingController();
+  TextEditingController memailController = TextEditingController();
   TextEditingController addline1Controller = TextEditingController();
   TextEditingController addLine2Controller = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -64,4 +68,5 @@ class StudentProfileEditViewModel extends BasePageViewModel {
   //     },
   //   );
   // }
+
 }

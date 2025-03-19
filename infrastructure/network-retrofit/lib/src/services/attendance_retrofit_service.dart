@@ -42,7 +42,9 @@ abstract class AttendanceRetorfitService {
 
   @POST('academics/intimation/create')
   Future<HttpResponse<CreateIntimationResponseEntity>> createIntimation(
-      @Body() CreateIntimationRequestEntity createIntimationRequestEntity);
+      @Body() CreateIntimationRequestEntity createIntimationRequestEntity,
+      @Query('platform') String app
+      );
 
   @POST('academics/intimation/file-upload')
   @MultiPart()

@@ -35,10 +35,13 @@ class StudentDetailPageView
 
   @override
   Widget build(BuildContext context, StudentDetailPageViewModel model) {
+
     return AppStreamBuilder<Resource<StudentData>>(
         initialData: Resource.none(),
         stream: model.studentDetailStream,
         dataBuilder: (context, student) {
+          print("/////////////////////////");
+          print(student?.data?.parent?[0].firstName);
           return DataStatusWidget(
             status: student?.status ?? Status.none,
             loadingWidget: () =>
@@ -121,7 +124,7 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: Strings.of(context).physical_disability,
-                        value1: student.data?.medicalInfo?.disablilityDetails ??
+                        value1: student.data?.medicalInfo?.disablilityDetails??
                             "NA",
                         title2: Strings.of(context).medical_history,
                         value2:
@@ -138,19 +141,39 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
-                    Infotitlerow(infoText: Strings.of(context).parent_details),
+                    Infotitlerow(infoText: Strings.of(context).mother_Details),
+                    SizedBox(height: 16.h),
+                    ////////////////////////////////
+
+                    VisitorDetailsRow(
+                      title1: Strings.of(context).mother_first_name,
+                      value1: student.data?.parent?[1].firstName?? "",
+                      title2: Strings.of(context).Mother_last_name,
+                      value2: student.data?.parent?[1].lastName ?? "",
+                    ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                      title1: Strings.of(context).parent_First_name,
-                      value1: student.data?.parent?.first.firstName ?? "",
-                      title2: Strings.of(context).parent_last_name,
+                        title1: Strings.of(context).mother_Mobile_Number,
+                        value1: student.data?.parent?[1].mobileNo ?? "",
+                        title2: Strings.of(context).mother_Email_ID,
+                        value2: student.data?.parent?[1].email ?? ""),
+                    SizedBox(height: 16.h),
+                    const Divider(color: AppColors.dividerColor),
+                    SizedBox(height: 16.h),
+                    //////////////////////////////////
+                    Infotitlerow(infoText: Strings.of(context).father_detail),
+                    SizedBox(height: 16.h),
+                    VisitorDetailsRow(
+                      title1: Strings.of(context).father_first_name,
+                      value1: student.data?.parent?.first.firstName?? "",
+                      title2: Strings.of(context).father_last_name,
                       value2: student.data?.parent?.first.lastName ?? "",
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
-                        title1: Strings.of(context).phone,
+                        title1: Strings.of(context).father_Mobile_Number,
                         value1: student.data?.parent?.first.mobileNo ?? "",
-                        title2: Strings.of(context).email,
+                        title2: Strings.of(context).father_Email_ID,
                         value2: student.data?.parent?.first.email ?? ""),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),

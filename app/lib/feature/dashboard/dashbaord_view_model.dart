@@ -14,6 +14,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_errors/flutter_errors.dart';
+import 'package:localisation/strings.dart';
 import 'package:notification/notification.dart';
 
 import 'package:rxdart/rxdart.dart';
@@ -365,7 +366,7 @@ class DashboardPageModel extends BasePageViewModel {
           }
         }
       }).onError((error) {
-        CommonPopups().showError(navigatorKey.currentContext!, "SOmething went wrong please wait until we fix it ", (tr){
+        CommonPopups().showError(navigatorKey.currentContext!, Strings.of(navigatorKey.currentContext!).something_went_wrong_rbac, (tr){
          logOut();
         },barrierDismissible: false);
 

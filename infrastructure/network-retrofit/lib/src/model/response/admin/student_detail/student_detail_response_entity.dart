@@ -1,6 +1,7 @@
 import 'package:data/data.dart';
 
 import '../../../../../network_retrofit.dart';
+
 part 'student_detail_response_entity.g.dart';
 
 @JsonSerializable()
@@ -52,10 +53,19 @@ class StudentDetailsEntity
   ProfileEntity? profile;
   @JsonKey(name: "academics")
   AcademicsEntity? academics;
-
+  @JsonKey(name: "parent")
+  List<ParentDataEntity>? parent;
+  @JsonKey(name: "contact_info")
+  ContactInfoEntity? contactInfo;
+  @JsonKey(name: "medical_info")
+  MedicalInfoEntity? medicalInfoEntity;
   StudentDetailsEntity({
     this.profile,
     this.academics,
+    this.contactInfo,
+    this.parent,
+    this.medicalInfoEntity,
+
   });
 
   factory StudentDetailsEntity.fromJson(Map<String, dynamic> json) =>
@@ -72,7 +82,42 @@ class StudentDetailsEntity
   @override
   StudentData transform() {
     return StudentData(
-        profile: profile?.transform(), academics: academics?.transform());
+        profile: profile?.transform(), academics: academics?.transform(),parent: parent?.map((e) => Parent(
+      id: e.id,
+      guardianId: e.guardianId,
+      guardianRelationshipId: e.guardianRelationshipId,
+      relation: e.relation,
+      globalNo: e.globalNo,
+      firstName: e.firstName,
+      lastName: e.lastName,
+      adharNo: e.adharNo,
+      panNo: e.panNo,
+      designation: e.designation,
+      occupation: e.occupation,
+      organization: e.organization,
+      qualification: e.qualification,
+      address: e.address,
+      area: e.area,
+      pincode: e.pincode,
+      mobileNo: e.mobileNo,
+      email: e.email,
+      isPreferredEmail: e.isPreferredEmail,
+      isPreferredMobileNo: e.isPreferredMobileNo,
+      isPreferredAddress: e.isPreferredAddress,
+
+      userId: e.userId,
+      streetName: e.streetName,
+      landmark: e.landmark,
+      cityId: e.cityId,
+      countryId: e.countryId,
+      stateId: e.stateId,
+      city: e.city,
+      state: e.state,
+      country: e.country,
+      tagId: e.tagId,
+    )).toList(),
+      contactInfo: contactInfo?.transform(),medicalInfo: medicalInfoEntity?.transform()
+    );
   }
 }
 
@@ -115,6 +160,278 @@ class AcademicsEntity
         crtDivId: crtDivId);
   }
 }
+@JsonSerializable()
+class ContactInfoEntity  implements BaseLayerDataTransformer<ContactInfoEntity,ContactInfo>{
+  @JsonKey(name: "address")
+  String? address;
+  @JsonKey(name: "emergency_contact")
+  String? emergencyContact;
+  @JsonKey(name: "emergency_contact_of")
+  dynamic emergencyContactOf;
+  @JsonKey(name: "residential_information")
+  List<ResidentialInformationEntity>? residentialInformation;
+
+  ContactInfoEntity({
+    this.address,
+    this.emergencyContact,
+    this.emergencyContactOf,
+    this.residentialInformation,
+  });
+
+  factory ContactInfoEntity.fromJson(Map<String, dynamic> json) => _$ContactInfoEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContactInfoEntityToJson(this);
+
+  @override
+  ContactInfoEntity restore(ContactInfo data) {
+    // TODO: implement restore
+    throw UnimplementedError();
+  }
+
+  @override
+  ContactInfo transform() {
+  return ContactInfo(address: address,emergencyContact: emergencyContact,residentialInformation: residentialInformation?.map((e)=>ResidentialInformation(id: e.id, type: e.type, userId: e.userId, houseBuildingNo: e.houseBuildingNo, streetName: e.streetName, landmark: e.landmark, cityId: e.cityId, stateId: e.stateId, countryId: e.countryId, city: e.city, state: e.state, country: e.country, pincode: e.pincode)).toList());
+  }
+}
+
+@JsonSerializable()
+class ResidentialInformationEntity implements BaseLayerDataTransformer<ResidentialInformationEntity,ResidentialInformation> {
+  @JsonKey(name: "id")
+  int? id;
+  @JsonKey(name: "type")
+  String? type;
+  @JsonKey(name: "user_id")
+  int? userId;
+  @JsonKey(name: "house_building_no")
+  String? houseBuildingNo;
+  @JsonKey(name: "street_name")
+  String? streetName;
+  @JsonKey(name: "landmark")
+  String? landmark;
+  @JsonKey(name: "city_id")
+  int? cityId;
+  @JsonKey(name: "state_id")
+  int? stateId;
+  @JsonKey(name: "country_id")
+  int? countryId;
+  @JsonKey(name: "city")
+  String? city;
+  @JsonKey(name: "state")
+  String? state;
+  @JsonKey(name: "country")
+  String? country;
+  @JsonKey(name: "pincode")
+  int? pincode;
+  @JsonKey(name: "tag_ids")
+  List<dynamic>? tagIds;
+
+  ResidentialInformationEntity({
+    this.id,
+    this.type,
+    this.userId,
+    this.houseBuildingNo,
+    this.streetName,
+    this.landmark,
+    this.cityId,
+    this.stateId,
+    this.countryId,
+    this.city,
+    this.state,
+    this.country,
+    this.pincode,
+    this.tagIds,
+  });
+
+  factory ResidentialInformationEntity.fromJson(Map<String, dynamic> json) => _$ResidentialInformationEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ResidentialInformationEntityToJson(this);
+
+  @override
+  ResidentialInformationEntity restore(ResidentialInformation data) {
+    // TODO: implement restore
+    throw UnimplementedError();
+  }
+
+  @override
+  ResidentialInformation transform() {
+   return ResidentialInformation(id: id, type: type, userId: userId, houseBuildingNo: houseBuildingNo, streetName: streetName, landmark: landmark, cityId: cityId, stateId: stateId, countryId: countryId, city: city, state: state, country: country, pincode: pincode, );
+  }
+}
+
+@JsonSerializable()
+class MedicalInfoEntity implements BaseLayerDataTransformer<MedicalInfoEntity,MedicalInfo>{
+  @JsonKey(name: "past_hospitalization")
+  dynamic pastHospitalization;
+  @JsonKey(name: "last_hospitalization_year")
+  dynamic lastHospitalizationYear;
+  @JsonKey(name: "reason_for_hospitalization")
+  dynamic reasonForHospitalization;
+  @JsonKey(name: "is_phsically_disabled")
+  dynamic isPhsicallyDisabled;
+  @JsonKey(name: "disablility_details")
+  dynamic disablilityDetails;
+  @JsonKey(name: "has_medical_history")
+  dynamic hasMedicalHistory;
+  @JsonKey(name: "medical_history_details")
+  dynamic medicalHistoryDetails;
+  @JsonKey(name: "has_allergy")
+  dynamic hasAllergy;
+  @JsonKey(name: "allergy_details")
+  dynamic allergyDetails;
+  @JsonKey(name: "has_personalized_learning_needs")
+  dynamic hasPersonalizedLearningNeeds;
+  @JsonKey(name: "personalized_learning_needs_details")
+  dynamic personalizedLearningNeedsDetails;
+
+  MedicalInfoEntity({
+    this.pastHospitalization,
+    this.lastHospitalizationYear,
+    this.reasonForHospitalization,
+    this.isPhsicallyDisabled,
+    this.disablilityDetails,
+    this.hasMedicalHistory,
+    this.medicalHistoryDetails,
+    this.hasAllergy,
+    this.allergyDetails,
+    this.hasPersonalizedLearningNeeds,
+    this.personalizedLearningNeedsDetails,
+  });
+
+  factory MedicalInfoEntity.fromJson(Map<String, dynamic> json) => _$MedicalInfoEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MedicalInfoEntityToJson(this);
+
+  @override
+  MedicalInfoEntity restore(MedicalInfo data) {
+    // TODO: implement restore
+    throw UnimplementedError();
+  }
+
+  @override
+  MedicalInfo transform() {
+    // TODO: implement transform
+   return MedicalInfo(disablilityDetails: disablilityDetails,medicalHistoryDetails: medicalHistoryDetails,allergyDetails: allergyDetails);
+  }
+}
+@JsonSerializable()
+class ParentDataEntity implements BaseLayerDataTransformer<ParentDataEntity,Parent> {
+  @JsonKey(name: "id")
+  int? id;
+  @JsonKey(name: "guardian_id")
+  int? guardianId;
+  @JsonKey(name: "guardian_relationship_id")
+  int? guardianRelationshipId;
+  @JsonKey(name: "relation")
+  String? relation;
+  @JsonKey(name: "global_no")
+  String? globalNo;
+  @JsonKey(name: "first_name")
+  String? firstName;
+  @JsonKey(name: "last_name")
+  String? lastName;
+  @JsonKey(name: "adhar_no")
+  dynamic adharNo;
+  @JsonKey(name: "pan_no")
+  dynamic panNo;
+  @JsonKey(name: "designation")
+  dynamic designation;
+  @JsonKey(name: "occupation")
+  dynamic occupation;
+  @JsonKey(name: "organization")
+  dynamic organization;
+  @JsonKey(name: "qualification")
+  dynamic qualification;
+  @JsonKey(name: "address")
+  dynamic address;
+  @JsonKey(name: "area")
+  dynamic area;
+  @JsonKey(name: "pincode")
+  dynamic pincode;
+  @JsonKey(name: "mobile_no")
+  String? mobileNo;
+  @JsonKey(name: "email")
+  String? email;
+  @JsonKey(name: "is_preferred_email")
+  int? isPreferredEmail;
+  @JsonKey(name: "is_preferred_mobile_no")
+  int? isPreferredMobileNo;
+  @JsonKey(name: "is_preferred_address")
+  int? isPreferredAddress;
+  @JsonKey(name: "set_as_emergency_contact")
+  dynamic setAsEmergencyContact;
+  @JsonKey(name: "user_id")
+  int? userId;
+  @JsonKey(name: "street_name")
+  String? streetName;
+  @JsonKey(name: "landmark")
+  dynamic landmark;
+  @JsonKey(name: "city_id")
+  dynamic cityId;
+  @JsonKey(name: "country_id")
+  dynamic countryId;
+  @JsonKey(name: "state_id")
+  dynamic stateId;
+  @JsonKey(name: "city")
+  dynamic city;
+  @JsonKey(name: "state")
+  dynamic state;
+  @JsonKey(name: "country")
+  dynamic country;
+  @JsonKey(name: "tag_id")
+  dynamic tagId;
+
+  ParentDataEntity({
+    this.id,
+    this.guardianId,
+    this.guardianRelationshipId,
+    this.relation,
+    this.globalNo,
+    this.firstName,
+    this.lastName,
+    this.adharNo,
+    this.panNo,
+    this.designation,
+    this.occupation,
+    this.organization,
+    this.qualification,
+    this.address,
+    this.area,
+    this.pincode,
+    this.mobileNo,
+    this.email,
+    this.isPreferredEmail,
+    this.isPreferredMobileNo,
+    this.isPreferredAddress,
+    this.setAsEmergencyContact,
+    this.userId,
+    this.streetName,
+    this.landmark,
+    this.cityId,
+    this.countryId,
+    this.stateId,
+    this.city,
+    this.state,
+    this.country,
+    this.tagId,
+  });
+
+  factory ParentDataEntity.fromJson(Map<String, dynamic> json) => _$ParentDataEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ParentDataEntityToJson(this);
+
+  @override
+  ParentDataEntity restore(Parent data) {
+    // TODO: implement restore
+    throw UnimplementedError();
+  }
+
+  @override
+  Parent transform() {
+    return Parent(id: id, guardianId: guardianId, guardianRelationshipId: guardianRelationshipId, relation: relation, globalNo: globalNo, firstName: firstName, lastName: lastName, adharNo: adharNo, panNo: panNo, designation: designation, occupation: occupation, organization: organization, qualification: qualification, address: address, area: area, pincode: pincode, mobileNo: mobileNo, email: email, isPreferredEmail: isPreferredEmail, isPreferredMobileNo: isPreferredMobileNo, isPreferredAddress: isPreferredAddress, userId: userId, streetName: streetName, landmark: landmark, cityId: cityId, countryId: countryId, stateId: stateId, city: city,
+        state: state, country: country, tagId: tagId);
+  }
+}
+
 
 @JsonSerializable()
 class ProfileEntity
@@ -143,8 +460,8 @@ class ProfileEntity
   String? subCaste;
   @JsonKey(name: "sub_caste_id")
   dynamic subCasteId;
-  @JsonKey(name: "is_parents_seperated")
-  int? isParentsSeperated;
+  @JsonKey(name: "is_ParentDataEntitys_seperated")
+  int? isParentDataEntitysSeperated;
   @JsonKey(name: "religion")
   String? religion;
   @JsonKey(name: "blood_group")
@@ -213,8 +530,8 @@ class ProfileEntity
   int? crtLobId;
   @JsonKey(name: "profile_image_url")
   String? profileImageUrl;
-  @JsonKey(name: 'school_parent_id')
-  int? schoolParentId;
+  @JsonKey(name: 'school_ParentDataEntity_id')
+  int? schoolParentDataEntityId;
 
   ProfileEntity(
       {this.id,
@@ -229,7 +546,7 @@ class ProfileEntity
       this.caste,
       this.subCaste,
       this.subCasteId,
-      this.isParentsSeperated,
+      this.isParentDataEntitysSeperated,
       this.religion,
       this.bloodGroup,
       this.motherTongue,
@@ -264,7 +581,7 @@ class ProfileEntity
       this.updatedAt,
       this.crtLobId,
       this.profileImageUrl,
-      this.schoolParentId});
+      this.schoolParentDataEntityId});
 
   factory ProfileEntity.fromJson(Map<String, dynamic> json) =>
       _$ProfileEntityFromJson(json);
@@ -292,7 +609,7 @@ class ProfileEntity
         caste: caste,
         subCaste: subCaste,
         subCasteId: subCasteId,
-        isParentsSeperated: isParentsSeperated,
+        isParentsSeperated: isParentDataEntitysSeperated,
         religion: religion,
         bloodGroup: bloodGroup,
         motherTongue: motherTongue,
@@ -327,6 +644,6 @@ class ProfileEntity
         updatedAt: updatedAt,
         profileImageUrl: profileImageUrl,
         crtLobId: crtLobId,
-        schoolParentId: schoolParentId);
+        schoolParentId: schoolParentDataEntityId);
   }
 }

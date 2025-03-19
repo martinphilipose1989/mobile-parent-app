@@ -1,5 +1,9 @@
 // ignore_for_file: use_super_parameters
 
+import 'package:app/utils/common_widgets/common_elevated_button.dart';
+import 'package:app/utils/common_widgets/common_popups.dart';
+import 'package:intl/intl.dart';
+
 import '../../molecules/student/InfoTitleRow.dart';
 import '../../molecules/student/infoEditRow.dart';
 import 'package:app/themes_setup.dart';
@@ -37,6 +41,7 @@ final List<BearerResponse> bearerList;
     model.gradeController.text = studentData.profile?.crtGrade ?? "N/A";
     model.divisionController.text = studentData.profile?.crtDivision ?? "N/A";
     model.shiftController.text = studentData.profile?.crtShift ?? "N/A";
+    model.dobController.text= DateFormat("dd/MM/yyyy").format(studentData.profile!.dob );
     model.houseController.text = studentData.profile?.crtHouse ?? "N/A";
     model.allergyController.text =
         studentData.medicalInfo?.allergyDetails ?? "N/A";
@@ -68,8 +73,10 @@ final List<BearerResponse> bearerList;
             .toString() ??
         "NA";
 
-
-
+model.mfirstnameController.text=studentData.parent?[1].firstName??"";
+    model.mlastnameController.text=studentData.parent?[1].lastName??"";
+    model.mphoneController.text=studentData.parent?[1].mobileNo??"";
+    model.memailController.text=studentData.parent?[1].email??"";
     return Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -209,12 +216,58 @@ final List<BearerResponse> bearerList;
               ),
               SizedBox(height: 12.h),
               Infotitlerow(
-                infoText: Strings.of(context).parent_details,
+                infoText: Strings.of(context).mother_Details,
+              ),
+              SizedBox(height: 16.h),
+              InfoEditRow(
+                  controllerleft: model.mfirstnameController,
+                  labelText: Strings.of(context).mother_first_name,
+                  validatorleft: (value) {
+                    if (Validator.isEmpty(value!)) {
+                      return Strings.of(context).first_name_cannot_be_empty;
+                    }
+                    return null;
+                  },
+                  controllerRight: model.mlastnameController,
+                  labelText2: Strings.of(context).mothesLastName,
+                  validatorright: (value) {
+                    if (Validator.isEmpty(value!)) {
+                      return Strings.of(context).last_name_cannot_be_empty;
+                    }
+                    return null;
+                  },
+                  readOnly: true),
+              SizedBox(height: 16.h),
+              InfoEditRow(
+                  controllerleft: model.mphoneController,
+                  labelText: Strings.of(context).phone,
+                  validatorleft: (value) {
+                    if (Validator.isEmpty(value!)) {
+                      return Strings.of(context).phone_cannot_be_empty;
+                    }
+                    return null;
+                  },
+                  controllerRight: model.emailController,
+                  labelText2: Strings.of(context).email,
+                  validatorright: (value) {
+                    if (Validator.isEmpty(value!)) {
+                      return Strings.of(context).email_cannot_be_empty;
+                    }
+                    return null;
+                  },
+                  readOnly: true),
+              SizedBox(height: 16.h),
+              Divider(
+                color: AppColors.divider,
+              ),
+              SizedBox(height: 12.h),
+              Infotitlerow(
+                infoText: Strings.of(context).father_detail,
               ),
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.pfirstnameController,
-                  labelText: Strings.of(context).parent_First_name,
+                  labelText: Strings.of(context).father_first_name,
                   validatorleft: (value) {
                     if (Validator.isEmpty(value!)) {
                       return Strings.of(context).first_name_cannot_be_empty;
@@ -222,7 +275,7 @@ final List<BearerResponse> bearerList;
                     return null;
                   },
                   controllerRight: model.plastnameController,
-                  labelText2: Strings.of(context).parent_last_name,
+                  labelText2: Strings.of(context).father_last_name,
                   validatorright: (value) {
                     if (Validator.isEmpty(value!)) {
                       return Strings.of(context).last_name_cannot_be_empty;
@@ -313,10 +366,18 @@ final List<BearerResponse> bearerList;
                 infoText: Strings.of(context).bearers,
               ),
               SizedBox(
-                height: 150,
+                height: 120,
                 width: 1.sw,
                 child: BearerList(bearerList: bearerList, studentId: studentData.profile?.id??0, model: model)
-              )
+              ),
+
+
+        Center(child: CommonElevatedButton(onPressed: (){
+          CommonPopups
+            ().showSuccess(context, Strings.of(context).edited, (tr){
+              Navigator.pop(context);
+          },);
+        }, text: Strings.of(context).save,backgroundColor: AppColors.primary,textColor: AppColors.primaryOn,))
             ],
           ),
         ));
