@@ -26,12 +26,17 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-/*
+
+def releaseKeystoreProperties = new Properties()
+def releaseKeystorePropertiesFile = rootProject.file('jks/release/release.properties')
+if (releaseKeystorePropertiesFile.exists()) {
+    releaseKeystoreProperties.load(new FileInputStream(releaseKeystorePropertiesFile))
+}
+
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
- */
 
 android {
     compileSdkVersion 34
@@ -83,16 +88,12 @@ android {
     }
 
     signingConfigs {
-
         release {
-            storeFile file(System.getenv("KEY_STORE_PATH") ?: "keyStore/app_key.jks")
-            storePassword System.getenv("RELEASE_STORE_PASSWORD")
-           keyAlias System.getenv("RELEASE_KEY_ALIAS")
-            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+            storeFile file(System.getenv("KEY_STORE_PATH") ?: releaseKeystoreProperties['storeFile'])
+            storePassword System.getenv("RELEASE_STORE_PASSWORD") ?: releaseKeystoreProperties['storePassword']
+            keyAlias System.getenv("RELEASE_KEY_ALIAS") ?: releaseKeystoreProperties['keyAlias']
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD") ?: releaseKeystoreProperties['keyPassword']
         }
-
-
-
     }
 
     buildTypes {
