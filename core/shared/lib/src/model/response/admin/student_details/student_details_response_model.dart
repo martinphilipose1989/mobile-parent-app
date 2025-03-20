@@ -177,7 +177,7 @@ class Profile {
   String? nationality;
   String? caste;
   String? subCaste;
-  String? subCasteId;
+  dynamic? subCasteId;
   int? isParentsSeperated;
   String? religion;
   String? bloodGroup;

@@ -1,6 +1,7 @@
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
+import 'package:network_retrofit/src/model/request/profile/student_update_request_entity.dart';
 
 import 'package:network_retrofit/src/model/response/admin/student_detail/student_detail_response_entity.dart';
 import 'package:network_retrofit/src/model/response/get_sibling_detail/sibling_profile_response_entity.dart';
@@ -45,8 +46,9 @@ abstract class AdminRetorfitService {
       {@Body() required GetSiblingDetailRequest getSiblingDetailRequest,
       @Query('platform') required String app});
 
-  // admin/studentProfile/update
+
+  @PUT('admin/studentProfile/update')
   Future<HttpResponse<StudentEditResponseEntity>> updateprofile(
-      {@Body() required StudentEditRequestModel? studentEditRequestmodel,
+      {@Body() required StudentEditRequestEntity? studentEditRequestentity,
         @Query('platform') required String app});
 }

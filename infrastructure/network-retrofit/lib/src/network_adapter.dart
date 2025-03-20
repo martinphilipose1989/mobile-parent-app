@@ -34,6 +34,7 @@ import 'package:network_retrofit/src/model/request/gatepass/create_gatepass_enti
 import 'package:network_retrofit/src/model/request/gatepass/create_qrcode_request.dart';
 import 'package:network_retrofit/src/model/request/move_next_stage_request.dart';
 import 'package:network_retrofit/src/model/request/notification/notification_request_Entity.dart';
+import 'package:network_retrofit/src/model/request/profile/student_update_request_entity.dart';
 import 'package:network_retrofit/src/model/request/undertaking/undertaking.dart';
 import 'package:network_retrofit/src/model/request/user/user_role_permission_request_entity.dart';
 import 'package:network_retrofit/src/model/response/gatepass/visitor_details_response_entity.dart';
@@ -1822,7 +1823,40 @@ attendanceType: [],
 
   @override
   Future<Either<NetworkError, StudentEditResponseModel>> studentDetailEdit({required StudentEditRequestModel? model})async {
-    final response = await safeApiCall(adminRetorfitService.updateprofile(studentEditRequestmodel: model, app: 'app'));
+
+    final response = await safeApiCall(adminRetorfitService.updateprofile(studentEditRequestentity: StudentEditRequestEntity(id:model?.id,studentProfile:StudentProfileEntity(medicalInfo: MedicalDataEntity(disablilityDetails:
+    model?.studentProfile?.medicalInfo?.disablilityDetails,medicalHistoryDetails: model?.studentProfile?.medicalInfo?.medicalHistoryDetails,allergyDetails: model?.studentProfile?.medicalInfo?.allergyDetails,
+        personalizedLearningNeedsDetails: model?.studentProfile?.medicalInfo?.personalizedLearningNeedsDetails)),parent:  model?.parent?.map((e) => ParentEntity(
+      guardianId: e.guardianId,
+      cityId: e.cityId,
+      stateId: e.stateId,
+      countryId: e.countryId,
+      globalNo: e.globalNo,
+      firstName: e.firstName,
+      middleName: e.middleName,
+      lastName: e.lastName,
+      dob: e.dob,
+      adharNo: e.adharNo,
+      panNo: e.panNo,
+      qualificationId: e.qualificationId,
+      occupationId: e.occupationId,
+      organizationId: e.organizationId,
+      designationId: e.designationId,
+      address: e.address,
+      area: e.area,
+      pincode: e.pincode,
+      mobileNo: e.mobileNo,
+      email: e.email,
+      isPreferredEmail: e.isPreferredEmail,
+      isPreferredMobileNo: e.isPreferredMobileNo,
+      setAsEmergencyContact: e.setAsEmergencyContact,
+      userType: e.userType,
+      applicationId: e.applicationId,
+      serviceId: e.serviceId,
+      guardianRelationshipId: e.guardianRelationshipId,
+    )).toList(),
+    ),
+    app: 'app', ));
     return response.fold(
             (error) => Left(error), (data) => Right(data.data.transform()));
 

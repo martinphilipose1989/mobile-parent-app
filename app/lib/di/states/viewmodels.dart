@@ -336,7 +336,7 @@ final studentProfileEditViewModelProvider =
     ChangeNotifierProvider.autoDispose<StudentProfileEditViewModel>(
   (ref) => StudentProfileEditViewModel(
     exceptionHandlerBinder: getIt.get<FlutterExceptionHandlerBinder>(),
-    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(),
+    flutterToastErrorPresenter: getIt.get<FlutterToastErrorPresenter>(), studentDetailEditUsecase: getIt.get<StudentDetailEditUseCase>(),
   ),
 );
 

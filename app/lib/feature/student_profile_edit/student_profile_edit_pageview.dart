@@ -85,7 +85,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StudentImageInfo(active:"Active",  name:  studentData.profile!.firstName!+" "+studentData.profile!.lastName!,img: studentData.profile!.profileImageUrl,rollno: studentData.profile!.crtEnrOn,),
+              StudentImageInfo( name:  studentData.profile!.firstName!+" "+studentData.profile!.lastName!,img: studentData.profile!.profileImageUrl,rollno: studentData.profile!.crtEnrOn,),
               SizedBox(height: 16.h),
               Infotitlerow(
                 infoText: Strings.of(context).basic_detail,
@@ -376,10 +376,33 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
 
 
         Center(child: CommonElevatedButton(onPressed: (){
-          CommonPopups
-            ().showSuccess(context, Strings.of(context).edited, (tr){
-              Navigator.pop(context);
-          },);
+
+
+         model.studentDetailEdit(model:
+         StudentEditRequestModel(id: studentData.profile?.id,studentProfile:
+         StudentProfileModel(medicalInfo: MedicalInfoModel(disablilityDetails: model.physicalController.text,
+             medicalHistoryDetails: model.medicalController.text,allergyDetails: model.allergyController.text,
+             personalizedLearningNeedsDetails: model.learningController.text
+
+
+
+         )),parent: [
+           ParentModel(firstName: model.mfirstnameController.text,lastName: model.mlastnameController.text,email: model.memailController.text,mobileNo: model.mphoneController.text,guardianRelationshipId: studentData.parent?[1].guardianRelationshipId),
+           ParentModel(firstName: model.pfirstnameController.text,lastName: model.plastnameController.text,email: model.emailController.text,mobileNo: model.phoneController.text,guardianRelationshipId: studentData.parent?[0].guardianRelationshipId)
+
+         ]));
+         print(
+         StudentEditRequestModel(id: studentData.profile?.id,studentProfile:
+         StudentProfileModel(medicalInfo: MedicalInfoModel(disablilityDetails: model.physicalController.text,
+             medicalHistoryDetails: model.medicalController.text,allergyDetails: model.allergyController.text,personalizedLearningNeedsDetails: model.learningController.text
+
+
+
+         )),parent: [
+           ParentModel(firstName: model.mfirstnameController.text,lastName: model.mlastnameController.text,email: model.memailController.text,mobileNo: model.mphoneController.text,guardianRelationshipId: studentData.parent?[1].guardianRelationshipId),
+           ParentModel(firstName: model.pfirstnameController.text,lastName: model.plastnameController.text,email: model.emailController.text,mobileNo: model.phoneController.text,guardianRelationshipId: studentData.parent?[0].guardianRelationshipId)
+
+         ]).toString());
         }, text: Strings.of(context).save,backgroundColor: AppColors.primary,textColor: AppColors.primaryOn,))
             ],
           ),

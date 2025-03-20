@@ -40,8 +40,7 @@ class StudentDetailPageView
         initialData: Resource.none(),
         stream: model.studentDetailStream,
         dataBuilder: (context, student) {
-          print("/////////////////////////");
-          print(student?.data?.parent?[0].firstName);
+
           return DataStatusWidget(
             status: student?.status ?? Status.none,
             loadingWidget: () =>
@@ -71,7 +70,7 @@ class StudentDetailPageView
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     StudentImageInfo(
-                      active: "Active",
+
                       name:
                           "${student?.data?.profile!.firstName} ${student?.data?.profile!.lastName}",
                       img: student?.data?.profile!.profileImageUrl,
@@ -147,16 +146,16 @@ class StudentDetailPageView
 
                     VisitorDetailsRow(
                       title1: Strings.of(context).mother_first_name,
-                      value1: student.data?.parent?[1].firstName?? "",
+                      value1: student.data?.parent?[0].firstName?? "",
                       title2: Strings.of(context).Mother_last_name,
-                      value2: student.data?.parent?[1].lastName ?? "",
+                      value2: student.data?.parent?[0].lastName ?? "",
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: Strings.of(context).mother_Mobile_Number,
-                        value1: student.data?.parent?[1].mobileNo ?? "",
+                        value1: student.data?.parent?[0].mobileNo ?? "",
                         title2: Strings.of(context).mother_Email_ID,
-                        value2: student.data?.parent?[1].email ?? ""),
+                        value2: student.data?.parent?[0].email ?? ""),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),
@@ -165,16 +164,16 @@ class StudentDetailPageView
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                       title1: Strings.of(context).father_first_name,
-                      value1: student.data?.parent?.first.firstName?? "",
+                      value1: student.data?.parent?[1].firstName?? "",
                       title2: Strings.of(context).father_last_name,
-                      value2: student.data?.parent?.first.lastName ?? "",
+                      value2: student.data?.parent?[1].lastName ?? "",
                     ),
                     SizedBox(height: 16.h),
                     VisitorDetailsRow(
                         title1: Strings.of(context).father_Mobile_Number,
-                        value1: student.data?.parent?.first.mobileNo ?? "",
+                        value1: student.data?.parent?[1].mobileNo ?? "",
                         title2: Strings.of(context).father_Email_ID,
-                        value2: student.data?.parent?.first.email ?? ""),
+                        value2: student.data?.parent?[1].email ?? ""),
                     SizedBox(height: 16.h),
                     const Divider(color: AppColors.dividerColor),
                     SizedBox(height: 16.h),

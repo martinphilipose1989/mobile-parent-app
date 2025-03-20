@@ -7,7 +7,9 @@ class StudentDetailEditUseCase extends BaseUseCase<BaseError,
   AdminRepository adminRepository;
 
 
-  StudentDetailEditUseCase(this.adminRepository);
+  StudentDetailEditUseCase({
+    required this.adminRepository,
+  });
 
   @override
   Future<Either<BaseError, StudentEditResponseModel>> execute(

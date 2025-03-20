@@ -10,11 +10,11 @@ import '../../utils/common_widgets/app_images.dart';
 import '../../utils/common_widgets/common_text_widget.dart';
 
 class StudentImageInfo extends StatelessWidget {
-  const StudentImageInfo({super.key, this.img, this.name, this.rollno, this.active});
+  const StudentImageInfo({super.key, this.img, this.name, this.rollno,});
   final String? img;
   final String? name;
   final String? rollno;
-  final String? active;
+
 
   @override
   Widget build(BuildContext context) {
@@ -89,20 +89,20 @@ class StudentImageInfo extends StatelessWidget {
                     ],
                   ),
                 ),
-                Flexible(
-                  child: Container(
-                    //  width: 60,
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryOn,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: AppColors.primary)),
-                    padding: EdgeInsets.all(6),
-                    child: CommonText(
-                      text: active??"Active",
-                      style: AppTypography.caption,
-                    ),
-                  ),
-                ),
+                // Flexible(
+                //   child: Container(
+                //     //  width: 60,
+                //     decoration: BoxDecoration(
+                //         color: AppColors.primaryOn,
+                //         borderRadius: BorderRadius.all(Radius.circular(10)),
+                //         border: Border.all(color: AppColors.primary)),
+                //     padding: EdgeInsets.all(6),
+                //     child: CommonText(
+                //       text: active??"Active",
+                //       style: AppTypography.caption,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
