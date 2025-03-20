@@ -606,6 +606,11 @@ abstract class DomainModule {
   }
 
   @lazySingleton
+ StudentDetailEditUseCase studentDetailEditUseCase(AdminRepository adminRepository) {
+    return StudentDetailEditUseCase(adminRepository: adminRepository);
+  }
+
+  @lazySingleton
   Sendtokenusecase sendTokenUsecase(AdminRepository adminRepository) {
     return Sendtokenusecase(adminRepository: adminRepository);
   }

@@ -25,6 +25,11 @@ class StudentData {
   StudentData({
     required this.profile,
     required this.academics,
+    this.parent,
+    this.medicalInfo,
+    this.contactInfo,
+    this.guardianContactInfo,
+    this.siblingsInfo
   });
 }
 
@@ -56,8 +61,7 @@ class ResidentialInformation {
   String? state;
   String? country;
   int? pincode;
-  String? addressId;
-  String? tagId;
+
 
   ResidentialInformation({
     required this.id,
@@ -73,8 +77,7 @@ class ResidentialInformation {
     required this.state,
     required this.country,
     required this.pincode,
-    required this.addressId,
-    required this.tagId,
+
   });
 }
 
@@ -95,8 +98,8 @@ class GuardianContactInfo {
 }
 
 class Parent {
-  int id;
-  int guardianId;
+  int? id;
+  int? guardianId;
   int? guardianRelationshipId;
   String? relation;
   String? globalNo;
@@ -174,7 +177,7 @@ class Profile {
   String? nationality;
   String? caste;
   String? subCaste;
-  String? subCasteId;
+  dynamic? subCasteId;
   int? isParentsSeperated;
   String? religion;
   String? bloodGroup;
@@ -260,7 +263,7 @@ class Profile {
       required this.updatedAt,
       required this.profileImageUrl,
       required this.crtLobId,
-      required this.schoolParentId});
+      required this.schoolParentId,});
 }
 
 class SiblingsInfo {

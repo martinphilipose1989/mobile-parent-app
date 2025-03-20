@@ -21,4 +21,8 @@ abstract class AdminRepository {
   Future<Either<NetworkError, SendTokenResponseModel>> sendToken(
       {required int? id,required SendTokenRequestEntity token });
 
+
+  Future<Either<NetworkError, StudentEditResponseModel>> studentDetailEdit(
+      {required StudentEditRequestModel? model ,required String platform});
+
 }

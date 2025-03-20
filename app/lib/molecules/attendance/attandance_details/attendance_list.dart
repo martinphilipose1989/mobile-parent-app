@@ -57,8 +57,6 @@ class AttendanceList extends StatelessWidget {
                       itemBuilder: (context, int index) {
                         final period =
                             snapshot.data!.data.data.first.attendanceDetails;
-
-//debugPrint( "-----------"+snapshot.data?.data.data[index].attendanceDetails.toString());
                         return snapshot.status == Status.loading
                             ? CircularProgressIndicator()
                             : Container(
@@ -118,10 +116,9 @@ class AttendanceList extends StatelessWidget {
                                                 ):
                                             CommonText(
                                             text:
-                                                //(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==5||(snapshot.data!.data.data.first.attendanceDetails![index].attendanceType!)==6?
-                                                //   "${snapshot.data!.data.data.first.attendanceDetails?[index].period}"
+
                                                 "${Strings.of(context).period}${period?.map((e) {
-                                            //  return  "${period.indexOf(e) + 1}";
+
                                             return (period.indexOf(e) + 1)
                                                 .toString();
                                           }).join(", ")}"),

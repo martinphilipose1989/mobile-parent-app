@@ -62,11 +62,13 @@ export 'src/model/response/communication/create_communication_log_model.dart';
 export 'src/model/response/communication/send_communication_model.dart';
 export 'src/model/response/communication/create_ticket_model.dart';
 export 'src/model/response/notification/sendTokenResponseModel.dart';
+export 'src/model/response/profile/student_edit_response_model.dart';
 
 //request
 
 export 'src/model/request/communication/create_communication_log_model.dart';
 export 'src/model/request/communication/create_ticket_request.dart';
+export 'src/model/request/studentprofile/student_edit_request_model.dart';
 
 // Communication end
 

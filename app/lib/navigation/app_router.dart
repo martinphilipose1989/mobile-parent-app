@@ -362,12 +362,12 @@ class AppRouter {
           builder: (context) => const MyDutyPage(),
           settings: const RouteSettings(name: RoutePaths.myDutyPage),
         );
-      case RoutePaths.studentProfilePage:
-        final studentId = settings.arguments as int;
-        return CupertinoPageRoute(
-          builder: (context) => StudentProfilePage(studentId: studentId),
-          settings: const RouteSettings(name: RoutePaths.studentProfilePage),
-        );
+      // case RoutePaths.studentProfilePage:
+      //   final studentId = settings.arguments as int;
+      //   return CupertinoPageRoute(
+      //     builder: (context) => StudentProfilePage(studentId: studentId),
+      //     settings: const RouteSettings(name: RoutePaths.studentProfilePage),
+      //   );
       case RoutePaths.ratePage:
         String id = settings.arguments as String;
         return CupertinoPageRoute(

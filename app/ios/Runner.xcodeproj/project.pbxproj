@@ -1045,7 +1045,7 @@
 				18E199AA28B38B1300EBF77A /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-prod";
+			defaultConfigurationName = "Release-qa";
 		};
 		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
@@ -1060,7 +1060,7 @@
 				18E199AB28B38B1300EBF77A /* Profile-dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-prod";
+			defaultConfigurationName = "Release-qa";
 		};
 /* End XCConfigurationList section */
 	};

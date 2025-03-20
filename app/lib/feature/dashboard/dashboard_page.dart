@@ -42,7 +42,7 @@ class DashboardPageState
     // bind exception handler here.
     model.exceptionHandlerBinder.bind(context, super.stateObserver);
     final token = SharedPreferenceHelper.getString("token");
-    print("-------token" + "$token");
+   // print("-------token" + "$token");
     model.getUserDetails();
   }
 

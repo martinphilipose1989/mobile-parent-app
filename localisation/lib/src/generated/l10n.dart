@@ -3719,6 +3719,76 @@ class Strings {
       args: [],
     );
   }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile Edited Successfully`
+  String get edited {
+    return Intl.message(
+      'Profile Edited Successfully',
+      name: 'edited',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong please wait until we fix it `
+  String get something_went_wrong_rbac {
+    return Intl.message(
+      'Something went wrong please wait until we fix it ',
+      name: 'something_went_wrong_rbac',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's First Name`
+  String get mothesFirstName {
+    return Intl.message(
+      'Mother\'s First Name',
+      name: 'mothesFirstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Last Name`
+  String get mothesLastName {
+    return Intl.message(
+      'Mother\'s Last Name',
+      name: 'mothesLastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Email`
+  String get mothesemail {
+    return Intl.message(
+      'Mother\'s Email',
+      name: 'mothesemail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mother's Phone`
+  String get mothesphone {
+    return Intl.message(
+      'Mother\'s Phone',
+      name: 'mothesphone',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Strings> {

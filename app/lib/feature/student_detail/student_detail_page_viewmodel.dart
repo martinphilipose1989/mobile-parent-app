@@ -58,7 +58,7 @@ bererList=result?.data??[];
   void getStudentDetail({required int studentId}) {
     _studentDetailSubject.add(Resource.loading());
     StudentDetailUseCaseParams params =
-    StudentDetailUseCaseParams( studentId);
+    StudentDetailUseCaseParams(studentId);
     ApiResponseHandler.apiCallHandler(
       exceptionHandlerBinder: exceptionHandlerBinder,
       flutterToastErrorPresenter: flutterToastErrorPresenter,
@@ -67,7 +67,9 @@ bererList=result?.data??[];
       onSuccess: (data) {
         _studentDetailSubject.add(
           Resource.success(data: data?.data),
+
         );
+
       },
       onError: (error) {
         _studentDetailSubject.add(Resource.error());
