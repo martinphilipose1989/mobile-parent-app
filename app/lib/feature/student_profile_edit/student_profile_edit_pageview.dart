@@ -68,6 +68,8 @@ final List<BearerResponse> bearerList;
         studentData.contactInfo?.residentialInformation?.first.city ?? "NA";
     model.statesController.text =
         studentData.contactInfo?.residentialInformation?.first.state ?? "NA";
+   if (studentData
+        .contactInfo?.residentialInformation?.first.pincode!=null)
     model.pinController.text = studentData
             .contactInfo?.residentialInformation?.first.pincode
             .toString() ??
@@ -236,7 +238,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: true),
+                  readOnly: false),
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.mphoneController,
@@ -255,7 +257,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: true),
+                  readOnly: false),
               SizedBox(height: 16.h),
               Divider(
                 color: AppColors.divider,
@@ -282,7 +284,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: true),
+                  readOnly: false),
               SizedBox(height: 16.h),
               InfoEditRow(
                   controllerleft: model.phoneController,
@@ -301,7 +303,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: true),
+                  readOnly: false),
               SizedBox(height: 16.h),
               Divider(
                 color: AppColors.divider,
@@ -328,7 +330,7 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: false),
+                  readOnly: true),
               SizedBox(height: 16.h),
               InfoEditRow(
                   labelText: Strings.of(context).city,
@@ -347,11 +349,12 @@ model.mfirstnameController.text=studentData.parent?[1].firstName??"";
                     }
                     return null;
                   },
-                  readOnly: false),
+                  readOnly: true),
               SizedBox(height: 16.h),
               SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: CommonTextFormField(
+                    readOnly: true,
                     showAstreik: true,
                     labelText: Strings.of(context).pincode,
                     controller: model.pinController,

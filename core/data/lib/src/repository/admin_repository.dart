@@ -46,5 +46,11 @@ class AdminRepositoryImpl extends AdminRepository {
     return networkPort.getBearerList(studentId: studentId, platform: platform);
   }
 
+  @override
+  Future<Either<NetworkError, StudentEditResponseModel>> studentDetailEdit({required StudentEditRequestModel? model, required String platform}) {
+ return networkPort.studentDetailEdit(model: model);
+  }
+
+
 
 }

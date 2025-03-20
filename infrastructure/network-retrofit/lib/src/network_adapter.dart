@@ -1817,5 +1817,14 @@ attendanceType: [],
     ));
     return response.fold(
             (error) => Left(error), (data) => Right(data.data.transform()));
+
+  }
+
+  @override
+  Future<Either<NetworkError, StudentEditResponseModel>> studentDetailEdit({required StudentEditRequestModel? model})async {
+    final response = await safeApiCall(adminRetorfitService.updateprofile(studentEditRequestmodel: model, app: 'app'));
+    return response.fold(
+            (error) => Left(error), (data) => Right(data.data.transform()));
+
   }
 }

@@ -370,4 +370,7 @@ abstract class NetworkPort {
   Future<Either<NetworkError, MapStudenttoBearerResponse>> mapBearerToGuardians(
       {required MapStudenttoBearerRequest request});
 
+  Future<Either<NetworkError, StudentEditResponseModel>>
+  studentDetailEdit({required StudentEditRequestModel? model});
+
 }
