@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:data/data.dart';
+import 'package:dio/dio.dart';
 import 'package:network_retrofit/network_retrofit.dart';
 import 'package:network_retrofit/src/model/request/attendance/attendance_count_request_entity.dart';
 import 'package:network_retrofit/src/model/request/attendance/attendance_details_request_entity.dart';
@@ -1624,7 +1625,7 @@ attendanceType: [],
         note: params.note,
         fileAttachment: params.fileAttachment,
         approvalFlag: params.approvalFlag,
-        approvedById: params.approvedById),"app"));
+        approvedById: params.approvedById),'app'));
 
     return response.fold(
           (error) => Left(error),
@@ -1637,15 +1638,27 @@ attendanceType: [],
   @override
   Future<Either<NetworkError, UploadIntimationFileResponseModel>>
   uploadIntimationFile({int? documentID, required File file}) async {
-    final response = await safeApiCall(attendanceRetorfitService
-        .uploadIntimation(documentID: documentID, file: file));
+    // try {
+    //   final multipartFile = await MultipartFile.fromFile(
+    //     file.path,
+    //     filename: file.path.split('/').last, // Ensure correct filename
+    //   );
 
-    return response.fold(
-          (error) => Left(error),
-          (data) => Right(
-        data.data.transform(),
-      ),
-    );
+      final response = await safeApiCall(
+        attendanceRetorfitService.uploadIntimation(
+          file: file,
+          app: 'app',
+          documentID: documentID
+        ),
+      );
+
+      return response.fold(
+            (error) => Left(error),
+            (data) => Right(data.data.transform()),
+      );
+    // } catch (e) {
+    //   return Left(NetworkError(message: e.toString(), httpError: 0, cause: Exception()));
+    // }
   }
 
   @override

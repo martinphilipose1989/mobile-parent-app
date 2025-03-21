@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/di/states/viewmodels.dart';
 import 'package:app/errors/flutter_toast_error_presenter.dart';
 import 'package:app/model/resource.dart';
@@ -61,7 +63,11 @@ class CreateIntimationViewModel extends BasePageViewModel {
   Stream<Resource<CreateIntimationResponseModel>> get intimationStream =>
       intimationSubject.stream;
 
-  void pickImage(UpoladFileTypeEnum fileTypeEnum) {
+  void pickFile(UpoladFileTypeEnum fileTypeEnum) async{
+    // UploadFileResponseModel? result = await FilePicker.platform.pickFiles(
+    //   type: FileType.custom,
+    //   allowedExtensions: ['pdf'], // Restrict to PDFs only
+    // );
     debugPrint("before picking");
     exceptionHandlerBinder.handle(block: () {
       final params = ChooseFileUseCaseParams(fileTypeEnum: fileTypeEnum);
@@ -72,7 +78,7 @@ class CreateIntimationViewModel extends BasePageViewModel {
         _pickFrontFileResponse.add(result);
         debugPrint("after picking");
         if (result.status == Status.success) {
-          uploadIntimationfile(uploadFile: result.data);
+          uploadIntimationfile(uploadFile: result.data?.file,app:"app");
         }
       }).onError((error) {});
     }).execute();
@@ -107,9 +113,9 @@ class CreateIntimationViewModel extends BasePageViewModel {
   //     });
   //
   //   }}
-  void uploadIntimationfile({UploadFile? uploadFile}) {
+  void uploadIntimationfile({File? uploadFile,String? app}) {
     final params =
-        UploadIntimationFileUseCaseParams(file: uploadFile!.file!, id: 0);
+        UploadIntimationFileUseCaseParams(file: uploadFile!, id: 0, app: 'app');
 
     RequestManager(
       params,

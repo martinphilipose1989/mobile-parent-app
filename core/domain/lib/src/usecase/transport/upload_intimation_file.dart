@@ -20,9 +20,10 @@ class UploadIntimationFileUseCase extends BaseUseCase<NetworkError,
 class UploadIntimationFileUseCaseParams extends Params{
 final File file;
 final int id;
+final String app;
 
 
-UploadIntimationFileUseCaseParams({required this.file, required this.id});
+UploadIntimationFileUseCaseParams( {required this.app,required this.file, required this.id});
 
   @override
   Either<AppError, bool> verify() {

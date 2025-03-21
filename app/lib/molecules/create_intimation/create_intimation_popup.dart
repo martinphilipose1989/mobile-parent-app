@@ -99,8 +99,8 @@ class _CreateIntimationPopupState extends State<CreateIntimationPopup> {
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: () {
-                        debugPrint("on preseed");
-                        model.pickImage(UpoladFileTypeEnum.image);
+
+                        model.pickFile(UpoladFileTypeEnum.pdf);
                       },
                       icon: SvgPicture.asset(AppImages.upload),
                     ),

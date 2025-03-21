@@ -1,6 +1,6 @@
+
 import 'dart:io';
 
-import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:network_retrofit/src/model/request/transport/create_intimation_request_entity.dart';
 import 'package:network_retrofit/src/model/response/transport/upload_intimation_file_response_entity.dart';
@@ -51,5 +51,6 @@ abstract class AttendanceRetorfitService {
   Future<HttpResponse<UploadIntimationFileResponseEntity>> uploadIntimation({
     @Path('documentID') int? documentID,
     @Part(name: 'file') required File file,
+    @Query('platform') required String app
   });
 }

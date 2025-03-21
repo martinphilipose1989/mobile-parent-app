@@ -69,9 +69,7 @@ class AttachmentAdapter implements AttachmentPort {
   Future<UploadFile> pickFile(
       {FileType type = FileType.custom,
       List<String> allowedExtensions = const [
-        'jpg',
-        'jpeg',
-        'png',
+       'pdf',
       ]}) async {
     try {
       FilePickerResult? filePickerResult = await _filePicker.pickFiles(
